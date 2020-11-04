@@ -1,6 +1,6 @@
 package org.moparforia.shared.tracks.filesystem.lineparser;
 
-import org.moparforia.shared.tracks.filesystem.TrackFileParser;
+import org.moparforia.shared.tracks.parsers.LineParser;
 
 import java.time.Instant;
 import java.time.LocalDate;
@@ -8,10 +8,10 @@ import java.time.ZoneId;
 import java.util.HashMap;
 import java.util.Map;
 
-public class BestTimeLineParser implements TrackFileParser.LineParser{
+public class BestTimeLineParser implements LineParser {
 
-    private String date_parameter;
-    private String player_parameter;
+    private final String date_parameter;
+    private final String player_parameter;
 
     public BestTimeLineParser(String date_parameter, String player_parameter) {
         this.date_parameter = date_parameter;

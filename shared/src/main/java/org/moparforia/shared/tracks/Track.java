@@ -1,6 +1,12 @@
 package org.moparforia.shared.tracks;
 
+import org.moparforia.shared.Tools;
+
+import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * track shit
@@ -13,7 +19,7 @@ public class Track {
 
     private String map;
 
-    private final TrackCategory category;
+    private Set<TrackCategory> categories;
 
     /**
      * man thats an ugly constructor
@@ -22,11 +28,19 @@ public class Track {
      * @param author      the author homie that wrote this track
      * @param map         the track data/map string
      */
-    public Track(String name, String author, String map, TrackCategory category) {
+    public Track(String name, String author, String map, Set<TrackCategory> categories) {
         this.track = name;
         this.author = author;
         this.map = map;
-        this.category = category;
+        this.categories = categories;
+    }
+
+    public Track(String track, String author, String map) {
+        this(track, author, map, Collections.emptySet());
+    }
+
+    public Track(String track, String author, String map, TrackCategory category) {
+        this(track, author, map, Collections.singleton(category));
     }
 
     /**
@@ -43,8 +57,8 @@ public class Track {
         return author;
     }
 
-    public TrackCategory getCategory() {
-        return category;
+    public Set<TrackCategory> getCategories() {
+        return categories;
     }
 
     public String getMap() {
@@ -55,19 +69,37 @@ public class Track {
         this.map = data;
     }
 
+    public void setCategories(Set<TrackCategory> categories) {
+        this.categories = categories;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Track)) return false;
-        Track track = (Track) o;
-        return getName().equals(track.getName()) &&
-                getAuthor().equals(track.getAuthor()) &&
-                getMap().equals(track.getMap()) &&
-                getCategory() == track.getCategory();
+        Track track1 = (Track) o;
+        return track.equals(track1.track) &&
+                getAuthor().equals(track1.getAuthor()) &&
+                getMap().equals(track1.getMap()) &&
+                getCategories().equals(track1.getCategories());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(track, getAuthor(), map, getCategory());
+        return Objects.hash(track, getAuthor(), getMap(), getCategories());
     }
+
+    public String serialize(String splitter) {
+        String categories = getCategories()
+                .stream()
+                .map(category -> String.valueOf(category.getId()))
+                .collect(Collectors.joining(","));
+        return Tools.izer(splitter,
+                "V 2",
+                "A " + getAuthor(),
+                "N " + getName(),
+                "T " + getMap(),
+                "C " + categories);
+    }
+
 }

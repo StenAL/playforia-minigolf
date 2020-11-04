@@ -4,6 +4,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import picocli.CommandLine;
 
@@ -20,6 +21,7 @@ import static org.mockito.Mockito.*;
  */
 @ExtendWith(MockitoExtension.class)
 class LauncherCLITest {
+    private static final int DEFAULT_PORT = Integer.parseInt(Launcher.DEFAULT_PORT);
     private Launcher launcher;
 
     private CommandLine cmd;
@@ -29,10 +31,15 @@ class LauncherCLITest {
     @BeforeEach
     void setUp() {
         // Mock Launcher instance
-        launcher = spy(new Launcher());
-        lenient().doReturn(mock(Server.class)).when(launcher).getServer(anyString(), anyInt());
+        launcher = mock(Launcher.class, withSettings()
+                .lenient()
+                .withoutAnnotations());
 
-        cmd = new CommandLine(launcher).setCaseInsensitiveEnumValuesAllowed(true);
+        doReturn(mock(Server.class)).when(launcher).getServer(anyString(), anyInt());
+        when(launcher.call()).thenCallRealMethod();
+
+        cmd = new CommandLine(launcher);
+        cmd.setCaseInsensitiveEnumValuesAllowed(true);
 
         stdOut = new StringWriter();
         stdErr = new StringWriter();
@@ -76,12 +83,12 @@ class LauncherCLITest {
     @Test
     void testOnlyHostname() {
         assertEquals(0, cmd.execute("-ip", "127.127.127.127"));
-        verify(launcher).getServer(eq("127.127.127.127"), eq(Launcher.DEFAULT_PORT));
+        verify(launcher).getServer(eq("127.127.127.127"), eq(DEFAULT_PORT));
     }
 
     @Test
     void testDefaultValues() {
         assertEquals(0, cmd.execute());
-        verify(launcher).getServer(eq(Launcher.DEFAULT_HOST), eq(Launcher.DEFAULT_PORT));
+        verify(launcher).getServer(eq(Launcher.DEFAULT_HOST), eq(DEFAULT_PORT));
     }
 }

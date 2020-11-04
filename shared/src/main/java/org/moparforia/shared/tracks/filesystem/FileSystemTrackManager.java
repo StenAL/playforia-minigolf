@@ -2,6 +2,8 @@ package org.moparforia.shared.tracks.filesystem;
 
 import org.moparforia.shared.Tools;
 import org.moparforia.shared.tracks.*;
+import org.moparforia.shared.tracks.parsers.TrackParser;
+import org.moparforia.shared.tracks.parsers.VersionedTrackFileParser;
 import org.moparforia.shared.utils.CollectorUtils;
 
 import java.io.IOException;
@@ -15,10 +17,11 @@ import java.util.stream.Collectors;
  * 18.6.2013
  */
 public class FileSystemTrackManager implements TrackManager {
+    private static FileSystemTrackManager instance;
+    private static final TrackParser parser = new VersionedTrackFileParser();
     protected final FileSystem fileSystem;
 
     private final Logger logger =  Logger.getLogger(FileSystemTrackManager.class.getName());
-    private static FileSystemTrackManager instance;
 
     private List<Track> tracks;
     private List<TrackSet> trackSets;
@@ -69,21 +72,19 @@ public class FileSystemTrackManager implements TrackManager {
 
     private List<Track> loadTracks() throws IOException {
         List<Track> tracks = new ArrayList<>();
-         for (TrackCategory type : TrackCategory.values()) {
-            if (type == TrackCategory.ALL || type == TrackCategory.UNKNOWN) {
-                continue;
-            }
-
-            Path tracksPath = fileSystem.getPath("tracks", type.getDir());
-            if (!Files.exists(tracksPath)) {
-                logger.warning("Directory tracks/" + type.getDir() + " for type " + type + " was not found, ignoring.");
-                continue;
-            }
-
-            DirectoryStream<Path> directoryStream = Files.newDirectoryStream(tracksPath,
-                    entry -> entry.toString().endsWith(".track"));
-            for (Path filePath : directoryStream) {
-                tracks.add(TrackFileParser.parseTrack(filePath, type));
+        Path tracksPath = fileSystem.getPath("tracks", "tracks");
+        if (!Files.exists(tracksPath)) {
+            logger.warning("Tracks directory (tracks/tracks) was not found, ignoring.");
+            return Collections.emptyList();
+        }
+        DirectoryStream<Path> directoryStream = Files.newDirectoryStream(tracksPath,
+                entry -> entry.toString().endsWith(".track"));
+        for (Path filePath : directoryStream) {
+            try {
+                tracks.add(parser.parseTrack(filePath));
+            } catch (IOException e) {
+                logger.warning("Unable to parse file " + filePath);
+                logger.info(e.toString());
             }
         }
         return tracks;
@@ -137,7 +138,7 @@ public class FileSystemTrackManager implements TrackManager {
         }
 
         return getTracks().stream()
-                .filter(track -> track.getCategory() == type || type == TrackCategory.ALL)
+                .filter(track -> type == TrackCategory.ALL || track.getCategories().contains(type))
                 .collect(CollectorUtils.toShuffledStream())
                 .limit(limit)
                 .collect(Collectors.toList());
@@ -182,7 +183,7 @@ public class FileSystemTrackManager implements TrackManager {
             return getTracks();
         }
         return getTracks().stream()
-                .filter(track -> track.getCategory().equals(category))
+                .filter(track -> track.getCategories().contains(category))
                 .collect(Collectors.toList());
     }
 

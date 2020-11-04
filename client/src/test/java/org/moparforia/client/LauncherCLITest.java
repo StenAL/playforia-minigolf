@@ -31,20 +31,24 @@ class LauncherCLITest {
     private StringWriter stdErr;
 
     @BeforeEach
-    void setUp() throws ParseException, IOException {
+    void setUp() throws Exception {
         // Mock game
-        launcher = spy(new Launcher());
-        lenient().doReturn(mock(Game.class)).when(launcher).launchGame(any(JFrame.class), anyString(), anyInt(), any(), anyBoolean());
+        launcher = mock(Launcher.class, withSettings()
+                .lenient()
+                .withoutAnnotations());
 
-        // Mock creating JFrame
-        lenient().doReturn(mock(JFrame.class)).when(launcher).createFrame();
+        // Use real methods
+        doCallRealMethod().when(launcher).call();
+        doCallRealMethod().when(launcher).setPort(anyInt());
+        doCallRealMethod().when(launcher).setHostname(anyString());
 
-        // Mock settings dialog
-        lenient().doAnswer((invocaton) -> {
+        doReturn(mock(JFrame.class)).when(launcher).createFrame();
+        doAnswer((invocaton) -> {
             launcher.setPort(invocaton.getArgument(2));
             launcher.setHostname(invocaton.getArgument(1));
             return true;
         }).when(launcher).showSettingDialog(any(JFrame.class), anyString(), anyInt());
+
 
         cmd = new CommandLine(launcher).setCaseInsensitiveEnumValuesAllowed(true);
 
@@ -117,10 +121,12 @@ class LauncherCLITest {
     @Test
     void testDefaultValues() {
         assertEquals(0, cmd.execute());
-        verify(launcher).launchGame(any(),
+        verify(launcher).launchGame(
+                any(),
                 eq(Launcher.DEFAULT_SERVER),
                 eq(Launcher.DEFAULT_PORT),
                 eq(Launcher.Language.EN_US),
-                eq(false));
+                eq(false)
+        );
     }
 }

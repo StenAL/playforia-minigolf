@@ -2,21 +2,28 @@ package org.moparforia.shared.tracks.filesystem;
 
 import org.moparforia.shared.tracks.Track;
 import org.moparforia.shared.tracks.TrackCategory;
+import org.moparforia.shared.tracks.parsers.TrackFileParser;
+import org.moparforia.shared.tracks.parsers.TrackParser;
+import org.moparforia.shared.tracks.parsers.VersionedTrackFileParser;
 import org.moparforia.shared.tracks.stats.TrackStats;
 import org.moparforia.shared.tracks.stats.StatsManager;
 
 import java.io.IOException;
 import java.nio.file.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 public class FileSystemStatsManager implements StatsManager {
-    protected final FileSystem fileSystem;
-
     private static FileSystemStatsManager instance;
 
+    private final Logger logger =  Logger.getLogger(FileSystemStatsManager.class.getName());
+    private final TrackParser parser = new VersionedTrackFileParser();
+
+    protected final FileSystem fileSystem;
     private Map<Track, TrackStats> stats;
 
     public FileSystemStatsManager(FileSystem fileSystem) {
@@ -36,15 +43,22 @@ public class FileSystemStatsManager implements StatsManager {
 
     public Map<Track, TrackStats> loadStats() throws IOException {
         List<TrackStats> tracks = new ArrayList<>();
-        for (TrackCategory type : TrackCategory.values()) {
-            if (type == TrackCategory.ALL || type == TrackCategory.UNKNOWN) {
-                continue;
-            }
-            Path tracksPath = fileSystem.getPath("tracks", type.getDir());
-            DirectoryStream<Path> directoryStream = Files.newDirectoryStream(tracksPath,
-                    entry -> entry.toString().endsWith(".track"));
-            for (Path filePath : directoryStream) {
-                tracks.add(TrackFileParser.parseStats(filePath, type));
+
+        Path tracksPath = fileSystem.getPath("tracks", "tracks");
+        if (!Files.exists(tracksPath)) {
+            logger.warning("Directory tracks/tracks was not found, ignoring.");
+            return Collections.emptyMap();
+        }
+        DirectoryStream<Path> directoryStream = Files.newDirectoryStream(
+                tracksPath,
+                entry -> entry.toString().endsWith(".track")
+        );
+        for (Path filePath : directoryStream) {
+            try {
+                tracks.add(parser.parseStats(filePath));
+            } catch (IOException e) {
+                logger.warning("Unable to parse file " + filePath);
+                logger.info(e.toString());
             }
         }
         return tracks.stream()

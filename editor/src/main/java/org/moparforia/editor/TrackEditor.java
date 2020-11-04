@@ -7,7 +7,7 @@ package org.moparforia.editor;
 import org.moparforia.shared.tracks.Track;
 import org.moparforia.shared.tracks.TrackCategory;
 import org.moparforia.shared.tracks.filesystem.FileSystemTrackManager;
-import org.moparforia.shared.tracks.filesystem.TrackFileParser;
+import org.moparforia.shared.tracks.parsers.VersionedTrackFileParser;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -20,13 +20,13 @@ import java.awt.event.MouseListener;
 import java.io.*;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 /**
  * @author Johan Ljungberg
  * @author fc
  */
 public class TrackEditor extends JFrame implements IEditor {
+    private static final VersionedTrackFileParser parser = new VersionedTrackFileParser();
 
     private SpriteManager spriteManager;
     private MapCanvas mapCanvas;
@@ -189,9 +189,9 @@ public class TrackEditor extends JFrame implements IEditor {
         togglePencil.setSelected(true);
     }
 
-    public static final Track loadTrack(Path path) throws IOException {
+    public static Track loadTrack(Path path) throws IOException {
 
-        return TrackFileParser.parseTrack(path, TrackCategory.UNKNOWN);
+        return parser.parseTrack(path);
     }
 
     private void menuNewActionPerformed(ActionEvent e) {
@@ -206,7 +206,12 @@ public class TrackEditor extends JFrame implements IEditor {
                 File f = chooser.getSelectedFile();
                 Track currentTrack = loadTrack(f.toPath());
                 Map m = new MapDecompressor().decompress(currentTrack.getMap());
-                mapCanvas.updateProperties(currentTrack.getName(), currentTrack.getCategory().getId());
+                TrackCategory category = TrackCategory.UNKNOWN;
+                if (!currentTrack.getCategories().isEmpty()) {
+                    // Oneliner to get one random category from loaded set, editor cannot work wiht multiple categories yet
+                    category = currentTrack.getCategories().stream().reduce((t, u) -> t).orElse(TrackCategory.UNKNOWN);
+                }
+                mapCanvas.updateProperties(currentTrack.getName(), category.getId());
                 mapCanvas.setMap(m);
             }
         } catch (Exception exp) {

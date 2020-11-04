@@ -34,8 +34,9 @@ public class Launcher implements Callable<Void> {
     private int port;
 
     @CommandLine.Option(names = {"--lang", "-l"},
-            description = "Sets language of the game, available values:\n ${COMPLETION-CANDIDATES}")
-    private Language lang = Language.EN_US;
+            description = "Sets language of the game, available values:\n ${COMPLETION-CANDIDATES}",
+            defaultValue = "en_us")
+    private Language lang;
 
     @CommandLine.Option(names = {"--verbose", "-v"}, description = "Set if you want verbose information")
     private static boolean verbose = false;
@@ -48,19 +49,11 @@ public class Launcher implements Callable<Void> {
         return true;//instance.serverBox.isSelected();
     }
 
-    public static void main(String... args) throws Exception {
+    public static void main(String... args) {
         Launcher launcher = new Launcher();
-        try {
-            CommandLine.ParseResult parseResult = new CommandLine(launcher)
-                    .setCaseInsensitiveEnumValuesAllowed(true)
-                    .parseArgs(args);
-            if (!CommandLine.printHelpIfRequested(parseResult)) {
-                launcher.call();
-            }
-        } catch (CommandLine.ParameterException ex) { // command line arguments could not be parsed
-            System.err.println(ex.getMessage());
-            ex.getCommandLine().usage(System.err);
-        }
+        new CommandLine(launcher)
+                .setCaseInsensitiveEnumValuesAllowed(true)
+                .execute(args);
     }
 
     public boolean showSettingDialog(JFrame frame, String server, int port) throws ParseException {

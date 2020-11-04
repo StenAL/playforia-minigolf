@@ -1,11 +1,11 @@
 package org.moparforia.shared.tracks.filesystem.lineparser;
 
-import org.moparforia.shared.tracks.filesystem.TrackFileParser;
+import org.moparforia.shared.tracks.parsers.LineParser;
 
 import java.util.Collections;
 import java.util.Map;
 
-public class RatingsLineParser implements TrackFileParser.LineParser {
+public class RatingsLineParser implements LineParser {
     @Override
     public Map<String, Object> apply(String line) {
         String[] parts = line.split(",");

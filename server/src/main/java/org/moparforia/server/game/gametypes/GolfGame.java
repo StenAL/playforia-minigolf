@@ -11,8 +11,8 @@ import org.moparforia.server.net.PacketType;
 import org.moparforia.shared.Tools;
 import org.moparforia.shared.tracks.Track;
 import org.moparforia.shared.tracks.TrackManager;
-import org.moparforia.shared.tracks.filesystem.FileSystemTrackManager;
 import org.moparforia.shared.tracks.filesystem.FileSystemStatsManager;
+import org.moparforia.shared.tracks.filesystem.FileSystemTrackManager;
 import org.moparforia.shared.tracks.stats.StatsManager;
 import org.moparforia.shared.tracks.stats.TrackStats;
 
@@ -116,6 +116,7 @@ public abstract class GolfGame extends Game {
         tracks = initTracks();
     }
 
+
     public void startGame() {
         writeAll(new Packet(PacketType.DATA, Tools.tabularize("game", "start")));
         StringBuilder buff = new StringBuilder();
@@ -123,9 +124,9 @@ public abstract class GolfGame extends Game {
             buff.append("t");
         }
         playStatus = buff.toString().replace("t", "f");
-        TrackStats track = statsManager.getStats(tracks.get(0));
+        TrackStats track =  statsManager.getStats(tracks.get(0));
         writeAll(new Packet(PacketType.DATA, Tools.tabularize("game", "resetvoteskip")));
-        writeAll(new Packet(PacketType.DATA, Tools.tabularize("game", "starttrack", buff.toString(), gameId, track)));
+        writeAll(new Packet(PacketType.DATA, Tools.tabularize("game", "starttrack", buff.toString(), gameId, track.networkSerialize())));
         writeAll(new Packet(PacketType.DATA, Tools.tabularize("game", "startturn", 0)));
     }
 
@@ -210,7 +211,7 @@ public abstract class GolfGame extends Game {
             }
             playStatus = buff.toString().replace("t", "f");
             writeAll(new Packet(PacketType.DATA, Tools.tabularize("game", "resetvoteskip")));
-            writeAll(new Packet(PacketType.DATA, Tools.tabularize("game", "starttrack", buff.toString(), gameId, track)));
+            writeAll(new Packet(PacketType.DATA, Tools.tabularize("game", "starttrack", buff.toString(), gameId, track.networkSerialize())));
             writeAll(new Packet(PacketType.DATA, Tools.tabularize("game", "startturn", getFirstPlayer())));
         } else {
             endGame();

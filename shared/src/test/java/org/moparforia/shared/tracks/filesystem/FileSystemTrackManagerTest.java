@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.moparforia.shared.tracks.*;
+import org.moparforia.shared.tracks.util.FileSystemExtension;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -13,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class FileSystemTrackManagerTest {
     @RegisterExtension
-    final FileSystemExtension extension = new FileSystemExtension();
+    final FileSystemExtension extension = new FileSystemExtension("v2/");
 
     TrackManager manager;
 
@@ -23,39 +24,16 @@ class FileSystemTrackManagerTest {
         manager = new FileSystemTrackManager(fileSystem);
     }
 
-    @Test
-    void testSimpleTrackLoad() throws TrackLoadException, IOException, URISyntaxException {
-        extension.copyDir("tracks/modern/");
-
-        manager.load();
-        assertEquals(6, manager.getTracks().size());
-        assertEquals(0, manager.getTrackSets().size());
-
-        assertEquals(6, manager.findAllByCategory(TrackCategory.MODERN).size());
-        assertEquals(6, manager.findAllByCategory(TrackCategory.ALL).size());
-        assertEquals(0, manager.findAllByCategory(TrackCategory.BASIC).size());
-
-        assert manager.isLoaded();
-
-        Track track = manager.findTrackByName("4 da Crew");
-        assertNotNull(track);
-        assertEquals("Data", track.getMap());
-        assertEquals("Aither", track.getAuthor());
-        assertEquals("4 da Crew", track.getName());
-        assertEquals("Aither", track.getAuthor());
-    }
-
     /**
      * Loads modern tracks
      * Loads Tracksets
      *
      * oakpark.trackset should be ignored because it didnt contain any loaded tracks
-     * birchwood.trackset should be have only 2 songs
+     * birchwood.trackset should be have only 2 tracks
      */
    @Test
    void testSimpleSetLoad() throws IOException, URISyntaxException, TrackLoadException {
-       extension.copyDir("tracks/modern/");
-       extension.copyDir("tracks/sets/");
+       extension.copyAll();
 
        manager.load();
        assertEquals(1, manager.getTrackSets().size());
@@ -72,11 +50,11 @@ class FileSystemTrackManagerTest {
        extension.copyAll();
 
        manager.load();
-       assertEquals(18, manager.getTracks().size());
-       assertEquals(2, manager.getTrackSets().size());
+       assertEquals(17, manager.getTracks().size());
+       assertEquals(1, manager.getTrackSets().size());
 
        assertEquals(6, manager.findAllByCategory(TrackCategory.MODERN).size());
-       assertEquals(18, manager.findAllByCategory(TrackCategory.ALL).size());
+       assertEquals(17, manager.findAllByCategory(TrackCategory.ALL).size());
        assertEquals(2, manager.findAllByCategory(TrackCategory.SHORT).size());
        assertEquals(3, manager.findAllByCategory(TrackCategory.TRADITIONAL).size());
        assertEquals(2 ,manager.findAllByCategory(TrackCategory.HIO).size());
@@ -104,10 +82,9 @@ class FileSystemTrackManagerTest {
      * This means that if randomTracks is called on a category that doesn't have any tracks it will return empty list
      */
    @Test
-   void testRandomTracksEmpty() throws IOException, URISyntaxException, TrackLoadException {
-       extension.copyDir("tracks/modern");
-
+   void testRandomTracksEmpty() throws TrackLoadException {
        manager.load();
        assertEquals(0, manager.getRandomTracks(50, TrackCategory.BASIC).size());
    }
+
 }

@@ -1,11 +1,11 @@
 package org.moparforia.shared.tracks.filesystem.lineparser;
 
-import org.moparforia.shared.tracks.filesystem.TrackFileParser;
+import org.moparforia.shared.tracks.parsers.LineParser;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class ScoreInfoLineParser implements TrackFileParser.LineParser {
+public class ScoreInfoLineParser implements LineParser {
     @Override
     public Map<String, Object> apply(String s) {
         Map<String, Object> map = new HashMap<>();

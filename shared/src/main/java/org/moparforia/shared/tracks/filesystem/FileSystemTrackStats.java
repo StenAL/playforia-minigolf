@@ -7,17 +7,18 @@ import org.moparforia.shared.tracks.stats.TrackStats;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Arrays;
+import java.util.Objects;
 
 public class FileSystemTrackStats implements TrackStats {
     private final int totalAttempts;
     private final int strokes;
     private final int bestPar;
     private final double bestParPercentage;
-    private final int numberOfBestPar;
+    public final int numberOfBestPar;
     private final String bestPlayer;
     private final LocalDate bestTime;
     private final int[] ratings;
-    private final Track track;
+    private Track track;
 
     public FileSystemTrackStats(int totalAttempts, int strokes, int bestPar, double percentageofBestPar,
                                 int numberOfBestPar, String bestPlayer, LocalDate bestTime, int[] ratings, Track track) {
@@ -29,6 +30,10 @@ public class FileSystemTrackStats implements TrackStats {
         this.bestPlayer = bestPlayer;
         this.bestTime = bestTime;
         this.ratings = ratings;
+        this.track = track;
+    }
+
+    public void setTrack(Track track) {
         this.track = track;
     }
 
@@ -88,6 +93,46 @@ public class FileSystemTrackStats implements TrackStats {
         return Arrays.stream(ratings).sum();
     }
 
+
+    @Override
+    public String serialize(String splitter) {
+        StringBuilder output = new StringBuilder(getTrack().serialize(splitter));
+        output.append(splitter);
+        output.append(Tools.izer(splitter,
+                "I " + Tools.commaize(getTotalAttempts(), getTotalStrokes(), getBestPar(), numberOfBestPar),
+                "R " + ratingsToString()));
+        output.append(splitter);
+        if (getBestPar() > 0) {
+            output.append(
+                Tools.izer(splitter, "B " + Tools.commaize(getBestPlayer(),
+                        bestTime.atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli())));
+        }
+        return output.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof FileSystemTrackStats)) return false;
+        FileSystemTrackStats that = (FileSystemTrackStats) o;
+        return getTotalAttempts() == that.getTotalAttempts() &&
+                strokes == that.strokes &&
+                getBestPar() == that.getBestPar() &&
+                Double.compare(that.bestParPercentage, bestParPercentage) == 0 &&
+                numberOfBestPar == that.numberOfBestPar &&
+                Objects.equals(getBestPlayer(), that.getBestPlayer()) &&
+                Objects.equals(bestTime, that.bestTime) &&
+                Arrays.equals(getRatings(), that.getRatings()) &&
+                getTrack().equals(that.getTrack());
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(getTotalAttempts(), strokes, getBestPar(), bestParPercentage, numberOfBestPar, getBestPlayer(), bestTime, getTrack());
+        result = 31 * result + Arrays.hashCode(getRatings());
+        return result;
+    }
+
     // Old compatibility stuff
 
     private String ratingsToString() {
@@ -98,8 +143,7 @@ public class FileSystemTrackStats implements TrackStats {
         return buffer.toString() + ratings[ratings.length - 1];
     }
 
-    @Override
-    public String toString() {
+    public String networkSerialize() {
         if (getBestPar() < 0) {
             return Tools.tabularize(
                     "V 1",

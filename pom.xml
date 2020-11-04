@@ -20,7 +20,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.mainClass>test.mainClass</project.mainClass>
-        <picocli.version>4.5.1</picocli.version>
+        <picocli.version>4.5.2</picocli.version>
     </properties>
     <build>
         <pluginManagement>

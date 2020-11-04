@@ -62,5 +62,14 @@ public interface TrackStats {
      */
     int getNumberOfRatings();
 
+    /**
+     * Converts TrackStats into serializable string
+     * @return Serialized string, separated by splitter
+     */
+    String serialize(String splitter);
 
+    /**
+     * Converts to format supported by Client
+     */
+    String networkSerialize();
 }
