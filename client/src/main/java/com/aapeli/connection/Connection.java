@@ -18,13 +18,25 @@ import java.util.Vector;
 
 public final class Connection implements Runnable {
 
+    /* DCR Constants */
     public static final int DCR_UNDEFINED = 0;
     public static final int DCR_BYUSER = 1;
     public static final int DCR_NORETRY = 2;
     public static final int DCR_RETRYFAIL = 3;
     public static final int DCR_VERSION = 4;
     public static final int DCR_HANDLEFAILED = 5;
-    private static final String aString1608 = "UTF-8";
+
+    /* State Constants */
+    public static final int STATE_OPENING = 0;
+    public static final int STATE_OPEN = 1;
+    public static final int STATE_CONNECTED = 2;
+    public static final int STATE_DOWN = 3;
+    public static final int STATE_DISCONNECTED = 4;
+
+    /* Other Constants */
+    private static final String encoding = "UTF-8";
+    public static final int CIPHER_MAGIC_DEFAULT = 4;
+    
     private AApplet gameApplet;
     private Parameters params;
     private ConnListener connListener;
@@ -32,12 +44,12 @@ public final class Connection implements Runnable {
     private int state;
     private int disconnectReason;
     private boolean closed;
-    private boolean aBoolean1616;
+    private boolean failed;
     private Socket socket;
     private BufferedReader sockIn;
     private BufferedWriter sockOut;
     private long clientId;
-    private int anInt1621;
+    private int retryTimeoutS;
     private GameQueue gameQueue;
     private GamePacketQueue gamePacketQueue;
     private Vector thriftLogs;
@@ -47,23 +59,23 @@ public final class Connection implements Runnable {
     private Thread thread;
 
 
-    public Connection(AApplet var1, ConnListener var2, String[] var3) {
-        this(var1, var1.param, var2, var3);
+    public Connection(AApplet gameApplet, ConnListener conListener, String[] gameCipherCmds) {
+        this(gameApplet, gameApplet.param, conListener, gameCipherCmds);
     }
 
-    public Connection(Parameters var1, ConnListener var2, String[] var3) {
-        this((AApplet) null, var1, var2, var3);
+    public Connection(Parameters params, ConnListener conListener, String[] gameCipherCmds) {
+        this((AApplet) null, params, conListener, gameCipherCmds);
     }
 
-    private Connection(AApplet var1, Parameters var2, ConnListener var3, String[] gameCipherCmds) {
-        this.gameApplet = var1;
-        this.params = var2;
-        this.connListener = var3;
-        if (var1 != null) {
-            var1.setConnectionReference(this);
+    private Connection(AApplet gameApplet, Parameters params, ConnListener conListener, String[] gameCipherCmds) {
+        this.gameApplet = gameApplet;
+        this.params = params;
+        this.connListener = connListener;
+        if (gameApplet != null) {
+            gameApplet.setConnectionReference(this);
         }
 
-        int connCipherMagic = 4;
+        int connCipherMagic = CIPHER_MAGIC_DEFAULT;
         if(Launcher.isUsingCustomServer())
             gameCipherCmds = null;
         if (gameCipherCmds != null) {
@@ -72,13 +84,13 @@ public final class Connection implements Runnable {
         }
 
         this.clientId = -1L;
-        this.anInt1621 = 25;
+        this.retryTimeoutS = 25;
         this.gameQueue = new GameQueue();
         this.thriftLogs = new Vector();
         this.numReceivedGamePackets = -1L;
-        this.state = 0;
+        this.state = STATE_OPENING;
         this.disconnectReason = DCR_UNDEFINED;
-        this.closed = this.aBoolean1616 = false;
+        this.closed = this.failed = false;
         this.connCipher = new ConnCipher(connCipherMagic);
     }
 
@@ -87,12 +99,12 @@ public final class Connection implements Runnable {
 
         try {
             do {
-                if (this.state == 1) {
-                    this.method1778();
-                } else if (this.state == 2) {
-                    this.method1777();
-                } else if (this.state == 3) {
-                    this.method1791();
+                if (this.state == STATE_OPEN) {
+                    this.handleConnection();
+                } else if (this.state == STATE_CONNECTED) {
+                    this.handleGame();
+                } else if (this.state == STATE_DOWN) {
+                    this.reconnect();
                 }
 
                 if (this.closed) {
@@ -100,19 +112,19 @@ public final class Connection implements Runnable {
                         this.writeLineC("end");
                     }
 
-                    this.state = 4;
+                    this.state = STATE_DISCONNECTED;
                     this.disconnectReason = DCR_BYUSER;
                 }
 
-                if (this.aBoolean1616) {
-                    this.state = 4;
+                if (this.failed) {
+                    this.state = STATE_DISCONNECTED;
                     this.disconnectReason = DCR_HANDLEFAILED;
                 }
-            } while (this.state != 4);
-        } catch (Exception var2) {
-            ;
-        } catch (Error var3) {
-            ;
+            } while (this.state != STATE_DISCONNECTED);
+        } catch (Exception ex) {
+            ; // TODO: hanlde
+        } catch (Error er) {
+            ; // TODO: handle
         }
 
         this.close();
@@ -121,34 +133,34 @@ public final class Connection implements Runnable {
     }
 
     public boolean openConnection() {
-        if (this.state != 0) {
+        if (this.state != STATE_OPENING) {
             throw new IllegalStateException("Connection already opened");
         } else if (!this.connect()) {
-            this.state = 4;
+            this.state = STATE_DISCONNECTED;
             return false;
         } else {
-            this.state = 1;
+            this.state = STATE_OPEN;
             this.thread = new Thread(this);
             this.thread.start();
             return true;
         }
     }
 
-    public void writeData(String var1) {
-        if (this.state == 0) {
+    public void writeData(String data) {
+        if (this.state == STATE_OPENING) {
             throw new IllegalStateException("Connection not yet open");
-        } else if (this.state != 4) {
+        } else if (this.state != STATE_DISCONNECTED) {
             if(Launcher.debug())
-                System.out.println("CLIENT> WRITE \"d " + gameQueue.sendSeqNum + " " + var1 + "\"");
+                System.out.println("CLIENT> WRITE \"d " + gameQueue.sendSeqNum + " " + data + "\"");
             if (this.gameCipher != null) {
-                var1 = this.gameCipher.encrypt(var1);
+                data = this.gameCipher.encrypt(data);
             }
 
-            this.gameQueue.add(var1);
+            this.gameQueue.add(data);
         }
     }
 
-    public void writeThriftLog(int var1, String var2, String var3) {
+    public void writeThriftLog(int var1, String var2, String var3) { // TODO: replace var1...var4
         String var4 = "tlog\t" + var1 + "\t" + var2;
         if (var3 != null) {
             var4 = var4 + "\t" + var3;
@@ -158,11 +170,11 @@ public final class Connection implements Runnable {
     }
 
     public void closeConnection() {
-        if (this.state == 0) {
+        if (this.state == STATE_OPENING) {
             throw new IllegalStateException("Connection not yet even opened");
-        } else if (this.state != 4 || this.thread != null) {
+        } else if (this.state != STATE_DISCONNECTED || this.thread != null) {
             this.closed = true;
-            this.state = 4;
+            this.state = STATE_DISCONNECTED;
             this.thread.interrupt();
         }
     }
@@ -171,59 +183,59 @@ public final class Connection implements Runnable {
         return null;
     }
 
-    protected void method1775() {
-        this.aBoolean1616 = true;
-        this.state = 4;
+    protected void handleCrash() { // TODO
+        this.failed = true;
+        this.state = STATE_DISCONNECTED;
         this.thread.interrupt();
     }
 
     private boolean connect() {
         try {
-            String var1 = this.params.getServerIp();
-            int var2 = this.params.getServerPort();
-            this.socket = new Socket(var1, var2);
-            InputStream var3 = this.socket.getInputStream();
-            OutputStream var4 = this.socket.getOutputStream();
+            String serverIp = this.params.getServerIp();
+            int serverPort = this.params.getServerPort();
+            this.socket = new Socket(serverIp, serverPort);
+            InputStream in = this.socket.getInputStream();
+            OutputStream out = this.socket.getOutputStream();
 
-            InputStreamReader var5;
-            OutputStreamWriter var6;
+            InputStreamReader reader;
+            OutputStreamWriter writer;
             try {
-                var5 = new InputStreamReader(var3, "UTF-8");
-                var6 = new OutputStreamWriter(var4, "UTF-8");
-            } catch (UnsupportedEncodingException var8) {
-                var5 = new InputStreamReader(var3);
-                var6 = new OutputStreamWriter(var4);
+                reader = new InputStreamReader(in, encoding);
+                writer = new OutputStreamWriter(out, encoding);
+            } catch (UnsupportedEncodingException ex) {
+                reader = new InputStreamReader(in);
+                writer = new OutputStreamWriter(out);
             }
 
-            this.sockIn = new BufferedReader(var5);
-            this.sockOut = new BufferedWriter(var6);
+            this.sockIn = new BufferedReader(reader);
+            this.sockOut = new BufferedWriter(writer);
             this.socket.setSoTimeout(250);
             this.connActivityTime = System.currentTimeMillis();
             return true;
-        } catch (Exception var9) {
+        } catch (Exception ex) {
             return false;
         }
     }
 
-    private void method1777() {
-        this.method1779();
-        if (this.state == 2) {
-            this.method1778();
+    private void handleGame() {
+        this.handleGameQueue();
+        if (this.state == STATE_CONNECTED) {
+            this.handleConnection();
         }
 
     }
 
-    private void method1778() {
+    private void handleConnection() {
         this.readInput();
-        if (this.state == 2) {
+        if (this.state == STATE_CONNECTED) {
             this.checkConnActivity();
         }
 
     }
 
-    private void method1779() {
+    private void handleGameQueue() {
         this.processGameQueueDisconnect();
-        if (this.state == 2) {
+        if (this.state == STATE_CONNECTED) {
             this.processThriftLogs();
         }
 
@@ -231,24 +243,24 @@ public final class Connection implements Runnable {
 
     private void processGameQueueDisconnect() {
         do {
-            String var1 = this.gameQueue.pop();
-            if (var1 == null) {
+            String data = this.gameQueue.pop();
+            if (data == null) {
                 return;
             }
 
-            if (!this.writeLineD(var1)) {
+            if (!this.writeLineD(data)) {
                 this.disconnect();
             }
-        } while (this.state == 2);
+        } while (this.state == STATE_CONNECTED);
 
     }
 
     private void processThriftLogs() {
         while (true) {
-            if (this.state == 2 && !this.thriftLogs.isEmpty()) {
-                String var1 = (String) ((String) this.thriftLogs.firstElement());
+            if (this.state == STATE_CONNECTED && !this.thriftLogs.isEmpty()) {
+                String str = (String) ((String) this.thriftLogs.firstElement());
                 this.thriftLogs.removeElementAt(0);
-                if (this.writeLineS(var1)) {
+                if (this.writeLineS(str)) {
                     continue;
                 }
 
@@ -261,52 +273,52 @@ public final class Connection implements Runnable {
     }
 
     private boolean processGameQueue() {
-        String var1;
+        String data;
         do {
-            var1 = this.gameQueue.pop();
-            if (var1 == null) {
+            data = this.gameQueue.pop();
+            if (data == null) {
                 return true;
             }
-        } while (this.writeLineD(var1));
+        } while (this.writeLineD(data));
 
         return false;
     }
 
     private void disconnect() {
-        if (this.state == 2 && this.anInt1621 > 0) {
+        if (this.state == STATE_CONNECTED && this.retryTimeoutS > 0) {
             this.close();
-            this.state = 3;
+            this.state = STATE_DOWN;
             this.connListener.notifyConnectionDown();
         } else {
-            this.state = 4;
+            this.state = STATE_DISCONNECTED;
             this.disconnectReason = DCR_NORETRY;
         }
 
     }
 
-    private boolean writeLineC(String var1) {
-        return this.writeLine("c " + var1);
+    private boolean writeLineC(String cmd) { // C: Command
+        return this.writeLine("c " + cmd);
     }
 
-    private boolean writeLineD(String var1) {
-        return this.writeLine("d " + var1);
+    private boolean writeLineD(String data) { // D: Data
+        return this.writeLine("d " + data);
     }
 
-    private boolean writeLineS(String var1) {
-        return this.writeLine("s " + var1);
+    private boolean writeLineS(String str) { // S: String
+        return this.writeLine("s " + str);
     }
 
-    private boolean writeLine(String var1) {
+    private boolean writeLine(String line) {
         try {
-            if(!var1.startsWith("d ") && Launcher.debug())
-                System.out.println("CLIENT> WRITE \"" + var1 + "\"");
+            if(!line.startsWith("d ") && Launcher.debug())
+                System.out.println("CLIENT> WRITE \"" + line + "\"");
             if(!Launcher.isUsingCustomServer())
-                var1 = this.connCipher.encrypt(var1);
-            this.sockOut.write(var1);
+                line = this.connCipher.encrypt(line);
+            this.sockOut.write(line);
             this.sockOut.newLine();
             this.sockOut.flush();
             return true;
-        } catch (IOException var3) {
+        } catch (IOException ex) {
             return false;
         }
     }
@@ -321,29 +333,29 @@ public final class Connection implements Runnable {
             if (cmdtype == 'h') {// not sure what
                 firstSpace = Integer.parseInt(cmd);// it's always 1... ALWAYS
                 if (firstSpace != 1) {
-                    this.state = 4;
+                    this.state = STATE_DISCONNECTED;
                     this.disconnectReason = DCR_VERSION;
                 }
             } else if (cmdtype == 'c') {// connection related
                 if (cmd.startsWith("io ")) {
                     this.connCipher.initialise(Integer.parseInt(cmd.substring(3)));
                 } else if (cmd.startsWith("crt ")) {
-                    this.anInt1621 = Integer.parseInt(cmd.substring(4));
+                    this.retryTimeoutS = Integer.parseInt(cmd.substring(4));
                 } else if (cmd.equals("ctr")) {
                     if (this.clientId == -1L) {
                         this.writeLineC("new");
                     } else {
                         this.writeLineC("old " + this.clientId);
                     }
-                } else if (cmd.startsWith("id ")) {
-                    long var6 = Long.parseLong(cmd.substring(3));
-                    this.clientId = var6;
-                    this.state = 2;
-                } else if (cmd.equals("rcok")) {
-                    this.state = 2;
+                } else if (cmd.startsWith("id ")) { // connected
+                    long id = Long.parseLong(cmd.substring(3));
+                    this.clientId = id;
+                    this.state = STATE_CONNECTED;
+                } else if (cmd.equals("rcok")) { // reconnect ok
+                    this.state = STATE_CONNECTED;
                     this.connListener.notifyConnectionUp();
-                } else if (cmd.equals("rcf")) {
-                    this.state = 4;
+                } else if (cmd.equals("rcf")) { // reconnect ok
+                    this.state = STATE_DISCONNECTED;
                     this.disconnectReason = DCR_RETRYFAIL;
                 } else if (cmd.equals("ping")) {
                     this.writeLineC("pong");
@@ -358,15 +370,15 @@ public final class Connection implements Runnable {
                 }
             } else if (cmdtype == 's') {
                 if (cmd.startsWith("json ")) {
-                    String var7 = cmd.substring(5);
-                    this.params.callJavaScriptJSON(var7);
+                    String json = cmd.substring(5);
+                    this.params.callJavaScriptJSON(json);
                 }
             } else if (cmdtype == 'd') {
                 firstSpace = cmd.indexOf(' ');
                 long numServerSentPaketz = Long.parseLong(cmd.substring(0, firstSpace));
                 if (numServerSentPaketz > this.numReceivedGamePackets) {
                     if (numServerSentPaketz > this.numReceivedGamePackets + 1L) {
-                        this.state = 4;
+                        this.state = STATE_DISCONNECTED;
                         this.disconnectReason = DCR_RETRYFAIL;
                     } else {
                         cmd = cmd.substring(firstSpace + 1);
@@ -387,17 +399,17 @@ public final class Connection implements Runnable {
 
     private String readLine() {
         try {
-            String var1 = this.sockIn.readLine();
-            if (var1 != null) {
+            String line = this.sockIn.readLine();
+            if (line != null) {
                 if(!Launcher.isUsingCustomServer())
-                    var1 = this.connCipher.decrypt(var1);
-                if(!var1.startsWith("d ") && Launcher.debug())
-                    System.out.println("CLIENT> READ \"" + var1 + "\"");
-                return var1;
+                    line = this.connCipher.decrypt(line);
+                if(!line.startsWith("d ") && Launcher.debug())
+                    System.out.println("CLIENT> READ \"" + line + "\"");
+                return line;
             }
-        } catch (InterruptedIOException var2) {
+        } catch (InterruptedIOException ex) {
             return null;
-        } catch (IOException var3) {
+        } catch (IOException ex) {
             ;
         }
 
@@ -413,29 +425,29 @@ public final class Connection implements Runnable {
 
     }
 
-    private void method1791() {
-        long var1 = System.currentTimeMillis() + (long) ((this.anInt1621 + 12) * 1000);
+    private void reconnect() {
+        long deadline = System.currentTimeMillis() + (long) ((this.retryTimeoutS + 12) * 1000);
 
         do {
             try {
                 Thread.sleep(3000L);
-            } catch (InterruptedException var4) {
+            } catch (InterruptedException ex) {
                 ;
             }
 
-            if (this.state != 3) {
+            if (this.state != STATE_DOWN) {
                 return;
             }
 
             if (this.connect()) {
                 this.connCipher.reset();
                 this.gameQueue.clear();
-                this.state = 1;
+                this.state = STATE_OPEN;
                 return;
             }
-        } while (System.currentTimeMillis() < var1);
+        } while (System.currentTimeMillis() < deadline);
 
-        this.state = 4;
+        this.state = STATE_DISCONNECTED;
         this.disconnectReason = DCR_RETRYFAIL;
     }
 
@@ -443,7 +455,7 @@ public final class Connection implements Runnable {
         if (this.sockIn != null) {
             try {
                 this.sockIn.close();
-            } catch (IOException var4) {
+            } catch (IOException ex) {
                 ;
             }
 
@@ -453,7 +465,7 @@ public final class Connection implements Runnable {
         if (this.sockOut != null) {
             try {
                 this.sockOut.close();
-            } catch (IOException var3) {
+            } catch (IOException ex) {
                 ;
             }
 
@@ -463,7 +475,7 @@ public final class Connection implements Runnable {
         if (this.socket != null) {
             try {
                 this.socket.close();
-            } catch (IOException var2) {
+            } catch (IOException ex) {
                 ;
             }
 

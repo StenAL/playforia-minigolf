@@ -27,17 +27,17 @@ class GamePacketQueue implements Runnable {
             try {
                 Tools.sleep(50L);
 
-                String var1;
-                while ((var1 = this.nextGamePacket()) != null) {
-                    this.connListener.dataReceived(var1);
+                String packet;
+                while ((packet = this.nextGamePacket()) != null) {
+                    this.connListener.dataReceived(packet);
                 }
 
                 if (this.running) {
                     continue;
                 }
-            } catch (Exception var2) {
+            } catch (Exception e) {
                 this.running = false;
-                this.conn.method1775();
+                this.conn.handleCrash();
             }
 
             return;
