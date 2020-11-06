@@ -59,15 +59,15 @@ public final class Connection implements Runnable {
     private Thread thread;
 
 
-    public Connection(AApplet gameApplet, ConnListener conListener, String[] gameCipherCmds) {
-        this(gameApplet, gameApplet.param, conListener, gameCipherCmds);
+    public Connection(AApplet gameApplet, ConnListener connListener, String[] gameCipherCmds) {
+        this(gameApplet, gameApplet.param, connListener, gameCipherCmds);
     }
 
-    public Connection(Parameters params, ConnListener conListener, String[] gameCipherCmds) {
-        this((AApplet) null, params, conListener, gameCipherCmds);
+    public Connection(Parameters params, ConnListener connListener, String[] gameCipherCmds) {
+        this((AApplet) null, params, connListener, gameCipherCmds);
     }
 
-    private Connection(AApplet gameApplet, Parameters params, ConnListener conListener, String[] gameCipherCmds) {
+    private Connection(AApplet gameApplet, Parameters params, ConnListener connListener, String[] gameCipherCmds) {
         this.gameApplet = gameApplet;
         this.params = params;
         this.connListener = connListener;
@@ -123,7 +123,7 @@ public final class Connection implements Runnable {
             } while (this.state != STATE_DISCONNECTED);
         } catch (Exception ex) {
             ; // TODO: hanlde
-        } catch (Error er) {
+        } catch (Error err) {
             ; // TODO: handle
         }
 
