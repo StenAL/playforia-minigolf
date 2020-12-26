@@ -59,9 +59,11 @@ The client can be started the same way (AFTER THE SERVER WAS STARTED) but you ca
 java -jar client.jar -server 192.168.1.7 -lang en_US # Replace IP with the one of your server (which you can find out by using for example `ifconfig`/`ipconfig`) and lang with en_US, fi_FI or sv_SE
 ```
 
-After the Login screen, which can be skipped with an empty form, you should see your familiar Playforia Minigolf Menu!
-
 **NEW:** You can now choose your nickname freely. Please avoid using hate speech,...
+
+#### Running Minigolf Server in Docker Container
+
+We provide an experimental Dockerfile for easy hosting of the server application. You can either build the image by yourself or download the pre-build images from [quay.io](https://quay.io/repository/philippvk/minigolf) via `docker pull quay.io/philippvk/minigolf:latest`.
 
 Running the Editor is quite straightforward as it can be started like expected: `java -jar editor.jar`
 ### CLI options
