@@ -76,7 +76,6 @@ Tested:
 - Ubuntu 19.04 with Java version `1.8.0_265`
 - Windows (7/8/10)
 
-
 ## Problems
 - Ratings are not synced
 - No sound
