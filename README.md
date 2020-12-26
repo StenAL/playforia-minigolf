@@ -1,4 +1,4 @@
-# Minigolf Server/Client/Editor (Playforia) ![Test Build](https://github.com/PhilippvK/playforia-minigolf/workflows/Test%20build/badge.svg)
+# Minigolf Server/Client/Editor (Playforia) ![Test Build](https://github.com/PhilippvK/playforia-minigolf/workflows/Test%20build/badge.svg) ![quay.iophilippvk/minigolf](https://quay.io/repository/philippvk/minigolf/status)](https://quay.io/repository/philippvk/minigolf)
 
 ## WARNING
 
