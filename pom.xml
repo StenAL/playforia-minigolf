@@ -7,7 +7,7 @@
     <groupId>org.moparforia</groupId>
     <artifactId>playforia-minigolf</artifactId>
     <packaging>pom</packaging>
-    <version>2.1.0.0-BETA</version>
+    <version>2.1.1.0-BETA</version>
     <name>Playforia Minigolf</name>
 
     <modules>
@@ -100,7 +100,7 @@
             <dependency>
                 <groupId>org.moparforia</groupId>
                 <artifactId>shared</artifactId>
-                <version>2.1.0.0-BETA</version>
+                <version>2.1.1.0-BETA</version>
             </dependency>
             <dependency>
                 <groupId>info.picocli</groupId>
