@@ -168,6 +168,28 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <artifactId>plantuml-generator-maven-plugin</artifactId>
+                <groupId>de.elnarion.maven</groupId>
+                <version>1.1.2</version>
+                <executions>
+                    <execution>
+                        <id>generate-simple-diagram</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <phase>generate-test-sources</phase>
+                        <configuration>
+                            <outputFilename>${project.parent.groupId}.${project.artifactId}.pu</outputFilename>
+                            <scanPackages>
+                                <scanPackage>${project.parent.groupId}.${project.artifactId}</scanPackage>
+                                <scanPackage>agolf</scanPackage>
+                                <!--<scanPackage>com.aapeli</scanPackage>-->
+                            </scanPackages>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 
