@@ -92,12 +92,24 @@ Tested:
 4. The Java code you will find in the repository is pretty bad. Some parts even look like they where generated, for example by an converter tool
 5. There is actually an aimbot implemented in the client code. Look for `allowCheating` in `GameCanvas.java` for trying it out. Use it wisely.
 
-## Contributors
+## Contribution
+
+### Contributors
 
 - [@PhilippvK](https://github.com/PhilippvK) (BuyMeACoffe: https://www.buymeacoff.ee/PhilippvK)
 - [@maitovelkkis](https://github.com/maitovelkkis)
 - [@eYeWoRRy](https://github.com/eYeWoRRy)
 - [@pehala](https://github.com/pehala)
+
+### How to create a new Release?
+
+1. Ensure that `git status` on `master` branch is clean and `mvn install` runs fine
+2. Update version via Maven: f.e. `mvn versions:set -DnewVersion=2.1.1.0-BETA`
+3. Create tag: f.e. `git tag v2.1.1.0-BETA`
+4. Push master branch and tag: f.e. `git push origin master v2.1.1.0-BETA`
+5. Wait 5-10 minutes until GitHub release workflow is done (See: https://github.com/PhilippvK/playforia-minigolf/actions)
+6. There should be a new Draft for a Release on https://github.com/PhilippvK/playforia-minigolf/releases
+7. Edit Release text and publish!
 
 ---
 
