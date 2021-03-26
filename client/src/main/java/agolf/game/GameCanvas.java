@@ -14,45 +14,45 @@ import java.util.Vector;
 
 public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseMotionListener, MouseListener, KeyListener {
 
-    private static final double aDouble2798 = Math.sqrt(2.0D) / 2.0D;
-    private static final int anInt2799 = (int) (6.0D * aDouble2798 + 0.5D);
+    private static final double magicOffset = Math.sqrt(2.0D) / 2.0D;
+    private static final int diagOffset = (int) (6.0D * magicOffset + 0.5D);
     private static final Cursor cursorDefault = new Cursor(Cursor.DEFAULT_CURSOR);
     private static final Cursor cursorCrosshair = new Cursor(Cursor.CROSSHAIR_CURSOR);
     private static final Color colourAimLine = new Color(128, 0, 32);
-    private static final Font aFont2803 = new Font("Dialog", 0, 10);
-    private static final Color aColor2804 = Color.black;
-    private static final Color aColor2805 = Color.white;
+    private static final Font gameFont = new Font("Dialog", 0, 10);
+    private static final Color blackColour = Color.black;
+    private static final Color whiteColour = Color.white;
     private static final Color backgroundColour = new Color(19, 167, 19);
     private int gameState;
-    private Image[] anImageArray2808;
-    private int anInt2809;
-    private int anInt2810;
+    private Image[] ballSprites;
+    private int playerCount;
+    private int onShoreSetting;
     private int anInt2811;
     private int currentPlayerID;
     private int mouseX;
     private int mouseY;
-    private int keyCountMod4;
+    private int shootingMode;
     private int anInt2816;
     private double aDouble2817;
     private double aDouble2818;
-    private double aDouble2819;
-    private double aDouble2820;
-    private double[] aDoubleArray2821;
-    private double[] aDoubleArray2822;
-    private Vector[] aVectorArray2823;
-    private Vector[] aVectorArray2824;
-    private short[][][] aShortArrayArrayArray2825;
+    private double bounciness;
+    private double somethingSpeedThing;
+    private double[] resetPositionX;
+    private double[] resetPositionY;
+    private Vector[] teleportStarts;
+    private Vector[] teleportExists;
+    private short[][][] magnetMap;
     private double[] playerX;
     private double[] playerY;
-    private double[] aDoubleArray2828;
-    private double[] aDoubleArray2829;
+    private double[] speedX;
+    private double[] speedY;
     private boolean[] aBooleanArray2830;
-    private SynchronizedBool[] aSynchronizedBoolArray2831;
-    private boolean aBoolean2832;
+    private SynchronizedBool[] onHoleSync; //not sure
+    private boolean isLocalPlayer;
     private int anInt2833;
     private boolean[] aBooleanArray2834;
     private String aString2835;
-    private Seed aSeed_2836;
+    private Seed rngSeed;
     private static int[] anIntArray2837 = new int[]{Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE};
     private static int anInt2838 = 2;
     private int anInt2839;
@@ -69,8 +69,8 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
 
     protected GameCanvas(GameContainer var1, Image var2) {
         super(var1, var2);
-        this.anImageArray2808 = var1.spriteManager.getBalls();
-        this.anInt2809 = this.currentPlayerID = this.mouseX = this.mouseY = -1;
+        this.ballSprites = var1.spriteManager.getBalls();
+        this.playerCount = this.currentPlayerID = this.mouseX = this.mouseY = -1;
         this.anInt2833 = 0;
         this.gameState = 0;
         this.anInt2839 = anInt2838;
@@ -84,52 +84,53 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
 
         super.update(this.graphics);
         if (this.gameState == 1 && this.mouseX > -1 && this.mouseY > -1) {
-            double[] var2 = this.method146(this.currentPlayerID, this.mouseX, this.mouseY);
-            int var3 = (int) (this.playerX[this.currentPlayerID] + 0.5D);
-            int var4 = (int) (this.playerY[this.currentPlayerID] + 0.5D);
-            int var5 = (int) (this.playerX[this.currentPlayerID] + var2[0] * 200.0D / 6.5D + 0.5D);
-            int var6 = (int) (this.playerY[this.currentPlayerID] + var2[1] * 200.0D / 6.5D + 0.5D);
+            double[] power = this.getStrokePower(this.currentPlayerID, this.mouseX, this.mouseY);
+
+            int x1 = (int) (this.playerX[this.currentPlayerID] + 0.5D);
+            int y1 = (int) (this.playerY[this.currentPlayerID] + 0.5D);
+            int x2 = (int) (this.playerX[this.currentPlayerID] + power[0] * 200.0D / 6.5D + 0.5D);
+            int y2 = (int) (this.playerY[this.currentPlayerID] + power[1] * 200.0D / 6.5D + 0.5D);
             this.graphics.setColor(colourAimLine);
-            if (this.keyCountMod4 == 0) {
-                this.graphics.drawLine(var3, var4, var5, var6);
+            if (this.shootingMode == 0) {
+                this.graphics.drawLine(x1, y1, x2, y2);
             } else {
-                int var7 = var5 - var3;
-                int var8 = var6 - var4;
-                this.method163(this.graphics, var3, var4, var7, var8);
-                if (this.keyCountMod4 == 1) {
-                    var7 = -var7;
-                    var8 = -var8;
+                int deltaX = x2 - x1;
+                int deltaY = y2 - y1;
+                this.drawDashedLine(this.graphics, x1, y1, deltaX, deltaY);
+                if (this.shootingMode == 1) {
+                    deltaX = -deltaX;
+                    deltaY = -deltaY;
                 }
 
-                int var9;
-                if (this.keyCountMod4 == 2) {
-                    var9 = var7;
-                    var7 = var8;
-                    var8 = -var9;
+                int temp;
+                if (this.shootingMode == 2) {
+                    temp = deltaX;
+                    deltaX = deltaY;
+                    deltaY = -temp;
                 }
 
-                if (this.keyCountMod4 == 3) {
-                    var9 = var7;
-                    var7 = -var8;
-                    var8 = var9;
+                if (this.shootingMode == 3) {
+                    temp = deltaX;
+                    deltaX = -deltaY;
+                    deltaY = temp;
                 }
 
-                this.graphics.drawLine(var3, var4, var3 + var7, var4 + var8);
+                this.graphics.drawLine(x1, y1, x1 + deltaX, y1 + deltaY);
             }
         }
 
         if (this.currentPlayerID > -1) {
-            this.graphics.setFont(aFont2803);
-            this.graphics.setColor(aColor2804);
+            this.graphics.setFont(gameFont);
+            this.graphics.setColor(blackColour);
 
-            for (int var10 = 0; var10 < this.anInt2809; ++var10) {
+            for (int var10 = 0; var10 < this.playerCount; ++var10) {
                 if (this.aBooleanArray2830[var10] && var10 != this.currentPlayerID) {
-                    this.method161(this.graphics, var10, this.aSynchronizedBoolArray2831[var10].get() ? 2.1666666666666665D : 0.0D);
+                    this.drawPlayerInfo(this.graphics, var10, this.onHoleSync[var10].get() ? 2.1666666666666665D : 0.0D);
                 }
             }
 
-            this.graphics.setColor(aColor2805);
-            this.method161(this.graphics, this.currentPlayerID, this.aSynchronizedBoolArray2831[this.currentPlayerID].get() ? 2.1666666666666665D : 0.0D);
+            this.graphics.setColor(whiteColour);
+            this.drawPlayerInfo(this.graphics, this.currentPlayerID, this.onHoleSync[this.currentPlayerID].get() ? 2.1666666666666665D : 0.0D);
         }
 
         if (isCheating) {
@@ -140,39 +141,39 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
     }
 
     public void run() {
-        Image var1 = this.createImage(735, 375);
+        Image ballImage = this.createImage(735, 375);
         Image var2 = super.image;
-        Graphics var3 = var1.getGraphics();
-        Graphics var4 = this.getGraphics();
-        var3.drawImage(var2, 0, 0, this);
-        var4.drawImage(var1, 0, 0, this);
-        int var5 = 0;
-        int[] var6 = new int[this.anInt2809];
-        int[] var7 = new int[this.anInt2809];
-        double[] var8 = new double[this.anInt2809];
-        double[] var9 = new double[this.anInt2809];
-        double[] var10 = new double[this.anInt2809];
-        double[] var11 = new double[this.anInt2809];
-        double[] var12 = new double[this.anInt2809];
-        double[] var13 = new double[this.anInt2809];
-        double[] var14 = new double[this.anInt2809];
-        boolean[] var15 = new boolean[this.anInt2809];
-        boolean[] var16 = new boolean[this.anInt2809];
-        boolean[] var17 = new boolean[this.anInt2809];
-        int[] var18 = new int[this.anInt2809];
+        Graphics ballGraphic = ballImage.getGraphics();
+        Graphics canvas = this.getGraphics();
+        ballGraphic.drawImage(var2, 0, 0, this);
+        canvas.drawImage(ballImage, 0, 0, this);
+        int loopStuckCounter = 0;
+        int[] magnetStuckCounter = new int[this.playerCount];
+        int[] downhillStuckCounter = new int[this.playerCount];
+        double[] tempCoordX = new double[this.playerCount];
+        double[] tempCoordY = new double[this.playerCount];
+        double[] var10 = new double[this.playerCount];
+        double[] tempCoord2X = new double[this.playerCount];
+        double[] tempCoord2Y = new double[this.playerCount];
+        double[] tempCoord3X = new double[this.playerCount];
+        double[] tempCoord3Y = new double[this.playerCount];
+        boolean[] onHole = new boolean[this.playerCount];
+        boolean[] onLiquidOrSwamp = new boolean[this.playerCount];
+        boolean[] teleported = new boolean[this.playerCount];
+        int[] spinningStuckCounter = new int[this.playerCount];
 
-        for (int var19 = 0; var19 < this.anInt2809; ++var19) {
-            var6[var19] = var7[var19] = 0;
-            var8[var19] = var11[var19] = this.playerX[var19];
-            var9[var19] = var12[var19] = this.playerY[var19];
-            var15[var19] = var16[var19] = false;
-            var10[var19] = this.aSynchronizedBoolArray2831[var19].get() ? 2.1666666666666665D : 0.0D;
-            var17[var19] = false;
-            var18[var19] = 0;
+        for (int var19 = 0; var19 < this.playerCount; ++var19) {
+            magnetStuckCounter[var19] = downhillStuckCounter[var19] = 0;
+            tempCoordX[var19] = tempCoord2X[var19] = this.playerX[var19];
+            tempCoordY[var19] = tempCoord2Y[var19] = this.playerY[var19];
+            onHole[var19] = onLiquidOrSwamp[var19] = false;
+            var10[var19] = this.onHoleSync[var19].get() ? 2.1666666666666665D : 0.0D;
+            teleported[var19] = false;
+            spinningStuckCounter[var19] = 0;
         }
 
-        boolean var20 = false;
-        boolean var21 = false;
+        boolean shouldSpinAroundHole = false;
+        boolean onLiquid = false;
         boolean var22 = false;
         boolean var23 = super.gameContainer.synchronizedTrackTestMode.get();
         if (var23) {
@@ -180,267 +181,283 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
         }
 
         int var24 = -1;
-        byte var25 = 0;
-        byte var26 = 0;
-        byte var27 = 0;
-        byte var28 = 0;
-        byte var29 = 0;
-        byte var30 = 0;
-        byte var31 = 0;
-        byte var32 = 0;
-        byte var33 = 0;
-        int var34 = 0;
-        int var35 = 0;
-        double var36 = 0.0D;
-        this.aDouble2819 = this.aDouble2820 = 1.0D;
+        byte topleft = 0;
+        byte left = 0;
+        byte bottomleft = 0;
+        byte bottom = 0;
+        byte bottomright = 0;
+        byte right = 0;
+        byte topright = 0;
+        byte top = 0;
+        byte center = 0;
+        int y = 0;
+        int x = 0;
+        double speed = 0.0D;
+        this.bounciness = this.somethingSpeedThing = 1.0D;
         int var38 = 0;
 
         do {
-            long var39 = System.currentTimeMillis();
+            long time = System.currentTimeMillis();
 
-            for (int var41 = 0; var41 < this.anInt2809; ++var41) {
-                var13[var41] = this.playerX[var41];
-                var14[var41] = this.playerY[var41];
+            for (int i = 0; i < this.playerCount; ++i) {
+                tempCoord3X[i] = this.playerX[i];
+                tempCoord3Y[i] = this.playerY[i];
             }
 
-            int var43;
+            int i;
             int var44;
             for (int var42 = 0; var42 < this.anInt2839; ++var42) {
                 var24 = 0;
 
-                for (var43 = 0; var43 < this.anInt2809; ++var43) {
-                    if (this.aBooleanArray2830[var43] && !this.aSynchronizedBoolArray2831[var43].get()) {
+                for (i = 0; i < this.playerCount; ++i) {
+                    if (this.aBooleanArray2830[i] && !this.onHoleSync[i].get()) {
                         for (var44 = 0; var44 < 10; ++var44) {
-                            this.playerX[var43] += this.aDoubleArray2828[var43] * 0.1D;
-                            this.playerY[var43] += this.aDoubleArray2829[var43] * 0.1D;
-                            if (this.playerX[var43] < 6.6D) {
-                                this.playerX[var43] = 6.6D;
+
+                            //this moves player
+                            this.playerX[i] += this.speedX[i] * 0.1D;
+                            this.playerY[i] += this.speedY[i] * 0.1D;
+
+                            //check if player is going off the map
+                            if (this.playerX[i] < 6.6D) {
+                                this.playerX[i] = 6.6D;
                             }
 
-                            if (this.playerX[var43] >= 727.9D) {
-                                this.playerX[var43] = 727.9D;
+                            if (this.playerX[i] >= 727.9D) {
+                                this.playerX[i] = 727.9D;
                             }
 
-                            if (this.playerY[var43] < 6.6D) {
-                                this.playerY[var43] = 6.6D;
+                            if (this.playerY[i] < 6.6D) {
+                                this.playerY[i] = 6.6D;
                             }
 
-                            if (this.playerY[var43] >= 367.9D) {
-                                this.playerY[var43] = 367.9D;
+                            if (this.playerY[i] >= 367.9D) {
+                                this.playerY[i] = 367.9D;
                             }
 
-                            int var45;
-                            if (this.anInt2811 == 1 && !var15[var43] && !var16[var43]) {
-                                for (var45 = 0; var45 < this.anInt2809; ++var45) {
-                                    if (var43 != var45 && this.aBooleanArray2830[var45] && !this.aSynchronizedBoolArray2831[var45].get() && !var15[var45] && !var16[var45] && this.method147(var43, var45)) {
-                                        this.aDoubleArray2828[var43] *= 0.75D;
-                                        this.aDoubleArray2829[var43] *= 0.75D;
-                                        this.aDoubleArray2828[var45] *= 0.75D;
-                                        this.aDoubleArray2829[var45] *= 0.75D;
-                                        var24 = 0;
+                            //checks player vs player collision
+                            int anotherPlayer;
+                            if (this.anInt2811 == 1 && !onHole[i] && !onLiquidOrSwamp[i]) {
+                                for (anotherPlayer = 0; anotherPlayer < this.playerCount; ++anotherPlayer) {
+                                    if (i != anotherPlayer && this.aBooleanArray2830[anotherPlayer] && !this.onHoleSync[anotherPlayer].get() && !onHole[anotherPlayer] && !onLiquidOrSwamp[anotherPlayer] && this.handlePlayerCollisions(i, anotherPlayer)) {
+                                      //collision is calculated in another function this just makes it less effective
+                                        this.speedX[i] *= 0.75D;
+                                        this.speedY[i] *= 0.75D;
+                                        this.speedX[anotherPlayer] *= 0.75D;
+                                        this.speedY[anotherPlayer] *= 0.75D;
+                                        var24 = 0; //players moved so we reset this to make sure they move
                                     }
                                 }
                             }
 
-                            var35 = (int) (this.playerX[var43] + 0.5D);
-                            var34 = (int) (this.playerY[var43] + 0.5D);
-                            var33 = super.isSolidArrayIThink[var35][var34];
-                            var32 = super.isSolidArrayIThink[var35][var34 - 6];
-                            var31 = super.isSolidArrayIThink[var35 + anInt2799][var34 - anInt2799];
-                            var30 = super.isSolidArrayIThink[var35 + 6][var34];
-                            var29 = super.isSolidArrayIThink[var35 + anInt2799][var34 + anInt2799];
-                            var28 = super.isSolidArrayIThink[var35][var34 + 6];
-                            var27 = super.isSolidArrayIThink[var35 - anInt2799][var34 + anInt2799];
-                            var26 = super.isSolidArrayIThink[var35 - 6][var34];
-                            var25 = super.isSolidArrayIThink[var35 - anInt2799][var34 - anInt2799];
-                            if (var33 != 12 && var33 != 13) {
-                                var21 = var33 == 14 || var33 == 15;
+                            x = (int) (this.playerX[i] + 0.5D);
+                            y = (int) (this.playerY[i] + 0.5D);
+                            center = super.collisionMap[x][y];
+                            top = super.collisionMap[x][y - 6];
+                            topright = super.collisionMap[x + diagOffset][y - diagOffset];
+                            right = super.collisionMap[x + 6][y];
+                            bottomright = super.collisionMap[x + diagOffset][y + diagOffset];
+                            bottom = super.collisionMap[x][y + 6];
+                            bottomleft = super.collisionMap[x - diagOffset][y + diagOffset];
+                            left = super.collisionMap[x - 6][y];
+                            topleft = super.collisionMap[x - diagOffset][y - diagOffset];
+                            if (center != 12 && center != 13) {
+                                onLiquid = center == 14 || center == 15;
                             } else {
-                                this.aDoubleArray2828[var43] *= 0.97D;
-                                this.aDoubleArray2829[var43] *= 0.97D;
-                                var21 = true;
+                                this.speedX[i] *= 0.97D;
+                                this.speedY[i] *= 0.97D;
+                                onLiquid = true;
                             }
 
-                            var45 = 0;
-
-                            for (int var46 = 32; var46 <= 38; var46 += 2) {
-                                if (var32 == var46 || var31 == var46 || var30 == var46 || var29 == var46 || var28 == var46 || var27 == var46 || var26 == var46 || var25 == var46) {
-                                    ++var45;
-                                    if (!var17[var43]) {
-                                        this.method154((var46 - 32) / 2, var43, var35, var34);
-                                        var17[var43] = true;
+                            int teleCounter = 0;
+                            //32 Blue Teleport Start
+                            //34 Red Teleport Start
+                            //36 Yellow Teleport Start
+                            //38 Green Teleport Start
+                            for (int teleportId = 32; teleportId <= 38; teleportId += 2) {
+                                if (top == teleportId || topright == teleportId || right == teleportId || bottomright == teleportId || bottom == teleportId || bottomleft == teleportId || left == teleportId || topleft == teleportId) {
+                                    ++teleCounter;
+                                    if (!teleported[i]) {
+                                        this.handleTeleport((teleportId - 32) / 2, i, x, y);
+                                        teleported[i] = true;
                                     }
                                 }
                             }
 
-                            if (var45 == 0) {
-                                var17[var43] = false;
+                            if (teleCounter == 0) {
+                                teleported[i] = false;
+                            }
+                            //28 Mine
+                            //30 Big Mine
+                            if (center == 28 || center == 30) {
+                                this.handleMines(center == 30, i, x, y, ballGraphic, canvas);
                             }
 
-                            if (var33 == 28 || var33 == 30) {
-                                this.method155(var33 == 30, var43, var35, var34, var3, var4);
-                            }
-
-                            this.method152(var43, var32, var31, var30, var29, var28, var27, var26, var25, var35, var34, var3, var4);
+                            this.handleWallCollision(i, top, topright, right, bottomright, bottom, bottomleft, left, topleft, x, y, ballGraphic, canvas);
                         }
 
-                        boolean var47 = this.method148(var43, var33);
-                        boolean var48 = false;
-                        if (this.aShortArrayArrayArray2825 != null && !var21 && !var15[var43] && !var16[var43]) {
-                            var48 = this.method149(var43, var35, var34);
+                        boolean isDownhill = this.handleDownhill(i, center);
+                        boolean isAffectedByMagnet = false;
+                        if (this.magnetMap != null && !onLiquid && !onHole[i] && !onLiquidOrSwamp[i]) {
+                            isAffectedByMagnet = this.handleMagnetForce(i, x, y);
                         }
 
-                        var20 = false;
-                        double var49;
-                        if (var33 == 25 || super.isSolidArrayIThink[var35][var34 - 1] == 25 || super.isSolidArrayIThink[var35 + 1][var34] == 25 || super.isSolidArrayIThink[var35][var34 + 1] == 25 || super.isSolidArrayIThink[var35 - 1][var34] == 25) {
-                            var49 = var33 == 25 ? 1.0D : 0.5D;
-                            var20 = true;
-                            int var51 = 0;
-                            if (var32 == 25) {
-                                ++var51;
+                        shouldSpinAroundHole = false;
+                        double holeSpeed;
+                        //25 hole
+                        if (center == 25 || super.collisionMap[x][y - 1] == 25 || super.collisionMap[x + 1][y] == 25 || super.collisionMap[x][y + 1] == 25 || super.collisionMap[x - 1][y] == 25) {
+                            holeSpeed = center == 25 ? 1.0D : 0.5D;
+                            shouldSpinAroundHole = true;
+                            int holeCounter = 0;
+                            if (top == 25) {
+                                ++holeCounter;
                             } else {
-                                this.aDoubleArray2829[var43] += var49 * 0.03D;
+                                this.speedY[i] += holeSpeed * 0.03D;
                             }
 
-                            if (var31 == 25) {
-                                ++var51;
+                            if (topright == 25) {
+                                ++holeCounter;
                             } else {
-                                this.aDoubleArray2829[var43] += var49 * 0.03D * aDouble2798;
-                                this.aDoubleArray2828[var43] -= var49 * 0.03D * aDouble2798;
+                                this.speedY[i] += holeSpeed * 0.03D * magicOffset;
+                                this.speedX[i] -= holeSpeed * 0.03D * magicOffset;
                             }
 
-                            if (var30 == 25) {
-                                ++var51;
+                            if (right == 25) {
+                                ++holeCounter;
                             } else {
-                                this.aDoubleArray2828[var43] -= var49 * 0.03D;
+                                this.speedX[i] -= holeSpeed * 0.03D;
                             }
 
-                            if (var29 == 25) {
-                                ++var51;
+                            if (bottomright == 25) {
+                                ++holeCounter;
                             } else {
-                                this.aDoubleArray2829[var43] -= var49 * 0.03D * aDouble2798;
-                                this.aDoubleArray2828[var43] -= var49 * 0.03D * aDouble2798;
+                                this.speedY[i] -= holeSpeed * 0.03D * magicOffset;
+                                this.speedX[i] -= holeSpeed * 0.03D * magicOffset;
                             }
 
-                            if (var28 == 25) {
-                                ++var51;
+                            if (bottom == 25) {
+                                ++holeCounter;
                             } else {
-                                this.aDoubleArray2829[var43] -= var49 * 0.03D;
+                                this.speedY[i] -= holeSpeed * 0.03D;
                             }
 
-                            if (var27 == 25) {
-                                ++var51;
+                            if (bottomleft == 25) {
+                                ++holeCounter;
                             } else {
-                                this.aDoubleArray2829[var43] -= var49 * 0.03D * aDouble2798;
-                                this.aDoubleArray2828[var43] += var49 * 0.03D * aDouble2798;
+                                this.speedY[i] -= holeSpeed * 0.03D * magicOffset;
+                                this.speedX[i] += holeSpeed * 0.03D * magicOffset;
                             }
 
-                            if (var26 == 25) {
-                                ++var51;
+                            if (left == 25) {
+                                ++holeCounter;
                             } else {
-                                this.aDoubleArray2828[var43] += var49 * 0.03D;
+                                this.speedX[i] += holeSpeed * 0.03D;
                             }
 
-                            if (var25 == 25) {
-                                ++var51;
+                            if (topleft == 25) {
+                                ++holeCounter;
                             } else {
-                                this.aDoubleArray2829[var43] += var49 * 0.03D * aDouble2798;
-                                this.aDoubleArray2828[var43] += var49 * 0.03D * aDouble2798;
+                                this.speedY[i] += holeSpeed * 0.03D * magicOffset;
+                                this.speedX[i] += holeSpeed * 0.03D * magicOffset;
                             }
 
-                            if (var51 >= 7) {
-                                var20 = false;
-                                var15[var43] = true;
-                                this.aDoubleArray2828[var43] = this.aDoubleArray2829[var43] = 0.0D;
+                            if (holeCounter >= 7) {
+                                shouldSpinAroundHole = false;
+                                onHole[i] = true;
+                                this.speedX[i] = this.speedY[i] = 0.0D;
                             }
                         }
 
-                        if (var20) {
-                            ++var18[var43];
-                            if (var18[var43] > 500) {
-                                var20 = false;
+                        if (shouldSpinAroundHole) {
+                            ++spinningStuckCounter[i];
+                            if (spinningStuckCounter[i] > 500) {
+                                shouldSpinAroundHole = false;
                             }
                         } else {
-                            var18[var43] = 0;
+                            spinningStuckCounter[i] = 0;
                         }
 
-                        if (!var47 && !var48 && !var20 && !var15[var43] && !var16[var43] && !var21) {
-                            var11[var43] = this.playerX[var43];
-                            var12[var43] = this.playerY[var43];
+                        if (!isDownhill && !isAffectedByMagnet && !shouldSpinAroundHole && !onHole[i] && !onLiquidOrSwamp[i] && !onLiquid) {
+                            tempCoord2X[i] = this.playerX[i];
+                            tempCoord2Y[i] = this.playerY[i];
                         }
 
-                        var36 = Math.sqrt(this.aDoubleArray2828[var43] * this.aDoubleArray2828[var43] + this.aDoubleArray2829[var43] * this.aDoubleArray2829[var43]);
-                        if (var36 > 0.0D) {
-                            double var52 = this.method150(var33, var36);
-                            this.aDoubleArray2828[var43] *= var52;
-                            this.aDoubleArray2829[var43] *= var52;
-                            var36 *= var52;
-                            if (var36 > 7.0D) {
-                                var49 = 7.0D / var36;
-                                this.aDoubleArray2828[var43] *= var49;
-                                this.aDoubleArray2829[var43] *= var49;
-                                var36 *= var49;
+                        speed = Math.sqrt(this.speedX[i] * this.speedX[i] + this.speedY[i] * this.speedY[i]);
+                        if (speed > 0.0D) {
+                            double var52 = this.calculateFriction(center, speed);
+                            this.speedX[i] *= var52;
+                            this.speedY[i] *= var52;
+                            speed *= var52;
+                            if (speed > 7.0D) {
+                                holeSpeed = 7.0D / speed;
+                                this.speedX[i] *= holeSpeed;
+                                this.speedY[i] *= holeSpeed;
+                                speed *= holeSpeed;
                             }
                         }
 
-                        if (var5 > 4000) {
-                            this.aDouble2819 = 0.0D;
-                            if (var5 > 7000) {
-                                var48 = false;
-                                var47 = false;
-                                var36 = 0.0D;
+                        if (loopStuckCounter > 4000) {
+                            this.bounciness = 0.0D;
+                            if (loopStuckCounter > 7000) {
+                                isAffectedByMagnet = false;
+                                isDownhill = false;
+                                speed = 0.0D;
                             }
                         }
 
-                        if (var47 && var36 < 0.22499999999999998D) {
-                            ++var7[var43];
-                            if (var7[var43] >= 250) {
-                                var47 = false;
-                            }
-                        } else {
-                            var7[var43] = 0;
-                        }
-
-                        if (var48 && var36 < 0.22499999999999998D) {
-                            ++var6[var43];
-                            if (var6[var43] >= 150) {
-                                var48 = false;
+                        if (isDownhill && speed < 0.22499999999999998D) {
+                            ++downhillStuckCounter[i];
+                            if (downhillStuckCounter[i] >= 250) {
+                                isDownhill = false;
                             }
                         } else {
-                            var6[var43] = 0;
+                            downhillStuckCounter[i] = 0;
                         }
 
-                        if (var36 < 0.075D && !var47 && !var48 && !var20 && !var15[var43] && !var16[var43]) {
-                            this.aDoubleArray2828[var43] = this.aDoubleArray2829[var43] = 0.0D;
-                            if (var33 != 12 && var33 != 14 && var33 != 13 && var33 != 15) {
+                        if (isAffectedByMagnet && speed < 0.22499999999999998D) {
+                            ++magnetStuckCounter[i];
+                            if (magnetStuckCounter[i] >= 150) {
+                                isAffectedByMagnet = false;
+                            }
+                        } else {
+                            magnetStuckCounter[i] = 0;
+                        }
+
+                        if (speed < 0.075D && !isDownhill && !isAffectedByMagnet && !shouldSpinAroundHole && !onHole[i] && !onLiquidOrSwamp[i]) {
+                            this.speedX[i] = this.speedY[i] = 0.0D;
+                            if (center != 12 && center != 14 && center != 13 && center != 15) {
                                 ++var24;
                             } else {
-                                var16[var43] = true;
+                                onLiquidOrSwamp[i] = true;
                             }
                         }
 
-                        if (var15[var43] || var16[var43]) {
-                            var10[var43] += 0.1D;
-                            if (var15[var43] && var10[var43] > 2.1666666666666665D || var16[var43] && var10[var43] > 6.0D) {
-                                if (var33 == 25) {
-                                    this.aSynchronizedBoolArray2831[var43].set(true);
-                                    if (this.aBoolean2832 && this.anInt2809 > 1) {
+                        if (onHole[i] || onLiquidOrSwamp[i]) {
+                            var10[i] += 0.1D;
+                            if (onHole[i] && var10[i] > 2.1666666666666665D || onLiquidOrSwamp[i] && var10[i] > 6.0D) {
+                              //25 hole
+                                if (center == 25) {
+                                    this.onHoleSync[i].set(true);
+                                    if (this.isLocalPlayer && this.playerCount > 1) {
                                         super.gameContainer.gamePanel.hideSkipButton();
                                     }
                                 } else {
-                                    if (var33 == 12 || var33 == 14) {
-                                        this.playerX[var43] = this.anInt2810 == 0 ? var8[var43] : var11[var43];
-                                        this.playerY[var43] = this.anInt2810 == 0 ? var9[var43] : var12[var43];
+                                  //water 12
+                                  //water swamp 14
+                                    if (center == 12 || center == 14) {
+                                        this.playerX[i] = this.onShoreSetting == 0 ? tempCoordX[i] : tempCoord2X[i];
+                                        this.playerY[i] = this.onShoreSetting == 0 ? tempCoordY[i] : tempCoord2Y[i];
                                     }
 
-                                    if (var33 == 13 || var33 == 15) {
-                                        this.method145(var43, false);
+                                    //13 acid
+                                    //15 acid swamp
+                                    if (center == 13 || center == 15) {
+                                        this.resetPosition(i, false);
                                     }
 
-                                    var10[var43] = 0.0D;
+                                    var10[i] = 0.0D;
                                 }
 
-                                var15[var43] = var16[var43] = false;
+                                onHole[i] = onLiquidOrSwamp[i] = false;
                                 ++var24;
                             }
                         }
@@ -449,68 +466,68 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
                     }
                 }
 
-                ++var5;
-                if (var24 >= this.anInt2809) {
+                ++loopStuckCounter;
+                if (var24 >= this.playerCount) {
                     var42 = this.anInt2839;
                 }
             }
 
-            for (var43 = 0; var43 < this.anInt2809; ++var43) {
-                if (this.aBooleanArray2830[var43]) {
-                    int var54 = (int) (var13[var43] - 6.5D + 0.5D);
-                    int var55 = (int) (var14[var43] - 6.5D + 0.5D);
-                    int var56 = var54 + 13;
-                    int var57 = var55 + 13;
-                    var3.drawImage(var2, var54, var55, var56, var57, var54, var55, var56, var57, this);
+            for (i = 0; i < this.playerCount; ++i) {
+                if (this.aBooleanArray2830[i]) {
+                    int x1 = (int) (tempCoord3X[i] - 6.5D + 0.5D);
+                    int y1 = (int) (tempCoord3Y[i] - 6.5D + 0.5D);
+                    int x2 = x1 + 13;
+                    int y2 = y1 + 13;
+                    ballGraphic.drawImage(var2, x1, y1, x2, y2, x1, y1, x2, y2, this);
 
-                    for (var44 = 0; var44 < this.anInt2809; ++var44) {
+                    for (var44 = 0; var44 < this.playerCount; ++var44) {
                         if (this.aBooleanArray2830[var44] && var44 != this.currentPlayerID) {
-                            this.method161(var3, var44, var10[var44]);
+                            this.drawPlayerInfo(ballGraphic, var44, var10[var44]);
                         }
                     }
 
-                    this.method161(var3, this.currentPlayerID, var10[this.currentPlayerID]);
-                    if (this.playerX[var43] < var13[var43]) {
-                        var54 = (int) (this.playerX[var43] - 6.5D + 0.5D);
+                    this.drawPlayerInfo(ballGraphic, this.currentPlayerID, var10[this.currentPlayerID]);
+                    if (this.playerX[i] < tempCoord3X[i]) {
+                        x1 = (int) (this.playerX[i] - 6.5D + 0.5D);
                     }
 
-                    if (this.playerX[var43] > var13[var43]) {
-                        var56 = (int) (this.playerX[var43] - 6.5D + 0.5D) + 13;
+                    if (this.playerX[i] > tempCoord3X[i]) {
+                        x2 = (int) (this.playerX[i] - 6.5D + 0.5D) + 13;
                     }
 
-                    if (this.playerY[var43] < var14[var43]) {
-                        var55 = (int) (this.playerY[var43] - 6.5D + 0.5D);
+                    if (this.playerY[i] < tempCoord3Y[i]) {
+                        y1 = (int) (this.playerY[i] - 6.5D + 0.5D);
                     }
 
-                    if (this.playerY[var43] > var14[var43]) {
-                        var57 = (int) (this.playerY[var43] - 6.5D + 0.5D) + 13;
+                    if (this.playerY[i] > tempCoord3Y[i]) {
+                        y2 = (int) (this.playerY[i] - 6.5D + 0.5D) + 13;
                     }
 
-                    var4.drawImage(var1, var54, var55, var56, var57, var54, var55, var56, var57, this);
+                    canvas.drawImage(ballImage, x1, y1, x2, y2, x1, y1, x2, y2, this);
                 }
             }
 
-            var39 = System.currentTimeMillis() - var39;
-            long var58 = (long) (6 * this.anInt2839) - var39;
+            time = System.currentTimeMillis() - time; //time to render
+            long var58 = (long) (6 * this.anInt2839) - time;//fps cap ?
             if (var23) {
                 if (var22) {
                     var58 = 0L;
-                } else if (var5 % 100 == 0) {
+                } else if (loopStuckCounter % 100 == 0) {
                     var22 = super.gameContainer.gamePanel.maxFps();
                 }
             }
 
             Tools.sleep(var58);
             var38 = (int) ((long) var38 + var58);
-        } while (var24 < this.anInt2809 && !this.aBoolean2843);
+        } while (var24 < this.playerCount && !this.aBoolean2843);
 
         if (this.aBoolean2843) {
             this.aThread2842 = null;
         } else {
             this.method164(var38);
-            super.gameContainer.gamePanel.sendEndStroke(this.currentPlayerID, this.aSynchronizedBoolArray2831, this.anInt2816);
+            super.gameContainer.gamePanel.sendEndStroke(this.currentPlayerID, this.onHoleSync, this.anInt2816);
             if (this.anInt2816 >= 0) {
-                this.aSynchronizedBoolArray2831[this.anInt2816].set(true);
+                this.onHoleSync[this.anInt2816].set(true);
             }
 
             this.aThread2842 = null;
@@ -528,7 +545,7 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
             double subtractionX = this.playerX[this.currentPlayerID] - (double) x;
             double subtractionY = this.playerY[this.currentPlayerID] - (double) y;
             if (Math.sqrt(subtractionX * subtractionX + subtractionY * subtractionY) >= 6.5D) {
-                this.doHackedStroke(this.currentPlayerID, true, x, y, this.keyCountMod4);
+                this.doHackedStroke(this.currentPlayerID, true, x, y, this.shootingMode);
                 this.repaint();
             }
         }
@@ -552,7 +569,7 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
     public synchronized void mousePressed(MouseEvent event) {
         if (this.gameState == 1) {
             if (event.isMetaDown()) {
-                this.keyCountMod4 = (this.keyCountMod4 + 1) % 4;
+                this.shootingMode = (this.shootingMode + 1) % 4;
                 this.repaint();
             } else {
                 int x = event.getX();
@@ -561,15 +578,16 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
                 this.mouseY = y;
                 double subtractionX = this.playerX[this.currentPlayerID] - (double) x;
                 double subtractionY = this.playerY[this.currentPlayerID] - (double) y;
+                //checks if mouse is on own ball
                 if (Math.sqrt(subtractionX * subtractionX + subtractionY * subtractionY) >= 6.5D) {
                     this.removeMouseMotionListener(this);
                     this.removeMouseListener(this);
                     this.removeKeyListener(this);
                     this.setCursor(cursorDefault);
                     if (super.gameContainer.gamePanel.canStroke(true)) {
-                        super.gameContainer.gamePanel.setBeginStroke(this.currentPlayerID, x, y, this.keyCountMod4);
+                        super.gameContainer.gamePanel.setBeginStroke(this.currentPlayerID, x, y, this.shootingMode);
                         //this.doHackedStroke(this.currentPlayerID, true, x, y, this.keyCountMod4);
-                        this.doStroke(this.currentPlayerID, true, x, y, this.keyCountMod4);
+                        this.doStroke(this.currentPlayerID, true, x, y, this.shootingMode);
                     }
                 }
 
@@ -595,14 +613,14 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
                 isCheating = !isCheating;
             } else {
                 if (this.gameState == 1) {
-                    this.keyCountMod4 = (this.keyCountMod4 + 1) % 4;
+                    this.shootingMode = (this.shootingMode + 1) % 4;
                     this.repaint();
                 }
             }
         }
 
         if (this.gameState == 1) {
-            this.keyCountMod4 = (this.keyCountMod4 + 1) % 4;
+            this.shootingMode = (this.shootingMode + 1) % 4;
             this.repaint();
         }
     }
@@ -614,17 +632,17 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
     }
 
     protected void method132(int var1, int var2, int var3) {
-        this.anInt2809 = var1;
-        this.anInt2810 = var2;
+        this.playerCount = var1;
+        this.onShoreSetting = var2;
         this.anInt2811 = var3;
         this.playerX = new double[var1];
         this.playerY = new double[var1];
-        this.aDoubleArray2828 = new double[var1];
-        this.aDoubleArray2829 = new double[var1];
-        this.aSynchronizedBoolArray2831 = new SynchronizedBool[var1];
+        this.speedX = new double[var1];
+        this.speedY = new double[var1];
+        this.onHoleSync = new SynchronizedBool[var1];
 
         for (int var4 = 0; var4 < var1; ++var4) {
-            this.aSynchronizedBoolArray2831[var4] = new SynchronizedBool();
+            this.onHoleSync[var4] = new SynchronizedBool();
         }
 
         this.aBooleanArray2830 = new boolean[var1];
@@ -665,131 +683,149 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
             }
         }
 
-        Vector var40 = new Vector();
-        this.aDoubleArray2821 = new double[4];
-        this.aDoubleArray2822 = new double[4];
-        this.aVectorArray2824 = new Vector[4];
-        this.aVectorArray2823 = new Vector[4];
-        Vector var41 = new Vector();
+        Vector startPosition = new Vector();
+        this.resetPositionX = new double[4];
+        this.resetPositionY = new double[4];
+        this.teleportExists = new Vector[4];
+        this.teleportStarts = new Vector[4];
+        Vector magnetVec = new Vector();
 
         for (var10 = 0; var10 < 4; ++var10) {
-            this.aDoubleArray2821[var10] = this.aDoubleArray2822[var10] = -1.0D;
-            this.aVectorArray2824[var10] = new Vector();
-            this.aVectorArray2823[var10] = new Vector();
+            this.resetPositionX[var10] = this.resetPositionY[var10] = -1.0D;
+            this.teleportExists[var10] = new Vector();
+            this.teleportStarts[var10] = new Vector();
         }
 
         int x;
-        double[] var19;
+        double[] element;
         // Iterates over the 49*25 map
         for (int y = 0; y < 25; ++y) {
             for (x = 0; x < 49; ++x) {
                 if (super.trackTiles[x][y] / 16777216 == 2) {
                     int var14 = super.trackTiles[x][y] / 65536 % 256 + 24;
-                    double var15 = (double) (x * 15) + 7.5D;
-                    double var17 = (double) (y * 15) + 7.5D;
+                    double screenX = (double) (x * 15) + 7.5D;
+                    double screenY = (double) (y * 15) + 7.5D;
+                    //24 startPosition
                     if (var14 == 24) {
-                        var19 = new double[]{var15, var17};
-                        var40.addElement(var19);
+                        element = new double[]{screenX, screenY};
+                        startPosition.addElement(element);
                     }
-
+                    //48 Teleport Start Blue
+                    //49 Teleport Start Red
+                    //50 Teleport Start Yellow
+                    //51 Teleport Start Green
                     if (var14 >= 48 && var14 <= 51) {
-                        this.aDoubleArray2821[var14 - 48] = var15;
-                        this.aDoubleArray2822[var14 - 48] = var17;
+                        this.resetPositionX[var14 - 48] = screenX;
+                        this.resetPositionY[var14 - 48] = screenY;
                     }
 
                     int var20;
+                    //33 Teleport Exit Blue
+                    //35 Teleport Exit Red
+                    //37 Teleport Exit Yellow
+                    //39 Teleport Exit Green
                     if (var14 == 33 || var14 == 35 || var14 == 37 || var14 == 39) {
                         var20 = (var14 - 33) / 2;
-                        var19 = new double[]{var15, var17};
-                        this.aVectorArray2824[var20].addElement(var19);
+                        element = new double[]{screenX, screenY};
+                        this.teleportExists[var20].addElement(element);
                     }
 
+                    //33 Teleport Start Blue
+                    //35 Teleport Start Red
+                    //37 Teleport Start Yellow
+                    //39 Teleport Start Green
                     if (var14 == 32 || var14 == 34 || var14 == 36 || var14 == 38) {
                         var20 = (var14 - 32) / 2;
-                        var19 = new double[]{var15, var17};
-                        this.aVectorArray2823[var20].addElement(var19);
+                        element = new double[]{screenX, screenY};
+                        this.teleportStarts[var20].addElement(element);
                     }
 
+                    //44 magnet attract
+                    //45 magnet repel
                     if (var14 == 44 || var14 == 45) {
-                        int[] var43 = new int[]{(int) (var15 + 0.5D), (int) (var17 + 0.5D), var14};
-                        var41.addElement(var43);
+                        int[] var43 = new int[]{(int) (screenX + 0.5D), (int) (screenY + 0.5D), var14};
+                        magnetVec.addElement(var43);
                     }
                 }
             }
         }
 
-        x = var40.size();
+        x = startPosition.size();
         if (x == 0) {
             this.aDouble2817 = this.aDouble2818 = -1.0D;
         } else {
-            var19 = (double[]) var40.elementAt(var3 % x);
-            this.aDouble2817 = var19[0];
-            this.aDouble2818 = var19[1];
+            element = (double[]) startPosition.elementAt(var3 % x);
+            this.aDouble2817 = element[0];
+            this.aDouble2818 = element[1];
         }
 
-        int var42 = var41.size();
-        if (var42 == 0) {
-            this.aShortArrayArrayArray2825 = null;
+        int magnetVecLen = magnetVec.size();
+        if (magnetVecLen == 0) {
+            this.magnetMap = null;
         } else {
-            this.aShortArrayArrayArray2825 = new short[147][75][2];
+            this.magnetMap = new short[147][75][2];
 
-            for (int var21 = 2; var21 < 375; var21 += 5) {
-                for (int var22 = 2; var22 < 735; var22 += 5) {
-                    double var23 = 0.0D;
-                    double var25 = 0.0D;
+            //magnet map is 5times smaller than real one
+            for (int magnetLoopY = 2; magnetLoopY < 375; magnetLoopY += 5) {
+                for (int magnetLoopX = 2; magnetLoopX < 735; magnetLoopX += 5) {
+                    double forceTempY = 0.0D;
+                    double forceTempX = 0.0D;
 
-                    for (int var27 = 0; var27 < var42; ++var27) {
-                        int[] var28 = (int[]) var41.elementAt(var27);
-                        double var29 = (double) (var28[0] - var22);
-                        double var31 = (double) (var28[1] - var21);
-                        double var33 = Math.sqrt(var29 * var29 + var31 * var31);
-                        if (var33 <= 127.0D) {
-                            double var35 = Math.abs(var29) / var33;
-                            var33 = 127.0D - var33;
-                            var29 = (var29 < 0.0D ? -1.0D : 1.0D) * var33 * var35;
-                            var31 = (var31 < 0.0D ? -1.0D : 1.0D) * var33 * (1.0D - var35);
-                            if (var28[2] == 45) {
-                                var29 = -var29;
-                                var31 = -var31;
+                    for (int magnetIndex = 0; magnetIndex < magnetVecLen; ++magnetIndex) {
+                        // [ x, y, blockid ]
+                        int[] magnet = (int[]) magnetVec.elementAt(magnetIndex);
+                        double forceTemp2X = (double) (magnet[0] - magnetLoopX);
+                        double forcetemp2Y = (double) (magnet[1] - magnetLoopY);
+                        double force = Math.sqrt(forceTemp2X * forceTemp2X + forcetemp2Y * forcetemp2Y);
+                        if (force <= 127.0D) {
+                            double var35 = Math.abs(forceTemp2X) / force;
+                            force = 127.0D - force;
+                            forceTemp2X = (forceTemp2X < 0.0D ? -1.0D : 1.0D) * force * var35;
+                            forcetemp2Y = (forcetemp2Y < 0.0D ? -1.0D : 1.0D) * force * (1.0D - var35);
+                            //45 Magnet Repel
+                            if (magnet[2] == 45) {
+                                forceTemp2X = -forceTemp2X;
+                                forcetemp2Y = -forcetemp2Y;
                             }
 
-                            var25 += var29;
-                            var23 += var31;
+                            forceTempX += forceTemp2X;
+                            forceTempY += forcetemp2Y;
                         }
                     }
 
-                    int var37 = (int) var25;
-                    int var38 = (int) var23;
-                    if (var37 < -0x7ff) {
-                        var37 = -0x7ff;
+                    int forceX = (int) forceTempX;
+                    int forceY = (int) forceTempY;
+                    //clamp value to what short can hold
+                    if (forceX < -0x7ff) {
+                        forceX = -0x7ff;
                     }
 
-                    if (var37 > 0x7ff) {
-                        var37 = 0x7ff;
+                    if (forceX > 0x7ff) {
+                        forceX = 0x7ff;
                     }
 
-                    if (var38 < -0x7ff) {
-                        var38 = -0x7ff;
+                    if (forceY < -0x7ff) {
+                        forceY = -0x7ff;
                     }
 
-                    if (var38 > 0x7ff) {
-                        var38 = 0x7ff;
+                    if (forceY > 0x7ff) {
+                        forceY = 0x7ff;
                     }
 
-                    this.aShortArrayArrayArray2825[var22 / 5][var21 / 5][0] = (short) var37;
-                    this.aShortArrayArrayArray2825[var22 / 5][var21 / 5][1] = (short) var38;
+                    this.magnetMap[magnetLoopX / 5][magnetLoopY / 5][0] = (short) forceX;
+                    this.magnetMap[magnetLoopX / 5][magnetLoopY / 5][1] = (short) forceY;
                 }
             }
         }
 
-        for (int var39 = 0; var39 < this.anInt2809; ++var39) {
-            this.aBooleanArray2834[var39] = true;
-            this.method145(var39, true);
-            this.aSynchronizedBoolArray2831[var39].set(false);
-            this.aBooleanArray2830[var39] = var2.charAt(var39) == 't';
+        for (int i = 0; i < this.playerCount; ++i) {
+            this.aBooleanArray2834[i] = true;
+            this.resetPosition(i, true);
+            this.onHoleSync[i].set(false);
+            this.aBooleanArray2830[i] = var2.charAt(i) == 't';
         }
 
-        this.aSeed_2836 = new Seed((long) var3);
+        this.rngSeed = new Seed((long) var3);
         this.repaint();
         return var4;
     }
@@ -798,11 +834,11 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
         return this.aString2835 != null;
     }
 
-    protected void method135(int var1, boolean var2, boolean var3) {
-        this.currentPlayerID = var1;
-        this.aBooleanArray2834[var1] = true;
+    protected void startTurn(int playerId, boolean var2, boolean var3) {
+        this.currentPlayerID = playerId;
+        this.aBooleanArray2834[playerId] = true;
         this.mouseX = this.mouseY = -1;
-        this.keyCountMod4 = 0;
+        this.shootingMode = 0;
         if (var2) {
             this.method162(var3);
             this.gameState = 1;
@@ -840,7 +876,7 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
     }
 
     protected boolean getSynchronizedBool(int index) {
-        return this.aSynchronizedBoolArray2831[index].get();
+        return this.onHoleSync[index].get();
     }
 
     protected void restartGame() {
@@ -887,33 +923,33 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
 
     private void doStroke(int playerId, boolean isLocalPlayer, int mouseX, int mouseY, int mod) {
         this.anInt2816 = super.gameContainer.gamePanel.isValidPlayerID(playerId) ? playerId : -1;
-        double[] var6 = this.method146(playerId, mouseX, mouseY);
-        this.aDoubleArray2828[playerId] = var6[0];
-        this.aDoubleArray2829[playerId] = var6[1];
+        double[] power = this.getStrokePower(playerId, mouseX, mouseY);
+        this.speedX[playerId] = power[0];
+        this.speedY[playerId] = power[1];
         if (mod == 1) {
-            this.aDoubleArray2828[playerId] = -this.aDoubleArray2828[playerId];
-            this.aDoubleArray2829[playerId] = -this.aDoubleArray2829[playerId];
+            this.speedX[playerId] = -this.speedX[playerId];
+            this.speedY[playerId] = -this.speedY[playerId];
         }
 
-        double var7;
+        double temp;
         if (mod == 2) {
-            var7 = this.aDoubleArray2828[playerId];
-            this.aDoubleArray2828[playerId] = this.aDoubleArray2829[playerId];
-            this.aDoubleArray2829[playerId] = -var7;
+            temp = this.speedX[playerId];
+            this.speedX[playerId] = this.speedY[playerId];
+            this.speedY[playerId] = -temp;
         }
 
         if (mod == 3) {
-            var7 = this.aDoubleArray2828[playerId];
-            this.aDoubleArray2828[playerId] = -this.aDoubleArray2829[playerId];
-            this.aDoubleArray2829[playerId] = var7;
+            temp = this.speedX[playerId];
+            this.speedX[playerId] = -this.speedY[playerId];
+            this.speedY[playerId] = temp;
         }
 
-        var7 = Math.sqrt(this.aDoubleArray2828[playerId] * this.aDoubleArray2828[playerId] + this.aDoubleArray2829[playerId] * this.aDoubleArray2829[playerId]);
-        double var9 = var7 / 6.5D;
-        var9 *= var9;
-        this.aDoubleArray2828[playerId] += var9 * ((double) (this.aSeed_2836.next() % '\uc351') / 100000.0D - 0.25D);
-        this.aDoubleArray2829[playerId] += var9 * ((double) (this.aSeed_2836.next() % '\uc351') / 100000.0D - 0.25D);
-        this.aBoolean2832 = isLocalPlayer;
+        temp = Math.sqrt(this.speedX[playerId] * this.speedX[playerId] + this.speedY[playerId] * this.speedY[playerId]);
+        double speed = temp / 6.5D;
+        speed *= speed;
+        this.speedX[playerId] += speed * ((double) (this.rngSeed.next() % '\uc351') / 100000.0D - 0.25D);
+        this.speedY[playerId] += speed * ((double) (this.rngSeed.next() % '\uc351') / 100000.0D - 0.25D);
+        this.isLocalPlayer = isLocalPlayer;
         this.gameState = 2;
         this.aBoolean2843 = false;
 
@@ -922,15 +958,15 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
     }
 
     private void doHackedStroke(int playerId, boolean isLocalPlayer, int mouseX, int mouseY, int mod) {
-        double[] temp_aDoubleArray2828 = Arrays.copyOf(aDoubleArray2828, aDoubleArray2828.length);
-        double[] temp_aDoubleArray2829 = Arrays.copyOf(aDoubleArray2829, aDoubleArray2829.length);
-        boolean temp_aBoolean2832 = this.aBoolean2832;
+        double[] temp_aDoubleArray2828 = Arrays.copyOf(speedX, speedX.length);
+        double[] temp_aDoubleArray2829 = Arrays.copyOf(speedY, speedY.length);
+        boolean temp_aBoolean2832 = this.isLocalPlayer;
         boolean temp_aBoolean2843 = this.aBoolean2843;
-        Seed temp_aSeed_2836 = aSeed_2836.clone();
+        Seed temp_aSeed_2836 = rngSeed.clone();
        // int temp_anInt2816 = super.gameContainer.gamePanel.isValidPlayerID(playerId) ? playerId : -1;
        int temp_anInt2816 = playerId;
 
-        double[] var6 = method146(playerId, mouseX, mouseY);
+        double[] var6 = getStrokePower(playerId, mouseX, mouseY);
         temp_aDoubleArray2828[playerId] = var6[0];
         temp_aDoubleArray2829[playerId] = var6[1];
         if (mod == 1) {
@@ -961,11 +997,11 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
         temp_aBoolean2843 = false;
 
 
-        HackedShot hs = new HackedShot(anInt2809, anInt2810, anInt2811, currentPlayerID, temp_anInt2816,
-                aDouble2817, aDouble2818, aDouble2819, aDouble2820, aDoubleArray2821, aDoubleArray2822,
-                aVectorArray2823, aVectorArray2824, aShortArrayArrayArray2825, playerX, playerY, temp_aDoubleArray2828,
-                temp_aDoubleArray2829, aBooleanArray2830, aSynchronizedBoolArray2831, temp_aBoolean2832, aBooleanArray2834,
-                temp_aSeed_2836, anInt2839, temp_aBoolean2843, super.isSolidArrayIThink, super.trackTiles);
+        HackedShot hs = new HackedShot(playerCount, onShoreSetting, anInt2811, currentPlayerID, temp_anInt2816,
+                aDouble2817, aDouble2818, bounciness, somethingSpeedThing, resetPositionX, resetPositionY,
+                teleportStarts, teleportExists, magnetMap, playerX, playerY, temp_aDoubleArray2828,
+                temp_aDoubleArray2829, aBooleanArray2830, onHoleSync, temp_aBoolean2832, aBooleanArray2834,
+                temp_aSeed_2836, anInt2839, temp_aBoolean2843, super.collisionMap, super.trackTiles);
         Thread hack = new Thread(hs);
         hack.start();
         try {
@@ -981,24 +1017,24 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
     }
 
 
-    private void method145(int var1, boolean var2) {
-        if (this.aDoubleArray2821[var1] >= 0.0D && this.aDoubleArray2821[var1] >= 0.0D) {
-            this.playerX[var1] = this.aDoubleArray2821[var1];
-            this.playerY[var1] = this.aDoubleArray2822[var1];
+    private void resetPosition(int playerId, boolean var2) {
+        if (this.resetPositionX[playerId] >= 0.0D && this.resetPositionX[playerId] >= 0.0D) {
+            this.playerX[playerId] = this.resetPositionX[playerId];
+            this.playerY[playerId] = this.resetPositionY[playerId];
         } else if (this.aDouble2817 >= 0.0D && this.aDouble2818 >= 0.0D) {
-            this.playerX[var1] = this.aDouble2817;
-            this.playerY[var1] = this.aDouble2818;
+            this.playerX[playerId] = this.aDouble2817;
+            this.playerY[playerId] = this.aDouble2818;
             if (var2) {
-                this.aBooleanArray2834[var1] = false;
+                this.aBooleanArray2834[playerId] = false;
             }
 
         } else {
-            this.playerX[var1] = 367.5D;
-            this.playerY[var1] = 187.5D;
+            this.playerX[playerId] = 367.5D;
+            this.playerY[playerId] = 187.5D;
         }
     }
 
-    private double[] method146(int playerId, int mouseX, int mouseY) {
+    private double[] getStrokePower(int playerId, int mouseX, int mouseY) {
         double subX = this.playerX[playerId] - (double) mouseX;
         double subY = this.playerY[playerId] - (double) mouseY;
         double sqrtXY = Math.sqrt(subX * subX + subY * subY);
@@ -1012,28 +1048,28 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
         }
 
         double var12 = var10 / sqrtXY;
-        double[] var14 = new double[]{((double) mouseX - this.playerX[playerId]) * var12, ((double) mouseY - this.playerY[playerId]) * var12};
-        return var14;
+        double[] power = new double[]{((double) mouseX - this.playerX[playerId]) * var12, ((double) mouseY - this.playerY[playerId]) * var12};
+        return power;
     }
 
-    private boolean method147(int var1, int var2) {
-        double var3 = this.playerX[var2] - this.playerX[var1];
-        double var5 = this.playerY[var2] - this.playerY[var1];
-        double var7 = Math.sqrt(var3 * var3 + var5 * var5);
-        if (var7 != 0.0D && var7 <= 13.0D) {
-            double var9 = var3 / var7;
-            double var11 = var5 / var7;
-            double var13 = this.aDoubleArray2828[var1] * var9 + this.aDoubleArray2829[var1] * var11;
-            double var15 = this.aDoubleArray2828[var2] * var9 + this.aDoubleArray2829[var2] * var11;
-            if (var13 - var15 <= 0.0D) {
+    private boolean handlePlayerCollisions(int player1, int player2) {
+        double x = this.playerX[player2] - this.playerX[player1];
+        double y = this.playerY[player2] - this.playerY[player1];
+        double distance = Math.sqrt(x * x + y * y);
+        if (distance != 0.0D && distance <= 13.0D) {
+            double forceX = x / distance;
+            double forceY = y / distance;
+            double p1Speed = this.speedX[player1] * forceX + this.speedY[player1] * forceY;
+            double p2Speed = this.speedX[player2] * forceX + this.speedY[player2] * forceY;
+            if (p1Speed - p2Speed <= 0.0D) {
                 return false;
             } else {
-                double var17 = -this.aDoubleArray2828[var1] * var11 + this.aDoubleArray2829[var1] * var9;
-                double var19 = -this.aDoubleArray2828[var2] * var11 + this.aDoubleArray2829[var2] * var9;
-                this.aDoubleArray2828[var1] = var15 * var9 - var17 * var11;
-                this.aDoubleArray2829[var1] = var15 * var11 + var17 * var9;
-                this.aDoubleArray2828[var2] = var13 * var9 - var19 * var11;
-                this.aDoubleArray2829[var2] = var13 * var11 + var19 * var9;
+                double var17 = -this.speedX[player1] * forceY + this.speedY[player1] * forceX;
+                double var19 = -this.speedX[player2] * forceY + this.speedY[player2] * forceX;
+                this.speedX[player1] = p2Speed * forceX - var17 * forceY;
+                this.speedY[player1] = p2Speed * forceY + var17 * forceX;
+                this.speedX[player2] = p1Speed * forceX - var19 * forceY;
+                this.speedY[player2] = p1Speed * forceY + var19 * forceX;
                 return true;
             }
         } else {
@@ -1041,42 +1077,42 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
         }
     }
 
-    private boolean method148(int var1, int var2) {
+    private boolean handleDownhill(int var1, int var2) {
         if (var2 >= 4 && var2 <= 11) {
             if (var2 == 4) {
-                this.aDoubleArray2829[var1] -= 0.025D;
+                this.speedY[var1] -= 0.025D;
             }
 
             if (var2 == 5) {
-                this.aDoubleArray2829[var1] -= 0.025D * aDouble2798;
-                this.aDoubleArray2828[var1] += 0.025D * aDouble2798;
+                this.speedY[var1] -= 0.025D * magicOffset;
+                this.speedX[var1] += 0.025D * magicOffset;
             }
 
             if (var2 == 6) {
-                this.aDoubleArray2828[var1] += 0.025D;
+                this.speedX[var1] += 0.025D;
             }
 
             if (var2 == 7) {
-                this.aDoubleArray2829[var1] += 0.025D * aDouble2798;
-                this.aDoubleArray2828[var1] += 0.025D * aDouble2798;
+                this.speedY[var1] += 0.025D * magicOffset;
+                this.speedX[var1] += 0.025D * magicOffset;
             }
 
             if (var2 == 8) {
-                this.aDoubleArray2829[var1] += 0.025D;
+                this.speedY[var1] += 0.025D;
             }
 
             if (var2 == 9) {
-                this.aDoubleArray2829[var1] += 0.025D * aDouble2798;
-                this.aDoubleArray2828[var1] -= 0.025D * aDouble2798;
+                this.speedY[var1] += 0.025D * magicOffset;
+                this.speedX[var1] -= 0.025D * magicOffset;
             }
 
             if (var2 == 10) {
-                this.aDoubleArray2828[var1] -= 0.025D;
+                this.speedX[var1] -= 0.025D;
             }
 
             if (var2 == 11) {
-                this.aDoubleArray2829[var1] -= 0.025D * aDouble2798;
-                this.aDoubleArray2828[var1] -= 0.025D * aDouble2798;
+                this.speedY[var1] -= 0.025D * magicOffset;
+                this.speedX[var1] -= 0.025D * magicOffset;
             }
 
             return true;
@@ -1085,255 +1121,269 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
         }
     }
 
-    private boolean method149(int var1, int var2, int var3) {
-        int var4 = var2 / 5;
-        int var5 = var3 / 5;
-        short var6 = this.aShortArrayArrayArray2825[var4][var5][0];
-        short var7 = this.aShortArrayArrayArray2825[var4][var5][1];
-        if (var6 == 0 && var7 == 0) {
+    private boolean handleMagnetForce(int playerId, int mapX, int mapY) {
+        int magnetX = mapX / 5;
+        int magnetY = mapY / 5;
+        short forceX = this.magnetMap[magnetX][magnetY][0];
+        short forceY = this.magnetMap[magnetX][magnetY][1];
+        if (forceX == 0 && forceY == 0) {
             return false;
         } else {
-            if (this.aDouble2820 > 0.0D) {
-                this.aDouble2820 -= 1.0E-4D;
+            if (this.somethingSpeedThing > 0.0D) {
+                this.somethingSpeedThing -= 1.0E-4D;
             }
 
-            this.aDoubleArray2828[var1] += this.aDouble2820 * (double) var6 * 5.0E-4D;
-            this.aDoubleArray2829[var1] += this.aDouble2820 * (double) var7 * 5.0E-4D;
+            this.speedX[playerId] += this.somethingSpeedThing * (double) forceX * 5.0E-4D;
+            this.speedY[playerId] += this.somethingSpeedThing * (double) forceY * 5.0E-4D;
             return true;
         }
     }
 
-    private double method150(int var1, double var2) {
-        double var4 = this.method151(var1);
-        double var6 = 0.75D * var2 / 6.5D;
-        double var8 = 1.0D - var4;
-        return var4 + var8 * var6;
+    private double calculateFriction(int tile, double speed) {
+        double friction = this.getFriction(tile);
+        double var6 = 0.75D * speed / 6.5D;
+        double var8 = 1.0D - friction;
+        return friction + var8 * var6;
     }
 
-    private double method151(int var1) {
+    private double getFriction(int var1) {
         return var1 != 0 && (var1 < 4 || var1 > 11) && var1 != 19 && var1 != 47 ? (var1 == 1 ? 0.92D : (var1 == 2 ? 0.8D : (var1 != 3 && var1 != 32 && var1 != 34 && var1 != 36 && var1 != 38 ? (var1 != 12 && var1 != 13 ? (var1 != 14 && var1 != 15 ? (var1 >= 20 && var1 <= 23 ? 0.995D : (var1 == 25 ? 0.96D : (var1 != 28 && var1 != 30 ? (var1 != 29 && var1 != 31 ? (var1 == 44 ? 0.9D : 1.0D) : 0.9D) : 1.0D))) : 0.95D) : 0.0D) : 0.9975D))) : 0.9935D;
     }
 
-    private void method152(int var1, int var2, int var3, int var4, int var5, int var6, int var7, int var8, int var9, int var10, int var11, Graphics var12, Graphics var13) {
-        boolean var14 = var2 >= 16 && var2 <= 23 && var2 != 19 || var2 == 27 || var2 >= 40 && var2 <= 43 || var2 == 46;
-        boolean var15 = var3 >= 16 && var3 <= 23 && var3 != 19 || var3 == 27 || var3 >= 40 && var3 <= 43 || var3 == 46;
-        boolean var16 = var4 >= 16 && var4 <= 23 && var4 != 19 || var4 == 27 || var4 >= 40 && var4 <= 43 || var4 == 46;
-        boolean var17 = var5 >= 16 && var5 <= 23 && var5 != 19 || var5 == 27 || var5 >= 40 && var5 <= 43 || var5 == 46;
-        boolean var18 = var6 >= 16 && var6 <= 23 && var6 != 19 || var6 == 27 || var6 >= 40 && var6 <= 43 || var6 == 46;
-        boolean var19 = var7 >= 16 && var7 <= 23 && var7 != 19 || var7 == 27 || var7 >= 40 && var7 <= 43 || var7 == 46;
-        boolean var20 = var8 >= 16 && var8 <= 23 && var8 != 19 || var8 == 27 || var8 >= 40 && var8 <= 43 || var8 == 46;
-        boolean var21 = var9 >= 16 && var9 <= 23 && var9 != 19 || var9 == 27 || var9 >= 40 && var9 <= 43 || var9 == 46;
-        if (var14 && var2 == 20) {
-            var14 = false;
+    private void handleWallCollision(int playerId, int top, int topright, int right, int bottomright, int bottom, int bottomleft, int left, int topleft, int x, int y, Graphics ball, Graphics canvas) {
+        boolean topCollide = top >= 16 && top <= 23 && top != 19 || top == 27 || top >= 40 && top <= 43 || top == 46;
+        boolean toprightCollide = topright >= 16 && topright <= 23 && topright != 19 || topright == 27 || topright >= 40 && topright <= 43 || topright == 46;
+        boolean rightCollide = right >= 16 && right <= 23 && right != 19 || right == 27 || right >= 40 && right <= 43 || right == 46;
+        boolean var17 = bottomright >= 16 && bottomright <= 23 && bottomright != 19 || bottomright == 27 || bottomright >= 40 && bottomright <= 43 || bottomright == 46;
+        boolean bottomCollide = bottom >= 16 && bottom <= 23 && bottom != 19 || bottom == 27 || bottom >= 40 && bottom <= 43 || bottom == 46;
+        boolean bottomleftCollide = bottomleft >= 16 && bottomleft <= 23 && bottomleft != 19 || bottomleft == 27 || bottomleft >= 40 && bottomleft <= 43 || bottomleft == 46;
+        boolean leftcollide = left >= 16 && left <= 23 && left != 19 || left == 27 || left >= 40 && left <= 43 || left == 46;
+        boolean topleftCollide = topleft >= 16 && topleft <= 23 && topleft != 19 || topleft == 27 || topleft >= 40 && topleft <= 43 || topleft == 46;
+        if (topCollide && top == 20) {
+            topCollide = false;
         }
 
-        if (var21 && var9 == 20) {
-            var21 = false;
+        if (topleftCollide && topleft == 20) {
+            topleftCollide = false;
         }
 
-        if (var15 && var3 == 20) {
-            var15 = false;
+        if (toprightCollide && topright == 20) {
+            toprightCollide = false;
         }
 
-        if (var20 && var8 == 20) {
-            var20 = false;
+        if (leftcollide && left == 20) {
+            leftcollide = false;
         }
 
-        if (var16 && var4 == 20) {
-            var16 = false;
+        if (rightCollide && right == 20) {
+            rightCollide = false;
         }
 
-        if (var16 && var4 == 21) {
-            var16 = false;
+        if (rightCollide && right == 21) {
+            rightCollide = false;
         }
 
-        if (var15 && var3 == 21) {
-            var15 = false;
+        if (toprightCollide && topright == 21) {
+            toprightCollide = false;
         }
 
-        if (var17 && var5 == 21) {
+        if (var17 && bottomright == 21) {
             var17 = false;
         }
 
-        if (var14 && var2 == 21) {
-            var14 = false;
+        if (topCollide && top == 21) {
+            topCollide = false;
         }
 
-        if (var18 && var6 == 21) {
-            var18 = false;
+        if (bottomCollide && bottom == 21) {
+            bottomCollide = false;
         }
 
-        if (var18 && var6 == 22) {
-            var18 = false;
+        if (bottomCollide && bottom == 22) {
+            bottomCollide = false;
         }
 
-        if (var17 && var5 == 22) {
+        if (var17 && bottomright == 22) {
             var17 = false;
         }
 
-        if (var19 && var7 == 22) {
-            var19 = false;
+        if (bottomleftCollide && bottomleft == 22) {
+            bottomleftCollide = false;
         }
 
-        if (var16 && var4 == 22) {
-            var16 = false;
+        if (rightCollide && right == 22) {
+            rightCollide = false;
         }
 
-        if (var20 && var8 == 22) {
-            var20 = false;
+        if (leftcollide && left == 22) {
+            leftcollide = false;
         }
 
-        if (var20 && var8 == 23) {
-            var20 = false;
+        if (leftcollide && left == 23) {
+            leftcollide = false;
         }
 
-        if (var19 && var7 == 23) {
-            var19 = false;
+        if (bottomleftCollide && bottomleft == 23) {
+            bottomleftCollide = false;
         }
 
-        if (var21 && var9 == 23) {
-            var21 = false;
+        if (topleftCollide && topleft == 23) {
+            topleftCollide = false;
         }
 
-        if (var18 && var6 == 23) {
-            var18 = false;
+        if (bottomCollide && bottom == 23) {
+            bottomCollide = false;
         }
 
-        if (var14 && var2 == 23) {
-            var14 = false;
+        if (topCollide && top == 23) {
+            topCollide = false;
         }
 
-        if (var14 && var15 && var16 && (var2 < 20 || var2 > 23) && (var3 < 20 || var3 > 23) && (var4 < 20 || var4 > 23)) {
-            var16 = false;
-            var14 = false;
+        if (topCollide && toprightCollide && rightCollide && (top < 20 || top > 23) && (topright < 20 || topright > 23) && (right < 20 || right > 23)) {
+            rightCollide = false;
+            topCollide = false;
         }
 
-        if (var16 && var17 && var18 && (var4 < 20 || var4 > 23) && (var5 < 20 || var5 > 23) && (var6 < 20 || var6 > 23)) {
-            var18 = false;
-            var16 = false;
+        if (rightCollide && var17 && bottomCollide && (right < 20 || right > 23) && (bottomright < 20 || bottomright > 23) && (bottom < 20 || bottom > 23)) {
+            bottomCollide = false;
+            rightCollide = false;
         }
 
-        if (var18 && var19 && var20 && (var6 < 20 || var6 > 23) && (var7 < 20 || var7 > 23) && (var8 < 20 || var8 > 23)) {
-            var20 = false;
-            var18 = false;
+        if (bottomCollide && bottomleftCollide && leftcollide && (bottom < 20 || bottom > 23) && (bottomleft < 20 || bottomleft > 23) && (left < 20 || left > 23)) {
+            leftcollide = false;
+            bottomCollide = false;
         }
 
-        if (var20 && var21 && var14 && (var8 < 20 || var8 > 23) && (var9 < 20 || var9 > 23) && (var2 < 20 || var2 > 23)) {
-            var14 = false;
-            var20 = false;
+        if (leftcollide && topleftCollide && topCollide && (left < 20 || left > 23) && (topleft < 20 || topleft > 23) && (top < 20 || top > 23)) {
+            topCollide = false;
+            leftcollide = false;
         }
 
-        double var22;
-        if (!var14 && !var16 && !var18 && !var20) {
-            double var24;
-            if (var15 && (this.aDoubleArray2828[var1] > 0.0D && this.aDoubleArray2829[var1] < 0.0D || this.aDoubleArray2828[var1] < 0.0D && this.aDoubleArray2829[var1] < 0.0D && -this.aDoubleArray2829[var1] > -this.aDoubleArray2828[var1] || this.aDoubleArray2828[var1] > 0.0D && this.aDoubleArray2829[var1] > 0.0D && this.aDoubleArray2828[var1] > this.aDoubleArray2829[var1])) {
-                var22 = this.method153(var3, var1, var10 + anInt2799, var11 - anInt2799, var12, var13, 1, -1);
-                var24 = this.aDoubleArray2828[var1];
-                this.aDoubleArray2828[var1] = this.aDoubleArray2829[var1] * var22;
-                this.aDoubleArray2829[var1] = var24 * var22;
+        double speedEffect;
+        if (!topCollide && !rightCollide && !bottomCollide && !leftcollide) {
+            double temp;
+            if (toprightCollide && (this.speedX[playerId] > 0.0D && this.speedY[playerId] < 0.0D || this.speedX[playerId] < 0.0D && this.speedY[playerId] < 0.0D && -this.speedY[playerId] > -this.speedX[playerId] || this.speedX[playerId] > 0.0D && this.speedY[playerId] > 0.0D && this.speedX[playerId] > this.speedY[playerId])) {
+                speedEffect = this.getSpeedEffect(topright, playerId, x + diagOffset, y - diagOffset, ball, canvas, 1, -1);
+                temp = this.speedX[playerId];
+                this.speedX[playerId] = this.speedY[playerId] * speedEffect;
+                this.speedY[playerId] = temp * speedEffect;
             }
 
-            if (var17 && (this.aDoubleArray2828[var1] > 0.0D && this.aDoubleArray2829[var1] > 0.0D || this.aDoubleArray2828[var1] > 0.0D && this.aDoubleArray2829[var1] < 0.0D && this.aDoubleArray2828[var1] > -this.aDoubleArray2829[var1] || this.aDoubleArray2828[var1] < 0.0D && this.aDoubleArray2829[var1] > 0.0D && this.aDoubleArray2829[var1] > -this.aDoubleArray2828[var1])) {
-                var22 = this.method153(var5, var1, var10 + anInt2799, var11 + anInt2799, var12, var13, 1, 1);
-                var24 = this.aDoubleArray2828[var1];
-                this.aDoubleArray2828[var1] = -this.aDoubleArray2829[var1] * var22;
-                this.aDoubleArray2829[var1] = -var24 * var22;
+            if (var17 && (this.speedX[playerId] > 0.0D && this.speedY[playerId] > 0.0D || this.speedX[playerId] > 0.0D && this.speedY[playerId] < 0.0D && this.speedX[playerId] > -this.speedY[playerId] || this.speedX[playerId] < 0.0D && this.speedY[playerId] > 0.0D && this.speedY[playerId] > -this.speedX[playerId])) {
+                speedEffect = this.getSpeedEffect(bottomright, playerId, x + diagOffset, y + diagOffset, ball, canvas, 1, 1);
+                temp = this.speedX[playerId];
+                this.speedX[playerId] = -this.speedY[playerId] * speedEffect;
+                this.speedY[playerId] = -temp * speedEffect;
             }
 
-            if (var19 && (this.aDoubleArray2828[var1] < 0.0D && this.aDoubleArray2829[var1] > 0.0D || this.aDoubleArray2828[var1] > 0.0D && this.aDoubleArray2829[var1] > 0.0D && this.aDoubleArray2829[var1] > this.aDoubleArray2828[var1] || this.aDoubleArray2828[var1] < 0.0D && this.aDoubleArray2829[var1] < 0.0D && -this.aDoubleArray2828[var1] > -this.aDoubleArray2829[var1])) {
-                var22 = this.method153(var7, var1, var10 - anInt2799, var11 + anInt2799, var12, var13, -1, 1);
-                var24 = this.aDoubleArray2828[var1];
-                this.aDoubleArray2828[var1] = this.aDoubleArray2829[var1] * var22;
-                this.aDoubleArray2829[var1] = var24 * var22;
+            if (bottomleftCollide && (this.speedX[playerId] < 0.0D && this.speedY[playerId] > 0.0D || this.speedX[playerId] > 0.0D && this.speedY[playerId] > 0.0D && this.speedY[playerId] > this.speedX[playerId] || this.speedX[playerId] < 0.0D && this.speedY[playerId] < 0.0D && -this.speedX[playerId] > -this.speedY[playerId])) {
+                speedEffect = this.getSpeedEffect(bottomleft, playerId, x - diagOffset, y + diagOffset, ball, canvas, -1, 1);
+                temp = this.speedX[playerId];
+                this.speedX[playerId] = this.speedY[playerId] * speedEffect;
+                this.speedY[playerId] = temp * speedEffect;
             }
 
-            if (var21 && (this.aDoubleArray2828[var1] < 0.0D && this.aDoubleArray2829[var1] < 0.0D || this.aDoubleArray2828[var1] < 0.0D && this.aDoubleArray2829[var1] > 0.0D && -this.aDoubleArray2828[var1] > this.aDoubleArray2829[var1] || this.aDoubleArray2828[var1] > 0.0D && this.aDoubleArray2829[var1] < 0.0D && -this.aDoubleArray2829[var1] > this.aDoubleArray2828[var1])) {
-                var22 = this.method153(var9, var1, var10 - anInt2799, var11 - anInt2799, var12, var13, -1, -1);
-                var24 = this.aDoubleArray2828[var1];
-                this.aDoubleArray2828[var1] = -this.aDoubleArray2829[var1] * var22;
-                this.aDoubleArray2829[var1] = -var24 * var22;
+            if (topleftCollide && (this.speedX[playerId] < 0.0D && this.speedY[playerId] < 0.0D || this.speedX[playerId] < 0.0D && this.speedY[playerId] > 0.0D && -this.speedX[playerId] > this.speedY[playerId] || this.speedX[playerId] > 0.0D && this.speedY[playerId] < 0.0D && -this.speedY[playerId] > this.speedX[playerId])) {
+                speedEffect = this.getSpeedEffect(topleft, playerId, x - diagOffset, y - diagOffset, ball, canvas, -1, -1);
+                temp = this.speedX[playerId];
+                this.speedX[playerId] = -this.speedY[playerId] * speedEffect;
+                this.speedY[playerId] = -temp * speedEffect;
             }
         } else {
-            if (var14 && this.aDoubleArray2829[var1] < 0.0D) {
-                var22 = this.method153(var2, var1, var10, var11 - 6, var12, var13, 0, -1);
-                this.aDoubleArray2828[var1] *= var22;
-                this.aDoubleArray2829[var1] *= -var22;
-            } else if (var18 && this.aDoubleArray2829[var1] > 0.0D) {
-                var22 = this.method153(var6, var1, var10, var11 + 6, var12, var13, 0, 1);
-                this.aDoubleArray2828[var1] *= var22;
-                this.aDoubleArray2829[var1] *= -var22;
+            if (topCollide && this.speedY[playerId] < 0.0D) {
+                speedEffect = this.getSpeedEffect(top, playerId, x, y - 6, ball, canvas, 0, -1);
+                this.speedX[playerId] *= speedEffect;
+                this.speedY[playerId] *= -speedEffect;
+            } else if (bottomCollide && this.speedY[playerId] > 0.0D) {
+                speedEffect = this.getSpeedEffect(bottom, playerId, x, y + 6, ball, canvas, 0, 1);
+                this.speedX[playerId] *= speedEffect;
+                this.speedY[playerId] *= -speedEffect;
             }
 
-            if (var16 && this.aDoubleArray2828[var1] > 0.0D) {
-                var22 = this.method153(var4, var1, var10 + 6, var11, var12, var13, 1, 0);
-                this.aDoubleArray2828[var1] *= -var22;
-                this.aDoubleArray2829[var1] *= var22;
+            if (rightCollide && this.speedX[playerId] > 0.0D) {
+                speedEffect = this.getSpeedEffect(right, playerId, x + 6, y, ball, canvas, 1, 0);
+                this.speedX[playerId] *= -speedEffect;
+                this.speedY[playerId] *= speedEffect;
                 return;
             }
 
-            if (var20 && this.aDoubleArray2828[var1] < 0.0D) {
-                var22 = this.method153(var8, var1, var10 - 6, var11, var12, var13, -1, 0);
-                this.aDoubleArray2828[var1] *= -var22;
-                this.aDoubleArray2829[var1] *= var22;
+            if (leftcollide && this.speedX[playerId] < 0.0D) {
+                speedEffect = this.getSpeedEffect(left, playerId, x - 6, y, ball, canvas, -1, 0);
+                this.speedX[playerId] *= -speedEffect;
+                this.speedY[playerId] *= speedEffect;
                 return;
             }
         }
 
     }
 
-    private double method153(int var1, int var2, int var3, int var4, Graphics var5, Graphics var6, int var7, int var8) {
-        if (var1 == 16) {
+    private double getSpeedEffect(int tileId, int playerId, int x, int y, Graphics ball, Graphics canvas, int offsetX, int offsetY) {
+        //16 Block
+        if (tileId == 16) {
             return 0.81D;
-        } else if (var1 == 17) {
+        //17 Sticky Block
+        } else if (tileId == 17) {
             return 0.05D;
-        } else if (var1 == 18) {
-            if (this.aDouble2819 <= 0.0D) {
+        //18 Bouncy Block
+        } else if (tileId == 18) {
+            if (this.bounciness <= 0.0D) {
                 return 0.84D;
             } else {
-                this.aDouble2819 -= 0.01D;
-                double var9 = Math.sqrt(this.aDoubleArray2828[var2] * this.aDoubleArray2828[var2] + this.aDoubleArray2829[var2] * this.aDoubleArray2829[var2]);
-                return this.aDouble2819 * 6.5D / var9;
+                this.bounciness -= 0.01D;
+                double speed = Math.sqrt(this.speedX[playerId] * this.speedX[playerId] + this.speedY[playerId] * this.speedY[playerId]);
+                return this.bounciness * 6.5D / speed;
             }
-        } else if (var1 != 20 && var1 != 21 && var1 != 22 && var1 != 23) {
-            if (var1 != 27 && var1 != 46) {
-                if (var1 != 40 && var1 != 41 && var1 != 42 && var1 != 43) {
+        //20 Oneway North
+        //21 Oneway East
+        //22 Oneway South
+        //23 Oneway West
+        } else if (tileId != 20 && tileId != 21 && tileId != 22 && tileId != 23) {
+          //27 Moveable Block
+          //46 Sunkable Moveable Block
+            if (tileId != 27 && tileId != 46) {
+              //40 Full Breakable Block
+              //41 Three Quater Breakable Block
+              //42 Half Breakable Block
+              //43 Quater Breakable Block
+                if (tileId != 40 && tileId != 41 && tileId != 42 && tileId != 43) {
                     return 1.0D;
                 } else {
-                    this.method159(var3, var4, var5, var6);
+                    this.handleBreakableBlock(x, y, ball, canvas);
                     return 0.9D;
                 }
             } else {
-                return this.method156(var3, var4, var5, var6, var7, var8, var1 == 27) ? 0.325D : 0.8D;
+                return this.handleMovableBlock(x, y, ball, canvas, offsetX, offsetY, tileId == 27) ? 0.325D : 0.8D;
             }
         } else {
             return 0.82D;
         }
     }
 
-    private void method154(int var1, int var2, int var3, int var4) {
+    private void handleTeleport(int teleportId, int playerId, int x, int y) {
         boolean var5 = true;
-        int var6 = this.aVectorArray2824[var1].size();
-        int var7;
-        int var8;
-        double[] var11;
+        int exitLen = this.teleportExists[teleportId].size();
+        int startLen;
+        int random;
+        double[] teleportPos;
         int var13;
-        if (var6 > 0) {
-            var13 = var1;
-            var7 = var6 - 1;
-            var8 = this.aSeed_2836.next() % (var7 + 1);
+        if (exitLen > 0) {
+            var13 = teleportId;
+            startLen = exitLen - 1;
+            random = this.rngSeed.next() % (startLen + 1);
         } else {
-            var7 = this.aVectorArray2823[var1].size();
-            int var10;
-            if (var7 >= 2) {
+            startLen = this.teleportStarts[teleportId].size();
+            int i;
+            if (startLen >= 2) {
                 int var14 = 0;
 
+                //?????
                 do {
-                    var10 = var7 - 1;
-                    var8 = this.aSeed_2836.next() % (var10 + 1);
-                    var11 = (double[]) this.aVectorArray2823[var1].elementAt(var8);
-                    if (Math.abs(var11[0] - (double) var3) >= 15.0D || Math.abs(var11[1] - (double) var4) >= 15.0D) {
-                        this.playerX[var2] = var11[0];
-                        this.playerY[var2] = var11[1];
+                    i = startLen - 1;
+                    random = this.rngSeed.next() % (i + 1);
+                    teleportPos = (double[]) this.teleportStarts[teleportId].elementAt(random);
+                    if (Math.abs(teleportPos[0] - (double) x) >= 15.0D || Math.abs(teleportPos[1] - (double) y) >= 15.0D) {
+                        this.playerX[playerId] = teleportPos[0];
+                        this.playerY[playerId] = teleportPos[1];
                         return;
                     }
 
@@ -1343,99 +1393,111 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
                 return;
             }
 
-            boolean var9 = false;
+            boolean haveExit = false;
 
-            for (var10 = 0; var10 < 4 && !var9; ++var10) {
-                if (this.aVectorArray2824[var10].size() > 0) {
-                    var9 = true;
+            for (i = 0; i < 4 && !haveExit; ++i) {
+                if (this.teleportExists[i].size() > 0) {
+                    haveExit = true;
                 }
             }
 
-            if (!var9) {
+            if (!haveExit) {
                 return;
             }
 
             do {
-                var13 = this.aSeed_2836.next() % 4;
-                var6 = this.aVectorArray2824[var13].size();
-            } while (var6 == 0);
+                var13 = this.rngSeed.next() % 4;
+                exitLen = this.teleportExists[var13].size();
+            } while (exitLen == 0);
 
-            int var12 = var6 - 1;
-            var8 = this.aSeed_2836.next() % (var12 + 1);
+            int var12 = exitLen - 1;
+            random = this.rngSeed.next() % (var12 + 1);
         }
 
-        var11 = (double[]) this.aVectorArray2824[var13].elementAt(var8);
-        this.playerX[var2] = var11[0];
-        this.playerY[var2] = var11[1];
+        //finally move player to exit position
+        teleportPos = (double[]) this.teleportExists[var13].elementAt(random);
+        this.playerX[playerId] = teleportPos[0];
+        this.playerY[playerId] = teleportPos[1];
     }
 
-    private void method155(boolean var1, int var2, int var3, int var4, Graphics var5, Graphics var6) {
-        int var7 = var3 / 15;
-        int var8 = var4 / 15;
-        int var9 = super.trackTiles[var7][var8] / 16777216;
-        int var10 = super.trackTiles[var7][var8] / 65536 % 256 + 24;
-        int var11 = super.trackTiles[var7][var8] / 256 % 256;
-        int var12 = super.trackTiles[var7][var8] % 256;
-        if (var9 == 2 && (var10 == 28 || var10 == 30)) {
-            ++var10;
-            super.trackTiles[var7][var8] = var9 * 256 * 256 * 256 + (var10 - 24) * 256 * 256 + var11 * 256 + var12;
-            this.drawTile(var7, var8, var5, var6);
-            if (var1) {
-                int[] var13 = new int[]{17039367, 16779264, 17104905, 16778752, -1, 16779776, 17235973, 16778240, 17170443};
-                int var14 = 0;
+    private void handleMines(boolean isBigMine, int playerId, int screenX, int screenY, Graphics var5, Graphics canvas) {
+        int mapX = screenX / 15;
+        int mapY = screenY / 15;
+        int special = super.trackTiles[mapX][mapY] / 16777216;
+        int shape = super.trackTiles[mapX][mapY] / 65536 % 256 + 24;
+        int foreground = super.trackTiles[mapX][mapY] / 256 % 256;
+        int background = super.trackTiles[mapX][mapY] % 256;
+        //28 Mine
+        //30 Big Mine
+        if (special == 2 && (shape == 28 || shape == 30)) {
+            ++shape;
+            super.trackTiles[mapX][mapY] = special * 256 * 256 * 256 + (shape - 24) * 256 * 256 + foreground * 256 + background;
+            this.drawTile(mapX, mapY, var5, canvas);
 
-                for (int var15 = var8 - 1; var15 <= var8 + 1; ++var15) {
-                    for (int var16 = var7 - 1; var16 <= var7 + 1; ++var16) {
-                        if (var16 >= 0 && var16 < 49 && var15 >= 0 && var15 < 25 && (var15 != var8 || var16 != var7) && super.trackTiles[var16][var15] == 16777216) {
-                            super.trackTiles[var16][var15] = var13[var14];
-                            this.drawTile(var16, var15, var5, var6);
+            //Big Mine will dig a hole around mine
+            if (isBigMine) {
+                int[] downhills = new int[]{17039367, 16779264, 17104905, 16778752, -1, 16779776, 17235973, 16778240, 17170443};
+                int tileIndex = 0;
+
+                for (int y = mapY - 1; y <= mapY + 1; ++y) {
+                    for (int x = mapX - 1; x <= mapX + 1; ++x) {
+                        if (x >= 0 && x < 49 && y >= 0 && y < 25 && (y != mapY || x != mapX) && super.trackTiles[x][y] == 16777216) {
+                            super.trackTiles[x][y] = downhills[tileIndex];
+                            this.drawTile(x, y, var5, canvas);
                         }
 
-                        ++var14;
+                        ++tileIndex;
                     }
                 }
             }
 
-            double var17;
+            double speed;
             do {
                 do {
-                    this.aDoubleArray2828[var2] = (double) (-65 + this.aSeed_2836.next() % 131) / 10.0D;
-                    this.aDoubleArray2829[var2] = (double) (-65 + this.aSeed_2836.next() % 131) / 10.0D;
-                    var17 = Math.sqrt(this.aDoubleArray2828[var2] * this.aDoubleArray2828[var2] + this.aDoubleArray2829[var2] * this.aDoubleArray2829[var2]);
-                } while (var17 < 5.2D);
-            } while (var17 > 6.5D);
+                    this.speedX[playerId] = (double) (-65 + this.rngSeed.next() % 131) / 10.0D;
+                    this.speedY[playerId] = (double) (-65 + this.rngSeed.next() % 131) / 10.0D;
+                    speed = Math.sqrt(this.speedX[playerId] * this.speedX[playerId] + this.speedY[playerId] * this.speedY[playerId]);
+                } while (speed < 5.2D);
+            } while (speed > 6.5D);
 
-            if (!var1) {
-                this.aDoubleArray2828[var2] *= 0.8D;
-                this.aDoubleArray2829[var2] *= 0.8D;
+            if (!isBigMine) {
+                this.speedX[playerId] *= 0.8D;
+                this.speedY[playerId] *= 0.8D;
             }
 
         }
     }
 
-    private boolean method156(int var1, int var2, Graphics var3, Graphics var4, int var5, int var6, boolean var7) {
-        int var8 = var1 / 15;
-        int var9 = var2 / 15;
-        int var10 = super.trackTiles[var8][var9] / 16777216;
-        int var11 = super.trackTiles[var8][var9] / 65536 % 256 + 24;
-        int var12 = super.trackTiles[var8][var9] / 256 % 256;
-        if (var10 == 2 && (var11 == 27 || var11 == 46)) {
-            int var13 = var8 + var5;
-            int var14 = var9 + var6;
-            int var15 = this.method157(var13, var14);
-            if (var15 == -1) {
+    private boolean handleMovableBlock(int screenX, int screenY, Graphics var3, Graphics canvas, int offsetX, int offsetY, boolean nonSunkable) {
+        int mapX = screenX / 15;
+        int mapY = screenY / 15;
+        int special = super.trackTiles[mapX][mapY] / 16777216;
+        int shape = super.trackTiles[mapX][mapY] / 65536 % 256 + 24;
+        int background = super.trackTiles[mapX][mapY] / 256 % 256;
+        if (special == 2 && (shape == 27 || shape == 46)) {
+          //where we want to move the block
+            int x1 = mapX + offsetX;
+            int y1 = mapY + offsetY;
+            int canMove = this.canMovableBlockMove(x1, y1);
+            if (canMove == -1) {
                 return false;
             } else {
-                super.trackTiles[var8][var9] = 16777216 + var12 * 256;
-                this.drawTile(var8, var9, var3, var4);
-                int[] var16 = this.method158(var8, var9, var13, var14, var12, var15, var3, var4, var7, 0);
-                if (!var7 && (var16[2] == 12 || var16[2] == 13)) {
-                    super.trackTiles[var16[0]][var16[1]] = 35061760 + var16[2] * 256;
+              //16777216 == special:1 shape:0 fg:0 bg:0
+                super.trackTiles[mapX][mapY] = 16777216 + background * 256;
+                this.drawTile(mapX, mapY, var3, canvas);
+                // [x,y,background id]
+                int[] tileWithCoords = this.calculateMovableBlockEndPosition(mapX, mapY, x1, y1, background, canMove, var3, canvas, nonSunkable, 0);
+                //12 Water
+                //13 Acid
+                if (!nonSunkable && (tileWithCoords[2] == 12 || tileWithCoords[2] == 13)) {
+                  //Sunked Movable Block with old background
+                    super.trackTiles[tileWithCoords[0]][tileWithCoords[1]] = 35061760 + tileWithCoords[2] * 256;
                 } else {
-                    super.trackTiles[var16[0]][var16[1]] = 33554432 + ((var7 ? 27 : 46) - 24) * 256 * 256 + var16[2] * 256;
+                  //Movable Block with old background
+                    super.trackTiles[tileWithCoords[0]][tileWithCoords[1]] = 33554432 + ((nonSunkable ? 27 : 46) - 24) * 256 * 256 + tileWithCoords[2] * 256;
                 }
 
-                this.drawTile(var16[0], var16[1], var3, var4);
+                this.drawTile(tileWithCoords[0], tileWithCoords[1], var3, canvas);
                 return true;
             }
         } else {
@@ -1443,19 +1505,19 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
         }
     }
 
-    private int method157(int var1, int var2) {
-        if (var1 >= 0 && var1 < 49 && var2 >= 0 && var2 < 25) {
-            int var3 = super.trackTiles[var1][var2] / 16777216;
-            int var4 = super.trackTiles[var1][var2] / 65536 % 256;
-            int var5 = super.trackTiles[var1][var2] / 256 % 256;
-            if (var3 == 1 && var4 == 0 && var5 <= 15) {
-                for (int var6 = 0; var6 < this.anInt2809; ++var6) {
-                    if (this.playerX[var6] > (double) (var1 * 15) && this.playerX[var6] < (double) (var1 * 15 + 15 - 1) && this.playerY[var6] > (double) (var2 * 15) && this.playerY[var6] < (double) (var2 * 15 + 15 - 1)) {
+    private int canMovableBlockMove(int x, int y) {
+        if (x >= 0 && x < 49 && y >= 0 && y < 25) {
+            int special = super.trackTiles[x][y] / 16777216;
+            int shape = super.trackTiles[x][y] / 65536 % 256;
+            int background = super.trackTiles[x][y] / 256 % 256;
+            if (special == 1 && shape == 0 && background <= 15) {
+                for (int i = 0; i < this.playerCount; ++i) {
+                    if (this.playerX[i] > (double) (x * 15) && this.playerX[i] < (double) (x * 15 + 15 - 1) && this.playerY[i] > (double) (y * 15) && this.playerY[i] < (double) (y * 15 + 15 - 1)) {
                         return -1;
                     }
                 }
 
-                return var5;
+                return background;
             } else {
                 return -1;
             }
@@ -1464,64 +1526,66 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
         }
     }
 
-    private int[] method158(int var1, int var2, int var3, int var4, int var5, int var6, Graphics var7, Graphics var8, boolean var9, int var10) {
-        int[] var11 = new int[]{var3, var4, var6};
-        if (!var9 && var6 >= 4 && var6 <= 11 && var10 < 1078) {
-            var1 = var3;
-            var2 = var4;
-            var5 = var6;
-            if (var6 == 4 || var6 == 5 || var6 == 11) {
-                --var4;
+    private int[] calculateMovableBlockEndPosition(int x, int y, int x1, int y1, int background, int background1, Graphics var7, Graphics var8, boolean var9, int i) {
+        int[] xytile = new int[]{x1, y1, background1};
+        if (!var9 && background1 >= 4 && background1 <= 11 && i < 1078) {
+            x = x1;
+            y = y1;
+            background = background1;
+            //Downhill North
+            if (background1 == 4 || background1 == 5 || background1 == 11) {
+                --y1;
+            }
+            //Downhill South
+            if (background1 == 8 || background1 == 7 || background1 == 9) {
+                ++y1;
             }
 
-            if (var6 == 8 || var6 == 7 || var6 == 9) {
-                ++var4;
+            //Downhill East
+            if (background1 == 5 || background1 == 6 || background1 == 7) {
+                ++x1;
+            }
+            //Downhill West
+            if (background1 == 9 || background1 == 10 || background1 == 11) {
+                --x1;
             }
 
-            if (var6 == 5 || var6 == 6 || var6 == 7) {
-                ++var3;
-            }
-
-            if (var6 == 9 || var6 == 10 || var6 == 11) {
-                --var3;
-            }
-
-            var6 = this.method157(var3, var4);
-            if (var6 >= 0) {
-                var11 = this.method158(var1, var2, var3, var4, var5, var6, var7, var8, var9, var10 + 1);
+            background1 = this.canMovableBlockMove(x1, y1);
+            if (background1 >= 0) {
+                xytile = this.calculateMovableBlockEndPosition(x, y, x1, y1, background, background1, var7, var8, var9, i + 1);
             }
         }
 
-        return var11;
+        return xytile;
     }
 
-    private void method159(int var1, int var2, Graphics var3, Graphics var4) {
-        int var5 = var1 / 15;
-        int var6 = var2 / 15;
-        int var7 = super.trackTiles[var5][var6] / 16777216;
-        int var8 = super.trackTiles[var5][var6] / 65536 % 256 + 24;
-        int var9 = super.trackTiles[var5][var6] / 256 % 256;
-        int var10 = super.trackTiles[var5][var6] % 256;
-        if (var7 == 2 && var8 >= 40 && var8 <= 43) {
-            ++var8;
-            if (var8 <= 43) {
-                super.trackTiles[var5][var6] = var7 * 256 * 256 * 256 + (var8 - 24) * 256 * 256 + var9 * 256 + var10;
+    private void handleBreakableBlock(int screenX, int screenY, Graphics var3, Graphics canvas) {
+        int mapX = screenX / 15;
+        int mapY = screenY / 15;
+        int special = super.trackTiles[mapX][mapY] / 16777216;
+        int shape = super.trackTiles[mapX][mapY] / 65536 % 256 + 24;
+        int background = super.trackTiles[mapX][mapY] / 256 % 256;
+        int foreground = super.trackTiles[mapX][mapY] % 256;
+        if (special == 2 && shape >= 40 && shape <= 43) {
+            ++shape;
+            if (shape <= 43) {
+                super.trackTiles[mapX][mapY] = special * 256 * 256 * 256 + (shape - 24) * 256 * 256 + background * 256 + foreground;
             } else {
-                super.trackTiles[var5][var6] = 16777216 + var9 * 256 + var9;
+                super.trackTiles[mapX][mapY] = 16777216 + background * 256 + background;
             }
 
-            this.drawTile(var5, var6, var3, var4);
+            this.drawTile(mapX, mapY, var3, canvas);
         }
     }
 
     private void drawTile(int tileX, int tileY, Graphics var3, Graphics var4) {
         Image tile = super.getTileAt(tileX, tileY);
-        super.checkSolidTile(tileX, tileY);
+        super.collisionMap(tileX, tileY);
         var3.drawImage(tile, tileX * 15, tileY * 15, this);
         var4.drawImage(tile, tileX * 15, tileY * 15, this);
     }
 
-    private void method161(Graphics g, int playerid, double var3) {
+    private void drawPlayerInfo(Graphics g, int playerid, double var3) {
         int var5 = (int) (this.playerX[playerid] - 6.5D + 0.5D);
         int var6 = (int) (this.playerY[playerid] - 6.5D + 0.5D);
         int var7 = 13;
@@ -1537,8 +1601,8 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
         }
 
         if (var3 == 0.0D) {
-            g.drawImage(this.anImageArray2808[playerid + var8], var5, var6, this);
-            if (this.anInt2833 > 0 && this.aBooleanArray2834[playerid] && this.gameState != 2 && this.anInt2809 > 1) {
+            g.drawImage(this.ballSprites[playerid + var8], var5, var6, this);
+            if (this.anInt2833 > 0 && this.aBooleanArray2834[playerid] && this.gameState != 2 && this.playerCount > 1) {
                 String[] var9 = super.gameContainer.gamePanel.getPlayerInfo(playerid);
                 if (this.anInt2833 == 1) {
                     StringDraw.drawString(g, var9[0].substring(0, 1), var5 + 6, var6 + 13 - 3, 0);
@@ -1569,7 +1633,7 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
                 return;
             }
         } else {
-            g.drawImage(this.anImageArray2808[playerid + var8], var5, var6, var5 + var7, var6 + var7, 0, 0, 13, 13, this);
+            g.drawImage(this.ballSprites[playerid + var8], var5, var6, var5 + var7, var6 + var7, 0, 0, 13, 13, this);
         }
 
     }
@@ -1585,7 +1649,7 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
 
     }
 
-    private void method163(Graphics var1, int var2, int var3, int var4, int var5) {
+    private void drawDashedLine(Graphics var1, int var2, int var3, int var4, int var5) {
         int var6 = var4 >= 0 ? var4 : -var4;
         int var7 = var5 >= 0 ? var5 : -var5;
         int var8 = (var6 > var7 ? var6 : var7) / 10;
