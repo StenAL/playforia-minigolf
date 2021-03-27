@@ -324,7 +324,7 @@ public class GamePanel extends Panel {
 
             boolean canPlay = this.gamePlayerInfoPanel.canShoot(playerId);
             //canPlay = true;
-            this.gameCanvas.method135(playerId, canPlay, !this.gameChatPanel.haveFocus());
+            this.gameCanvas.startTurn(playerId, canPlay, !this.gameChatPanel.haveFocus());
 
             if (!this.isSinglePlayerGame) {
                 int trackCount = this.gamePlayerInfoPanel.method377();

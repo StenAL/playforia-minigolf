@@ -28,7 +28,7 @@ public class GameBackgroundCanvas extends Canvas {
     private int[] trackStats;
     private int[] trackRatings;
     protected int[][] trackTiles;
-    protected byte[][] isSolidArrayIThink;
+    protected byte[][] collisionMap;
     private boolean[] trackSpecialSettings;
     private int[][] anIntArrayArray97;
     private boolean[] aBooleanArray98;
@@ -137,58 +137,62 @@ public class GameBackgroundCanvas extends Canvas {
         return var7;
     }
 
-    protected void checkSolidTile(int tileX, int tileY) {
-        int isSpecial = this.trackTiles[tileX][tileY] / 16777216;
-        int shapeIndex = this.trackTiles[tileX][tileY] / 65536 % 256;
-        int foregroundIndex = this.trackTiles[tileX][tileY] / 256 % 256;
-        int backgroundIndex = this.trackTiles[tileX][tileY] % 256;
-        int isSolid = Integer.MIN_VALUE;
+    protected void collisionMap(int tileX, int tileY) {
+        int special = this.trackTiles[tileX][tileY] / 16777216;
+        int shape = this.trackTiles[tileX][tileY] / 65536 % 256;
+        int background = this.trackTiles[tileX][tileY] / 256 % 256;
+        int foreground = this.trackTiles[tileX][tileY] % 256;
+        int pixel = Integer.MIN_VALUE;
 
-        if (isSpecial == 1 && (foregroundIndex == 19 || backgroundIndex == 19)) {  // IF HAX BLOCK
+        if (special == 1 && (background == 19 || foreground == 19)) {  // IF HAX BLOCK
             this.aBooleanArray98[0] = true;
-        } else if (isSpecial == 2 && shapeIndex == 2) {
+        } else if (special == 2 && shape == 2) {
             this.aBooleanArray98[1] = true;
         }
 
-        int[][] mask = this.gameContainer.spriteManager.getPixelMask(isSpecial, shapeIndex);
+        int[][] mask = this.gameContainer.spriteManager.getPixelMask(special, shape);
 
         for (int y = 0; y < 15; ++y) {
             for (int x = 0; x < 15; ++x) {
 
-                if (isSpecial == 1) {
-                    isSolid = mask[x][y] == 1 ? foregroundIndex : backgroundIndex;
+                if (special == 1) {
+                    pixel = mask[x][y] == 1 ? background : foreground;
 
-                } else if (isSpecial == 2) { // If we're drawing a special sprite
-                    shapeIndex += 24;
-                    isSolid = mask[x][y] == 1 ? foregroundIndex : shapeIndex; // If mask is white draw background, otherwise draw special.
-                    if (shapeIndex == 24) {
-                        isSolid = foregroundIndex;
+                } else if (special == 2) {
+                    shape += 24;
+                    pixel = mask[x][y] == 1 ? background : shape;
+                    //24 StartPosition
+                    if (shape == 24) {
+                        pixel = background;
+                    }
+                    //26 Fake Hole
+                    if (shape == 26) {
+                        pixel = background;
+                    }
+                    //Teleport Exits
+                    if (shape == 33 || shape == 35 || shape == 37 || shape == 39) {
+                        pixel = background;
                     }
 
-                    if (shapeIndex == 26) { // if small hole shape
-                        isSolid = foregroundIndex;
+                    //Bricks
+                    if (shape >= 40 && shape <= 43) {
+                        pixel = shape;
                     }
 
-                    if (shapeIndex == 33 || shapeIndex == 35 || shapeIndex == 37 || shapeIndex == 39) { // if rounded shape?
-                        isSolid = foregroundIndex;
+                    //magnet
+                    if (shape == 44) {
+                        pixel = background != 12 && background != 13 && background != 14 && background != 15 ? shape : background;
                     }
 
-                    if (shapeIndex >= 40 && shapeIndex <= 43) { // if small triangle shape?
-                        isSolid = shapeIndex;
+                    //magnet repel
+                    if (shape == 45) {
+                        pixel = background;
                     }
 
-                    if (shapeIndex == 44) {
-                        isSolid = foregroundIndex != 12 && foregroundIndex != 13 && foregroundIndex != 14 && foregroundIndex != 15 ? shapeIndex : foregroundIndex;
-                    }
-
-                    if (shapeIndex == 45) {
-                        isSolid = foregroundIndex;
-                    }
-
-                    shapeIndex -= 24;
+                    shape -= 24;
                 }
 
-                this.isSolidArrayIThink[tileX * 15 + x][tileY * 15 + y] = (byte) isSolid;
+                this.collisionMap[tileX * 15 + x][tileY * 15 + y] = (byte) pixel;
             }
         }
 
@@ -423,11 +427,11 @@ public class GameBackgroundCanvas extends Canvas {
     private void checkSolids() {
         this.aBooleanArray98 = new boolean[2];
         this.aBooleanArray98[0] = this.aBooleanArray98[1] = false;
-        this.isSolidArrayIThink = new byte[735][375];
+        this.collisionMap = new byte[735][375];
 
         for (int y = 0; y < 25; ++y) {
             for (int x = 0; x < 49; ++x) {
-                this.checkSolidTile(x, y);
+                this.collisionMap(x, y);
             }
         }
 
@@ -609,7 +613,7 @@ public class GameBackgroundCanvas extends Canvas {
 
                 for (int var22 = var15; var22 < var15 + var19; ++var22) {
                     for (int var23 = var14; var23 < var14 + var18; ++var23) {
-                        if (currentTile < 3 || currentTile == 3 && this.isSolidArrayIThink[var23][var22] >= 0 && this.isSolidArrayIThink[var23][var22] <= 15) {
+                        if (currentTile < 3 || currentTile == 3 && this.collisionMap[var23][var22] >= 0 && this.collisionMap[var23][var22] <= 15) {
                             mapPixels[var22 * 735 + var23] = this.method129(mapPixels[var22 * 735 + var23], var26[currentTile][var21 * var18 + var20], var16);
                         }
 
@@ -629,11 +633,11 @@ public class GameBackgroundCanvas extends Canvas {
     }
 
     private boolean method126(int var1, int var2) {
-        return var1 >= 0 && var1 < 735 && var2 >= 0 && var2 < 375 ? this.isSolidArrayIThink[var1][var2] >= 16 && this.isSolidArrayIThink[var1][var2] <= 23 && (this.trackSpecialSettings[3] || !this.trackSpecialSettings[3] && this.isSolidArrayIThink[var1][var2] != 19) : false;
+        return var1 >= 0 && var1 < 735 && var2 >= 0 && var2 < 375 ? this.collisionMap[var1][var2] >= 16 && this.collisionMap[var1][var2] <= 23 && (this.trackSpecialSettings[3] || !this.trackSpecialSettings[3] && this.collisionMap[var1][var2] != 19) : false;
     }
 
     private boolean method127(int var1, int var2) {
-        return var1 >= 0 && var1 < 735 && var2 >= 0 && var2 < 375 ? this.isSolidArrayIThink[var1][var2] == 32 || this.isSolidArrayIThink[var1][var2] == 34 || this.isSolidArrayIThink[var1][var2] == 36 || this.isSolidArrayIThink[var1][var2] == 38 : false;
+        return var1 >= 0 && var1 < 735 && var2 >= 0 && var2 < 375 ? this.collisionMap[var1][var2] == 32 || this.collisionMap[var1][var2] == 34 || this.collisionMap[var1][var2] == 36 || this.collisionMap[var1][var2] == 38 : false;
     }
 
     private void method128(int[] var1, int var2, int var3, int var4, int var5) {
