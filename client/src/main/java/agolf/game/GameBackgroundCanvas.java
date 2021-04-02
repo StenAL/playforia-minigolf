@@ -78,7 +78,12 @@ public class GameBackgroundCanvas extends Canvas {
         return var1;
     }
 
-    protected void drawMap(int var1) {
+    //this useless func is called when we get start packet
+    //iniatilize variables
+    //draws map as grass
+    //this.gameCanvas.createMap(16777216);
+    //16777216 == grass
+    protected void createMap(int var1) {
         if (this.image == null) {
             this.image = this.createImage(735, 375);
             if (this.image == null) {
@@ -122,12 +127,12 @@ public class GameBackgroundCanvas extends Canvas {
             for (int var4 = 0; var4 < 15; ++var4) {
                 for (int var5 = 0; var5 < 15; ++var5) {
                     for (int var6 = 1; var6 <= 7 && var1 * 15 + var5 - var6 > 0 && var2 * 15 + var4 - var6 > 0; ++var6) {
-                        if (this.method126(var1 * 15 + var5 - var6, var2 * 15 + var4 - var6)) {
-                            this.method128(imageData, var5, var4, -8, 15);
+                        if (this.castsShadow(var1 * 15 + var5 - var6, var2 * 15 + var4 - var6)) {
+                            this.shiftPixel(imageData, var5, var4, -8, 15);
                         }
                     }
 
-                    this.method128(imageData, var5, var4, (int) (Math.random() * 11.0D) - 5, 15);
+                    this.shiftPixel(imageData, var5, var4, (int) (Math.random() * 11.0D) - 5, 15);
                 }
             }
         }
@@ -367,9 +372,16 @@ public class GameBackgroundCanvas extends Canvas {
         for (int i = 0; i < 4; i++) {
             this.trackSpecialSettings[i] = this.trackSettings.charAt(i) == 't';
         }
+        /*
+         * this is default value:
+         * trackSpecialSettings[0]= false
+         * trackSpecialSettings[1]= true
+         * trackSpecialSettings[2]= true
+         * trackSpecialSettings[3]= true
+         */
 
         this.checkSolids();
-        this.drawForegroundMap();
+        this.drawMap();
         return true;
     }
 
@@ -437,11 +449,11 @@ public class GameBackgroundCanvas extends Canvas {
 
     }
 
-    private void drawForegroundMap() {
+    private void drawMap() {
         int[] mapPixels = new int[275625];
         int[] currentTileImageData = null;
         int oldTile = -1;
-        boolean trackTestMode = this.gameContainer.synchronizedTrackTestMode.get(); // track test mode?
+        boolean trackTestMode = this.gameContainer.synchronizedTrackTestMode.get(); //controls when to draw starting positions
 
         int currentTile;
         int yPixels;
@@ -456,26 +468,35 @@ public class GameBackgroundCanvas extends Canvas {
 
                     int specialStatus = currentTile / 16777216;
 
-                    // Shape index + 24 !?!?!
-                    int var9 = currentTile / 65536 % 256 + 24;
-                    int foregroundIndex = currentTile / 256 % 256;
+                    int currentTileSpecialId = currentTile / 65536 % 256 + 24;
+                    int background = currentTile / 256 % 256;
 
-                    if (specialStatus == 2) { // If this tile is a special one huehuehue
-                        if (!this.trackSpecialSettings[0] && (var9 == 28 || var9 == 30)) {
-                            currentTile = 16777216 + foregroundIndex * 256;
+                    if (specialStatus == 2) {
+                      //16777216 == blank tile with grass
+                      //34144256 == teleport blue exit with grass
+                      //34078720 == teleport start with grass
+
+
+                      //0:false => mines invisible  0:true => mines visible
+
+                        if (!this.trackSpecialSettings[0] && (currentTileSpecialId == 28 || currentTileSpecialId == 30)) {
+                            currentTile = 16777216 + background * 256;
                         }
 
-                        if (!this.trackSpecialSettings[1] && (var9 == 44 || var9 == 45)) {
-                            currentTile = 16777216 + foregroundIndex * 256;
+                      //1:false => magnets invisible  1:true => magnets visible
+
+                        if (!this.trackSpecialSettings[1] && (currentTileSpecialId == 44 || currentTileSpecialId == 45)) {
+                            currentTile = 16777216 + background * 256;
                         }
 
+                      //2:false => teleport colorless  2:true => normal colors
                         if (!this.trackSpecialSettings[2]) {
-                            if (var9 == 34 || var9 == 36 || var9 == 38) {
-                                currentTile = 34078720 + foregroundIndex * 256;
+                            if (currentTileSpecialId == 34 || currentTileSpecialId == 36 || currentTileSpecialId == 38) {
+                                currentTile = 34078720 + background * 256;
                             }
 
-                            if (var9 == 35 || var9 == 37 || var9 == 39) {
-                                currentTile = 34144256 + foregroundIndex * 256;
+                            if (currentTileSpecialId == 35 || currentTileSpecialId == 37 || currentTileSpecialId == 39) {
+                                currentTile = 34144256 + background * 256;
                             }
                         }
                     }
@@ -484,25 +505,28 @@ public class GameBackgroundCanvas extends Canvas {
 
                     oldTile = this.trackTiles[tileX][tileY];
 
+                    //draws debug points on starting positions
                     if (trackTestMode && specialStatus == 2) {
                         yPixels = -1;
-                        if (var9 == 24) {
+                        //Starting Point common
+                        if (currentTileSpecialId == 24) {
                             yPixels = 16777215;
                         }
 
-                        if (var9 == 48) {
+                        //Start blue
+                        if (currentTileSpecialId == 48) {
                             yPixels = 11579647;
                         }
-
-                        if (var9 == 49) {
+                        //Start red
+                        if (currentTileSpecialId == 49) {
                             yPixels = 16752800;
                         }
-
-                        if (var9 == 50) {
+                        //Start yellow
+                        if (currentTileSpecialId == 50) {
                             yPixels = 16777088;
                         }
-
-                        if (var9 == 51) {
+                        //Start green
+                        if (currentTileSpecialId == 51) {
                             yPixels = 9502608;
                         }
 
@@ -533,51 +557,63 @@ public class GameBackgroundCanvas extends Canvas {
                     for (xPixels = 0; xPixels < 735; ++xPixels) {
                         boolean var25;
                         boolean var27;
-                        if (this.method126(xPixels, yPixels)) {
-                            var25 = this.method126(xPixels - 1, yPixels - 1);
-                            var27 = this.method126(xPixels + 1, yPixels + 1);
-                            if (!var25 && var27 && !this.method126(xPixels, yPixels - 1) && !this.method126(xPixels - 1, yPixels)) {
-                                this.method128(mapPixels, xPixels, yPixels, 128, 735);
+                        //creates light and dark spot for solids
+                        //top and left side is brighter
+                        //bottom and right side is darker
+                        if (this.castsShadow(xPixels, yPixels)) {
+                            var25 = this.castsShadow(xPixels - 1, yPixels - 1);
+                            var27 = this.castsShadow(xPixels + 1, yPixels + 1);
+                            if (!var25 && var27 && !this.castsShadow(xPixels, yPixels - 1) && !this.castsShadow(xPixels - 1, yPixels)) {
+                                this.shiftPixel(mapPixels, xPixels, yPixels, 128, 735);
                             } else {
                                 if (!var25 && var27) {
-                                    this.method128(mapPixels, xPixels, yPixels, 24, 735);
+                                  //shift pixels towards 255/white
+                                    this.shiftPixel(mapPixels, xPixels, yPixels, 24, 735);
                                 }
 
                                 if (!var27 && var25) {
-                                    this.method128(mapPixels, xPixels, yPixels, -24, 735);
+                                  //shift pixels towards 0/black
+                                    this.shiftPixel(mapPixels, xPixels, yPixels, -24, 735);
                                 }
                             }
 
+                            //draws shadow
                             if (this.gameContainer.graphicsQualityIndex >= 2) {
                                 for (var13 = 1; var13 <= 7 && xPixels + var13 < 735 && yPixels + var13 < 375; ++var13) {
-                                    if (!this.method126(xPixels + var13, yPixels + var13)) {
+                                    if (!this.castsShadow(xPixels + var13, yPixels + var13)) { //dont draw shadow on blocks
                                         var14 = xPixels + var13;
                                         var15 = yPixels + var13;
-                                        this.method128(mapPixels, var14, var15, -8, 735);
+                                        //shift pixels towards black to create shadow
+                                        this.shiftPixel(mapPixels, var14, var15, -8, 735);
                                     }
                                 }
                             }
                         }
 
-                        if (this.method127(xPixels, yPixels)) {
-                            var25 = this.method127(xPixels - 1, yPixels - 1);
-                            var27 = this.method127(xPixels + 1, yPixels + 1);
-                            if (!var25 && var27 && !this.method127(xPixels, yPixels - 1) && !this.method127(xPixels - 1, yPixels)) {
-                                this.method128(mapPixels, xPixels, yPixels, 96, 735);
+
+                        //creates light and dark spots to teleport starts
+                        if (this.isTeleportStart(xPixels, yPixels)) {
+                            var25 = this.isTeleportStart(xPixels - 1, yPixels - 1);
+                            var27 = this.isTeleportStart(xPixels + 1, yPixels + 1);
+                            if (!var25 && var27 && !this.isTeleportStart(xPixels, yPixels - 1) && !this.isTeleportStart(xPixels - 1, yPixels)) {
+                                this.shiftPixel(mapPixels, xPixels, yPixels, 16, 735);
                             } else {
                                 if (!var25 && var27) {
-                                    this.method128(mapPixels, xPixels, yPixels, 16, 735);
+                                  //shift pixels towards 255/white
+                                    this.shiftPixel(mapPixels, xPixels, yPixels, 16, 735);
                                 }
 
                                 if (!var27 && var25) {
-                                    this.method128(mapPixels, xPixels, yPixels, -16, 735);
+                                  //shift pixels towards 0/black
+                                    this.shiftPixel(mapPixels, xPixels, yPixels, -16, 735);
                                 }
                             }
                         }
 
+                        //creates grain effect on tiles
                         if (this.gameContainer.graphicsQualityIndex >= 2) {
                             var13 = (int) (Math.random() * 11.0D) - 5;
-                            this.method128(mapPixels, xPixels, yPixels, var13, 735);
+                            this.shiftPixel(mapPixels, xPixels, yPixels, var13, 735);
                         }
                     }
                 }
@@ -628,51 +664,53 @@ public class GameBackgroundCanvas extends Canvas {
             ;
         }
 
-        // PAINTS DA MOTHER FUCKING MAP FOREGROUND!!!!!
         this.aGraphics85.drawImage(this.gameContainer.imageManager.createImage(mapPixels, 735, 375), 0, 0, this);
     }
 
-    private boolean method126(int var1, int var2) {
-        return var1 >= 0 && var1 < 735 && var2 >= 0 && var2 < 375 ? this.collisionMap[var1][var2] >= 16 && this.collisionMap[var1][var2] <= 23 && (this.trackSpecialSettings[3] || !this.trackSpecialSettings[3] && this.collisionMap[var1][var2] != 19) : false;
+    private boolean castsShadow(int x, int y) {
+      //trackSpecialSettings[3]
+      //3:false => illusion walls shadowless  3:true => illusion walls shadows
+        return x >= 0 && x < 735 && y >= 0 && y < 375 ? this.collisionMap[x][y] >= 16 && this.collisionMap[x][y] <= 23 && (this.trackSpecialSettings[3] || !this.trackSpecialSettings[3] && this.collisionMap[x][y] != 19) : false;
     }
 
-    private boolean method127(int var1, int var2) {
-        return var1 >= 0 && var1 < 735 && var2 >= 0 && var2 < 375 ? this.collisionMap[var1][var2] == 32 || this.collisionMap[var1][var2] == 34 || this.collisionMap[var1][var2] == 36 || this.collisionMap[var1][var2] == 38 : false;
+    private boolean isTeleportStart(int x, int y) {
+        return x >= 0 && x < 735 && y >= 0 && y < 375 ? this.collisionMap[x][y] == 32 || this.collisionMap[x][y] == 34 || this.collisionMap[x][y] == 36 || this.collisionMap[x][y] == 38 : false;
     }
 
-    private void method128(int[] var1, int var2, int var3, int var4, int var5) {
-        int var6 = var1[var3 * var5 + var2] & 16777215;
-        int var7 = var6 / 65536 % 256;
-        int var8 = var6 / 256 % 256;
-        int var9 = var6 % 256;
-        var7 += var4;
-        if (var7 < 0) {
-            var7 = 0;
+    //adds offset to r,b,g channels of pixels[x][y] then clamps the value to valid range
+    private void shiftPixel(int[] pixels, int x, int y, int offset, int width) {
+        int pixel = pixels[y * width + x] & 16777215;
+        int red = pixel / 65536 % 256;
+        int green = pixel / 256 % 256;
+        int blue = pixel % 256;
+        red += offset;
+        if (red < 0) {
+            red = 0;
         }
 
-        if (var7 > 255) {
-            var7 = 255;
+        if (red > 255) {
+            red = 255;
         }
 
-        var8 += var4;
-        if (var8 < 0) {
-            var8 = 0;
+        green += offset;
+        if (green < 0) {
+            green = 0;
         }
 
-        if (var8 > 255) {
-            var8 = 255;
+        if (green > 255) {
+            green = 255;
         }
 
-        var9 += var4;
-        if (var9 < 0) {
-            var9 = 0;
+        blue += offset;
+        if (blue < 0) {
+            blue = 0;
         }
 
-        if (var9 > 255) {
-            var9 = 255;
+        if (blue > 255) {
+            blue = 255;
         }
 
-        var1[var3 * var5 + var2] = -16777216 + var7 * 256 * 256 + var8 * 256 + var9;
+        pixels[y * width + x] = -16777216 + red * 256 * 256 + green * 256 + blue;
     }
 
     private int method129(int var1, int var2, double var3) {
