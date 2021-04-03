@@ -650,8 +650,8 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
         this.anInt2833 = var1 <= 2 ? 0 : 3;
     }
 
-    protected void drawMap(int var1) {
-        super.drawMap(var1);
+    protected void createMap(int var1) {
+        super.createMap(var1);
         this.currentPlayerID = this.mouseX = this.mouseY = -1;
         this.gameState = 0;
         this.repaint();
@@ -705,15 +705,15 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
                     int var14 = super.trackTiles[x][y] / 65536 % 256 + 24;
                     double screenX = (double) (x * 15) + 7.5D;
                     double screenY = (double) (y * 15) + 7.5D;
-                    //24 startPosition
+                    //24 Start Position Common
                     if (var14 == 24) {
                         element = new double[]{screenX, screenY};
                         startPosition.addElement(element);
                     }
-                    //48 Teleport Start Blue
-                    //49 Teleport Start Red
-                    //50 Teleport Start Yellow
-                    //51 Teleport Start Green
+                    //48 Start Position Blue
+                    //49 Start Position Red
+                    //50 Start Positiono Yellow
+                    //51 Start Position Green
                     if (var14 >= 48 && var14 <= 51) {
                         this.resetPositionX[var14 - 48] = screenX;
                         this.resetPositionY[var14 - 48] = screenY;

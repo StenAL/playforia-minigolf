@@ -219,7 +219,7 @@ public class GamePanel extends Panel {
             }
 
             this.aBoolean363 = false;
-            this.gameCanvas.drawMap(16777216);
+            this.gameCanvas.createMap(16777216);
             this.gamePlayerInfoPanel.method359();
             this.gameTrackInfoPanel.resetCurrentTrack();
             this.setState(1);
