@@ -34,7 +34,11 @@ public class Game {
         private String server;
 
         public Stub(String server, String lang, int port, boolean verbose) {
-            this.server = server;
+            if (server.indexOf(':') == -1) { // is ipv4
+                this.server = server;
+            } else { // is ipv6
+                this.server = "[" + server + "]";
+            }
             params = new HashMap<String, String>();
             params.put("initmessage", "Loading game...");
             params.put("ld_page", "javascript:Playray.Notify.delegate({ jvm: { version: '%v', vendor: '%w', t1: '%r', t2: '%f' } })");
@@ -44,8 +48,8 @@ public class Game {
             } else {
                 params.put("server", "game05.playforia.net" + ":" + g.port);
             }*/
+
             params.put("server", server + ":" + port);
-            //params.put("server", "192.168.1.23:" + g.port);
 
             //params.put("locale", "en");
             //params.put("lang", en_US);

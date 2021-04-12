@@ -484,13 +484,12 @@ public final class Parameters {
                 this.json = "javascript:" + this.json;
             }
         }
-
     }
 
     private String getParamServer() {
         try {
             String var1 = this.getParameter("server");
-            int var2 = var1.indexOf(':');
+            int var2 = var1.lastIndexOf(':');
             return var1.substring(0, var2);
         } catch (Exception var3) {
             return this.aString1423.length() > 0 ? this.aString1423 : aString1416;
@@ -500,7 +499,7 @@ public final class Parameters {
     private int getParamPort() {
         try {
             String var1 = this.getParameter("server");
-            int var2 = var1.indexOf(':');
+            int var2 = var1.lastIndexOf(':');
             return Integer.parseInt(var1.substring(var2 + 1));
         } catch (Exception var4) {
             try {
