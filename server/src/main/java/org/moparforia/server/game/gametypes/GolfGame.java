@@ -148,7 +148,6 @@ public abstract class GolfGame extends Game {
 
     public void endStroke(Player p, String playStatus) {
         boolean finished = true;
-        playerStrokes[getPlayerId(p)] += 1;
         this.playStatus = playStatus;
         for (int i = 0; i < playStatus.length(); i++) {
 
@@ -164,6 +163,7 @@ public abstract class GolfGame extends Game {
 
         confirmCount++; // only sends the command after everyone confirms end stroke.
         if (confirmCount == getPlayers().size()) {
+            playerStrokes[ strokeCounter % getPlayers().size()] += 1;
             confirmCount = 0;
             if (finished) {
                 nextTrack();
@@ -236,14 +236,14 @@ public abstract class GolfGame extends Game {
         boolean needsChange = false;
         int numberOfSkippers = 0;
         for (Player player : getPlayers()) {
-            if (player.hasSkipped() && playStatus.charAt(getPlayerId(player)) == 'f') {
+            int id = getPlayerId(player);
+            if (player.hasSkipped() && playStatus.charAt(id) == 'f') {
                 needsChange = true;
                 numberOfSkippers++;
-                playerStrokes[getPlayerId(player)] = maxStrokes + 1;
+                playerStrokes[id] = maxStrokes + 1;
             }
-            buff.append(playerStrokes[getPlayerId(player)]).append("\t");
+            buff.append(playerStrokes[id]).append("\t");
         }
-
         if (needsChange && playerCount() > 1 && numberOfSkippers < playerCount()) {
             writeAll(new Packet(PacketType.DATA, Tools.tabularize("game", "changescore", currentTrack, buff.toString())));
         }
