@@ -14,11 +14,11 @@ public class Game {
     private static final int WIDTH = 735;
     private static final int HEIGHT = 525;
 
-    public Game(JFrame frame, String server, int port, String lang, boolean verbose) {
+    public Game(JFrame frame, String server, int port, String lang, boolean verbose, boolean norandom) {
         Applet game = new AGolf();
 
 
-        game.setStub(new Stub(server, lang, port, verbose));
+        game.setStub(new Stub(server, lang, port, verbose, norandom));
         game.setSize(WIDTH, HEIGHT);
         game.init();
         game.start();
@@ -33,7 +33,7 @@ public class Game {
         private final Map<String, String> params;
         private String server;
 
-        public Stub(String server, String lang, int port, boolean verbose) {
+        public Stub(String server, String lang, int port, boolean verbose, boolean norandom) {
             if (server.indexOf(':') == -1) { // is ipv4
                 this.server = server;
             } else { // is ipv6
@@ -72,6 +72,7 @@ public class Game {
             params.put("localizationUrl", "");
             params.put("sharedLocalizationUrl", "");
             params.put("verbose", Boolean.toString(verbose));
+            params.put("norandom", Boolean.toString(norandom));
 
             //if(serverBox.isSelected())
             //params.put("tracktestmode", "true");
