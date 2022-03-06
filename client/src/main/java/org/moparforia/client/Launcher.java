@@ -41,6 +41,9 @@ public class Launcher implements Callable<Void> {
     @CommandLine.Option(names = {"--verbose", "-v"}, description = "Set if you want verbose information")
     private static boolean verbose = false;
 
+    @CommandLine.Option(names = {"--norandom", "-n"}, description = "Set if you want to disable randomization for shots")
+    private static boolean norandom = false;
+
     public static boolean debug() {
         return verbose;
     }
@@ -124,7 +127,7 @@ public class Launcher implements Callable<Void> {
             }
         }
 
-        launchGame(frame, hostname, port, lang, verbose);
+        launchGame(frame, hostname, port, lang, verbose, norandom);
         return null;
     }
 
@@ -136,8 +139,8 @@ public class Launcher implements Callable<Void> {
         return frame;
     }
 
-    public Game launchGame(JFrame frame, String hostname, int port, Language lang, boolean verbose) {
-        return new Game(frame, hostname, port, lang.toString(), verbose);
+    public Game launchGame(JFrame frame, String hostname, int port, Language lang, boolean verbose, boolean norandom) {
+        return new Game(frame, hostname, port, lang.toString(), verbose, norandom);
     }
 
     public Image loadIcon() throws IOException {

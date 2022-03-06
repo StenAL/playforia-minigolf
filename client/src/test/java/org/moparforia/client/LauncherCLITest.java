@@ -84,6 +84,7 @@ class LauncherCLITest {
                 eq(Launcher.DEFAULT_SERVER),
                 eq(Launcher.DEFAULT_PORT),
                 eq(Launcher.Language.EN_US),
+                anyBoolean(),
                 anyBoolean());
 
         assertEquals(0, cmd.execute("--lang=Fi_fI"));
@@ -91,31 +92,33 @@ class LauncherCLITest {
                 eq(Launcher.DEFAULT_SERVER),
                 eq(Launcher.DEFAULT_PORT),
                 eq(Launcher.Language.FI_FI),
+                anyBoolean(),
                 anyBoolean());
     }
 
     @Test
     void testValidPortAndHostname() {
         assertEquals(0, cmd.execute("-p", "1111", "-ip", "128.128.128.128"));
-        verify(launcher).launchGame(any(), eq("128.128.128.128"), eq(1111), any(), anyBoolean());
+        verify(launcher).launchGame(any(), eq("128.128.128.128"), eq(1111), any(), anyBoolean(), anyBoolean());
 
         assertEquals(0, cmd.execute("-p=2222", "-ip=127.127.127.127"));
-        verify(launcher).launchGame(any(), eq("127.127.127.127"), eq(2222), any(), anyBoolean());
+        verify(launcher).launchGame(any(), eq("127.127.127.127"), eq(2222), any(), anyBoolean(), anyBoolean());
 
         assertEquals(0, cmd.execute("-p=3333", "-ip=126.126.126.126"));
-        verify(launcher).launchGame(any(), eq("126.126.126.126"), eq(3333), any(), anyBoolean());
+        verify(launcher).launchGame(any(), eq("126.126.126.126"), eq(3333), any(), anyBoolean(), anyBoolean());
     }
 
     @Test
     void testOnlyPort() {
         assertEquals(0, cmd.execute("-p", "1111"));
-        verify(launcher).launchGame(any(), eq(Launcher.DEFAULT_SERVER), eq(1111), any(), anyBoolean());
+        verify(launcher).launchGame(any(), eq(Launcher.DEFAULT_SERVER), eq(1111), any(), anyBoolean(), anyBoolean());
     }
 
     @Test
     void testOnlyHostname() {
         assertEquals(0, cmd.execute("-ip", "127.127.127.127"));
-        verify(launcher).launchGame(any(), eq("127.127.127.127"), eq(Launcher.DEFAULT_PORT), any(), anyBoolean());
+        verify(launcher).launchGame(any(), eq("127.127.127.127"), eq(Launcher.DEFAULT_PORT), any(), anyBoolean(),
+                anyBoolean());
     }
 
     @Test
@@ -126,6 +129,7 @@ class LauncherCLITest {
                 eq(Launcher.DEFAULT_SERVER),
                 eq(Launcher.DEFAULT_PORT),
                 eq(Launcher.Language.EN_US),
+                eq(false),
                 eq(false)
         );
     }

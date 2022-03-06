@@ -3,6 +3,8 @@ package agolf.game;
 import agolf.GameContainer;
 import agolf.Seed;
 import agolf.SynchronizedBool;
+
+import com.aapeli.client.Parameters;
 import com.aapeli.client.StringDraw;
 import com.aapeli.tools.Tools;
 
@@ -60,6 +62,7 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
     private Graphics graphics;
     private Thread aThread2842;
     private boolean aBoolean2843;
+    private boolean norandom;
 
     // aimbot stuff
     final private boolean allowCheating = false;
@@ -74,6 +77,7 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
         this.anInt2833 = 0;
         this.gameState = 0;
         this.anInt2839 = anInt2838;
+        this.norandom = Parameters.getBooleanValue(var1.params.getParameter("norandom"));
     }
 
     public void update(Graphics g) {
@@ -947,8 +951,10 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
         temp = Math.sqrt(this.speedX[playerId] * this.speedX[playerId] + this.speedY[playerId] * this.speedY[playerId]);
         double speed = temp / 6.5D;
         speed *= speed;
-        this.speedX[playerId] += speed * ((double) (this.rngSeed.next() % '\uc351') / 100000.0D - 0.25D);
-        this.speedY[playerId] += speed * ((double) (this.rngSeed.next() % '\uc351') / 100000.0D - 0.25D);
+        if (!this.norandom) {
+            this.speedX[playerId] += speed * ((double) (this.rngSeed.next() % '\uc351') / 100000.0D - 0.25D);
+            this.speedY[playerId] += speed * ((double) (this.rngSeed.next() % '\uc351') / 100000.0D - 0.25D);
+        }
         this.isLocalPlayer = isLocalPlayer;
         this.gameState = 2;
         this.aBoolean2843 = false;
