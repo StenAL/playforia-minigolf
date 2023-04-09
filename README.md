@@ -78,7 +78,6 @@ Tested:
 
 ## Problems
 - Ratings are not synced
-- No sound
 - Custom Tracks category disabled
 - Server sometimes crashes due to race conditions
 

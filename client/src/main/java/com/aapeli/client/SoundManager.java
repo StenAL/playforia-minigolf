@@ -3,7 +3,6 @@ package com.aapeli.client;
 import com.aapeli.applet.AApplet;
 
 import java.applet.AudioClip;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Enumeration;
 import java.util.Hashtable;
@@ -35,12 +34,8 @@ public final class SoundManager implements Runnable {
         this.loadSoundClipsOnRegister = loadClipsOnRegister;
         this.debug = debug;
         this.loadClientSounds();
-        this.sharedSoundDir = applet.getCodeBase();
+        this.sharedSoundDir = this.getClass().getResource("/sound/shared/");
 
-        try {
-            this.sharedSoundDir = new URL(this.sharedSoundDir, "src/main/resources/sound/");
-        } catch (MalformedURLException var5) {
-        }
         this.sharedSounds = new Hashtable<>();
         this.clipLoaderThreadRunning = false;
         if (loadClipsOnRegister) {
@@ -208,17 +203,7 @@ public final class SoundManager implements Runnable {
     }
 
     private void loadClientSounds() {
-        URL clientSoundsDir = this.applet.getCodeBase();
-
-        try {
-            if (FileUtil.isFileUrl(clientSoundsDir)) {
-                clientSoundsDir = new URL(clientSoundsDir, FileUtil.RESOURCE_DIR + "src/main/resources/sound/");
-            } else {
-                clientSoundsDir = new URL(clientSoundsDir, "../Shared/sound/");
-            }
-        } catch (MalformedURLException var3) {
-
-        }
+        URL clientSoundsDir = this.getClass().getResource("/sound/shared/");
 
         this.clientSounds = new Hashtable<>();
         this.defineSoundClip(1, clientSoundsDir, "challenge");
