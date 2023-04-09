@@ -62,11 +62,11 @@ public final class SoundManager implements Runnable {
             var3 = false;
             Enumeration var1 = this.aHashtable1489.elements();
 
-            Class86 var2;
+            SoundClip soundClip;
             while (var1.hasMoreElements()) {
-                var2 = (Class86) ((Class86) var1.nextElement());
-                if (!var2.method1682()) {
-                    var2.method1683();
+                soundClip = (SoundClip) var1.nextElement();
+                if (!soundClip.isDefined()) {
+                    soundClip.defineClip();
                     var3 = true;
                 }
             }
@@ -74,9 +74,9 @@ public final class SoundManager implements Runnable {
             var1 = this.aHashtable1490.elements();
 
             while (var1.hasMoreElements()) {
-                var2 = (Class86) ((Class86) var1.nextElement());
-                if (!var2.method1682()) {
-                    var2.method1683();
+                soundClip = (SoundClip) var1.nextElement();
+                if (!soundClip.isDefined()) {
+                    soundClip.defineClip();
                     var3 = true;
                 }
             }
@@ -104,8 +104,8 @@ public final class SoundManager implements Runnable {
             this.anAApplet1492.printSUD("SoundManager: Defining sound \"" + var2 + "\"");
         }
 
-        Class86 var3 = new Class86(this.anApplet1485, this.anURL1486, var2, this.aBoolean1488);
-        this.aHashtable1490.put(var1, var3);
+        SoundClip soundClip = new SoundClip(this.anApplet1485, this.anURL1486, var2, this.aBoolean1488);
+        this.aHashtable1490.put(var1, soundClip);
         if (this.aBoolean1487) {
             this.method1690();
         }
@@ -234,7 +234,7 @@ public final class SoundManager implements Runnable {
     }
 
     private void method1689(int var1, URL var2, String var3) {
-        this.aHashtable1489.put(new Integer(var1), new Class86(this.anApplet1485, var2, var3 + ".au", this.aBoolean1488));
+        this.aHashtable1489.put(new Integer(var1), new SoundClip(this.anApplet1485, var2, var3 + ".au", this.aBoolean1488));
     }
 
     private synchronized void method1690() {
@@ -247,11 +247,11 @@ public final class SoundManager implements Runnable {
     }
 
     private void method1691(int var1) {
-        Class86 var2 = (Class86) ((Class86) this.aHashtable1489.get(new Integer(var1)));
-        if (var2 != null) {
-            AudioClip var3 = var2.method1684();
-            if (var3 != null) {
-                var3.play();
+        SoundClip soundClip = (SoundClip) this.aHashtable1489.get(new Integer(var1));
+        if (soundClip != null) {
+            AudioClip audioClip = soundClip.getAudioClip();
+            if (audioClip != null) {
+                audioClip.play();
             }
         }
     }
@@ -262,16 +262,16 @@ public final class SoundManager implements Runnable {
                 System.out.println("SoundManager." + aStringArray1484[var2] + "(\"" + var1 + "\")");
             }
 
-            Class86 var3 = (Class86) ((Class86) this.aHashtable1490.get(var1));
-            if (var3 != null) {
-                AudioClip var4 = var3.method1684();
-                if (var4 != null) {
+            SoundClip soundClip = (SoundClip) this.aHashtable1490.get(var1);
+            if (soundClip != null) {
+                AudioClip audioClip = soundClip.getAudioClip();
+                if (audioClip != null) {
                     if (var2 == 0) {
-                        var4.stop();
+                        audioClip.stop();
                     } else if (var2 == 1) {
-                        var4.play();
+                        audioClip.play();
                     } else if (var2 == 2) {
-                        var4.loop();
+                        audioClip.loop();
                     }
                 } else if (this.aBoolean1488) {
                     System.out.println("SoundManager." + aStringArray1484[var2] + "(\"" + var1 + "\"): AudioClip not ready!");
