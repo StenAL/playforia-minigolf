@@ -35,10 +35,9 @@ The Java Applet-based Minigolf Client was one of the most popular multiplayer ga
 
 ### Prerequisites
 - Clone this repo: `git clone git@github.com:PhilippvK/playforia-minigolf.git`
-- Install Java Development Kit 8 (https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
-  * OpenJDK1.8 should work as well!
+- Install Java Development Kit 17 (https://adoptium.net/en-GB/temurin/releases/)
 - Install Apache `maven` for building: https://maven.apache.org/install.html
-- *Optional:* Install IntelliJ IDEA Java IDE (https://www.jetbrains.com/idea/download/) and import this reposiory as project 
+- *Optional:* Install IntelliJ IDEA Java IDE (https://www.jetbrains.com/idea/download/) and import this reposiory as project
 
 ### Building
 
@@ -74,9 +73,8 @@ If you want to enable debugging messages, add `--verbose` to the list of argumen
 ## Compability
 
 Tested:
-- MacOS 10.14.5 Mojave with Java Version `1.8.0_152-ea` with (Open)JDK
-- Ubuntu 19.04 with Java version `1.8.0_265`
-- Windows (7/8/10)
+- Ubuntu 22.04 with Java version `17.0.6`
+- Windows 10/11
 
 ## Problems
 - Ratings are not synced
