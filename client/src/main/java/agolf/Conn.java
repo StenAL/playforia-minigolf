@@ -181,7 +181,7 @@ public class Conn implements ConnListener {
             this.gameContainer.lobbyPanel.handlePacket(args);
         }
         else if (args[0].equals("game")) {
-            this.gameContainer.gamePanel.method333(args);
+            this.gameContainer.gamePanel.handlePacket(args);
         }
     }
 

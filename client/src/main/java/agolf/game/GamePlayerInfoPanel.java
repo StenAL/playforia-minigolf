@@ -390,13 +390,13 @@ class GamePlayerInfoPanel extends Panel implements ItemListener, MouseListener {
         return playerNumber == this.currentPlayerId;
     }
 
-    protected void method363(int var1, boolean var2) {
+    protected void method363(int playerId, boolean isStrokeEnd) {
         if (this.anInt385 == 0) {
-            int var3 = !var2 ? this.anIntArray397[this.anInt386] : 1;
-            this.trackStrokes[var1][this.anInt386].get_upd(var3);
-            this.playersId[var1].get_upd(var3);
+            int var3 = !isStrokeEnd ? this.anIntArray397[this.anInt386] : 1;
+            this.trackStrokes[playerId][this.anInt386].get_upd(var3);
+            this.playersId[playerId].get_upd(var3);
         } else {
-            this.trackStrokes[var1][this.anInt386].get_upd();
+            this.trackStrokes[playerId][this.anInt386].get_upd();
         }
 
         this.repaint();

@@ -204,11 +204,8 @@ class GameTrackInfoPanel extends Panel implements ActionListener {
                 this.gameContainer.gamePanel.method345(this.currentTrack);
                 this.method390(false);
                 this.repaint();
-            } else {
-                if (evtSource == this.buttonR) {
-                    this.gameContainer.gamePanel.method336();
-                }
-
+            } else if (evtSource == this.buttonR) {
+                this.gameContainer.gamePanel.method336();
             }
         }
     }

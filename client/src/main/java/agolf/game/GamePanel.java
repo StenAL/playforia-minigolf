@@ -56,7 +56,7 @@ public class GamePanel extends Panel {
         var1.fillRect(0, 0, this.width, this.height);
     }
 
-    public void method333(String[] args) {
+    public void handlePacket(String[] args) {
         if (args[1].equals("gameinfo")) {
             String gameName = args[2];
             boolean passworded = args[3].equals("t");
@@ -136,7 +136,7 @@ public class GamePanel extends Panel {
                 this.gameChatPanel.addMessage(this.gameContainer.textManager.getGame("GameChat_GameSettings", settings));
             }
 
-        }if (args[1].equals("scoringmulti")) {
+        } else if (args[1].equals("scoringmulti")) {
             int len = args.length - 2;
             int[] var3 = new int[len];
 
