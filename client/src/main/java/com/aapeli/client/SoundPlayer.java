@@ -1,126 +1,117 @@
 package com.aapeli.client;
 
-import com.aapeli.client.Class87;
-import com.aapeli.client.SoundManager;
 import com.aapeli.tools.Tools;
 
 import java.util.Vector;
 
 public final class SoundPlayer implements Runnable {
 
-    private SoundManager aSoundManager1494;
-    private Vector[] aVectorArray1495;
-    private boolean aBoolean1496;
-    private Thread aThread1497;
-    private static final String[] aStringArray1498 = new String[4];
+    private final SoundManager soundManager;
+    private final Vector<ClipPlaybackTask>[] soundQueues; // index of queue == priority, higher == more important
+    private boolean stayAlive;
+    private final Thread thread;
 
 
-    public SoundPlayer(SoundManager var1) {
-        this.aSoundManager1494 = var1;
-        this.aVectorArray1495 = new Vector[10];
+    public SoundPlayer(SoundManager soundManager) {
+        this.soundManager = soundManager;
+        this.soundQueues = new Vector[10];
 
-        for (int var2 = 0; var2 < 10; ++var2) {
-            this.aVectorArray1495[var2] = new Vector();
+        for (int i = 0; i < 10; ++i) {
+            this.soundQueues[i] = new Vector<>();
         }
 
-        this.aBoolean1496 = true;
-        this.aThread1497 = new Thread(this);
-        this.aThread1497.setDaemon(true);
-        this.aThread1497.start();
+        this.stayAlive = true;
+        this.thread = new Thread(this);
+        this.thread.setDaemon(true);
+        this.thread.start();
     }
 
+    @Override
     public void run() {
-        if (this.aSoundManager1494.isDebug()) {
+        if (this.soundManager.isDebug()) {
             System.out.println("SoundPlayer: Started");
         }
 
         do {
             Tools.sleep(1000L);
-            String var1;
-            if (this.aBoolean1496) {
-                while ((var1 = this.method1695()) != null) {
-                    this.aSoundManager1494.play(var1);
+            String nextClipName;
+            if (this.stayAlive) {
+                while ((nextClipName = this.getNextClip()) != null) {
+                    this.soundManager.play(nextClipName);
                 }
             }
-        } while (this.aBoolean1496);
+        } while (this.stayAlive);
 
-        if (this.aSoundManager1494.isDebug()) {
+        if (this.soundManager.isDebug()) {
             System.out.println("SoundPlayer: Stopped");
         }
 
     }
 
-    public void play(String var1) {
-        this.play(var1, 5, 1000);
+    public void play(String clipName) {
+        this.play(clipName, 5, 1000);
     }
 
-    public void play(String var1, int var2) {
-        this.play(var1, var2, 1000);
+    public void play(String clipName, int priority) {
+        this.play(clipName, priority, 1000);
     }
 
-    public void play(String var1, int var2, int var3) {
-        if (var2 < 0) {
-            var2 = 0;
+    public void play(String clipName, int priority, int timeoutMs) {
+        if (priority < 0) {
+            priority = 0;
         }
 
-        if (var2 >= 10) {
-            var2 = 9;
+        if (priority >= 10) {
+            priority = 9;
         }
 
-        if (var3 < 0) {
-            var3 = 0;
+        if (timeoutMs < 0) {
+            timeoutMs = 0;
         }
 
-        Class87 var4 = new Class87(this, var1, var3);
-        synchronized (this.aVectorArray1495[var2]) {
-            this.aVectorArray1495[var2].addElement(var4);
+        ClipPlaybackTask clipPlaybackTask = new ClipPlaybackTask(clipName, timeoutMs);
+        synchronized (this.soundQueues[priority]) {
+            this.soundQueues[priority].addElement(clipPlaybackTask);
         }
 
-        this.aThread1497.interrupt();
+        this.thread.interrupt();
     }
 
     public void stop() {
-        this.aBoolean1496 = false;
+        this.stayAlive = false;
     }
 
-    private String method1695() {
-        for (int var2 = 9; var2 >= 0; --var2) {
-            String var1 = this.method1696(this.aVectorArray1495[var2]);
-            if (var1 != null) {
-                return var1;
+    private String getNextClip() {
+        for (int i = 9; i >= 0; --i) {
+            String soundTask = this.getFirstTaskFromQueue(this.soundQueues[i]);
+            if (soundTask != null) {
+                return soundTask;
             }
         }
 
         return null;
     }
 
-    private String method1696(Vector var1) {
-        Class87 var2;
-        synchronized (var1) {
-            if (var1.size() == 0) {
+    private String getFirstTaskFromQueue(Vector<ClipPlaybackTask> soundQueue) {
+        ClipPlaybackTask clipPlaybackTask;
+        synchronized (soundQueue) {
+            if (soundQueue.size() == 0) {
                 return null;
             }
 
-            var2 = (Class87) ((Class87) var1.elementAt(0));
-            var1.removeElementAt(0);
+            clipPlaybackTask = soundQueue.elementAt(0);
+            soundQueue.removeElementAt(0);
         }
 
-        String var3 = var2.method1685();
-        if (System.currentTimeMillis() > var2.method1686()) {
-            if (this.aSoundManager1494.isDebug()) {
-                System.out.println("SoundPlayer: \"" + var3 + "\" timed out");
+        String clipName = clipPlaybackTask.getClipName();
+        if (System.currentTimeMillis() > clipPlaybackTask.getTimeoutTimestamp()) {
+            if (this.soundManager.isDebug()) {
+                System.out.println("SoundPlayer: \"" + clipName + "\" timed out");
             }
 
-            return this.method1696(var1);
+            return this.getFirstTaskFromQueue(soundQueue);
         } else {
-            return var3;
+            return clipName;
         }
-    }
-
-    static {
-        aStringArray1498[0] = "SoundPlayer: Started";
-        aStringArray1498[1] = "SoundPlayer: Stopped";
-        aStringArray1498[2] = "\" timed out";
-        aStringArray1498[3] = "SoundPlayer: \"";
     }
 }
