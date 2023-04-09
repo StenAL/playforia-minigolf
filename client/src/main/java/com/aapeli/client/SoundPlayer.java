@@ -30,7 +30,7 @@ public final class SoundPlayer implements Runnable {
     }
 
     public void run() {
-        if (this.aSoundManager1494.method1687()) {
+        if (this.aSoundManager1494.isDebug()) {
             System.out.println("SoundPlayer: Started");
         }
 
@@ -44,7 +44,7 @@ public final class SoundPlayer implements Runnable {
             }
         } while (this.aBoolean1496);
 
-        if (this.aSoundManager1494.method1687()) {
+        if (this.aSoundManager1494.isDebug()) {
             System.out.println("SoundPlayer: Stopped");
         }
 
@@ -107,7 +107,7 @@ public final class SoundPlayer implements Runnable {
 
         String var3 = var2.method1685();
         if (System.currentTimeMillis() > var2.method1686()) {
-            if (this.aSoundManager1494.method1687()) {
+            if (this.aSoundManager1494.isDebug()) {
                 System.out.println("SoundPlayer: \"" + var3 + "\" timed out");
             }
 

@@ -375,7 +375,7 @@ public abstract class AApplet extends Applet implements Runnable, ActionListener
                 this.loadingPanel.setLoadingMessage(this.textManager.getShared("Loader_LoadingGfxSfx") + (var8 != null ? var8 : ""));
                 this.soundManager = new SoundManager(this, true, this.isDebug());
                 if (startupDebug) {
-                    this.soundManager.enableSUD(this);
+                    this.soundManager.enableSUD();
                 }
 
                 this.loadingPanel.method465(0.15D);
@@ -625,6 +625,9 @@ public abstract class AApplet extends Applet implements Runnable, ActionListener
 
     }
 
+    /**
+     * SUD == startup debug
+     */
     public void printSUD(String var1) {
         System.out.println("SUD(" + System.currentTimeMillis() + "): " + var1);
     }
@@ -634,7 +637,7 @@ public abstract class AApplet extends Applet implements Runnable, ActionListener
     public void textsLoadedNotify(TextManager var1) {
     }
 
-    public abstract void defineSounds(SoundManager var1);
+    public abstract void defineSounds(SoundManager soundManager);
 
     public abstract void defineImages(ImageManager var1, String var2);
 
