@@ -10,11 +10,9 @@ import org.moparforia.shared.Tools;
 import org.moparforia.shared.tracks.Track;
 import org.moparforia.shared.tracks.TrackCategory;
 
+import java.util.Arrays;
 import java.util.List;
 
-/**
- * multiplayerzzzz
- */
 public class MultiGame extends GolfGame {
 
 
@@ -73,7 +71,43 @@ public class MultiGame extends GolfGame {
     }
 
     @Override
+    public void endGame() {
+        if (this.trackScoring == 0) { // stroke scoring
+            int[] winners = getStrokeScoringWinner();
+            String[] params = new String[2 + winners.length];
+            params[0] = "game";
+            params[1] = "end";
+            for (int i = 0; i < winners.length; ++i) {
+                params[2 + i] = String.valueOf(winners[i]);
+            }
+            writeAll(new Packet(PacketType.DATA, Tools.tabularize(params)));
+        } else {
+            // TODO send winner info for track scoring
+            super.endGame();
+        }
+    }
+
+    @Override
     public List<Track> initTracks() {
         return manager.getRandomTracks(numberOfTracks, TrackCategory.getByTypeId(tracksType));
+    }
+
+    /**
+     * 1 == winner
+     * 0 == draw
+     * -1 == loser
+     */
+    private int[] getStrokeScoringWinner() {
+        int minStrokes = Arrays.stream(this.playerStrokesTotal).min().orElse(0);
+        boolean draw = Arrays.stream(this.playerStrokesTotal).filter(strokes -> strokes == minStrokes).count() > 1;
+        return Arrays.stream(this.playerStrokesTotal).map(strokes -> {
+            if (draw && strokes == minStrokes) {
+                return 0;
+            } else if (strokes == minStrokes) {
+                return 1;
+            } else {
+                return -1;
+            }
+        }).toArray();
     }
 }
