@@ -417,9 +417,18 @@ class GamePlayerInfoPanel extends Panel implements ItemListener, MouseListener {
         this.repaint();
     }
 
-    protected void setGameOutcome(int[] var1) {
-        this.gameOutcome = var1;
+    protected void setGameOutcome(int[] outcome) {
+        this.gameOutcome = outcome;
         this.anInt386 = this.trackCount;
+        if (outcome != null) {
+            if (outcome[this.currentPlayerId] == 1) {
+                this.gameContainer.soundManager.playGameWinner();
+            } else if (outcome[this.currentPlayerId] == 0) {
+                this.gameContainer.soundManager.playGameDraw();
+            } else {
+                this.gameContainer.soundManager.playGameLoser();
+            }
+        }
         this.playerID = -1;
         this.repaint();
     }
