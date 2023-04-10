@@ -367,9 +367,9 @@ public class GamePanel extends Panel {
                 int[] gameOutcome = new int[len];
                 boolean[] isWinner = new boolean[len];
 
-                for (int var1 = 0; var1 < len; ++var1) {
-                    gameOutcome[var1] = Integer.parseInt(args[2 + var1]);
-                    isWinner[var1] = gameOutcome[var1] == 1;
+                for (int i = 0; i < len; ++i) {
+                    gameOutcome[i] = Integer.parseInt(args[2 + i]);
+                    isWinner[i] = gameOutcome[i] == 1;
                 }
 
                 this.gamePlayerInfoPanel.setGameOutcome(gameOutcome);
