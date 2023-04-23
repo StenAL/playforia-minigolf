@@ -335,6 +335,7 @@ public class GamePanel extends Panel {
         } else if (args[1].equals("beginstroke")) {
             int playerId = Integer.parseInt(args[2]);
             this.gamePlayerInfoPanel.method363(playerId, false);
+            this.gameContainer.soundManager.playGameMove();
             this.gameCanvas.decodeCoords(playerId, false, args[3]);
 
         } else if (args[1].equals("changescore")) {
@@ -397,6 +398,7 @@ public class GamePanel extends Panel {
         this.gamePlayerInfoPanel.method363(playerId, false);
         String data = "beginstroke\t" + this.encodeCoords(x, y, keycount);
         this.gameContainer.connection.writeData("game\t" + data);
+        this.gameContainer.soundManager.playGameMove();
     }
 
     protected void method336() {
