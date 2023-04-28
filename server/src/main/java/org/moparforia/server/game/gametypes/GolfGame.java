@@ -46,12 +46,13 @@ public abstract class GolfGame extends Game {
     protected int trackScoringEnd;
     protected int numPlayers;
     protected List<Track> tracks;
-    protected int[] playerStrokes;
+    protected int[] playerStrokesThisTrack;
+    protected int[] playerStrokesTotal;
 
     protected int currentTrack = 0;
     protected int strokeCounter = 0;
     protected int strokesThisTrack = 0;
-    protected String playStatus;
+    protected String playStatus; // string where each character represents one player status. t = finished, f = not finished, p = ?
 
     public GolfGame(int gameId, LobbyType lobbyId, String name, String password, boolean passworded,
                     int numberOfTracks, int perms, int tracksType, int maxStrokes, int strokeTimeout,
@@ -67,7 +68,8 @@ public abstract class GolfGame extends Game {
         this.trackScoring = trackScoring;
         this.trackScoringEnd = trackScoringEnd;
         this.numPlayers = numPlayers;
-        this.playerStrokes = new int[numPlayers];
+        this.playerStrokesThisTrack = new int[numPlayers];
+        this.playerStrokesTotal = new int[numPlayers];
         tracks = initTracks();
 
     }
@@ -110,8 +112,8 @@ public abstract class GolfGame extends Game {
     @Override
     protected void reset() {
         currentTrack = 0;
-        playerStrokes = new int[playerCount()];
-        strokesThisTrack = 0;
+        playerStrokesThisTrack = new int[playerCount()];
+        playerStrokesTotal = new int[playerCount()];
         strokeCounter = 0;
         tracks = initTracks();
     }
@@ -163,7 +165,7 @@ public abstract class GolfGame extends Game {
 
         confirmCount++; // only sends the command after everyone confirms end stroke.
         if (confirmCount == getPlayers().size()) {
-            playerStrokes[ strokeCounter % getPlayers().size()] += 1;
+            playerStrokesThisTrack[ strokeCounter % getPlayers().size()] += 1;
             confirmCount = 0;
             if (finished) {
                 nextTrack();
@@ -174,14 +176,13 @@ public abstract class GolfGame extends Game {
 
     }
 
-    protected int getNextPlayer(String s) {
+    protected int getNextPlayer(String playStatus) {
         strokeCounter++;
         int player = strokeCounter % getPlayers().size();
-        if (s.charAt(player) == 't') {  // if this player has already finihed
-            getNextPlayer(s);
-        } else { // if player has not finished
-            strokesThisTrack++;
+        if (playStatus.charAt(player) == 't') {  // if this player has already finihed
+            getNextPlayer(playStatus);
         }
+
 
         return playersNumber.get(strokeCounter % getPlayers().size());
     }
@@ -191,21 +192,23 @@ public abstract class GolfGame extends Game {
         getPlayers().stream()
                 .filter(p -> !p.hasSkipped())
                 .forEach(player -> {
-                    statsManager.addScore(getCurrentTrack(), player.getNick(), playerStrokes[getPlayerId(player)]);
+                    statsManager.addScore(getCurrentTrack(), player.getNick(), playerStrokesThisTrack[getPlayerId(player)]);
                 });
 
     }
 
     protected void nextTrack() {
         updateStats();
-        strokesThisTrack = 0;
         strokeCounter = 0;
         currentTrack++;
+        for (int i = 0; i < getPlayers().size(); i++) {
+            playerStrokesTotal[i] += playerStrokesThisTrack[i];
+        }
         if (currentTrack < tracks.size()) { // there is a next track
             TrackStats track = statsManager.getStats(tracks.get(currentTrack));
             StringBuilder buff = new StringBuilder();
             for (int i = 0; i < getPlayers().size(); i++) {
-                playerStrokes[i] = 0; // todo proper id's
+                playerStrokesThisTrack[i] = 0; // todo proper id's
                 getPlayers().get(i).setSkipped(false);
                 buff.append("t");
             }
@@ -240,9 +243,9 @@ public abstract class GolfGame extends Game {
             if (player.hasSkipped() && playStatus.charAt(id) == 'f') {
                 needsChange = true;
                 numberOfSkippers++;
-                playerStrokes[id] = maxStrokes + 1;
+                playerStrokesThisTrack[id] = maxStrokes + 1;
             }
-            buff.append(playerStrokes[id]).append("\t");
+            buff.append(playerStrokesThisTrack[id]).append("\t");
         }
         if (needsChange && playerCount() > 1 && numberOfSkippers < playerCount()) {
             writeAll(new Packet(PacketType.DATA, Tools.tabularize("game", "changescore", currentTrack, buff.toString())));

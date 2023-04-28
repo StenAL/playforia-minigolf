@@ -8,8 +8,8 @@ import org.softsmithy.lib.nio.file.CopyFileVisitor;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.nio.file.FileSystem;
+import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -57,7 +57,7 @@ public class FileSystemExtension implements BeforeEachCallback, AfterEachCallbac
                 .filter(Files::isRegularFile)
                 .collect(Collectors.toList());
         for (Path file : files) {
-            Path relative_path = fileSystem.getPath(base.relativize(file).toString());
+            Path relative_path = fileSystem.getPath(base.relativize(file).toString().replace(FileSystems.getDefault().getSeparator(), fileSystem.getSeparator()));
             CopyFileVisitor.copy(base.resolve(file), relative_path);
         }
     }

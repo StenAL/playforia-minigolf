@@ -2,288 +2,271 @@ package com.aapeli.client;
 
 import com.aapeli.applet.AApplet;
 
-import java.applet.Applet;
 import java.applet.AudioClip;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Enumeration;
 import java.util.Hashtable;
 
 public final class SoundManager implements Runnable {
 
-    private static final String[] aStringArray1484 = {"stop", "play", "loop"};
-    private Applet anApplet1485;
-    private URL anURL1486;
-    private boolean aBoolean1487;
-    private boolean aBoolean1488;
-    private Hashtable aHashtable1489;
-    private Hashtable aHashtable1490;
-    private boolean aBoolean1491;
-    private AApplet anAApplet1492;
+    private static final String[] methodLookup = {"stop", "play", "loop"};
+    private AApplet applet;
+    private URL sharedSoundDir;
+    private final boolean loadSoundClipsOnRegister; // if false, users must call startLoading() to bulk load all registered sound clips
+    private final boolean debug;
+    private boolean startupDebug;
+    private Hashtable<Integer, SoundClip> clientSounds;
+    private Hashtable<String, SoundClip> sharedSounds;
+    private boolean clipLoaderThreadRunning;
 
 
-    public SoundManager(Applet var1) {
-        this(var1, true, false);
+    public SoundManager(AApplet applet) {
+        this(applet, true, false);
     }
 
-    public SoundManager(Applet var1, boolean var2) {
-        this(var1, true, var2);
+    public SoundManager(AApplet applet, boolean debug) {
+        this(applet, true, debug);
     }
 
-    public SoundManager(Applet var1, boolean var2, boolean var3) {
-        this.anApplet1485 = var1;
-        this.aBoolean1487 = var2;
-        this.aBoolean1488 = var3;
-        this.method1688();
-        this.anURL1486 = var1.getCodeBase();
+    public SoundManager(AApplet applet, boolean loadClipsOnRegister, boolean debug) {
+        this.startupDebug = false;
+        this.applet = applet;
+        this.loadSoundClipsOnRegister = loadClipsOnRegister;
+        this.debug = debug;
+        this.loadClientSounds();
+        this.sharedSoundDir = this.getClass().getResource("/sound/shared/");
 
-        try {
-            this.anURL1486 = new URL(this.anURL1486, "src/main/resources/sound/");
-        } catch (MalformedURLException var5) {
-            ;
-        }
-
-        this.aHashtable1490 = new Hashtable();
-        this.aBoolean1491 = false;
-        this.anAApplet1492 = null;
-        if (var2) {
-            this.method1690();
+        this.sharedSounds = new Hashtable<>();
+        this.clipLoaderThreadRunning = false;
+        if (loadClipsOnRegister) {
+            this.loadAllSoundClips();
         }
 
     }
 
+    @Override
     public void run() {
-        if (this.aBoolean1488) {
+        if (this.debug) {
             System.out.println("SoundManager.run(): Thread started");
         }
 
-        boolean var3;
+        boolean anySoundClipsNotDefined;
         do {
-            var3 = false;
-            Enumeration var1 = this.aHashtable1489.elements();
+            anySoundClipsNotDefined = false;
+            Enumeration<SoundClip> soundClips = this.clientSounds.elements();
 
-            Class86 var2;
-            while (var1.hasMoreElements()) {
-                var2 = (Class86) ((Class86) var1.nextElement());
-                if (!var2.method1682()) {
-                    var2.method1683();
-                    var3 = true;
+            SoundClip soundClip;
+            while (soundClips.hasMoreElements()) {
+                soundClip = soundClips.nextElement();
+                if (!soundClip.isDefined()) {
+                    soundClip.defineClip();
+                    anySoundClipsNotDefined = true;
                 }
             }
 
-            var1 = this.aHashtable1490.elements();
+            soundClips = this.sharedSounds.elements();
 
-            while (var1.hasMoreElements()) {
-                var2 = (Class86) ((Class86) var1.nextElement());
-                if (!var2.method1682()) {
-                    var2.method1683();
-                    var3 = true;
+            while (soundClips.hasMoreElements()) {
+                soundClip = soundClips.nextElement();
+                if (!soundClip.isDefined()) {
+                    soundClip.defineClip();
+                    anySoundClipsNotDefined = true;
                 }
             }
-        } while (var3);
+        } while (anySoundClipsNotDefined);
 
-        this.aBoolean1491 = false;
-        if (this.aBoolean1488) {
+        this.clipLoaderThreadRunning = false;
+        if (this.debug) {
             System.out.println("SoundManager.run(): Thread finished");
         }
 
     }
 
-    public void defineSound(String var1) {
-        int var2 = var1.lastIndexOf(46);
-        String var3 = var1.substring(0, var2);
-        this.defineSound(var3, var1);
+    public void defineSharedSoundClip(String filename) {
+        int clipNameLength = filename.lastIndexOf(".");
+        String clipName = filename.substring(0, clipNameLength);
+        this.defineSharedSoundClip(clipName, filename);
     }
 
-    public void defineSound(String var1, String var2) {
-        if (this.aBoolean1488) {
-            System.out.println("SoundManager.defineSound(\"" + var1 + "\",\"" + var2 + "\")");
+    public void defineSharedSoundClip(String clipName, String soundFile) {
+        if (this.debug) {
+            System.out.println("SoundManager.defineSound(\"" + clipName + "\",\"" + soundFile + "\")");
         }
 
-        if (this.anAApplet1492 != null) {
-            this.anAApplet1492.printSUD("SoundManager: Defining sound \"" + var2 + "\"");
+        if (this.startupDebug) {
+            this.applet.printSUD("SoundManager: Defining sound \"" + soundFile + "\"");
         }
 
-        Class86 var3 = new Class86(this.anApplet1485, this.anURL1486, var2, this.aBoolean1488);
-        this.aHashtable1490.put(var1, var3);
-        if (this.aBoolean1487) {
-            this.method1690();
+        SoundClip soundClip = new SoundClip(this.applet, this.sharedSoundDir, soundFile, this.debug);
+        this.sharedSounds.put(clipName, soundClip);
+        if (this.loadSoundClipsOnRegister) {
+            this.loadAllSoundClips();
         }
 
     }
 
     public void startLoading() {
-        this.method1690();
+        this.loadAllSoundClips();
     }
 
-    public void play(String var1) {
-        this.method1692(var1, 1);
+    public void play(String clipName) {
+        this.handleSharedSoundClip(clipName, 1);
     }
 
-    public void loop(String var1) {
-        this.method1692(var1, 2);
+    public void loop(String clipName) {
+        this.handleSharedSoundClip(clipName, 2);
     }
 
-    public void stop(String var1) {
-        this.method1692(var1, 0);
+    public void stop(String clipName) {
+        this.handleSharedSoundClip(clipName, 0);
     }
 
     public void playChallenge() {
-        if (this.aBoolean1488) {
+        if (this.debug) {
             System.out.println("SoundManager.playChallenge()");
         }
 
-        this.method1691(1);
+        this.playAudioClip(1);
     }
 
     public void playGameMove() {
-        if (this.aBoolean1488) {
+        if (this.debug) {
             System.out.println("SoundManager.playGameMove()");
         }
 
-        this.method1691(2);
+        this.playAudioClip(2);
     }
 
     public void playNotify() {
-        if (this.aBoolean1488) {
+        if (this.debug) {
             System.out.println("SoundManager.playNotify()");
         }
 
-        this.method1691(3);
+        this.playAudioClip(3);
     }
 
     public void playIllegal() {
-        if (this.aBoolean1488) {
+        if (this.debug) {
             System.out.println("SoundManager.playIllegal()");
         }
 
-        this.method1691(4);
+        this.playAudioClip(4);
     }
 
     public void playTimeLow() {
-        if (this.aBoolean1488) {
+        if (this.debug) {
             System.out.println("SoundManager.playTimeLow()");
         }
 
-        this.method1691(5);
+        this.playAudioClip(5);
     }
 
     public void playGameWinner() {
-        if (this.aBoolean1488) {
+        if (this.debug) {
             System.out.println("SoundManager.playGameWinner()");
         }
 
-        this.method1691(6);
+        this.playAudioClip(6);
     }
 
     public void playGameLoser() {
-        if (this.aBoolean1488) {
+        if (this.debug) {
             System.out.println("SoundManager.playGameLoser()");
         }
 
-        this.method1691(7);
+        this.playAudioClip(7);
     }
 
     public void playGameDraw() {
-        if (this.aBoolean1488) {
+        if (this.debug) {
             System.out.println("SoundManager.playGameDraw()");
         }
 
-        this.method1691(8);
+        this.playAudioClip(8);
     }
 
     public void destroy() {
-        this.aHashtable1490.clear();
-        this.aHashtable1490 = null;
-        this.aHashtable1489.clear();
-        this.aHashtable1489 = null;
-        this.anURL1486 = null;
-        this.anApplet1485 = null;
+        this.sharedSounds.clear();
+        this.sharedSounds = null;
+        this.clientSounds.clear();
+        this.clientSounds = null;
+        this.sharedSoundDir = null;
+        this.applet = null;
     }
 
-    public void enableSUD(AApplet var1) {
-        this.anAApplet1492 = var1;
+    public void enableSUD() {
+        this.startupDebug = true;
     }
 
-    protected boolean method1687() {
-        return this.aBoolean1488;
+    protected boolean isDebug() {
+        return this.debug;
     }
 
-    private void method1688() {
-        URL var1 = this.anApplet1485.getCodeBase();
+    private void loadClientSounds() {
+        URL clientSoundsDir = this.getClass().getResource("/sound/shared/");
 
+        this.clientSounds = new Hashtable<>();
+        this.defineSoundClip(1, clientSoundsDir, "challenge");
+        this.defineSoundClip(2, clientSoundsDir, "gamemove");
+        this.defineSoundClip(3, clientSoundsDir, "notify");
+        this.defineSoundClip(4, clientSoundsDir, "illegal");
+        this.defineSoundClip(5, clientSoundsDir, "timelow");
+        this.defineSoundClip(6, clientSoundsDir, "game-winner");
+        this.defineSoundClip(7, clientSoundsDir, "game-loser");
+        this.defineSoundClip(8, clientSoundsDir, "game-draw");
+    }
+
+    private void defineSoundClip(int id, URL soundDir, String clipName) {
+        this.clientSounds.put(new Integer(id), new SoundClip(this.applet, soundDir, clipName + ".au", this.debug));
+    }
+
+    private synchronized void loadAllSoundClips() {
+        if (!this.clipLoaderThreadRunning) {
+            this.clipLoaderThreadRunning = true;
+            Thread thread = new Thread(this);
+            thread.setDaemon(true);
+            thread.start();
+        }
+    }
+
+    private void playAudioClip(int id) {
+        SoundClip soundClip = this.clientSounds.get(new Integer(id));
+        if (soundClip != null) {
+            AudioClip audioClip = soundClip.getAudioClip();
+            if (audioClip != null) {
+                audioClip.play();
+            }
+        }
+    }
+
+    private void handleSharedSoundClip(String clipName, int methodIndex) {
         try {
-            if (FileUtil.isFileUrl(var1)) {
-                var1 = new URL(var1, FileUtil.RESOURCE_DIR + "src/main/resources/sound/");
-            } else {
-                var1 = new URL(var1, "../Shared/sound/");
-            }
-        } catch (MalformedURLException var3) {
-            ;
-        }
-
-        this.aHashtable1489 = new Hashtable();
-        this.method1689(1, var1, "challenge");
-        this.method1689(2, var1, "gamemove");
-        this.method1689(3, var1, "notify");
-        this.method1689(4, var1, "illegal");
-        this.method1689(5, var1, "timelow");
-        this.method1689(6, var1, "game-winner");
-        this.method1689(7, var1, "game-loser");
-        this.method1689(8, var1, "game-draw");
-    }
-
-    private void method1689(int var1, URL var2, String var3) {
-        this.aHashtable1489.put(new Integer(var1), new Class86(this.anApplet1485, var2, var3 + ".au", this.aBoolean1488));
-    }
-
-    private synchronized void method1690() {
-        if (!this.aBoolean1491) {
-            this.aBoolean1491 = true;
-            Thread var1 = new Thread(this);
-            var1.setDaemon(true);
-            var1.start();
-        }
-    }
-
-    private void method1691(int var1) {
-        Class86 var2 = (Class86) ((Class86) this.aHashtable1489.get(new Integer(var1)));
-        if (var2 != null) {
-            AudioClip var3 = var2.method1684();
-            if (var3 != null) {
-                var3.play();
-            }
-        }
-    }
-
-    private void method1692(String var1, int var2) {
-        try {
-            if (this.aBoolean1488) {
-                System.out.println("SoundManager." + aStringArray1484[var2] + "(\"" + var1 + "\")");
+            if (this.debug) {
+                System.out.println("SoundManager." + methodLookup[methodIndex] + "(\"" + clipName + "\")");
             }
 
-            Class86 var3 = (Class86) ((Class86) this.aHashtable1490.get(var1));
-            if (var3 != null) {
-                AudioClip var4 = var3.method1684();
-                if (var4 != null) {
-                    if (var2 == 0) {
-                        var4.stop();
-                    } else if (var2 == 1) {
-                        var4.play();
-                    } else if (var2 == 2) {
-                        var4.loop();
+            SoundClip soundClip = this.sharedSounds.get(clipName);
+            if (soundClip != null) {
+                AudioClip audioClip = soundClip.getAudioClip();
+                if (audioClip != null) {
+                    if (methodIndex == 0) {
+                        audioClip.stop();
+                    } else if (methodIndex == 1) {
+                        audioClip.play();
+                    } else if (methodIndex == 2) {
+                        audioClip.loop();
                     }
-                } else if (this.aBoolean1488) {
-                    System.out.println("SoundManager." + aStringArray1484[var2] + "(\"" + var1 + "\"): AudioClip not ready!");
+                } else if (this.debug) {
+                    System.out.println("SoundManager." + methodLookup[methodIndex] + "(\"" + clipName + "\"): AudioClip not ready!");
                 }
-            } else if (this.aBoolean1488) {
-                System.out.println("SoundManager." + aStringArray1484[var2] + "(\"" + var1 + "\"): SoundClip not found!");
+            } else if (this.debug) {
+                System.out.println("SoundManager." + methodLookup[methodIndex] + "(\"" + clipName + "\"): SoundClip not found!");
                 Thread.dumpStack();
             }
         } catch (Exception var5) {
-            System.out.println("SoundManager: Unexpected exception \"" + var5 + "\" when playing \"" + var1 + "\"");
+            System.out.println("SoundManager: Unexpected exception \"" + var5 + "\" when playing \"" + clipName + "\"");
         } catch (Error var6) {
-            System.out.println("SoundManager: Unexpected error \"" + var6 + "\" when playing \"" + var1 + "\"");
+            System.out.println("SoundManager: Unexpected error \"" + var6 + "\" when playing \"" + clipName + "\"");
         }
 
     }

@@ -56,7 +56,7 @@ public class GamePanel extends Panel {
         var1.fillRect(0, 0, this.width, this.height);
     }
 
-    public void method333(String[] args) {
+    public void handlePacket(String[] args) {
         if (args[1].equals("gameinfo")) {
             String gameName = args[2];
             boolean passworded = args[3].equals("t");
@@ -136,7 +136,7 @@ public class GamePanel extends Panel {
                 this.gameChatPanel.addMessage(this.gameContainer.textManager.getGame("GameChat_GameSettings", settings));
             }
 
-        }if (args[1].equals("scoringmulti")) {
+        } else if (args[1].equals("scoringmulti")) {
             int len = args.length - 2;
             int[] var3 = new int[len];
 
@@ -335,6 +335,7 @@ public class GamePanel extends Panel {
         } else if (args[1].equals("beginstroke")) {
             int playerId = Integer.parseInt(args[2]);
             this.gamePlayerInfoPanel.method363(playerId, false);
+            this.gameContainer.soundManager.playGameMove();
             this.gameCanvas.decodeCoords(playerId, false, args[3]);
 
         } else if (args[1].equals("changescore")) {
@@ -366,9 +367,9 @@ public class GamePanel extends Panel {
                 int[] gameOutcome = new int[len];
                 boolean[] isWinner = new boolean[len];
 
-                for (int var1 = 0; var1 < len; ++var1) {
-                    gameOutcome[var1] = Integer.parseInt(args[2 + var1]);
-                    isWinner[var1] = gameOutcome[var1] == 1;
+                for (int i = 0; i < len; ++i) {
+                    gameOutcome[i] = Integer.parseInt(args[2 + i]);
+                    isWinner[i] = gameOutcome[i] == 1;
                 }
 
                 this.gamePlayerInfoPanel.setGameOutcome(gameOutcome);
@@ -397,6 +398,7 @@ public class GamePanel extends Panel {
         this.gamePlayerInfoPanel.method363(playerId, false);
         String data = "beginstroke\t" + this.encodeCoords(x, y, keycount);
         this.gameContainer.connection.writeData("game\t" + data);
+        this.gameContainer.soundManager.playGameMove();
     }
 
     protected void method336() {

@@ -7,7 +7,10 @@ import com.aapeli.applet.AApplet;
 import com.aapeli.client.*;
 import org.moparforia.client.Launcher;
 
+import java.applet.Applet;
+import java.applet.AudioClip;
 import java.awt.*;
+import java.net.URL;
 
 public class GameApplet extends AApplet {
 
@@ -47,8 +50,8 @@ public class GameApplet extends AApplet {
         this.gameContainer.textManager = var1;
     }
 
-    public void defineSounds(SoundManager var1) {
-        this.gameContainer.soundManager = var1;
+    public void defineSounds(SoundManager soundManager) {
+        this.gameContainer.soundManager = soundManager;
     }
 
     public void defineImages(ImageManager imageManager, String var2) {
@@ -70,9 +73,9 @@ public class GameApplet extends AApplet {
         imageManager.defineSharedImage("bigtext.gif"); // TODO
         imageManager.defineSharedImage("tf-background.gif"); // TODO
 
-        for (int var3 = 0; var3 < GameBackgroundCanvas.trackAdvertSize; ++var3) {
-            if (this.gameContainer.adverts[var3] != null) {
-                imageManager.defineImage("ad" + var3, this.gameContainer.adverts[var3]);
+        for (int i = 0; i < GameBackgroundCanvas.trackAdvertSize; ++i) {
+            if (this.gameContainer.adverts[i] != null) {
+                imageManager.defineImage("ad" + i, this.gameContainer.adverts[i]);
             }
         }
 
@@ -275,12 +278,12 @@ public class GameApplet extends AApplet {
     }
 
     private boolean containsDomain(String host, String domain, String[] tld) {
-        for (int var4 = 0; var4 < tld.length; ++var4) {
-            if (host.equals(domain + "." + tld[var4])) {
+        for (int i = 0; i < tld.length; ++i) {
+            if (host.equals(domain + "." + tld[i])) {
                 return true;
             }
 
-            if (host.endsWith("." + domain + "." + tld[var4])) {
+            if (host.endsWith("." + domain + "." + tld[i])) {
                 return true;
             }
         }

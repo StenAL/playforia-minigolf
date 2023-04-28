@@ -5,11 +5,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.MemoryImageSource;
 import java.awt.image.PixelGrabber;
-import java.io.File;
 
-/**
- * Mainly just LEECHEDDDDDDDD da source from the client, rofl hacker plaregiser!1!!!1!11!cos2pi!!
- */
 public class SpriteManager {
 
     JFrame frame;
