@@ -40,7 +40,7 @@ class FileSystemStatsManagerTest {
     void testSimpleLoad() throws IOException, URISyntaxException {
         extension.copyAll();
 
-        statsManager.load();
+        statsManager.load("tracks");
 
         TrackStats stats = statsManager.getStats(single);
         assertEquals("Sprt", stats.getBestPlayer());
@@ -55,7 +55,7 @@ class FileSystemStatsManagerTest {
     void testEmptyStats() throws IOException, URISyntaxException {
         extension.copyAll();
 
-        statsManager.load();
+        statsManager.load("tracks");
         TrackStats stats = statsManager.getStats(empty_stats);
         assertEquals("", stats.getBestPlayer());
         assertEquals(0, stats.getTotalAttempts());

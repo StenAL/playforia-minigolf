@@ -20,7 +20,7 @@ public class VersionTest {
         extension.copyAll();
 
         TrackManager manager = new FileSystemTrackManager(extension.getFileSystem());
-        manager.load();
+        manager.load("tracks");
 
         assertEquals(1, manager.getTracks().size());
     }

@@ -41,7 +41,7 @@ class TrackConverterTest {
 
         TrackConverter.convertTracks(tracks);
 
-        statsManager.load();
+        statsManager.load("tracks");
 
         for (TrackStats stat : consolidated) {
             Track track = stat.getTrack();

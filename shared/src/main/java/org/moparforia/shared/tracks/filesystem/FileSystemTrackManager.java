@@ -39,11 +39,11 @@ public class FileSystemTrackManager implements TrackManager {
     }
 
     @Override
-    public void load() throws TrackLoadException {
+    public void load(String tracksDirectory) throws TrackLoadException {
         try {
-            tracks = loadTracks();
+            tracks = loadTracks(tracksDirectory);
             logger.info("Loaded " + tracks.size() + " tracks");
-            trackSets = loadTrackSets();
+            trackSets = loadTrackSets(tracksDirectory);
             logger.info("Loaded " + trackSets.size() + " track sets");
         } catch (IOException e) {
             throw new TrackLoadException("Unable to load tracks and tracksets", e);
@@ -70,11 +70,11 @@ public class FileSystemTrackManager implements TrackManager {
                 "T " + track.getMap());
     }
 
-    private List<Track> loadTracks() throws IOException {
+    private List<Track> loadTracks(String tracksDirectory) throws IOException {
         List<Track> tracks = new ArrayList<>();
-        Path tracksPath = fileSystem.getPath("tracks", "tracks");
+        Path tracksPath = fileSystem.getPath(tracksDirectory, "tracks");
         if (!Files.exists(tracksPath)) {
-            logger.warning("Tracks directory (tracks/tracks) was not found, ignoring.");
+            logger.warning("Tracks directory (" + tracksDirectory + "/tracks) was not found, ignoring.");
             return Collections.emptyList();
         }
         DirectoryStream<Path> directoryStream = Files.newDirectoryStream(tracksPath,
@@ -90,11 +90,11 @@ public class FileSystemTrackManager implements TrackManager {
         return tracks;
     }
 
-    private List<TrackSet> loadTrackSets() throws IOException {
+    private List<TrackSet> loadTrackSets(String tracksDirectory) throws IOException {
         List<TrackSet> trackSets = new ArrayList<>();
-        Path sets = fileSystem.getPath("tracks", "sets");
+        Path sets = fileSystem.getPath(tracksDirectory, "sets");
         if (!Files.exists(sets)) {
-            logger.warning("Can't load tracksets, directory tracks/sets does not exists, ignoring.");
+            logger.warning("Can't load tracksets, directory " + tracksDirectory + "/sets does not exist, ignoring.");
             return trackSets;
         }
 

@@ -35,7 +35,7 @@ class FileSystemTrackManagerTest {
    void testSimpleSetLoad() throws IOException, URISyntaxException, TrackLoadException {
        extension.copyAll();
 
-       manager.load();
+       manager.load("tracks");
        assertEquals(1, manager.getTrackSets().size());
        TrackSet birchwood = manager.getTrackSet("Birchwood");
 
@@ -49,7 +49,7 @@ class FileSystemTrackManagerTest {
    void testLoad() throws IOException, URISyntaxException, TrackLoadException {
        extension.copyAll();
 
-       manager.load();
+       manager.load("tracks");
        assertEquals(17, manager.getTracks().size());
        assertEquals(1, manager.getTrackSets().size());
 
@@ -73,7 +73,7 @@ class FileSystemTrackManagerTest {
     void testRandomTracks() throws IOException, URISyntaxException, TrackLoadException {
         extension.copyAll();
 
-        manager.load();
+        manager.load("tracks");
         assertEquals(3, manager.getRandomTracks(3, TrackCategory.MODERN).size());
         assertEquals(6, manager.getRandomTracks(50, TrackCategory.MODERN).size());
    }
@@ -83,7 +83,7 @@ class FileSystemTrackManagerTest {
      */
    @Test
    void testRandomTracksEmpty() throws TrackLoadException {
-       manager.load();
+       manager.load("tracks");
        assertEquals(0, manager.getRandomTracks(50, TrackCategory.BASIC).size());
    }
 

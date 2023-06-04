@@ -37,16 +37,17 @@ public class FileSystemStatsManager implements StatsManager {
         return instance;
     }
 
-    public void load() throws IOException {
-        stats = loadStats();
+    public void load(String tracksDirectory) throws IOException {
+        stats = loadStats(tracksDirectory);
+        logger.info("Loaded stats for " + stats.size() + " tracks");
     }
 
-    public Map<Track, TrackStats> loadStats() throws IOException {
+    public Map<Track, TrackStats> loadStats(String tracksDirectory) throws IOException {
         List<TrackStats> tracks = new ArrayList<>();
 
-        Path tracksPath = fileSystem.getPath("tracks", "tracks");
+        Path tracksPath = fileSystem.getPath(tracksDirectory, "tracks");
         if (!Files.exists(tracksPath)) {
-            logger.warning("Directory tracks/tracks was not found, ignoring.");
+            logger.warning("Directory " + tracksDirectory + "/tracks was not found, ignoring.");
             return Collections.emptyMap();
         }
         DirectoryStream<Path> directoryStream = Files.newDirectoryStream(

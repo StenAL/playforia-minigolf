@@ -36,7 +36,7 @@ public interface TrackManager {
      * Loads all Tracks and TrackSets
      * @throws TrackLoadException Exception
      */
-    void load() throws TrackLoadException;
+    void load(String tracksDirectory) throws TrackLoadException;
 
     /**
      * @return True, if manager is loaded

@@ -39,6 +39,7 @@ public class Server implements Runnable {
 
     private String host;
     private int port;
+    private String tracksDirectory;
 
     private HashMap<LobbyType, Lobby> lobbies = new HashMap<LobbyType, Lobby>();
     //private ArrayList<LobbyRef> lobbies = new ArrayList<LobbyRef>();
@@ -48,9 +49,10 @@ public class Server implements Runnable {
     private int gameIdCounter;
 
 
-    public Server(String host, int port) {
+    public Server(String host, int port, String tracksDirectory) {
         this.host = host;
         this.port = port;
+        this.tracksDirectory = tracksDirectory;
         for (LobbyType lt : LobbyType.values()) {
             lobbies.put(lt, new Lobby(lt));
         }
@@ -155,8 +157,8 @@ public class Server implements Runnable {
 
     public void start() {
         try {
-            FileSystemTrackManager.getInstance().load();
-            FileSystemStatsManager.getInstance().load();
+            FileSystemTrackManager.getInstance().load(tracksDirectory);
+            FileSystemStatsManager.getInstance().load(tracksDirectory);
         } catch (TrackLoadException | IOException e) {
             System.err.println("Unable to load tracks: " + e.getMessage());
             e.printStackTrace();

@@ -46,7 +46,7 @@ Run `mvn install` in the root directory. This builds `client`, `server` and `edi
 ### Running
 
 First, the server application has to be started as it provides resources like sounds, maps and textures which are required for "offline" modes, too.
-As I could not manage to include the tracks inside the compiled JAR archive, the `tracks` directory has to be located at the same folder where the `server.jar` is located! There is a symbolic link in the `server/` directory which will likely not work on Windows systems. Please remove it and copy the directory instead!
+As I could not manage to include the tracks inside the compiled JAR archive, the `tracks` directory has to be located at the same folder where the `server.jar` is located! There is a symbolic link in the `server/` directory which does not work on Windows systems. Please remove it and copy the directory there instead or launch the server using the `--tracks-dir` option!
 Assuming that all 3 tools have compiled successfully (or downloaded them from the [Releases Page](https://github.com/PhilippvK/playforia-minigolf/releases)), you have 3 possible ways for running the server binary:
 1. Using the IntelliJ IDE: Use the provides build artifacts or run the server by pressing the play button after compiling
 2. Using the Maven tool:  Run `mvn compile exec:java` in the `./server`, `./client` or `./editor` directory
@@ -65,12 +65,15 @@ java -jar client.jar -server 192.168.1.7 -lang en_US # Replace IP with the one o
 We provide an experimental Dockerfile for easy hosting of the server application. You can either build the image by yourself or download the pre-build images from [quay.io](https://quay.io/repository/philippvk/minigolf) via `docker pull quay.io/philippvk/minigolf:latest`.
 
 Running the Editor is quite straightforward as it can be started like expected: `java -jar editor.jar`
+
 ### CLI options
 Both client and server include CLI options for hostname (`-ip`), port (`-p`) settings. To learn about all the available setting you can include help with `-h` parameter.
 
+To override the default directory where the server looks for tracks, use the `--tracks-dir` option.
+
 If you want to enable debugging messages, add `--verbose` to the list of arguments.
 
-## Compability
+## Compatibility
 
 Tested:
 - Ubuntu 22.04 with Java version `17.0.6`
