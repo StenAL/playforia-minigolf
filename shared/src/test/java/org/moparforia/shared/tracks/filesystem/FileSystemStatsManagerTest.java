@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.moparforia.shared.tracks.Track;
 import org.moparforia.shared.tracks.TrackCategory;
+import org.moparforia.shared.tracks.TracksLocation;
 import org.moparforia.shared.tracks.stats.TrackStats;
 import org.moparforia.shared.tracks.util.FileSystemExtension;
 
@@ -32,15 +33,14 @@ class FileSystemStatsManagerTest {
 
     @BeforeEach
     void beforeEach() {
-        FileSystem fileSystem = this.extension.getFileSystem();
-        statsManager = new FileSystemStatsManager(fileSystem);
+        statsManager = new FileSystemStatsManager();
     }
 
     @Test
     void testSimpleLoad() throws IOException, URISyntaxException {
         extension.copyAll();
-
-        statsManager.load("tracks");
+        TracksLocation tracksLocation = new TracksLocation(this.extension.getFileSystem(), "tracks");
+        statsManager.load(tracksLocation);
 
         TrackStats stats = statsManager.getStats(single);
         assertEquals("Sprt", stats.getBestPlayer());
@@ -54,8 +54,9 @@ class FileSystemStatsManagerTest {
     @Test
     void testEmptyStats() throws IOException, URISyntaxException {
         extension.copyAll();
+        TracksLocation tracksLocation = new TracksLocation(this.extension.getFileSystem(), "tracks");
 
-        statsManager.load("tracks");
+        statsManager.load(tracksLocation);
         TrackStats stats = statsManager.getStats(empty_stats);
         assertEquals("", stats.getBestPlayer());
         assertEquals(0, stats.getTotalAttempts());

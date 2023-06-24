@@ -3,6 +3,7 @@ package org.moparforia.shared.tracks.parsers;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.moparforia.shared.tracks.Track;
+import org.moparforia.shared.tracks.TracksLocation;
 import org.moparforia.shared.tracks.filesystem.FileSystemStatsManager;
 import org.moparforia.shared.tracks.stats.TrackStats;
 import org.moparforia.shared.tracks.util.FileSystemExtension;
@@ -33,7 +34,9 @@ class TrackConverterTest {
         for (String dir : DIRS) {
             extension.copyDir(dir);
         }
-        FileSystemStatsManager statsManager = new FileSystemStatsManager(extension.getFileSystem());
+        FileSystemStatsManager statsManager = new FileSystemStatsManager();
+        TracksLocation tracksLocation = new TracksLocation(this.extension.getFileSystem(), "tracks");
+
 
         Path tracks = extension.getFileSystem().getPath("tracks");
         List<TrackStats> stats = TrackConverter.loadOldTracks(tracks);
@@ -41,7 +44,7 @@ class TrackConverterTest {
 
         TrackConverter.convertTracks(tracks);
 
-        statsManager.load("tracks");
+        statsManager.load(tracksLocation);
 
         for (TrackStats stat : consolidated) {
             Track track = stat.getTrack();

@@ -3,6 +3,7 @@ package org.moparforia.server;
 import org.moparforia.shared.ManifestVersionProvider;
 import picocli.CommandLine;
 
+import java.util.Optional;
 import java.util.concurrent.Callable;
 
 @CommandLine.Command(
@@ -18,7 +19,6 @@ public class Launcher implements Callable<Integer> {
 
     public static final String DEFAULT_HOST = "0.0.0.0";
     public static final String DEFAULT_PORT = "4242";
-    public static final String DEFAULT_TRACKS_DIRECTORY = "tracks";
 
     @CommandLine.Option(
             names = {"--hostname", "-ip"},
@@ -36,8 +36,7 @@ public class Launcher implements Callable<Integer> {
 
     @CommandLine.Option(
             names = {"--tracks-dir", "-t"},
-            description = "Sets where to look for tracks and track sets",
-            defaultValue = DEFAULT_TRACKS_DIRECTORY
+            description = "Sets where to look for tracks and track sets"
     )
     private String tracksDirectory;
 
@@ -50,11 +49,11 @@ public class Launcher implements Callable<Integer> {
 
     @Override
     public Integer call() {
-        getServer(host, port, tracksDirectory).start();
+        getServer(this.host, this.port, this.tracksDirectory).start();
         return 0;
     }
 
     public Server getServer(String host, int port, String tracksDirectory) {
-        return new Server(host, port, tracksDirectory);
+        return new Server(host, port, Optional.ofNullable(tracksDirectory));
     }
 }

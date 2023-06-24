@@ -46,7 +46,7 @@ Run `mvn install` in the root directory. This builds `client`, `server` and `edi
 ### Running
 
 First, the server application has to be started as it provides resources like sounds, maps and textures which are required for "offline" modes, too.
-As I could not manage to include the tracks inside the compiled JAR archive, the `tracks` directory has to be located at the same folder where the `server.jar` is located! There is a symbolic link in the `server/` directory which does not work on Windows systems. Please remove it and copy the directory there instead or launch the server using the `--tracks-dir` option!
+By default, the server uses tracks from the project's bundled resources, however if you want to run with a custom set of tracks, launch the server using the `--tracks-dir` option!
 Assuming that all 3 tools have compiled successfully (or downloaded them from the [Releases Page](https://github.com/PhilippvK/playforia-minigolf/releases)), you have 3 possible ways for running the server binary:
 1. Using the IntelliJ IDE: Use the provides build artifacts or run the server by pressing the play button after compiling
 2. Using the Maven tool:  Run `mvn compile exec:java` in the `./server`, `./client` or `./editor` directory
@@ -69,7 +69,7 @@ Running the Editor is quite straightforward as it can be started like expected: 
 ### CLI options
 Both client and server include CLI options for hostname (`-ip`), port (`-p`) settings. To learn about all the available setting you can include help with `-h` parameter.
 
-To override the default directory where the server looks for tracks, use the `--tracks-dir` option.
+To use custom tracks instead of the default set of bundled tracks, use the `--tracks-dir` option when starting the server and point it to where your tracks are located.
 
 If you want to enable debugging messages, add `--verbose` to the list of arguments.
 
@@ -89,7 +89,7 @@ Tested:
 1. The code is neither written by me nor my property. I do NOT represent the same values as people who have worked on this code before. (Original Source: https://github.com/WorldStarHipHopX/playforia)
 2. I am not responsible for any bug, problems, security flaws,...
 3. Also, I do not intent to extend the current codebase very much.
-4. The Java code you will find in the repository is pretty bad. Some parts even look like they where generated, for example by an converter tool
+4. The Java code you will find in the repository is pretty bad. Some parts even look like they were generated, for example by an converter tool
 5. There is actually an aimbot implemented in the client code. Look for `allowCheating` in `GameCanvas.java` for trying it out. Use it wisely.
 
 ## Contribution

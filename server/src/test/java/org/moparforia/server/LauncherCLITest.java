@@ -34,7 +34,7 @@ class LauncherCLITest {
                 .lenient()
                 .withoutAnnotations());
 
-        doReturn(mock(Server.class)).when(launcher).getServer(anyString(), anyInt(), anyString());
+        doReturn(mock(Server.class)).when(launcher).getServer(anyString(), anyInt(), any());
         when(launcher.call()).thenCallRealMethod();
 
         cmd = new CommandLine(launcher);
@@ -76,13 +76,13 @@ class LauncherCLITest {
     @Test
     void testOnlyPort() {
         assertEquals(0, cmd.execute("-p", "1111"));
-        verify(launcher).getServer(eq(Launcher.DEFAULT_HOST), eq(1111), eq(Launcher.DEFAULT_TRACKS_DIRECTORY));
+        verify(launcher).getServer(eq(Launcher.DEFAULT_HOST), eq(1111), eq(null));
     }
 
     @Test
     void testOnlyHostname() {
         assertEquals(0, cmd.execute("-ip", "127.127.127.127"));
-        verify(launcher).getServer(eq("127.127.127.127"), eq(DEFAULT_PORT), eq(Launcher.DEFAULT_TRACKS_DIRECTORY));
+        verify(launcher).getServer(eq("127.127.127.127"), eq(DEFAULT_PORT), eq(null));
     }
 
     @Test
@@ -94,6 +94,6 @@ class LauncherCLITest {
     @Test
     void testDefaultValues() {
         assertEquals(0, cmd.execute());
-        verify(launcher).getServer(eq(Launcher.DEFAULT_HOST), eq(DEFAULT_PORT), eq(Launcher.DEFAULT_TRACKS_DIRECTORY));
+        verify(launcher).getServer(eq(Launcher.DEFAULT_HOST), eq(DEFAULT_PORT), eq(null));
     }
 }
