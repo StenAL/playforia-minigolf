@@ -12,38 +12,28 @@ import java.util.*;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-/**
- * Playforia
- * 18.6.2013
- */
 public class FileSystemTrackManager implements TrackManager {
     private static FileSystemTrackManager instance;
     private static final TrackParser parser = new VersionedTrackFileParser();
-    protected final FileSystem fileSystem;
-
     private final Logger logger =  Logger.getLogger(FileSystemTrackManager.class.getName());
 
     private List<Track> tracks;
     private List<TrackSet> trackSets;
     private boolean hasLoaded;
 
-    public FileSystemTrackManager(FileSystem fileSystem) {
-        this.fileSystem = fileSystem;
-    }
-
     public static FileSystemTrackManager getInstance() {
         if (instance == null) {
-            instance = new FileSystemTrackManager(FileSystems.getDefault());
+            instance = new FileSystemTrackManager();
         }
         return instance;
     }
 
     @Override
-    public void load() throws TrackLoadException {
+    public void load(TracksLocation tracksLocation) throws TrackLoadException {
         try {
-            tracks = loadTracks();
+            tracks = loadTracks(tracksLocation);
             logger.info("Loaded " + tracks.size() + " tracks");
-            trackSets = loadTrackSets();
+            trackSets = loadTrackSets(tracksLocation);
             logger.info("Loaded " + trackSets.size() + " track sets");
         } catch (IOException e) {
             throw new TrackLoadException("Unable to load tracks and tracksets", e);
@@ -70,11 +60,12 @@ public class FileSystemTrackManager implements TrackManager {
                 "T " + track.getMap());
     }
 
-    private List<Track> loadTracks() throws IOException {
+    private List<Track> loadTracks(TracksLocation tracksLocation) throws IOException {
         List<Track> tracks = new ArrayList<>();
-        Path tracksPath = fileSystem.getPath("tracks", "tracks");
+        Path tracksPath = tracksLocation.fileSystem().getPath(tracksLocation.path(), "tracks");
+
         if (!Files.exists(tracksPath)) {
-            logger.warning("Tracks directory (tracks/tracks) was not found, ignoring.");
+            logger.warning("Tracks directory (" + tracksLocation.path() + "/tracks) was not found, ignoring.");
             return Collections.emptyList();
         }
         DirectoryStream<Path> directoryStream = Files.newDirectoryStream(tracksPath,
@@ -90,11 +81,11 @@ public class FileSystemTrackManager implements TrackManager {
         return tracks;
     }
 
-    private List<TrackSet> loadTrackSets() throws IOException {
+    private List<TrackSet> loadTrackSets(TracksLocation tracksLocation) throws IOException {
         List<TrackSet> trackSets = new ArrayList<>();
-        Path sets = fileSystem.getPath("tracks", "sets");
+        Path sets = tracksLocation.fileSystem().getPath(tracksLocation.path(), "sets");
         if (!Files.exists(sets)) {
-            logger.warning("Can't load tracksets, directory tracks/sets does not exists, ignoring.");
+            logger.warning("Can't load tracksets, directory " + tracksLocation.path() + "/sets does not exist, ignoring.");
             return trackSets;
         }
 
@@ -122,7 +113,7 @@ public class FileSystemTrackManager implements TrackManager {
             }
             // This is not 100% correct since the tracks contain lot of duplicates
             if (tracks.size() < trackNames.size()) {
-                List<String> found_tracks = tracks.stream().map(Track::getName).collect(Collectors.toList());
+                List<String> found_tracks = tracks.stream().map(Track::getName).toList();
                 trackNames.removeAll(found_tracks);
                 logger.warning("TrackSet " + setName + " contains not existing tracks (" + Arrays.toString(trackNames.toArray()) + ")");
             }

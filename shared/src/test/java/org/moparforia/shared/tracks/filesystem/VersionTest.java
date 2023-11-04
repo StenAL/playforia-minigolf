@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.moparforia.shared.tracks.TrackLoadException;
 import org.moparforia.shared.tracks.TrackManager;
+import org.moparforia.shared.tracks.TracksLocation;
 import org.moparforia.shared.tracks.util.FileSystemExtension;
 
 import java.io.IOException;
@@ -18,9 +19,10 @@ public class VersionTest {
     @Test
     void testTrackManagerInvalidVersions() throws IOException, URISyntaxException, TrackLoadException {
         extension.copyAll();
+        TracksLocation tracksLocation = new TracksLocation(extension.getFileSystem(), "tracks");
 
-        TrackManager manager = new FileSystemTrackManager(extension.getFileSystem());
-        manager.load();
+        TrackManager manager = new FileSystemTrackManager();
+        manager.load(tracksLocation);
 
         assertEquals(1, manager.getTracks().size());
     }

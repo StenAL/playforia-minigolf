@@ -15,14 +15,22 @@ import org.moparforia.server.game.LobbyType;
 import org.moparforia.server.game.Player;
 import org.moparforia.server.net.*;
 import org.moparforia.shared.tracks.TrackLoadException;
+import org.moparforia.shared.tracks.TracksLocation;
 import org.moparforia.shared.tracks.filesystem.FileSystemTrackManager;
 import org.moparforia.shared.tracks.filesystem.FileSystemStatsManager;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.file.FileSystems;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -31,14 +39,16 @@ import java.util.concurrent.TimeUnit;
 public class Server implements Runnable {
 
     public static final boolean DEBUG = true;
+    public static final String DEFAULT_TRACKS_DIRECTORY = "tracks";
 
-    private HashMap<Integer, Player> players = new HashMap<Integer, Player>();
+    private HashMap<Integer, Player> players = new HashMap<>();
     private ChannelGroup allChannels = new DefaultChannelGroup();
-    private ConcurrentLinkedQueue<Event> events = new ConcurrentLinkedQueue<Event>();
-    private HashMap<PacketType, ArrayList<PacketHandler>> packetHandlers = new HashMap<PacketType, ArrayList<PacketHandler>>();
+    private ConcurrentLinkedQueue<Event> events = new ConcurrentLinkedQueue<>();
+    private HashMap<PacketType, ArrayList<PacketHandler>> packetHandlers = new HashMap<>();
 
     private String host;
     private int port;
+    private Optional<String> tracksDirectory;
 
     private HashMap<LobbyType, Lobby> lobbies = new HashMap<LobbyType, Lobby>();
     //private ArrayList<LobbyRef> lobbies = new ArrayList<LobbyRef>();
@@ -48,19 +58,14 @@ public class Server implements Runnable {
     private int gameIdCounter;
 
 
-    public Server(String host, int port) {
+    public Server(String host, int port, Optional<String> tracksDirectory) {
         this.host = host;
         this.port = port;
+        this.tracksDirectory = tracksDirectory;
         for (LobbyType lt : LobbyType.values()) {
             lobbies.put(lt, new Lobby(lt));
         }
     }
-
-//    public Server() {
-//        for (LobbyType lt : LobbyType.values()) {
-//            lobbies.put(lt, new Lobby(lt));
-//        }
-//    }
 
     public int getNextPlayerId() {
         return playerIdCounter++;
@@ -155,9 +160,10 @@ public class Server implements Runnable {
 
     public void start() {
         try {
-            FileSystemTrackManager.getInstance().load();
-            FileSystemStatsManager.getInstance().load();
-        } catch (TrackLoadException | IOException e) {
+            TracksLocation tracksLocation = this.getTracksLocation();
+            FileSystemTrackManager.getInstance().load(tracksLocation);
+            FileSystemStatsManager.getInstance().load(tracksLocation);
+        } catch (TrackLoadException | IOException | URISyntaxException e) {
             System.err.println("Unable to load tracks: " + e.getMessage());
             e.printStackTrace();
             return;
@@ -216,5 +222,37 @@ public class Server implements Runnable {
                 e.printStackTrace();
             }
         }
+    }
+
+    /**
+     * Determines where to look for tracks.
+     * In order of priority:
+     * 1. If user has specified a tracks directory CLI flags, search for it in the default FileSystem
+     * 2. Else, if running in a jar file, use bundled tracks
+     * 3. Else, if running in an IDE, use resources folder
+     * 4. Else, use default filesystem and look in default directory
+     */
+    private TracksLocation getTracksLocation() throws URISyntaxException, IOException {
+        if (tracksDirectory.isPresent()) {
+            System.out.println("Using CLI argument for tracks location: " + tracksDirectory.get());
+            return new TracksLocation(FileSystems.getDefault(), tracksDirectory.get());
+        }
+
+        URL resource = this.getClass().getResource("/tracks");
+        if (resource != null) {
+            URI resourceUri = resource.toURI();
+            if (resourceUri.getScheme().equals("jar")) {
+                // tracks are bundled in jar
+                System.out.println("Using bundled jar resources for tracks location");
+                return new TracksLocation(FileSystems.newFileSystem(resourceUri, Collections.emptyMap()), "/tracks");
+            }
+            // running in IDE
+            String tracksPath = Paths.get(resourceUri).toString();
+            System.out.println("Using path to resources for tracks location: " + tracksPath);
+            return new TracksLocation(FileSystems.getDefault(), tracksPath);
+        }
+        // running outside of jar, outside of IDE
+        System.out.println("Using default tracks directory for tracks location");
+        return new TracksLocation(FileSystems.getDefault(), DEFAULT_TRACKS_DIRECTORY);
     }
 }
