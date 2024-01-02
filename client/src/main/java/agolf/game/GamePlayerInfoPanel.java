@@ -56,7 +56,7 @@ class GamePlayerInfoPanel extends Panel implements ItemListener, MouseListener {
     private Choicer aChoicer399;
     private Image image;
     private Graphics graphics;
-    private GamePlayerInfoPanelThread panelThread;
+    private GamePlayerInfoPanelTimerThread timerThread;
     private int currentTimeForShot;
 
 
@@ -182,7 +182,7 @@ class GamePlayerInfoPanel extends Panel implements ItemListener, MouseListener {
                 if (this.playerCount > 1 && this.playerID == player) {
                     if (this.playerID == this.currentPlayerId) {
                         playerInfo = "GamePlayerInfo_OwnTurn";
-                        if (this.panelThread != null && this.currentTimeForShot > 0 && (this.strokeTimeout > 0 || this.strokeTimeout == 0 && this.currentTimeForShot <= 30)) {
+                        if (this.timerThread != null && this.currentTimeForShot > 0 && (this.strokeTimeout > 0 || this.strokeTimeout == 0 && this.currentTimeForShot <= 30)) {
                             var11 = " (" + this.gameContainer.textManager.getTime((long) this.currentTimeForShot) + ")";
                         }
                     } else {
@@ -380,9 +380,9 @@ class GamePlayerInfoPanel extends Panel implements ItemListener, MouseListener {
         int timeout = this.strokeTimeout > 0 ? this.strokeTimeout : 180;
 
         if (this.playerCount > 1 && playerNumber == this.currentPlayerId && timeout > 0) {
-            this.stop();
+            this.stopTimer();
             this.currentTimeForShot = timeout;
-            this.panelThread = new GamePlayerInfoPanelThread(this);
+            this.timerThread = new GamePlayerInfoPanelTimerThread(this);
         }
 
         this.repaint();
@@ -520,10 +520,10 @@ class GamePlayerInfoPanel extends Panel implements ItemListener, MouseListener {
         return this.playerCount > 1 ? -1 : this.trackStrokes[0][this.anInt386].get();
     }
 
-    protected void stop() {
-        if (this.panelThread != null) {
-            this.panelThread.stopRunning();
-            this.panelThread = null;
+    protected void stopTimer() {
+        if (this.timerThread != null) {
+            this.timerThread.stopRunning();
+            this.timerThread = null;
         }
 
     }
@@ -570,7 +570,7 @@ class GamePlayerInfoPanel extends Panel implements ItemListener, MouseListener {
         this.repaint();
         if (this.currentTimeForShot <= 0) {
             this.gameContainer.gamePanel.canStroke(false);
-            this.panelThread = null;
+            this.stopTimer();
             return false;
         } else {
             return true;

@@ -463,7 +463,7 @@ public class GamePanel extends Panel {
 
     protected void method342() {
         this.gameCanvas.restartGame();
-        this.gamePlayerInfoPanel.stop();
+        this.gamePlayerInfoPanel.stopTimer();
         this.gameContainer.gameApplet.setGameState(0);
         this.gameContainer.connection.writeData("game\tback");
         this.gameContainer.gameApplet.removePlayerList();
@@ -511,7 +511,7 @@ public class GamePanel extends Panel {
         }
 
         if (stopInfoPanel) {// ???????????????????????????????????
-            this.gamePlayerInfoPanel.stop();
+            this.gamePlayerInfoPanel.stopTimer();
         } else {
             this.gameCanvas.stop();
         }
