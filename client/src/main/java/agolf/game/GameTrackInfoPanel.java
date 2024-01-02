@@ -282,7 +282,7 @@ class GameTrackInfoPanel extends Panel implements ActionListener {
     }
 
     private void create() {
-        this.setLayout((LayoutManager) null);
+        this.setLayout(null);
         this.buttonNoVote = new ColorButton("-");
         this.buttonNoVote.setBounds(this.width - 264, this.height - 15, 22, 15);
         this.buttonNoVote.addActionListener(this);

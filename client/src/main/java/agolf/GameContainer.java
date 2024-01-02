@@ -32,7 +32,6 @@ public class GameContainer {// some kind of a container for everything
     protected String[] adverts;
     public GamePanel gamePanel;
     public int graphicsQualityIndex;
-    public static int anInt992;
 
 
     public GameContainer(GameApplet gameApplet, Parameters params) {

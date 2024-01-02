@@ -24,10 +24,9 @@ class GameControlPanel extends Panel implements ActionListener, ItemListener {
     private ColorButton buttonSkip;
     private ColorButton buttonNewGame;
     private ColorButton buttonBack;
-    private Choicer choicerNames;
+    private Choicer playerNamesDisplayModeChoicer;
     private Checkbox checkboxMaxFps;
     private boolean skipButtonVisible;
-    private static final String[] aStringArray351 = new String[5];
 
 
     protected GameControlPanel(GameContainer var1, GamePlayerInfoPanel var2, int var3, int var4) {
@@ -83,9 +82,9 @@ class GameControlPanel extends Panel implements ActionListener, ItemListener {
         }
     }
 
-    public void itemStateChanged(ItemEvent var1) {
-        if (var1.getSource() == this.choicerNames) {
-            this.gameContainer.gamePanel.method348(this.choicerNames.getSelectedIndex());
+    public void itemStateChanged(ItemEvent event) {
+        if (event.getSource() == this.playerNamesDisplayModeChoicer) {
+            this.gameContainer.gamePanel.setPlayerNamesDisplayMode(this.playerNamesDisplayModeChoicer.getSelectedIndex());
         }
 
     }
@@ -106,11 +105,11 @@ class GameControlPanel extends Panel implements ActionListener, ItemListener {
         this.setVisible(true);
     }
 
-    protected void method327(int var1) {
+    protected void method327(int state) {
         this.setVisible(false);
         this.removeAll();
         this.skipButtonVisible = false;
-        if (var1 == 2) {
+        if (state == 2) {
             this.buttonNewGame = new ColorButton(this.gameContainer.textManager.getGame("GameControl_New"));
             this.buttonNewGame.setBounds(0, this.anInt343 - 55, this.anInt342, 25);
             this.buttonNewGame.setBackground(GameApplet.colourButtonGreen);
@@ -132,16 +131,16 @@ class GameControlPanel extends Panel implements ActionListener, ItemListener {
             }
 
             if (this.playerCount > 1) {
-                this.choicerNames = new Choicer();
+                this.playerNamesDisplayModeChoicer = new Choicer();
 
                 for (int var2 = 0; var2 < 4; ++var2) {
-                    this.choicerNames.addItem(this.gameContainer.textManager.getGame("GameControl_Names" + var2));
+                    this.playerNamesDisplayModeChoicer.addItem(this.gameContainer.textManager.getGame("GameControl_Names" + var2));
                 }
 
-                this.choicerNames.select(this.playerCount <= 2 ? 0 : 3);
-                this.choicerNames.setBounds(0, this.anInt343 - 80, this.anInt342, 20);
-                this.choicerNames.addItemListener(this);
-                this.add(this.choicerNames);
+                this.playerNamesDisplayModeChoicer.select(this.playerCount <= 2 ? 0 : 3);
+                this.playerNamesDisplayModeChoicer.setBounds(0, this.anInt343 - 80, this.anInt342, 20);
+                this.playerNamesDisplayModeChoicer.addItemListener(this);
+                this.add(this.playerNamesDisplayModeChoicer);
             }
         }
 
@@ -188,13 +187,5 @@ class GameControlPanel extends Panel implements ActionListener, ItemListener {
             this.setVisible(true);
             this.skipButtonVisible = true;
         }
-    }
-
-    static {
-        aStringArray351[0] = "GameControl_Names";
-        aStringArray351[1] = "GameControl_Skip";
-        aStringArray351[2] = "Max FPS";
-        aStringArray351[3] = "GameControl_New";
-        aStringArray351[4] = "GameControl_Back";
     }
 }

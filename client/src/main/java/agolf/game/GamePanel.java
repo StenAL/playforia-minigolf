@@ -85,7 +85,7 @@ public class GamePanel extends Panel {
             this.gamePlayerInfoPanel.method355(this.playerCount, trackCount, maxStrokes, strokeTimeout, trackScoring);
             this.gameTrackInfoPanel.setNumTracks(trackCount);
             this.gameControlPanel.setPlayerCount(this.playerCount);
-            this.gameCanvas.method132(this.playerCount, waterEvent, collision);
+            this.gameCanvas.init(this.playerCount, waterEvent, collision);
             if (mode == 2) {
                 String settings = "";
                 if (passworded) {
@@ -488,12 +488,12 @@ public class GamePanel extends Panel {
         return this.gameControlPanel.maxFps();
     }
 
-    protected String[] getPlayerInfo(int playerId) {
+    protected String[] getPlayerName(int playerId) {
         return this.gamePlayerInfoPanel.getPlayerInfo(playerId);
     }
 
-    protected void method348(int var1) {
-        this.gameCanvas.method139(var1);
+    protected void setPlayerNamesDisplayMode(int mode) {
+        this.gameCanvas.setPlayerNamesDisplayMode(mode);
     }
 
     public void broadcastMessage(String message) {
@@ -513,7 +513,7 @@ public class GamePanel extends Panel {
         if (stopInfoPanel) {// ???????????????????????????????????
             this.gamePlayerInfoPanel.stopTimer();
         } else {
-            this.gameCanvas.stop();
+            this.gameCanvas.doZeroLengthStroke();
         }
 
         return true;
