@@ -7,7 +7,6 @@ public class AutoPopups {
 
     private Class78 aClass78_1327;
     private Class88 aClass88_1328;
-    private Class85 aClass85_1329;
     private long aLong1330;
     private static final String aString1331 = "facebook";
 
@@ -38,8 +37,6 @@ public class AutoPopups {
                 if (this.aClass78_1327 != null && this.aClass78_1327.method1599(var1)) {
                     this.method1562();
                 } else if (this.aClass88_1328 != null && this.aClass88_1328.method1700()) {
-                    this.method1562();
-                } else if (this.aClass85_1329 != null && !var1 && this.aClass85_1329.method1678()) {
                     this.method1562();
                 }
             }
@@ -76,10 +73,6 @@ public class AutoPopups {
 
             if (this.aClass88_1328 != null) {
                 this.aClass88_1328.method1701();
-            }
-
-            if (this.aClass85_1329 != null) {
-                this.aClass85_1329.method1679();
             }
 
         }
