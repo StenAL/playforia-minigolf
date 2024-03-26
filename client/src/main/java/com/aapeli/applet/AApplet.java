@@ -6,7 +6,6 @@ import com.aapeli.client.SoundManager;
 import com.aapeli.client.StringDraw;
 import com.aapeli.client.TextManager;
 import com.aapeli.connection.Connection;
-import com.aapeli.credit.Product;
 import com.aapeli.tools.QuickTimer;
 import com.aapeli.tools.QuickTimerListener;
 import com.aapeli.tools.Tools;
@@ -692,53 +691,6 @@ public abstract class AApplet extends Applet implements Runnable, ActionListener
     public void allowExternalPopups() {
         this.resetPopupTimer();
         this.callJavaScriptJSON("{\"block\":\"false\"}");
-    }
-
-    public void callJavaScriptJsonBuyConfirmNeeded(Product var1) {
-        String var2 = "{\"buy\":{\"status\":\"cneeded\",\"product\":\"";
-        var2 = var2 + var1.getProductName();
-        var2 = var2 + "}}";
-        this.callJavaScriptJSON(var2);
-    }
-
-    public void callJavaScriptJsonBuyConfirmAnswer(Product var1, boolean var2) {
-        String var3 = "{\"buy\":{\"status\":\"canswer\",\"product\":\"";
-        var3 = var3 + var1.getProductName();
-        var3 = var3 + "\",\"answer\":\"";
-        var3 = var3 + (var2 ? "yes" : "no");
-        var3 = var3 + "\"}}";
-        this.callJavaScriptJSON(var3);
-    }
-
-    public void callJavaScriptJsonBuyStarted(Product var1) {
-        this.callJavaScriptJsonBuyStarted(var1.getProductName());
-    }
-
-    public void callJavaScriptJsonBuyStarted(String var1) {
-        String var2 = "{\"buy\":{\"status\":\"started\",\"product\":\"";
-        var2 = var2 + var1;
-        var2 = var2 + "\"}}";
-        this.callJavaScriptJSON(var2);
-    }
-
-    public void callJavaScriptJsonBuyFinished(Product var1, int var2) {
-        this.callJavaScriptJsonBuyFinished(var1.getProductName(), var2);
-    }
-
-    public void callJavaScriptJsonBuyFinished(String var1, int var2) {
-        String var3 = "{\"buy\":{\"status\":\"finished\",\"product\":\"";
-        var3 = var3 + var1;
-        var3 = var3 + "\",\"result\":\"";
-        if (var2 == 1) {
-            var3 = var3 + "ok";
-        } else if (var2 == 0) {
-            var3 = var3 + "nobalance";
-        } else if (var2 == -1) {
-            var3 = var3 + "error";
-        }
-
-        var3 = var3 + "\"}}";
-        this.callJavaScriptJSON(var3);
     }
 
     public void setConnectionReference(Connection var1) {
