@@ -7,7 +7,6 @@ import org.moparforia.client.Launcher;
 
 import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.LayoutManager;
 import java.awt.Panel;
 import java.util.StringTokenizer;
 
@@ -26,8 +25,8 @@ public class GamePanel extends Panel {
     private boolean isSinglePlayerGame;
     private boolean aBoolean363;
     private long aLong364;
-    private Object anObject365;
-    private boolean isWaitingForTurn;
+    private final Object canStrokeLock;
+    private boolean isWaitingForTurnStart;
 
 
     public GamePanel(GameContainer gameContainer, int width, int height, Image image) {
@@ -37,7 +36,7 @@ public class GamePanel extends Panel {
         this.setSize(width, height);
         this.create(image);
         this.aBoolean363 = true;
-        this.anObject365 = new Object();
+        this.canStrokeLock = new Object();
         this.state = -1;
         this.setState(0);
     }
@@ -82,10 +81,10 @@ public class GamePanel extends Panel {
             }
 
             this.addMultiPlayerPanels(mode);
-            this.gamePlayerInfoPanel.method355(this.playerCount, trackCount, maxStrokes, strokeTimeout, trackScoring);
+            this.gamePlayerInfoPanel.init(this.playerCount, trackCount, maxStrokes, strokeTimeout, trackScoring);
             this.gameTrackInfoPanel.setNumTracks(trackCount);
             this.gameControlPanel.setPlayerCount(this.playerCount);
-            this.gameCanvas.method132(this.playerCount, waterEvent, collision);
+            this.gameCanvas.init(this.playerCount, waterEvent, collision);
             if (mode == 2) {
                 String settings = "";
                 if (passworded) {
@@ -308,7 +307,7 @@ public class GamePanel extends Panel {
 
             this.gameTrackInfoPanel.parseTrackInfoStats(trackInformation[0], trackInformation[1], trackStats[0], trackStats[1], trackInformation[2], trackInformation[3], trackTestMode1, trackTestMode2, this.gameCanvas.method134());
 
-            int numberOfPlayers = this.gamePlayerInfoPanel.method360();
+            int numberOfPlayers = this.gamePlayerInfoPanel.startNextTrack();
             if (numberOfPlayers > 1) {
                 this.gameChatPanel.addMessage(gameContainer.textManager.getGame("GameChat_ScoreMultiNotify", numberOfPlayers));
             }
@@ -319,10 +318,10 @@ public class GamePanel extends Panel {
             }
 
         } else if (args[1].equals("startturn")) {
-            this.isWaitingForTurn = false;
+            this.isWaitingForTurnStart = false;
             int playerId = Integer.parseInt(args[2]);
 
-            boolean canPlay = this.gamePlayerInfoPanel.canShoot(playerId);
+            boolean canPlay = this.gamePlayerInfoPanel.startTurn(playerId);
             //canPlay = true;
             this.gameCanvas.startTurn(playerId, canPlay, !this.gameChatPanel.haveFocus());
 
@@ -352,7 +351,7 @@ public class GamePanel extends Panel {
             this.gamePlayerInfoPanel.voteSkip(Integer.parseInt(args[2]));
         } else if (args[1].equals("resetvoteskip")) {
             this.gamePlayerInfoPanel.voteSkipReset();
-            if (!this.gameCanvas.getSynchronizedBool(this.gamePlayerInfoPanel.currentPlayerId)) {
+            if (!this.gameCanvas.getSynchronizedBool(this.gamePlayerInfoPanel.playerId)) {
                 this.gameControlPanel.showSkipButton();
             }
 
@@ -375,7 +374,7 @@ public class GamePanel extends Panel {
                 this.gamePlayerInfoPanel.setGameOutcome(gameOutcome);
                 this.gameContainer.gameApplet.showPlayerListWinners(isWinner);
             } else {
-                this.gamePlayerInfoPanel.setGameOutcome((int[]) null);
+                this.gamePlayerInfoPanel.setGameOutcome(null);
             }
 
             this.setState(2);// game state?
@@ -387,16 +386,16 @@ public class GamePanel extends Panel {
         }
     }
 
-    protected void sendChatMessage(String var1) {
-        String var2 = "say\t" + var1;
+    protected void sendChatMessage(String message) {
+        String var2 = "say\t" + message;
         this.gameContainer.connection.writeData("game\t" + var2);
-        this.gameChatPanel.addSay(this.gamePlayerInfoPanel.currentPlayerId, this.gamePlayerInfoPanel.playerNames[this.gamePlayerInfoPanel.currentPlayerId], var1, true);
+        this.gameChatPanel.addSay(this.gamePlayerInfoPanel.playerId, this.gamePlayerInfoPanel.playerNames[this.gamePlayerInfoPanel.playerId], message, true);
     }
 
-    protected void setBeginStroke(int playerId, int x, int y, int keycount) {
+    protected void setBeginStroke(int playerId, int x, int y, int shootingMode) {
         this.gameTrackInfoPanel.method384();
         this.gamePlayerInfoPanel.method363(playerId, false);
-        String data = "beginstroke\t" + this.encodeCoords(x, y, keycount);
+        String data = "beginstroke\t" + this.encodeCoords(x, y, shootingMode);
         this.gameContainer.connection.writeData("game\t" + data);
         this.gameContainer.soundManager.playGameMove();
     }
@@ -463,7 +462,7 @@ public class GamePanel extends Panel {
 
     protected void method342() {
         this.gameCanvas.restartGame();
-        this.gamePlayerInfoPanel.stop();
+        this.gamePlayerInfoPanel.stopTimer();
         this.gameContainer.gameApplet.setGameState(0);
         this.gameContainer.connection.writeData("game\tback");
         this.gameContainer.gameApplet.removePlayerList();
@@ -488,12 +487,12 @@ public class GamePanel extends Panel {
         return this.gameControlPanel.maxFps();
     }
 
-    protected String[] getPlayerInfo(int playerId) {
-        return this.gamePlayerInfoPanel.getPlayerInfo(playerId);
+    protected String[] getPlayerName(int playerId) {
+        return this.gamePlayerInfoPanel.getPlayerName(playerId);
     }
 
-    protected void method348(int var1) {
-        this.gameCanvas.method139(var1);
+    protected void setPlayerNamesDisplayMode(int mode) {
+        this.gameCanvas.setPlayerNamesDisplayMode(mode);
     }
 
     public void broadcastMessage(String message) {
@@ -501,19 +500,18 @@ public class GamePanel extends Panel {
     }
 
     protected boolean canStroke(boolean stopInfoPanel) {
-        synchronized (anObject365) {
-            if (this.isWaitingForTurn) {
-                boolean var3 = false;
-                return var3;
+        synchronized (canStrokeLock) {
+            if (this.isWaitingForTurnStart) {
+                return false;
             }
 
-            this.isWaitingForTurn = true;
+            this.isWaitingForTurnStart = true;
         }
 
         if (stopInfoPanel) {// ???????????????????????????????????
-            this.gamePlayerInfoPanel.stop();
+            this.gamePlayerInfoPanel.stopTimer();
         } else {
-            this.gameCanvas.stop();
+            this.gameCanvas.doZeroLengthStroke();
         }
 
         return true;
@@ -521,7 +519,7 @@ public class GamePanel extends Panel {
 
     private void create(Image image) {
         if (this.gameContainer.gameApplet.syncIsValidSite.get()) {
-            this.setLayout((LayoutManager) null);
+            this.setLayout(null);
             this.gamePlayerInfoPanel = new GamePlayerInfoPanel(this.gameContainer, 735, 60);
             this.gamePlayerInfoPanel.setLocation(0, 0);
             this.add(this.gamePlayerInfoPanel);
@@ -548,20 +546,20 @@ public class GamePanel extends Panel {
         }
     }
 
-    private void setState(int var1) {
-        if (var1 != this.state) {
-            this.state = var1;
-            this.gamePlayerInfoPanel.method371(var1);
-            this.gameControlPanel.method327(var1);
+    private void setState(int state) {
+        if (state != this.state) {
+            this.state = state;
+            this.gamePlayerInfoPanel.method371(state);
+            this.gameControlPanel.method327(state);
         }
     }
 
     private String encodeCoords(int x, int y, int mod) {
         int var4 = x * 375 * 4 + y * 4 + mod;//mod.. or something, possible values 0..3
 
-        String out;
-        for (out = Integer.toString(var4, 36); out.length() < 4; out = "0" + out) {
-            ;
+        String out = Integer.toString(var4, 36);
+        while (out.length() < 4) {
+            out = "0" + out;
         }
 
         return out;

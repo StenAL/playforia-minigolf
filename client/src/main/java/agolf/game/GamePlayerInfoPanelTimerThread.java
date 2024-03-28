@@ -2,18 +2,18 @@ package agolf.game;
 
 import com.aapeli.tools.Tools;
 
-class GamePlayerInfoPanelThread implements Runnable {
+class GamePlayerInfoPanelTimerThread implements Runnable {
 
     private final GamePlayerInfoPanel gamePlayerInfoPanel;
     private boolean running;
 
 
-    protected GamePlayerInfoPanelThread(GamePlayerInfoPanel var1) {
-        this.gamePlayerInfoPanel = var1;
+    protected GamePlayerInfoPanelTimerThread(GamePlayerInfoPanel gamePlayerInfoPanel) {
+        this.gamePlayerInfoPanel = gamePlayerInfoPanel;
         this.running = true;
-        Thread var2 = new Thread(this);
-        var2.setDaemon(true);
-        var2.start();
+        Thread thread = new Thread(this);
+        thread.setDaemon(true);
+        thread.start();
     }
 
     public void run() {

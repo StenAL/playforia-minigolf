@@ -66,7 +66,7 @@ public class StringDraw {
         return drawOutlinedStringWithMaxWidth(g, (Color) null, text, var2, var3, var4, var5);
     }
 
-    public static int[] drawOutlinedStringWithMaxWidth(Graphics g, Color colour, String text, int var3, int var4, int var5, int var6) {
+    public static int[] drawOutlinedStringWithMaxWidth(Graphics g, Color colour, String text, int x, int y, int alignment, int var6) {
         Font font = g.getFont();
         FontMetrics fontMetrics = g.getFontMetrics(font);
         Vector vector = createLines(fontMetrics, text, var6);
@@ -81,25 +81,20 @@ public class StringDraw {
         var12[2] = 0;
 
         for (int var14 = 0; var14 < var12[0]; ++var14) {
-            int var13 = drawOutlinedString(g, colour, (String) ((String) vector.elementAt(var14)), var3, var4, var5);
+            int var13 = drawOutlinedString(g, colour, (String) vector.elementAt(var14), x, y, alignment);
             if (var13 > var12[2]) {
                 var12[2] = var13;
             }
 
-            var4 += var11;
+            y += var11;
         }
 
         return var12;
     }
 
     public static int drawString(Graphics var0, String var1, int var2, int var3, int var4, int var5) {
-        int[] var6 = drawOutlinedStringWithMaxWidth(var0, (Color) null, var1, var2, var3, var4, var5);
+        int[] var6 = drawOutlinedStringWithMaxWidth(var0, null, var1, var2, var3, var4, var5);
         return var6[2];
-    }
-
-    public static int drawOutlinedString(Graphics var0, Color var1, String var2, int var3, int var4, int var5, int var6) {
-        int[] var7 = drawOutlinedStringWithMaxWidth(var0, var1, var2, var3, var4, var5, var6);
-        return var7[2];
     }
 
     public static int getStringWidth(Graphics var0, String var1) {
