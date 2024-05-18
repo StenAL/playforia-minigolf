@@ -593,7 +593,7 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
                     this.removeMouseListener(this);
                     this.removeKeyListener(this);
                     this.setCursor(cursorDefault);
-                    if (super.gameContainer.gamePanel.tryStroke(true)) {
+                    if (super.gameContainer.gamePanel.tryStroke(false)) {
                         super.gameContainer.gamePanel.setBeginStroke(this.currentPlayerID, x, y, this.shootingMode);
                         //this.doHackedStroke(this.currentPlayerID, true, x, y, this.keyCountMod4);
                         this.doStroke(this.currentPlayerID, true, x, y, this.shootingMode);

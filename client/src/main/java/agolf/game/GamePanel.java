@@ -501,7 +501,7 @@ public class GamePanel extends Panel {
         this.gameChatPanel.addBroadcastMessage(message);
     }
 
-    protected boolean tryStroke(boolean didNotTimeout) {
+    protected boolean tryStroke(boolean didTimeout) {
         synchronized (canStrokeLock) {
             if (this.isWaitingForTurnStart) {
                 return false;
@@ -510,10 +510,10 @@ public class GamePanel extends Panel {
             this.isWaitingForTurnStart = true;
         }
 
-        if (didNotTimeout) {
-            this.gamePlayerInfoPanel.stopTimer();
-        } else {
+        if (didTimeout) {
             this.gameCanvas.doZeroLengthStroke();
+        } else {
+            this.gamePlayerInfoPanel.stopTimer();
         }
 
         return true;

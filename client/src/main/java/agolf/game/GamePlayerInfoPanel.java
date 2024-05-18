@@ -578,7 +578,7 @@ class GamePlayerInfoPanel extends Panel implements ItemListener, MouseListener {
         --this.currentTimeForShot;
         this.repaint();
         if (this.currentTimeForShot <= 0) {
-            this.gameContainer.gamePanel.tryStroke(false);
+            this.gameContainer.gamePanel.tryStroke(true);
             this.stopTimer();
             return false;
         } else {
