@@ -11,25 +11,25 @@ import java.util.StringTokenizer;
 
 public final class Parameters {
 
-    private static final String aString1416 = "127.0.0.1";
+    private static final String LOCALHOST = "127.0.0.1";
     //private static final String aString1416 = "192.168.1.23";
-    private static final String aString1417 = "en";
-    private static final String aString1418 = "playforia";
-    private static final String aString1419 = "http://www.playforia.com/";
-    private static final String aString1420 = "_top";
-    private Applet anApplet1421;
-    private AApplet anAApplet1422;
-    private String aString1423;
-    private String aString1424;
-    private String aString1425;
-    private String aString1426;
-    private String aString1427;
-    private String aString1428;
-    private String aString1429;
+    private static final String ENGLISH_LANGUAGE = "en";
+    private static final String PLAYFORIA_SITE_NAME = "playforia";
+    private static final String PLAYFORIA_QUIT_PAGE = "http://www.playforia.com/";
+    private static final String QUIT_TARGET = "_top";
+    private Applet applet;
+    private AApplet aApplet;
+    private String codeBaseHost;
+    private String documentBaseHost;
+    private String serverIp;
+    private String locale;
+    private String translationLanguage;
+    private String chatLang;
+    private String siteName;
     private String sessionLocale;
     private String session;
     private String welcomeMessage;
-    private String aString1433;
+    private String quitTarget;
     private String urlRegisterPage;
     private String urlVipPage;
     private String urlUserInfoPage;
@@ -46,75 +46,83 @@ public final class Parameters {
     private boolean tellFriend;
     private boolean guestAutoLogin;
     private boolean disableGuestLobbyChat;
-    private int anInt1450;
+    private int serverPort;
     private URL urlCreditPage;
-    private URL anURL1452;
+    private URL quitPageUrl;
     private String[][] imageAliases;
     private int[] anIntArray1454;
     private int anInt1455;
     private String[] aStringArray1456;
     private String aString1457;
     private boolean debug;
-    private static final String[] aStringArray1459 = new String[73];
 
 
-    public Parameters(Applet var1) {
-        this(var1, false);
+    public Parameters(Applet applet) {
+        this(applet, false);
     }
 
-    public Parameters(Applet var1, boolean var2) {
-        this.anApplet1421 = var1;
-        if (var1 instanceof AApplet) {
-            this.anAApplet1422 = (AApplet) ((AApplet) var1);
+    public Parameters(Applet applet, boolean debug) {
+        this.applet = applet;
+        if (applet instanceof AApplet) {
+            this.aApplet = (AApplet) applet;
         }
 
-        this.aString1423 = var1.getCodeBase().getHost().toLowerCase();
-        this.aString1424 = var1.getDocumentBase().getHost().toLowerCase();
+        this.codeBaseHost = applet.getCodeBase().getHost().toLowerCase();
+        this.documentBaseHost = applet.getDocumentBase().getHost().toLowerCase();
         this.anInt1455 = 0;
-        this.debug = var2;
-        this.method1660();
+        this.debug = debug;
+        this.init();
     }
 
-    public static boolean getBooleanValue(String var0) {
-        return var0 == null ? false : var0.equalsIgnoreCase("true") || var0.equalsIgnoreCase("t") || var0.equalsIgnoreCase("yes") || var0.equalsIgnoreCase("y") || var0.equals("1") || var0.equals("1.0") || var0.equals("1,0");
+    public static boolean getBooleanValue(String key) {
+        if (key == null) {
+            return false;
+        }
+        return key.equalsIgnoreCase("true") ||
+               key.equalsIgnoreCase("t") ||
+               key.equalsIgnoreCase("yes") ||
+               key.equalsIgnoreCase("y") ||
+               key.equals("1") ||
+               key.equals("1.0") ||
+               key.equals("1,0");
     }
 
-    public String getParameter(String var1) {
-        String var2 = this.anApplet1421.getParameter(var1);
-        if (var2 == null) {
-            var2 = this.anApplet1421.getParameter(var1.toLowerCase());
+    public String getParameter(String key) {
+        String value = this.applet.getParameter(key);
+        if (value == null) {
+            value = this.applet.getParameter(key.toLowerCase());
         }
 
-        if (var2 == null) {
-            var2 = this.anApplet1421.getParameter(var1.toUpperCase());
+        if (value == null) {
+            value = this.applet.getParameter(key.toUpperCase());
         }
 
-        if (var2 == null) {
+        if (value == null) {
             return null;
         } else {
-            var2 = var2.trim();
-            return var2.length() == 0 ? null : var2;
+            value = value.trim();
+            return value.length() == 0 ? null : value;
         }
     }
 
     public String getServerIp() {
-        return this.aString1425;
+        return this.serverIp;
     }
 
     public int getServerPort() {
-        return this.anInt1450;
+        return this.serverPort;
     }
 
     public String getLocale() {
-        return this.aString1426;
+        return this.locale;
     }
 
     public String getTranslationLang() {
-        return this.aString1427;
+        return this.translationLanguage;
     }
 
     public String getChatLang() {
-        return this.aString1428 != null ? this.aString1428 : this.aString1427;
+        return this.chatLang != null ? this.chatLang : this.translationLanguage;
     }
 
     public String getLang() {
@@ -122,7 +130,7 @@ public final class Parameters {
     }
 
     public String getSiteName() {
-        return this.aString1429;
+        return this.siteName;
     }
 
     public String getSessionLocale() {
@@ -173,7 +181,7 @@ public final class Parameters {
                     return false;
                 }
 
-                this.method1676(this.toURL(this.urlUserInfoPage + var1), this.urlTargetUserInfo);
+                this.showUrl(this.toURL(this.urlUserInfoPage + var1), this.urlTargetUserInfo);
                 return true;
             }
 
@@ -183,10 +191,10 @@ public final class Parameters {
                     return false;
                 }
 
-                this.method1676(var3, this.urlTargetUserInfo);
+                this.showUrl(var3, this.urlTargetUserInfo);
                 return true;
             }
-        } catch (Exception var4) {
+        } catch (Exception e) {
             ;
         }
 
@@ -197,9 +205,9 @@ public final class Parameters {
         this.showPlayerList(var1, (String) null);
     }
 
-    public void showPlayerList(String[] var1, String var2) {
+    public void showPlayerList(String[] nicks, String var2) {
         try {
-            if (var1 == null) {
+            if (nicks == null) {
                 if (this.debug) {
                     System.out.println("Parameters.showPlayerList(null,...)");
                 }
@@ -209,26 +217,26 @@ public final class Parameters {
             }
 
             if (this.debug) {
-                System.out.println("Parameters.showPlayerList(...): nicks.length=" + var1.length);
+                System.out.println("Parameters.showPlayerList(...): nicks.length=" + nicks.length);
             }
 
-            if (this.method1675(var1, var2)) {
+            if (this.method1675(nicks, var2)) {
                 return;
             }
 
-            this.showPlayerList(var1, (boolean[]) null, var2);
-            this.aStringArray1456 = var1;
+            this.showPlayerList(nicks, null, var2);
+            this.aStringArray1456 = nicks;
             this.aString1457 = var2;
             this.anInt1455 = 1;
-        } catch (Exception var4) {
+        } catch (Exception e) {
             ;
         }
 
     }
 
-    public void showPlayerListWinners(boolean[] var1) {
+    public void showPlayerListWinners(boolean[] winners) {
         try {
-            if (var1 == null) {
+            if (winners == null) {
                 if (this.debug) {
                     System.out.println("Parameters.showPlayerListWinners(null)");
                 }
@@ -238,19 +246,18 @@ public final class Parameters {
             }
 
             if (this.debug) {
-                System.out.println("Parameters.showPlayerListWinners(...): winners.length=" + var1.length);
+                System.out.println("Parameters.showPlayerListWinners(...): winners.length=" + winners.length);
             }
 
-            int var2 = var1.length;
-            boolean var3 = false;
+            boolean winnerExists = false;
 
-            for (int var4 = 0; var4 < var2; ++var4) {
-                if (var1[var4]) {
-                    var3 = true;
+            for (boolean winner : winners) {
+                if (winner) {
+                    winnerExists = true;
                 }
             }
 
-            if (!var3) {
+            if (!winnerExists) {
                 this.removePlayerListWinners();
                 return;
             }
@@ -259,9 +266,9 @@ public final class Parameters {
                 return;
             }
 
-            this.showPlayerList(this.aStringArray1456, var1, this.aString1457);
+            this.showPlayerList(this.aStringArray1456, winners, this.aString1457);
             this.anInt1455 = 2;
-        } catch (Exception var5) {
+        } catch (Exception e) {
             ;
         }
 
@@ -277,24 +284,24 @@ public final class Parameters {
                 return;
             }
 
-            this.showPlayerList((String[]) null, (boolean[]) null, (String) null);
+            this.showPlayerList(null, null, null);
             this.anInt1455 = 0;
-        } catch (Exception var2) {
+        } catch (Exception e) {
             ;
         }
 
     }
 
     public boolean showRegisterPage() {
-        return this.method1676(this.toURL(this.urlRegisterPage), (String) null);
+        return this.showUrl(this.toURL(this.urlRegisterPage), null);
     }
 
     public void showCreditPurchasePage() {
         this.showCreditPurchasePage(true);
     }
 
-    public void showCreditPurchasePage(boolean var1) {
-        this.method1676(this.urlCreditPage, var1 ? "_blank" : null);
+    public void showCreditPurchasePage(boolean openInNewTab) {
+        this.showUrl(this.urlCreditPage, openInNewTab ? "_blank" : null);
     }
 
     public boolean isCreditPurchasePageAvailable() {
@@ -302,7 +309,7 @@ public final class Parameters {
     }
 
     public void showQuitPage() {
-        this.method1676(this.anURL1452, this.aString1433);
+        this.showUrl(this.quitPageUrl, this.quitTarget);
     }
 
     public String[][] getImageAliases() {
@@ -325,25 +332,25 @@ public final class Parameters {
         return this.ticket;
     }
 
-    public boolean callJavaScriptJSON(String var1) {
+    public boolean callJavaScriptJSON(String json) {
         if (this.debug) {
-            System.out.println("Parameters.callJavaScriptJSON(\"" + var1 + "\")");
+            System.out.println("Parameters.callJavaScriptJSON(\"" + json + "\")");
         }
 
         if (this.json == null) {
             return false;
         } else {
             try {
-                var1 = Tools.replaceAll(var1, "\'", "\\\'");
-                String var2 = Tools.replaceFirst(this.json, "%o", "\'" + var1 + "\'");
+                json = Tools.replaceAll(json, "'", "\\'");
+                String var2 = Tools.replaceFirst(this.json, "%o", "'" + json + "'");
                 URL var3 = this.toURL(var2);
                 if (var3 == null) {
                     return false;
                 } else {
-                    this.method1676(var3, (String) null);
+                    this.showUrl(var3, null);
                     return true;
                 }
-            } catch (Exception var4) {
+            } catch (Exception e) {
                 return false;
             }
         }
@@ -380,23 +387,23 @@ public final class Parameters {
     }
 
     public Applet getApplet() {
-        return this.anApplet1421;
+        return this.applet;
     }
 
     public AApplet getAApplet() {
-        return this.anAApplet1422;
+        return this.aApplet;
     }
 
     public void destroy() {
-        this.aString1425 = null;
-        this.aString1426 = null;
-        this.aString1427 = null;
-        this.aString1428 = null;
-        this.aString1429 = null;
+        this.serverIp = null;
+        this.locale = null;
+        this.translationLanguage = null;
+        this.chatLang = null;
+        this.siteName = null;
         this.sessionLocale = null;
         this.session = null;
         this.welcomeMessage = null;
-        this.aString1433 = null;
+        this.quitTarget = null;
         this.urlRegisterPage = null;
         this.urlVipPage = null;
         this.urlUserInfoPage = null;
@@ -411,45 +418,45 @@ public final class Parameters {
         this.ticket = null;
         this.json = null;
         this.urlCreditPage = null;
-        this.imageAliases = (String[][]) null;
+        this.imageAliases = null;
         this.anIntArray1454 = null;
         this.aStringArray1456 = null;
         this.aString1457 = null;
-        this.aString1424 = null;
-        this.aString1423 = null;
+        this.documentBaseHost = null;
+        this.codeBaseHost = null;
     }
 
-    protected AppletContext method1654() {
-        return this.anApplet1421.getAppletContext();
+    protected AppletContext getAppletContext() {
+        return this.applet.getAppletContext();
     }
 
-    protected boolean method1655() {
+    protected boolean getTellFriend() {
         return this.tellFriend;
     }
 
-    protected String method1656() {
+    protected String getTellFriendPage() {
         return this.urlTellFriendPage;
     }
 
-    protected String method1657() {
+    protected String getTellFriendTarget() {
         return this.urlTargetTellFriend;
     }
 
-    protected String method1658() {
+    protected String getTournamentRound() {
         return this.tournamentRound;
     }
 
-    protected String method1659() {
+    protected String getSubgame() {
         return this.subgame;
     }
 
-    private void method1660() {
-        this.aString1425 = this.getParamServer();
-        this.anInt1450 = this.getParamPort();
-        this.aString1426 = this.getParamLocale();
-        this.aString1427 = this.getParamLanguage();
-        this.aString1428 = this.getParamChatLanguage();
-        this.aString1429 = this.getParamSiteName();
+    private void init() {
+        this.serverIp = this.getParamServer();
+        this.serverPort = this.getParamPort();
+        this.locale = this.getParamLocale();
+        this.translationLanguage = this.getParamLanguage();
+        this.chatLang = this.getParamChatLanguage();
+        this.siteName = this.getParamSiteName();
         this.sessionLocale = this.getParameter("sessionlocale");
         this.session = this.getParameter("session");
         this.welcomeMessage = this.getParameter("welcomemessage");
@@ -457,8 +464,8 @@ public final class Parameters {
             this.welcomeMessage = this.getParameter("gamewelcome");
         }
 
-        this.anURL1452 = this.getParamQuitPage();
-        this.aString1433 = this.getParamQuitTarget();
+        this.quitPageUrl = this.getParamQuitPage();
+        this.quitTarget = this.getParamQuitTarget();
         this.urlRegisterPage = this.getParameter("registerpage");
         this.urlVipPage = this.getParameter("vippage");
         this.urlCreditPage = this.toURL(this.getParameter("creditpage"));
@@ -488,82 +495,82 @@ public final class Parameters {
 
     private String getParamServer() {
         try {
-            String var1 = this.getParameter("server");
-            int var2 = var1.lastIndexOf(':');
-            return var1.substring(0, var2);
-        } catch (Exception var3) {
-            return this.aString1423.length() > 0 ? this.aString1423 : aString1416;
+            String server = this.getParameter("server");
+            int portIndex = server.lastIndexOf(':');
+            return server.substring(0, portIndex);
+        } catch (Exception e) {
+            return this.codeBaseHost.length() > 0 ? this.codeBaseHost : LOCALHOST;
         }
     }
 
     private int getParamPort() {
         try {
-            String var1 = this.getParameter("server");
-            int var2 = var1.lastIndexOf(':');
-            return Integer.parseInt(var1.substring(var2 + 1));
-        } catch (Exception var4) {
+            String server = this.getParameter("server");
+            int portIndex = server.lastIndexOf(':');
+            return Integer.parseInt(server.substring(portIndex + 1));
+        } catch (Exception e) {
             try {
                 return Integer.parseInt(this.getParameter("port"));
-            } catch (Exception var3) {
+            } catch (Exception e2) {
                 return 4200;
             }
         }
     }
 
     private String getParamLocale() {
-        String var1;
+        String locale;
         try {
-            var1 = this.getParameter("locale");
-            if (var1 != null) {
-                return var1;
+            locale = this.getParameter("locale");
+            if (locale != null) {
+                return locale;
             }
-        } catch (Exception var4) {
+        } catch (Exception e) {
             ;
         }
 
-        if (this.aString1423.endsWith("aapeli.com")) {
+        if (this.codeBaseHost.endsWith("aapeli.com")) {
             return "fi";
-        } else if (this.aString1423.endsWith("playray.com")) {
-            return aString1417;
+        } else if (this.codeBaseHost.endsWith("playray.com")) {
+            return ENGLISH_LANGUAGE;
         } else {
-            if (this.aString1423.endsWith(".playforia.com")) {
+            if (this.codeBaseHost.endsWith(".playforia.com")) {
                 try {
-                    var1 = this.aString1423.substring(0, this.aString1423.indexOf(46));
-                    if (var1.length() > 0 && !var1.equals("www")) {
-                        return var1;
+                    locale = this.codeBaseHost.substring(0, this.codeBaseHost.indexOf(46));
+                    if (locale.length() > 0 && !locale.equals("www")) {
+                        return locale;
                     }
-                } catch (Exception var3) {
+                } catch (Exception e) {
                     ;
                 }
             }
 
-            if (this.aString1423.indexOf("playray") >= 0) {
+            if (this.codeBaseHost.contains("playray")) {
                 try {
-                    var1 = this.aString1423.substring(this.aString1423.lastIndexOf(46) + 1);
-                    if (var1.length() > 0) {
-                        return var1;
+                    locale = this.codeBaseHost.substring(this.codeBaseHost.lastIndexOf(46) + 1);
+                    if (locale.length() > 0) {
+                        return locale;
                     }
-                } catch (Exception var2) {
+                } catch (Exception e) {
                     ;
                 }
             }
 
-            return aString1417;
+            return ENGLISH_LANGUAGE;
         }
     }
 
     private String getParamLanguage() {
         try {
-            String var1 = this.getParameter("lang");
-            if (var1 != null) {
-                return var1;
+            String language = this.getParameter("lang");
+            if (language != null) {
+                return language;
             }
 
-            var1 = this.getParameter("language");
-            if (var1 != null) {
-                return var1;
+            language = this.getParameter("language");
+            if (language != null) {
+                return language;
             }
-        } catch (Exception var2) {
+        } catch (Exception e) {
             ;
         }
 
@@ -572,16 +579,16 @@ public final class Parameters {
 
     private String getParamChatLanguage() {
         try {
-            String var1 = this.getParameter("chatlang");
-            if (var1 != null) {
-                return var1;
+            String chatLanguage = this.getParameter("chatlang");
+            if (chatLanguage != null) {
+                return chatLanguage;
             }
 
-            var1 = this.getParameter("serverlang");
-            if (var1 != null) {
-                return var1;
+            chatLanguage = this.getParameter("serverlang");
+            if (chatLanguage != null) {
+                return chatLanguage;
             }
-        } catch (Exception var2) {
+        } catch (Exception e) {
             ;
         }
 
@@ -590,56 +597,63 @@ public final class Parameters {
 
     private String getParamSiteName() {
         try {
-            String var1 = this.getParameter("sitename");
-            if (var1 != null) {
-                return var1;
+            String siteName = this.getParameter("sitename");
+            if (siteName != null) {
+                return siteName;
             }
-        } catch (Exception var2) {
+        } catch (Exception e) {
             ;
         }
 
-        return this.aString1424.indexOf("aapeli.") >= 0 ? "aapeli" : (this.aString1424.indexOf("playforia.") >= 0 ? aString1418 : (this.aString1424.indexOf("playray.") >= 0 ? "playray" : aString1418));
+        if (this.documentBaseHost.contains("aapeli.")) {
+            return "aapeli";
+        } else if (this.documentBaseHost.contains("playforia.")) {
+            return PLAYFORIA_SITE_NAME;
+        } else if (this.documentBaseHost.contains("playray.")) {
+            return "playray";
+        }
+        return PLAYFORIA_SITE_NAME;
     }
 
     private URL getParamQuitPage() {
-        URL var1 = this.toURL(this.getParameter("quitpage"));
-        if (var1 != null) {
-            return var1;
+        URL quitPage = this.toURL(this.getParameter("quitpage"));
+        if (quitPage != null) {
+            return quitPage;
         } else {
-            var1 = this.toURL(this.aString1424);
-            return var1 != null ? var1 : this.toURL(aString1419);
+            quitPage = this.toURL(this.documentBaseHost);
+            return quitPage != null ? quitPage : this.toURL(PLAYFORIA_QUIT_PAGE);
         }
     }
 
     private String getParamQuitTarget() {
-        String var1 = this.getParameter("quittarget");
-        return var1 != null ? var1 : aString1420;
+        String quitTarget = this.getParameter("quittarget");
+        return quitTarget != null ? quitTarget : QUIT_TARGET;
     }
 
     private String[][] getParamImageAliases() {
-        String var1 = this.getParameter("imagealias");
-        if (var1 == null) {
-            return (String[][]) null;
+        String imageAliases = this.getParameter("imagealias");
+        if (imageAliases == null) {
+            return null;
         } else {
-            StringTokenizer var2 = new StringTokenizer(var1, " ");
-            int var3 = var2.countTokens();
-            if (var3 == 0) {
-                return (String[][]) null;
+            StringTokenizer tokenizer = new StringTokenizer(imageAliases, " ");
+            int tokenCount = tokenizer.countTokens();
+            if (tokenCount == 0) {
+                return null;
             } else {
-                String[][] var4 = new String[var3][2];
+                String[][] result = new String[tokenCount][2];
 
-                for (int var7 = 0; var7 < var3; ++var7) {
-                    String var5 = var2.nextToken();
-                    int var6 = var5.indexOf(58);
-                    if (var6 <= 0 || var6 == var5.length() - 1) {
-                        return (String[][]) null;
+                for (int i = 0; i < tokenCount; ++i) {
+                    String token = tokenizer.nextToken();
+                    int var6 = token.indexOf(':');
+                    if (var6 <= 0 || var6 == token.length() - 1) {
+                        return null;
                     }
 
-                    var4[var7][0] = var5.substring(0, var6);
-                    var4[var7][1] = this.method1670(var5.substring(var6 + 1));
+                    result[i][0] = token.substring(0, var6);
+                    result[i][1] = this.method1670(token.substring(var6 + 1));
                 }
 
-                return var4;
+                return result;
             }
         }
     }
@@ -664,42 +678,42 @@ public final class Parameters {
     }
 
     private int[] getParamRegRemindShowTime() {
-        String var1 = this.getParameter("regremindshowtime");
-        if (var1 == null) {
+        String regRemindShowTime = this.getParameter("regremindshowtime");
+        if (regRemindShowTime == null) {
             return null;
         } else {
-            StringTokenizer var2 = new StringTokenizer(var1, ",");
-            int var3 = var2.countTokens();
-            if (var3 == 0) {
+            StringTokenizer tokenizer = new StringTokenizer(regRemindShowTime, ",");
+            int tokenCount = tokenizer.countTokens();
+            if (tokenCount == 0) {
                 return null;
             } else {
-                int[] var4 = new int[var3];
+                int[] result = new int[tokenCount];
 
-                for (int var5 = 0; var5 < var3; ++var5) {
+                for (int i = 0; i < tokenCount; ++i) {
                     try {
-                        var4[var5] = Integer.parseInt(var2.nextToken());
-                    } catch (NumberFormatException var7) {
+                        result[i] = Integer.parseInt(tokenizer.nextToken());
+                    } catch (NumberFormatException e) {
                         return null;
                     }
 
-                    if (var4[var5] <= 0) {
+                    if (result[i] <= 0) {
                         return null;
                     }
 
-                    if (var5 > 0 && var4[var5] <= var4[var5 - 1]) {
+                    if (i > 0 && result[i] <= result[i - 1]) {
                         return null;
                     }
                 }
 
-                return var4;
+                return result;
             }
         }
     }
 
-    private URL toURL(String var1) {
+    private URL toURL(String s) {
         try {
-            return new URL(var1);
-        } catch (MalformedURLException var3) {
+            return new URL(s);
+        } catch (MalformedURLException e) {
             return null;
         }
     }
@@ -710,76 +724,76 @@ public final class Parameters {
         }
 
         if (this.urlUserListPage != null) {
-            String var4 = this.urlUserListPage.toLowerCase();
-            String var5 = null;
+            String result = null;
             if (nicks != null) {
-                var5 = "";
-                int var6 = nicks.length;
+                result = "";
+                int len = nicks.length;
 
-                for (int var7 = 0; var7 < var6; ++var7) {
-                    var5 = var5 + nicks[var7];
+                for (int i = 0; i < len; ++i) {
+                    result = result + nicks[i];
                     if (winners != null) {
-                        var5 = var5 + (winners[var7] ? "*" : "");
+                        result = result + (winners[i] ? "*" : "");
                     }
 
-                    if (var7 < var6 - 1) {
-                        var5 = var5 + ',';
+                    if (i < len - 1) {
+                        result = result + ',';
                     }
                 }
 
-                var5 = this.method1674(var5);
+                result = this.htmlEncode(result);
             }
 
             String var8;
+            String var4 = this.urlUserListPage.toLowerCase();
             if (var4.startsWith("http:")) {
                 if (this.urlTargetUserList != null) {
                     var8 = this.urlUserListPage;
-                    if (var5 != null) {
-                        var8 = var8 + var5;
+                    if (result != null) {
+                        var8 = var8 + result;
                         if (subgame != null) {
                             var8 = var8 + "&subgame=" + subgame;
                         }
                     }
 
-                    this.method1676(this.toURL(var8), this.urlTargetUserList);
+                    this.showUrl(this.toURL(var8), this.urlTargetUserList);
                 }
             } else {
                 if (var4.startsWith("javascript:")) {
                     var8 = this.urlUserListPage;
-                    var8 = Tools.replaceFirst(var8, "%n", var5 != null ? var5 : "");
+                    var8 = Tools.replaceFirst(var8, "%n", result != null ? result : "");
                     var8 = Tools.replaceFirst(var8, "%s", subgame != null ? subgame : "");
                     URL var9 = this.toURL(var8);
                     if (var9 == null) {
                         return;
                     }
 
-                    this.method1676(var9, this.urlTargetUserList);
+                    this.showUrl(var9, this.urlTargetUserList);
                 }
 
             }
         }
     }
 
-    private String method1674(String var1) {
-        int var2 = var1.length();
-        StringBuffer var3 = new StringBuffer(var2 * 3);
+    private String htmlEncode(String s) {
+        int len = s.length();
+        StringBuffer result = new StringBuffer(len * 3);
 
-        for (int var6 = 0; var6 < var2; ++var6) {
-            char var4 = var1.charAt(var6);
-            if ((var4 < 65 || var4 > 90) && (var4 < 97 || var4 > 122) && (var4 < 48 || var4 > 57) && var4 != 45 && var4 != 126 && var4 != 44) {
-                String var5 = Integer.toHexString(var4 & 255);
-                var3.append('%');
-                if (var5.length() < 2) {
-                    var3.append(0);
+        for (int i = 0; i < len; ++i) {
+            char c = s.charAt(i);
+            if ((c < 65 || c > 90) && (c < 97 || c > 122) && (c < 48 || c > 57) && c != 45 && c != 126 && c != 44) {
+                String hex = Integer.toHexString(c & 255);
+                result.append('%');
+                if (hex.length() < 2) {
+                    result.append(0);
                 }
 
-                var3.append(var5);
+                result.append(hex);
             } else {
-                var3.append(var4);
+                result.append(c);
             }
         }
 
-        return var3.toString();
+        return result.toString();
     }
 
     private boolean method1675(String[] var1, String var2) {
@@ -807,15 +821,15 @@ public final class Parameters {
         }
     }
 
-    private boolean method1676(URL var1, String var2) {
-        if (var1 == null) {
+    private boolean showUrl(URL url, String target) {
+        if (url == null) {
             return false;
         } else {
-            AppletContext var3 = this.anApplet1421.getAppletContext();
-            if (var2 != null) {
-                var3.showDocument(var1, var2);
+            AppletContext appletContext = this.applet.getAppletContext();
+            if (target != null) {
+                appletContext.showDocument(url, target);
             } else {
-                var3.showDocument(var1);
+                appletContext.showDocument(url);
             }
 
             return true;

@@ -1,9 +1,5 @@
 package com.aapeli.client;
 
-import com.aapeli.client.Frame_Sub3_Sub3;
-import com.aapeli.client.ImageManager;
-import com.aapeli.client.Parameters;
-import com.aapeli.client.TextManager;
 import com.aapeli.colorgui.ColorButton;
 
 import java.awt.Color;
@@ -29,7 +25,7 @@ class Class88 implements ActionListener {
         this.aParameters1500 = var1;
         this.aTextManager1501 = var2;
         this.anImageManager1502 = var3;
-        this.anInt1506 = var1.method1655() ? 1 : 2;
+        this.anInt1506 = var1.getTellFriend() ? 1 : 2;
         this.anInt1507 = 0;
 
         try {
@@ -40,8 +36,8 @@ class Class88 implements ActionListener {
             this.anInt1506 = 0;
         }
 
-        this.aString1504 = var1.method1656();
-        this.aString1505 = var1.method1657();
+        this.aString1504 = var1.getTellFriendPage();
+        this.aString1505 = var1.getTellFriendTarget();
         if (this.aString1504 == null || this.aString1505 == null) {
             this.anInt1506 = 0;
         }
@@ -132,7 +128,7 @@ class Class88 implements ActionListener {
 
             var10 = var10 + "hash=" + var9;
             URL var14 = new URL(this.aString1504 + "?" + var10);
-            this.aParameters1500.method1654().showDocument(var14, this.aString1505);
+            this.aParameters1500.getAppletContext().showDocument(var14, this.aString1505);
             return true;
         } catch (Exception var12) {
             ;
