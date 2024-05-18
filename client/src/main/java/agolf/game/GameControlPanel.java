@@ -53,17 +53,17 @@ class GameControlPanel extends Panel implements ActionListener, ItemListener {
         var1.fillRect(0, 0, this.anInt342, this.anInt343);
     }
 
-    public void actionPerformed(ActionEvent var1) {
-        Object var2 = var1.getSource();
-        if (var2 == this.buttonSkip) {
-            if (this.gameContainer.gamePanel.method339(this.playerCount == 1)) {
+    public void actionPerformed(ActionEvent event) {
+        Object source = event.getSource();
+        if (source == this.buttonSkip) {
+            if (this.gameContainer.gamePanel.skipButtonPressed(this.playerCount == 1)) {
                 this.setVisible(false);
                 this.remove(this.buttonSkip);
                 this.setVisible(true);
                 this.skipButtonVisible = false;
             }
 
-        } else if (var2 == this.buttonNewGame) {
+        } else if (source == this.buttonNewGame) {
             this.buttonNewGame.removeActionListener(this);
             this.setVisible(false);
             this.remove(this.buttonNewGame);
@@ -71,7 +71,7 @@ class GameControlPanel extends Panel implements ActionListener, ItemListener {
             this.aGamePlayerInfoPanel__341.readyForNewGameLocal();
             this.gameContainer.gamePanel.requestNewGame();
         } else {
-            if (var2 == this.buttonBack) {
+            if (source == this.buttonBack) {
                 this.buttonBack.removeActionListener(this);
                 this.setVisible(false);
                 this.remove(this.buttonBack);

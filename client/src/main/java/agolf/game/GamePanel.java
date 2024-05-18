@@ -429,11 +429,11 @@ public class GamePanel extends Panel {
         this.gameContainer.connection.writeData("game\t" + data);
     }
 
-    protected boolean method339(boolean var1) {
+    protected boolean skipButtonPressed(boolean isSinglePlayer) {
         if (this.state == 1) {
-            if (!var1) {
-                this.gamePlayerInfoPanel.method366();
-                if (this.gamePlayerInfoPanel.method376() && this.gameCanvas.method137()) {
+            if (!isSinglePlayer) {
+                this.gamePlayerInfoPanel.voteSkip();
+                if (this.gamePlayerInfoPanel.shouldSkipTrack() && this.gameCanvas.method137()) {
                     this.gameCanvas.restartGame();
                 }
 

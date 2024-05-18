@@ -434,7 +434,7 @@ class GamePlayerInfoPanel extends Panel implements ItemListener, MouseListener {
         this.repaint();
     }
 
-    protected void method366() {
+    protected void voteSkip() {
         this.voteSkip(this.playerId);
     }
 
@@ -507,9 +507,9 @@ class GamePlayerInfoPanel extends Panel implements ItemListener, MouseListener {
         this.repaint();
     }
 
-    protected boolean method376() {
-        for (int var1 = 0; var1 < this.playerCount; ++var1) {
-            if (this.anIntArray394[var1] == 0 && !this.playerVotedToSkip[var1]) {
+    protected boolean shouldSkipTrack() {
+        for (int player = 0; player < this.playerCount; ++player) {
+            if (this.anIntArray394[player] == 0 && !this.playerVotedToSkip[player]) {
                 return false;
             }
         }
