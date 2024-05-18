@@ -11,7 +11,6 @@ class Class89 {
     private String aString1529;
     private String aString1530;
     private final TextManager aTextManager1531;
-    private static final String[] aStringArray1532 = new String[4];
 
 
     protected Class89(TextManager var1, String var2, XmlUnit var3, boolean var4) {
@@ -44,10 +43,4 @@ class Class89 {
         return this.aString1528;
     }
 
-    static {
-        aStringArray1532[0] = "plural";
-        aStringArray1532[1] = "singular";
-        aStringArray1532[2] = "zero";
-        aStringArray1532[3] = "fr";
-    }
 }

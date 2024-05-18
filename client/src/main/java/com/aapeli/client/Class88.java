@@ -24,8 +24,6 @@ class Class88 implements ActionListener {
     private int anInt1506;
     private int anInt1507;
     private Frame_Sub3_Sub3 aFrame_Sub3_Sub3_1508;
-    private static final String[] aStringArray1509 = new String[11];
-
 
     protected Class88(Parameters var1, TextManager var2, ImageManager var3) {
         this.aParameters1500 = var1;
@@ -218,17 +216,6 @@ class Class88 implements ActionListener {
     }
 
     static {
-        aStringArray1509[0] = "MD5";
-        aStringArray1509[1] = "TellFriend_ExtButton";
-        aStringArray1509[2] = "Voi";
-        aStringArray1509[3] = "...";
-        aStringArray1509[4] = "message=";
-        aStringArray1509[5] = "session=";
-        aStringArray1509[6] = "hash=";
-        aStringArray1509[7] = "emails[]=";
-        aStringArray1509[8] = "Miksei";
-        aStringArray1509[9] = "Aita";
-        aStringArray1509[10] = "Perjantai";
         aColor1499 = new Color(64, 160, 255);
     }
 }

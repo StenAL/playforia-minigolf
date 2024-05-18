@@ -14,8 +14,6 @@ public class ChatTextArea extends ColorTextArea {
     private TextManager aTextManager4728;
     private BadWordFilter aBadWordFilter4729;
     private Hashtable aHashtable4730;
-    private static final String[] aStringArray4731 = new String[11];
-
 
     public ChatTextArea(TextManager var1, int var2, int var3) {
         this(var1, (BadWordFilter) null, var2, var3, (Font) null);
@@ -197,17 +195,6 @@ public class ChatTextArea extends ColorTextArea {
     }
 
     static {
-        aStringArray4731[0] = "Chat_MessageFlood";
-        aStringArray4731[1] = "Chat_UserAction";
-        aStringArray4731[2] = "/me ";
-        aStringArray4731[3] = "Chat_UserSay";
-        aStringArray4731[4] = "Chat_MessagePrivateMessageUserLeft";
-        aStringArray4731[5] = "Chat_SheriffSay";
-        aStringArray4731[6] = "Chat_ServerBroadcast";
-        aStringArray4731[7] = "Chat_ServerSay";
-        aStringArray4731[8] = "Chat_UserSayPrivate";
-        aStringArray4731[9] = "Chat_Message";
-        aStringArray4731[10] = "Dialog";
         DEFAULT_FONT = new Font("Dialog", 0, 12);
         SMALL_FONT = new Font("Dialog", 0, 11);
     }

@@ -33,8 +33,6 @@ public class GameBackgroundCanvas extends Canvas {
     private int[][] anIntArrayArray97;
     private boolean[] aBooleanArray98;
     public static int anInt99;
-    private static final String[] aStringArray100 = new String[11];
-
 
     protected GameBackgroundCanvas(GameContainer gameContainer, Image backgroundImage) {
         this.gameContainer = gameContainer;
@@ -735,17 +733,6 @@ public class GameBackgroundCanvas extends Canvas {
     }
 
     static {
-        aStringArray100[0] = "A ";
-        aStringArray100[1] = "T ";
-        aStringArray100[2] = "S ";
-        aStringArray100[3] = "R ";
-        aStringArray100[4] = "Ads:";
-        aStringArray100[5] = "I ";
-        aStringArray100[6] = "L ";
-        aStringArray100[7] = "N ";
-        aStringArray100[8] = "B ";
-        aStringArray100[9] = "C ";
-        aStringArray100[10] = "V ";
         aColor75 = new Color(240, 240, 255);
         anIntArray78 = new int[]{3, 5, 8, 49};
         anIntArray79 = new int[]{2, 3, 5, 25};

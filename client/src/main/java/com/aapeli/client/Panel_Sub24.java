@@ -50,8 +50,6 @@ class Panel_Sub24 extends Panel implements ActionListener, FocusListener {
     private boolean aBoolean640;
     private Image anImage641;
     private Graphics aGraphics642;
-    private static final String[] aStringArray643 = new String[17];
-
 
     protected Panel_Sub24(TextManager var1, ImageManager var2, Class88 var3, Frame_Sub3_Sub3 var4) {
         this.aTextManager628 = var1;
@@ -361,23 +359,6 @@ class Panel_Sub24 extends Panel implements ActionListener, FocusListener {
     }
 
     static {
-        aStringArray643[0] = "TellFriend_MessageTitle";
-        aStringArray643[1] = "tf-background.gif";
-        aStringArray643[2] = "TellFriend_EmailNotSent";
-        aStringArray643[3] = "tf-char-sent.gif";
-        aStringArray643[4] = "tf-btn-send.gif";
-        aStringArray643[5] = "tf-char-error.gif";
-        aStringArray643[6] = "TellFriend_EmailSent";
-        aStringArray643[7] = "tf-btn-close.gif";
-        aStringArray643[8] = "TellFriend_EmailTitle";
-        aStringArray643[9] = "TellFriend_Info";
-        aStringArray643[10] = "TellFriend_EmailHelp";
-        aStringArray643[11] = "TellFriend_ButtonClose";
-        aStringArray643[12] = "TellFriend_EmailRemove";
-        aStringArray643[13] = "TellFriend_ButtonSend";
-        aStringArray643[14] = "TellFriend_EmailAdd";
-        aStringArray643[15] = "Serif";
-        aStringArray643[16] = "Dialog";
         aColor616 = new Color(240, 240, 240);
         aColor617 = Color.black;
         aColor618 = new Color(255, 224, 224);

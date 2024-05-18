@@ -9,9 +9,6 @@ import java.util.Vector;
 public class HtmlText {
 
     private Vector aVector1348;
-    private static final String[] aStringArray1349 = new String[4];
-
-
     public HtmlText(Graphics var1, int var2, String var3) {
         this.aVector1348 = this.method1589(var1, var2, var3);
     }
@@ -87,12 +84,5 @@ public class HtmlText {
             var2.addElement(var1);
         }
 
-    }
-
-    static {
-        aStringArray1349[0] = "<br>";
-        aStringArray1349[1] = "<center>";
-        aStringArray1349[2] = "</center>";
-        aStringArray1349[3] = "[HtmlText: lines.size=";
     }
 }

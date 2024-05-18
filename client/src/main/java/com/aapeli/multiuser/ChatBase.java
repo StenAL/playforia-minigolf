@@ -55,8 +55,6 @@ public abstract class ChatBase extends IPanel implements ComponentListener, User
     private String aString2357;
     private Vector chatListeners;
     private Object synchronizedObject;
-    private static final String[] aStringArray2360 = new String[9];
-
 
     public ChatBase(Parameters var1, TextManager var2, ImageManager var3, BadWordFilter var4, boolean var5, boolean var6, int var7, int var8) {
         this(var1, var2, var3, var4, true, true, var5, var6, false, var7, var8);
@@ -625,15 +623,6 @@ public abstract class ChatBase extends IPanel implements ComponentListener, User
     }
 
     static {
-        aStringArray2360[0] = "Chat_NoUnconfirmedChatNote";
-        aStringArray2360[1] = "Chat_NoGuestChatAndRegNote";
-        aStringArray2360[2] = "ServerSay_SheriffUnMutedUser";
-        aStringArray2360[3] = "ServerSay_SheriffMutedUser";
-        aStringArray2360[4] = "L10N:";
-        aStringArray2360[5] = "ServerSay_SheriffGaveWarning";
-        aStringArray2360[6] = "Chat_SayButton";
-        aStringArray2360[7] = "Chat_InputHelp";
-        aStringArray2360[8] = "Chat_Welcome";
         aColor2342 = new Color(144, 144, 224);
         aBoolean2343 = true;
     }

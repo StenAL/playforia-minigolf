@@ -58,8 +58,6 @@ public class ColorButton extends IPanel implements MouseMotionListener, MouseLis
     private Class90 aClass90_3285;
     private boolean aBoolean3286;
     public static boolean aBoolean3287;
-    private static final String[] aStringArray3288 = new String[2];
-
 
     public ColorButton() {
         this((String) null);
@@ -578,8 +576,6 @@ public class ColorButton extends IPanel implements MouseMotionListener, MouseLis
     }
 
     static {
-        aStringArray3288[0] = "Dialog";
-        aStringArray3288[1] = "  ";
         aColor3253 = new Color(192, 192, 192);
     }
 }

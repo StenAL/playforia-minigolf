@@ -22,8 +22,6 @@ class ImageTracker implements Runnable {
     private AApplet anAApplet1400;
     private Thread aThread1401;
     private boolean aBoolean1402;
-    private static final String[] aStringArray1403 = new String[4];
-
 
     protected ImageTracker(Applet var1, boolean var2) {
         this.anApplet1396 = var1;
@@ -303,12 +301,5 @@ class ImageTracker implements Runnable {
             this.imageResourceTable.addElement(var2);
         }
 
-    }
-
-    static {
-        aStringArray1403[0] = "\", moving from \'notloaded\' to \'loaded\'";
-        aStringArray1403[1] = "ImageTracker: Loaded image \"";
-        aStringArray1403[2] = "ImageTracker: Start loading image \"";
-        aStringArray1403[3] = "ImageTracker: Finished loading image \"";
     }
 }

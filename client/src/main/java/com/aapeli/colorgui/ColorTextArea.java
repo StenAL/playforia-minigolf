@@ -60,8 +60,6 @@ public class ColorTextArea extends IPanel implements ComponentListener, Adjustme
     private int anInt3350;
     private int anInt3351;
     private Object anObject3352;
-    private static final String[] aStringArray3353 = new String[2];
-
 
     public ColorTextArea(int var1, int var2) {
         this(var1, var2, (Font) null);
@@ -376,8 +374,6 @@ public class ColorTextArea extends IPanel implements ComponentListener, Adjustme
     }
 
     static {
-        aStringArray3353[0] = "  ";
-        aStringArray3353[1] = "] ";
         aColorArray3327 = new Color[]{new Color(0, 0, 0), new Color(224, 0, 0), new Color(0, 160, 0), new Color(0, 0, 240), new Color(160, 128, 0), new Color(160, 0, 160), new Color(0, 144, 160), new Color(112, 112, 112), new Color(255, 255, 255)};
         aColor3328 = new Color(255, 255, 255);
         aColor3329 = new Color(192, 192, 192);
