@@ -70,15 +70,12 @@ class GameControlPanel extends Panel implements ActionListener, ItemListener {
             this.setVisible(true);
             this.aGamePlayerInfoPanel__341.readyForNewGameLocal();
             this.gameContainer.gamePanel.requestNewGame();
-        } else {
-            if (source == this.buttonBack) {
-                this.buttonBack.removeActionListener(this);
-                this.setVisible(false);
-                this.remove(this.buttonBack);
-                this.setVisible(true);
-                this.gameContainer.gamePanel.method342();
-            }
-
+        } else if (source == this.buttonBack) {
+            this.buttonBack.removeActionListener(this);
+            this.setVisible(false);
+            this.remove(this.buttonBack);
+            this.setVisible(true);
+            this.gameContainer.gamePanel.leaveGame();
         }
     }
 

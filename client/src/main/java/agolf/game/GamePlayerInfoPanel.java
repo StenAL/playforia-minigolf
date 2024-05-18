@@ -47,7 +47,7 @@ class GamePlayerInfoPanel extends Panel implements ItemListener, MouseListener {
     protected String[] playerClans;
     private SynchronizedInteger[][] trackStrokes;
     private SynchronizedInteger[] playersId;
-    private int[] anIntArray394;
+    private int[] playerLeaveReasons; // see PART_ enums in Lobby class
     private boolean[] playerVotedToSkip;
     private boolean[] playerReadyForNewGame;
     private int[] trackScoresMultipliers;
@@ -119,7 +119,8 @@ class GamePlayerInfoPanel extends Panel implements ItemListener, MouseListener {
 
             for (int player = 0; player < this.playerCount; ++player) {
                 Font font = this.playerId == player ? fontDialog12b : fontDialog12;
-                Color color = playerColors[player][this.anIntArray394[player] == 0 ? 0 : 1];
+                int playerLeft = this.playerLeaveReasons[player] == 0 ? 0 : 1;
+                Color color = playerColors[player][playerLeft];
                 this.graphics.setFont(font);
                 this.graphics.setColor(color);
                 if (this.playerCount > 1) {
@@ -159,7 +160,7 @@ class GamePlayerInfoPanel extends Panel implements ItemListener, MouseListener {
                 this.graphics.drawString("= " + this.playersId[player].get(), 130 + this.trackCount * 20 + 15, offsetY);
                 String playerInfo;
                 int[] scoreDifferences = this.getScoreDifferences();
-                if (scoreDifferences != null && this.anIntArray394[player] == 0) {
+                if (scoreDifferences != null && this.playerLeaveReasons[player] == 0) {
                     playerInfo = null;
                     if (scoreDifferences[player] == 0) {
                         if (this.gameOutcome == null) {
@@ -212,11 +213,11 @@ class GamePlayerInfoPanel extends Panel implements ItemListener, MouseListener {
                     playerInfo = "GamePlayerInfo_ReadyForNewGame";
                 }
 
-                if (this.anIntArray394[player] == 5) {
+                if (this.playerLeaveReasons[player] == 5) {
                     playerInfo = "GamePlayerInfo_Quit_ConnectionProblem";
                 }
 
-                if (this.anIntArray394[player] == 4) {
+                if (this.playerLeaveReasons[player] == 4) {
                     playerInfo = "GamePlayerInfo_Quit_Part";
                 }
 
@@ -283,13 +284,13 @@ class GamePlayerInfoPanel extends Panel implements ItemListener, MouseListener {
             this.playersId[player] = new SynchronizedInteger();
         }
 
-        this.anIntArray394 = new int[playerCount];
+        this.playerLeaveReasons = new int[playerCount];
         this.playerVotedToSkip = new boolean[playerCount];
         this.playerReadyForNewGame = new boolean[playerCount];
 
         for (int player = 0; player < playerCount; ++player) {
             this.playerNames[player] = this.playerClans[player] = null;
-            this.anIntArray394[player] = 0;
+            this.playerLeaveReasons[player] = 0;
         }
 
         this.trackScoresMultipliers = new int[trackCount];
@@ -321,11 +322,11 @@ class GamePlayerInfoPanel extends Panel implements ItemListener, MouseListener {
         this.addMouseListener(this);
     }
 
-    protected boolean method358(int playerId, int var2) {
-        if (var2 == 6) {
+    protected boolean setPlayerPartStatus(int playerId, int status) {
+        if (status == 6) {
             this.playerNames[playerId] = null;
         } else {
-            this.anIntArray394[playerId] = var2;
+            this.playerLeaveReasons[playerId] = status;
             if (this.gameContainer.gamePanel.state == 2) {
                 this.gameContainer.gamePanel.state = 3;
                 this.repaint();
@@ -463,7 +464,7 @@ class GamePlayerInfoPanel extends Panel implements ItemListener, MouseListener {
     protected void method371(int state) {
         if (state == 2) {
             for (int player = 0; player < this.playerCount && state == 2; ++player) {
-                if (this.anIntArray394[player] != 0) {
+                if (this.playerLeaveReasons[player] != 0) {
                     state = 3;
                     this.gameContainer.gamePanel.state = 3;
                 }
@@ -509,7 +510,7 @@ class GamePlayerInfoPanel extends Panel implements ItemListener, MouseListener {
 
     protected boolean shouldSkipTrack() {
         for (int player = 0; player < this.playerCount; ++player) {
-            if (this.anIntArray394[player] == 0 && !this.playerVotedToSkip[player]) {
+            if (this.playerLeaveReasons[player] == 0 && !this.playerVotedToSkip[player]) {
                 return false;
             }
         }
@@ -534,7 +535,7 @@ class GamePlayerInfoPanel extends Panel implements ItemListener, MouseListener {
 
         int score;
         for (int i = 0; i < this.playerCount; ++i) {
-            if (this.anIntArray394[i] == 0) {
+            if (this.playerLeaveReasons[i] == 0) {
                 score = this.playersId[i].get();
                 if (this.trackScoring == 0 && score < bestScore) {
                     bestScore = score;

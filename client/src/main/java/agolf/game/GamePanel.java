@@ -173,14 +173,14 @@ public class GamePanel extends Panel {
             }
 
         }
-        else if (args[1].equals("part")) {
+        else if (args[1].equals("part")) { // player left game
             int playerId = Integer.parseInt(args[2]);
-            String playerName = this.gamePlayerInfoPanel.playerNames[playerId];
-            boolean var23 = this.gamePlayerInfoPanel.method358(playerId, Integer.parseInt(args[3]));
-            if (var23) {
+            boolean changed = this.gamePlayerInfoPanel.setPlayerPartStatus(playerId, Integer.parseInt(args[3]));
+            if (changed) {
                 this.gameControlPanel.method329();
             }
 
+            String playerName = this.gamePlayerInfoPanel.playerNames[playerId];
             this.gameChatPanel.addMessage(this.gameContainer.textManager.getGame("GameChat_Part", playerName));
             this.gameChatPanel.removeUserColour(playerName);
             this.gameControlPanel.method330();
@@ -460,7 +460,7 @@ public class GamePanel extends Panel {
         this.gameContainer.connection.writeData("game\tnewgame");
     }
 
-    protected void method342() {
+    protected void leaveGame() {
         this.gameCanvas.restartGame();
         this.gamePlayerInfoPanel.stopTimer();
         this.gameContainer.gameApplet.setGameState(0);
