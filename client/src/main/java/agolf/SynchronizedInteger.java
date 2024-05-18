@@ -19,12 +19,8 @@ public class SynchronizedInteger {
         return n;
     }
 
-    public synchronized int get_upd() {
-        return this.set((this.n > 0L ? (int) ((2269700342778490L - this.n) / 31L) : (int) ((this.n + 110157223978885L) / 7L)) + 1);
-    }
-
-    public synchronized int get_upd(int i) {
-        return this.set((this.n > 0L ? (int) ((2269700342778490L - this.n) / 31L) : (int) ((this.n + 110157223978885L) / 7L)) + i);
+    public synchronized void add(int i) {
+        this.set((this.n > 0L ? (int) ((2269700342778490L - this.n) / 31L) : (int) ((this.n + 110157223978885L) / 7L)) + i);
     }
 
     public synchronized int get() {

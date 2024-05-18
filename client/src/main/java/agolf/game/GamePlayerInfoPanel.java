@@ -401,10 +401,10 @@ class GamePlayerInfoPanel extends Panel implements ItemListener, MouseListener {
     protected void strokeStartedOrEnded(int playerId, boolean isStrokeEnd) {
         if (this.trackScoring == 0) {
             int var3 = !isStrokeEnd ? this.trackScoresMultipliers[this.currentTrackIndex] : 1;
-            this.trackStrokes[playerId][this.currentTrackIndex].get_upd(var3);
-            this.playersId[playerId].get_upd(var3);
+            this.trackStrokes[playerId][this.currentTrackIndex].add(var3);
+            this.playersId[playerId].add(var3);
         } else {
-            this.trackStrokes[playerId][this.currentTrackIndex].get_upd();
+            this.trackStrokes[playerId][this.currentTrackIndex].add(1);
         }
 
         this.repaint();
@@ -418,7 +418,7 @@ class GamePlayerInfoPanel extends Panel implements ItemListener, MouseListener {
             for (int track = 0; track <= trackId; ++track) {
                 int strokes = this.trackStrokes[player][track].get();
                 if (strokes >= 0) {
-                    this.playersId[player].get_upd(strokes);
+                    this.playersId[player].add(strokes);
                 }
             }
         }
@@ -482,7 +482,7 @@ class GamePlayerInfoPanel extends Panel implements ItemListener, MouseListener {
 
     protected void method372() {
         if (this.trackScoring == 0) {
-            this.playersId[this.activePlayerId].get_upd(-this.trackStrokes[this.activePlayerId][this.currentTrackIndex].get());
+            this.playersId[this.activePlayerId].add(-this.trackStrokes[this.activePlayerId][this.currentTrackIndex].get());
         }
 
         this.trackStrokes[this.activePlayerId][this.currentTrackIndex].set(-1);
