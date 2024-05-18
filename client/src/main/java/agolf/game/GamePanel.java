@@ -187,22 +187,22 @@ public class GamePanel extends Panel {
         } else if (args[1].equals("say")) {
             int playerId = Integer.parseInt(args[2]);
             this.gameChatPanel.addSay(playerId, this.gamePlayerInfoPanel.playerNames[playerId], args[3], false);
-        } else if (args[1].equals("cr")) {
-            StringTokenizer var19 = new StringTokenizer(args[2], ",");
-            int playerTypes = var19.countTokens();
-            int[][] var25 = new int[5][playerTypes];
+        } else if (args[1].equals("cr")) { // get results to compare track score against
+            StringTokenizer tokenizer = new StringTokenizer(args[2], ",");
+            int tracks = tokenizer.countTokens();
+            int[][] comparisonScores = new int[5][tracks];
 
-            for (int var1 = 0; var1 < 5; ++var1) {
-                for (int startIndex = 0; startIndex < playerTypes; ++startIndex) {
-                    var25[var1][startIndex] = Integer.parseInt(var19.nextToken());
+            for (int comparisonType = 0; comparisonType < 5; ++comparisonType) {
+                for (int track = 0; track < tracks; ++track) {
+                    comparisonScores[comparisonType][track] = Integer.parseInt(tokenizer.nextToken());
                 }
 
-                if (var1 < 4) {
-                    var19 = new StringTokenizer(args[3 + var1], ",");
+                if (comparisonType < 4) {
+                    tokenizer = new StringTokenizer(args[3 + comparisonType], ",");
                 }
             }
 
-            this.gamePlayerInfoPanel.method375(var25);
+            this.gamePlayerInfoPanel.initResultsComparison(comparisonScores);
         } else if (args[1].equals("start")) {
             if (this.playerCount > 1) {
                 if (this.aBoolean363) {
