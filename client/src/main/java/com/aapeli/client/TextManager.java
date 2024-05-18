@@ -18,136 +18,136 @@ import java.util.Hashtable;
 
 public final class TextManager implements Runnable {
 
-    private Parameters aParameters1512;
-    private Thread aThread1513;
-    private String aString1514;
-    private Hashtable aHashtable1515;
-    private Hashtable aHashtable1516;
-    private String aString1517;
-    private boolean aBoolean1518;
-    private boolean aBoolean1519;
+    private Parameters parameters;
+    private Thread textLoaderThread;
+    private String language;
+    private Hashtable gameTable;
+    private Hashtable sharedTable;
+    private String errorMessage;
+    private boolean useLanguageFiles; // true == use language xml files, false == use locale .loc files
+    private boolean debug;
 
-    public TextManager(Applet var1, String var2) {
-        this(var1, var2, false);
+    public TextManager(Applet applet, String var2) {
+        this(applet, var2, false);
     }
 
-    public TextManager(Applet var1, String var2, boolean var3) {
-        this(var3);
-        this.aString1514 = var2;
-        this.aBoolean1518 = false;
-        this.method1731(var1);
+    public TextManager(Applet applet, String var2, boolean debug) {
+        this(debug);
+        this.language = var2;
+        this.useLanguageFiles = false;
+        this.loadTexts(applet);
     }
 
-    public TextManager(Parameters var1) {
-        this(var1, false, false);
+    public TextManager(Parameters parameters) {
+        this(parameters, false, false);
     }
 
-    public TextManager(Parameters var1, boolean var2) {
-        this(var1, false, var2);
+    public TextManager(Parameters parameters, boolean debug) {
+        this(parameters, false, debug);
     }
 
-    public TextManager(Parameters var1, boolean var2, boolean var3) {
-        this(var3);
-        this.aParameters1512 = var1;
-        String var4 = var1.getTranslationLang();
-        if (var4 != null) {
-            this.aString1514 = var4;
-            this.aBoolean1518 = true;
+    public TextManager(Parameters parameters, boolean loadTextsInSeparateThread, boolean debug) {
+        this(debug);
+        this.parameters = parameters;
+        String language = parameters.getTranslationLang();
+        if (language != null) {
+            this.language = language;
+            this.useLanguageFiles = true;
         } else {
-            this.aString1514 = var1.getLocale();
-            this.aBoolean1518 = false;
+            this.language = parameters.getLocale();
+            this.useLanguageFiles = false;
         }
 
-        if (var2) {
-            this.aThread1513 = new Thread(this);
-            this.aThread1513.start();
+        if (loadTextsInSeparateThread) {
+            this.textLoaderThread = new Thread(this);
+            this.textLoaderThread.start();
         } else {
-            this.method1731(var1.getApplet());
+            this.loadTexts(parameters.getApplet());
         }
 
     }
 
-    private TextManager(boolean var1) {
-        this.aBoolean1519 = var1;
-        this.aHashtable1515 = new Hashtable();
-        this.aHashtable1516 = new Hashtable();
-        this.aString1517 = null;
-        this.aThread1513 = null;
+    private TextManager(boolean debug) {
+        this.debug = debug;
+        this.gameTable = new Hashtable();
+        this.sharedTable = new Hashtable();
+        this.errorMessage = null;
+        this.textLoaderThread = null;
     }
 
     public void run() {
-        if (this.aBoolean1519) {
+        if (this.debug) {
             System.out.println("TextManager.run(): Start loading texts");
         }
 
-        this.method1731(this.aParameters1512.getApplet());
-        this.aThread1513 = null;
-        if (this.aBoolean1519) {
+        this.loadTexts(this.parameters.getApplet());
+        this.textLoaderThread = null;
+        if (this.debug) {
             System.out.println("TextManager.run(): Finished loading texts");
         }
 
     }
 
-    public String getGame(String var1) {
-        return this.getGame(var1, (String[]) null);
+    public String getGame(String key) {
+        return this.getGame(key, (String[]) null);
     }
 
-    public boolean isAvailable(String var1) {
-        return this.method1729(var1, 1) != null;
+    public boolean isAvailable(String key) {
+        return this.getText(key, 1) != null;
     }
 
-    public String getIfAvailable(String var1) {
-        return this.getIfAvailable(var1, (String) null);
+    public String getIfAvailable(String key) {
+        return this.getIfAvailable(key, null);
     }
 
-    public String getIfAvailable(String var1, String var2) {
-        String var3 = this.method1729(var1, 1);
-        return var3 != null ? var3 : var2;
+    public String getIfAvailable(String key, String fallback) {
+        String result = this.getText(key, 1);
+        return result != null ? result : fallback;
     }
 
-    public String getGame(String var1, String var2) {
-        String[] var3 = new String[]{var2};
-        return this.getGame(var1, var3);
+    public String getGame(String key, String argument1) {
+        String[] arguments = new String[]{argument1};
+        return this.getGame(key, arguments);
     }
 
-    public String getGame(String var1, String var2, String var3) {
-        String[] var4 = new String[]{var2, var3};
-        return this.getGame(var1, var4);
+    public String getGame(String key, String var2, String var3) {
+        String[] arguments = new String[]{var2, var3};
+        return this.getGame(key, arguments);
     }
 
-    public String getGame(String var1, String var2, String var3, String var4) {
-        String[] var5 = new String[]{var2, var3, var4};
-        return this.getGame(var1, var5);
+    public String getGame(String key, String argument2, String argument3, String argument4) {
+        String[] arguments = new String[]{argument2, argument3, argument4};
+        return this.getGame(key, arguments);
     }
 
-    public String getGame(String var1, String var2, String var3, String var4, String var5) {
-        String[] var6 = new String[]{var2, var3, var4, var5};
-        return this.getGame(var1, var6);
+    public String getGame(String key, String argument2, String argument3, String argument4, String argument5) {
+        String[] arguments = new String[]{argument2, argument3, argument4, argument5};
+        return this.getGame(key, arguments);
     }
 
-    public String getGame(String var1, String var2, String var3, String var4, String var5, String var6) {
-        String[] var7 = new String[]{var2, var3, var4, var5, var6};
-        return this.getGame(var1, var7);
+    public String getGame(String key, String argument2, String argument3, String argument4, String argument5, String argument6) {
+        String[] arguments = new String[]{argument2, argument3, argument4, argument5, argument6};
+        return this.getGame(key, arguments);
     }
 
-    public String getGame(String var1, int var2) {
-        String[] var3 = new String[]{"" + var2};
-        return this.getGame(var1, var3);
+    public String getGame(String key, int argument2) {
+        String[] arguments = new String[]{"" + argument2};
+        return this.getGame(key, arguments);
     }
 
-    public String getGame(String var1, int var2, int var3) {
-        String[] var4 = new String[]{"" + var2, "" + var3};
-        return this.getGame(var1, var4);
+    public String getGame(String key, int argument2, int argument3) {
+        String[] arguments = new String[]{"" + argument2, "" + argument3};
+        return this.getGame(key, arguments);
     }
 
-    public String getGame(String var1, int var2, int var3, int var4) {
-        String[] var5 = new String[]{"" + var2, "" + var3, "" + var4};
-        return this.getGame(var1, var5);
+    public String getGame(String key, int argument2, int argument3, int argument4) {
+        String[] arguments = new String[]{"" + argument2, "" + argument3, "" + argument4};
+        return this.getGame(key, arguments);
     }
 
-    public String getGame(String var1, int var2, int var3, int var4, int var5) {
-        String[] var6 = new String[]{"" + var2, "" + var3, "" + var4, "" + var5};
-        return this.getGame(var1, var6);
+    public String getGame(String key, int argument2, int argument3, int argument4, int argument5) {
+        String[] arguments = new String[]{"" + argument2, "" + argument3, "" + argument4, "" + argument5};
+        return this.getGame(key, arguments);
     }
 
     public String getNumber(long var1) {
@@ -206,52 +206,52 @@ public final class TextManager implements Runnable {
         }
     }
 
-    public String getTime(long var1) {
-        return this.getTime(var1 * 1000L, false);
+    public String getTime(long seconds) {
+        return this.getTime(seconds * 1000L, false);
     }
 
-    public String getTime(long var1, boolean var3) {
-        boolean var4 = var1 < 0L;
-        if (var4) {
-            var1 = -var1;
+    public String getTime(long time, boolean var3) {
+        boolean isNegative = time < 0L;
+        if (isNegative) {
+            time = -time;
         }
 
-        int var5 = (int) ((var1 % 1000L + 5L) / 10L);
+        int secondFraction = (int) ((time % 1000L + 5L) / 10L);
         if (!var3) {
-            var1 += 500L;
+            time += 500L;
         }
 
-        var1 /= 1000L;
-        int var6 = (int) (var1 % 60L);
-        var1 /= 60L;
-        int var7 = (int) (var1 % 60L);
-        int var8 = (int) (var1 / 60L);
-        boolean var9 = var8 > 0;
-        boolean var10 = var9 || var7 > 0 || !var3;
-        boolean var11 = var3 && var8 == 0;
-        String var12 = var4 ? "-" : "";
-        if (var9) {
-            var12 = var12 + var8;
+        time /= 1000L;
+        int seconds = (int) (time % 60L);
+        time /= 60L;
+        int minutes = (int) (time % 60L);
+        int hours = (int) (time / 60L);
+        boolean includeHours = hours > 0;
+        boolean includeMinutes = includeHours || minutes > 0 || !var3;
+        boolean includeSecondFraction = var3 && hours == 0;
+        String result = isNegative ? "-" : "";
+        if (includeHours) {
+            result = result + hours;
         }
 
-        if (var9 && var10) {
-            var12 = var12 + this.getShared("SeparatorHourMinute") + (var7 < 10 ? "0" : "");
+        if (includeHours && includeMinutes) {
+            result = result + this.getShared("SeparatorHourMinute") + (minutes < 10 ? "0" : "");
         }
 
-        if (var10) {
-            var12 = var12 + var7 + this.getShared("SeparatorMinuteSecond") + (var6 < 10 ? "0" : "");
+        if (includeMinutes) {
+            result = result + minutes + this.getShared("SeparatorMinuteSecond") + (seconds < 10 ? "0" : "");
         }
 
-        var12 = var12 + var6;
-        if (var11) {
-            var12 = var12 + this.getShared("SeparatorSecondFraction") + (var5 < 10 ? "0" : "") + var5;
+        result = result + seconds;
+        if (includeSecondFraction) {
+            result = result + this.getShared("SeparatorSecondFraction") + (secondFraction < 10 ? "0" : "") + secondFraction;
         }
 
-        return var12;
+        return result;
     }
 
-    public String getDate(long var1, boolean var3) {
-        return this.method1727(var1, var3 ? 1 : 0);
+    public String getDate(long timestamp, boolean includeTime) {
+        return this.getDate(timestamp, includeTime ? 1 : 0);
     }
 
     public String getClock(long var1, boolean var3) {
@@ -264,8 +264,8 @@ public final class TextManager implements Runnable {
         return var4;
     }
 
-    public String getDateWithTodayYesterday(long var1) {
-        return this.method1727(var1, 2);
+    public String getDateWithTodayYesterday(long timestamp) {
+        return this.getDate(timestamp, 2);
     }
 
     public char getDecimalSeparator() {
@@ -273,40 +273,40 @@ public final class TextManager implements Runnable {
         return var1.charAt(0);
     }
 
-    public String getShared(String var1) {
-        return this.getShared(var1, (String[]) null);
+    public String getShared(String key) {
+        return this.getShared(key, (String[]) null);
     }
 
-    public String getShared(String var1, String var2) {
-        String[] var3 = new String[]{var2};
-        return this.getShared(var1, var3);
+    public String getShared(String key, String argument) {
+        String[] arguments = new String[]{argument};
+        return this.getShared(key, arguments);
     }
 
-    public String getShared(String var1, String var2, String var3) {
-        String[] var4 = new String[]{var2, var3};
-        return this.getShared(var1, var4);
+    public String getShared(String key, String argument1, String argument2) {
+        String[] arguments = new String[]{argument1, argument2};
+        return this.getShared(key, arguments);
     }
 
-    public String getShared(String var1, String var2, String var3, String var4) {
-        String[] var5 = new String[]{var2, var3, var4};
-        return this.getShared(var1, var5);
+    public String getShared(String key, String argument2, String argument3, String argument4) {
+        String[] arguments = new String[]{argument2, argument3, argument4};
+        return this.getShared(key, arguments);
     }
 
-    public String getShared(String var1, String var2, String var3, String var4, String var5) {
-        String[] var6 = new String[]{var2, var3, var4, var5};
-        return this.getShared(var1, var6);
+    public String getShared(String key, String argument2, String argument3, String argument4, String argument5) {
+        String[] arguments = new String[]{argument2, argument3, argument4, argument5};
+        return this.getShared(key, arguments);
     }
 
-    public String getWithQuantity(String var1, int var2) {
-        return this.getGame(var1, new String[]{"" + var2}, var2);
+    public String getWithQuantity(String key, int quantity) {
+        return this.getGame(key, new String[]{"" + quantity}, quantity);
     }
 
-    public String getWithQuantity(String var1, String[] var2, int var3) {
-        return this.getGame(var1, var2, var3);
+    public String getWithQuantity(String key, String[] arguments, int quantity) {
+        return this.getGame(key, arguments, quantity);
     }
 
     public boolean isLoadingFinished() {
-        return this.aThread1513 == null;
+        return this.textLoaderThread == null;
     }
 
     public void waitLoadingFinished() {
@@ -317,127 +317,125 @@ public final class TextManager implements Runnable {
     }
 
     public Parameters getParameters() {
-        return this.aParameters1512;
+        return this.parameters;
     }
 
     public void destroy() {
-        if (this.aThread1513 == null) {
-            if (this.aHashtable1515 != null) {
-                this.aHashtable1515.clear();
-                this.aHashtable1515 = null;
+        if (this.textLoaderThread == null) {
+            if (this.gameTable != null) {
+                this.gameTable.clear();
+                this.gameTable = null;
             }
 
-            if (this.aHashtable1516 != null) {
-                this.aHashtable1516.clear();
-                this.aHashtable1516 = null;
+            if (this.sharedTable != null) {
+                this.sharedTable.clear();
+                this.sharedTable = null;
             }
 
-            this.aParameters1512 = null;
-            this.aString1514 = null;
-            this.aString1517 = null;
+            this.parameters = null;
+            this.language = null;
+            this.errorMessage = null;
         }
     }
 
-    protected String method1719() {
-        return this.aString1514;
+    protected String getLanguage() {
+        return this.language;
     }
 
-    private String getGame(String var1, String[] var2) {
-        return this.getGame(var1, var2, 1);
+    private String getGame(String key, String[] arguments) {
+        return this.getGame(key, arguments, 1);
     }
 
-    private String getGame(String var1, String[] var2, int var3) {
-        String var4 = this.method1722(var1, var2, var3);
-        if (var4 != null) {
-            return var4;
+    private String getGame(String key, String[] arguments, int quantity) {
+        String result = this.getText(key, arguments, quantity);
+        if (result != null) {
+            return result;
         } else {
-            var4 = this.method1729(var1, var3);
-            if (var2 != null) {
-                int var5 = var2.length;
+            result = this.getText(key, quantity);
+            if (arguments != null) {
+                int argumentsCount = arguments.length;
 
-                for (int var6 = 0; var6 < var5; ++var6) {
-                    var4 = Tools.replaceFirst(var4, "%" + (var6 + 1), var2[var6]);
+                for (int i = 0; i < argumentsCount; ++i) {
+                    result = Tools.replaceFirst(result, "%" + (i + 1), arguments[i]);
                 }
             }
 
-            return var4;
+            return result;
         }
     }
 
-    private String method1722(String var1, String[] var2, int var3) {
-        if (this.aThread1513 != null) {
+    private String getText(String key, String[] arguments, int quantity) {
+        if (this.textLoaderThread != null) {
             return "[Loading texts...]";
-        } else if (this.aHashtable1515 == null && this.aString1517 != null) {
-            return "[" + this.aString1517 + "]";
+        } else if (this.gameTable == null && this.errorMessage != null) {
+            return "[" + this.errorMessage + "]";
         } else {
-            String var4 = this.method1729(var1, var3);
-            if (var4 == null) {
-                if (this.aBoolean1519) {
-                    System.out.println("TextManager.getText(\"" + var1 + "\"): Key not found");
+            String result = this.getText(key, quantity);
+            if (result == null) {
+                if (this.debug) {
+                    System.out.println("TextManager.getText(\"" + key + "\"): Key not found");
                 }
 
-                return this.method1723(var1, var2);
+                return this.getFallbackString(key, arguments);
             } else {
                 return null;
             }
         }
     }
 
-    private String method1723(String var1, String[] var2) {
-        String var3 = "{" + var1 + "}";
-        if (var2 != null) {
-            int var4 = var2.length;
+    private String getFallbackString(String key, String[] arguments) {
+        String var3 = "{" + key + "}";
+        if (arguments != null) {
 
-            for (int var5 = 0; var5 < var4; ++var5) {
-                var3 = var3 + " (" + var2[var5] + ")";
+            for (String s : arguments) {
+                var3 = var3 + " (" + s + ")";
             }
         }
 
         return var3;
     }
 
-    private String getShared(String var1, String[] var2) {
-        return this.getShared(var1, var2, 1);
+    private String getShared(String key, String[] arguments) {
+        return this.getShared(key, arguments, 1);
     }
 
-    private String getShared(String var1, String[] var2, int var3) {
-        if (this.aThread1513 != null) {
+    private String getShared(String key, String[] arguments, int quantity) {
+        if (this.textLoaderThread != null) {
             return "[Loading texts...]";
-        } else if (this.aHashtable1516 == null && this.aString1517 != null) {
-            return "[" + this.aString1517 + "]";
+        } else if (this.sharedTable == null && this.errorMessage != null) {
+            return "[" + this.errorMessage + "]";
         } else {
-            String var4 = this.method1730(var1, var3);
-            if (var4 == null) {
-                return this.method1723(var1, var2);
+            String localizedString = this.getSharedString(key, quantity);
+            if (localizedString == null) {
+                return this.getFallbackString(key, arguments);
             } else {
-                if (var2 != null) {
-                    int var5 = var2.length;
-
-                    for (int var6 = 0; var6 < var5; ++var6) {
-                        var4 = Tools.replaceFirst(var4, "%" + (var6 + 1), var2[var6]);
+                if (arguments != null) {
+                    int argumentsCount = arguments.length;
+                    for (int i = 0; i < argumentsCount; ++i) {
+                        localizedString = Tools.replaceFirst(localizedString, "%" + (i + 1), arguments[i]);
                     }
                 }
 
-                return var4;
+                return localizedString;
             }
         }
     }
 
-    private String method1726(long var1, boolean var3) {
-        if ((var1 <= -1000L || var1 >= 1000L) && var3) {
-            boolean var4 = var1 < 0L;
+    private String method1726(long n, boolean separateThousands) {
+        if ((n <= -1000L || n >= 1000L) && separateThousands) {
+            boolean var4 = n < 0L;
             if (var4) {
-                var1 = -var1;
+                n = -n;
             }
 
             String var5 = "";
             String var6 = this.getShared("SeparatorThousand");
 
             do {
-                int var7 = (int) (var1 % 1000L);
+                int var7 = (int) (n % 1000L);
                 var5 = var7 + var5;
-                var1 /= 1000L;
-                if (var1 > 0L) {
+                n /= 1000L;
+                if (n > 0L) {
                     if (var7 < 10) {
                         var5 = "00" + var5;
                     } else if (var7 < 100) {
@@ -446,7 +444,7 @@ public final class TextManager implements Runnable {
 
                     var5 = var6 + var5;
                 }
-            } while (var1 > 0L);
+            } while (n > 0L);
 
             if (var4) {
                 var5 = "-" + var5;
@@ -454,47 +452,51 @@ public final class TextManager implements Runnable {
 
             return var5;
         } else {
-            return "" + var1;
+            return "" + n;
         }
     }
 
-    private String method1727(long var1, int var3) {
-        Calendar var4 = Calendar.getInstance();
-        var4.setTime(new Date(var1));
-        int var5 = var4.get(1);
-        int var6 = var4.get(2) + 1;
-        int var7 = var4.get(5);
-        if (var3 == 0) {
-            return var5 + "-" + (var6 < 10 ? "0" : "") + var6 + "-" + (var7 < 10 ? "0" : "") + var7;
+    /**
+     *
+     * @param mode -- 0 == just date, no time, standard format; 1 == just date, no time, locale format; 2 ==
+     */
+    private String getDate(long timestamp, int mode) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date(timestamp));
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH) + 1;
+        int day = calendar.get(Calendar.DATE);
+        if (mode == 0) {
+            return year + "-" + (month < 10 ? "0" : "") + month + "-" + (day < 10 ? "0" : "") + day;
         } else {
-            String var8 = this.getShared("DateFormat");
-            var8 = Tools.replaceFirst(var8, "%1", "" + var7);
-            var8 = Tools.replaceFirst(var8, "%2", this.getShared("DateMonth" + var6));
-            var8 = Tools.replaceFirst(var8, "%3", "" + var5);
-            if (var3 == 1) {
-                return var8;
+            String result = this.getShared("DateFormat");
+            result = Tools.replaceFirst(result, "%1", "" + day);
+            result = Tools.replaceFirst(result, "%2", this.getShared("DateMonth" + month));
+            result = Tools.replaceFirst(result, "%3", "" + year);
+            if (mode == 1) {
+                return result;
             } else {
                 try {
-                    Calendar var9 = Calendar.getInstance();
-                    var9.set(11, 0);
-                    var9.set(12, 0);
-                    var9.set(13, 0);
-                    var9.set(14, 0);
-                    long var10 = var9.getTime().getTime();
-                    long var12 = var10 - 86400000L;
-                    long var14 = var10 + 86400000L;
-                    if (var1 >= var12 && var1 < var10) {
-                        var8 = this.getShared("DateYesterday");
+                    Calendar today = Calendar.getInstance();
+                    today.set(Calendar.HOUR_OF_DAY, 0);
+                    today.set(Calendar.MINUTE, 0);
+                    today.set(Calendar.SECOND, 0);
+                    today.set(Calendar.MILLISECOND, 0);
+                    long startOfToday = today.getTime().getTime();
+                    long startOfYesterday = startOfToday - 86400000L;
+                    long endOfToday = startOfToday + 86400000L;
+                    if (timestamp >= startOfYesterday && timestamp < startOfToday) {
+                        result = this.getShared("DateYesterday");
                     }
 
-                    if (var1 >= var10 && var1 < var14) {
-                        var8 = this.getShared("DateToday");
+                    if (timestamp >= startOfToday && timestamp < endOfToday) {
+                        result = this.getShared("DateToday");
                     }
-                } catch (Exception var16) {
+                } catch (Exception e) {
                     ;
                 }
 
-                return var8;
+                return result;
             }
         }
     }
@@ -508,14 +510,14 @@ public final class TextManager implements Runnable {
         }
 
         int var6 = var4.get(var5 ? 11 : 10);
-        int var7 = var4.get(12);
+        int var7 = var4.get(Calendar.MINUTE);
         String var8 = "";
         if (!var5) {
             if (var6 == 0) {
                 var6 = 12;
             }
 
-            int var9 = var4.get(9);
+            int var9 = var4.get(Calendar.AM_PM);
             if (var9 == 0) {
                 var8 = this.getShared("ClockAM");
             } else if (var9 == 1) {
@@ -537,184 +539,183 @@ public final class TextManager implements Runnable {
         }
     }
 
-    protected String method1729(String var1, int var2) {
-        var1 = var1.toLowerCase();
-        if (this.aBoolean1518) {
-            Class89 var3 = (Class89) ((Class89) this.aHashtable1515.get(var1));
-            return var3 == null ? null : var3.method1737(var2);
+    protected String getText(String key, int quantity) {
+        key = key.toLowerCase();
+        if (this.useLanguageFiles) {
+            LocalizationNode localizationNode = (LocalizationNode) this.gameTable.get(key);
+            return localizationNode == null ? null : localizationNode.getLocalization(quantity);
         } else {
-            return (String) ((String) this.aHashtable1515.get(var1));
+            return (String) this.gameTable.get(key);
         }
     }
 
-    protected String method1730(String var1, int var2) {
-        var1 = var1.toLowerCase();
-        if (this.aBoolean1518) {
-            Class89 var3 = (Class89) ((Class89) this.aHashtable1516.get(var1));
-            return var3 == null ? null : var3.method1737(var2);
+    protected String getSharedString(String key, int quantity) {
+        key = key.toLowerCase();
+        if (this.useLanguageFiles) {
+            LocalizationNode localizationNode = (LocalizationNode) this.sharedTable.get(key);
+            return localizationNode == null ? null : localizationNode.getLocalization(quantity);
         } else {
-            return (String) ((String) this.aHashtable1516.get(var1));
+            return (String) this.sharedTable.get(key);
         }
     }
 
-    private void method1731(Applet var1) {
-        if (this.aBoolean1518) {
-            this.method1734(var1);
+    private void loadTexts(Applet applet) {
+        if (this.useLanguageFiles) {
+            this.loadLanguageFiles(applet);
         } else {
-            this.method1732(var1);
+            this.loadLocaleFiles(applet);
         }
 
     }
 
-    private void method1732(Applet var1) {
-        URL var2 = var1.getCodeBase();
-        this.aHashtable1515 = this.method1733(var2);
+    private void loadLocaleFiles(Applet applet) {
+        URL codeBase = applet.getCodeBase();
+        this.gameTable = this.loadLocalizationTable(codeBase);
 
         try {
-            if (FileUtil.isFileUrl(var2)) {
-                var2 = new URL(var2, FileUtil.RESOURCE_DIR);
+            if (FileUtil.isFileUrl(codeBase)) {
+                codeBase = new URL(codeBase, FileUtil.RESOURCE_DIR);
             } else {
-                var2 = new URL(var2, "../Shared/");
+                codeBase = new URL(codeBase, "../Shared/");
             }
-        } catch (MalformedURLException var4) {
+        } catch (MalformedURLException e) {
             ;
         }
 
-        this.aHashtable1516 = this.method1733(var2);
+        this.sharedTable = this.loadLocalizationTable(codeBase);
     }
 
-    private Hashtable method1733(URL var1) {
-        Hashtable var2 = new Hashtable();
-        BufferedReader var3 = null;
-        String var4 = this.aString1514 + ".loc";
+    private Hashtable loadLocalizationTable(URL baseUrl) {
+        Hashtable localizationTable = new Hashtable();
+        BufferedReader reader = null;
+        String languageFileName = this.language + ".loc";
 
         try {
-            URL var5 = new URL(var1, "locale/");
-            var5 = new URL(var5, var4);
-            InputStream var6 = var5.openStream();
+            URL localeUrl = new URL(baseUrl, "locale/");
+            localeUrl = new URL(localeUrl, languageFileName);
+            InputStream inputStream = localeUrl.openStream();
 
-            InputStreamReader var7;
+            InputStreamReader inputStreamReader;
             try {
-                var7 = new InputStreamReader(var6, "Cp1252");
-            } catch (UnsupportedEncodingException var12) {
-                var7 = new InputStreamReader(var6);
+                inputStreamReader = new InputStreamReader(inputStream, "Cp1252");
+            } catch (UnsupportedEncodingException e) {
+                inputStreamReader = new InputStreamReader(inputStream);
             }
 
-            var3 = new BufferedReader(var7);
+            reader = new BufferedReader(inputStreamReader);
 
-            String var8;
-            while ((var8 = var3.readLine()) != null) {
-                var8 = var8.trim();
-                if (var8.length() > 0 && var8.charAt(0) != 35) {
-                    int var10 = var8.indexOf(61);
-                    if (var10 <= 0) {
-                        if (this.aBoolean1519) {
-                            System.out.println("Missing \'=\'-character in \"" + this.aString1514 + "\"-locale file: \"" + var8 + "\"");
+            String line;
+            while ((line = reader.readLine()) != null) {
+                line = line.trim();
+                if (line.length() > 0 && line.charAt(0) != '#') {
+                    int equalSignLocation = line.indexOf('=');
+                    if (equalSignLocation <= 0) {
+                        if (this.debug) {
+                            System.out.println("Missing '='-character in \"" + this.language + "\"-locale file: \"" + line + "\"");
                             Thread.dumpStack();
                         }
                     } else {
-                        String var9 = var8.substring(0, var10).trim();
-                        if (var9.length() == 0) {
-                            if (this.aBoolean1519) {
-                                System.out.println("Empty key in \"" + this.aString1514 + "\"-locale file: \"" + var8 + "\"");
+                        String key = line.substring(0, equalSignLocation).trim();
+                        if (key.length() == 0) {
+                            if (this.debug) {
+                                System.out.println("Empty key in \"" + this.language + "\"-locale file: \"" + line + "\"");
                                 Thread.dumpStack();
                             }
                         } else {
-                            var2.put(var9.toLowerCase(), var8.substring(var10 + 1).trim());
+                            localizationTable.put(key.toLowerCase(), line.substring(equalSignLocation + 1).trim());
                         }
                     }
                 }
             }
-        } catch (FileNotFoundException var13) {
-            if (this.aBoolean1519) {
-                System.out.println("Missing localization file \"" + var4 + "\"");
+        } catch (FileNotFoundException e) {
+            if (this.debug) {
+                System.out.println("Missing localization file \"" + languageFileName + "\"");
             }
 
-            this.aString1517 = "Texts for \'" + this.aString1514 + "\' not available";
-            var2 = null;
-        } catch (Exception var14) {
-            if (this.aBoolean1519) {
-                var14.printStackTrace();
+            this.errorMessage = "Texts for '" + this.language + "' not available";
+            localizationTable = null;
+        } catch (Exception e) {
+            if (this.debug) {
+                e.printStackTrace();
             }
 
-            this.aString1517 = var14.toString();
-            var2 = null;
+            this.errorMessage = e.toString();
+            localizationTable = null;
         }
 
         try {
-            var3.close();
-        } catch (Exception var11) {
+            reader.close();
+        } catch (Exception e) {
             ;
         }
 
-        return var2;
+        return localizationTable;
     }
 
-    private void method1734(Applet var1) {
-        URL var2 = var1.getCodeBase();
+    private void loadLanguageFiles(Applet applet) {
+        URL codeBase = applet.getCodeBase();
         String var5 = null;
-        int var6 = this.aString1514.indexOf(47);
-        if (var6 > 0) {
-            var5 = this.aString1514.substring(var6 + 1);
-            this.aString1514 = this.aString1514.substring(0, var6);
+        int slashLocation = this.language.indexOf('/');
+        if (slashLocation > 0) {
+            var5 = this.language.substring(slashLocation + 1);
+            this.language = this.language.substring(0, slashLocation);
         }
 
-        String var3;
-        String var4;
+        String languageDirectory;
+        String gameFilename;
         String var7;
         int var8;
-        if (FileUtil.isFileUrl(var2)) {
-            var7 = var2.toString();
-            var8 = var7.indexOf(58, var7.indexOf(58) + 1) + 2;
-            int var9 = var7.indexOf(47, var8);
+        if (FileUtil.isFileUrl(codeBase)) {
+            var7 = codeBase.toString();
+            var8 = var7.indexOf(':', var7.indexOf(':') + 1) + 2;
+            int var9 = var7.indexOf('/', var8);
 
             try {
-                URL var10 = new URL(var2, FileUtil.LANGUAGE_DIR);
-                var10 = new URL(var10, this.aString1514 + "/");
-                var3 = var10.toExternalForm();
-            } catch (MalformedURLException var11) {
-                var3 = "file:" + FileUtil.LANGUAGE_DIR + this.aString1514 + "/";
+                URL var10 = new URL(codeBase, FileUtil.LANGUAGE_DIR);
+                var10 = new URL(var10, this.language + "/");
+                languageDirectory = var10.toExternalForm();
+            } catch (MalformedURLException e) {
+                languageDirectory = "file:" + FileUtil.LANGUAGE_DIR + this.language + "/";
             }
 
-            var4 = var7.substring(var8, var9);
+            gameFilename = var7.substring(var8, var9);
         } else {
-            var7 = var2.toString();
+            var7 = codeBase.toString();
             var8 = var7.length();
-            if (var7.charAt(var8 - 1) == 47) {
+            if (var7.charAt(var8 - 1) == '/') {
                 var7 = var7.substring(0, var8 - 1);
                 --var8;
             }
 
-            var6 = var7.lastIndexOf(47);
-            var3 = var7.substring(0, var6 + 1) + "l10n/" + this.aString1514 + "/";
-            var4 = var7.substring(var6 + 1);
+            int slashLocation2 = var7.lastIndexOf('/');
+            languageDirectory = var7.substring(0, slashLocation2 + 1) + "l10n/" + this.language + "/";
+            gameFilename = var7.substring(slashLocation2 + 1);
         }
 
         if (var5 != null) {
-            var4 = var5;
+            gameFilename = var5;
         }
 
-        this.aHashtable1515 = this.method1735(var3 + var4 + ".xml");
-        this.aHashtable1516 = this.method1735(var3 + "Shared.xml");
+        this.gameTable = this.readTable(languageDirectory + gameFilename + ".xml");
+        this.sharedTable = this.readTable(languageDirectory + "Shared.xml");
     }
 
-    private Hashtable method1735(String var1) {
-        EncodedXmlReader var2 = new EncodedXmlReader(var1, /*this.aBoolean1519*/true);
-        XmlUnit var3 = var2.readXmlUnit();
-        if (var3 == null) {
-            System.out.println("Failed to read localization file \'" + var1 + "\'");
-            this.aString1517 = "XML read error";
+    private Hashtable<String, LocalizationNode> readTable(String fileUrl) {
+        EncodedXmlReader reader = new EncodedXmlReader(fileUrl, /*this.aBoolean1519*/true);
+        XmlUnit unit = reader.readXmlUnit();
+        if (unit == null) {
+            System.out.println("Failed to read localization file '" + fileUrl + "'");
+            this.errorMessage = "XML read error";
             return null;
         } else {
-            XmlUnit[] var4 = var3.getChildren("str");
-            int var5 = var4.length;
-            Hashtable var6 = new Hashtable();
+            XmlUnit[] children = unit.getChildren("str");
+            Hashtable<String, LocalizationNode> table = new Hashtable<>();
 
-            for (int var7 = 0; var7 < var5; ++var7) {
-                var6.put(var4[var7].getAttribute("key").toLowerCase(), new Class89(this, this.aString1514, var4[var7], Tools.getBoolean(var4[var7].getAttribute("reverse"))));
+            for (XmlUnit child : children) {
+                table.put(child.getAttribute("key").toLowerCase(), new LocalizationNode(this, this.language, child, Tools.getBoolean(child.getAttribute("reverse"))));
             }
 
-            return var6;
+            return table;
         }
     }
 }

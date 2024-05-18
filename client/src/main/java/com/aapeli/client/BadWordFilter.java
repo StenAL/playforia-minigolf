@@ -38,7 +38,7 @@ public final class BadWordFilter {
 
         this.aString1342 = aString1335;
         this.aString1343 = aString1336;
-        if (var1.method1719().equalsIgnoreCase("fi")) {
+        if (var1.getLanguage().equalsIgnoreCase("fi")) {
             this.aString1342 = this.aString1342 + "bdgw";
             this.aString1343 = this.aString1343 + "ptkv";
         }
