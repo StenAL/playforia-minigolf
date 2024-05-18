@@ -35,14 +35,14 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
     private int mouseY;
     private int shootingMode;
     private int anInt2816;
-    private double aDouble2817;
-    private double aDouble2818;
+    private double startPositionX;
+    private double startPositionY;
     private double bounciness;
     private double somethingSpeedThing;
     private double[] resetPositionX;
     private double[] resetPositionY;
-    private Vector[] teleportStarts;
-    private Vector[] teleportExists;
+    private Vector<double[]>[] teleportStarts;
+    private Vector<double[]>[] teleportExists;
     private short[][][] magnetMap;
     private double[] playerX;
     private double[] playerY;
@@ -130,12 +130,12 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
 
             for (int player = 0; player < this.playerCount; ++player) {
                 if (this.aBooleanArray2830[player] && player != this.currentPlayerID) {
-                    this.drawPlayerInfo(this.graphics, player, this.onHoleSync[player].get() ? 2.1666666666666665D : 0.0D);
+                    this.drawPlayer(this.graphics, player, this.onHoleSync[player].get() ? 2.1666666666666665D : 0.0D);
                 }
             }
 
             this.graphics.setColor(whiteColour);
-            this.drawPlayerInfo(this.graphics, this.currentPlayerID, this.onHoleSync[this.currentPlayerID].get() ? 2.1666666666666665D : 0.0D);
+            this.drawPlayer(this.graphics, this.currentPlayerID, this.onHoleSync[this.currentPlayerID].get() ? 2.1666666666666665D : 0.0D);
         }
 
         if (isCheating) {
@@ -168,14 +168,14 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
         boolean[] teleported = new boolean[this.playerCount];
         int[] spinningStuckCounter = new int[this.playerCount];
 
-        for (int var19 = 0; var19 < this.playerCount; ++var19) {
-            magnetStuckCounter[var19] = downhillStuckCounter[var19] = 0;
-            tempCoordX[var19] = tempCoord2X[var19] = this.playerX[var19];
-            tempCoordY[var19] = tempCoord2Y[var19] = this.playerY[var19];
-            onHole[var19] = onLiquidOrSwamp[var19] = false;
-            var10[var19] = this.onHoleSync[var19].get() ? 2.1666666666666665D : 0.0D;
-            teleported[var19] = false;
-            spinningStuckCounter[var19] = 0;
+        for (int player = 0; player < this.playerCount; ++player) {
+            magnetStuckCounter[player] = downhillStuckCounter[player] = 0;
+            tempCoordX[player] = tempCoord2X[player] = this.playerX[player];
+            tempCoordY[player] = tempCoord2Y[player] = this.playerY[player];
+            onHole[player] = onLiquidOrSwamp[player] = false;
+            var10[player] = this.onHoleSync[player].get() ? 2.1666666666666665D : 0.0D;
+            teleported[player] = false;
+            spinningStuckCounter[player] = 0;
         }
 
         boolean shouldSpinAroundHole = false;
@@ -486,11 +486,11 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
 
                     for (int j = 0; j < this.playerCount; ++j) {
                         if (this.aBooleanArray2830[j] && j != this.currentPlayerID) {
-                            this.drawPlayerInfo(ballGraphic, j, var10[j]);
+                            this.drawPlayer(ballGraphic, j, var10[j]);
                         }
                     }
 
-                    this.drawPlayerInfo(ballGraphic, this.currentPlayerID, var10[this.currentPlayerID]);
+                    this.drawPlayer(ballGraphic, this.currentPlayerID, var10[this.currentPlayerID]);
                     if (this.playerX[i] < tempCoord3X[i]) {
                         x1 = (int) (this.playerX[i] - 6.5D + 0.5D);
                     }
@@ -672,106 +672,103 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
         this.repaint();
     }
 
-    protected boolean parseMap(String commandLines, String var2, int var3) {
-        boolean var4 = super.parseMapCommands(commandLines);
+    protected boolean init(String commandLines, String playerStatuses, int gameId) {
+        boolean parseSuccessful = super.parseMapCommands(commandLines);
 
         this.aString2835 = null;
-        StringTokenizer commnadTokens = new StringTokenizer(commandLines, "\n");
+        StringTokenizer commandTokens = new StringTokenizer(commandLines, "\n");
 
-        int var10;
-        while (commnadTokens.hasMoreTokens()) {
-            String currentCommand = commnadTokens.nextToken();
+        while (commandTokens.hasMoreTokens()) {
+            String currentCommand = commandTokens.nextToken();
             char commandType = currentCommand.charAt(0);
 
             if (commandType == 'B' || commandType == 'L') {
 
-                int var8 = currentCommand.indexOf(',');
-                int var9 = currentCommand.indexOf(',', var8 + 1);
-                var10 = currentCommand.indexOf(',', var9 + 1);
+                int recordHolderName = currentCommand.indexOf(',');
+                int recordTimestamp = currentCommand.indexOf(',', recordHolderName + 1);
+                int var10 = currentCommand.indexOf(',', recordTimestamp + 1);
                 currentCommand = currentCommand.substring(var10 + 1);
                 int var11 = currentCommand.indexOf('=');
                 if (var11 > -1) {
-                    var3 = Integer.parseInt(currentCommand.substring(0, var11));
+                    gameId = Integer.parseInt(currentCommand.substring(0, var11));
                     this.aString2835 = currentCommand.substring(var11 + 1);
 
                 }
             }
         }
 
-        Vector startPosition = new Vector();
+        Vector<double[]> startPositions = new Vector<>();
         this.resetPositionX = new double[4];
         this.resetPositionY = new double[4];
         this.teleportExists = new Vector[4];
         this.teleportStarts = new Vector[4];
-        Vector magnetVec = new Vector();
+        Vector<int[]> magnetVec = new Vector<>();
 
-        for (var10 = 0; var10 < 4; ++var10) {
-            this.resetPositionX[var10] = this.resetPositionY[var10] = -1.0D;
-            this.teleportExists[var10] = new Vector();
-            this.teleportStarts[var10] = new Vector();
+        for (int i = 0; i < 4; ++i) {
+            this.resetPositionX[i] = this.resetPositionY[i] = -1.0D;
+            this.teleportExists[i] = new Vector<>();
+            this.teleportStarts[i] = new Vector<>();
         }
 
-        int x;
-        double[] element;
         // Iterates over the 49*25 map
         for (int y = 0; y < 25; ++y) {
-            for (x = 0; x < 49; ++x) {
+            for (int x = 0; x < 49; ++x) {
                 if (super.trackTiles[x][y] / 16777216 == 2) {
-                    int var14 = super.trackTiles[x][y] / 65536 % 256 + 24;
+                    int tile = super.trackTiles[x][y] / 65536 % 256 + 24;
                     double screenX = (double) (x * 15) + 7.5D;
                     double screenY = (double) (y * 15) + 7.5D;
                     //24 Start Position Common
-                    if (var14 == 24) {
-                        element = new double[]{screenX, screenY};
-                        startPosition.addElement(element);
+                    if (tile == 24) {
+                        double[] startPosition = new double[]{screenX, screenY};
+                        startPositions.addElement(startPosition);
                     }
                     //48 Start Position Blue
                     //49 Start Position Red
                     //50 Start Positiono Yellow
                     //51 Start Position Green
-                    if (var14 >= 48 && var14 <= 51) {
-                        this.resetPositionX[var14 - 48] = screenX;
-                        this.resetPositionY[var14 - 48] = screenY;
+                    if (tile >= 48 && tile <= 51) {
+                        this.resetPositionX[tile - 48] = screenX;
+                        this.resetPositionY[tile - 48] = screenY;
                     }
 
-                    int var20;
+                    int teleportIndex;
                     //33 Teleport Exit Blue
                     //35 Teleport Exit Red
                     //37 Teleport Exit Yellow
                     //39 Teleport Exit Green
-                    if (var14 == 33 || var14 == 35 || var14 == 37 || var14 == 39) {
-                        var20 = (var14 - 33) / 2;
-                        element = new double[]{screenX, screenY};
-                        this.teleportExists[var20].addElement(element);
+                    if (tile == 33 || tile == 35 || tile == 37 || tile == 39) {
+                        teleportIndex = (tile - 33) / 2;
+                        double[] teleporter = new double[]{screenX, screenY};
+                        this.teleportExists[teleportIndex].addElement(teleporter);
                     }
 
                     //33 Teleport Start Blue
                     //35 Teleport Start Red
                     //37 Teleport Start Yellow
                     //39 Teleport Start Green
-                    if (var14 == 32 || var14 == 34 || var14 == 36 || var14 == 38) {
-                        var20 = (var14 - 32) / 2;
-                        element = new double[]{screenX, screenY};
-                        this.teleportStarts[var20].addElement(element);
+                    if (tile == 32 || tile == 34 || tile == 36 || tile == 38) {
+                        teleportIndex = (tile - 32) / 2;
+                        double[] teleporter = new double[]{screenX, screenY};
+                        this.teleportStarts[teleportIndex].addElement(teleporter);
                     }
 
                     //44 magnet attract
                     //45 magnet repel
-                    if (var14 == 44 || var14 == 45) {
-                        int[] var43 = new int[]{(int) (screenX + 0.5D), (int) (screenY + 0.5D), var14};
-                        magnetVec.addElement(var43);
+                    if (tile == 44 || tile == 45) {
+                        int[] magnet = new int[]{(int) (screenX + 0.5D), (int) (screenY + 0.5D), tile};
+                        magnetVec.addElement(magnet);
                     }
                 }
             }
         }
 
-        x = startPosition.size();
-        if (x == 0) {
-            this.aDouble2817 = this.aDouble2818 = -1.0D;
+        int startPositionsCount = startPositions.size();
+        if (startPositionsCount == 0) {
+            this.startPositionX = this.startPositionY = -1.0D;
         } else {
-            element = (double[]) startPosition.elementAt(var3 % x);
-            this.aDouble2817 = element[0];
-            this.aDouble2818 = element[1];
+            double[] startPosition = startPositions.elementAt(gameId % startPositionsCount);
+            this.startPositionX = startPosition[0];
+            this.startPositionY = startPosition[1];
         }
 
         int magnetVecLen = magnetVec.size();
@@ -837,12 +834,12 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
             this.aBooleanArray2834[i] = true;
             this.resetPosition(i, true);
             this.onHoleSync[i].set(false);
-            this.aBooleanArray2830[i] = var2.charAt(i) == 't';
+            this.aBooleanArray2830[i] = playerStatuses.charAt(i) == 't';
         }
 
-        this.rngSeed = new Seed((long) var3);
+        this.rngSeed = new Seed(gameId);
         this.repaint();
-        return var4;
+        return parseSuccessful;
     }
 
     protected boolean method134() {
@@ -1015,7 +1012,7 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
 
 
         HackedShot hs = new HackedShot(playerCount, onShoreSetting, collisionMode, currentPlayerID, temp_anInt2816,
-                aDouble2817, aDouble2818, bounciness, somethingSpeedThing, resetPositionX, resetPositionY,
+                startPositionX, startPositionY, bounciness, somethingSpeedThing, resetPositionX, resetPositionY,
                 teleportStarts, teleportExists, magnetMap, playerX, playerY, temp_aDoubleArray2828,
                 temp_aDoubleArray2829, aBooleanArray2830, onHoleSync, temp_aBoolean2832, aBooleanArray2834,
                 temp_aSeed_2836, anInt2839, temp_aBoolean2843, super.collisionMap, super.trackTiles);
@@ -1034,14 +1031,14 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
     }
 
 
-    private void resetPosition(int playerId, boolean var2) {
+    private void resetPosition(int playerId, boolean gameStart) {
         if (this.resetPositionX[playerId] >= 0.0D && this.resetPositionX[playerId] >= 0.0D) {
             this.playerX[playerId] = this.resetPositionX[playerId];
             this.playerY[playerId] = this.resetPositionY[playerId];
-        } else if (this.aDouble2817 >= 0.0D && this.aDouble2818 >= 0.0D) {
-            this.playerX[playerId] = this.aDouble2817;
-            this.playerY[playerId] = this.aDouble2818;
-            if (var2) {
+        } else if (this.startPositionX >= 0.0D && this.startPositionY >= 0.0D) {
+            this.playerX[playerId] = this.startPositionX;
+            this.playerY[playerId] = this.startPositionY;
+            if (gameStart) {
                 this.aBooleanArray2834[playerId] = false;
             }
 
@@ -1602,7 +1599,7 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
         var4.drawImage(tile, tileX * 15, tileY * 15, this);
     }
 
-    private void drawPlayerInfo(Graphics g, int playerid, double var3) {
+    private void drawPlayer(Graphics g, int playerid, double var3) {
         int x = (int) (this.playerX[playerid] - 6.5D + 0.5D);
         int y = (int) (this.playerY[playerid] - 6.5D + 0.5D);
         int var7 = 13;
@@ -1612,13 +1609,13 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
             var7 = (int) ((double) var7 - var3 * 2.0D);
         }
 
-        int var8 = 0;
+        int ballSpriteOffset = 0;
         if (super.gameContainer.graphicsQualityIndex == 3) {
-            var8 = (x / 5 + y / 5) % 2 * 4;
+            ballSpriteOffset = (x / 5 + y / 5) % 2 * 4;
         }
 
         if (var3 == 0.0D) {
-            g.drawImage(this.ballSprites[playerid + var8], x, y, this);
+            g.drawImage(this.ballSprites[playerid + ballSpriteOffset], x, y, this);
             if (this.playerNamesDisplayMode > 0 && this.aBooleanArray2834[playerid] && this.gameState != 2 && this.playerCount > 1) {
                 String[] playerName = super.gameContainer.gamePanel.getPlayerName(playerid);
                 if (this.playerNamesDisplayMode == 1) {
@@ -1649,7 +1646,7 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
                 StringDraw.drawOutlinedString(g, backgroundColour, playerName[0], textX, y + 13 - 3, -1);
             }
         } else {
-            g.drawImage(this.ballSprites[playerid + var8], x, y, x + var7, y + var7, 0, 0, 13, 13, this);
+            g.drawImage(this.ballSprites[playerid + ballSpriteOffset], x, y, x + var7, y + var7, 0, 0, 13, 13, this);
         }
 
     }

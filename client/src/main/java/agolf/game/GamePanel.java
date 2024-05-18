@@ -224,7 +224,9 @@ public class GamePanel extends Panel {
             this.setState(1);
         }
         else if (args[1].equals("starttrack")) {
-            /**game
+            // [1] = "startrack", (optional [2] == track test mode), [2 or 3] == player statuses, [3 or 4] == game id, [4 or 5] == track data
+            /*
+             * game
              * starttrack
              * t 1908821
              * V 1
@@ -256,20 +258,20 @@ public class GamePanel extends Panel {
             String fullInstruction = "";
 
             for (int commandIndex = startIndex; commandIndex < argsLen; ++commandIndex) {
-                char var12 = args[commandIndex].charAt(0);
-                if (var12 == 'A') {
+                char command = args[commandIndex].charAt(0);
+                if (command == 'A') {
                     author = args[commandIndex].substring(2);
                 }
 
-                if (var12 == 'N') {
+                if (command == 'N') {
                     name = args[commandIndex].substring(2);
                 }
 
-                if (var12 == 'T') {
+                if (command == 'T') {
                     data = args[commandIndex].substring(2);
                 }
 
-                if (var12 == 'T' && args[commandIndex].charAt(2) == '!') {// a track we already played?
+                if (command == 'T' && args[commandIndex].charAt(2) == '!') {// a track we already played?
                     args[commandIndex] = "T " + this.gameContainer.trackCollection.getTrack(author, name);
                     hasPlayed = true;
                 }
@@ -287,21 +289,21 @@ public class GamePanel extends Panel {
                 this.gameContainer.trackCollection.addTrack(author, name, data);
             }
 
-            this.gameCanvas.parseMap(fullInstruction, args[trackTestMode ? 3 : 2], Integer.parseInt(args[trackTestMode ? 4 : 3]));
+            this.gameCanvas.init(fullInstruction, args[trackTestMode ? 3 : 2], Integer.parseInt(args[trackTestMode ? 4 : 3]));
 
-                      /* trackinformatino
-                        [0]=author, [1]=trackname, [2]=firstbest, [3]=lastbest
+            /* trackinformation
+             [0]=author, [1]=trackname, [2]=firstbest, [3]=lastbest
 
-                        statistics:
-                         var15[0][0]= number completeed
-                         var15[0][1]= total attempts
-                         var15[0][2]= best par (stroke count)
-                         var15[0][3]= number of best par strokes
-                         var15[1][0]= number of ratings: 0
-                         var15[1][1]= number of ratings: 1
-                         var15[1][2]= number of ratings: 2
-                         var15[1][3]= number of ratings: 3
-                       */
+             statistics:
+              var15[0][0]= number completeed
+              var15[0][1]= total attempts
+              var15[0][2]= best par (stroke count)
+              var15[0][3]= number of best par strokes
+              var15[1][0]= number of ratings: 0
+              var15[1][1]= number of ratings: 1
+              var15[1][2]= number of ratings: 2
+              var15[1][3]= number of ratings: 3
+            */
             String[] trackInformation = this.gameCanvas.generateTrackInformation();
             int[][] trackStats = this.gameCanvas.generateTrackStatistics();
 

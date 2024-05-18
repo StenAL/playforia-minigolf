@@ -18,7 +18,7 @@ public class GameBackgroundCanvas extends Canvas {
     protected GameContainer gameContainer;
     private Image backgroundImg;
     protected Image image;
-    private Graphics aGraphics85;
+    private Graphics graphics;
     private String trackAuthor;
     private String trackName;
     private String trackComment;
@@ -86,11 +86,11 @@ public class GameBackgroundCanvas extends Canvas {
                 this.image = this.backgroundImg;
             }
 
-            this.aGraphics85 = this.image.getGraphics();
+            this.graphics = this.image.getGraphics();
         }
 
         Image var2 = this.gameContainer.imageManager.createImage(this.gameContainer.spriteManager.getPixelsFromTileCode(var1), 15, 15);
-        this.aGraphics85.setColor(aColor75);
+        this.graphics.setColor(aColor75);
 
 
         for (int y = 0; y < 25; ++y) {
@@ -98,9 +98,9 @@ public class GameBackgroundCanvas extends Canvas {
 
                 this.trackTiles[x][y] = var1;
                 if (var1 == 0) {
-                    this.aGraphics85.fillRect(x * 15, y * 15, 15, 15);
+                    this.graphics.fillRect(x * 15, y * 15, 15, 15);
                 } else {
-                    this.aGraphics85.drawImage(var2, x * 15, y * 15, this);
+                    this.graphics.drawImage(var2, x * 15, y * 15, this);
                 }
             }
         }
@@ -109,10 +109,10 @@ public class GameBackgroundCanvas extends Canvas {
         this.repaint();
     }
 
-    protected boolean parseMapCommands(String var1) {
+    protected boolean parseMapCommands(String map) {
         try {
-            return this.parseMapInstruction(var1);
-        } catch (Exception var3) {
+            return this.parseMapInstruction(map);
+        } catch (Exception e) {
             return false;
         }
     }
@@ -134,7 +134,7 @@ public class GameBackgroundCanvas extends Canvas {
         }
 
         Image var7 = this.gameContainer.imageManager.createImage(imageData, 15, 15);
-        this.aGraphics85.drawImage(var7, var1 * 15, var2 * 15, this);
+        this.graphics.drawImage(var7, var1 * 15, var2 * 15, this);
         return var7;
     }
 
@@ -212,22 +212,25 @@ public class GameBackgroundCanvas extends Canvas {
         return this.aBooleanArray98;
     }
 
-    private boolean parseMapInstruction(String var1) throws Exception {
+    private boolean parseMapInstruction(String map) throws Exception {
         this.trackSettings = defaultTrackSettings;
-        this.trackFirstBest = this.trackLastBest = this.trackComment = null;
-        this.trackStats = this.trackRatings = null;
+        this.trackFirstBest = null;
+        this.trackLastBest = null;
+        this.trackComment = null;
+        this.trackStats = null;
+        this.trackRatings = null;
 
-        StringTokenizer tknzr = new StringTokenizer(var1, "\n");
-        int shiet = 0;
-        while(tknzr.hasMoreTokens()) {
-            String line = tknzr.nextToken();
+        StringTokenizer tokenizer = new StringTokenizer(map, "\n");
+        int requiredLinesParsed = 0;
+        while(tokenizer.hasMoreTokens()) {
+            String line = tokenizer.nextToken();
             if(line.startsWith("V ") && Integer.parseInt(line.substring(2)) == 1) {
-                shiet++;
+                requiredLinesParsed++;
             } else if(line.startsWith("A ")) {
-                shiet++;
+                requiredLinesParsed++;
                 this.trackAuthor = line.substring(2).trim();
             } else if(line.startsWith("N ")) {
-                shiet++;
+                requiredLinesParsed++;
                 this.trackName = line.substring(2).trim();
             } else if(line.startsWith("C ")) {
                 this.trackComment = line.substring(2).trim();
@@ -256,19 +259,19 @@ public class GameBackgroundCanvas extends Canvas {
             } else if(line.startsWith("L ")) {
                 this.trackLastBest = line.substring(2);
             } else if(line.startsWith("R ")) {
-                StringTokenizer subtknzr = new StringTokenizer(line.substring(2), ",");
-                if(subtknzr.countTokens() != 11) {
+                StringTokenizer subTokenizer = new StringTokenizer(line.substring(2), ",");
+                if(subTokenizer.countTokens() != 11) {
                     return false;
                 }
                 this.trackRatings = new int[11];
                 for(int i = 0; i < 11; i++) {
-                    this.trackRatings[i] = Integer.parseInt(subtknzr.nextToken());
+                    this.trackRatings[i] = Integer.parseInt(subTokenizer.nextToken());
                 }
             } else if(line.startsWith("T ")) {
-                shiet++;
-                /**
+                requiredLinesParsed++;
+                /*
                  *
-                 * The below is the map parsing shit
+                 * The below is the map parsing:
                  * firstly the input map is "expanded", any letter preceeding by a number is duplicated that number times.
                  * If input letter is A,B,C, the letter + the next three are concatenated into one int (4 * bytes)
                  * If input letters are D,E,F,G,H,I, the current tile is exactly the same as an adjacent one so
@@ -278,8 +281,8 @@ public class GameBackgroundCanvas extends Canvas {
                  */
                 String mapData = line.substring(2);
 
-                StringTokenizer subtknzr = new StringTokenizer(mapData, ",");
-                mapData = this.expandMap(subtknzr.nextToken());
+                StringTokenizer subTokenizer = new StringTokenizer(mapData, ",");
+                mapData = this.expandMap(subTokenizer.nextToken());
                 int cursorIndex = 0;
 
                 int tileX;
@@ -343,8 +346,8 @@ public class GameBackgroundCanvas extends Canvas {
 
                 int var12;
                 int var14;
-                if (subtknzr.hasMoreTokens()) {
-                    mapData = subtknzr.nextToken();
+                if (subTokenizer.hasMoreTokens()) {
+                    mapData = subTokenizer.nextToken();
                     if (!mapData.startsWith("Ads:")) {
                         return false;
                     }
@@ -360,7 +363,7 @@ public class GameBackgroundCanvas extends Canvas {
                 }
             }
         }
-        if(shiet != 4) {
+        if(requiredLinesParsed != 4) {
             return false;
         }
 
@@ -656,11 +659,11 @@ public class GameBackgroundCanvas extends Canvas {
                     var20 = 0;
                 }
             }
-        } catch (OutOfMemoryError var24) {
+        } catch (OutOfMemoryError e) {
             ;
         }
 
-        this.aGraphics85.drawImage(this.gameContainer.imageManager.createImage(mapPixels, 735, 375), 0, 0, this);
+        this.graphics.drawImage(this.gameContainer.imageManager.createImage(mapPixels, 735, 375), 0, 0, this);
     }
 
     private boolean castsShadow(int x, int y) {
