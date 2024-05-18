@@ -9,7 +9,6 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.LayoutManager;
 import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -180,7 +179,7 @@ class GameTrackInfoPanel extends Panel implements ActionListener {
     public void actionPerformed(ActionEvent evt) {
         Object evtSource = evt.getSource();
         if (evtSource == this.buttonNoVote) {
-            this.method388(false);
+            this.setHasNotRatedTrack(false);
             this.repaint();
         } else {
             for (int i = 0; i <= 10; ++i) {
@@ -189,7 +188,7 @@ class GameTrackInfoPanel extends Panel implements ActionListener {
                     ++this.trackTotalRatings;
                     this.trackRating += i;
                     this.trackAverageRating = (double) this.trackRating / (double) this.trackTotalRatings;
-                    this.method388(false);
+                    this.setHasNotRatedTrack(false);
                     this.repaint();
                     return;
                 }
@@ -260,7 +259,7 @@ class GameTrackInfoPanel extends Panel implements ActionListener {
         }
 
         if (!this.gameContainer.synchronizedTrackTestMode.get()) {   // Toggles some buttons??!
-            this.method388(true);
+            this.setHasNotRatedTrack(true);
         } else {
             this.toggleAcceptRejectButtons(trackTestMode1);
             this.method390(trackTestMode2);
@@ -331,11 +330,11 @@ class GameTrackInfoPanel extends Panel implements ActionListener {
         return var2;
     }
 
-    private void method388(boolean var1) {
-        if (var1 != this.hasNotRatedTrack) {
-            this.hasNotRatedTrack = var1;
+    private void setHasNotRatedTrack(boolean hasNotRatedTrack) {
+        if (hasNotRatedTrack != this.hasNotRatedTrack) {
+            this.hasNotRatedTrack = hasNotRatedTrack;
             this.setVisible(false);
-            if (var1) {
+            if (hasNotRatedTrack) {
                 this.add(this.buttonNoVote);
 
                 for (int var2 = 0; var2 <= 10; ++var2) {
@@ -349,12 +348,12 @@ class GameTrackInfoPanel extends Panel implements ActionListener {
         }
     }
 
-    private void toggleAcceptRejectButtons(boolean var1) {
+    private void toggleAcceptRejectButtons(boolean trackPending) {
         if (!this.gameContainer.safeMode) {
-            if (var1 != this.trackPending) {
-                this.trackPending = var1;
+            if (trackPending != this.trackPending) {
+                this.trackPending = trackPending;
                 this.setVisible(false);
-                if (var1) {
+                if (trackPending) {
                     this.add(this.buttonReject);
                     this.add(this.buttonAccept);
                 } else {
