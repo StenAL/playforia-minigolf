@@ -211,7 +211,7 @@ public class GamePanel extends Panel {
                         //this.requestFocus();//todo this is annoying as fuck
                     }
 
-                    this.gameContainer.gameApplet.showPlayerList(this.gamePlayerInfoPanel.method374());
+                    this.gameContainer.gameApplet.showPlayerList(this.gamePlayerInfoPanel.getPlayerNames());
                 } else {
                     this.gameContainer.gameApplet.removePlayerListWinnders();
                 }

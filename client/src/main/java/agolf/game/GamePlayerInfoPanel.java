@@ -46,7 +46,7 @@ class GamePlayerInfoPanel extends Panel implements ItemListener, MouseListener {
     protected String[] playerNames;
     protected String[] playerClans;
     private SynchronizedInteger[][] trackStrokes;
-    private SynchronizedInteger[] playersId;
+    private SynchronizedInteger[] totalStrokes;
     private int[] playerLeaveReasons; // see PART_ enums in Lobby class
     private boolean[] playerVotedToSkip;
     private boolean[] playerReadyForNewGame;
@@ -110,12 +110,12 @@ class GamePlayerInfoPanel extends Panel implements ItemListener, MouseListener {
                 }
             }
 
-            int offsetY = (5 - this.playerCount) * 13;
+            int yBaseline = (5 - this.playerCount) * 13;
             // draw highlight around scores for current track
             if (this.currentTrackIndex >= 0 && this.currentTrackIndex < this.trackCount) {
                 this.graphics.setColor(currentTrackScoreHighlightColor);
-                this.graphics.fillRect(130 + this.currentTrackIndex * 20 - 5 + 1, offsetY - 13, 19, this.playerCount * 15 + 2);
-                this.graphics.fillRect(130 + this.currentTrackIndex * 20 - 5, offsetY - 13 + 1, 21, this.playerCount * 15 + 2 - 2);
+                this.graphics.fillRect(130 + this.currentTrackIndex * 20 - 5 + 1, yBaseline - 13, 19, this.playerCount * 15 + 2);
+                this.graphics.fillRect(130 + this.currentTrackIndex * 20 - 5, yBaseline - 13 + 1, 21, this.playerCount * 15 + 2 - 2);
             }
 
             // draw player status text
@@ -125,12 +125,16 @@ class GamePlayerInfoPanel extends Panel implements ItemListener, MouseListener {
                 Color color = playerColors[player][playerLeft];
                 this.graphics.setFont(font);
                 this.graphics.setColor(color);
-                if (this.playerCount > 1) { // draw 1., 2., etc in front of player name
-                    this.graphics.drawString(player + 1 + ".", 2, offsetY);
+
+                int yOffset = yBaseline + 15 * player;
+                // draw 1., 2., etc in front of player name
+                if (this.playerCount > 1) {
+                    this.graphics.drawString(player + 1 + ".", 2, yOffset);
                 }
 
-                if (this.playerNames[player] != null) { // draw player name
-                    this.graphics.drawString(this.playerNames[player], 20, offsetY);
+                // draw player name
+                if (this.playerNames[player] != null) {
+                    this.graphics.drawString(this.playerNames[player], 20, yOffset);
                 }
 
                 // draw track scores
@@ -147,91 +151,89 @@ class GamePlayerInfoPanel extends Panel implements ItemListener, MouseListener {
                             }
                         }
 
-                        this.graphics.drawString(strokes >= 0 ? String.valueOf(strokes) : this.gameContainer.textManager.getGame("GamePlayerInfo_Skipped"), 130 + track * 20, offsetY);
+                        this.graphics.drawString(strokes >= 0 ? String.valueOf(strokes) : this.gameContainer.textManager.getGame("GamePlayerInfo_Skipped"), 130 + track * 20, yOffset);
                         this.graphics.setColor(color);
                     } else if (this.trackScoresMultipliers[track] == 1) {
-                        this.graphics.drawString("-", 130 + track * 20 + 5, offsetY);
+                        this.graphics.drawString("-", 130 + track * 20 + 5, yOffset);
                     } else {
                         this.graphics.setFont(fontDialog10);
                         this.graphics.setColor(playerColors[player][1]);
-                        this.graphics.drawString("(*" + this.trackScoresMultipliers[track] + ")", 130 + track * 20, offsetY - 1);
+                        this.graphics.drawString("(*" + this.trackScoresMultipliers[track] + ")", 130 + track * 20, yOffset - 1);
                         this.graphics.setFont(font);
                         this.graphics.setColor(color);
                     }
                 }
 
                 // draw sum of player strokes
-                this.graphics.drawString("= " + this.playersId[player].get(), 130 + this.trackCount * 20 + 15, offsetY);
+                this.graphics.drawString("= " + this.totalStrokes[player].get(), 130 + this.trackCount * 20 + 15, yOffset);
 
-                String playerInfo = null;
+                String scoreDifference = null;
                 int[] scoreDifferences = this.getScoreDifferences();
                 // draw difference with leader's score
                 if (scoreDifferences != null && this.playerLeaveReasons[player] == 0) {
                     if (scoreDifferences[player] == 0) {
                         if (this.gameOutcome == null) {
-                            playerInfo = this.gameContainer.textManager.getGame("GamePlayerInfo_Leader");
+                            scoreDifference = this.gameContainer.textManager.getGame("GamePlayerInfo_Leader");
                         }
                     } else {
-                        playerInfo = this.gameContainer.textManager.getGame("GamePlayerInfo_AfterLeader", (scoreDifferences[player] > 0 ? "+" : "") + scoreDifferences[player]);
+                        scoreDifference = this.gameContainer.textManager.getGame("GamePlayerInfo_AfterLeader", (scoreDifferences[player] > 0 ? "+" : "") + scoreDifferences[player]);
                     }
 
-                    if (playerInfo != null) {
-                        this.graphics.drawString(playerInfo, 130 + this.trackCount * 20 + 15 + 40, offsetY);
+                    if (scoreDifference != null) {
+                        this.graphics.drawString(scoreDifference, 130 + this.trackCount * 20 + 15 + 40, yOffset);
                     }
                 }
 
-                playerInfo = null;
-                String timeRemaining = null;
+                String statusMessage = null;
                 // draw "waiting for player" text if lobby has empty slots
                 if (this.playerNames[player] == null) {
-                    playerInfo = "GamePlayerInfo_WaitingPlayer";
+                    statusMessage = "GamePlayerInfo_WaitingPlayer";
                 }
 
+                String timeRemaining = null;
                 if (this.playerCount > 1 && this.activePlayerId == player) {
                     if (this.activePlayerId == this.playerId) {
-                        playerInfo = "GamePlayerInfo_OwnTurn";
+                        statusMessage = "GamePlayerInfo_OwnTurn";
                         if (this.timerThread != null && this.currentTimeForShot > 0 && (this.strokeTimeout > 0 || this.strokeTimeout == 0 && this.currentTimeForShot <= 30)) {
                             timeRemaining = " (" + this.gameContainer.textManager.getTime(this.currentTimeForShot) + ")";
                         }
                     } else {
-                        playerInfo = "GamePlayerInfo_PlayerTurn";
+                        statusMessage = "GamePlayerInfo_PlayerTurn";
                     }
                 }
 
                 if (this.gameOutcome != null) {
                     if (this.gameOutcome[player] == 1) {
-                        playerInfo = "GamePlayerInfo_Winner";
+                        statusMessage = "GamePlayerInfo_Winner";
                     } else if (this.gameOutcome[player] == 0) {
-                        playerInfo = "GamePlayerInfo_Draw";
+                        statusMessage = "GamePlayerInfo_Draw";
                     }
                 }
 
-                if (playerInfo != null) {
-                    this.graphics.drawString(this.gameContainer.textManager.getGame(playerInfo) + (timeRemaining != null ? timeRemaining : ""), 130 + this.trackCount * 20 + 15 + 40 + 40, offsetY);
+                if (statusMessage != null) {
+                    this.graphics.drawString(this.gameContainer.textManager.getGame(statusMessage) + (timeRemaining != null ? timeRemaining : ""), 130 + this.trackCount * 20 + 15 + 40 + 40, yOffset);
                 }
 
-                playerInfo = null;
+                String extraMessage = null;
                 if (this.playerVotedToSkip[player]) {
-                    playerInfo = "GamePlayerInfo_VoteSkipTrack";
+                    extraMessage = "GamePlayerInfo_VoteSkipTrack";
                 }
 
                 if (this.playerReadyForNewGame[player]) {
-                    playerInfo = "GamePlayerInfo_ReadyForNewGame";
+                    extraMessage = "GamePlayerInfo_ReadyForNewGame";
                 }
 
                 if (this.playerLeaveReasons[player] == 5) {
-                    playerInfo = "GamePlayerInfo_Quit_ConnectionProblem";
+                    extraMessage = "GamePlayerInfo_Quit_ConnectionProblem";
                 }
 
                 if (this.playerLeaveReasons[player] == 4) {
-                    playerInfo = "GamePlayerInfo_Quit_Part";
+                    extraMessage = "GamePlayerInfo_Quit_Part";
                 }
 
-                if (playerInfo != null) {
-                    this.graphics.drawString(this.gameContainer.textManager.getGame(playerInfo), 130 + this.trackCount * 20 + 15 + 40 + 40 + 100, offsetY);
+                if (extraMessage != null) {
+                    this.graphics.drawString(this.gameContainer.textManager.getGame(extraMessage), 130 + this.trackCount * 20 + 15 + 40 + 40 + 100, yOffset);
                 }
-
-                offsetY += 15;
             }
         }
 
@@ -280,14 +282,14 @@ class GamePlayerInfoPanel extends Panel implements ItemListener, MouseListener {
         this.playerNames = new String[playerCount];
         this.playerClans = new String[playerCount];
         this.trackStrokes = new SynchronizedInteger[playerCount][trackCount];
-        this.playersId = new SynchronizedInteger[playerCount];
+        this.totalStrokes = new SynchronizedInteger[playerCount];
 
         for (int player = 0; player < playerCount; ++player) {
             for (int track = 0; track < trackCount; ++track) {
                 this.trackStrokes[player][track] = new SynchronizedInteger();
             }
 
-            this.playersId[player] = new SynchronizedInteger();
+            this.totalStrokes[player] = new SynchronizedInteger();
         }
 
         this.playerLeaveReasons = new int[playerCount];
@@ -351,7 +353,7 @@ class GamePlayerInfoPanel extends Panel implements ItemListener, MouseListener {
                 this.trackStrokes[player][track].set(0);
             }
 
-            this.playersId[player].set(0);
+            this.totalStrokes[player].set(0);
             this.playerVotedToSkip[player] = this.playerReadyForNewGame[player] = false;
         }
 
@@ -400,9 +402,9 @@ class GamePlayerInfoPanel extends Panel implements ItemListener, MouseListener {
 
     protected void strokeStartedOrEnded(int playerId, boolean isStrokeEnd) {
         if (this.trackScoring == 0) {
-            int var3 = !isStrokeEnd ? this.trackScoresMultipliers[this.currentTrackIndex] : 1;
-            this.trackStrokes[playerId][this.currentTrackIndex].add(var3);
-            this.playersId[playerId].add(var3);
+            int strokeCount = !isStrokeEnd ? this.trackScoresMultipliers[this.currentTrackIndex] : 1;
+            this.trackStrokes[playerId][this.currentTrackIndex].add(strokeCount);
+            this.totalStrokes[playerId].add(strokeCount);
         } else {
             this.trackStrokes[playerId][this.currentTrackIndex].add(1);
         }
@@ -413,12 +415,12 @@ class GamePlayerInfoPanel extends Panel implements ItemListener, MouseListener {
     protected void setScores(int trackId, int[] scores) {
         for (int player = 0; player < this.playerCount; ++player) {
             this.trackStrokes[player][trackId].set(scores[player]);
-            this.playersId[player].set(0);
+            this.totalStrokes[player].set(0);
 
             for (int track = 0; track <= trackId; ++track) {
                 int strokes = this.trackStrokes[player][track].get();
                 if (strokes >= 0) {
-                    this.playersId[player].add(strokes);
+                    this.totalStrokes[player].add(strokes);
                 }
             }
         }
@@ -482,7 +484,7 @@ class GamePlayerInfoPanel extends Panel implements ItemListener, MouseListener {
 
     protected void method372() {
         if (this.trackScoring == 0) {
-            this.playersId[this.activePlayerId].add(-this.trackStrokes[this.activePlayerId][this.currentTrackIndex].get());
+            this.totalStrokes[this.activePlayerId].add(-this.trackStrokes[this.activePlayerId][this.currentTrackIndex].get());
         }
 
         this.trackStrokes[this.activePlayerId][this.currentTrackIndex].set(-1);
@@ -493,7 +495,7 @@ class GamePlayerInfoPanel extends Panel implements ItemListener, MouseListener {
         return new String[]{this.playerNames[playerId], this.playerClans[playerId]};
     }
 
-    protected String[] method374() {
+    protected String[] getPlayerNames() {
         return this.playerNames;
     }
 
@@ -543,7 +545,7 @@ class GamePlayerInfoPanel extends Panel implements ItemListener, MouseListener {
         int score;
         for (int i = 0; i < this.playerCount; ++i) {
             if (this.playerLeaveReasons[i] == 0) {
-                score = this.playersId[i].get();
+                score = this.totalStrokes[i].get();
                 if (this.trackScoring == 0 && score < bestScore) {
                     bestScore = score;
                 }
@@ -558,7 +560,7 @@ class GamePlayerInfoPanel extends Panel implements ItemListener, MouseListener {
         int winnerCount = 0;
 
         for (int i = 0; i < this.playerCount; ++i) {
-            score = this.playersId[i].get();
+            score = this.totalStrokes[i].get();
             if (score == bestScore) {
                 scoreDifferences[i] = 0;
                 ++winnerCount;
