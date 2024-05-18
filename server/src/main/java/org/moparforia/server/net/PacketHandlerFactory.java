@@ -6,11 +6,7 @@ import org.moparforia.server.net.packethandlers.golf.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-/**
- * Playforia
- * 14.6.2013
- */
-public class PacketHandlerFactoryGeneratorClassHelperImplementationDecorator {
+public class PacketHandlerFactory {
 
     //todo packethandlers for each game type ( should be pretty much the same for golf and golf2 )
     public static final HashMap<PacketType, ArrayList<PacketHandler>> getPacketHandlers() {
@@ -19,10 +15,10 @@ public class PacketHandlerFactoryGeneratorClassHelperImplementationDecorator {
                 new LoginTypeHandler(), new NewHandler(), new PongHandler(), new ReconnectHandler(),
                 new TlogHandler(), new TrackTestLoginHandler(), new VersionHandler(), new LobbyCreateSinglePlayerHandler(),
                 new LobbyMultiplayerHandler(), new LobbyDualplayerHandler(), new QuitHandler()};
-        ArrayList<PacketHandler> data = new ArrayList<PacketHandler>();
-        ArrayList<PacketHandler> command = new ArrayList<PacketHandler>();
-        ArrayList<PacketHandler> string = new ArrayList<PacketHandler>();
-        ArrayList<PacketHandler> none = new ArrayList<PacketHandler>();
+        ArrayList<PacketHandler> data = new ArrayList<>();
+        ArrayList<PacketHandler> command = new ArrayList<>();
+        ArrayList<PacketHandler> string = new ArrayList<>();
+        ArrayList<PacketHandler> none = new ArrayList<>();
         for (PacketHandler handler : handlers) {
             switch (handler.getType()) {
                 case DATA:

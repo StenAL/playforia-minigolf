@@ -2,13 +2,12 @@ package org.moparforia.server.event;
 
 import org.moparforia.server.Server;
 
-@SuppressWarnings("SameParameterValue")
 public abstract class TimedEvent extends Event {
 
     private final long time;
 
-    public TimedEvent(long time) {
-        this.time = System.currentTimeMillis() + time;
+    public TimedEvent(long milliseconds) {
+        this.time = System.currentTimeMillis() + milliseconds;
     }
 
     @Override

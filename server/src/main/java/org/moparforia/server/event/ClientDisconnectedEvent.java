@@ -16,7 +16,7 @@ public class ClientDisconnectedEvent extends Event {
     @Override
     public void process(Server server) {
         Player player;
-        if((player = (Player)channel.getAttachment()) != null) {
+        if ((player = (Player)channel.getAttachment()) != null) {
             if (player.getLobby() != null) {
               player.getLobby().removePlayer(player, Lobby.PART_REASON_USERLEFT,null);
             }
