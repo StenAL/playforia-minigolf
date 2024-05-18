@@ -118,20 +118,22 @@ class GamePlayerInfoPanel extends Panel implements ItemListener, MouseListener {
                 this.graphics.fillRect(130 + this.currentTrackIndex * 20 - 5, offsetY - 13 + 1, 21, this.playerCount * 15 + 2 - 2);
             }
 
+            // draw player status text
             for (int player = 0; player < this.playerCount; ++player) {
                 Font font = this.playerId == player ? fontDialog12b : fontDialog12;
                 int playerLeft = this.playerLeaveReasons[player] == 0 ? 0 : 1;
                 Color color = playerColors[player][playerLeft];
                 this.graphics.setFont(font);
                 this.graphics.setColor(color);
-                if (this.playerCount > 1) {
+                if (this.playerCount > 1) { // draw 1., 2., etc in front of player name
                     this.graphics.drawString(player + 1 + ".", 2, offsetY);
                 }
 
-                if (this.playerNames[player] != null) {
+                if (this.playerNames[player] != null) { // draw player name
                     this.graphics.drawString(this.playerNames[player], 20, offsetY);
                 }
 
+                // draw track scores
                 for (int track = 0; track < this.trackCount; ++track) {
                     if (track <= this.currentTrackIndex) {
                         int strokes = this.trackStrokes[player][track].get();
@@ -158,11 +160,13 @@ class GamePlayerInfoPanel extends Panel implements ItemListener, MouseListener {
                     }
                 }
 
+                // draw sum of player strokes
                 this.graphics.drawString("= " + this.playersId[player].get(), 130 + this.trackCount * 20 + 15, offsetY);
-                String playerInfo;
+
+                String playerInfo = null;
                 int[] scoreDifferences = this.getScoreDifferences();
+                // draw difference with leader's score
                 if (scoreDifferences != null && this.playerLeaveReasons[player] == 0) {
-                    playerInfo = null;
                     if (scoreDifferences[player] == 0) {
                         if (this.gameOutcome == null) {
                             playerInfo = this.gameContainer.textManager.getGame("GamePlayerInfo_Leader");
@@ -178,6 +182,7 @@ class GamePlayerInfoPanel extends Panel implements ItemListener, MouseListener {
 
                 playerInfo = null;
                 String timeRemaining = null;
+                // draw "waiting for player" text if lobby has empty slots
                 if (this.playerNames[player] == null) {
                     playerInfo = "GamePlayerInfo_WaitingPlayer";
                 }
