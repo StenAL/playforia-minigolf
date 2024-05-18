@@ -122,9 +122,7 @@ public abstract class GolfGame extends Game {
     public void startGame() {
         writeAll(new Packet(PacketType.DATA, Tools.tabularize("game", "start")));
         StringBuilder buff = new StringBuilder();
-        for (int i = 0; i < getPlayers().size(); i++) {
-            buff.append("t");
-        }
+        buff.append("t".repeat(getPlayers().size()));
         playStatus = buff.toString().replace("t", "f");
         TrackStats track =  statsManager.getStats(tracks.get(0));
         writeAll(new Packet(PacketType.DATA, Tools.tabularize("game", "resetvoteskip")));

@@ -67,13 +67,11 @@ public class GameBackgroundCanvas extends Canvas {
     }
 
     protected String[] generateTrackInformation() {
-        String[] var1 = new String[]{this.trackAuthor, this.trackName, this.trackFirstBest, this.trackLastBest};
-        return var1;
+        return new String[]{this.trackAuthor, this.trackName, this.trackFirstBest, this.trackLastBest};
     }
 
     protected int[][] generateTrackStatistics() {
-        int[][] var1 = new int[][]{this.trackStats, this.trackRatings};
-        return var1;
+        return new int[][]{this.trackStats, this.trackRatings};
     }
 
     //this useless func is called when we get start packet

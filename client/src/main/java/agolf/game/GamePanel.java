@@ -183,7 +183,7 @@ public class GamePanel extends Panel {
             String playerName = this.gamePlayerInfoPanel.playerNames[playerId];
             this.gameChatPanel.addMessage(this.gameContainer.textManager.getGame("GameChat_Part", playerName));
             this.gameChatPanel.removeUserColour(playerName);
-            this.gameControlPanel.method330();
+            this.gameControlPanel.refreshBackButton();
         } else if (args[1].equals("say")) {
             int playerId = Integer.parseInt(args[2]);
             this.gameChatPanel.addSay(playerId, this.gamePlayerInfoPanel.playerNames[playerId], args[3], false);
@@ -219,7 +219,7 @@ public class GamePanel extends Panel {
 
             this.aBoolean363 = false;
             this.gameCanvas.createMap(16777216);
-            this.gamePlayerInfoPanel.method359();
+            this.gamePlayerInfoPanel.reset();
             this.gameTrackInfoPanel.resetCurrentTrack();
             this.setState(1);
         }
@@ -333,7 +333,7 @@ public class GamePanel extends Panel {
             }
         } else if (args[1].equals("beginstroke")) {
             int playerId = Integer.parseInt(args[2]);
-            this.gamePlayerInfoPanel.method363(playerId, false);
+            this.gamePlayerInfoPanel.strokeStartedOrEnded(playerId, false);
             this.gameContainer.soundManager.playGameMove();
             this.gameCanvas.decodeCoords(playerId, false, args[3]);
 
@@ -394,7 +394,7 @@ public class GamePanel extends Panel {
 
     protected void setBeginStroke(int playerId, int x, int y, int shootingMode) {
         this.gameTrackInfoPanel.method384();
-        this.gamePlayerInfoPanel.method363(playerId, false);
+        this.gamePlayerInfoPanel.strokeStartedOrEnded(playerId, false);
         String data = "beginstroke\t" + this.encodeCoords(x, y, shootingMode);
         this.gameContainer.connection.writeData("game\t" + data);
         this.gameContainer.soundManager.playGameMove();
@@ -403,15 +403,15 @@ public class GamePanel extends Panel {
     protected void method336() {
         String var1 = this.gameCanvas.method142();
         if (var1 != null) {
-            this.gamePlayerInfoPanel.method363(0, false);
+            this.gamePlayerInfoPanel.strokeStartedOrEnded(0, false);
             String var2 = "beginstroke\t" + var1;
             this.gameContainer.connection.writeData("game\t" + var2);
             this.gameCanvas.decodeCoords(0, true, var1);
         }
     }
 
-    protected boolean isValidPlayerID(int var1) {
-        return this.gamePlayerInfoPanel.method361(var1);
+    protected boolean isValidPlayerID(int player) {
+        return this.gamePlayerInfoPanel.isOverStrokeLimit(player);
     }
 
     protected void sendEndStroke(int playerid, SynchronizedBool[] settings, int var3) {
@@ -419,7 +419,7 @@ public class GamePanel extends Panel {
 
         for (int index = 0; index < settings.length; ++index) {
             if (var3 == index && !settings[index].get()) {
-                this.gamePlayerInfoPanel.method363(index, true);
+                this.gamePlayerInfoPanel.strokeStartedOrEnded(index, true);
                 data = data + "p";
             } else {
                 data = data + (settings[index].get() ? "t" : "f");
@@ -469,18 +469,18 @@ public class GamePanel extends Panel {
     }
 
     protected void rateTrack(int track, int rating) {
-        String var3 = "rate\t" + track + "\t" + rating;
-        this.gameContainer.connection.writeData("game\t" + var3);
+        String message = "rate\t" + track + "\t" + rating;
+        this.gameContainer.connection.writeData("game\t" + message);
     }
 
     protected void respondNewGame(int track, boolean accept) {// why track
-        String var3 = "rejectaccept\t" + track + "\t" + (accept ? "t" : "f");
-        this.gameContainer.connection.writeData("game\t" + var3);
+        String message = "rejectaccept\t" + track + "\t" + (accept ? "t" : "f");
+        this.gameContainer.connection.writeData("game\t" + message);
     }
 
-    protected void method345(int var1) {
-        String var2 = "backtoprivate\t" + var1;
-        this.gameContainer.connection.writeData("game\t" + var2);
+    protected void backToPrivate(int currentTrack) {
+        String message = "backtoprivate\t" + currentTrack;
+        this.gameContainer.connection.writeData("game\t" + message);
     }
 
     protected boolean maxFps() {
@@ -499,7 +499,7 @@ public class GamePanel extends Panel {
         this.gameChatPanel.addBroadcastMessage(message);
     }
 
-    protected boolean canStroke(boolean stopInfoPanel) {
+    protected boolean tryStroke(boolean didNotTimeout) {
         synchronized (canStrokeLock) {
             if (this.isWaitingForTurnStart) {
                 return false;
@@ -508,7 +508,7 @@ public class GamePanel extends Panel {
             this.isWaitingForTurnStart = true;
         }
 
-        if (stopInfoPanel) {// ???????????????????????????????????
+        if (didNotTimeout) {
             this.gamePlayerInfoPanel.stopTimer();
         } else {
             this.gameCanvas.doZeroLengthStroke();
@@ -549,13 +549,13 @@ public class GamePanel extends Panel {
     private void setState(int state) {
         if (state != this.state) {
             this.state = state;
-            this.gamePlayerInfoPanel.method371(state);
-            this.gameControlPanel.method327(state);
+            this.gamePlayerInfoPanel.setState(state);
+            this.gameControlPanel.setState(state);
         }
     }
 
-    private String encodeCoords(int x, int y, int mod) {
-        int var4 = x * 375 * 4 + y * 4 + mod;//mod.. or something, possible values 0..3
+    private String encodeCoords(int x, int y, int shootingMode) {
+        int var4 = x * 375 * 4 + y * 4 + shootingMode;
 
         String out = Integer.toString(var4, 36);
         while (out.length() < 4) {

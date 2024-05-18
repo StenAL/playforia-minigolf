@@ -102,7 +102,7 @@ class GameControlPanel extends Panel implements ActionListener, ItemListener {
         this.setVisible(true);
     }
 
-    protected void method327(int state) {
+    protected void setState(int state) {
         this.setVisible(false);
         this.removeAll();
         this.skipButtonVisible = false;
@@ -130,8 +130,8 @@ class GameControlPanel extends Panel implements ActionListener, ItemListener {
             if (this.playerCount > 1) {
                 this.playerNamesDisplayModeChoicer = new Choicer();
 
-                for (int var2 = 0; var2 < 4; ++var2) {
-                    this.playerNamesDisplayModeChoicer.addItem(this.gameContainer.textManager.getGame("GameControl_Names" + var2));
+                for (int option = 0; option < 4; ++option) {
+                    this.playerNamesDisplayModeChoicer.addItem(this.gameContainer.textManager.getGame("GameControl_Names" + option));
                 }
 
                 this.playerNamesDisplayModeChoicer.select(this.playerCount <= 2 ? 0 : 3);
@@ -159,7 +159,7 @@ class GameControlPanel extends Panel implements ActionListener, ItemListener {
         this.remove(this.buttonNewGame);
     }
 
-    protected void method330() {
+    protected void refreshBackButton() {
         if (this.playerCount != 1) {
             this.setVisible(false);
             this.remove(this.buttonBack);

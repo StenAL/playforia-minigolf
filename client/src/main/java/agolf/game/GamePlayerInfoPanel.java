@@ -295,7 +295,8 @@ class GamePlayerInfoPanel extends Panel implements ItemListener, MouseListener {
         this.playerReadyForNewGame = new boolean[playerCount];
 
         for (int player = 0; player < playerCount; ++player) {
-            this.playerNames[player] = this.playerClans[player] = null;
+            this.playerNames[player] = null;
+            this.playerClans[player] = null;
             this.playerLeaveReasons[player] = 0;
         }
 
@@ -306,7 +307,7 @@ class GamePlayerInfoPanel extends Panel implements ItemListener, MouseListener {
         }
 
         this.playerId = -1;
-        this.method359();
+        this.reset();
         this.initialized = true;
         this.repaint();
     }
@@ -344,7 +345,7 @@ class GamePlayerInfoPanel extends Panel implements ItemListener, MouseListener {
         return false;
     }
 
-    protected void method359() {
+    protected void reset() {
         for (int player = 0; player < this.playerCount; ++player) {
             for (int track = 0; track < this.trackCount; ++track) {
                 this.trackStrokes[player][track].set(0);
@@ -370,16 +371,16 @@ class GamePlayerInfoPanel extends Panel implements ItemListener, MouseListener {
         return this.trackScoresMultipliers[this.currentTrackIndex];
     }
 
-    protected boolean method361(int var1) {
+    protected boolean isOverStrokeLimit(int player) {
         if (this.maxStrokes == 0) {
             return false;
         } else {
-            int var2 = this.trackStrokes[var1][this.currentTrackIndex].get();
+            int strokes = this.trackStrokes[player][this.currentTrackIndex].get();
             if (this.trackScoring == 0) {
-                var2 /= this.trackScoresMultipliers[this.currentTrackIndex];
+                strokes /= this.trackScoresMultipliers[this.currentTrackIndex];
             }
 
-            return var2 >= this.maxStrokes;
+            return strokes >= this.maxStrokes;
         }
     }
 
@@ -397,7 +398,7 @@ class GamePlayerInfoPanel extends Panel implements ItemListener, MouseListener {
         return playerId == this.playerId;
     }
 
-    protected void method363(int playerId, boolean isStrokeEnd) {
+    protected void strokeStartedOrEnded(int playerId, boolean isStrokeEnd) {
         if (this.trackScoring == 0) {
             int var3 = !isStrokeEnd ? this.trackScoresMultipliers[this.currentTrackIndex] : 1;
             this.trackStrokes[playerId][this.currentTrackIndex].get_upd(var3);
@@ -462,12 +463,12 @@ class GamePlayerInfoPanel extends Panel implements ItemListener, MouseListener {
         this.readyForNewGame(this.playerId);
     }
 
-    protected void readyForNewGame(int var1) {
-        this.playerReadyForNewGame[var1] = true;
+    protected void readyForNewGame(int player) {
+        this.playerReadyForNewGame[player] = true;
         this.repaint();
     }
 
-    protected void method371(int state) {
+    protected void setState(int state) {
         if (state == 2) {
             for (int player = 0; player < this.playerCount && state == 2; ++player) {
                 if (this.playerLeaveReasons[player] != 0) {
@@ -577,7 +578,7 @@ class GamePlayerInfoPanel extends Panel implements ItemListener, MouseListener {
         --this.currentTimeForShot;
         this.repaint();
         if (this.currentTimeForShot <= 0) {
-            this.gameContainer.gamePanel.canStroke(false);
+            this.gameContainer.gamePanel.tryStroke(false);
             this.stopTimer();
             return false;
         } else {
