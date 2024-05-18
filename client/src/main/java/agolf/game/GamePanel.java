@@ -137,13 +137,13 @@ public class GamePanel extends Panel {
 
         } else if (args[1].equals("scoringmulti")) {
             int len = args.length - 2;
-            int[] var3 = new int[len];
+            int[] trackScoresMultipliers = new int[len];
 
-            for (int trackCount = 0; trackCount < len; ++trackCount) {
-                var3[trackCount] = Integer.parseInt(args[2 + trackCount]);
+            for (int track = 0; track < len; ++track) {
+                trackScoresMultipliers[track] = Integer.parseInt(args[2 + track]);
             }
 
-            this.gamePlayerInfoPanel.method356(var3);
+            this.gamePlayerInfoPanel.setTrackScoresMultipliers(trackScoresMultipliers);
         } else if (args[1].equals("players")) {
             int len = (args.length - 2) / 3;
             int playerCountIndex = 2;
@@ -307,9 +307,9 @@ public class GamePanel extends Panel {
 
             this.gameTrackInfoPanel.parseTrackInfoStats(trackInformation[0], trackInformation[1], trackStats[0], trackStats[1], trackInformation[2], trackInformation[3], trackTestMode1, trackTestMode2, this.gameCanvas.method134());
 
-            int numberOfPlayers = this.gamePlayerInfoPanel.startNextTrack();
-            if (numberOfPlayers > 1) {
-                this.gameChatPanel.addMessage(gameContainer.textManager.getGame("GameChat_ScoreMultiNotify", numberOfPlayers));
+            int trackScoreMultiplier = this.gamePlayerInfoPanel.startNextTrack();
+            if (trackScoreMultiplier > 1) {
+                this.gameChatPanel.addMessage(gameContainer.textManager.getGame("GameChat_ScoreMultiNotify", trackScoreMultiplier));
             }
 
             this.gameControlPanel.displaySkipButton(); // checks if you can skip on first shot

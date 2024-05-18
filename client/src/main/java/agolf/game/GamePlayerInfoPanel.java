@@ -50,7 +50,7 @@ class GamePlayerInfoPanel extends Panel implements ItemListener, MouseListener {
     private int[] anIntArray394;
     private boolean[] playerVotedToSkip;
     private boolean[] playerReadyForNewGame;
-    private int[] anIntArray397;
+    private int[] trackScoresMultipliers;
     private int[][] anIntArrayArray398;
     private Choicer aChoicer399;
     private Image image;
@@ -67,7 +67,7 @@ class GamePlayerInfoPanel extends Panel implements ItemListener, MouseListener {
         this.setLayout(null);
         this.currentTimeForShot = -1;
         this.initialized = false;
-        this.anIntArray397 = null;
+        this.trackScoresMultipliers = null;
         this.anIntArrayArray398 = null;
     }
 
@@ -145,12 +145,12 @@ class GamePlayerInfoPanel extends Panel implements ItemListener, MouseListener {
 
                         this.graphics.drawString(var9 >= 0 ? String.valueOf(var9) : this.gameContainer.textManager.getGame("GamePlayerInfo_Skipped"), 130 + track * 20, offsetY);
                         this.graphics.setColor(color);
-                    } else if (this.anIntArray397[track] == 1) {
+                    } else if (this.trackScoresMultipliers[track] == 1) {
                         this.graphics.drawString("-", 130 + track * 20 + 5, offsetY);
                     } else {
                         this.graphics.setFont(fontDialog10);
                         this.graphics.setColor(playerColors[player][1]);
-                        this.graphics.drawString("(*" + this.anIntArray397[track] + ")", 130 + track * 20, offsetY - 1);
+                        this.graphics.drawString("(*" + this.trackScoresMultipliers[track] + ")", 130 + track * 20, offsetY - 1);
                         this.graphics.setFont(font);
                         this.graphics.setColor(color);
                     }
@@ -292,10 +292,10 @@ class GamePlayerInfoPanel extends Panel implements ItemListener, MouseListener {
             this.anIntArray394[player] = 0;
         }
 
-        this.anIntArray397 = new int[trackCount];
+        this.trackScoresMultipliers = new int[trackCount];
 
         for (int track = 0; track < trackCount; ++track) {
-            this.anIntArray397[track] = 1;
+            this.trackScoresMultipliers[track] = 1;
         }
 
         this.playerId = -1;
@@ -304,8 +304,8 @@ class GamePlayerInfoPanel extends Panel implements ItemListener, MouseListener {
         this.repaint();
     }
 
-    protected void method356(int[] var1) {
-        this.anIntArray397 = var1;
+    protected void setTrackScoresMultipliers(int[] trackScoresMultipliers) {
+        this.trackScoresMultipliers = trackScoresMultipliers;
         this.repaint();
     }
 
@@ -360,7 +360,7 @@ class GamePlayerInfoPanel extends Panel implements ItemListener, MouseListener {
 
         ++this.currentTrackIndex;
         this.repaint();
-        return this.anIntArray397[this.currentTrackIndex];
+        return this.trackScoresMultipliers[this.currentTrackIndex];
     }
 
     protected boolean method361(int var1) {
@@ -369,7 +369,7 @@ class GamePlayerInfoPanel extends Panel implements ItemListener, MouseListener {
         } else {
             int var2 = this.trackStrokes[var1][this.currentTrackIndex].get();
             if (this.trackScoring == 0) {
-                var2 /= this.anIntArray397[this.currentTrackIndex];
+                var2 /= this.trackScoresMultipliers[this.currentTrackIndex];
             }
 
             return var2 >= this.maxStrokes;
@@ -392,7 +392,7 @@ class GamePlayerInfoPanel extends Panel implements ItemListener, MouseListener {
 
     protected void method363(int playerId, boolean isStrokeEnd) {
         if (this.trackScoring == 0) {
-            int var3 = !isStrokeEnd ? this.anIntArray397[this.currentTrackIndex] : 1;
+            int var3 = !isStrokeEnd ? this.trackScoresMultipliers[this.currentTrackIndex] : 1;
             this.trackStrokes[playerId][this.currentTrackIndex].get_upd(var3);
             this.playersId[playerId].get_upd(var3);
         } else {
