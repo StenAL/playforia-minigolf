@@ -1,9 +1,5 @@
 package com.aapeli.client;
 
-import com.aapeli.client.Frame_Sub3_Sub3;
-import com.aapeli.client.ImageManager;
-import com.aapeli.client.Parameters;
-import com.aapeli.client.TextManager;
 import com.aapeli.colorgui.ColorButton;
 
 import java.awt.Color;
@@ -24,14 +20,12 @@ class Class88 implements ActionListener {
     private int anInt1506;
     private int anInt1507;
     private Frame_Sub3_Sub3 aFrame_Sub3_Sub3_1508;
-    private static final String[] aStringArray1509 = new String[11];
-
 
     protected Class88(Parameters var1, TextManager var2, ImageManager var3) {
         this.aParameters1500 = var1;
         this.aTextManager1501 = var2;
         this.anImageManager1502 = var3;
-        this.anInt1506 = var1.method1655() ? 1 : 2;
+        this.anInt1506 = var1.getTellFriend() ? 1 : 2;
         this.anInt1507 = 0;
 
         try {
@@ -42,8 +36,8 @@ class Class88 implements ActionListener {
             this.anInt1506 = 0;
         }
 
-        this.aString1504 = var1.method1656();
-        this.aString1505 = var1.method1657();
+        this.aString1504 = var1.getTellFriendPage();
+        this.aString1505 = var1.getTellFriendTarget();
         if (this.aString1504 == null || this.aString1505 == null) {
             this.anInt1506 = 0;
         }
@@ -134,7 +128,7 @@ class Class88 implements ActionListener {
 
             var10 = var10 + "hash=" + var9;
             URL var14 = new URL(this.aString1504 + "?" + var10);
-            this.aParameters1500.method1654().showDocument(var14, this.aString1505);
+            this.aParameters1500.getAppletContext().showDocument(var14, this.aString1505);
             return true;
         } catch (Exception var12) {
             ;
@@ -218,17 +212,6 @@ class Class88 implements ActionListener {
     }
 
     static {
-        aStringArray1509[0] = "MD5";
-        aStringArray1509[1] = "TellFriend_ExtButton";
-        aStringArray1509[2] = "Voi";
-        aStringArray1509[3] = "...";
-        aStringArray1509[4] = "message=";
-        aStringArray1509[5] = "session=";
-        aStringArray1509[6] = "hash=";
-        aStringArray1509[7] = "emails[]=";
-        aStringArray1509[8] = "Miksei";
-        aStringArray1509[9] = "Aita";
-        aStringArray1509[10] = "Perjantai";
         aColor1499 = new Color(64, 160, 255);
     }
 }

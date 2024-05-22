@@ -15,8 +15,6 @@ public class ChatLobby extends ChatBase {
     private ColorCheckbox aColorCheckbox3664;
     private ColorCheckbox aColorCheckbox3665;
     private boolean aBoolean3666;
-    private static final String[] aStringArray3667 = new String[14];
-
 
     public ChatLobby(Parameters var1, TextManager var2, ImageManager var3, BadWordFilter var4, int var5, int var6) {
         this(var1, var2, var3, var4, false, false, var5, var6);
@@ -264,22 +262,5 @@ public class ChatLobby extends ChatBase {
         this.add(this.aColorCheckbox3664);
         this.aColorCheckbox3665 = new ColorCheckbox(super.textManager.getShared("Chat_Lobby_NoGameMessages"));
         this.add(this.aColorCheckbox3665);
-    }
-
-    static {
-        aStringArray3667[0] = "Chat_Lobby_UsersStartedUnnamedGame";
-        aStringArray3667[1] = "Chat_Lobby_UsersStartedGame";
-        aStringArray3667[2] = "Chat_Lobby_UserJoinedGame";
-        aStringArray3667[3] = "Chat_Lobby_NoJoinPartMessages";
-        aStringArray3667[4] = "Chat_Lobby_NoGameMessages";
-        aStringArray3667[5] = "Chat_Lobby_User";
-        aStringArray3667[6] = "ReturnedFromGame";
-        aStringArray3667[7] = "Joined";
-        aStringArray3667[8] = "Chat_Lobby_UserWathicngGame";
-        aStringArray3667[9] = "ConnectionProblem";
-        aStringArray3667[10] = "Chat_Lobby_UserLeft";
-        aStringArray3667[11] = "Chat_Lobby_CantChallengeNone";
-        aStringArray3667[12] = "Chat_Lobby_CantChallengeSelf";
-        aStringArray3667[13] = "Chat_Lobby_UserCreatedGame";
     }
 }

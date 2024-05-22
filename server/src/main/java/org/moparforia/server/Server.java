@@ -169,7 +169,7 @@ public class Server implements Runnable {
             return;
         }
 
-        packetHandlers = PacketHandlerFactoryGeneratorClassHelperImplementationDecorator.getPacketHandlers();
+        packetHandlers = PacketHandlerFactory.getPacketHandlers();
         System.out.println("Loaded " + packetHandlers.size() + " packet handler type(s)");
 
         ChannelFactory factory = new NioServerSocketChannelFactory(
@@ -179,16 +179,12 @@ public class Server implements Runnable {
         ServerBootstrap bootstrap = new ServerBootstrap(factory);
         final ClientChannelHandler clientHandler = new ClientChannelHandler(this);
         final IdleStateHandler idleState = new IdleStateHandler(new HashedWheelTimer(1, TimeUnit.SECONDS), 2, 0, 0);
-        bootstrap.setPipelineFactory(new ChannelPipelineFactory() {
-            public ChannelPipeline getPipeline() {
-                return Channels.pipeline(
-                        new DelimiterBasedFrameDecoder(250, Delimiters.lineDelimiter()),
-                        new PacketDecoder(),
-                        new PacketEncoder(),
-                        idleState,
-                        clientHandler);
-            }
-        });
+        bootstrap.setPipelineFactory(() -> Channels.pipeline(
+                new DelimiterBasedFrameDecoder(250, Delimiters.lineDelimiter()),
+                new PacketDecoder(),
+                new PacketEncoder(),
+                idleState,
+                clientHandler));
         bootstrap.setOption("child.tcpNoDelay", true);
         bootstrap.setOption("child.keepAlive", true);
         try {

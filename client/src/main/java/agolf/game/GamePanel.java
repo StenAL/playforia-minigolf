@@ -137,13 +137,13 @@ public class GamePanel extends Panel {
 
         } else if (args[1].equals("scoringmulti")) {
             int len = args.length - 2;
-            int[] var3 = new int[len];
+            int[] trackScoresMultipliers = new int[len];
 
-            for (int trackCount = 0; trackCount < len; ++trackCount) {
-                var3[trackCount] = Integer.parseInt(args[2 + trackCount]);
+            for (int track = 0; track < len; ++track) {
+                trackScoresMultipliers[track] = Integer.parseInt(args[2 + track]);
             }
 
-            this.gamePlayerInfoPanel.method356(var3);
+            this.gamePlayerInfoPanel.setTrackScoresMultipliers(trackScoresMultipliers);
         } else if (args[1].equals("players")) {
             int len = (args.length - 2) / 3;
             int playerCountIndex = 2;
@@ -173,36 +173,36 @@ public class GamePanel extends Panel {
             }
 
         }
-        else if (args[1].equals("part")) {
+        else if (args[1].equals("part")) { // player left game
             int playerId = Integer.parseInt(args[2]);
-            String playerName = this.gamePlayerInfoPanel.playerNames[playerId];
-            boolean var23 = this.gamePlayerInfoPanel.method358(playerId, Integer.parseInt(args[3]));
-            if (var23) {
+            boolean changed = this.gamePlayerInfoPanel.setPlayerPartStatus(playerId, Integer.parseInt(args[3]));
+            if (changed) {
                 this.gameControlPanel.method329();
             }
 
+            String playerName = this.gamePlayerInfoPanel.playerNames[playerId];
             this.gameChatPanel.addMessage(this.gameContainer.textManager.getGame("GameChat_Part", playerName));
             this.gameChatPanel.removeUserColour(playerName);
-            this.gameControlPanel.method330();
+            this.gameControlPanel.refreshBackButton();
         } else if (args[1].equals("say")) {
             int playerId = Integer.parseInt(args[2]);
             this.gameChatPanel.addSay(playerId, this.gamePlayerInfoPanel.playerNames[playerId], args[3], false);
-        } else if (args[1].equals("cr")) {
-            StringTokenizer var19 = new StringTokenizer(args[2], ",");
-            int playerTypes = var19.countTokens();
-            int[][] var25 = new int[5][playerTypes];
+        } else if (args[1].equals("cr")) { // get results to compare track score against
+            StringTokenizer tokenizer = new StringTokenizer(args[2], ",");
+            int tracks = tokenizer.countTokens();
+            int[][] comparisonScores = new int[5][tracks];
 
-            for (int var1 = 0; var1 < 5; ++var1) {
-                for (int startIndex = 0; startIndex < playerTypes; ++startIndex) {
-                    var25[var1][startIndex] = Integer.parseInt(var19.nextToken());
+            for (int comparisonType = 0; comparisonType < 5; ++comparisonType) {
+                for (int track = 0; track < tracks; ++track) {
+                    comparisonScores[comparisonType][track] = Integer.parseInt(tokenizer.nextToken());
                 }
 
-                if (var1 < 4) {
-                    var19 = new StringTokenizer(args[3 + var1], ",");
+                if (comparisonType < 4) {
+                    tokenizer = new StringTokenizer(args[3 + comparisonType], ",");
                 }
             }
 
-            this.gamePlayerInfoPanel.method375(var25);
+            this.gamePlayerInfoPanel.initResultsComparison(comparisonScores);
         } else if (args[1].equals("start")) {
             if (this.playerCount > 1) {
                 if (this.aBoolean363) {
@@ -211,7 +211,7 @@ public class GamePanel extends Panel {
                         //this.requestFocus();//todo this is annoying as fuck
                     }
 
-                    this.gameContainer.gameApplet.showPlayerList(this.gamePlayerInfoPanel.method374());
+                    this.gameContainer.gameApplet.showPlayerList(this.gamePlayerInfoPanel.getPlayerNames());
                 } else {
                     this.gameContainer.gameApplet.removePlayerListWinnders();
                 }
@@ -219,12 +219,14 @@ public class GamePanel extends Panel {
 
             this.aBoolean363 = false;
             this.gameCanvas.createMap(16777216);
-            this.gamePlayerInfoPanel.method359();
+            this.gamePlayerInfoPanel.reset();
             this.gameTrackInfoPanel.resetCurrentTrack();
             this.setState(1);
         }
         else if (args[1].equals("starttrack")) {
-            /**game
+            // [1] = "startrack", (optional [2] == track test mode), [2 or 3] == player statuses, [3 or 4] == game id, [4 or 5] == track data
+            /*
+             * game
              * starttrack
              * t 1908821
              * V 1
@@ -256,20 +258,20 @@ public class GamePanel extends Panel {
             String fullInstruction = "";
 
             for (int commandIndex = startIndex; commandIndex < argsLen; ++commandIndex) {
-                char var12 = args[commandIndex].charAt(0);
-                if (var12 == 'A') {
+                char command = args[commandIndex].charAt(0);
+                if (command == 'A') {
                     author = args[commandIndex].substring(2);
                 }
 
-                if (var12 == 'N') {
+                if (command == 'N') {
                     name = args[commandIndex].substring(2);
                 }
 
-                if (var12 == 'T') {
+                if (command == 'T') {
                     data = args[commandIndex].substring(2);
                 }
 
-                if (var12 == 'T' && args[commandIndex].charAt(2) == '!') {// a track we already played?
+                if (command == 'T' && args[commandIndex].charAt(2) == '!') {// a track we already played?
                     args[commandIndex] = "T " + this.gameContainer.trackCollection.getTrack(author, name);
                     hasPlayed = true;
                 }
@@ -287,29 +289,29 @@ public class GamePanel extends Panel {
                 this.gameContainer.trackCollection.addTrack(author, name, data);
             }
 
-            this.gameCanvas.parseMap(fullInstruction, args[trackTestMode ? 3 : 2], Integer.parseInt(args[trackTestMode ? 4 : 3]));
+            this.gameCanvas.init(fullInstruction, args[trackTestMode ? 3 : 2], Integer.parseInt(args[trackTestMode ? 4 : 3]));
 
-                      /* trackinformatino
-                        [0]=author, [1]=trackname, [2]=firstbest, [3]=lastbest
+            /* trackinformation
+             [0]=author, [1]=trackname, [2]=firstbest, [3]=lastbest
 
-                        statistics:
-                         var15[0][0]= number completeed
-                         var15[0][1]= total attempts
-                         var15[0][2]= best par (stroke count)
-                         var15[0][3]= number of best par strokes
-                         var15[1][0]= number of ratings: 0
-                         var15[1][1]= number of ratings: 1
-                         var15[1][2]= number of ratings: 2
-                         var15[1][3]= number of ratings: 3
-                       */
+             statistics:
+              var15[0][0]= number completeed
+              var15[0][1]= total attempts
+              var15[0][2]= best par (stroke count)
+              var15[0][3]= number of best par strokes
+              var15[1][0]= number of ratings: 0
+              var15[1][1]= number of ratings: 1
+              var15[1][2]= number of ratings: 2
+              var15[1][3]= number of ratings: 3
+            */
             String[] trackInformation = this.gameCanvas.generateTrackInformation();
             int[][] trackStats = this.gameCanvas.generateTrackStatistics();
 
             this.gameTrackInfoPanel.parseTrackInfoStats(trackInformation[0], trackInformation[1], trackStats[0], trackStats[1], trackInformation[2], trackInformation[3], trackTestMode1, trackTestMode2, this.gameCanvas.method134());
 
-            int numberOfPlayers = this.gamePlayerInfoPanel.startNextTrack();
-            if (numberOfPlayers > 1) {
-                this.gameChatPanel.addMessage(gameContainer.textManager.getGame("GameChat_ScoreMultiNotify", numberOfPlayers));
+            int trackScoreMultiplier = this.gamePlayerInfoPanel.startNextTrack();
+            if (trackScoreMultiplier > 1) {
+                this.gameChatPanel.addMessage(gameContainer.textManager.getGame("GameChat_ScoreMultiNotify", trackScoreMultiplier));
             }
 
             this.gameControlPanel.displaySkipButton(); // checks if you can skip on first shot
@@ -333,7 +335,7 @@ public class GamePanel extends Panel {
             }
         } else if (args[1].equals("beginstroke")) {
             int playerId = Integer.parseInt(args[2]);
-            this.gamePlayerInfoPanel.method363(playerId, false);
+            this.gamePlayerInfoPanel.strokeStartedOrEnded(playerId, false);
             this.gameContainer.soundManager.playGameMove();
             this.gameCanvas.decodeCoords(playerId, false, args[3]);
 
@@ -394,7 +396,7 @@ public class GamePanel extends Panel {
 
     protected void setBeginStroke(int playerId, int x, int y, int shootingMode) {
         this.gameTrackInfoPanel.method384();
-        this.gamePlayerInfoPanel.method363(playerId, false);
+        this.gamePlayerInfoPanel.strokeStartedOrEnded(playerId, false);
         String data = "beginstroke\t" + this.encodeCoords(x, y, shootingMode);
         this.gameContainer.connection.writeData("game\t" + data);
         this.gameContainer.soundManager.playGameMove();
@@ -403,15 +405,15 @@ public class GamePanel extends Panel {
     protected void method336() {
         String var1 = this.gameCanvas.method142();
         if (var1 != null) {
-            this.gamePlayerInfoPanel.method363(0, false);
+            this.gamePlayerInfoPanel.strokeStartedOrEnded(0, false);
             String var2 = "beginstroke\t" + var1;
             this.gameContainer.connection.writeData("game\t" + var2);
             this.gameCanvas.decodeCoords(0, true, var1);
         }
     }
 
-    protected boolean isValidPlayerID(int var1) {
-        return this.gamePlayerInfoPanel.method361(var1);
+    protected boolean isValidPlayerID(int player) {
+        return this.gamePlayerInfoPanel.isOverStrokeLimit(player);
     }
 
     protected void sendEndStroke(int playerid, SynchronizedBool[] settings, int var3) {
@@ -419,7 +421,7 @@ public class GamePanel extends Panel {
 
         for (int index = 0; index < settings.length; ++index) {
             if (var3 == index && !settings[index].get()) {
-                this.gamePlayerInfoPanel.method363(index, true);
+                this.gamePlayerInfoPanel.strokeStartedOrEnded(index, true);
                 data = data + "p";
             } else {
                 data = data + (settings[index].get() ? "t" : "f");
@@ -429,11 +431,11 @@ public class GamePanel extends Panel {
         this.gameContainer.connection.writeData("game\t" + data);
     }
 
-    protected boolean method339(boolean var1) {
+    protected boolean skipButtonPressed(boolean isSinglePlayer) {
         if (this.state == 1) {
-            if (!var1) {
-                this.gamePlayerInfoPanel.method366();
-                if (this.gamePlayerInfoPanel.method376() && this.gameCanvas.method137()) {
+            if (!isSinglePlayer) {
+                this.gamePlayerInfoPanel.voteSkip();
+                if (this.gamePlayerInfoPanel.shouldSkipTrack() && this.gameCanvas.method137()) {
                     this.gameCanvas.restartGame();
                 }
 
@@ -460,7 +462,7 @@ public class GamePanel extends Panel {
         this.gameContainer.connection.writeData("game\tnewgame");
     }
 
-    protected void method342() {
+    protected void leaveGame() {
         this.gameCanvas.restartGame();
         this.gamePlayerInfoPanel.stopTimer();
         this.gameContainer.gameApplet.setGameState(0);
@@ -469,18 +471,18 @@ public class GamePanel extends Panel {
     }
 
     protected void rateTrack(int track, int rating) {
-        String var3 = "rate\t" + track + "\t" + rating;
-        this.gameContainer.connection.writeData("game\t" + var3);
+        String message = "rate\t" + track + "\t" + rating;
+        this.gameContainer.connection.writeData("game\t" + message);
     }
 
     protected void respondNewGame(int track, boolean accept) {// why track
-        String var3 = "rejectaccept\t" + track + "\t" + (accept ? "t" : "f");
-        this.gameContainer.connection.writeData("game\t" + var3);
+        String message = "rejectaccept\t" + track + "\t" + (accept ? "t" : "f");
+        this.gameContainer.connection.writeData("game\t" + message);
     }
 
-    protected void method345(int var1) {
-        String var2 = "backtoprivate\t" + var1;
-        this.gameContainer.connection.writeData("game\t" + var2);
+    protected void backToPrivate(int currentTrack) {
+        String message = "backtoprivate\t" + currentTrack;
+        this.gameContainer.connection.writeData("game\t" + message);
     }
 
     protected boolean maxFps() {
@@ -499,7 +501,7 @@ public class GamePanel extends Panel {
         this.gameChatPanel.addBroadcastMessage(message);
     }
 
-    protected boolean canStroke(boolean stopInfoPanel) {
+    protected boolean tryStroke(boolean didTimeout) {
         synchronized (canStrokeLock) {
             if (this.isWaitingForTurnStart) {
                 return false;
@@ -508,10 +510,10 @@ public class GamePanel extends Panel {
             this.isWaitingForTurnStart = true;
         }
 
-        if (stopInfoPanel) {// ???????????????????????????????????
-            this.gamePlayerInfoPanel.stopTimer();
-        } else {
+        if (didTimeout) {
             this.gameCanvas.doZeroLengthStroke();
+        } else {
+            this.gamePlayerInfoPanel.stopTimer();
         }
 
         return true;
@@ -549,13 +551,13 @@ public class GamePanel extends Panel {
     private void setState(int state) {
         if (state != this.state) {
             this.state = state;
-            this.gamePlayerInfoPanel.method371(state);
-            this.gameControlPanel.method327(state);
+            this.gamePlayerInfoPanel.setState(state);
+            this.gameControlPanel.setState(state);
         }
     }
 
-    private String encodeCoords(int x, int y, int mod) {
-        int var4 = x * 375 * 4 + y * 4 + mod;//mod.. or something, possible values 0..3
+    private String encodeCoords(int x, int y, int shootingMode) {
+        int var4 = x * 375 * 4 + y * 4 + shootingMode;
 
         String out = Integer.toString(var4, 36);
         while (out.length() < 4) {

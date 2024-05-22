@@ -15,7 +15,6 @@ class Class79 {
     private int anInt1369;
     private int anInt1370;
     private final HtmlText aHtmlText1371;
-    private static final String[] aStringArray1372 = new String[3];
 
 
     protected Class79(HtmlText var1, Graphics var2, int var3, boolean var4) {
@@ -84,11 +83,5 @@ class Class79 {
             var5.method1610(var1, var2, var3);
         }
 
-    }
-
-    static {
-        aStringArray1372[0] = " \'height\'=";
-        aStringArray1372[1] = "\'relatx\'=";
-        aStringArray1372[2] = "[HtmlLine: words.size=";
     }
 }

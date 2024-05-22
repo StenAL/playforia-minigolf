@@ -22,14 +22,14 @@ class GamePlayerInfoPanel extends Panel implements ItemListener, MouseListener {
     private static final Font fontDialog10 = new Font("Dialog", Font.PLAIN, 10);
     private static final Color currentTrackScoreHighlightColor = new Color(224, 255, 224);
     private static final Color aColor372 = new Color(128, 208, 128);
-    private static final Color aColor373 = new Color(224, 0, 0);
-    private static final Color aColor374 = new Color(0, 128, 0);
-    private static final Color[][] playerColors = new Color[][]{
+    private static final Color losingComparisonColor = new Color(224, 0, 0);
+    private static final Color leadingComparisonColor = new Color(0, 128, 0);
+    private static final Color[][] playerColors = new Color[][]{ // first color == player is in game, second == player has left the game
             {new Color(0, 0, 255), new Color(128, 128, 255)}, {new Color(255, 0, 0), new Color(255, 128, 128)},
             {new Color(128, 128, 0), new Color(128, 128, 64)}, {new Color(0, 160, 0), new Color(64, 160, 64)}
     };
 
-    private static int anInt376;
+    private static int scoreComparisonMode;
     private GameContainer gameContainer;
     private final int width;
     private final int height;
@@ -46,13 +46,13 @@ class GamePlayerInfoPanel extends Panel implements ItemListener, MouseListener {
     protected String[] playerNames;
     protected String[] playerClans;
     private SynchronizedInteger[][] trackStrokes;
-    private SynchronizedInteger[] playersId;
-    private int[] anIntArray394;
+    private SynchronizedInteger[] totalStrokes;
+    private int[] playerLeaveReasons; // see PART_ enums in Lobby class
     private boolean[] playerVotedToSkip;
     private boolean[] playerReadyForNewGame;
-    private int[] anIntArray397;
-    private int[][] anIntArrayArray398;
-    private Choicer aChoicer399;
+    private int[] trackScoresMultipliers;
+    private int[][] resultsToCompareScoreAgainst;
+    private Choicer compareResultsChoicer;
     private Image image;
     private Graphics graphics;
     private GamePlayerInfoPanelTimerThread timerThread;
@@ -67,8 +67,8 @@ class GamePlayerInfoPanel extends Panel implements ItemListener, MouseListener {
         this.setLayout(null);
         this.currentTimeForShot = -1;
         this.initialized = false;
-        this.anIntArray397 = null;
-        this.anIntArrayArray398 = null;
+        this.trackScoresMultipliers = null;
+        this.resultsToCompareScoreAgainst = null;
     }
 
     public void addNotify() {
@@ -91,140 +91,149 @@ class GamePlayerInfoPanel extends Panel implements ItemListener, MouseListener {
         this.graphics.setColor(GameApplet.colourGameBackground);
         this.graphics.fillRect(0, 0, this.width, this.height);
         if (this.initialized) {
-            int[] var2 = null;
-            if (this.anIntArrayArray398 != null && anInt376 > 0) {
-                var2 = this.anIntArrayArray398[anInt376 - 1];
+            // draw score comparison row
+            int[] comparedResults = null;
+            if (this.resultsToCompareScoreAgainst != null && scoreComparisonMode > 0) {
+                comparedResults = this.resultsToCompareScoreAgainst[scoreComparisonMode - 1];
                 this.graphics.setFont(fontDialog12);
                 this.graphics.setColor(aColor372);
                 this.graphics.drawString(this.gameContainer.textManager.getGame("GamePlayerInfo_CompareResultNick"), 20, 20);
-                int var3 = 0;
+                int totalComparisonStrokes = 0;
 
-                for (int offset = 0; offset <= this.currentTrackIndex && offset < this.trackCount; ++offset) {
-                    this.graphics.drawString(var2[offset] > 0 ? String.valueOf(var2[offset]) : "?", 130 + offset * 20, 20);
-                    var3 += var2[offset];
+                for (int comparedTrackIndex = 0; comparedTrackIndex <= this.currentTrackIndex && comparedTrackIndex < this.trackCount; ++comparedTrackIndex) {
+                    this.graphics.drawString(comparedResults[comparedTrackIndex] > 0 ? String.valueOf(comparedResults[comparedTrackIndex]) : "?", 130 + comparedTrackIndex * 20, 20);
+                    totalComparisonStrokes += comparedResults[comparedTrackIndex];
                 }
 
-                if (var3 > 0) {
-                    this.graphics.drawString("= " + var3, 130 + this.trackCount * 20 + 15, 20);
+                if (totalComparisonStrokes > 0) {
+                    this.graphics.drawString("= " + totalComparisonStrokes, 130 + this.trackCount * 20 + 15, 20);
                 }
             }
 
-            int offsetY = (5 - this.playerCount) * 13;
+            int yBaseline = (5 - this.playerCount) * 13;
             // draw highlight around scores for current track
             if (this.currentTrackIndex >= 0 && this.currentTrackIndex < this.trackCount) {
                 this.graphics.setColor(currentTrackScoreHighlightColor);
-                this.graphics.fillRect(130 + this.currentTrackIndex * 20 - 5 + 1, offsetY - 13, 19, this.playerCount * 15 + 2);
-                this.graphics.fillRect(130 + this.currentTrackIndex * 20 - 5, offsetY - 13 + 1, 21, this.playerCount * 15 + 2 - 2);
+                this.graphics.fillRect(130 + this.currentTrackIndex * 20 - 5 + 1, yBaseline - 13, 19, this.playerCount * 15 + 2);
+                this.graphics.fillRect(130 + this.currentTrackIndex * 20 - 5, yBaseline - 13 + 1, 21, this.playerCount * 15 + 2 - 2);
             }
 
+            // draw player status text
             for (int player = 0; player < this.playerCount; ++player) {
                 Font font = this.playerId == player ? fontDialog12b : fontDialog12;
-                Color color = playerColors[player][this.anIntArray394[player] == 0 ? 0 : 1];
+                int playerLeft = this.playerLeaveReasons[player] == 0 ? 0 : 1;
+                Color color = playerColors[player][playerLeft];
                 this.graphics.setFont(font);
                 this.graphics.setColor(color);
+
+                int yOffset = yBaseline + 15 * player;
+                // draw 1., 2., etc in front of player name
                 if (this.playerCount > 1) {
-                    this.graphics.drawString(player + 1 + ".", 2, offsetY);
+                    this.graphics.drawString(player + 1 + ".", 2, yOffset);
                 }
 
+                // draw player name
                 if (this.playerNames[player] != null) {
-                    this.graphics.drawString(this.playerNames[player], 20, offsetY);
+                    this.graphics.drawString(this.playerNames[player], 20, yOffset);
                 }
 
+                // draw track scores
                 for (int track = 0; track < this.trackCount; ++track) {
                     if (track <= this.currentTrackIndex) {
-                        int var9 = this.trackStrokes[player][track].get();
-                        if (var2 != null) {
-                            if (track < this.currentTrackIndex && var9 < var2[track]) {
-                                this.graphics.setColor(aColor374);
+                        int strokes = this.trackStrokes[player][track].get();
+                        if (comparedResults != null) {
+                            if (track < this.currentTrackIndex && strokes < comparedResults[track]) {
+                                this.graphics.setColor(leadingComparisonColor);
                             }
 
-                            if (var9 > var2[track] && var2[track] > 0) {
-                                this.graphics.setColor(aColor373);
+                            if (strokes > comparedResults[track] && comparedResults[track] > 0) {
+                                this.graphics.setColor(losingComparisonColor);
                             }
                         }
 
-                        this.graphics.drawString(var9 >= 0 ? String.valueOf(var9) : this.gameContainer.textManager.getGame("GamePlayerInfo_Skipped"), 130 + track * 20, offsetY);
+                        this.graphics.drawString(strokes >= 0 ? String.valueOf(strokes) : this.gameContainer.textManager.getGame("GamePlayerInfo_Skipped"), 130 + track * 20, yOffset);
                         this.graphics.setColor(color);
-                    } else if (this.anIntArray397[track] == 1) {
-                        this.graphics.drawString("-", 130 + track * 20 + 5, offsetY);
+                    } else if (this.trackScoresMultipliers[track] == 1) {
+                        this.graphics.drawString("-", 130 + track * 20 + 5, yOffset);
                     } else {
                         this.graphics.setFont(fontDialog10);
                         this.graphics.setColor(playerColors[player][1]);
-                        this.graphics.drawString("(*" + this.anIntArray397[track] + ")", 130 + track * 20, offsetY - 1);
+                        this.graphics.drawString("(*" + this.trackScoresMultipliers[track] + ")", 130 + track * 20, yOffset - 1);
                         this.graphics.setFont(font);
                         this.graphics.setColor(color);
                     }
                 }
 
-                this.graphics.drawString("= " + this.playersId[player].get(), 130 + this.trackCount * 20 + 15, offsetY);
-                String playerInfo;
+                // draw sum of player strokes
+                this.graphics.drawString("= " + this.totalStrokes[player].get(), 130 + this.trackCount * 20 + 15, yOffset);
+
+                String scoreDifference = null;
                 int[] scoreDifferences = this.getScoreDifferences();
-                if (scoreDifferences != null && this.anIntArray394[player] == 0) {
-                    playerInfo = null;
+                // draw difference with leader's score
+                if (scoreDifferences != null && this.playerLeaveReasons[player] == 0) {
                     if (scoreDifferences[player] == 0) {
                         if (this.gameOutcome == null) {
-                            playerInfo = this.gameContainer.textManager.getGame("GamePlayerInfo_Leader");
+                            scoreDifference = this.gameContainer.textManager.getGame("GamePlayerInfo_Leader");
                         }
                     } else {
-                        playerInfo = this.gameContainer.textManager.getGame("GamePlayerInfo_AfterLeader", (scoreDifferences[player] > 0 ? "+" : "") + scoreDifferences[player]);
+                        scoreDifference = this.gameContainer.textManager.getGame("GamePlayerInfo_AfterLeader", (scoreDifferences[player] > 0 ? "+" : "") + scoreDifferences[player]);
                     }
 
-                    if (playerInfo != null) {
-                        this.graphics.drawString(playerInfo, 130 + this.trackCount * 20 + 15 + 40, offsetY);
+                    if (scoreDifference != null) {
+                        this.graphics.drawString(scoreDifference, 130 + this.trackCount * 20 + 15 + 40, yOffset);
                     }
                 }
 
-                playerInfo = null;
-                String timeRemaining = null;
+                String statusMessage = null;
+                // draw "waiting for player" text if lobby has empty slots
                 if (this.playerNames[player] == null) {
-                    playerInfo = "GamePlayerInfo_WaitingPlayer";
+                    statusMessage = "GamePlayerInfo_WaitingPlayer";
                 }
 
+                String timeRemaining = null;
                 if (this.playerCount > 1 && this.activePlayerId == player) {
                     if (this.activePlayerId == this.playerId) {
-                        playerInfo = "GamePlayerInfo_OwnTurn";
+                        statusMessage = "GamePlayerInfo_OwnTurn";
                         if (this.timerThread != null && this.currentTimeForShot > 0 && (this.strokeTimeout > 0 || this.strokeTimeout == 0 && this.currentTimeForShot <= 30)) {
                             timeRemaining = " (" + this.gameContainer.textManager.getTime(this.currentTimeForShot) + ")";
                         }
                     } else {
-                        playerInfo = "GamePlayerInfo_PlayerTurn";
+                        statusMessage = "GamePlayerInfo_PlayerTurn";
                     }
                 }
 
                 if (this.gameOutcome != null) {
                     if (this.gameOutcome[player] == 1) {
-                        playerInfo = "GamePlayerInfo_Winner";
+                        statusMessage = "GamePlayerInfo_Winner";
                     } else if (this.gameOutcome[player] == 0) {
-                        playerInfo = "GamePlayerInfo_Draw";
+                        statusMessage = "GamePlayerInfo_Draw";
                     }
                 }
 
-                if (playerInfo != null) {
-                    this.graphics.drawString(this.gameContainer.textManager.getGame(playerInfo) + (timeRemaining != null ? timeRemaining : ""), 130 + this.trackCount * 20 + 15 + 40 + 40, offsetY);
+                if (statusMessage != null) {
+                    this.graphics.drawString(this.gameContainer.textManager.getGame(statusMessage) + (timeRemaining != null ? timeRemaining : ""), 130 + this.trackCount * 20 + 15 + 40 + 40, yOffset);
                 }
 
-                playerInfo = null;
+                String extraMessage = null;
                 if (this.playerVotedToSkip[player]) {
-                    playerInfo = "GamePlayerInfo_VoteSkipTrack";
+                    extraMessage = "GamePlayerInfo_VoteSkipTrack";
                 }
 
                 if (this.playerReadyForNewGame[player]) {
-                    playerInfo = "GamePlayerInfo_ReadyForNewGame";
+                    extraMessage = "GamePlayerInfo_ReadyForNewGame";
                 }
 
-                if (this.anIntArray394[player] == 5) {
-                    playerInfo = "GamePlayerInfo_Quit_ConnectionProblem";
+                if (this.playerLeaveReasons[player] == 5) {
+                    extraMessage = "GamePlayerInfo_Quit_ConnectionProblem";
                 }
 
-                if (this.anIntArray394[player] == 4) {
-                    playerInfo = "GamePlayerInfo_Quit_Part";
+                if (this.playerLeaveReasons[player] == 4) {
+                    extraMessage = "GamePlayerInfo_Quit_Part";
                 }
 
-                if (playerInfo != null) {
-                    this.graphics.drawString(this.gameContainer.textManager.getGame(playerInfo), 130 + this.trackCount * 20 + 15 + 40 + 40 + 100, offsetY);
+                if (extraMessage != null) {
+                    this.graphics.drawString(this.gameContainer.textManager.getGame(extraMessage), 130 + this.trackCount * 20 + 15 + 40 + 40 + 100, yOffset);
                 }
-
-                offsetY += 15;
             }
         }
 
@@ -232,7 +241,7 @@ class GamePlayerInfoPanel extends Panel implements ItemListener, MouseListener {
     }
 
     public void itemStateChanged(ItemEvent var1) {
-        anInt376 = this.aChoicer399.getSelectedIndex();
+        scoreComparisonMode = this.compareResultsChoicer.getSelectedIndex();
         this.repaint();
     }
 
@@ -273,39 +282,40 @@ class GamePlayerInfoPanel extends Panel implements ItemListener, MouseListener {
         this.playerNames = new String[playerCount];
         this.playerClans = new String[playerCount];
         this.trackStrokes = new SynchronizedInteger[playerCount][trackCount];
-        this.playersId = new SynchronizedInteger[playerCount];
+        this.totalStrokes = new SynchronizedInteger[playerCount];
 
         for (int player = 0; player < playerCount; ++player) {
             for (int track = 0; track < trackCount; ++track) {
                 this.trackStrokes[player][track] = new SynchronizedInteger();
             }
 
-            this.playersId[player] = new SynchronizedInteger();
+            this.totalStrokes[player] = new SynchronizedInteger();
         }
 
-        this.anIntArray394 = new int[playerCount];
+        this.playerLeaveReasons = new int[playerCount];
         this.playerVotedToSkip = new boolean[playerCount];
         this.playerReadyForNewGame = new boolean[playerCount];
 
         for (int player = 0; player < playerCount; ++player) {
-            this.playerNames[player] = this.playerClans[player] = null;
-            this.anIntArray394[player] = 0;
+            this.playerNames[player] = null;
+            this.playerClans[player] = null;
+            this.playerLeaveReasons[player] = 0;
         }
 
-        this.anIntArray397 = new int[trackCount];
+        this.trackScoresMultipliers = new int[trackCount];
 
         for (int track = 0; track < trackCount; ++track) {
-            this.anIntArray397[track] = 1;
+            this.trackScoresMultipliers[track] = 1;
         }
 
         this.playerId = -1;
-        this.method359();
+        this.reset();
         this.initialized = true;
         this.repaint();
     }
 
-    protected void method356(int[] var1) {
-        this.anIntArray397 = var1;
+    protected void setTrackScoresMultipliers(int[] trackScoresMultipliers) {
+        this.trackScoresMultipliers = trackScoresMultipliers;
         this.repaint();
     }
 
@@ -321,11 +331,11 @@ class GamePlayerInfoPanel extends Panel implements ItemListener, MouseListener {
         this.addMouseListener(this);
     }
 
-    protected boolean method358(int playerId, int var2) {
-        if (var2 == 6) {
+    protected boolean setPlayerPartStatus(int playerId, int status) {
+        if (status == 6) {
             this.playerNames[playerId] = null;
         } else {
-            this.anIntArray394[playerId] = var2;
+            this.playerLeaveReasons[playerId] = status;
             if (this.gameContainer.gamePanel.state == 2) {
                 this.gameContainer.gamePanel.state = 3;
                 this.repaint();
@@ -337,13 +347,13 @@ class GamePlayerInfoPanel extends Panel implements ItemListener, MouseListener {
         return false;
     }
 
-    protected void method359() {
+    protected void reset() {
         for (int player = 0; player < this.playerCount; ++player) {
             for (int track = 0; track < this.trackCount; ++track) {
                 this.trackStrokes[player][track].set(0);
             }
 
-            this.playersId[player].set(0);
+            this.totalStrokes[player].set(0);
             this.playerVotedToSkip[player] = this.playerReadyForNewGame[player] = false;
         }
 
@@ -360,19 +370,19 @@ class GamePlayerInfoPanel extends Panel implements ItemListener, MouseListener {
 
         ++this.currentTrackIndex;
         this.repaint();
-        return this.anIntArray397[this.currentTrackIndex];
+        return this.trackScoresMultipliers[this.currentTrackIndex];
     }
 
-    protected boolean method361(int var1) {
+    protected boolean isOverStrokeLimit(int player) {
         if (this.maxStrokes == 0) {
             return false;
         } else {
-            int var2 = this.trackStrokes[var1][this.currentTrackIndex].get();
+            int strokes = this.trackStrokes[player][this.currentTrackIndex].get();
             if (this.trackScoring == 0) {
-                var2 /= this.anIntArray397[this.currentTrackIndex];
+                strokes /= this.trackScoresMultipliers[this.currentTrackIndex];
             }
 
-            return var2 >= this.maxStrokes;
+            return strokes >= this.maxStrokes;
         }
     }
 
@@ -390,13 +400,13 @@ class GamePlayerInfoPanel extends Panel implements ItemListener, MouseListener {
         return playerId == this.playerId;
     }
 
-    protected void method363(int playerId, boolean isStrokeEnd) {
+    protected void strokeStartedOrEnded(int playerId, boolean isStrokeEnd) {
         if (this.trackScoring == 0) {
-            int var3 = !isStrokeEnd ? this.anIntArray397[this.currentTrackIndex] : 1;
-            this.trackStrokes[playerId][this.currentTrackIndex].get_upd(var3);
-            this.playersId[playerId].get_upd(var3);
+            int strokeCount = !isStrokeEnd ? this.trackScoresMultipliers[this.currentTrackIndex] : 1;
+            this.trackStrokes[playerId][this.currentTrackIndex].add(strokeCount);
+            this.totalStrokes[playerId].add(strokeCount);
         } else {
-            this.trackStrokes[playerId][this.currentTrackIndex].get_upd();
+            this.trackStrokes[playerId][this.currentTrackIndex].add(1);
         }
 
         this.repaint();
@@ -405,12 +415,12 @@ class GamePlayerInfoPanel extends Panel implements ItemListener, MouseListener {
     protected void setScores(int trackId, int[] scores) {
         for (int player = 0; player < this.playerCount; ++player) {
             this.trackStrokes[player][trackId].set(scores[player]);
-            this.playersId[player].set(0);
+            this.totalStrokes[player].set(0);
 
             for (int track = 0; track <= trackId; ++track) {
                 int strokes = this.trackStrokes[player][track].get();
                 if (strokes >= 0) {
-                    this.playersId[player].get_upd(strokes);
+                    this.totalStrokes[player].add(strokes);
                 }
             }
         }
@@ -434,7 +444,7 @@ class GamePlayerInfoPanel extends Panel implements ItemListener, MouseListener {
         this.repaint();
     }
 
-    protected void method366() {
+    protected void voteSkip() {
         this.voteSkip(this.playerId);
     }
 
@@ -455,15 +465,15 @@ class GamePlayerInfoPanel extends Panel implements ItemListener, MouseListener {
         this.readyForNewGame(this.playerId);
     }
 
-    protected void readyForNewGame(int var1) {
-        this.playerReadyForNewGame[var1] = true;
+    protected void readyForNewGame(int player) {
+        this.playerReadyForNewGame[player] = true;
         this.repaint();
     }
 
-    protected void method371(int state) {
+    protected void setState(int state) {
         if (state == 2) {
             for (int player = 0; player < this.playerCount && state == 2; ++player) {
-                if (this.anIntArray394[player] != 0) {
+                if (this.playerLeaveReasons[player] != 0) {
                     state = 3;
                     this.gameContainer.gamePanel.state = 3;
                 }
@@ -474,7 +484,7 @@ class GamePlayerInfoPanel extends Panel implements ItemListener, MouseListener {
 
     protected void method372() {
         if (this.trackScoring == 0) {
-            this.playersId[this.activePlayerId].get_upd(-this.trackStrokes[this.activePlayerId][this.currentTrackIndex].get());
+            this.totalStrokes[this.activePlayerId].add(-this.trackStrokes[this.activePlayerId][this.currentTrackIndex].get());
         }
 
         this.trackStrokes[this.activePlayerId][this.currentTrackIndex].set(-1);
@@ -485,31 +495,31 @@ class GamePlayerInfoPanel extends Panel implements ItemListener, MouseListener {
         return new String[]{this.playerNames[playerId], this.playerClans[playerId]};
     }
 
-    protected String[] method374() {
+    protected String[] getPlayerNames() {
         return this.playerNames;
     }
 
-    protected void method375(int[][] var1) {
-        this.anIntArrayArray398 = var1;
-        this.aChoicer399 = new Choicer();
-        this.aChoicer399.addItem(this.gameContainer.textManager.getGame("GamePlayerInfo_CompareResultNone"));
-        this.aChoicer399.addItem(this.gameContainer.textManager.getGame("GamePlayerInfo_CompareResultOwn", this.playerNames[0]));
-        this.aChoicer399.addItem(this.gameContainer.textManager.getGame("GamePlayerInfo_CompareResultTop100Average"));
-        this.aChoicer399.addItem(this.gameContainer.textManager.getGame("GamePlayerInfo_CompareResultBestOfDay"));
-        this.aChoicer399.addItem(this.gameContainer.textManager.getGame("GamePlayerInfo_CompareResultBestOfAllTime"));
-        this.aChoicer399.addItem(this.gameContainer.textManager.getGame("GamePlayerInfo_CompareResultIdeal"));
-        this.aChoicer399.select(anInt376);
-        this.aChoicer399.setBounds(555, 5, 170, 20);
-        this.aChoicer399.addItemListener(this);
+    protected void initResultsComparison(int[][] results) {
+        this.resultsToCompareScoreAgainst = results;
+        this.compareResultsChoicer = new Choicer();
+        this.compareResultsChoicer.addItem(this.gameContainer.textManager.getGame("GamePlayerInfo_CompareResultNone"));
+        this.compareResultsChoicer.addItem(this.gameContainer.textManager.getGame("GamePlayerInfo_CompareResultOwn", this.playerNames[0]));
+        this.compareResultsChoicer.addItem(this.gameContainer.textManager.getGame("GamePlayerInfo_CompareResultTop100Average"));
+        this.compareResultsChoicer.addItem(this.gameContainer.textManager.getGame("GamePlayerInfo_CompareResultBestOfDay"));
+        this.compareResultsChoicer.addItem(this.gameContainer.textManager.getGame("GamePlayerInfo_CompareResultBestOfAllTime"));
+        this.compareResultsChoicer.addItem(this.gameContainer.textManager.getGame("GamePlayerInfo_CompareResultIdeal"));
+        this.compareResultsChoicer.select(scoreComparisonMode);
+        this.compareResultsChoicer.setBounds(555, 5, 170, 20);
+        this.compareResultsChoicer.addItemListener(this);
         this.setVisible(false);
-        this.add(this.aChoicer399);
+        this.add(this.compareResultsChoicer);
         this.setVisible(true);
         this.repaint();
     }
 
-    protected boolean method376() {
-        for (int var1 = 0; var1 < this.playerCount; ++var1) {
-            if (this.anIntArray394[var1] == 0 && !this.playerVotedToSkip[var1]) {
+    protected boolean shouldSkipTrack() {
+        for (int player = 0; player < this.playerCount; ++player) {
+            if (this.playerLeaveReasons[player] == 0 && !this.playerVotedToSkip[player]) {
                 return false;
             }
         }
@@ -534,8 +544,8 @@ class GamePlayerInfoPanel extends Panel implements ItemListener, MouseListener {
 
         int score;
         for (int i = 0; i < this.playerCount; ++i) {
-            if (this.anIntArray394[i] == 0) {
-                score = this.playersId[i].get();
+            if (this.playerLeaveReasons[i] == 0) {
+                score = this.totalStrokes[i].get();
                 if (this.trackScoring == 0 && score < bestScore) {
                     bestScore = score;
                 }
@@ -550,7 +560,7 @@ class GamePlayerInfoPanel extends Panel implements ItemListener, MouseListener {
         int winnerCount = 0;
 
         for (int i = 0; i < this.playerCount; ++i) {
-            score = this.playersId[i].get();
+            score = this.totalStrokes[i].get();
             if (score == bestScore) {
                 scoreDifferences[i] = 0;
                 ++winnerCount;
@@ -570,7 +580,7 @@ class GamePlayerInfoPanel extends Panel implements ItemListener, MouseListener {
         --this.currentTimeForShot;
         this.repaint();
         if (this.currentTimeForShot <= 0) {
-            this.gameContainer.gamePanel.canStroke(false);
+            this.gameContainer.gamePanel.tryStroke(true);
             this.stopTimer();
             return false;
         } else {

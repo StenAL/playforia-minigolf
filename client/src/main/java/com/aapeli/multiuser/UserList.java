@@ -91,7 +91,6 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
     private ChatBase aChatBase3502;
     private Languages aLanguages3503;
     private Hashtable aHashtable3504;
-    private static final String[] aStringArray3505 = new String[29];
 
 
     public UserList(UserListHandler var1, TextManager var2, ImageManager var3, boolean var4, boolean var5, boolean var6) {
@@ -938,35 +937,6 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
     }
 
     static {
-        aStringArray3505[0] = "UserList_SortByNick";
-        aStringArray3505[1] = "UserList_Privately";
-        aStringArray3505[2] = "UserList_Ignore";
-        aStringArray3505[3] = "UserList_SortByRanking";
-        aStringArray3505[4] = "ranking-icons.gif";
-        aStringArray3505[5] = "mute";
-        aStringArray3505[6] = "info";
-        aStringArray3505[7] = "unmute";
-        aStringArray3505[8] = "UserList_Sheriff";
-        aStringArray3505[9] = "2:";
-        aStringArray3505[10] = "Admin";
-        aStringArray3505[11] = "Send message...";
-        aStringArray3505[12] = "Remove user...";
-        aStringArray3505[13] = "Unmute user";
-        aStringArray3505[14] = "1 hour";
-        aStringArray3505[15] = "6 hours";
-        aStringArray3505[16] = "Copy chat";
-        aStringArray3505[17] = "15 minutes";
-        aStringArray3505[18] = "1 day (admin)";
-        aStringArray3505[19] = "Mute user";
-        aStringArray3505[20] = "5 minutes";
-        aStringArray3505[21] = "Get user info";
-        aStringArray3505[22] = "Sheriff";
-        aStringArray3505[23] = "Broadcast message...";
-        aStringArray3505[24] = "UserList_OpenPlayerCard";
-        aStringArray3505[25] = "3:";
-        aStringArray3505[26] = "_blank";
-        aStringArray3505[27] = "guestinfotarget";
-        aStringArray3505[28] = "Dialog";
         aColor3453 = Color.white;
         aColor3454 = Color.black;
         aFont3455 = new Font("Dialog", 0, 9);

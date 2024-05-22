@@ -9,7 +9,6 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.LayoutManager;
 import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -53,8 +52,8 @@ class GameTrackInfoPanel extends Panel implements ActionListener {
     private ConfirmButton buttonBack;
     private boolean hasNotRatedTrack;
     private boolean trackPending;
-    private boolean aBoolean436;
-    private boolean aBoolean437;
+    private boolean backButtonVisible;
+    private boolean rButtonVisible;
     private Image image;
     private Graphics graphics;
     private boolean created;
@@ -66,7 +65,11 @@ class GameTrackInfoPanel extends Panel implements ActionListener {
         this.height = height;
         this.setSize(width, height);
         this.showLongAvgResult = var4;
-        this.created = this.hasNotRatedTrack = this.trackPending = this.aBoolean436 = this.aBoolean437 = false;
+        this.created = false;
+        this.hasNotRatedTrack = false;
+        this.trackPending = false;
+        this.backButtonVisible = false;
+        this.rButtonVisible = false;
         this.numTracks = -1;
         this.resetCurrentTrack();
     }
@@ -180,7 +183,7 @@ class GameTrackInfoPanel extends Panel implements ActionListener {
     public void actionPerformed(ActionEvent evt) {
         Object evtSource = evt.getSource();
         if (evtSource == this.buttonNoVote) {
-            this.method388(false);
+            this.setHasNotRatedTrack(false);
             this.repaint();
         } else {
             for (int i = 0; i <= 10; ++i) {
@@ -189,7 +192,7 @@ class GameTrackInfoPanel extends Panel implements ActionListener {
                     ++this.trackTotalRatings;
                     this.trackRating += i;
                     this.trackAverageRating = (double) this.trackRating / (double) this.trackTotalRatings;
-                    this.method388(false);
+                    this.setHasNotRatedTrack(false);
                     this.repaint();
                     return;
                 }
@@ -201,8 +204,8 @@ class GameTrackInfoPanel extends Panel implements ActionListener {
                 this.repaint();
             }
             else if (evtSource == this.buttonBack) {
-                this.gameContainer.gamePanel.method345(this.currentTrack);
-                this.method390(false);
+                this.gameContainer.gamePanel.backToPrivate(this.currentTrack);
+                this.setBackButtonVisible(false);
                 this.repaint();
             } else if (evtSource == this.buttonR) {
                 this.gameContainer.gamePanel.method336();
@@ -260,21 +263,20 @@ class GameTrackInfoPanel extends Panel implements ActionListener {
         }
 
         if (!this.gameContainer.synchronizedTrackTestMode.get()) {   // Toggles some buttons??!
-            this.method388(true);
+            this.setHasNotRatedTrack(true);
         } else {
             this.toggleAcceptRejectButtons(trackTestMode1);
-            this.method390(trackTestMode2);
-            this.method391(var9);
+            this.setBackButtonVisible(trackTestMode2);
+            this.setRButtonVisible(var9);
         }
 
         this.repaint();
     }
 
     protected void method384() {
-        if (this.aBoolean437) {
-            this.method391(false);
+        if (this.rButtonVisible) {
+            this.setRButtonVisible(false);
         }
-
     }
 
     protected int method385() {
@@ -313,29 +315,29 @@ class GameTrackInfoPanel extends Panel implements ActionListener {
         this.buttonR.addActionListener(this);
     }
 
-    private String[] parseBestPlayerInformation(String var1) {
-        String[] var2 = new String[]{null, null};
-        if (var1 != null) {
-            int var3 = var1.indexOf(44);
-            var2[0] = var1.substring(0, var3);
-            var2[1] = var1.substring(var3 + 1);
-            var3 = var2[1].indexOf(44);
-            if (var3 > 0) {
-                var2[1] = var2[1].substring(0, var3);
+    private String[] parseBestPlayerInformation(String data) {
+        String[] bestPlayerInformation = new String[]{null, null};
+        if (data != null) {
+            int splitPosition = data.indexOf(',');
+            bestPlayerInformation[0] = data.substring(0, splitPosition);
+            bestPlayerInformation[1] = data.substring(splitPosition + 1);
+            splitPosition = bestPlayerInformation[1].indexOf(',');
+            if (splitPosition > 0) {
+                bestPlayerInformation[1] = bestPlayerInformation[1].substring(0, splitPosition);
             }
 
-            long var4 = Long.parseLong(var2[1]);
-            var2[1] = this.gameContainer.textManager.getDateWithTodayYesterday(var4);
+            long bestPlayerTimestamp = Long.parseLong(bestPlayerInformation[1]);
+            bestPlayerInformation[1] = this.gameContainer.textManager.getDateWithTodayYesterday(bestPlayerTimestamp);
         }
 
-        return var2;
+        return bestPlayerInformation;
     }
 
-    private void method388(boolean var1) {
-        if (var1 != this.hasNotRatedTrack) {
-            this.hasNotRatedTrack = var1;
+    private void setHasNotRatedTrack(boolean hasNotRatedTrack) {
+        if (hasNotRatedTrack != this.hasNotRatedTrack) {
+            this.hasNotRatedTrack = hasNotRatedTrack;
             this.setVisible(false);
-            if (var1) {
+            if (hasNotRatedTrack) {
                 this.add(this.buttonNoVote);
 
                 for (int var2 = 0; var2 <= 10; ++var2) {
@@ -349,12 +351,12 @@ class GameTrackInfoPanel extends Panel implements ActionListener {
         }
     }
 
-    private void toggleAcceptRejectButtons(boolean var1) {
+    private void toggleAcceptRejectButtons(boolean trackPending) {
         if (!this.gameContainer.safeMode) {
-            if (var1 != this.trackPending) {
-                this.trackPending = var1;
+            if (trackPending != this.trackPending) {
+                this.trackPending = trackPending;
                 this.setVisible(false);
-                if (var1) {
+                if (trackPending) {
                     this.add(this.buttonReject);
                     this.add(this.buttonAccept);
                 } else {
@@ -367,12 +369,12 @@ class GameTrackInfoPanel extends Panel implements ActionListener {
         }
     }
 
-    private void method390(boolean var1) {
+    private void setBackButtonVisible(boolean backButtonVisible) {
         if (!this.gameContainer.safeMode) {
-            if (var1 != this.aBoolean436) {
-                this.aBoolean436 = var1;
+            if (backButtonVisible != this.backButtonVisible) {
+                this.backButtonVisible = backButtonVisible;
                 this.setVisible(false);
-                if (var1) {
+                if (backButtonVisible) {
                     this.add(this.buttonBack);
                 } else {
                     this.remove(this.buttonBack);
@@ -383,11 +385,11 @@ class GameTrackInfoPanel extends Panel implements ActionListener {
         }
     }
 
-    private void method391(boolean var1) {
-        if (var1 != this.aBoolean437) {
-            this.aBoolean437 = var1;
+    private void setRButtonVisible(boolean rButtonVisible) {
+        if (rButtonVisible != this.rButtonVisible) {
+            this.rButtonVisible = rButtonVisible;
             this.setVisible(false);
-            if (var1) {
+            if (rButtonVisible) {
                 this.add(this.buttonR);
             } else {
                 this.remove(this.buttonR);

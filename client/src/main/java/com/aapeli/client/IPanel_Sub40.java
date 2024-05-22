@@ -25,7 +25,6 @@ class IPanel_Sub40 extends IPanel implements ActionListener {
     private RoundButton aRoundButton3215;
     private RoundButton aRoundButton3216;
     private RoundButton aRoundButton3217;
-    private static final String[] aStringArray3218 = new String[12];
 
 
     protected IPanel_Sub40(AApplet var1, Frame_Sub3_Sub1 var2, int var3, int var4) {
@@ -104,18 +103,6 @@ class IPanel_Sub40 extends IPanel implements ActionListener {
     }
 
     static {
-        aStringArray3218[0] = "GameFin_W_GameOver";
-        aStringArray3218[1] = "GameFin_R_Congratulations";
-        aStringArray3218[2] = "GameFin_R_OK";
-        aStringArray3218[3] = "GameFin_W_CreateAccount";
-        aStringArray3218[4] = "GameFin_W_Continue";
-        aStringArray3218[5] = "RS_PersonalRecord";
-        aStringArray3218[6] = "WM_StatsNotSaved";
-        aStringArray3218[7] = "RM_FirstRanking";
-        aStringArray3218[8] = "GameFin_";
-        aStringArray3218[9] = "WS_ScoreNotSaved";
-        aStringArray3218[10] = "tf-background.gif";
-        aStringArray3218[11] = "Dialog";
         aColor3205 = new Color(240, 240, 240);
         aColor3206 = Color.black;
         aColor3207 = new Color(128, 255, 128);

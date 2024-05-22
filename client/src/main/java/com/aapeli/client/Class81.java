@@ -10,8 +10,6 @@ class Class81 {
     private String aString1379;
     private Graphics aGraphics1380;
     private final HtmlText aHtmlText1381;
-    private static final String[] aStringArray1382 = new String[15];
-
 
     protected Class81(HtmlText var1, String var2, Graphics var3) {
         this.aHtmlText1381 = var1;
@@ -110,23 +108,5 @@ class Class81 {
         }
 
         return false;
-    }
-
-    static {
-        aStringArray1382[0] = "small";
-        aStringArray1382[1] = "br/";
-        aStringArray1382[2] = "/small";
-        aStringArray1382[3] = "</center>";
-        aStringArray1382[4] = "/strong";
-        aStringArray1382[5] = "br /";
-        aStringArray1382[6] = "strong";
-        aStringArray1382[7] = "/big";
-        aStringArray1382[8] = "/b";
-        aStringArray1382[9] = "center";
-        aStringArray1382[10] = "<center>";
-        aStringArray1382[11] = "<br>";
-        aStringArray1382[12] = "br";
-        aStringArray1382[13] = "/center";
-        aStringArray1382[14] = "big";
     }
 }

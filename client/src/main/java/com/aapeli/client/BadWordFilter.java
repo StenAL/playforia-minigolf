@@ -19,7 +19,6 @@ public final class BadWordFilter {
     private String[] aStringArray1344;
     private String[] aStringArray1345;
     private char[] aCharArray1346;
-    private static final String[] aStringArray1347 = new String[7];
 
 
     public BadWordFilter(TextManager var1) {
@@ -39,7 +38,7 @@ public final class BadWordFilter {
 
         this.aString1342 = aString1335;
         this.aString1343 = aString1336;
-        if (var1.method1719().equalsIgnoreCase("fi")) {
+        if (var1.getLanguage().equalsIgnoreCase("fi")) {
             this.aString1342 = this.aString1342 + "bdgw";
             this.aString1343 = this.aString1343 + "ptkv";
         }
@@ -309,13 +308,6 @@ public final class BadWordFilter {
     }
 
     static {
-        aStringArray1347[0] = "BadWords";
-        aStringArray1347[1] = "GoodWords";
-        aStringArray1347[2] = "fi";
-        aStringArray1347[3] = "BadNicks";
-        aStringArray1347[4] = "bdgw";
-        aStringArray1347[5] = "ptkv";
-        aStringArray1347[6] = "CurseChars";
         aStringArray1339 = new String[25];
         aStringArray1339[0] = "|<";
         aStringArray1339[1] = "<>";

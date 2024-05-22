@@ -38,16 +38,16 @@ public class GameApplet extends AApplet {
     private boolean verbose = false;
 
 
-    public void initApplet(Parameters var1) {
+    public void initApplet(Parameters parameters) {
         this.syncIsValidSite = new SynchronizedBool(this.isValidSite());
         this.setBackground(colourGameBackground);
         this.setForeground(colourTextBlack);
-        this.gameContainer = new GameContainer(this, var1);
+        this.gameContainer = new GameContainer(this, parameters);
         this.aBoolean3773 = false;
     }
 
-    public void textsLoadedNotify(TextManager var1) {
-        this.gameContainer.textManager = var1;
+    public void textsLoadedNotify(TextManager textManager) {
+        this.gameContainer.textManager = textManager;
     }
 
     public void defineSounds(SoundManager soundManager) {

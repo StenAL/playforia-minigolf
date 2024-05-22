@@ -35,24 +35,24 @@ public class ClientChannelHandler extends IdleStateAwareChannelHandler {
     }
 
     @Override
-    public void exceptionCaught(ChannelHandlerContext ctx, ExceptionEvent e) throws Exception {
+    public void exceptionCaught(ChannelHandlerContext ctx, ExceptionEvent e) {
         //noinspection ThrowableResultOfMethodCallIgnored
         e.getCause().printStackTrace();
         e.getChannel().close();
     }
 
     @Override
-    public void channelConnected(ChannelHandlerContext ctx, ChannelStateEvent e) throws Exception {
+    public void channelConnected(ChannelHandlerContext ctx, ChannelStateEvent e) {
         server.addEvent(new ClientConnectedEvent(e.getChannel()));
     }
 
     @Override
-    public void channelClosed(ChannelHandlerContext ctx, ChannelStateEvent e) throws Exception {
+    public void channelClosed(ChannelHandlerContext ctx, ChannelStateEvent e) {
         Channel channel = e.getChannel();
         server.addEvent(new ClientDisconnectedEvent(channel));
         final int id = channel.getId();
         if (server.hasPlayer(id)) {
-            server.addEvent(new TimedEvent(30000) { // todo: confirm this time
+            server.addEvent(new TimedEvent(30_000) { // todo: confirm this time
                 @Override
                 public void process(Server server) {
                     if (server.hasPlayer(id) && !server.getPlayer(id).getChannel().isOpen()) {
