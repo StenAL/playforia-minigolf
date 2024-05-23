@@ -2,14 +2,14 @@ package agolf.game;
 
 import com.aapeli.tools.Tools;
 
-class GamePlayerInfoPanelTimerThread implements Runnable {
+class TimerThread implements Runnable {
 
-    private final GamePlayerInfoPanel gamePlayerInfoPanel;
+    private final PlayerInfoPanel playerInfoPanel;
     private boolean running;
 
 
-    protected GamePlayerInfoPanelTimerThread(GamePlayerInfoPanel gamePlayerInfoPanel) {
-        this.gamePlayerInfoPanel = gamePlayerInfoPanel;
+    protected TimerThread(PlayerInfoPanel playerInfoPanel) {
+        this.playerInfoPanel = playerInfoPanel;
         this.running = true;
         Thread thread = new Thread(this);
         thread.setDaemon(true);
@@ -20,7 +20,7 @@ class GamePlayerInfoPanelTimerThread implements Runnable {
         do {
             Tools.sleep(1000L);
             if (this.running) {
-                this.running = this.gamePlayerInfoPanel.run();
+                this.running = this.playerInfoPanel.run();
             }
         } while (this.running);
 

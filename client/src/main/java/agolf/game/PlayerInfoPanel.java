@@ -15,7 +15,7 @@ import java.awt.event.ItemListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-class GamePlayerInfoPanel extends Panel implements ItemListener, MouseListener {
+class PlayerInfoPanel extends Panel implements ItemListener, MouseListener {
 
     private static final Font fontDialog12 = new Font("Dialog", Font.PLAIN, 12);
     private static final Font fontDialog12b = new Font("Dialog", Font.BOLD, 12);
@@ -55,11 +55,11 @@ class GamePlayerInfoPanel extends Panel implements ItemListener, MouseListener {
     private Choicer compareResultsChoicer;
     private Image image;
     private Graphics graphics;
-    private GamePlayerInfoPanelTimerThread timerThread;
+    private TimerThread timerThread;
     private int currentTimeForShot;
 
 
-    protected GamePlayerInfoPanel(GameContainer gameContainer, int width, int height) {
+    protected PlayerInfoPanel(GameContainer gameContainer, int width, int height) {
         this.gameContainer = gameContainer;
         this.width = width;
         this.height = height;
@@ -393,7 +393,7 @@ class GamePlayerInfoPanel extends Panel implements ItemListener, MouseListener {
         if (this.playerCount > 1 && playerId == this.playerId) {
             this.stopTimer();
             this.currentTimeForShot = timeout;
-            this.timerThread = new GamePlayerInfoPanelTimerThread(this);
+            this.timerThread = new TimerThread(this);
         }
 
         this.repaint();

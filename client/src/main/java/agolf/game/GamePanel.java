@@ -15,10 +15,10 @@ public class GamePanel extends Panel {
     private GameContainer gameContainer;
     private int width;
     private int height;
-    private GamePlayerInfoPanel gamePlayerInfoPanel;
+    private PlayerInfoPanel playerInfoPanel;
     private GameCanvas gameCanvas;
-    private GameChatPanel gameChatPanel;
-    private GameTrackInfoPanel gameTrackInfoPanel;
+    private ChatPanel chatPanel;
+    private TrackInfoPanel trackInfoPanel;
     private GameControlPanel gameControlPanel;
     protected int state;
     private int playerCount;
@@ -81,8 +81,8 @@ public class GamePanel extends Panel {
             }
 
             this.addMultiPlayerPanels(mode);
-            this.gamePlayerInfoPanel.init(this.playerCount, trackCount, maxStrokes, strokeTimeout, trackScoring);
-            this.gameTrackInfoPanel.setNumTracks(trackCount);
+            this.playerInfoPanel.init(this.playerCount, trackCount, maxStrokes, strokeTimeout, trackScoring);
+            this.trackInfoPanel.setNumTracks(trackCount);
             this.gameControlPanel.setPlayerCount(this.playerCount);
             this.gameCanvas.init(this.playerCount, waterEvent, collision);
             if (mode == 2) {
@@ -131,8 +131,8 @@ public class GamePanel extends Panel {
                     settings = settings + ", " + (trackCategory == 0 ? "official" : (trackCategory == 1 ? "custom" : "unknown")) + " maps";
                 }*/
 
-                this.gameChatPanel.addMessage(this.gameContainer.textManager.getGame("GameChat_GameName", gameName));
-                this.gameChatPanel.addMessage(this.gameContainer.textManager.getGame("GameChat_GameSettings", settings));
+                this.chatPanel.addMessage(this.gameContainer.textManager.getGame("GameChat_GameName", gameName));
+                this.chatPanel.addMessage(this.gameContainer.textManager.getGame("GameChat_GameSettings", settings));
             }
 
         } else if (args[1].equals("scoringmulti")) {
@@ -143,7 +143,7 @@ public class GamePanel extends Panel {
                 trackScoresMultipliers[track] = Integer.parseInt(args[2 + track]);
             }
 
-            this.gamePlayerInfoPanel.setTrackScoresMultipliers(trackScoresMultipliers);
+            this.playerInfoPanel.setTrackScoresMultipliers(trackScoresMultipliers);
         } else if (args[1].equals("players")) {
             int len = (args.length - 2) / 3;
             int playerCountIndex = 2;
@@ -151,8 +151,8 @@ public class GamePanel extends Panel {
             for (int trackTypes = 0; trackTypes < len; ++trackTypes) {
                 int playerCount = Integer.parseInt(args[playerCountIndex]);//todo lol why u inside the loop tho
                 String clan = args[playerCountIndex + 2].equals("-") ? null : args[playerCountIndex + 2];
-                this.gamePlayerInfoPanel.addPlayer(playerCount, args[playerCountIndex + 1], clan, false);
-                this.gameChatPanel.setUserColour(args[playerCountIndex + 1], playerCount);
+                this.playerInfoPanel.addPlayer(playerCount, args[playerCountIndex + 1], clan, false);
+                this.chatPanel.setUserColour(args[playerCountIndex + 1], playerCount);
                 playerCountIndex += 3;
             }
 
@@ -160,33 +160,33 @@ public class GamePanel extends Panel {
         else if (args[1].equals("owninfo")) {
             int currentPlayerID = Integer.parseInt(args[2]);
             String currentPlayerClan = args[4].equals("-") ? null : args[4];
-            this.gamePlayerInfoPanel.addPlayer(currentPlayerID, args[3], currentPlayerClan, true);
-            this.gameChatPanel.setUserColour(args[3], currentPlayerID);
+            this.playerInfoPanel.addPlayer(currentPlayerID, args[3], currentPlayerClan, true);
+            this.chatPanel.setUserColour(args[3], currentPlayerID);
             this.aLong364 = System.currentTimeMillis();
         } else if (args[1].equals("join")) {
             int playerId = Integer.parseInt(args[2]);
             String playerClan = args[4].equals("-") ? null : args[4];
-            this.gamePlayerInfoPanel.addPlayer(playerId, args[3], playerClan, false);
-            this.gameChatPanel.setUserColour(args[3], playerId);
+            this.playerInfoPanel.addPlayer(playerId, args[3], playerClan, false);
+            this.chatPanel.setUserColour(args[3], playerId);
             if (this.playerCount != 2 || playerId != 1) {
-                this.gameChatPanel.addMessage(playerClan != null ? this.gameContainer.textManager.getGame("GameChat_JoinClan", args[3], playerClan) : this.gameContainer.textManager.getGame("GameChat_Join", args[3]));
+                this.chatPanel.addMessage(playerClan != null ? this.gameContainer.textManager.getGame("GameChat_JoinClan", args[3], playerClan) : this.gameContainer.textManager.getGame("GameChat_Join", args[3]));
             }
 
         }
         else if (args[1].equals("part")) { // player left game
             int playerId = Integer.parseInt(args[2]);
-            boolean changed = this.gamePlayerInfoPanel.setPlayerPartStatus(playerId, Integer.parseInt(args[3]));
+            boolean changed = this.playerInfoPanel.setPlayerPartStatus(playerId, Integer.parseInt(args[3]));
             if (changed) {
                 this.gameControlPanel.method329();
             }
 
-            String playerName = this.gamePlayerInfoPanel.playerNames[playerId];
-            this.gameChatPanel.addMessage(this.gameContainer.textManager.getGame("GameChat_Part", playerName));
-            this.gameChatPanel.removeUserColour(playerName);
+            String playerName = this.playerInfoPanel.playerNames[playerId];
+            this.chatPanel.addMessage(this.gameContainer.textManager.getGame("GameChat_Part", playerName));
+            this.chatPanel.removeUserColour(playerName);
             this.gameControlPanel.refreshBackButton();
         } else if (args[1].equals("say")) {
             int playerId = Integer.parseInt(args[2]);
-            this.gameChatPanel.addSay(playerId, this.gamePlayerInfoPanel.playerNames[playerId], args[3], false);
+            this.chatPanel.addSay(playerId, this.playerInfoPanel.playerNames[playerId], args[3], false);
         } else if (args[1].equals("cr")) { // get results to compare track score against
             StringTokenizer tokenizer = new StringTokenizer(args[2], ",");
             int tracks = tokenizer.countTokens();
@@ -202,7 +202,7 @@ public class GamePanel extends Panel {
                 }
             }
 
-            this.gamePlayerInfoPanel.initResultsComparison(comparisonScores);
+            this.playerInfoPanel.initResultsComparison(comparisonScores);
         } else if (args[1].equals("start")) {
             if (this.playerCount > 1) {
                 if (this.aBoolean363) {
@@ -211,7 +211,7 @@ public class GamePanel extends Panel {
                         //this.requestFocus();//todo this is annoying as fuck
                     }
 
-                    this.gameContainer.gameApplet.showPlayerList(this.gamePlayerInfoPanel.getPlayerNames());
+                    this.gameContainer.gameApplet.showPlayerList(this.playerInfoPanel.getPlayerNames());
                 } else {
                     this.gameContainer.gameApplet.removePlayerListWinnders();
                 }
@@ -219,8 +219,8 @@ public class GamePanel extends Panel {
 
             this.aBoolean363 = false;
             this.gameCanvas.createMap(16777216);
-            this.gamePlayerInfoPanel.reset();
-            this.gameTrackInfoPanel.resetCurrentTrack();
+            this.playerInfoPanel.reset();
+            this.trackInfoPanel.resetCurrentTrack();
             this.setState(1);
         }
         else if (args[1].equals("starttrack")) {
@@ -307,35 +307,35 @@ public class GamePanel extends Panel {
             String[] trackInformation = this.gameCanvas.generateTrackInformation();
             int[][] trackStats = this.gameCanvas.generateTrackStatistics();
 
-            this.gameTrackInfoPanel.parseTrackInfoStats(trackInformation[0], trackInformation[1], trackStats[0], trackStats[1], trackInformation[2], trackInformation[3], trackTestMode1, trackTestMode2, this.gameCanvas.method134());
+            this.trackInfoPanel.parseTrackInfoStats(trackInformation[0], trackInformation[1], trackStats[0], trackStats[1], trackInformation[2], trackInformation[3], trackTestMode1, trackTestMode2, this.gameCanvas.method134());
 
-            int trackScoreMultiplier = this.gamePlayerInfoPanel.startNextTrack();
+            int trackScoreMultiplier = this.playerInfoPanel.startNextTrack();
             if (trackScoreMultiplier > 1) {
-                this.gameChatPanel.addMessage(gameContainer.textManager.getGame("GameChat_ScoreMultiNotify", trackScoreMultiplier));
+                this.chatPanel.addMessage(gameContainer.textManager.getGame("GameChat_ScoreMultiNotify", trackScoreMultiplier));
             }
 
             this.gameControlPanel.displaySkipButton(); // checks if you can skip on first shot
             if (this.gameContainer.synchronizedTrackTestMode.get()) {
-                this.gameChatPanel.printSpecialSettingstoTextArea(this.gameCanvas.getTrackComment(), this.gameCanvas.getTrackSettings(), this.gameCanvas.method120());
+                this.chatPanel.printSpecialSettingstoTextArea(this.gameCanvas.getTrackComment(), this.gameCanvas.getTrackSettings(), this.gameCanvas.method120());
             }
 
         } else if (args[1].equals("startturn")) {
             this.isWaitingForTurnStart = false;
             int playerId = Integer.parseInt(args[2]);
 
-            boolean canPlay = this.gamePlayerInfoPanel.startTurn(playerId);
+            boolean canPlay = this.playerInfoPanel.startTurn(playerId);
             //canPlay = true;
-            this.gameCanvas.startTurn(playerId, canPlay, !this.gameChatPanel.haveFocus());
+            this.gameCanvas.startTurn(playerId, canPlay, !this.chatPanel.haveFocus());
 
             if (!this.isSinglePlayerGame) {
-                int trackCount = this.gamePlayerInfoPanel.method377();
-                if (trackCount >= 10 || trackCount >= this.gameTrackInfoPanel.method385()) {
+                int trackCount = this.playerInfoPanel.method377();
+                if (trackCount >= 10 || trackCount >= this.trackInfoPanel.method385()) {
                     this.gameControlPanel.showSkipButton();
                 }
             }
         } else if (args[1].equals("beginstroke")) {
             int playerId = Integer.parseInt(args[2]);
-            this.gamePlayerInfoPanel.strokeStartedOrEnded(playerId, false);
+            this.playerInfoPanel.strokeStartedOrEnded(playerId, false);
             this.gameContainer.soundManager.playGameMove();
             this.gameCanvas.decodeCoords(playerId, false, args[3]);
 
@@ -347,19 +347,19 @@ public class GamePanel extends Panel {
                 trackScores[trackCount] = Integer.parseInt(args[3 + trackCount]);
             }
 
-            this.gamePlayerInfoPanel.setScores(Integer.parseInt(args[2]), trackScores);
+            this.playerInfoPanel.setScores(Integer.parseInt(args[2]), trackScores);
         }
         else if (args[1].equals("voteskip")) {
-            this.gamePlayerInfoPanel.voteSkip(Integer.parseInt(args[2]));
+            this.playerInfoPanel.voteSkip(Integer.parseInt(args[2]));
         } else if (args[1].equals("resetvoteskip")) {
-            this.gamePlayerInfoPanel.voteSkipReset();
-            if (!this.gameCanvas.getSynchronizedBool(this.gamePlayerInfoPanel.playerId)) {
+            this.playerInfoPanel.voteSkipReset();
+            if (!this.gameCanvas.getSynchronizedBool(this.playerInfoPanel.playerId)) {
                 this.gameControlPanel.showSkipButton();
             }
 
         }
         else if (args[1].equals("rfng")) {
-            this.gamePlayerInfoPanel.readyForNewGame(Integer.parseInt(args[2]));
+            this.playerInfoPanel.readyForNewGame(Integer.parseInt(args[2]));
         }
         else if(args[1].equals("end")) {
             this.gameCanvas.endGame();
@@ -373,10 +373,10 @@ public class GamePanel extends Panel {
                     isWinner[i] = gameOutcome[i] == 1;
                 }
 
-                this.gamePlayerInfoPanel.setGameOutcome(gameOutcome);
+                this.playerInfoPanel.setGameOutcome(gameOutcome);
                 this.gameContainer.gameApplet.showPlayerListWinners(isWinner);
             } else {
-                this.gamePlayerInfoPanel.setGameOutcome(null);
+                this.playerInfoPanel.setGameOutcome(null);
             }
 
             this.setState(2);// game state?
@@ -391,12 +391,12 @@ public class GamePanel extends Panel {
     protected void sendChatMessage(String message) {
         String var2 = "say\t" + message;
         this.gameContainer.connection.writeData("game\t" + var2);
-        this.gameChatPanel.addSay(this.gamePlayerInfoPanel.playerId, this.gamePlayerInfoPanel.playerNames[this.gamePlayerInfoPanel.playerId], message, true);
+        this.chatPanel.addSay(this.playerInfoPanel.playerId, this.playerInfoPanel.playerNames[this.playerInfoPanel.playerId], message, true);
     }
 
     protected void setBeginStroke(int playerId, int x, int y, int shootingMode) {
-        this.gameTrackInfoPanel.method384();
-        this.gamePlayerInfoPanel.strokeStartedOrEnded(playerId, false);
+        this.trackInfoPanel.method384();
+        this.playerInfoPanel.strokeStartedOrEnded(playerId, false);
         String data = "beginstroke\t" + this.encodeCoords(x, y, shootingMode);
         this.gameContainer.connection.writeData("game\t" + data);
         this.gameContainer.soundManager.playGameMove();
@@ -405,7 +405,7 @@ public class GamePanel extends Panel {
     protected void method336() {
         String var1 = this.gameCanvas.method142();
         if (var1 != null) {
-            this.gamePlayerInfoPanel.strokeStartedOrEnded(0, false);
+            this.playerInfoPanel.strokeStartedOrEnded(0, false);
             String var2 = "beginstroke\t" + var1;
             this.gameContainer.connection.writeData("game\t" + var2);
             this.gameCanvas.decodeCoords(0, true, var1);
@@ -413,7 +413,7 @@ public class GamePanel extends Panel {
     }
 
     protected boolean isValidPlayerID(int player) {
-        return this.gamePlayerInfoPanel.isOverStrokeLimit(player);
+        return this.playerInfoPanel.isOverStrokeLimit(player);
     }
 
     protected void sendEndStroke(int playerid, SynchronizedBool[] settings, int var3) {
@@ -421,7 +421,7 @@ public class GamePanel extends Panel {
 
         for (int index = 0; index < settings.length; ++index) {
             if (var3 == index && !settings[index].get()) {
-                this.gamePlayerInfoPanel.strokeStartedOrEnded(index, true);
+                this.playerInfoPanel.strokeStartedOrEnded(index, true);
                 data = data + "p";
             } else {
                 data = data + (settings[index].get() ? "t" : "f");
@@ -434,8 +434,8 @@ public class GamePanel extends Panel {
     protected boolean skipButtonPressed(boolean isSinglePlayer) {
         if (this.state == 1) {
             if (!isSinglePlayer) {
-                this.gamePlayerInfoPanel.voteSkip();
-                if (this.gamePlayerInfoPanel.shouldSkipTrack() && this.gameCanvas.method137()) {
+                this.playerInfoPanel.voteSkip();
+                if (this.playerInfoPanel.shouldSkipTrack() && this.gameCanvas.method137()) {
                     this.gameCanvas.restartGame();
                 }
 
@@ -445,7 +445,7 @@ public class GamePanel extends Panel {
 
             if (this.gameCanvas.method137()) {
                 this.gameCanvas.restartGame();
-                this.gamePlayerInfoPanel.method372();
+                this.playerInfoPanel.method372();
                 this.gameContainer.connection.writeData("game\tskip");
                 return true;
             }
@@ -464,7 +464,7 @@ public class GamePanel extends Panel {
 
     protected void leaveGame() {
         this.gameCanvas.restartGame();
-        this.gamePlayerInfoPanel.stopTimer();
+        this.playerInfoPanel.stopTimer();
         this.gameContainer.gameApplet.setGameState(0);
         this.gameContainer.connection.writeData("game\tback");
         this.gameContainer.gameApplet.removePlayerList();
@@ -490,7 +490,7 @@ public class GamePanel extends Panel {
     }
 
     protected String[] getPlayerName(int playerId) {
-        return this.gamePlayerInfoPanel.getPlayerName(playerId);
+        return this.playerInfoPanel.getPlayerName(playerId);
     }
 
     protected void setPlayerNamesDisplayMode(int mode) {
@@ -498,7 +498,7 @@ public class GamePanel extends Panel {
     }
 
     public void broadcastMessage(String message) {
-        this.gameChatPanel.addBroadcastMessage(message);
+        this.chatPanel.addBroadcastMessage(message);
     }
 
     protected boolean tryStroke(boolean didTimeout) {
@@ -513,7 +513,7 @@ public class GamePanel extends Panel {
         if (didTimeout) {
             this.gameCanvas.doZeroLengthStroke();
         } else {
-            this.gamePlayerInfoPanel.stopTimer();
+            this.playerInfoPanel.stopTimer();
         }
 
         return true;
@@ -522,13 +522,13 @@ public class GamePanel extends Panel {
     private void create(Image image) {
         if (this.gameContainer.gameApplet.syncIsValidSite.get()) {
             this.setLayout(null);
-            this.gamePlayerInfoPanel = new GamePlayerInfoPanel(this.gameContainer, 735, 60);
-            this.gamePlayerInfoPanel.setLocation(0, 0);
-            this.add(this.gamePlayerInfoPanel);
+            this.playerInfoPanel = new PlayerInfoPanel(this.gameContainer, 735, 60);
+            this.playerInfoPanel.setLocation(0, 0);
+            this.add(this.playerInfoPanel);
             this.gameCanvas = new GameCanvas(this.gameContainer, image);
             this.gameCanvas.setLocation(0, 65);
             this.add(this.gameCanvas);
-            this.gameControlPanel = new GameControlPanel(this.gameContainer, this.gamePlayerInfoPanel, 95, 80);
+            this.gameControlPanel = new GameControlPanel(this.gameContainer, this.playerInfoPanel, 95, 80);
             this.gameControlPanel.setLocation(this.width - 95, 445);
             this.add(this.gameControlPanel);
         }
@@ -538,12 +538,12 @@ public class GamePanel extends Panel {
         if (this.gameContainer.gameApplet.syncIsValidSite.get()) {
             this.setVisible(false);
             int var2 = mode > 0 ? 265 : 400;
-            this.gameChatPanel = new GameChatPanel(this.gameContainer, this.width - 100 - 5 - var2 - 5, 80, mode);
-            this.gameChatPanel.setLocation(0, 445);
-            this.add(this.gameChatPanel);
-            this.gameTrackInfoPanel = new GameTrackInfoPanel(this.gameContainer, var2, 80, mode == 0);
-            this.gameTrackInfoPanel.setLocation(this.width - 100 - 5 - var2, 445);
-            this.add(this.gameTrackInfoPanel);
+            this.chatPanel = new ChatPanel(this.gameContainer, this.width - 100 - 5 - var2 - 5, 80, mode);
+            this.chatPanel.setLocation(0, 445);
+            this.add(this.chatPanel);
+            this.trackInfoPanel = new TrackInfoPanel(this.gameContainer, var2, 80, mode == 0);
+            this.trackInfoPanel.setLocation(this.width - 100 - 5 - var2, 445);
+            this.add(this.trackInfoPanel);
             this.setVisible(true);
         }
     }
@@ -551,7 +551,7 @@ public class GamePanel extends Panel {
     private void setState(int state) {
         if (state != this.state) {
             this.state = state;
-            this.gamePlayerInfoPanel.setState(state);
+            this.playerInfoPanel.setState(state);
             this.gameControlPanel.setState(state);
         }
     }
