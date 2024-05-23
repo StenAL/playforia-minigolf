@@ -51,18 +51,6 @@ class TrackTestLoginPanel extends Panel implements ActionListener, KeyListener {
     }
 
     public void keyPressed(KeyEvent evt) {
-        if(evt.getKeyCode() == KeyEvent.VK_ENTER && buttonOk.isEnabled()) {
-            actionPerformed(null);
-            return;
-        }
-        boolean found = pattern.matcher(textFieldName.getText()).find() || textFieldName.getText().trim().equals("");
-        if(found) {
-            labelError.setVisible(true);
-            buttonOk.setEnabled(false);
-        } else {
-            labelError.setVisible(false);
-            buttonOk.setEnabled(true);
-        }
     }
 
     private void create() {
@@ -74,16 +62,19 @@ class TrackTestLoginPanel extends Panel implements ActionListener, KeyListener {
         textFieldName.addKeyListener(this);
         this.add(this.textFieldName);
         textFieldName.requestFocus();
+
         this.textFieldPassword = new TextField("");//("(password)");
         this.textFieldPassword.setBounds(this.width / 2 - 75, this.height / 2 - 10, 150, 25);
         this.textFieldPassword.setBackground(Color.white);
         this.textFieldPassword.setForeground(Color.black);
         textFieldPassword.setEchoChar('*');
         //this.add(this.textFieldPassword); //Don't show this field
+
         this.buttonOk = new Button("OK");
         this.buttonOk.setBounds(this.width / 2 - 75, this.height / 2 + 50, 75, 25);
         this.buttonOk.addActionListener(this);
         this.add(this.buttonOk);
+
         labelError = new Label("Only spaces, alphabetical and numerical characters are allowed");
         labelError.setBounds(width / 2 - 75, height / 2 - 35, 400, 25);
         labelError.setForeground(Color.red);
@@ -110,5 +101,17 @@ class TrackTestLoginPanel extends Panel implements ActionListener, KeyListener {
     }
 
     public void keyReleased(KeyEvent e) {
+        if(e.getKeyCode() == KeyEvent.VK_ENTER && buttonOk.isEnabled()) {
+            actionPerformed(null);
+            return;
+        }
+        boolean error = pattern.matcher(textFieldName.getText()).find() || textFieldName.getText().trim().isEmpty();
+        if (error) {
+            labelError.setVisible(true);
+            buttonOk.setEnabled(false);
+        } else {
+            labelError.setVisible(false);
+            buttonOk.setEnabled(true);
+        }
     }
 }
