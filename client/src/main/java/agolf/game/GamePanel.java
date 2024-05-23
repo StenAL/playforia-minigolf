@@ -337,6 +337,7 @@ public class GamePanel extends Panel {
             int playerId = Integer.parseInt(args[2]);
             this.playerInfoPanel.strokeStartedOrEnded(playerId, false);
             this.gameContainer.soundManager.playGameMove();
+            this.playerInfoPanel.stopTimer();
             this.gameCanvas.decodeCoords(playerId, false, args[3]);
 
         } else if (args[1].equals("changescore")) {

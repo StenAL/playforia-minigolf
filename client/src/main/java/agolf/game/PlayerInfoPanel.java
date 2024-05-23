@@ -56,7 +56,7 @@ class PlayerInfoPanel extends Panel implements ItemListener, MouseListener {
     private Image image;
     private Graphics graphics;
     private TimerThread timerThread;
-    private int currentTimeForShot;
+    private int timeRemainingForShot; // seconds
 
 
     protected PlayerInfoPanel(GameContainer gameContainer, int width, int height) {
@@ -65,7 +65,7 @@ class PlayerInfoPanel extends Panel implements ItemListener, MouseListener {
         this.height = height;
         this.setSize(width, height);
         this.setLayout(null);
-        this.currentTimeForShot = -1;
+        this.timeRemainingForShot = -1;
         this.initialized = false;
         this.trackScoresMultipliers = null;
         this.resultsToCompareScoreAgainst = null;
@@ -190,17 +190,19 @@ class PlayerInfoPanel extends Panel implements ItemListener, MouseListener {
                     statusMessage = "GamePlayerInfo_WaitingPlayer";
                 }
 
-                String timeRemaining = null;
+                // draw "Your turn" or "Currently playing" next to player whose turn it is
+                String timeRemaining = "";
                 if (this.playerCount > 1 && this.activePlayerId == player) {
                     if (this.activePlayerId == this.playerId) {
                         statusMessage = "GamePlayerInfo_OwnTurn";
-                        if (this.timerThread != null && this.currentTimeForShot > 0 && (this.strokeTimeout > 0 || this.strokeTimeout == 0 && this.currentTimeForShot <= 30)) {
-                            timeRemaining = " (" + this.gameContainer.textManager.getTime(this.currentTimeForShot) + ")";
-                        }
                     } else {
                         statusMessage = "GamePlayerInfo_PlayerTurn";
                     }
+                    if (this.timerThread != null && this.timeRemainingForShot > 0 && this.strokeTimeout > 0) {
+                        timeRemaining = " (" + this.gameContainer.textManager.getTime(this.timeRemainingForShot) + ")";
+                    }
                 }
+
 
                 if (this.gameOutcome != null) {
                     if (this.gameOutcome[player] == 1) {
@@ -211,7 +213,7 @@ class PlayerInfoPanel extends Panel implements ItemListener, MouseListener {
                 }
 
                 if (statusMessage != null) {
-                    this.graphics.drawString(this.gameContainer.textManager.getGame(statusMessage) + (timeRemaining != null ? timeRemaining : ""), 130 + this.trackCount * 20 + 15 + 40 + 40, yOffset);
+                    this.graphics.drawString(this.gameContainer.textManager.getGame(statusMessage) + timeRemaining, 130 + this.trackCount * 20 + 15 + 40 + 40, yOffset);
                 }
 
                 String extraMessage = null;
@@ -388,11 +390,10 @@ class PlayerInfoPanel extends Panel implements ItemListener, MouseListener {
 
     protected boolean startTurn(int playerId) {
         this.activePlayerId = playerId;
-        int timeout = this.strokeTimeout > 0 ? this.strokeTimeout : 180;
 
-        if (this.playerCount > 1 && playerId == this.playerId) {
+        if (this.playerCount > 1) {
             this.stopTimer();
-            this.currentTimeForShot = timeout;
+            this.timeRemainingForShot = this.strokeTimeout > 0 ? this.strokeTimeout : 180;
             this.timerThread = new TimerThread(this);
         }
 
@@ -577,10 +578,12 @@ class PlayerInfoPanel extends Panel implements ItemListener, MouseListener {
     }
 
     protected boolean run() {
-        --this.currentTimeForShot;
+        --this.timeRemainingForShot;
         this.repaint();
-        if (this.currentTimeForShot <= 0) {
-            this.gameContainer.gamePanel.tryStroke(true);
+        if (this.timeRemainingForShot <= 0) {
+            if (this.activePlayerId == this.playerId) {
+                this.gameContainer.gamePanel.tryStroke(true);
+            }
             this.stopTimer();
             return false;
         } else {
