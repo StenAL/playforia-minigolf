@@ -115,12 +115,12 @@ public class GameApplet extends AApplet {
         return this.anInt3769;
     }
 
-    public void setGameState(int var1) {// setGameState..maybe?
-        this.setGameState(var1, 0, 0);
+    public void setGameState(int state) {
+        this.setGameState(state, 0, 0);
     }
 
-    protected void setGameState(int var1, int var2) {
-        this.setGameState(var1, var2, 0);
+    protected void setGameState(int state, int lobbyId) {
+        this.setGameState(state, lobbyId, 0);
     }
 
     protected void setGameState(int panelActive, int lobbyId, int lobbyExtra) {
@@ -140,9 +140,14 @@ public class GameApplet extends AApplet {
                 //System.out.println(hasSession() + " " + gameContainer.synchronizedTrackTestMode.get());
 
                 if (Launcher.isUsingCustomServer()) {
-                    TrackTestLoginPanel var4 = new TrackTestLoginPanel(this, super.appletWidth, super.appletHeight);
-                    var4.setLocation(0, 0);
-                    this.addToContent(var4);
+                    String username = param.getUsername();
+                    if (username == null) {
+                        TrackTestLoginPanel loginPanel = new TrackTestLoginPanel(this, super.appletWidth, super.appletHeight);
+                        loginPanel.setLocation(0, 0);
+                        this.addToContent(loginPanel);
+                    } else {
+                        this.trackTestLogin(username, "");
+                    }
                 } else if (this.hasSession()) {
                     super.param.noGuestAutoLogin();
                     this.gameContainer.connection.writeData("login\t" + super.param.getSession());

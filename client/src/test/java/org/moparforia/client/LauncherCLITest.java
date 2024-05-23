@@ -8,10 +8,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import picocli.CommandLine;
 
 import javax.swing.*;
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.text.ParseException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -84,6 +82,7 @@ class LauncherCLITest {
                 eq(Launcher.DEFAULT_SERVER),
                 eq(Launcher.DEFAULT_PORT),
                 eq(Launcher.Language.EN_US),
+                any(),
                 anyBoolean(),
                 anyBoolean());
 
@@ -92,32 +91,59 @@ class LauncherCLITest {
                 eq(Launcher.DEFAULT_SERVER),
                 eq(Launcher.DEFAULT_PORT),
                 eq(Launcher.Language.FI_FI),
+                any(),
                 anyBoolean(),
                 anyBoolean());
     }
 
     @Test
+    void testValidUsername() {
+        assertEquals(0, cmd.execute("-u", "user"));
+        verify(launcher).launchGame(any(),
+                eq(Launcher.DEFAULT_SERVER),
+                eq(Launcher.DEFAULT_PORT),
+                any(),
+                eq("user"),
+                anyBoolean(),
+                anyBoolean());
+        assertEquals(0, cmd.execute("--username=user2"));
+        verify(launcher).launchGame(any(),
+                eq(Launcher.DEFAULT_SERVER),
+                eq(Launcher.DEFAULT_PORT),
+                any(),
+                eq("user2"),
+                anyBoolean(),
+                anyBoolean());
+    }
+
+    @Test
+    void testInvalidUsername() {
+        assertEquals(2, cmd.execute("-u", "[/.]"));
+        assertEquals(2, cmd.execute("--username='  '"));
+    }
+
+    @Test
     void testValidPortAndHostname() {
         assertEquals(0, cmd.execute("-p", "1111", "-ip", "128.128.128.128"));
-        verify(launcher).launchGame(any(), eq("128.128.128.128"), eq(1111), any(), anyBoolean(), anyBoolean());
+        verify(launcher).launchGame(any(), eq("128.128.128.128"), eq(1111), any(), any(), anyBoolean(), anyBoolean());
 
         assertEquals(0, cmd.execute("-p=2222", "-ip=127.127.127.127"));
-        verify(launcher).launchGame(any(), eq("127.127.127.127"), eq(2222), any(), anyBoolean(), anyBoolean());
+        verify(launcher).launchGame(any(), eq("127.127.127.127"), eq(2222), any(), any(), anyBoolean(), anyBoolean());
 
         assertEquals(0, cmd.execute("-p=3333", "-ip=126.126.126.126"));
-        verify(launcher).launchGame(any(), eq("126.126.126.126"), eq(3333), any(), anyBoolean(), anyBoolean());
+        verify(launcher).launchGame(any(), eq("126.126.126.126"), eq(3333), any(), any(), anyBoolean(), anyBoolean());
     }
 
     @Test
     void testOnlyPort() {
         assertEquals(0, cmd.execute("-p", "1111"));
-        verify(launcher).launchGame(any(), eq(Launcher.DEFAULT_SERVER), eq(1111), any(), anyBoolean(), anyBoolean());
+        verify(launcher).launchGame(any(), eq(Launcher.DEFAULT_SERVER), eq(1111), any(), any(), anyBoolean(), anyBoolean());
     }
 
     @Test
     void testOnlyHostname() {
         assertEquals(0, cmd.execute("-ip", "127.127.127.127"));
-        verify(launcher).launchGame(any(), eq("127.127.127.127"), eq(Launcher.DEFAULT_PORT), any(), anyBoolean(),
+        verify(launcher).launchGame(any(), eq("127.127.127.127"), eq(Launcher.DEFAULT_PORT), any(), any(), anyBoolean(),
                 anyBoolean());
     }
 
@@ -129,6 +155,7 @@ class LauncherCLITest {
                 eq(Launcher.DEFAULT_SERVER),
                 eq(Launcher.DEFAULT_PORT),
                 eq(Launcher.Language.EN_US),
+                eq(null),
                 eq(false),
                 eq(false)
         );

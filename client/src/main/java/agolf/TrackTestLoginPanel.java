@@ -1,8 +1,9 @@
 package agolf;
 
+import com.aapeli.multiuser.UsernameValidator;
+
 import java.awt.*;
 import java.awt.event.*;
-import java.util.regex.Pattern;
 
 class TrackTestLoginPanel extends Panel implements ActionListener, KeyListener {
 
@@ -13,7 +14,6 @@ class TrackTestLoginPanel extends Panel implements ActionListener, KeyListener {
     private TextField textFieldPassword;
     private Button buttonOk;
     private Label labelError;
-    private Pattern pattern;
     private Label labelName;
     private Label labelName2;
     private Label labelPassword;
@@ -24,7 +24,6 @@ class TrackTestLoginPanel extends Panel implements ActionListener, KeyListener {
         this.width = width;
         this.height = height;
         this.setSize(width, height);
-        pattern = Pattern.compile("[^a-zA-Z0-9 ]");
         this.create();
     }
 
@@ -105,13 +104,13 @@ class TrackTestLoginPanel extends Panel implements ActionListener, KeyListener {
             actionPerformed(null);
             return;
         }
-        boolean error = pattern.matcher(textFieldName.getText()).find() || textFieldName.getText().trim().isEmpty();
-        if (error) {
-            labelError.setVisible(true);
-            buttonOk.setEnabled(false);
-        } else {
+        boolean validUsername = UsernameValidator.isValidUsername(textFieldName.getText());
+        if (validUsername) {
             labelError.setVisible(false);
             buttonOk.setEnabled(true);
+        } else {
+            labelError.setVisible(true);
+            buttonOk.setEnabled(false);
         }
     }
 }
