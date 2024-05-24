@@ -150,10 +150,8 @@ public class FileSystemTrackManager implements TrackManager {
                 .orElse(null);
     }
 
-    // Tracksets are broken as far as I know, so this should cause no harm,
-    // kept because ChampionsipGame still needs it
     public List<Track> getTrackSet(int number) {
-        return Collections.emptyList();
+        return trackSets.get(number).getTracks();
     }
 
     public List<TrackSet> getTrackSets() {
