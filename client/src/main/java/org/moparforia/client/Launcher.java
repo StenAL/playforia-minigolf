@@ -1,5 +1,6 @@
 package org.moparforia.client;
 
+import com.aapeli.multiuser.UsernameValidator;
 import picocli.CommandLine;
 
 import org.moparforia.shared.ManifestVersionProvider;
@@ -17,7 +18,7 @@ import java.util.concurrent.Callable;
         mixinStandardHelpOptions = true,
         versionProvider = ManifestVersionProvider.class
 )
-public class Launcher implements Callable<Void> {
+public class Launcher implements Callable<Integer> {
 
     public static final String DEFAULT_SERVER = "127.0.0.1";
     public static final int DEFAULT_PORT = 4242;
@@ -37,6 +38,10 @@ public class Launcher implements Callable<Void> {
             description = "Sets language of the game, available values:\n ${COMPLETION-CANDIDATES}",
             defaultValue = "en_us")
     private Language lang;
+
+    @CommandLine.Option(names = {"--username", "-u"},
+            description = "Sets the username to use when connecting to the server")
+    private String username;
 
     @CommandLine.Option(names = {"--verbose", "-v"}, description = "Set if you want verbose information")
     private static boolean verbose = false;
@@ -114,7 +119,7 @@ public class Launcher implements Callable<Void> {
     }
 
     @Override
-    public Void call() throws Exception{
+    public Integer call() throws Exception{
         JFrame frame = createFrame();
         if (hostname.isEmpty() || port == 0) {
             // Determine which of these was actually false
@@ -122,12 +127,18 @@ public class Launcher implements Callable<Void> {
             int temp_port = port == 0 ? DEFAULT_PORT : port;
             if (!showSettingDialog(frame, temp_hostname, temp_port)) {
                 System.err.println("Server needs to be specified for minigolf to run");
-                System.exit(1);
-                return null;
+                return 1;
             }
         }
 
-        launchGame(frame, hostname, port, lang, verbose, norandom);
+        if (username != null) {
+            if (!UsernameValidator.isValidUsername(username)) {
+                System.err.println("Invalid username: Only spaces, alphabetical and numerical characters are allowed");
+                return 2;
+            }
+        }
+
+        launchGame(frame, hostname, port, lang, username, verbose, norandom);
         return null;
     }
 
@@ -139,8 +150,8 @@ public class Launcher implements Callable<Void> {
         return frame;
     }
 
-    public Game launchGame(JFrame frame, String hostname, int port, Language lang, boolean verbose, boolean norandom) {
-        return new Game(frame, hostname, port, lang.toString(), verbose, norandom);
+    public Game launchGame(JFrame frame, String hostname, int port, Language lang, String username, boolean verbose, boolean norandom) {
+        return new Game(frame, hostname, port, lang.toString(), username, verbose, norandom);
     }
 
     public Image loadIcon() throws IOException {

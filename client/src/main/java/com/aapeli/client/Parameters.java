@@ -26,6 +26,7 @@ public final class Parameters {
     private String translationLanguage;
     private String chatLang;
     private String siteName;
+    private String username;
     private String sessionLocale;
     private String session;
     private String welcomeMessage;
@@ -119,6 +120,10 @@ public final class Parameters {
 
     public String getTranslationLang() {
         return this.translationLanguage;
+    }
+
+    public String getUsername() {
+        return this.username;
     }
 
     public String getChatLang() {
@@ -485,6 +490,7 @@ public final class Parameters {
         this.subgame = this.getParameter("subgame");
         this.ticket = this.getParameter("ticket");
         this.json = this.getParameter("json");
+        this.username = this.getParameter("username");
         if (this.json != null) {
             this.json = Tools.replaceFirst(this.json, "\'%o\'", "%o");
             if (!this.json.toLowerCase().startsWith("javascript:")) {

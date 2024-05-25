@@ -17,7 +17,7 @@ import java.awt.event.ItemListener;
 class GameControlPanel extends Panel implements ActionListener, ItemListener {
 
     private GameContainer gameContainer;
-    private GamePlayerInfoPanel aGamePlayerInfoPanel__341;
+    private PlayerInfoPanel playerInfoPanel;
     private int anInt342;
     private int anInt343;
     private int playerCount;
@@ -29,9 +29,9 @@ class GameControlPanel extends Panel implements ActionListener, ItemListener {
     private boolean skipButtonVisible;
 
 
-    protected GameControlPanel(GameContainer var1, GamePlayerInfoPanel var2, int var3, int var4) {
+    protected GameControlPanel(GameContainer var1, PlayerInfoPanel var2, int var3, int var4) {
         this.gameContainer = var1;
-        this.aGamePlayerInfoPanel__341 = var2;
+        this.playerInfoPanel = var2;
         this.anInt342 = var3;
         this.anInt343 = var4;
         this.setSize(var3, var4);
@@ -68,7 +68,7 @@ class GameControlPanel extends Panel implements ActionListener, ItemListener {
             this.setVisible(false);
             this.remove(this.buttonNewGame);
             this.setVisible(true);
-            this.aGamePlayerInfoPanel__341.readyForNewGameLocal();
+            this.playerInfoPanel.readyForNewGameLocal();
             this.gameContainer.gamePanel.requestNewGame();
         } else if (source == this.buttonBack) {
             this.buttonBack.removeActionListener(this);

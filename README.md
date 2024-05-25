@@ -25,7 +25,7 @@ The Java Applet-based Minigolf Client was one of the most popular multiplayer ga
 
 ### Reimplementation
 - Commented out any communication with original Playforia.net servers
-- Use local Map store instead of database
+- Use local map store instead of database
 - Added ability to pass IP of server to client
 - Ability to play on a single computer and hosting a game for up to 4 players in your home network
 - Removed bad words and custom tracks
@@ -37,7 +37,7 @@ The Java Applet-based Minigolf Client was one of the most popular multiplayer ga
 - Clone this repo: `git clone git@github.com:PhilippvK/playforia-minigolf.git`
 - Install Java Development Kit 17 (https://adoptium.net/en-GB/temurin/releases/)
 - Install Apache `maven` for building: https://maven.apache.org/install.html
-- *Optional:* Install IntelliJ IDEA Java IDE (https://www.jetbrains.com/idea/download/) and import this reposiory as project
+- *Optional:* Install IntelliJ IDEA Java IDE (https://www.jetbrains.com/idea/download/) and import this repository as project
 
 ### Building
 
@@ -67,11 +67,18 @@ We provide an experimental Dockerfile for easy hosting of the server application
 Running the Editor is quite straightforward as it can be started like expected: `java -jar editor.jar`
 
 ### CLI options
-Both client and server include CLI options for hostname (`-ip`), port (`-p`) settings. To learn about all the available setting you can include help with `-h` parameter.
+Common CLI options for both the client and the server:
+- `-ip` to set the hostname
+- `-p` to set the port
+- `-h` to learn about all the available options
 
-To use custom tracks instead of the default set of bundled tracks, use the `--tracks-dir` option when starting the server and point it to where your tracks are located.
+Server CLI options:
+- `--tracks-dir` to use custom tracks instead of the default set of bundled tracks
 
-If you want to enable debugging messages, add `--verbose` to the list of arguments.
+Client CLI options:
+- `--verbose` to enable debug logging
+- `--norandom` to disable randomization for shots
+- `--username` to set username from CLI and skip inputting it 
 
 ## Compatibility
 
@@ -117,4 +124,4 @@ Tested:
 
 Have fun.
 
-If you miss the good old times before Playforia.net went down, Minigolf probably was one of your favourite games. I hope you will have some fun in the single player or with friends with this  little crappy piece of oldschool software!
+If you miss the good old times before Playforia.net went down, Minigolf probably was one of your favourite games. I hope you will have some fun in the single player or with friends with this little crappy piece of oldschool software!

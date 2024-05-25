@@ -17,7 +17,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-class GameChatPanel extends Panel implements KeyListener, ActionListener {
+class ChatPanel extends Panel implements KeyListener, ActionListener {
 
     private static final int[] anIntArray330 = new int[]{3, 1, 4, 2};
     private GameContainer gameContainer;
@@ -30,7 +30,7 @@ class GameChatPanel extends Panel implements KeyListener, ActionListener {
     private boolean created;
 
 
-    protected GameChatPanel(GameContainer gameContainer, int width, int height, int gameExtra) {
+    protected ChatPanel(GameContainer gameContainer, int width, int height, int gameExtra) {
         this.gameContainer = gameContainer;
         this.width = width;
         this.height = height;

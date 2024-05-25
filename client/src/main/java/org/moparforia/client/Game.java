@@ -14,11 +14,11 @@ public class Game {
     private static final int WIDTH = 735;
     private static final int HEIGHT = 525;
 
-    public Game(JFrame frame, String server, int port, String lang, boolean verbose, boolean norandom) {
+    public Game(JFrame frame, String server, int port, String lang, String username, boolean verbose, boolean norandom) {
         Applet game = new AGolf();
 
 
-        game.setStub(new Stub(server, lang, port, verbose, norandom));
+        game.setStub(new Stub(server, lang, username, port, verbose, norandom));
         game.setSize(WIDTH, HEIGHT);
         game.init();
         game.start();
@@ -33,13 +33,13 @@ public class Game {
         private final Map<String, String> params;
         private String server;
 
-        public Stub(String server, String lang, int port, boolean verbose, boolean norandom) {
+        public Stub(String server, String lang, String username, int port, boolean verbose, boolean norandom) {
             if (server.indexOf(':') == -1) { // is ipv4
                 this.server = server;
             } else { // is ipv6
                 this.server = "[" + server + "]";
             }
-            params = new HashMap<String, String>();
+            params = new HashMap<>();
             params.put("initmessage", "Loading game...");
             params.put("ld_page", "javascript:Playray.Notify.delegate({ jvm: { version: '%v', vendor: '%w', t1: '%r', t2: '%f' } })");
             params.put("image", "/appletloader_playforia.gif");
@@ -73,6 +73,7 @@ public class Game {
             params.put("sharedLocalizationUrl", "");
             params.put("verbose", Boolean.toString(verbose));
             params.put("norandom", Boolean.toString(norandom));
+            params.put("username", username);
 
             //if(serverBox.isSelected())
             //params.put("tracktestmode", "true");

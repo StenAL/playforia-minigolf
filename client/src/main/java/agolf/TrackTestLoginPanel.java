@@ -1,8 +1,9 @@
 package agolf;
 
+import com.aapeli.multiuser.UsernameValidator;
+
 import java.awt.*;
 import java.awt.event.*;
-import java.util.regex.Pattern;
 
 class TrackTestLoginPanel extends Panel implements ActionListener, KeyListener {
 
@@ -13,7 +14,6 @@ class TrackTestLoginPanel extends Panel implements ActionListener, KeyListener {
     private TextField textFieldPassword;
     private Button buttonOk;
     private Label labelError;
-    private Pattern pattern;
     private Label labelName;
     private Label labelName2;
     private Label labelPassword;
@@ -24,7 +24,6 @@ class TrackTestLoginPanel extends Panel implements ActionListener, KeyListener {
         this.width = width;
         this.height = height;
         this.setSize(width, height);
-        pattern = Pattern.compile("[^a-zA-Z0-9 ]");
         this.create();
     }
 
@@ -51,18 +50,6 @@ class TrackTestLoginPanel extends Panel implements ActionListener, KeyListener {
     }
 
     public void keyPressed(KeyEvent evt) {
-        if(evt.getKeyCode() == KeyEvent.VK_ENTER && buttonOk.isEnabled()) {
-            actionPerformed(null);
-            return;
-        }
-        boolean found = pattern.matcher(textFieldName.getText()).find() || textFieldName.getText().trim().equals("");
-        if(found) {
-            labelError.setVisible(true);
-            buttonOk.setEnabled(false);
-        } else {
-            labelError.setVisible(false);
-            buttonOk.setEnabled(true);
-        }
     }
 
     private void create() {
@@ -74,16 +61,19 @@ class TrackTestLoginPanel extends Panel implements ActionListener, KeyListener {
         textFieldName.addKeyListener(this);
         this.add(this.textFieldName);
         textFieldName.requestFocus();
+
         this.textFieldPassword = new TextField("");//("(password)");
         this.textFieldPassword.setBounds(this.width / 2 - 75, this.height / 2 - 10, 150, 25);
         this.textFieldPassword.setBackground(Color.white);
         this.textFieldPassword.setForeground(Color.black);
         textFieldPassword.setEchoChar('*');
         //this.add(this.textFieldPassword); //Don't show this field
+
         this.buttonOk = new Button("OK");
         this.buttonOk.setBounds(this.width / 2 - 75, this.height / 2 + 50, 75, 25);
         this.buttonOk.addActionListener(this);
         this.add(this.buttonOk);
+
         labelError = new Label("Only spaces, alphabetical and numerical characters are allowed");
         labelError.setBounds(width / 2 - 75, height / 2 - 35, 400, 25);
         labelError.setForeground(Color.red);
@@ -110,5 +100,17 @@ class TrackTestLoginPanel extends Panel implements ActionListener, KeyListener {
     }
 
     public void keyReleased(KeyEvent e) {
+        if(e.getKeyCode() == KeyEvent.VK_ENTER && buttonOk.isEnabled()) {
+            actionPerformed(null);
+            return;
+        }
+        boolean validUsername = UsernameValidator.isValidUsername(textFieldName.getText());
+        if (validUsername) {
+            labelError.setVisible(false);
+            buttonOk.setEnabled(true);
+        } else {
+            labelError.setVisible(true);
+            buttonOk.setEnabled(false);
+        }
     }
 }

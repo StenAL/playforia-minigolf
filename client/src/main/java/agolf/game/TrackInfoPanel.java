@@ -13,7 +13,7 @@ import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-class GameTrackInfoPanel extends Panel implements ActionListener {
+class TrackInfoPanel extends Panel implements ActionListener {
 
     private static final Font fontDialog12 = new Font("Dialog", 0, 12);
     private static final Font fontDialog14 = new Font("Dialog", 0, 14);
@@ -59,7 +59,7 @@ class GameTrackInfoPanel extends Panel implements ActionListener {
     private boolean created;
 
 
-    protected GameTrackInfoPanel(GameContainer gameContainer, int width, int height, boolean var4) {
+    protected TrackInfoPanel(GameContainer gameContainer, int width, int height, boolean var4) {
         this.gameContainer = gameContainer;
         this.width = width;
         this.height = height;
