@@ -60,7 +60,7 @@ public abstract class AApplet extends Applet implements Runnable, ActionListener
     private String endTextCustom;
     private Throwable aThrowable2553;
     private boolean aBoolean2554;
-    private boolean aBoolean2555;
+    private boolean notStarted;
     private boolean destroyed;
     private boolean aBoolean2557;
     private RetryCanvas retryCanvas;
@@ -74,9 +74,8 @@ public abstract class AApplet extends Applet implements Runnable, ActionListener
 
     public void init() {
         System.out.println("\n" + this.getAppletInfo() + "\n");
-        Dimension dim = this.getSize();
-        this.appletWidth = dim.width;
-        this.appletHeight = dim.height;
+        this.appletWidth = 735;
+        this.appletHeight = 525;
         this.backgroundImageKey = null;
         this.backgroundXOffset = 0;
         this.backgroundYOffset = 0;
@@ -86,14 +85,14 @@ public abstract class AApplet extends Applet implements Runnable, ActionListener
         this.aThrowable2553 = null;
         this.aBoolean2554 = false;
         this.aBoolean2557 = false;
-        this.aBoolean2555 = true;
+        this.notStarted = true;
         this.destroyed = false;
         this.verbose = false;
     }
 
     public void start() {
-        if (this.aBoolean2555 && !this.destroyed) {
-            this.aBoolean2555 = false;
+        if (this.notStarted && !this.destroyed) {
+            this.notStarted = false;
             Thread t = new Thread(this);
             t.start();
         }
@@ -526,16 +525,12 @@ public abstract class AApplet extends Applet implements Runnable, ActionListener
     public void actionPerformed(ActionEvent action) {
         if (action.getSource() == this.retryCanvas) {
             try {
-                String url = this.getDocumentBase().toString();
-                if (url.indexOf('?') == -1) {
-                    url = url + "?retry=1";
-                } else if (!url.contains("retry=")) {
-                    url = url + "&retry=1";
-                }
-
-                this.getAppletContext().showDocument(new URL(url));
-            } catch (Exception e) {
                 this.retryCanvas.setVisible(false);
+                this.destroy();
+                this.init();
+                this.start();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
 
