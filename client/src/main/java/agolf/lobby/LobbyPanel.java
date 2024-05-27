@@ -31,6 +31,7 @@ public class LobbyPanel extends Panel {
         this.gameContainer = gameContainer;
         this.width = width;
         this.height = height;
+        this.setLayout(null);
         this.setSize(width, height);
     }
 
