@@ -17,11 +17,11 @@ public class StringDraw {
     public static final int ALIGN_CENTER_RIGHT_ALWAYS_VISIBLE = 2;
 
 
-    public static int drawString(Graphics g, String colour, int x, int y, int alignment) {
-        return drawOutlinedString(g, (Color) null, colour, x, y, alignment);
+    public static int drawString(Graphics g, String text, int x, int y, int alignment) {
+        return drawOutlinedString(g, null, text, x, y, alignment);
     }
 
-    public static int drawOutlinedString(Graphics g, Color colour, String text, int x, int y, int alignment) {
+    public static int drawOutlinedString(Graphics g, Color outlineColor, String text, int x, int y, int alignment) {
         int textWidth = getStringWidth(g, text);
         if (alignment == ALIGN_CENTER || alignment == ALIGN_CENTER_LEFT_ALWAYS_VISIBLE || alignment == ALIGN_CENTER_RIGHT_ALWAYS_VISIBLE) {
             x -= textWidth / 2;
@@ -35,22 +35,22 @@ public class StringDraw {
             Rectangle bounds = g.getClipBounds();
             if (bounds != null) {
                 if (alignment == ALIGN_CENTER_LEFT_ALWAYS_VISIBLE) {
-                    if (colour == null && x < 0) {
+                    if (outlineColor == null && x < 0) {
                         x = 0;
-                    } else if (colour != null && x < 1) {
+                    } else if (outlineColor != null && x < 1) {
                         x = 1;
                     }
-                } else if (colour == null && x + textWidth >= bounds.width) {
+                } else if (outlineColor == null && x + textWidth >= bounds.width) {
                     x = bounds.width - 1 - textWidth;
-                } else if (colour != null && x + textWidth >= bounds.width - 1) {
+                } else if (outlineColor != null && x + textWidth >= bounds.width - 1) {
                     x = bounds.width - 2 - textWidth;
                 }
             }
         }
 
-        if (colour != null) {
+        if (outlineColor != null) {
             Color oldColour = g.getColor();
-            g.setColor(colour);
+            g.setColor(outlineColor);
             g.drawString(text, x - 1, y);
             g.drawString(text, x + 1, y);
             g.drawString(text, x, y - 1);
@@ -63,113 +63,113 @@ public class StringDraw {
     }
 
     public static int[] drawStringWithMaxWidth(Graphics g, String text, int var2, int var3, int var4, int var5) {
-        return drawOutlinedStringWithMaxWidth(g, (Color) null, text, var2, var3, var4, var5);
+        return drawOutlinedStringWithMaxWidth(g, null, text, var2, var3, var4, var5);
     }
 
-    public static int[] drawOutlinedStringWithMaxWidth(Graphics g, Color colour, String text, int x, int y, int alignment, int var6) {
+    public static int[] drawOutlinedStringWithMaxWidth(Graphics g, Color outlineColor, String text, int x, int y, int alignment, int maxWidth) {
         Font font = g.getFont();
         FontMetrics fontMetrics = g.getFontMetrics(font);
-        Vector vector = createLines(fontMetrics, text, var6);
+        Vector<String> lines = createLines(fontMetrics, text, maxWidth);
         int fontSize = font.getSize();
-        int var11 = fontSize + (fontSize + 4) / 5;
-        if (colour != null) {
-            var11 += 2;
+        int lineHeight = fontSize + (fontSize + 4) / 5;
+        if (outlineColor != null) {
+            lineHeight += 2;
         }
 
-        int[] var12 = new int[]{vector.size(), 0, 0};
-        var12[1] = var12[0] * var11;
-        var12[2] = 0;
+        int[] linesData = new int[]{lines.size(), 0, 0}; // 0 == number of lines, 1 == height, 2 == width
+        linesData[1] = linesData[0] * lineHeight;
+        linesData[2] = 0;
 
-        for (int var14 = 0; var14 < var12[0]; ++var14) {
-            int var13 = drawOutlinedString(g, colour, (String) vector.elementAt(var14), x, y, alignment);
-            if (var13 > var12[2]) {
-                var12[2] = var13;
+        for (int line = 0; line < linesData[0]; ++line) {
+            int lineWidth = drawOutlinedString(g, outlineColor, lines.elementAt(line), x, y, alignment);
+            if (lineWidth > linesData[2]) {
+                linesData[2] = lineWidth;
             }
 
-            y += var11;
+            y += lineHeight;
         }
 
-        return var12;
+        return linesData;
     }
 
-    public static int drawString(Graphics var0, String var1, int var2, int var3, int var4, int var5) {
-        int[] var6 = drawOutlinedStringWithMaxWidth(var0, null, var1, var2, var3, var4, var5);
-        return var6[2];
+    public static int drawString(Graphics g, String text, int x, int y, int alignment, int maxWidth) {
+        int[] linesData = drawOutlinedStringWithMaxWidth(g, null, text, x, y, alignment, maxWidth);
+        return linesData[2];
     }
 
-    public static int getStringWidth(Graphics var0, String var1) {
-        return getStringWidth(var0, var0.getFont(), var1);
+    public static int getStringWidth(Graphics g, String text) {
+        return getStringWidth(g, g.getFont(), text);
     }
 
-    public static int getStringWidth(Graphics var0, Font var1, String var2) {
-        return getStringWidth(var0.getFontMetrics(var1), var2);
+    public static int getStringWidth(Graphics g, Font font, String text) {
+        return getStringWidth(g.getFontMetrics(font), text);
     }
 
-    public static int getStringWidth(Component var0, Font var1, String var2) {
-        return getStringWidth(var0.getFontMetrics(var1), var2);
+    public static int getStringWidth(Component component, Font font, String text) {
+        return getStringWidth(component.getFontMetrics(font), text);
     }
 
-    public static int getStringWidth(FontMetrics var0, String var1) {
-        return var0.stringWidth(var1);
+    public static int getStringWidth(FontMetrics fontMetrics, String text) {
+        return fontMetrics.stringWidth(text);
     }
 
-    public static Vector createLines(Graphics var0, String var1, int var2) {
-        return createLines(var0, var0.getFont(), var1, var2);
+    public static Vector<String> createLines(Graphics g, String text, int maximumWidth) {
+        return createLines(g, g.getFont(), text, maximumWidth);
     }
 
-    public static Vector createLines(Graphics var0, Font var1, String var2, int var3) {
-        return createLines(var0.getFontMetrics(var1), var2, var3);
+    public static Vector<String> createLines(Graphics g, Font font, String text, int maximumWidth) {
+        return createLines(g.getFontMetrics(font), text, maximumWidth);
     }
 
-    public static Vector createLines(Component var0, Font var1, String var2, int var3) {
-        return createLines(var0.getFontMetrics(var1), var2, var3);
+    public static Vector<String> createLines(Component component, Font font, String text, int maximumWidth) {
+        return createLines(component.getFontMetrics(font), text, maximumWidth);
     }
 
-    public static Vector createLines(FontMetrics var0, String var1, int var2) {
-        Vector var3 = new Vector();
-        method1697(var3, var1, var0, var2);
-        return var3;
+    public static Vector<String> createLines(FontMetrics fontMetrics, String text, int maximumWidth) {
+        Vector<String> lines = new Vector<>();
+        createLinesPrivate(lines, text, fontMetrics, maximumWidth);
+        return lines;
     }
 
-    private static void method1697(Vector var0, String var1, FontMetrics var2, int var3) {
-        String var4 = var1;
-        int var6 = var1.indexOf(10);
-        if (var6 >= 0) {
-            var4 = var1.substring(0, var6);
+    private static void createLinesPrivate(Vector<String> lines, String text, FontMetrics fontMetrics, int maximumWidth) {
+        String line = text;
+        int linebreak = text.indexOf('\n');
+        if (linebreak >= 0) {
+            line = text.substring(0, linebreak);
         }
 
-        boolean var7 = false;
+        boolean lineIsEmpty = false;
 
-        while (!var7 && getStringWidth(var2, var4) > var3) {
-            String var5 = var4;
-            var4 = method1698(var4);
-            if (var4.length() == 0) {
-                var4 = var5;
-                var7 = true;
-            }
-        }
-
-        var0.addElement(var4);
-        int var8 = var4.length();
-        if (var8 < var1.length()) {
-            String var9 = var1.substring(var8);
-            if (Character.isWhitespace(var9.charAt(0))) {
-                var9 = var9.substring(1);
-            }
-
-            if (var9.length() > 0) {
-                method1697(var0, var9, var2, var3);
+        while (!lineIsEmpty && getStringWidth(fontMetrics, line) > maximumWidth) {
+            String var5 = line;
+            line = splitAtSpace(line);
+            if (line.length() == 0) {
+                line = var5;
+                lineIsEmpty = true;
             }
         }
 
-    }
+        lines.addElement(line);
+        int l = line.length();
+        if (l < text.length()) {
+            String newText = text.substring(l);
+            if (Character.isWhitespace(newText.charAt(0))) {
+                newText = newText.substring(1);
+            }
 
-    private static String method1698(String var0) {
-        int var1 = var0.lastIndexOf(32);
-        if (var1 == -1) {
-            var1 = var0.length() - 1;
+            if (newText.length() > 0) {
+                createLinesPrivate(lines, newText, fontMetrics, maximumWidth);
+            }
         }
 
-        return var0.substring(0, var1);
+    }
+
+    private static String splitAtSpace(String line) {
+        int spaceLocation = line.lastIndexOf(' ');
+        if (spaceLocation == -1) {
+            spaceLocation = line.length() - 1;
+        }
+
+        return line.substring(0, spaceLocation);
     }
 }
