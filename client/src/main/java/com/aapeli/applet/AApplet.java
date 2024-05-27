@@ -52,9 +52,9 @@ public abstract class AApplet extends Applet implements Runnable, ActionListener
     public SoundManager soundManager;
     private ContentPanel contentPanel;
     private LoadingPanel loadingPanel;
-    private String aString2547;
-    private int anInt2548;
-    private int anInt2549;
+    private String backgroundImageKey;
+    private int backgroundXOffset;
+    private int backgroundYOffset;
     private int endTextLocation;
     private int endState;
     private String endTextCustom;
@@ -77,8 +77,9 @@ public abstract class AApplet extends Applet implements Runnable, ActionListener
         Dimension dim = this.getSize();
         this.appletWidth = dim.width;
         this.appletHeight = dim.height;
-        this.aString2547 = null;
-        this.anInt2548 = this.anInt2549 = 0;
+        this.backgroundImageKey = null;
+        this.backgroundXOffset = 0;
+        this.backgroundYOffset = 0;
         this.endTextLocation = 0;
         this.endState = 0;
         this.endTextCustom = null;
@@ -114,7 +115,7 @@ public abstract class AApplet extends Applet implements Runnable, ActionListener
         }
 
         if (this.contentPanel != null) {
-            this.contentPanel.dispose();
+            this.contentPanel.destroy();
             this.contentPanel = null;
         }
 
@@ -148,18 +149,18 @@ public abstract class AApplet extends Applet implements Runnable, ActionListener
             this.appletImage = null;
         }
 
-        this.aString2547 = null;
+        this.backgroundImageKey = null;
     }
 
     public String getAppletInfo() {
         return "-= Playforia Applet =-\nCopyright (c) Playforia (www.playforia.info)\nProgramming: Pasi Laaksonen";
     }
 
-    public void paint(Graphics var1) {
-        this.update(var1);
+    public void paint(Graphics graphics) {
+        this.update(graphics);
     }
 
-    public void update(Graphics var1) {
+    public void update(Graphics graphics) {
         if (!this.destroyed) {
             if (this.appletImage == null) {
                 this.appletImage = this.createImage(this.appletWidth, this.appletHeight);
@@ -172,10 +173,10 @@ public abstract class AApplet extends Applet implements Runnable, ActionListener
                 Color backgroundColor = this.getBackground();
                 this.appletGraphics.setColor(backgroundColor);
                 this.appletGraphics.fillRect(0, 0, this.appletWidth, this.appletHeight);
-                if (this.imageManager != null && this.aString2547 != null) {
-                    Image var3 = this.imageManager.getIfAvailable(this.aString2547);
-                    if (var3 != null) {
-                        this.appletGraphics.drawImage(var3, this.anInt2548, this.anInt2549, this);
+                if (this.imageManager != null && this.backgroundImageKey != null) {
+                    Image image = this.imageManager.getIfAvailable(this.backgroundImageKey);
+                    if (image != null) {
+                        this.appletGraphics.drawImage(image, this.backgroundXOffset, this.backgroundYOffset, this);
                     }
                 }
 
@@ -183,37 +184,37 @@ public abstract class AApplet extends Applet implements Runnable, ActionListener
                     this.appletGraphics.setColor(this.getForeground());
                     Color color = this.aBoolean2554 ? backgroundColor : null;
                     if (this.endState == END_ERROR_CONNECTION) {
-                        byte var4 = -20;
+                        byte yOffset = -20;
                         this.appletGraphics.setFont(fontDialog15);
-                        StringDraw.drawOutlinedString(this.appletGraphics, color, this.textManager.getShared("Message_CE_ConnectionError"), 40, 80 + var4, -1);
+                        StringDraw.drawOutlinedString(this.appletGraphics, color, this.textManager.getShared("Message_CE_ConnectionError"), 40, 80 + yOffset, -1);
                         this.appletGraphics.setFont(fontDialog12);
-                        StringDraw.drawOutlinedString(this.appletGraphics, color, this.textManager.getShared("Message_CE_PossibleReasons"), 40, 125 + var4, -1);
+                        StringDraw.drawOutlinedString(this.appletGraphics, color, this.textManager.getShared("Message_CE_PossibleReasons"), 40, 125 + yOffset, -1);
                         if (!this.aBoolean2557) {
                             this.appletGraphics.setFont(fontDialog12);
-                            StringDraw.drawOutlinedString(this.appletGraphics, color, "- " + this.textManager.getShared("Message_CE0_1_Short"), 40, 160 + var4, -1);
+                            StringDraw.drawOutlinedString(this.appletGraphics, color, "- " + this.textManager.getShared("Message_CE0_1_Short"), 40, 160 + yOffset, -1);
                             this.appletGraphics.setFont(fontDialog11);
-                            StringDraw.drawOutlinedStringWithMaxWidth(this.appletGraphics, color, this.textManager.getShared("Message_CE0_1_Long", this.param.getServerIp(), "" + this.param.getServerPort()), 50, 180 + var4, -1, this.appletWidth - 50 - 50);
+                            StringDraw.drawOutlinedStringWithMaxWidth(this.appletGraphics, color, this.textManager.getShared("Message_CE0_1_Long", this.param.getServerIp(), "" + this.param.getServerPort()), 50, 180 + yOffset, -1, this.appletWidth - 50 - 50);
                             this.appletGraphics.setFont(fontDialog12);
-                            StringDraw.drawOutlinedString(this.appletGraphics, color, "- " + this.textManager.getShared("Message_CE0_2_Short"), 40, 245 + var4, -1);
+                            StringDraw.drawOutlinedString(this.appletGraphics, color, "- " + this.textManager.getShared("Message_CE0_2_Short"), 40, 245 + yOffset, -1);
                             this.appletGraphics.setFont(fontDialog11);
-                            StringDraw.drawOutlinedStringWithMaxWidth(this.appletGraphics, color, this.textManager.getShared("Message_CE0_2_Long"), 50, 265 + var4, -1, this.appletWidth - 50 - 50);
+                            StringDraw.drawOutlinedStringWithMaxWidth(this.appletGraphics, color, this.textManager.getShared("Message_CE0_2_Long"), 50, 265 + yOffset, -1, this.appletWidth - 50 - 50);
                             this.appletGraphics.setFont(fontDialog12);
-                            StringDraw.drawOutlinedString(this.appletGraphics, color, "- " + this.textManager.getShared("Message_CE0_3_Short"), 40, 305 + var4, -1);
+                            StringDraw.drawOutlinedString(this.appletGraphics, color, "- " + this.textManager.getShared("Message_CE0_3_Short"), 40, 305 + yOffset, -1);
                             this.appletGraphics.setFont(fontDialog11);
-                            StringDraw.drawOutlinedStringWithMaxWidth(this.appletGraphics, color, this.textManager.getShared("Message_CE0_3_Long"), 50, 325 + var4, -1, this.appletWidth - 50 - 50);
+                            StringDraw.drawOutlinedStringWithMaxWidth(this.appletGraphics, color, this.textManager.getShared("Message_CE0_3_Long"), 50, 325 + yOffset, -1, this.appletWidth - 50 - 50);
                         } else {
                             this.appletGraphics.setFont(fontDialog12);
-                            StringDraw.drawOutlinedString(this.appletGraphics, color, "- " + this.textManager.getShared("Message_CE1_1_Short"), 40, 160 + var4, -1);
+                            StringDraw.drawOutlinedString(this.appletGraphics, color, "- " + this.textManager.getShared("Message_CE1_1_Short"), 40, 160 + yOffset, -1);
                             this.appletGraphics.setFont(fontDialog11);
-                            StringDraw.drawOutlinedStringWithMaxWidth(this.appletGraphics, color, this.textManager.getShared("Message_CE1_1_Long"), 50, 180 + var4, -1, this.appletWidth - 50 - 50);
+                            StringDraw.drawOutlinedStringWithMaxWidth(this.appletGraphics, color, this.textManager.getShared("Message_CE1_1_Long"), 50, 180 + yOffset, -1, this.appletWidth - 50 - 50);
                             this.appletGraphics.setFont(fontDialog12);
-                            StringDraw.drawOutlinedString(this.appletGraphics, color, "- " + this.textManager.getShared("Message_CE1_2_Short"), 40, 235 + var4, -1);
+                            StringDraw.drawOutlinedString(this.appletGraphics, color, "- " + this.textManager.getShared("Message_CE1_2_Short"), 40, 235 + yOffset, -1);
                             this.appletGraphics.setFont(fontDialog11);
-                            StringDraw.drawOutlinedStringWithMaxWidth(this.appletGraphics, color, this.textManager.getShared("Message_CE1_2_Long"), 50, 255 + var4, -1, this.appletWidth - 50 - 50);
+                            StringDraw.drawOutlinedStringWithMaxWidth(this.appletGraphics, color, this.textManager.getShared("Message_CE1_2_Long"), 50, 255 + yOffset, -1, this.appletWidth - 50 - 50);
                             this.appletGraphics.setFont(fontDialog12);
-                            StringDraw.drawOutlinedString(this.appletGraphics, color, "- " + this.textManager.getShared("Message_CE1_3_Short"), 40, 305 + var4, -1);
+                            StringDraw.drawOutlinedString(this.appletGraphics, color, "- " + this.textManager.getShared("Message_CE1_3_Short"), 40, 305 + yOffset, -1);
                             this.appletGraphics.setFont(fontDialog11);
-                            StringDraw.drawOutlinedStringWithMaxWidth(this.appletGraphics, color, this.textManager.getShared("Message_CE1_3_Long"), 50, 325 + var4, -1, this.appletWidth - 50 - 50);
+                            StringDraw.drawOutlinedStringWithMaxWidth(this.appletGraphics, color, this.textManager.getShared("Message_CE1_3_Long"), 50, 325 + yOffset, -1, this.appletWidth - 50 - 50);
                         }
                     } else if (this.endState == END_THROWABLE) {
                         this.appletGraphics.setFont(fontDialog15);
@@ -282,7 +283,7 @@ public abstract class AApplet extends Applet implements Runnable, ActionListener
                 }
             }
 
-            var1.drawImage(this.appletImage, 0, 0, this);
+            graphics.drawImage(this.appletImage, 0, 0, this);
         }
     }
 
@@ -292,19 +293,19 @@ public abstract class AApplet extends Applet implements Runnable, ActionListener
         this.loadingPanel = new LoadingPanel(this);
         this.loadingPanel.setBounds(0, 0, this.appletWidth, this.appletHeight);
         this.add(this.loadingPanel);
-        this.loadingPanel.method463();
+        this.loadingPanel.start();
         this.param = new Parameters(this, this.isDebug());
-        String var3 = this.param.getParameter("initmessage");
+        String initMessage = this.param.getParameter("initmessage");
         this.verbose = Boolean.parseBoolean(this.param.getParameter("verbose"));
-        if (var3 != null && var3.indexOf(124) == -1) {
-            this.loadingPanel.setLoadingMessage(var3);
+        if (initMessage != null && initMessage.indexOf('|') == -1) {
+            this.loadingPanel.setLoadingMessage(initMessage);
         }
 
         this.initApplet(this.param);
         this.loadingPanel.setBackground(this.getBackground());
         this.callJavaScriptJSON("{\"loading\":\"started\"}");
         if (this.endState == 0 && !this.destroyed) {
-            int var4 = (int) (System.currentTimeMillis() - startTime);
+            int time1 = (int) (System.currentTimeMillis() - startTime);
             boolean startupDebug = false;
             String startupDebugParameter = this.param.getParameter("startupdebug");
             if (startupDebugParameter != null && Tools.getBoolean(startupDebugParameter)) {
@@ -312,24 +313,24 @@ public abstract class AApplet extends Applet implements Runnable, ActionListener
                 this.printSUD("StartUp Debug enabled!");
             }
 
-            AdCanvas var16 = AdCanvas.method211(this, this.param);
-            if (var16 != null) {
+            AdCanvas adCanvas = AdCanvas.create(this, this.param);
+            if (adCanvas != null) {
                 if (startupDebug) {
                     this.printSUD("Loading ad-image...");
                 }
 
-                this.loadingPanel.method467(0.25D);
-                var16.method212();
+                this.loadingPanel.setActualProgress(0.25D);
+                adCanvas.method212();
 
-                while (!var16.method213()) {
+                while (!adCanvas.method213()) {
                     Tools.sleep(50L);
                     if (this.destroyed) {
-                        var16.method217();
+                        adCanvas.method217();
                         return;
                     }
                 }
 
-                this.loadingPanel.method466(var16, Tools.getBoolean(this.param.getParameter("ad_clicktocontinue")));
+                this.loadingPanel.method466(adCanvas, Tools.getBoolean(this.param.getParameter("ad_clicktocontinue")));
                 if (startupDebug) {
                     this.printSUD("...done");
                 }
@@ -337,12 +338,12 @@ public abstract class AApplet extends Applet implements Runnable, ActionListener
                 this.printSUD("No ad-image");
             }
 
-            int var7 = (int) (System.currentTimeMillis() - startTime);
+            int time2 = (int) (System.currentTimeMillis() - startTime);
             if (startupDebug) {
                 this.printSUD("Creating text manager");
             }
 
-            this.loadingPanel.method467(0.5D);
+            this.loadingPanel.setActualProgress(0.5D);
             this.textManager = new TextManager(this.param, true, this.isDebug());
             this.loadingPanel.method462(this.param, this.textManager);
             if (startupDebug) {
@@ -356,12 +357,12 @@ public abstract class AApplet extends Applet implements Runnable, ActionListener
                     this.printSUD("...done");
                 }
 
-                String var8 = null;
-                if (var16 != null && var16.method216()) {
-                    var8 = " " + this.textManager.getShared("Loader_AdClickNote");
+                String adInfo = null;
+                if (adCanvas != null && adCanvas.method216()) {
+                    adInfo = " " + this.textManager.getShared("Loader_AdClickNote");
                 }
 
-                int var9 = (int) (System.currentTimeMillis() - startTime);
+                int time3 = (int) (System.currentTimeMillis() - startTime);
                 if (System.currentTimeMillis() < startTime + 3000L) {
                     this.loadingPanel.method468(2.0D);
                 }
@@ -371,20 +372,20 @@ public abstract class AApplet extends Applet implements Runnable, ActionListener
                     this.printSUD("Creating sound manager");
                 }
 
-                this.loadingPanel.setLoadingMessage(this.textManager.getShared("Loader_LoadingGfxSfx") + (var8 != null ? var8 : ""));
+                this.loadingPanel.setLoadingMessage(this.textManager.getShared("Loader_LoadingGfxSfx") + (adInfo != null ? adInfo : ""));
                 this.soundManager = new SoundManager(this, true, this.isDebug());
                 if (startupDebug) {
                     this.soundManager.enableSUD();
                 }
 
-                this.loadingPanel.method465(0.15D);
+                this.loadingPanel.addProgress(0.15D);
                 if (startupDebug) {
                     this.printSUD("Defining sounds...");
                 }
 
                 this.defineSounds(this.soundManager);
                 if (!this.destroyed) {
-                    int var10 = (int) (System.currentTimeMillis() - startTime);
+                    int time4 = (int) (System.currentTimeMillis() - startTime);
                     if (startupDebug) {
                         this.printSUD("...done");
                     }
@@ -399,7 +400,7 @@ public abstract class AApplet extends Applet implements Runnable, ActionListener
                     }
 
                     this.imageManager.setImageAliases(this.param.getImageAliases());
-                    this.loadingPanel.method465(0.05D);
+                    this.loadingPanel.addProgress(0.05D);
                     this.defineImages(this.imageManager, this.param.getSiteName());
                     if (!this.destroyed) {
                         this.imageManager.startLoadingImages();
@@ -413,10 +414,10 @@ public abstract class AApplet extends Applet implements Runnable, ActionListener
                                 return;
                             }
 
-                            this.loadingPanel.method467(0.7D + this.imageManager.getImageLoadProgress() * 0.15D);
+                            this.loadingPanel.setActualProgress(0.7D + this.imageManager.getImageLoadProgress() * 0.15D);
                         }
 
-                        int var11 = (int) (System.currentTimeMillis() - startTime);
+                        int time5 = (int) (System.currentTimeMillis() - startTime);
                         if (startupDebug) {
                             this.printSUD("...done");
                         }
@@ -425,7 +426,7 @@ public abstract class AApplet extends Applet implements Runnable, ActionListener
                             this.printSUD("Creating images...");
                         }
 
-                        this.loadingPanel.method465(0.05D);
+                        this.loadingPanel.addProgress(0.05D);
                         this.createImages();
                         if (startupDebug) {
                             this.printSUD("...done");
@@ -444,20 +445,20 @@ public abstract class AApplet extends Applet implements Runnable, ActionListener
                             }
 
                             if (!this.destroyed) {
-                                int var12 = (int) (System.currentTimeMillis() - startTime);
+                                int time6 = (int) (System.currentTimeMillis() - startTime);
                                 if (startupDebug) {
                                     this.printSUD("Connecting to server...");
                                 }
 
-                                this.loadingPanel.setLoadingMessage(this.textManager.getShared("Message_Connecting") + (var8 != null ? var8 : ""));
-                                this.loadingPanel.method467(1.0D);
+                                this.loadingPanel.setLoadingMessage(this.textManager.getShared("Message_Connecting") + (adInfo != null ? adInfo : ""));
+                                this.loadingPanel.setActualProgress(1.0D);
                                 this.connectToServer();
                                 if (startupDebug) {
                                     this.printSUD("...done");
                                 }
 
                                 if (this.endState == 0) {
-                                    int var13 = (int) (System.currentTimeMillis() - startTime);
+                                    int readyTime = (int) (System.currentTimeMillis() - startTime);
                                     this.aBoolean2557 = true;
                                     if (startupDebug) {
                                         this.printSUD("Waiting loader screen to finish...");
@@ -467,24 +468,24 @@ public abstract class AApplet extends Applet implements Runnable, ActionListener
                                     this.loadingPanel.method468(5.0D);
                                     this.loadingPanel.method470();
 
-                                    LoadingPanel var14;
+                                    LoadingPanel loadingPanel;
                                     do {
-                                        var14 = this.loadingPanel;
-                                        if (this.destroyed || var14 == null) {
+                                        loadingPanel = this.loadingPanel;
+                                        if (this.destroyed || loadingPanel == null) {
                                             return;
                                         }
 
                                         Tools.sleep(50L);
-                                    } while (!var14.method471());
+                                    } while (!loadingPanel.isLoaded());
 
-                                    int var15 = (int) (System.currentTimeMillis() - startTime);
+                                    int finishedTime = (int) (System.currentTimeMillis() - startTime);
                                     if (startupDebug) {
                                         this.printSUD("...done");
                                     }
 
-                                    this.sendLoadTimes(var13, var15, var4, var7, var9, var10, var11, var12);
-                                    this.writeThriftDebug("clientconnect", "loadtime:i:" + var13 + "^loadertime:i:" + var15);
-                                    this.loadingPanel.method472();
+                                    this.sendLoadTimes(readyTime, finishedTime, time1, time2, time3, time4, time5, time6);
+                                    this.writeThriftDebug("clientconnect", "loadtime:i:" + readyTime + "^loadertime:i:" + finishedTime);
+                                    this.loadingPanel.displayButtons();
                                     if (this.endState == 0 && !this.destroyed) {
                                         this.remove(this.loadingPanel);
                                         this.loadingPanel.destroy();
@@ -496,8 +497,8 @@ public abstract class AApplet extends Applet implements Runnable, ActionListener
 
                                             this.contentPanel = new ContentPanel(this);
                                             this.contentPanel.setBounds(0, 0, this.appletWidth, this.appletHeight);
-                                            if (this.aString2547 != null) {
-                                                this.contentPanel.setBackground(this.imageManager, this.aString2547, this.anInt2548, this.anInt2549);
+                                            if (this.backgroundImageKey != null) {
+                                                this.contentPanel.setBackground(this.imageManager, this.backgroundImageKey, this.backgroundXOffset, this.backgroundYOffset);
                                             }
 
                                             this.contentPanel.setVisible(false);
@@ -544,16 +545,16 @@ public abstract class AApplet extends Applet implements Runnable, ActionListener
         this.allowExternalPopups();
     }
 
-    public void setBackground(String var1) {
-        this.setBackground(var1, 0, 0);
+    public void setBackground(String imageKey) {
+        this.setBackground(imageKey, 0, 0);
     }
 
-    public void setBackground(String var1, int var2, int var3) {
-        this.aString2547 = var1;
-        this.anInt2548 = var2;
-        this.anInt2549 = var3;
+    public void setBackground(String imageKey, int xOffset, int yOffset) {
+        this.backgroundImageKey = imageKey;
+        this.backgroundXOffset = xOffset;
+        this.backgroundYOffset = yOffset;
         if (this.contentPanel != null) {
-            this.contentPanel.setBackground(this.imageManager, var1, var2, var3);
+            this.contentPanel.setBackground(this.imageManager, imageKey, xOffset, yOffset);
         }
 
         this.repaint();
@@ -574,7 +575,7 @@ public abstract class AApplet extends Applet implements Runnable, ActionListener
             this.endState = state;
             this.removeLoadingPanel();
             if (this.contentPanel != null) {
-                this.contentPanel.dispose();
+                this.contentPanel.destroy();
             }
 
             if (state == END_ERROR_CONNECTION) {
@@ -592,8 +593,8 @@ public abstract class AApplet extends Applet implements Runnable, ActionListener
         }
     }
 
-    public void setEndState(String var1) {
-        this.endTextCustom = var1;
+    public void setEndState(String endMessage) {
+        this.endTextCustom = endMessage;
         this.setEndState(END_OTHER);
     }
 
@@ -605,7 +606,7 @@ public abstract class AApplet extends Applet implements Runnable, ActionListener
 
     public void clearContent() {
         if (this.endState == 0) {
-            this.contentPanel.dispose();
+            this.contentPanel.destroy();
         }
 
     }
@@ -631,7 +632,7 @@ public abstract class AApplet extends Applet implements Runnable, ActionListener
         System.out.println("SUD(" + System.currentTimeMillis() + "): " + var1);
     }
 
-    public abstract void initApplet(Parameters var1);
+    public abstract void initApplet(Parameters parameters);
 
     public void textsLoadedNotify(TextManager var1) {
     }
@@ -642,7 +643,7 @@ public abstract class AApplet extends Applet implements Runnable, ActionListener
 
     public abstract void createImages();
 
-    public void defineSecImages(ImageManager var1, String var2) {
+    public void defineSecImages(ImageManager imageManager, String var2) {
     }
 
     public abstract void connectToServer();
@@ -674,8 +675,8 @@ public abstract class AApplet extends Applet implements Runnable, ActionListener
         }
     }
 
-    public boolean callJavaScriptJSON(String var1) {
-        return this.param.callJavaScriptJSON(var1);
+    public boolean callJavaScriptJSON(String json) {
+        return this.param.callJavaScriptJSON(json);
     }
 
     public void blockExternalPopups() {
@@ -722,58 +723,58 @@ public abstract class AApplet extends Applet implements Runnable, ActionListener
 
     }
 
-    private void sendLoadTimes(int var1, int var2, int var3, int var4, int var5, int var6, int var7, int var8) {
+    private void sendLoadTimes(int readyTime, int finishedTime, int time1, int time2, int time3, int time4, int time5, int time6) {
         if (this.isDebug()) {
-            System.out.println("AApplet.sendLoadTimes(" + var1 + "," + var2 + ")");
+            System.out.println("AApplet.sendLoadTimes(" + readyTime + "," + finishedTime + ")");
         }
 
         try {
-            String var9 = this.param.getParameter("ld_page");
-            if (var9 == null) {
+            String loadTimesPage = this.param.getParameter("ld_page");
+            if (loadTimesPage == null) {
                 return;
             }
 
-            if (!var9.toLowerCase().startsWith("javascript:")) {
+            if (!loadTimesPage.toLowerCase().startsWith("javascript:")) {
                 return;
             }
 
-            String var10 = this.getSystemProperty("java.version");
-            String var11 = this.getSystemProperty("java.vendor");
-            if (var11.length() > 128) {
-                var11 = var11.substring(0, 128);
+            String javaVersion = this.getSystemProperty("java.version");
+            String javaVendor = this.getSystemProperty("java.vendor");
+            if (javaVendor.length() > 128) {
+                javaVendor = javaVendor.substring(0, 128);
             }
 
-            String var12 = Tools.replaceFirst(var9, "%v", var10);
-            var12 = Tools.replaceFirst(var12, "%w", var11);
-            var12 = Tools.replaceFirst(var12, "%r", "" + var1);
-            var12 = Tools.replaceFirst(var12, "%f", "" + var2);
-            var12 = Tools.replaceFirst(var12, "%1", "" + var3);
-            var12 = Tools.replaceFirst(var12, "%2", "" + var4);
-            var12 = Tools.replaceFirst(var12, "%3", "" + var5);
-            var12 = Tools.replaceFirst(var12, "%4", "" + var6);
-            var12 = Tools.replaceFirst(var12, "%5", "" + var7);
-            var12 = Tools.replaceFirst(var12, "%6", "" + var8);
-            URL var13 = new URL(var12);
+            String queryUrl = Tools.replaceFirst(loadTimesPage, "%v", javaVersion);
+            queryUrl = Tools.replaceFirst(queryUrl, "%w", javaVendor);
+            queryUrl = Tools.replaceFirst(queryUrl, "%r", "" + readyTime);
+            queryUrl = Tools.replaceFirst(queryUrl, "%f", "" + finishedTime);
+            queryUrl = Tools.replaceFirst(queryUrl, "%1", "" + time1);
+            queryUrl = Tools.replaceFirst(queryUrl, "%2", "" + time2);
+            queryUrl = Tools.replaceFirst(queryUrl, "%3", "" + time3);
+            queryUrl = Tools.replaceFirst(queryUrl, "%4", "" + time4);
+            queryUrl = Tools.replaceFirst(queryUrl, "%5", "" + time5);
+            queryUrl = Tools.replaceFirst(queryUrl, "%6", "" + time6);
+            URL url = new URL(queryUrl);
             if (this.isDebug()) {
-                System.out.println("AApplet.sendLoadTimes(...): Displaying page \"" + var13.toString() + "\"");
+                System.out.println("AApplet.sendLoadTimes(...): Displaying page \"" + url.toString() + "\"");
             }
 
-            this.getAppletContext().showDocument(var13);
-        } catch (Exception var14) {
+            this.getAppletContext().showDocument(url);
+        } catch (Exception e) {
             ;
         }
 
     }
 
-    private String getSystemProperty(String var1) {
+    private String getSystemProperty(String key) {
         try {
-            String var2 = System.getProperty(var1);
-            if (var2 != null) {
-                return var2;
+            String result = System.getProperty(key);
+            if (result != null) {
+                return result;
             }
-        } catch (Exception var3) {
+        } catch (Exception e) {
             ;
-        } catch (Error var4) {
+        } catch (Error e) {
             ;
         }
 

@@ -13,7 +13,7 @@ class AdCanvas extends Canvas implements MouseListener {
 
     private static final String linkTarget = "_blank";
     private AApplet gameApplet;
-    private LoadingPanel aLoadingPanel__116;
+    private LoadingPanel loadingPanel;
     private URL anURL117;
     private Vector aVector118;
     private URL anURL119;
@@ -46,8 +46,8 @@ class AdCanvas extends Canvas implements MouseListener {
     public void update(Graphics var1) {
         if (this.aBoolean123) {
             if (!this.aBoolean125) {
-                if (this.aLoadingPanel__116 != null) {
-                    Image var2 = this.aLoadingPanel__116.method469();
+                if (this.loadingPanel != null) {
+                    Image var2 = this.loadingPanel.method469();
                     if (var2 != null) {
                         Point var3 = this.getLocation();
                         var1.drawImage(var2, -var3.x, -var3.y, this);
@@ -89,34 +89,34 @@ class AdCanvas extends Canvas implements MouseListener {
     public void mouseClicked(MouseEvent var1) {
     }
 
-    protected static AdCanvas method211(AApplet var0, Parameters var1) {
+    protected static AdCanvas create(AApplet applet, Parameters parameters) {
         try {
-            String var2 = var1.getParameter("ad_image");
-            URL var3 = new URL(var0.getCodeBase(), var2);
+            String var2 = parameters.getParameter("ad_image");
+            URL var3 = new URL(applet.getCodeBase(), var2);
             Vector var4 = new Vector();
 
             String var6;
-            for (int var5 = 1; (var6 = var1.getParameter("ad_text-" + var5)) != null; ++var5) {
+            for (int var5 = 1; (var6 = parameters.getParameter("ad_text-" + var5)) != null; ++var5) {
                 AdCanvasText var7 = AdCanvasText.method1547(var6);
                 if (var7 != null) {
                     var4.addElement(var7);
                 }
             }
 
-            String var14 = var1.getParameter("ad_page");
+            String var14 = parameters.getParameter("ad_page");
             URL var8 = var14 != null ? new URL(var14) : null;
-            String var9 = var1.getParameter("ad_target");
+            String var9 = parameters.getParameter("ad_target");
             if (var9 == null) {
                 var9 = linkTarget;
             }
 
             int var10 = 10;
-            String var11 = var1.getParameter("ad_mintime");
+            String var11 = parameters.getParameter("ad_mintime");
             if (var11 != null) {
                 var10 = Integer.parseInt(var11);
             }
 
-            AdCanvas var12 = new AdCanvas(var0, var3, var4, var8, var9, var10);
+            AdCanvas var12 = new AdCanvas(applet, var3, var4, var8, var9, var10);
             return var12;
         } catch (Exception var13) {
             return null;
@@ -155,8 +155,8 @@ class AdCanvas extends Canvas implements MouseListener {
         }
     }
 
-    protected void method214(LoadingPanel var1) {
-        this.aLoadingPanel__116 = var1;
+    protected void method214(LoadingPanel loadingPanel) {
+        this.loadingPanel = loadingPanel;
         this.aLong126 = System.currentTimeMillis();
         this.repaint();
     }
@@ -190,7 +190,7 @@ class AdCanvas extends Canvas implements MouseListener {
 
         this.anURL117 = this.anURL119 = null;
         this.aString120 = null;
-        this.aLoadingPanel__116 = null;
+        this.loadingPanel = null;
         this.gameApplet = null;
     }
 }
