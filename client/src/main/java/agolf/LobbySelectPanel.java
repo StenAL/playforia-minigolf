@@ -19,7 +19,7 @@ import java.awt.event.MouseListener;
 
 public class LobbySelectPanel extends Panel implements ActionListener, MouseListener, ItemListener {
 
-    private static final int[] lobbyJoinDelays = new int[]{3000, 7000, 15000};
+    private static final int[] lobbyJoinDelays = new int[]{1000};
     private static long[] lobbyJoinAvailableTimestamps;
     private static boolean playHidden;
     private GameContainer gameContainer;
