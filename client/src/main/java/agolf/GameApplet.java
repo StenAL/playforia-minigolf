@@ -169,13 +169,13 @@ public class GameApplet extends AApplet {
                 boolean var5 = false;
                 if (this.gameContainer.defaultLobby != null) {
                     if (this.gameContainer.defaultLobby.equalsIgnoreCase("singlehidden")) {
-                        var5 = this.gameContainer.lobbySelectionPanel.method443(1, true);
+                        var5 = this.gameContainer.lobbySelectionPanel.selectLobby(1, true);
                     } else if (this.gameContainer.defaultLobby.equalsIgnoreCase("single")) {
-                        var5 = this.gameContainer.lobbySelectionPanel.method443(1, false);
+                        var5 = this.gameContainer.lobbySelectionPanel.selectLobby(1, false);
                     } else if (this.gameContainer.defaultLobby.equalsIgnoreCase("dual")) {
-                        var5 = this.gameContainer.lobbySelectionPanel.method443(2, false);
+                        var5 = this.gameContainer.lobbySelectionPanel.selectLobby(2, false);
                     } else if (this.gameContainer.defaultLobby.equalsIgnoreCase("multi")) {
-                        var5 = this.gameContainer.lobbySelectionPanel.method443(3, false);
+                        var5 = this.gameContainer.lobbySelectionPanel.selectLobby(3, false);
                     }
 
                     this.gameContainer.defaultLobby = null;
