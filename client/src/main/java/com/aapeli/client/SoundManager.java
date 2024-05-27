@@ -18,6 +18,7 @@ public final class SoundManager implements Runnable {
     private Hashtable<Integer, SoundClip> clientSounds;
     private Hashtable<String, SoundClip> sharedSounds;
     private boolean clipLoaderThreadRunning;
+    public int audioChoicerIndex;
 
 
     public SoundManager(AApplet applet) {
@@ -33,6 +34,7 @@ public final class SoundManager implements Runnable {
         this.applet = applet;
         this.loadSoundClipsOnRegister = loadClipsOnRegister;
         this.debug = debug;
+        this.audioChoicerIndex = 0;
         this.loadClientSounds();
         this.sharedSoundDir = this.getClass().getResource("/sound/shared/");
 
@@ -231,7 +233,7 @@ public final class SoundManager implements Runnable {
 
     private void playAudioClip(int id) {
         SoundClip soundClip = this.clientSounds.get(new Integer(id));
-        if (soundClip != null) {
+        if (soundClip != null && this.audioChoicerIndex != 1) {
             AudioClip audioClip = soundClip.getAudioClip();
             if (audioClip != null) {
                 audioClip.play();
