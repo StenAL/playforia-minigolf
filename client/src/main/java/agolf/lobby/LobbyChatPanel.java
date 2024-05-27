@@ -69,8 +69,8 @@ class LobbyChatPanel extends ChatLobby implements GlobalChatListener {
                     aBoolean3714 = false;// ??
                 }
             } else {
-                super.gui_output.clear();
-                super.gui_userlist.removeAllUsers();
+                super.chatTextArea.clear();
+                super.userList.removeAllUsers();
             }
 
             int numSingleLobby = Integer.parseInt(args[2]);
@@ -124,7 +124,7 @@ class LobbyChatPanel extends ChatLobby implements GlobalChatListener {
                 message = this.gameContainer.textManager.getGame("LobbyChat_UsersInThisLobbyXX", lobbyUsers, ingameUsers);
             }
 
-            super.gui_output.addPlainMessage(message);
+            super.chatTextArea.addPlainMessage(message);
             message = null;
             if (this.lobbyId == 1 && (dualLobbyUsers >= 1 || multiLobbyUsers >= 1)) {
                 message = "(";
@@ -202,10 +202,10 @@ class LobbyChatPanel extends ChatLobby implements GlobalChatListener {
             }
 
             if (message != null) {
-                super.gui_output.addPlainMessage(message);
+                super.chatTextArea.addPlainMessage(message);
             }
 
-            super.gui_output.addLine();
+            super.chatTextArea.addLine();
             return true;
         }
         else if(args[1].equals("users")) {
@@ -226,7 +226,7 @@ class LobbyChatPanel extends ChatLobby implements GlobalChatListener {
         else if(args[1].equals("join") || args[1].equals("joinfromgame")) {
             String userData = this.userJoin(args[2]);
             if (!this.isNoJoinPartMessages()) {
-                super.gui_output.addJoinMessage(this.gameContainer.textManager.getGame("LobbyChat_User" + (args[1].equals("join") ? "Joined" : "ReturnedFromGame"), userData));
+                super.chatTextArea.addJoinMessage(this.gameContainer.textManager.getGame("LobbyChat_User" + (args[1].equals("join") ? "Joined" : "ReturnedFromGame"), userData));
             }
 
             return true;
@@ -236,7 +236,7 @@ class LobbyChatPanel extends ChatLobby implements GlobalChatListener {
             int reason = Integer.parseInt(args[3]);
             if(reason == 1 && this.lobbyId == 1) {
                 if (!this.isNoGameMessages()) {
-                    super.gui_output.addMessage(this.gameContainer.textManager.getGame("LobbyChat_UserStartedSp", args[2]));
+                    super.chatTextArea.addMessage(this.gameContainer.textManager.getGame("LobbyChat_UserStartedSp", args[2]));
                 }
 
                 return true;
@@ -250,13 +250,13 @@ class LobbyChatPanel extends ChatLobby implements GlobalChatListener {
                         var5 = this.gameContainer.textManager.getGame("LobbyChat_User" + reasons[reason], args[2], args[4]);
                     }
 
-                    super.gui_output.addMessage(var5);
+                    super.chatTextArea.addMessage(var5);
                 }
 
                 return true;
             } else if(reason >= 4) {
                 if (!this.isNoJoinPartMessages()) {
-                    super.gui_output.addPartMessage(this.gameContainer.textManager.getGame("LobbyChat_UserLeft" + (reason == 5 ? "ConnectionProblem" : ""), args[2]));
+                    super.chatTextArea.addPartMessage(this.gameContainer.textManager.getGame("LobbyChat_UserLeft" + (reason == 5 ? "ConnectionProblem" : ""), args[2]));
                 }
 
                 return true;
@@ -266,7 +266,7 @@ class LobbyChatPanel extends ChatLobby implements GlobalChatListener {
         }
         else if(args[1].equals("gsn")) {
             if (!this.isNoGameMessages()) {
-                super.gui_output.addMessage(this.gameContainer.textManager.getGame("LobbyChat_UsersStartedDp", args[2], args[3]));
+                super.chatTextArea.addMessage(this.gameContainer.textManager.getGame("LobbyChat_UsersStartedDp", args[2], args[3]));
             }
 
             return true;
@@ -297,14 +297,14 @@ class LobbyChatPanel extends ChatLobby implements GlobalChatListener {
     protected void getUser(String name, boolean var2) {
         UserListItem var3;
         if (name != null) {
-            var3 = super.gui_userlist.getUser(name);
+            var3 = super.userList.getUser(name);
             if (var3 == null) {
                 return;
             }
         } else {
-            var3 = super.gui_userlist.getLocalUser();
+            var3 = super.userList.getLocalUser();
         }
 
-        super.gui_userlist.setNotAcceptingChallenges(var3, var2);
+        super.userList.setNotAcceptingChallenges(var3, var2);
     }
 }

@@ -160,7 +160,7 @@ class ChatPanel extends Panel implements KeyListener, ActionListener {
     }
 
     private void create() {
-        this.setLayout((LayoutManager) null);
+        this.setLayout(null);
         this.textAreaChat = new ChatTextArea(this.gameContainer.textManager, this.gameContainer.badWordFilter, this.width, this.height - 22, new Font("Dialog", 0, 11));
         this.textAreaChat.setLocation(0, 0);
         this.textFieldMessage = new InputTextField(this.gameContainer.textManager.getGame("GameChat_TypeHere"), 200, true);

@@ -6,7 +6,6 @@ import agolf.LobbySelectPanel;
 import com.aapeli.colorgui.ColorButton;
 
 import java.awt.Graphics;
-import java.awt.LayoutManager;
 import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,8 +13,8 @@ import java.awt.event.ActionListener;
 class LobbyControlPanel extends Panel implements ActionListener {
 
     private GameContainer gameContainer;
-    private int height;
     private int width;
+    private int height;
     private ColorButton buttonBack;
     private ColorButton buttonSingle;
     //private ColorButton buttonDual;
@@ -25,8 +24,8 @@ class LobbyControlPanel extends Panel implements ActionListener {
 
     protected LobbyControlPanel(GameContainer gameContainer, int width, int height) {
         this.gameContainer = gameContainer;
-        this.height = width;
-        this.width = height;
+        this.width = width;
+        this.height = height;
         this.setSize(width, height);
         this.create();
     }
@@ -36,13 +35,13 @@ class LobbyControlPanel extends Panel implements ActionListener {
         this.repaint();
     }
 
-    public void paint(Graphics var1) {
-        this.update(var1);
+    public void paint(Graphics graphics) {
+        this.update(graphics);
     }
 
-    public void update(Graphics var1) {
-        var1.setColor(GameApplet.colourGameBackground);
-        var1.fillRect(0, 0, this.height, this.width);
+    public void update(Graphics graphics) {
+        graphics.setColor(GameApplet.colourGameBackground);
+        graphics.fillRect(0, 0, this.width, this.height);
     }
 
     public void actionPerformed(ActionEvent evt) {
@@ -98,15 +97,15 @@ class LobbyControlPanel extends Panel implements ActionListener {
     }
 
     private void create() {
-        this.setLayout((LayoutManager) null);
+        this.setLayout(null);
         this.buttonBack = new ColorButton(this.gameContainer.textManager.getGame("LobbyControl_Main"));
         this.buttonBack.setBackground(GameApplet.colourButtonYellow);
-        this.buttonBack.setBounds(0, 0, this.height, 20);
+        this.buttonBack.setBounds(0, 0, this.width, 20);
         this.buttonBack.addActionListener(this);
         this.add(this.buttonBack);
         if (!this.gameContainer.disableSinglePlayer) {
             this.buttonSingle = new ColorButton(this.gameContainer.textManager.getGame("LobbyControl_Single"));
-            this.buttonSingle.setBounds(0, 27, this.height, 20);
+            this.buttonSingle.setBounds(0, 27, this.width, 20);
             this.buttonSingle.addActionListener(this);
         }
 
@@ -117,11 +116,11 @@ class LobbyControlPanel extends Panel implements ActionListener {
         */
 
         this.buttonMulti = new ColorButton(this.gameContainer.textManager.getGame("LobbyControl_Multi"));
-        this.buttonMulti.setBounds(0, 77, this.height, 20);
+        this.buttonMulti.setBounds(0, 77, this.width, 20);
         this.buttonMulti.addActionListener(this);
         this.buttonQuit = new ColorButton(this.gameContainer.textManager.getGame("LobbyControl_Quit"));
         this.buttonQuit.setBackground(GameApplet.colourButtonRed);
-        this.buttonQuit.setBounds(0, this.width - 20, this.height, 20);
+        this.buttonQuit.setBounds(0, this.height - 20, this.width, 20);
         this.buttonQuit.addActionListener(this);
         this.add(this.buttonQuit);
     }

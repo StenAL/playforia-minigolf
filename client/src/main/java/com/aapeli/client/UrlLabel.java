@@ -1,7 +1,5 @@
 package com.aapeli.client;
 
-import com.aapeli.client.IPanel;
-
 import java.applet.Applet;
 import java.awt.Color;
 import java.awt.Cursor;
@@ -22,92 +20,92 @@ public class UrlLabel extends IPanel implements MouseListener {
     public static final int ALIGN_RIGHT = 1;
     public static final int TARGET_SAME = 0;
     public static final int TARGET_NEW = 1;
-    private static final String[] aStringArray3226 = new String[2];
-    private static final Cursor aCursor3227;
-    private static final Cursor aCursor3228;
-    private static final Font aFont3229;
-    private Applet anApplet3230;
-    private Font aFont3231;
-    private URL anURL3232;
-    private String aString3233;
-    private String aString3234;
-    private String aString3235;
-    private int anInt3236;
-    private int anInt3237;
-    private int anInt3238;
-    private int anInt3239;
-    private Color aColor3240;
-    private Color aColor3241;
-    private Color aColor3242;
-    private Image anImage3243;
-    private int anInt3244;
-    private int anInt3245;
-    private String aString3246;
+    private static final String[] urlTargets = new String[2];
+    private static final Cursor defaultCursor;
+    private static final Cursor handCursor;
+    private static final Font fontDialog11;
+    private Applet applet;
+    private Font currentFont;
+    private URL url;
+    private String text;
+    private String linkPlaceholderText;
+    private String suffix;
+    private int prefixWidth;
+    private int linkTextWidth;
+    private int textWidth;
+    private int alignment;
+    private Color backgroundColor;
+    private Color foregroundMainColor;
+    private Color foregroundSecondaryColor;
+    private Image backgroundImage;
+    private int backgroundImageOffsetX;
+    private int backgroundImageOffsetY;
+    private String urlTarget;
     private static final String aString3247 = "Dialog";
 
 
-    public UrlLabel(Applet var1) {
-        this(var1, aFont3229, (String) null, (String) null);
+    public UrlLabel(Applet applet) {
+        this(applet, fontDialog11, null, null);
     }
 
-    public UrlLabel(Applet var1, String var2, String var3) {
-        this(var1, aFont3229, var2, var3);
+    public UrlLabel(Applet applet, String var2, String var3) {
+        this(applet, fontDialog11, var2, var3);
     }
 
-    public UrlLabel(Applet var1, Font var2, String var3, String var4) {
-        this.anApplet3230 = var1;
-        this.aColor3240 = null;
-        this.aColor3241 = Color.black;
-        this.aColor3242 = Color.blue;
-        this.anImage3243 = null;
-        this.anInt3239 = -1;
-        this.aString3246 = "_blank";
-        this.aFont3231 = var2;
+    public UrlLabel(Applet applet, Font font, String var3, String var4) {
+        this.applet = applet;
+        this.backgroundColor = null;
+        this.foregroundMainColor = Color.black;
+        this.foregroundSecondaryColor = Color.blue;
+        this.backgroundImage = null;
+        this.alignment = -1;
+        this.urlTarget = "_blank";
+        this.currentFont = font;
         this.setText(var3, var4);
     }
 
-    public UrlLabel(Applet var1, String var2, String var3, int var4, int var5) {
-        this(var1, aFont3229, var2, var3);
-        this.setSize(var4, var5);
+    public UrlLabel(Applet applet, String var2, String var3, int width, int height) {
+        this(applet, fontDialog11, var2, var3);
+        this.setSize(width, height);
     }
 
-    public void update(Graphics var1) {
-        Dimension var2 = this.getSize();
-        int var3 = var2.width;
-        int var4 = var2.height;
-        if (this.anImage3243 != null) {
-            var1.drawImage(this.anImage3243, 0, 0, var3, var4, this.anInt3244, this.anInt3245, this.anInt3244 + var3, this.anInt3245 + var4, this);
-        } else if (!this.drawBackgroundImage(var1)) {
-            var1.setColor(this.aColor3240 != null ? this.aColor3240 : this.getBackground());
-            var1.fillRect(0, 0, var3, var4);
+    public void update(Graphics graphics) {
+        Dimension size = this.getSize();
+        int width = size.width;
+        int height = size.height;
+        if (this.backgroundImage != null) {
+            graphics.drawImage(this.backgroundImage, 0, 0, width, height, this.backgroundImageOffsetX, this.backgroundImageOffsetY, this.backgroundImageOffsetX + width, this.backgroundImageOffsetY + height, this);
+        } else if (!this.drawBackgroundImage(graphics)) {
+            graphics.setColor(this.backgroundColor != null ? this.backgroundColor : this.getBackground());
+            graphics.fillRect(0, 0, width, height);
         }
 
-        if (this.aString3233 != null) {
-            int var5 = 2;
-            int var6 = this.aFont3231.getSize();
-            int var7 = var4 / 2 + var6 * 3 / 8;
-            int var8 = var4 / 2 + var6 / 2;
-            if (this.anInt3239 == 0) {
-                var5 = var3 / 2 - this.anInt3238 / 2;
+        if (this.text != null) {
+            int x = 2;
+            int fontSize = this.currentFont.getSize();
+            int y = height / 2 + fontSize * 3 / 8;
+            int var8 = height / 2 + fontSize / 2;
+            if (this.alignment == 0) {
+                x = width / 2 - this.textWidth / 2;
             }
 
-            if (this.anInt3239 == 1) {
-                var5 = var3 - 2 - this.anInt3238;
+            if (this.alignment == 1) {
+                x = width - 2 - this.textWidth;
             }
 
-            if (this.aString3234 != null && this.aString3235 != null) {
-                var1.setColor(this.aColor3242);
-                var1.drawLine(var5 + this.anInt3236, var8, var5 + this.anInt3236 + this.anInt3237, var8);
+            if (this.linkPlaceholderText != null && this.suffix != null) {
+                graphics.setColor(this.foregroundSecondaryColor);
+                graphics.drawLine(x + this.prefixWidth, var8, x + this.prefixWidth + this.linkTextWidth, var8);
             }
 
-            var1.setFont(this.aFont3231);
-            var1.setColor(this.aColor3241);
-            var1.drawString(this.aString3233, var5, var7);
-            if (this.aString3234 != null && this.aString3235 != null) {
-                var1.setColor(this.aColor3242);
-                var1.drawString(this.aString3234, var5 + this.anInt3236, var7);
-                var1.setColor(this.aColor3241);
-                var1.drawString(this.aString3235, var5 + this.anInt3236 + this.anInt3237, var7);
+            graphics.setFont(this.currentFont);
+            graphics.setColor(this.foregroundMainColor);
+            graphics.drawString(this.text, x, y);
+            if (this.linkPlaceholderText != null && this.suffix != null) {
+                graphics.setColor(this.foregroundSecondaryColor);
+                graphics.drawString(this.linkPlaceholderText, x + this.prefixWidth, y);
+                graphics.setColor(this.foregroundMainColor);
+                graphics.drawString(this.suffix, x + this.prefixWidth + this.linkTextWidth, y);
             }
 
         }
@@ -123,99 +121,99 @@ public class UrlLabel extends IPanel implements MouseListener {
     }
 
     public void mouseReleased(MouseEvent var1) {
-        this.anApplet3230.getAppletContext().showDocument(this.anURL3232, this.aString3246);
+        this.applet.getAppletContext().showDocument(this.url, this.urlTarget);
     }
 
     public void mouseClicked(MouseEvent var1) {
     }
 
-    public void setText(String var1, String var2) {
-        if (var1 == null) {
-            this.aString3233 = this.aString3234 = this.aString3235 = null;
-            this.anURL3232 = null;
-            this.setCursor(aCursor3227);
+    public void setText(String text, String url) {
+        if (text == null) {
+            this.text = this.linkPlaceholderText = this.suffix = null;
+            this.url = null;
+            this.setCursor(defaultCursor);
             this.repaint();
         } else {
-            this.anURL3232 = null;
-            if (var2 != null) {
+            this.url = null;
+            if (url != null) {
                 try {
-                    this.anURL3232 = new URL(var2);
-                } catch (MalformedURLException var6) {
+                    this.url = new URL(url);
+                } catch (MalformedURLException e) {
                     ;
                 }
             }
 
-            FontMetrics var3 = this.anApplet3230.getFontMetrics(this.aFont3231);
-            int var4 = var1.indexOf(60);
-            int var5 = var1.indexOf(62);
-            if (this.anURL3232 != null && var4 != -1 && var5 >= var4) {
-                this.aString3233 = var1.substring(0, var4);
-                this.aString3234 = var1.substring(var4 + 1, var5);
-                this.aString3235 = var1.substring(var5 + 1);
-                this.anInt3236 = var3.stringWidth(this.aString3233);
-                this.anInt3237 = var3.stringWidth(this.aString3234);
-                this.anInt3238 = this.anInt3236 + this.anInt3237 + var3.stringWidth(this.aString3235);
-                this.setCursor(aCursor3228);
+            FontMetrics fontMetrics = this.applet.getFontMetrics(this.currentFont);
+            int linkTextStart = text.indexOf('<');
+            int linkTextEnd = text.indexOf('>');
+            if (this.url != null && linkTextStart != -1 && linkTextEnd >= linkTextStart) {
+                this.text = text.substring(0, linkTextStart);
+                this.linkPlaceholderText = text.substring(linkTextStart + 1, linkTextEnd);
+                this.suffix = text.substring(linkTextEnd + 1);
+                this.prefixWidth = fontMetrics.stringWidth(this.text);
+                this.linkTextWidth = fontMetrics.stringWidth(this.linkPlaceholderText);
+                this.textWidth = this.prefixWidth + this.linkTextWidth + fontMetrics.stringWidth(this.suffix);
+                this.setCursor(handCursor);
                 this.removeMouseListener(this);
                 this.addMouseListener(this);
                 this.repaint();
             } else {
-                this.aString3233 = var1;
-                this.anInt3238 = var3.stringWidth(this.aString3233);
-                this.aString3234 = this.aString3235 = null;
-                this.setCursor(aCursor3227);
+                this.text = text;
+                this.textWidth = fontMetrics.stringWidth(this.text);
+                this.linkPlaceholderText = this.suffix = null;
+                this.setCursor(defaultCursor);
                 this.repaint();
             }
         }
     }
 
-    public void setAlign(int var1) {
-        this.anInt3239 = var1;
+    public void setAlign(int alignment) {
+        this.alignment = alignment;
         this.repaint();
     }
 
-    public void setForeground(Color var1) {
-        if (var1 != null) {
-            int var2 = var1.getRed();
-            int var3 = var1.getGreen();
-            int var4 = var1.getBlue();
-            Color var5 = new Color((var2 * 3 + 0) / 4, (var3 * 3 + 0) / 4, (var4 * 3 + 255) / 4);
-            this.setForeground(var1, var5);
+    public void setForeground(Color color) {
+        if (color != null) {
+            int r = color.getRed();
+            int g = color.getGreen();
+            int b = color.getBlue();
+            Color secondary = new Color((r * 3 + 0) / 4, (g * 3 + 0) / 4, (b * 3 + 255) / 4);
+            this.setForeground(color, secondary);
         }
     }
 
     public void setForeground(Color var1, Color var2) {
-        this.aColor3241 = var1;
-        this.aColor3242 = var2;
+        this.foregroundMainColor = var1;
+        this.foregroundSecondaryColor = var2;
         this.repaint();
     }
 
-    public void setBackground(Color var1) {
-        this.aColor3240 = var1;
+    public void setBackground(Color color) {
+        this.backgroundColor = color;
         this.repaint();
     }
 
-    public void setBackgroundImage(Image var1, int var2, int var3) {
-        this.anImage3243 = var1;
-        this.anInt3244 = var2;
-        this.anInt3245 = var3;
+    public void setBackgroundImage(Image image, int offsetX, int offsetY) {
+        this.backgroundImage = image;
+        this.backgroundImageOffsetX = offsetX;
+        this.backgroundImageOffsetY = offsetY;
         this.repaint();
     }
 
-    public void setTarget(int var1) {
-        this.setTarget(aStringArray3226[var1]);
+    public void setTarget(int i) {
+        this.setTarget(urlTargets[i]);
     }
 
-    public void setTarget(String var1) {
-        this.aString3246 = var1;
+    public void setTarget(String target) {
+        this.urlTarget = target;
     }
 
     static {
-        aStringArray3226[0] = "_top";
-        aStringArray3226[1] = "_blank";
-        aCursor3227 = new Cursor(0);
-        aCursor3228 = new Cursor(12);
-        aFont3229 = new Font("Dialog", 0, 11);
+        urlTargets[0] = "_top";
+        urlTargets[1] = "_blank";
+        defaultCursor = new Cursor(Cursor.DEFAULT_CURSOR);
+        handCursor = new Cursor(Cursor.HAND_CURSOR);
+        fontDialog11 = new Font("Dialog", Font.PLAIN, 11);
     }
 
     private static char[] method822(String var0) {

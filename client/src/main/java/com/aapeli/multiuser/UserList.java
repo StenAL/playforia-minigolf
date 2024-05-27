@@ -45,10 +45,10 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
     private static final Color aColor3456;
     private static final Color aColor3457;
     private UserListHandler anUserListHandler3458;
-    private TextManager aTextManager3459;
-    private ImageManager anImageManager3460;
-    private int anInt3461;
-    private int anInt3462;
+    private TextManager textManager;
+    private ImageManager imageManager;
+    private int width;
+    private int height;
     private Image[] anImageArray3463;
     private boolean aBoolean3464;
     private ColorList aColorList3465;
@@ -93,24 +93,24 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
     private Hashtable aHashtable3504;
 
 
-    public UserList(UserListHandler var1, TextManager var2, ImageManager var3, boolean var4, boolean var5, boolean var6) {
-        this(var1, var2, var3, var4, var5, var6, 100, 200);
+    public UserList(UserListHandler handler, TextManager textManager, ImageManager imageManager, boolean var4, boolean var5, boolean var6) {
+        this(handler, textManager, imageManager, var4, var5, var6, 100, 200);
     }
 
-    public UserList(UserListHandler hndlr, TextManager var2, ImageManager var3, boolean var4, boolean var5, boolean var6, int var7, int var8) {
-        this.anUserListHandler3458 = hndlr;
-        this.aTextManager3459 = var2;
-        this.anImageManager3460 = var3;
-        this.anInt3461 = var7;
-        this.anInt3462 = var8;
-        this.setSize(var7, var8);
+    public UserList(UserListHandler handler, TextManager textManager, ImageManager imageManager, boolean var4, boolean var5, boolean var6, int width, int height) {
+        this.anUserListHandler3458 = handler;
+        this.textManager = textManager;
+        this.imageManager = imageManager;
+        this.width = width;
+        this.height = height;
+        this.setSize(width, height);
         this.aBoolean3464 = var4;
         this.method931(var5, var6);
         this.setBackground(aColor3453);
         this.setForeground(aColor3454);
         if (var4) {
-            Image var9 = var3.getShared("ranking-icons.gif");
-            this.anImageArray3463 = var3.separateImages(var9, 14);
+            Image var9 = imageManager.getShared("ranking-icons.gif");
+            this.anImageArray3463 = imageManager.separateImages(var9, 14);
         }
 
         this.isSheriff = false;
@@ -118,7 +118,7 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
         this.aVector3497 = new Vector();
         this.aVector3498 = new Vector();
         this.aBoolean3499 = this.aBoolean3500 = true;
-        this.aLanguages3503 = new Languages(var2, var3);
+        this.aLanguages3503 = new Languages(textManager, imageManager);
         this.aHashtable3504 = new Hashtable();
         this.addComponentListener(this);
     }
@@ -134,7 +134,7 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
 
     public void update(Graphics var1) {
         if (this.anImage3470 != null) {
-            var1.drawImage(this.anImage3470, 0, 0, this.anInt3461, this.anInt3462, this.anInt3472, this.anInt3473, this.anInt3472 + this.anInt3461, this.anInt3473 + this.anInt3462, this);
+            var1.drawImage(this.anImage3470, 0, 0, this.width, this.height, this.anInt3472, this.anInt3473, this.anInt3472 + this.width, this.anInt3473 + this.height, this);
         } else {
             this.drawBackground(var1);
         }
@@ -160,24 +160,24 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
 
     public void componentResized(ComponentEvent var1) {
         Dimension var2 = this.getSize();
-        this.anInt3461 = var2.width;
-        this.anInt3462 = var2.height;
+        this.width = var2.width;
+        this.height = var2.height;
         boolean var3 = this.aColorCheckbox3466 != null;
         boolean var4 = this.aColorCheckbox3467 != null;
         if (this.aBoolean3464) {
             this.aColorButton_Sub1_3468.setSize(17, 11);
-            this.aColorButton_Sub1_3469.setSize(this.anInt3461 - 17, 11);
+            this.aColorButton_Sub1_3469.setSize(this.width - 17, 11);
         }
 
-        int var5 = this.anInt3461;
-        int var6 = this.anInt3462 - (var4 ? 18 : 0) - (var3 ? 18 : 0) - (!var4 && !var3 ? 0 : 2) - (this.aBoolean3464 ? 11 : 0);
+        int var5 = this.width;
+        int var6 = this.height - (var4 ? 18 : 0) - (var3 ? 18 : 0) - (!var4 && !var3 ? 0 : 2) - (this.aBoolean3464 ? 11 : 0);
         this.aColorList3465.setBounds(0, this.aBoolean3464 ? 11 : 0, var5, var6);
         if (var3) {
-            this.aColorCheckbox3466.setBounds(0, this.anInt3462 - 18 - (var4 ? 18 : 0), this.anInt3461, 18);
+            this.aColorCheckbox3466.setBounds(0, this.height - 18 - (var4 ? 18 : 0), this.width, 18);
         }
 
         if (var4) {
-            this.aColorCheckbox3467.setBounds(0, this.anInt3462 - 18, this.anInt3461, 18);
+            this.aColorCheckbox3467.setBounds(0, this.height - 18, this.width, 18);
         }
 
         this.componentMoved(var1);
@@ -272,7 +272,7 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
                 this.method929(4, (String) null);
             } else if (var2 == this.aMenuItem3491) {
                 CopyChatFrame var4 = new CopyChatFrame();
-                var4.create(this.anImageManager3460.getApplet(), (ColorTextArea) (this.aChatBase3502 != null ? this.aChatBase3502.gui_output : this.aColorTextArea3501));
+                var4.create(this.imageManager.getApplet(), (ColorTextArea) (this.aChatBase3502 != null ? this.aChatBase3502.chatTextArea : this.aColorTextArea3501));
             } else if (var2 == this.aMenuItem3492) {
                 this.anUserListHandler3458.adminCommand("info", this.anUserListItem3495.getNick());
             } else if (var2 == this.aMenuItem3493) {
@@ -442,7 +442,7 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
             }
 
             if (!avatarUrl.equals("-")) {
-                listItem.loadAvatar(avatarUrl, this.anImageManager3460, this.aColorList3465);
+                listItem.loadAvatar(avatarUrl, this.imageManager, this.aColorList3465);
             }
 
             return listItem;
@@ -461,7 +461,7 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
 
         String var3 = var1.getNick();
         if (var1.isSheriff() && this.aBoolean3499) {
-            var3 = var3 + " " + this.aTextManager3459.getShared("UserList_Sheriff");
+            var3 = var3 + " " + this.textManager.getShared("UserList_Sheriff");
         }
 
         ColorListItem var4 = new ColorListItem(this.method933(var1), this.method930(var1), var1.isRegistered(), var3, var1, false);
@@ -663,7 +663,7 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
         }
 
         this.aPopupMenu3479 = new PopupMenu();
-        this.aMenuItem3480 = this.method927(this.aPopupMenu3479, this.aTextManager3459.getShared("UserList_OpenPlayerCard"));
+        this.aMenuItem3480 = this.method927(this.aPopupMenu3479, this.textManager.getShared("UserList_OpenPlayerCard"));
         this.aMenuItem3480.setEnabled(var1.isRegistered() || var1.method1826() != null);
         if (this.aColorCheckbox3466 != null || this.aColorCheckbox3467 != null) {
             this.aPopupMenu3479.addSeparator();
@@ -735,8 +735,8 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
             this.aStaffActionFrame__3496.windowClosing((WindowEvent) null);
         }
 
-        this.aStaffActionFrame__3496 = new StaffActionFrame(this.aTextManager3459, this.anUserListHandler3458, var1, var2);
-        this.aStaffActionFrame__3496.method251(this.anImageManager3460.getApplet(), this.adminStatus > 0);
+        this.aStaffActionFrame__3496 = new StaffActionFrame(this.textManager, this.anUserListHandler3458, var1, var2);
+        this.aStaffActionFrame__3496.method251(this.imageManager.getApplet(), this.adminStatus > 0);
     }
 
     private Color method930(UserListItem var1) {
@@ -750,24 +750,24 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
     }
 
     private void method931(boolean var1, boolean var2) {
-        this.setLayout((LayoutManager) null);
+        this.setLayout(null);
         if (this.aBoolean3464) {
-            this.aColorButton_Sub1_3468 = new ColorButton_Sub1(this.aTextManager3459.getShared("UserList_SortByRanking"));
+            this.aColorButton_Sub1_3468 = new ColorButton_Sub1(this.textManager.getShared("UserList_SortByRanking"));
             this.aColorButton_Sub1_3468.setBounds(0, 0, 17, 11);
             this.aColorButton_Sub1_3468.setFont(aFont3455);
             this.aColorButton_Sub1_3468.setBackground(aColor3456);
             this.aColorButton_Sub1_3468.addActionListener(this);
             this.add(this.aColorButton_Sub1_3468);
-            this.aColorButton_Sub1_3469 = new ColorButton_Sub1(this.aTextManager3459.getShared("UserList_SortByNick"));
-            this.aColorButton_Sub1_3469.setBounds(17, 0, this.anInt3461 - 17, 11);
+            this.aColorButton_Sub1_3469 = new ColorButton_Sub1(this.textManager.getShared("UserList_SortByNick"));
+            this.aColorButton_Sub1_3469.setBounds(17, 0, this.width - 17, 11);
             this.aColorButton_Sub1_3469.setFont(aFont3455);
             this.aColorButton_Sub1_3469.setBackground(aColor3457);
             this.aColorButton_Sub1_3469.addActionListener(this);
             this.add(this.aColorButton_Sub1_3469);
         }
 
-        int var3 = this.anInt3461;
-        int var4 = this.anInt3462 - (var2 ? 18 : 0) - (var1 ? 18 : 0) - (!var2 && !var1 ? 0 : 2) - (this.aBoolean3464 ? 11 : 0);
+        int var3 = this.width;
+        int var4 = this.height - (var2 ? 18 : 0) - (var1 ? 18 : 0) - (!var2 && !var1 ? 0 : 2) - (this.aBoolean3464 ? 11 : 0);
         if (this.aBoolean3464) {
             this.aColorList3465 = new ColorList(var3, var4, 11, 11);
         } else {
@@ -780,15 +780,15 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
         this.add(this.aColorList3465);
         this.setSorting(1);
         if (var1) {
-            this.aColorCheckbox3466 = new ColorCheckbox(this.aTextManager3459.getShared("UserList_Privately"));
-            this.aColorCheckbox3466.setBounds(0, this.anInt3462 - 18 - (var2 ? 18 : 0), this.anInt3461, 18);
+            this.aColorCheckbox3466 = new ColorCheckbox(this.textManager.getShared("UserList_Privately"));
+            this.aColorCheckbox3466.setBounds(0, this.height - 18 - (var2 ? 18 : 0), this.width, 18);
             this.aColorCheckbox3466.addItemListener(this);
             this.add(this.aColorCheckbox3466);
         }
 
         if (var2) {
-            this.aColorCheckbox3467 = new ColorCheckbox(this.aTextManager3459.getShared("UserList_Ignore"));
-            this.aColorCheckbox3467.setBounds(0, this.anInt3462 - 18, this.anInt3461, 18);
+            this.aColorCheckbox3467 = new ColorCheckbox(this.textManager.getShared("UserList_Ignore"));
+            this.aColorCheckbox3467.setBounds(0, this.height - 18, this.width, 18);
             this.aColorCheckbox3467.addItemListener(this);
             this.add(this.aColorCheckbox3467);
         }
@@ -853,12 +853,12 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
             return false;
         } else {
             try {
-                String var3 = this.aTextManager3459.getParameters().getParameter("guestinfotarget");
+                String var3 = this.textManager.getParameters().getParameter("guestinfotarget");
                 if (var3 == null) {
                     var3 = "_blank";
                 }
 
-                this.anImageManager3460.getApplet().getAppletContext().showDocument(new URL(var2), var3);
+                this.imageManager.getApplet().getAppletContext().showDocument(new URL(var2), var3);
             } catch (Exception var4) {
                 ;
             }
@@ -929,7 +929,7 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
             }
 
             if (!var16.equals("-")) {
-                var14.loadAvatar(Tools.changeFromSaveable(var16), this.anImageManager3460, this.aColorList3465);
+                var14.loadAvatar(Tools.changeFromSaveable(var16), this.imageManager, this.aColorList3465);
             }
         }
 

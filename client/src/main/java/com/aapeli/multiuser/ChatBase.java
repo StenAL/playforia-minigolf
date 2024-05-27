@@ -17,7 +17,6 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.LayoutManager;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -30,8 +29,8 @@ public abstract class ChatBase extends IPanel implements ComponentListener, User
     public static final int CIDR_NONE = 0;
     public static final int CIDR_UNREG = 1;
     public static final int CIDR_UNCONF = 2;
-    private static final Color aColor2342;
-    private static boolean aBoolean2343;
+    private static final Color sayButtonColor;
+    private static boolean shouldDisplayChatInputHelp;
     public Parameters param;
     public TextManager textManager;
     public ImageManager imageManager;
@@ -45,26 +44,26 @@ public abstract class ChatBase extends IPanel implements ComponentListener, User
     private int anInt2353;
     private int anInt2354;
     private String aString2355;
-    private int anInt2356;
-    public UserList gui_userlist;
-    public ChatTextArea gui_output;
+    private int chatDisabledStatus;
+    public UserList userList;
+    public ChatTextArea chatTextArea;
     public GlobalTextArea gui_globaloutput;
-    public InputTextField gui_input;
-    public Component gui_say;
-    public UrlLabel gui_idnote;
+    public InputTextField inputTextField;
+    public Component sayButton;
+    public UrlLabel signupMessage;
     private String aString2357;
-    private Vector chatListeners;
+    private Vector<ChatListener> chatListeners;
     private Object synchronizedObject;
 
-    public ChatBase(Parameters var1, TextManager var2, ImageManager var3, BadWordFilter var4, boolean var5, boolean var6, int var7, int var8) {
-        this(var1, var2, var3, var4, true, true, var5, var6, false, var7, var8);
+    public ChatBase(Parameters parameters, TextManager textManager, ImageManager imageManager, BadWordFilter badWordFilter, boolean useSmallFont, boolean var6, int width, int height) {
+        this(parameters, textManager, imageManager, badWordFilter, true, true, useSmallFont, var6, false, width, height);
     }
 
-    public ChatBase(Parameters var1, TextManager var2, ImageManager var3, BadWordFilter var4, boolean var5, boolean var6, boolean var7, boolean var8, int var9, int var10) {
-        this(var1, var2, var3, var4, var5, var6, var7, var8, false, var9, var10);
+    public ChatBase(Parameters parameters, TextManager textManager, ImageManager imageManager, BadWordFilter badWordFilter, boolean var5, boolean var6, boolean useSmallFont, boolean var8, int width, int height) {
+        this(parameters, textManager, imageManager, badWordFilter, var5, var6, useSmallFont, var8, false, width, height);
     }
 
-    public ChatBase(Parameters params, TextManager textManager, ImageManager imageManager, BadWordFilter badWordFilter, boolean var5, boolean var6, boolean var7, boolean var8, boolean var9, int width, int height) {
+    public ChatBase(Parameters params, TextManager textManager, ImageManager imageManager, BadWordFilter badWordFilter, boolean var5, boolean var6, boolean useSmallFont, boolean var8, boolean shouldNotWriteWelcomeMessage, int width, int height) {
         this.param = params;
         this.textManager = textManager;
         this.imageManager = imageManager;
@@ -75,10 +74,10 @@ public abstract class ChatBase extends IPanel implements ComponentListener, User
         this.height = height;
         this.setSize(width, height);
         this.aString2355 = null;
-        this.anInt2356 = 0;
-        this.method892(var5, var6, var7, var8, var9);
+        this.chatDisabledStatus = 0;
+        this.init(var5, var6, useSmallFont, var8, shouldNotWriteWelcomeMessage);
         this.addComponentListener(this);
-        this.chatListeners = new Vector();
+        this.chatListeners = new Vector<>();
     }
 
     public void update(Graphics g) {
@@ -106,10 +105,10 @@ public abstract class ChatBase extends IPanel implements ComponentListener, User
 
     }
 
-    public void componentResized(ComponentEvent var1) {
-        Dimension var2 = this.getSize();
-        this.width = var2.width;
-        this.height = var2.height;
+    public void componentResized(ComponentEvent event) {
+        Dimension size = this.getSize();
+        this.width = size.width;
+        this.height = size.height;
         this.resizeLayout();
     }
 
@@ -118,7 +117,7 @@ public abstract class ChatBase extends IPanel implements ComponentListener, User
     }
 
     public void adminCommand(String var1, String var2) {
-        ChatListener[] var3 = this.method895();
+        ChatListener[] var3 = this.getChatListenersCopy();
 
         for (int var4 = 0; var4 < var3.length; ++var4) {
             var3[var4].localUserAdminCommand(var1, var2);
@@ -127,7 +126,7 @@ public abstract class ChatBase extends IPanel implements ComponentListener, User
     }
 
     public void adminCommand(String var1, String var2, String var3) {
-        ChatListener[] var4 = this.method895();
+        ChatListener[] var4 = this.getChatListenersCopy();
 
         for (int var5 = 0; var5 < var4.length; ++var5) {
             var4[var5].localUserAdminCommand(var1, var2, var3);
@@ -135,15 +134,15 @@ public abstract class ChatBase extends IPanel implements ComponentListener, User
 
     }
 
-    public void actionPerformed(ActionEvent var1) {
-        if (var1.getSource() == this.gui_say) {
-            this.method893();
+    public void actionPerformed(ActionEvent event) {
+        if (event.getSource() == this.sayButton) {
+            this.sendMessage();
         }
 
     }
 
     public void startedTyping() {
-        this.aString2357 = this.method894();
+        this.aString2357 = this.getMessageRecipient();
     }
 
     public void clearedField() {
@@ -151,32 +150,32 @@ public abstract class ChatBase extends IPanel implements ComponentListener, User
     }
 
     public void enterPressed() {
-        this.method893();
+        this.sendMessage();
     }
 
     public static UrlLabel setInputByCIDR(int var0, Container var1, InputTextField var2, Component var3, UrlLabel var4, TextManager var5, Parameters var6) {
-        return method891(var0, var1, var2, var3, var4, var5.getShared("Chat_NoGuestChatAndRegNote"), var5.getShared("Chat_NoUnconfirmedChatNote"), var6);
+        return getSignupMessage(var0, var1, var2, var3, var4, var5.getShared("Chat_NoGuestChatAndRegNote"), var5.getShared("Chat_NoUnconfirmedChatNote"), var6);
     }
 
     public void setBackground(Color var1) {
-        if (this.gui_userlist != null) {
-            this.gui_userlist.setBackground(var1);
+        if (this.userList != null) {
+            this.userList.setBackground(var1);
         }
 
-        if (this.gui_idnote != null) {
-            this.gui_idnote.setBackground(var1);
+        if (this.signupMessage != null) {
+            this.signupMessage.setBackground(var1);
         }
 
         this.repaint();
     }
 
     public void setForeground(Color var1) {
-        if (this.gui_userlist != null) {
-            this.gui_userlist.setForeground(var1);
+        if (this.userList != null) {
+            this.userList.setForeground(var1);
         }
 
-        if (this.gui_idnote != null) {
-            this.gui_idnote.setForeground(var1);
+        if (this.signupMessage != null) {
+            this.signupMessage.setForeground(var1);
         }
 
     }
@@ -188,8 +187,8 @@ public abstract class ChatBase extends IPanel implements ComponentListener, User
         Point var4 = this.getLocation();
         this.anInt2353 = var4.x;
         this.anInt2354 = var4.y;
-        Point var5 = this.gui_userlist.getLocation();
-        this.gui_userlist.setBackgroundImage(var1, var2 + var5.x, var3 + var5.y);
+        Point var5 = this.userList.getLocation();
+        this.userList.setBackgroundImage(var1, var2 + var5.x, var3 + var5.y);
         this.repaint();
     }
 
@@ -202,14 +201,14 @@ public abstract class ChatBase extends IPanel implements ComponentListener, User
     }
 
     public void setMessageMaximumLength(int var1) {
-        this.gui_input.setTextMaximumLength(var1);
+        this.inputTextField.setTextMaximumLength(var1);
     }
 
     public void clearOutput() {
         Object var1 = this.synchronizedObject;
         synchronized (this.synchronizedObject) {
             if (this.gui_globaloutput == null) {
-                this.gui_output.clear();
+                this.chatTextArea.clear();
             } else {
                 this.gui_globaloutput.clear();
             }
@@ -218,27 +217,27 @@ public abstract class ChatBase extends IPanel implements ComponentListener, User
     }
 
     public void enablePopUp(boolean isModerator, boolean isAdmin) {
-        this.gui_userlist.enablePopUp(isModerator, isAdmin);
+        this.userList.enablePopUp(isModerator, isAdmin);
     }
 
     public void addPlainMessage(String var1) {
-        this.gui_output.addPlainMessage(var1);
+        this.chatTextArea.addPlainMessage(var1);
     }
 
     public void addMessage(String var1) {
-        this.gui_output.addMessage(var1);
+        this.chatTextArea.addMessage(var1);
     }
 
     public void addHighlightMessage(String var1) {
-        this.gui_output.addHighlightMessage(var1);
+        this.chatTextArea.addHighlightMessage(var1);
     }
 
     public void addErrorMessage(String var1) {
-        this.gui_output.addErrorMessage(var1);
+        this.chatTextArea.addErrorMessage(var1);
     }
 
     public void addLine() {
-        this.gui_output.addLine();
+        this.chatTextArea.addLine();
     }
 
     public int setFullUserList(String[] list) {
@@ -246,14 +245,14 @@ public abstract class ChatBase extends IPanel implements ComponentListener, User
     }
 
     public int setFullUserList(String[] list, int var2) {
-        this.gui_userlist.removeAllUsers();
-        int var3 = list.length;
+        this.userList.removeAllUsers();
+        int l = list.length;
 
-        for (int var4 = 0; var4 < var3; ++var4) {
-            this.addToUserList(list[var4], var2 == var4);
+        for (int i = 0; i < l; ++i) {
+            this.addToUserList(list[i], var2 == i);
         }
 
-        return var3;
+        return l;
     }
 
     public String localUserJoin(String var1) {
@@ -263,7 +262,7 @@ public abstract class ChatBase extends IPanel implements ComponentListener, User
 
     public void userSay(String var1, String var2) {
         if (!this.isUserIgnored(var1)) {
-            this.gui_output.addSay(var1, var2);
+            this.chatTextArea.addSay(var1, var2);
         }
 
     }
@@ -277,7 +276,7 @@ public abstract class ChatBase extends IPanel implements ComponentListener, User
 
     public void userSayPrivately(String var1, String var2) {
         if (!this.isUserIgnored(var1)) {
-            this.gui_output.addSayPrivately(var1, this.aString2355, var2);
+            this.chatTextArea.addSayPrivately(var1, this.aString2355, var2);
         }
 
     }
@@ -286,7 +285,7 @@ public abstract class ChatBase extends IPanel implements ComponentListener, User
         Object var2 = this.synchronizedObject;
         synchronized (this.synchronizedObject) {
             if (this.gui_globaloutput == null) {
-                this.gui_output.addSheriffSay(var1);
+                this.chatTextArea.addSheriffSay(var1);
             } else {
                 this.gui_globaloutput.method918(var1);
             }
@@ -317,14 +316,14 @@ public abstract class ChatBase extends IPanel implements ComponentListener, User
             }
 
             if (var4.length() > 1) {
-                if ((var12.equals("ServerSay_SheriffGaveWarning") || var12.equals("ServerSay_SheriffMutedUser") || var12.equals("ServerSay_SheriffUnMutedUser")) && var3 != null && !this.gui_userlist.isUser(var3)) {
+                if ((var12.equals("ServerSay_SheriffGaveWarning") || var12.equals("ServerSay_SheriffMutedUser") || var12.equals("ServerSay_SheriffUnMutedUser")) && var3 != null && !this.userList.isUser(var3)) {
                     return;
                 }
 
                 Object var13 = this.synchronizedObject;
                 synchronized (this.synchronizedObject) {
                     if (this.gui_globaloutput == null) {
-                        this.gui_output.addLocalizedServerSay(var4);
+                        this.chatTextArea.addLocalizedServerSay(var4);
                     } else {
                         this.gui_globaloutput.method920(var4);
                     }
@@ -335,7 +334,7 @@ public abstract class ChatBase extends IPanel implements ComponentListener, User
             Object var2 = this.synchronizedObject;
             synchronized (this.synchronizedObject) {
                 if (this.gui_globaloutput == null) {
-                    this.gui_output.addServerSay(var1);
+                    this.chatTextArea.addServerSay(var1);
                 } else {
                     this.gui_globaloutput.method919(var1);
                 }
@@ -344,13 +343,13 @@ public abstract class ChatBase extends IPanel implements ComponentListener, User
         }
     }
 
-    public void broadcastMessage(String var1) {
+    public void broadcastMessage(String message) {
         Object var2 = this.synchronizedObject;
         synchronized (this.synchronizedObject) {
             if (this.gui_globaloutput == null) {
-                this.gui_output.addBroadcastMessage(var1);
+                this.chatTextArea.addBroadcastMessage(message);
             } else {
-                this.gui_globaloutput.method921(var1);
+                this.gui_globaloutput.method921(message);
             }
 
         }
@@ -361,28 +360,28 @@ public abstract class ChatBase extends IPanel implements ComponentListener, User
     }
 
     public boolean isUserInChat(String var1) {
-        return this.gui_userlist.getUser(var1) != null;
+        return this.userList.getUser(var1) != null;
     }
 
-    public boolean isUserIgnored(String var1) {
-        UserListItem var2 = this.gui_userlist.getUser(var1);
-        return var2 == null ? true : var2.isIgnore();
+    public boolean isUserIgnored(String user) {
+        UserListItem userItem = this.userList.getUser(user);
+        return userItem == null ? true : userItem.isIgnore();
     }
 
     public UserList getUserList() {
-        return this.gui_userlist;
+        return this.userList;
     }
 
     public boolean useRoundButtons() {
         Object var1 = this.synchronizedObject;
         synchronized (this.synchronizedObject) {
-            if (this.gui_say instanceof RoundButton) {
+            if (this.sayButton instanceof RoundButton) {
                 return false;
             } else {
-                RoundButton var2 = this.copyColorButtonToRoundButton(this.gui_say);
-                var2.setVisible(this.gui_say.isVisible());
-                this.gui_say = var2;
-                this.gui_userlist.usePixelRoundedButtonsAndCheckBoxes();
+                RoundButton var2 = this.copyColorButtonToRoundButton(this.sayButton);
+                var2.setVisible(this.sayButton.isVisible());
+                this.sayButton = var2;
+                this.userList.usePixelRoundedButtonsAndCheckBoxes();
                 return true;
             }
         }
@@ -392,22 +391,22 @@ public abstract class ChatBase extends IPanel implements ComponentListener, User
         Object var2 = this.synchronizedObject;
         synchronized (this.synchronizedObject) {
             if (this.gui_globaloutput == null) {
-                Point var3 = this.gui_output.getLocation();
-                this.remove(this.gui_output);
-                this.gui_globaloutput = new GlobalTextArea(this, this.gui_output, var1);
+                Point var3 = this.chatTextArea.getLocation();
+                this.remove(this.chatTextArea);
+                this.gui_globaloutput = new GlobalTextArea(this, this.chatTextArea, var1);
                 this.gui_globaloutput.setLocation(var3.x, var3.y);
                 this.add(this.gui_globaloutput);
             }
         }
     }
 
-    public void disableChatInput(int var1) {
-        this.anInt2356 = var1;
-        this.method896();
+    public void disableChatInput(int status) {
+        this.chatDisabledStatus = status;
+        this.paintSignupMessage();
     }
 
     public boolean isTyping() {
-        return this.gui_input.isTyping();
+        return this.inputTextField.isTyping();
     }
 
     public abstract void resizeLayout();
@@ -417,7 +416,7 @@ public abstract class ChatBase extends IPanel implements ComponentListener, User
     }
 
     public UserListItem addToUserListNew(String var1, boolean var2) {
-        UserListItem var3 = this.gui_userlist.addUser(var1, var2);
+        UserListItem var3 = this.userList.addUser(var1, var2);
         if (var2) {
             this.aString2355 = var3.getNick();
         }
@@ -453,14 +452,14 @@ public abstract class ChatBase extends IPanel implements ComponentListener, User
     }
 
     public void setCurrentOutput(ChatTextArea var1) {
-        this.gui_output = var1;
+        this.chatTextArea = var1;
     }
 
     protected void method889(UserListItem var1, String var2) {
         Object var3 = this.synchronizedObject;
         synchronized (this.synchronizedObject) {
             if (this.gui_globaloutput == null) {
-                this.gui_output.addMessage(var2);
+                this.chatTextArea.addMessage(var2);
             } else {
                 this.gui_globaloutput.method917(var1.getLanguage(), var2);
             }
@@ -472,7 +471,7 @@ public abstract class ChatBase extends IPanel implements ComponentListener, User
         Object var4 = this.synchronizedObject;
         synchronized (this.synchronizedObject) {
             if (this.gui_globaloutput == null) {
-                this.gui_output.addMessage(var3);
+                this.chatTextArea.addMessage(var3);
             } else {
                 int var5 = var1.getLanguage();
                 int var6 = var2.getLanguage();
@@ -485,95 +484,95 @@ public abstract class ChatBase extends IPanel implements ComponentListener, User
         }
     }
 
-    private static UrlLabel method891(int var0, Container var1, InputTextField var2, Component var3, UrlLabel var4, String var5, String var6, Parameters var7) {
-        if (var0 == 0) {
-            if (var4 != null) {
-                var4.setVisible(false);
+    private static UrlLabel getSignupMessage(int chatDisabledStatus, Container container, InputTextField inputTextField, Component sayButton, UrlLabel signupMessage, String registrationNeededText, String confirmationNeededText, Parameters parameters) {
+        if (chatDisabledStatus == 0) {
+            if (signupMessage != null) {
+                signupMessage.setVisible(false);
             }
 
-            var2.setVisible(true);
-            var3.setVisible(true);
-            return var4;
+            inputTextField.setVisible(true);
+            sayButton.setVisible(true);
+            return signupMessage;
         } else {
-            if (var4 == null) {
-                var4 = new UrlLabel(var7.getApplet());
-                Point var8 = var2.getLocation();
-                Point var9 = var3.getLocation();
-                Dimension var10 = var3.getSize();
-                var4.setBounds(var8.x, var8.y, var9.x + var10.width - var8.x, var9.y + var10.height - var8.y);
-                var4.setBackground(var1.getBackground());
-                var4.setForeground(var1.getForeground());
-                var1.add(var4);
+            if (signupMessage == null) {
+                signupMessage = new UrlLabel(parameters.getApplet());
+                Point inputFieldLocation = inputTextField.getLocation();
+                Point sayButtonLocation = sayButton.getLocation();
+                Dimension sayButtonSize = sayButton.getSize();
+                signupMessage.setBounds(inputFieldLocation.x, inputFieldLocation.y, sayButtonLocation.x + sayButtonSize.width - inputFieldLocation.x, sayButtonLocation.y + sayButtonSize.height - inputFieldLocation.y);
+                signupMessage.setBackground(container.getBackground());
+                signupMessage.setForeground(container.getForeground());
+                container.add(signupMessage);
             }
 
-            var2.setVisible(false);
-            var3.setVisible(false);
-            if (var0 == 1) {
-                var4.setText(var5, var7.getRegisterPage());
-                var4.setTarget(0);
-            } else if (var0 == 2) {
-                var4.setText(var6, (String) null);
+            inputTextField.setVisible(false);
+            sayButton.setVisible(false);
+            if (chatDisabledStatus == 1) {
+                signupMessage.setText(registrationNeededText, parameters.getRegisterPage());
+                signupMessage.setTarget(0);
+            } else if (chatDisabledStatus == 2) {
+                signupMessage.setText(confirmationNeededText, null);
             } else {
-                var4.setText((String) null, (String) null);
+                signupMessage.setText(null, null);
             }
 
-            var4.setVisible(true);
-            return var4;
+            signupMessage.setVisible(true);
+            return signupMessage;
         }
     }
 
-    private void method892(boolean var1, boolean var2, boolean var3, boolean var4, boolean var5) {
-        this.setLayout((LayoutManager) null);
-        this.gui_output = new ChatTextArea(this.textManager, this.badWordFilter, 200, 100, var3 ? ChatTextArea.SMALL_FONT : ChatTextArea.DEFAULT_FONT);
-        if (aBoolean2343 && !var5) {
-            this.gui_output.addWelcomeMessage(this.textManager.getShared("Chat_Welcome"));
+    private void init(boolean var1, boolean var2, boolean useSmallFont, boolean var4, boolean shouldNotWriteWelcomeMessage) {
+        this.setLayout(null);
+        this.chatTextArea = new ChatTextArea(this.textManager, this.badWordFilter, 200, 100, useSmallFont ? ChatTextArea.SMALL_FONT : ChatTextArea.DEFAULT_FONT);
+        if (shouldDisplayChatInputHelp && !shouldNotWriteWelcomeMessage) {
+            this.chatTextArea.addWelcomeMessage(this.textManager.getShared("Chat_Welcome"));
         }
 
-        this.add(this.gui_output);
-        if (aBoolean2343) {
-            this.gui_input = new InputTextField(this.textManager.getShared("Chat_InputHelp"), 200, true);
-            aBoolean2343 = false;
+        this.add(this.chatTextArea);
+        if (shouldDisplayChatInputHelp) {
+            this.inputTextField = new InputTextField(this.textManager.getShared("Chat_InputHelp"), 200, true);
+            shouldDisplayChatInputHelp = false;
         } else {
-            this.gui_input = new InputTextField(200, true);
+            this.inputTextField = new InputTextField(200, true);
         }
 
-        this.gui_input.addInputTextFieldListener(this);
-        this.add(this.gui_input);
-        ColorButton var6 = new ColorButton(this.textManager.getShared("Chat_SayButton"));
-        var6.setBackground(aColor2342);
-        var6.addActionListener(this);
-        this.add(var6);
-        this.gui_say = var6;
-        this.gui_userlist = new UserList(this, this.textManager, this.imageManager, !var4, var1, var2);
-        this.gui_userlist.setChatReference(this);
-        this.add(this.gui_userlist);
-        this.gui_idnote = new UrlLabel(this.param.getApplet());
-        this.add(this.gui_idnote);
-        this.method896();
+        this.inputTextField.addInputTextFieldListener(this);
+        this.add(this.inputTextField);
+        ColorButton sayButton = new ColorButton(this.textManager.getShared("Chat_SayButton"));
+        sayButton.setBackground(sayButtonColor);
+        sayButton.addActionListener(this);
+        this.add(sayButton);
+        this.sayButton = sayButton;
+        this.userList = new UserList(this, this.textManager, this.imageManager, !var4, var1, var2);
+        this.userList.setChatReference(this);
+        this.add(this.userList);
+        this.signupMessage = new UrlLabel(this.param.getApplet());
+        this.add(this.signupMessage);
+        this.paintSignupMessage();
     }
 
-    private void method893() {
+    private void sendMessage() {
         if (this.aString2355 != null) {
-            String var1 = this.gui_input.getText().trim();
-            if (var1.length() != 0) {
-                if (!this.floodProtection.isOkToSay(var1)) {
-                    this.gui_output.addFloodMessage();
+            String message = this.inputTextField.getText().trim();
+            if (message.length() != 0) {
+                if (!this.floodProtection.isOkToSay(message)) {
+                    this.chatTextArea.addFloodMessage();
                 } else {
-                    String var2 = this.method894();
+                    String var2 = this.getMessageRecipient();
                     String var3 = this.aString2357;
                     this.aString2357 = null;
                     if (var2 == null && var3 != null && !this.isUserInChat(var3)) {
-                        this.gui_output.addPrivateMessageUserLeftMessage(var3);
+                        this.chatTextArea.addPrivateMessageUserLeftMessage(var3);
                     } else {
-                        var1 = this.gui_input.getInputText();
-                        if (var1.length() > 0) {
-                            ChatListener[] var4 = this.method895();
+                        message = this.inputTextField.getInputText();
+                        if (message.length() > 0) {
+                            ChatListener[] var4 = this.getChatListenersCopy();
                             if (var2 != null) {
                                 for (int var10 = 0; var10 < var4.length; ++var10) {
-                                    var4[var10].localUserSayPrivately(var2, var1);
+                                    var4[var10].localUserSayPrivately(var2, message);
                                 }
 
-                                this.gui_output.addOwnSayPrivately(this.aString2355, var2, var1);
+                                this.chatTextArea.addOwnSayPrivately(this.aString2355, var2, message);
                                 return;
                             }
 
@@ -582,18 +581,18 @@ public abstract class ChatBase extends IPanel implements ComponentListener, User
                                 int var6;
                                 if (this.gui_globaloutput == null) {
                                     for (var6 = 0; var6 < var4.length; ++var6) {
-                                        var4[var6].localUserSay(var1);
+                                        var4[var6].localUserSay(message);
                                     }
                                 } else {
                                     var6 = this.gui_globaloutput.method914();
 
                                     for (int var7 = 0; var7 < var4.length; ++var7) {
-                                        ((GlobalChatListener) ((GlobalChatListener) var4[var7])).localUserSay(var6, var1);
+                                        ((GlobalChatListener) ((GlobalChatListener) var4[var7])).localUserSay(var6, message);
                                     }
                                 }
                             }
 
-                            this.gui_output.addOwnSay(this.aString2355, var1);
+                            this.chatTextArea.addOwnSay(this.aString2355, message);
                         }
 
                     }
@@ -602,28 +601,28 @@ public abstract class ChatBase extends IPanel implements ComponentListener, User
         }
     }
 
-    private String method894() {
-        UserListItem var1 = this.gui_userlist.getSelectedUser();
-        return var1 != null && var1.isPrivately() ? var1.getNick() : null;
+    private String getMessageRecipient() {
+        UserListItem user = this.userList.getSelectedUser();
+        return user != null && user.isPrivately() ? user.getNick() : null;
     }
 
-    private ChatListener[] method895() {
-        int var1 = this.chatListeners.size();
-        ChatListener[] var2 = new ChatListener[var1];
+    private ChatListener[] getChatListenersCopy() {
+        int chatListenersCount = this.chatListeners.size();
+        ChatListener[] chatListeners = new ChatListener[chatListenersCount];
 
-        for (int var3 = 0; var3 < var1; ++var3) {
-            var2[var3] = (ChatListener) ((ChatListener) this.chatListeners.elementAt(var3));
+        for (int i = 0; i < chatListenersCount; ++i) {
+            chatListeners[i] = this.chatListeners.elementAt(i);
         }
 
-        return var2;
+        return chatListeners;
     }
 
-    private void method896() {
-        this.gui_idnote = method891(this.anInt2356, this, this.gui_input, this.gui_say, this.gui_idnote, this.getRegisterationNeededText(), this.getConfirmationNeededText(), this.param);
+    private void paintSignupMessage() {
+        this.signupMessage = getSignupMessage(this.chatDisabledStatus, this, this.inputTextField, this.sayButton, this.signupMessage, this.getRegisterationNeededText(), this.getConfirmationNeededText(), this.param);
     }
 
     static {
-        aColor2342 = new Color(144, 144, 224);
-        aBoolean2343 = true;
+        sayButtonColor = new Color(144, 144, 224);
+        shouldDisplayChatInputHelp = true;
     }
 }

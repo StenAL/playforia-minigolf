@@ -6,8 +6,7 @@ import com.aapeli.colorgui.Choicer;
 import com.aapeli.multiuser.UserListItem;
 import org.moparforia.client.Launcher;
 
-import java.awt.Graphics;
-import java.awt.Panel;
+import java.awt.*;
 
 public class LobbyPanel extends Panel {
 
@@ -40,13 +39,13 @@ public class LobbyPanel extends Panel {
         this.repaint();
     }
 
-    public void paint(Graphics var1) {
-        this.update(var1);
+    public void paint(Graphics graphics) {
+        this.update(graphics);
     }
 
-    public void update(Graphics var1) {
-        var1.setColor(GameApplet.colourGameBackground);
-        var1.fillRect(0, 0, this.width, this.height);
+    public void update(Graphics graphics) {
+        graphics.setColor(GameApplet.colourGameBackground);
+        graphics.fillRect(0, 0, this.width, this.height);
     }
 
     public void selectLobby(int lobbyId, int lobbyExtra) {
@@ -193,17 +192,17 @@ public class LobbyPanel extends Panel {
 
     }
 
-    public void broadcastMessage(String var1) {
+    public void broadcastMessage(String message) {
         if (this.lobbyChatPanelSingle != null) {
-            this.lobbyChatPanelSingle.broadcastMessage(var1);
+            this.lobbyChatPanelSingle.broadcastMessage(message);
         }
 
         if (this.lobbyChatPanelDual != null) {
-            this.lobbyChatPanelDual.broadcastMessage(var1);
+            this.lobbyChatPanelDual.broadcastMessage(message);
         }
 
         if (this.lobbyChatPanelMulti != null) {
-            this.lobbyChatPanelMulti.broadcastMessage(var1);
+            this.lobbyChatPanelMulti.broadcastMessage(message);
         }
 
     }
@@ -224,9 +223,9 @@ public class LobbyPanel extends Panel {
         this.lobbyChatPanelDual.getUser(name, var2);
     }
 
-    protected boolean isNotAcceptingChallenges(String var1) {
-        UserListItem var2 = this.lobbyChatPanelDual.gui_userlist.getUser(var1);
-        return var2 != null ? var2.isNotAcceptingChallenges() : true;
+    protected boolean isNotAcceptingChallenges(String user) {
+        UserListItem userItem = this.lobbyChatPanelDual.userList.getUser(user);
+        return userItem != null ? userItem.isNotAcceptingChallenges() : true;
     }
 
     protected Choicer addChoicerNumTracks(Panel container, int x, int y, int width, int height) {
