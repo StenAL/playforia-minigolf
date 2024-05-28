@@ -23,7 +23,7 @@ public class Game {
         game.init();
         game.start();
         frame.add(game);
-        frame.setSize(WIDTH + 20, HEIGHT + 40);
+        frame.setSize(1280, 720);
         frame.setResizable(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
