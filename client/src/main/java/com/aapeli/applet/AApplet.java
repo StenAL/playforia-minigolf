@@ -16,6 +16,7 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -282,16 +283,18 @@ public abstract class AApplet extends Applet implements Runnable, ActionListener
                 }
             }
 
-            graphics.drawImage(this.appletImage, 0, 0, this);
+            int x = (this.getWidth() - appletImage.getWidth(null)) / 2;
+            int y = (this.getHeight() - appletImage.getHeight(null)) / 2;
+            graphics.drawImage(this.appletImage, x, y, this);
         }
     }
 
     public void run() {
         long startTime = System.currentTimeMillis();
-        this.setLayout(null);
+        this.setLayout(new GridBagLayout());
         this.loadingPanel = new LoadingPanel(this);
-        this.loadingPanel.setBounds(0, 0, this.appletWidth, this.appletHeight);
         this.add(this.loadingPanel);
+        this.revalidate();
         this.loadingPanel.start();
         this.param = new Parameters(this, this.isDebug());
         String initMessage = this.param.getParameter("initmessage");
@@ -495,7 +498,6 @@ public abstract class AApplet extends Applet implements Runnable, ActionListener
                                             }
 
                                             this.contentPanel = new ContentPanel(this);
-                                            this.contentPanel.setBounds(0, 0, this.appletWidth, this.appletHeight);
                                             if (this.backgroundImageKey != null) {
                                                 this.contentPanel.setBackground(this.imageManager, this.backgroundImageKey, this.backgroundXOffset, this.backgroundYOffset);
                                             }
@@ -573,13 +575,15 @@ public abstract class AApplet extends Applet implements Runnable, ActionListener
                 this.contentPanel.destroy();
             }
 
+            int x = (this.getWidth() - this.appletWidth) / 2;
+            int y = (this.getHeight() - this.appletHeight) / 2;
             if (state == END_ERROR_CONNECTION) {
                 this.retryCanvas = new RetryCanvas(this.textManager.getShared("Message_CE_RetryButton"), 120, 20, this);
-                this.retryCanvas.setLocation(40, 360);
+                this.retryCanvas.setLocation(x + 40, y + 360);
                 this.add(this.retryCanvas);
             } else if (state == END_THROWABLE) {
                 this.retryCanvas = new RetryCanvas(this.textManager.getShared("Message_PE_RetryButton"), 120, 20, this);
-                this.retryCanvas.setLocation(50, 360);
+                this.retryCanvas.setLocation(x + 50, y + 360);
                 this.add(this.retryCanvas);
             }
 
@@ -616,6 +620,7 @@ public abstract class AApplet extends Applet implements Runnable, ActionListener
     public void contentReady() {
         if (this.endState == 0) {
             this.contentPanel.makeVisible();
+            this.revalidate();
         }
 
     }

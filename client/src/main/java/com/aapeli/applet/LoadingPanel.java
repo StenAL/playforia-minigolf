@@ -50,6 +50,8 @@ class LoadingPanel extends Panel implements Runnable, ActionListener {
         this.destroyed = false;
         this.needsRepaint = true;
         this.aBoolean589 = true;
+        this.setSize(applet.appletWidth, applet.appletHeight);
+        this.setPreferredSize(new Dimension(applet.appletWidth, applet.appletHeight));
         this.startGameClicked = -1;
     }
 
