@@ -109,7 +109,7 @@ public class ChatTextArea extends ColorTextArea {
     }
 
     public void setUserColor(String var1, int var2) {
-        this.aHashtable4730.put(var1, new Integer(var2));
+        this.aHashtable4730.put(var1, var2);
     }
 
     public void removeUserColor(String var1) {

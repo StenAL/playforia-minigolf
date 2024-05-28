@@ -637,7 +637,7 @@ public class MultiColorList extends Panel implements AdjustmentListener, MouseLi
             } else if (var1.equals("-")) {
                 return -1.7976931348623157E308D;
             } else {
-                return (new Double(var1)).doubleValue();
+                return Double.parseDouble(var1);
             }
         }
     }

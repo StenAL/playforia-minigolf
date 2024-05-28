@@ -471,7 +471,7 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
         }
 
         int var5 = var1.getLanguage();
-        Integer var6 = new Integer(var5);
+        Integer var6 = var5;
         ColorListItemGroup var7 = (ColorListItemGroup) ((ColorListItemGroup) this.aHashtable3504.get(var6));
         if (var7 == null) {
             int var8 = var5;

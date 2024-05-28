@@ -117,7 +117,7 @@ public class IPanel extends Panel {
 
     public Object[] getBackgroundAndLocation(int var1, int var2) {
         if (this.backgroundImage != null) {
-            return new Object[]{this.backgroundImage, new Integer(this.backgroundImageXOffset + var1), new Integer(this.backgroundImageYOffset + var2)};
+            return new Object[]{this.backgroundImage, this.backgroundImageXOffset + var1, this.backgroundImageYOffset + var2};
         } else {
             Container var3 = this.getParent();
             if (var3 == null) {
