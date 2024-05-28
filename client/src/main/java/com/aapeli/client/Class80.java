@@ -23,7 +23,7 @@ class Class80 {
     }
 
     public String toString() {
-        return "[HtmlWord: \'word\'=\"" + this.aString1373 + "\" \'font\'=\"" + this.aFont1374.toString() + "\" \'relx\'=" + this.anInt1375 + "]";
+        return "[HtmlWord: 'word'=\"" + this.aString1373 + "\" 'font'=\"" + this.aFont1374.toString() + "\" 'relx'=" + this.anInt1375 + "]";
     }
 
     protected int method1609() {

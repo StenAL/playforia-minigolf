@@ -21,7 +21,7 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
     private static final Cursor cursorDefault = new Cursor(Cursor.DEFAULT_CURSOR);
     private static final Cursor cursorCrosshair = new Cursor(Cursor.CROSSHAIR_CURSOR);
     private static final Color colourAimLine = new Color(128, 0, 32);
-    private static final Font gameFont = new Font("Dialog", 0, 10);
+    private static final Font gameFont = new Font("Dialog", Font.PLAIN, 10);
     private static final Color blackColour = Color.black;
     private static final Color whiteColour = Color.white;
     private static final Color backgroundColour = new Color(19, 167, 19);

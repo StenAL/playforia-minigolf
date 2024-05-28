@@ -8,7 +8,6 @@ import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.ItemSelectable;
-import java.awt.LayoutManager;
 import java.awt.Panel;
 import java.awt.Scrollbar;
 import java.awt.event.AdjustmentEvent;
@@ -17,7 +16,6 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.image.ImageObserver;
 import java.util.Enumeration;
 import java.util.Vector;
 
@@ -35,7 +33,7 @@ public class MultiColorList extends Panel implements AdjustmentListener, MouseLi
     public static final int ORDER_321_FIRST = 3;
     public static final int ORDER_123_ALL = 4;
     public static final int ORDER_321_ALL = 5;
-    private static final Font aFont681 = new Font("Dialog", 1, 12);
+    private static final Font aFont681 = new Font("Dialog", Font.BOLD, 12);
     private static final Color aColor682 = new Color(255, 255, 255);
     private static final Color aColor683 = new Color(192, 192, 192);
     private static final Color aColor684 = new Color(64, 64, 64);

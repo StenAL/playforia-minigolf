@@ -7,7 +7,6 @@ import com.aapeli.colorgui.ColorButton;
 
 import java.awt.Checkbox;
 import java.awt.Graphics;
-import java.awt.LayoutManager;
 import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

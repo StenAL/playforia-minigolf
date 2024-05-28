@@ -10,7 +10,7 @@ public final class BadWordFilter {
     private static final String aString1335 = "0123456789 l |¦!¡( @¤× ª°º¹²³ ©® ¥ßµ¢ àáâãåçèéêëìíîïñòóôõøùúûüýÿæ";
     private static final String aString1336 = "oizeasgtbp i iiiic aox aooize cr ybuc aaaäoceeeeiiiinooooouuuuyye";
     private static final String aString1337 = "¦!¡ []{}() ~ ª°º¹²³* `´\"";
-    private static final String aString1338 = "||| |||||| - \'\'\'\'\'\'\' \'\'\'";
+    private static final String aString1338 = "||| |||||| - ''''''' '''";
     private static final String[] aStringArray1339;
     private static final String[] aStringArray1340;
     private static final String[] aStringArray1341;
@@ -70,10 +70,8 @@ public final class BadWordFilter {
 
     public boolean containsBadWords(String var1) {
         int[] var2 = this.method1566(var1);
-        int var3 = var2.length;
-
-        for (int var4 = 0; var4 < var3; ++var4) {
-            if (var2[var4] < 0) {
+        for (int i : var2) {
+            if (i < 0) {
                 return true;
             }
         }
@@ -126,10 +124,10 @@ public final class BadWordFilter {
     }
 
     private void method1568(String var1, int[] var2) {
-        for (int var3 = 0; var3 < aStringArray1341.length; ++var3) {
-            int var4 = aStringArray1341[var3].length();
+        for (String text : aStringArray1341) {
+            int var4 = text.length();
 
-            for (int var5 = 0; (var5 = var1.indexOf(aStringArray1341[var3], var5)) >= 0; var5 += var4) {
+            for (int var5 = 0; (var5 = var1.indexOf(text, var5)) >= 0; var5 += var4) {
                 for (int var6 = 0; var6 < var4; ++var6) {
                     var2[var5 + var6] = 1;
                 }
@@ -144,7 +142,7 @@ public final class BadWordFilter {
         var6 = this.method1570(var6, this.aString1342, this.aString1343);
         this.method1572(var6, var2, var3, var4, var5);
         var6 = var1.toLowerCase();
-        var6 = this.method1570(var6, "¦!¡ []{}() ~ ª°º¹²³* `´\"", "||| |||||| - \'\'\'\'\'\'\' \'\'\'");
+        var6 = this.method1570(var6, "¦!¡ []{}() ~ ª°º¹²³* `´\"", "||| |||||| - ''''''' '''");
         var6 = this.method1571(var6, aStringArray1339, aStringArray1340);
         this.method1572(var6, var2, var3, var4, var5);
         var6 = this.method1570(var6, this.aString1342, this.aString1343);
@@ -177,9 +175,9 @@ public final class BadWordFilter {
     private void method1572(String var1, int[] var2, int[] var3, String[] var4, int var5) {
         int var6 = var1.length();
 
-        for (int var7 = 0; var7 < var4.length; ++var7) {
+        for (String text : var4) {
             for (int var8 = 0; var8 < var6; ++var8) {
-                this.method1573(var1, var8, var2, var3, var4[var7], var5);
+                this.method1573(var1, var8, var2, var3, text, var5);
             }
         }
 
@@ -330,10 +328,10 @@ public final class BadWordFilter {
         aStringArray1339[18] = "_)";
         aStringArray1339[19] = "(_";
         aStringArray1339[20] = "||";
-        aStringArray1339[21] = "\'|\'";
+        aStringArray1339[21] = "'|'";
         aStringArray1339[22] = "|3";
         aStringArray1339[23] = "|)";
-        aStringArray1339[24] = "|\'";
+        aStringArray1339[24] = "|'";
         aStringArray1340 = new String[25];
         aStringArray1340[0] = "kk";
         aStringArray1340[1] = "|z";
@@ -361,7 +359,7 @@ public final class BadWordFilter {
         aStringArray1340[23] = "dd";
         aStringArray1340[24] = "pp";
         aStringArray1341 = new String[2];
-        aStringArray1341[0] = "He\'ll";
-        aStringArray1341[1] = "he\'ll";
+        aStringArray1341[0] = "He'll";
+        aStringArray1341[1] = "he'll";
     }
 }

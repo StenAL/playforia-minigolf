@@ -10,7 +10,6 @@ import com.aapeli.colorgui.*;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.LayoutManager;
 import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -418,12 +417,10 @@ class LobbyMultiPlayerPanel extends Panel implements ItemListener, ActionListene
         synchronized (trackList) {
             MultiColorListItem[] tracks = this.trackList.getAllItems();
             if (tracks != null) {
-                int tracksLen = tracks.length;
-
-                for (int index = 0; index < tracksLen; ++index) {
-                    int[] trackData = (int[]) tracks[index].getData();
+                for (MultiColorListItem track : tracks) {
+                    int[] trackData = (int[]) track.getData();
                     if (trackData[0] == var1) {
-                        this.trackList.removeItem(tracks[index]);
+                        this.trackList.removeItem(track);
                         return;
                     }
                 }

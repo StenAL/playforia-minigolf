@@ -21,7 +21,7 @@ public class RoundButton extends IPanel implements MouseMotionListener, MouseLis
     private static final Color aColor3379 = new Color(224, 224, 224);
     private static final Color aColor3380 = new Color(0, 0, 0);
     private static final Color aColor3381 = new Color(255, 255, 255);
-    private static final Font aFont3382 = new Font("Dialog", 0, 12);
+    private static final Font aFont3382 = new Font("Dialog", Font.PLAIN, 12);
     private Color aColor3383;
     private Color aColor3384;
     private Color aColor3385;

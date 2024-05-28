@@ -36,7 +36,6 @@ public class Tools {
 
             target.repaint();
         } catch (Exception var2) {
-            ;
         }
 
         return false;
@@ -73,7 +72,7 @@ public class Tools {
                     var2.append('^');
                 } else {
                     if (var3 != 'd') {
-                        System.out.println("Program error: Tools.changeFromSaveable(\"" + var0 + "\"), " + "unexpected character \'" + var3 + "\' after \'$\'");
+                        System.out.println("Program error: Tools.changeFromSaveable(\"" + var0 + "\"), " + "unexpected character '" + var3 + "' after '$'");
                         return null;
                     }
 
@@ -285,7 +284,7 @@ public class Tools {
         }
 
         sb.append("] ").append(message);
-        System.out.println(sb.toString());
+        System.out.println(sb);
     }
 
     public static String arrayToString(Object[] var0, char var1) {

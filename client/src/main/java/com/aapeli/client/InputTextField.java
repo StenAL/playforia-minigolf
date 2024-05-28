@@ -64,7 +64,7 @@ public class InputTextField extends TextField implements FocusListener, KeyListe
         this.addKeyListener(this);
         this.addActionListener(this);
         this.inputTextLength = 0;
-        this.listeners = new Vector<InputTextFieldListener>();
+        this.listeners = new Vector<>();
     }
 
     public void focusGained(FocusEvent var1) {

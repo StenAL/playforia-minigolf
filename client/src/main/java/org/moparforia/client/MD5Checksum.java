@@ -1,9 +1,5 @@
 package org.moparforia.client;
 
-/**
- * Playforia
- * 3.6.2013
- */
 import java.io.*;
 import java.security.MessageDigest;
 
@@ -14,8 +10,8 @@ public class MD5Checksum {
         byte[] digest = complete.digest(data);
         String result = "";
 
-        for (int i=0; i < digest.length; i++) {
-            result += Integer.toString( ( digest[i] & 0xff ) + 0x100, 16).substring( 1 );
+        for (byte b : digest) {
+            result += Integer.toString((b & 0xff) + 0x100, 16).substring(1);
         }
         return result;
     }
@@ -44,13 +40,13 @@ public class MD5Checksum {
         byte[] b = createChecksum(filename);
         String result = "";
 
-        for (int i=0; i < b.length; i++) {
-            result += Integer.toString( ( b[i] & 0xff ) + 0x100, 16).substring( 1 );
+        for (byte value : b) {
+            result += Integer.toString((value & 0xff) + 0x100, 16).substring(1);
         }
         return result;
     }
 
-    public static void main(String args[]) {
+    public static void main(String[] args) {
         try {
             System.out.println(getMD5Checksum("apache-tomcat-5.5.17.exe"));
             // output :

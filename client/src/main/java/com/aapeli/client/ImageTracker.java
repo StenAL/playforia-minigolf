@@ -152,7 +152,6 @@ class ImageTracker implements Runnable {
             try {
                 var6.nextElement().flush();
             } catch (Exception var5) {
-                ;
             }
         }
 
@@ -164,7 +163,6 @@ class ImageTracker implements Runnable {
             try {
                 var7.nextElement().method1652();
             } catch (Exception var4) {
-                ;
             }
         }
 
@@ -271,7 +269,7 @@ class ImageTracker implements Runnable {
         }
 
         if (this.aBoolean1397) {
-            System.out.println("ImageTracker: Loaded image \"" + imageAlias + "\", moving from \'notloaded\' to \'loaded\'");
+            System.out.println("ImageTracker: Loaded image \"" + imageAlias + "\", moving from 'notloaded' to 'loaded'");
         }
 
         synchronized (this) {

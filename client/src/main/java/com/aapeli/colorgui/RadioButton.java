@@ -139,10 +139,7 @@ public class RadioButton extends ColorButton {
     }
 
     public int drawIcon(Graphics var1, Image var2, int var3) {
-        int var4 = var3;
-        if (var3 < 5) {
-            var4 = 5;
-        }
+        int var4 = Math.max(var3, 5);
 
         var1.drawImage(var2, var4, var3, this);
         return var4;

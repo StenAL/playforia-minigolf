@@ -188,7 +188,6 @@ public class LobbyPanel extends Panel {
         }
 
         if (dummy) {
-            ;
         }
 
     }

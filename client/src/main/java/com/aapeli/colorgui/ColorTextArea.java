@@ -10,7 +10,6 @@ import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.LayoutManager;
 import java.awt.Scrollbar;
 import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
@@ -77,7 +76,7 @@ public class ColorTextArea extends IPanel implements ComponentListener, Adjustme
         this.aFont3336 = var3;
         this.aFontMetrics3338 = this.getFontMetrics(var3);
         this.anInt3339 = var3.getSize();
-        this.aFont3337 = new Font(var3.getName(), 1, var3.getSize());
+        this.aFont3337 = new Font(var3.getName(), Font.BOLD, var3.getSize());
         this.aVector3345 = new Vector<>();
         this.aVector3346 = new Vector<>();
         this.anImage3333 = null;
@@ -222,8 +221,8 @@ public class ColorTextArea extends IPanel implements ComponentListener, Adjustme
                     } else {
                         Calendar var6 = Calendar.getInstance();
                         var6.setTime(new Date(var5.method1750()));
-                        int var7 = var6.get(11);
-                        int var8 = var6.get(12);
+                        int var7 = var6.get(Calendar.HOUR_OF_DAY);
+                        int var8 = var6.get(Calendar.MINUTE);
                         var3[var9] = "[" + (var7 < 10 ? "0" : "") + var7 + ":" + (var8 < 10 ? "0" : "") + var8 + "] " + var5.method1752();
                     }
                 }
@@ -331,7 +330,6 @@ public class ColorTextArea extends IPanel implements ComponentListener, Adjustme
 
                 int var8;
                 for (var8 = var7; var8 > 3 && var2.charAt(var8) != 32; --var8) {
-                    ;
                 }
 
                 if (var8 == 3) {

@@ -73,11 +73,10 @@ public class XmlUnit {
 
     public XmlUnit[] getChildren(String name) {
         XmlUnit[] children = this.getChildren();
-        int childrenCount = children.length;
         int var4 = 0;
 
-        for (int index = 0; index < childrenCount; ++index) {
-            if (children[index].getName().equals(name)) {
+        for (XmlUnit xmlUnit : children) {
+            if (xmlUnit.getName().equals(name)) {
                 ++var4;
             }
         }
@@ -85,9 +84,9 @@ public class XmlUnit {
         XmlUnit[] childrenArray = new XmlUnit[var4];
         int var6 = 0;
 
-        for (int index = 0; index < childrenCount; ++index) {
-            if (children[index].getName().equals(name)) {
-                childrenArray[var6] = children[index];
+        for (XmlUnit child : children) {
+            if (child.getName().equals(name)) {
+                childrenArray[var6] = child;
                 ++var6;
             }
         }
@@ -211,7 +210,7 @@ public class XmlUnit {
             }
 
             if (!var10) {
-                throw new Exception("Unexpected character \'" + var9 + "\'");
+                throw new Exception("Unexpected character '" + var9 + "'");
             }
 
             if (var11) {
@@ -294,7 +293,7 @@ public class XmlUnit {
             }
         } while (var9);
 
-        throw new Exception("Unexpected character \'" + var8 + "\' in attributes");
+        throw new Exception("Unexpected character '" + var8 + "' in attributes");
     }
 
     private static int method1878(StringBuffer var0, String var1, int var2) {

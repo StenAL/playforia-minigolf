@@ -7,7 +7,6 @@ import com.aapeli.colorgui.TabBarListener;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.LayoutManager;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 
@@ -98,8 +97,8 @@ final class GlobalTextArea extends IPanel implements ComponentListener, TabBarLi
     protected void method918(String var1) {
         ChatTextArea[] var2 = this.method924();
 
-        for (int var3 = 0; var3 < var2.length; ++var3) {
-            var2[var3].addSheriffSay(var1);
+        for (ChatTextArea chatTextArea : var2) {
+            chatTextArea.addSheriffSay(var1);
         }
 
     }
@@ -107,8 +106,8 @@ final class GlobalTextArea extends IPanel implements ComponentListener, TabBarLi
     protected void method919(String var1) {
         ChatTextArea[] var2 = this.method924();
 
-        for (int var3 = 0; var3 < var2.length; ++var3) {
-            var2[var3].addServerSay(var1);
+        for (ChatTextArea chatTextArea : var2) {
+            chatTextArea.addServerSay(var1);
         }
 
     }
@@ -116,8 +115,8 @@ final class GlobalTextArea extends IPanel implements ComponentListener, TabBarLi
     protected void method920(String var1) {
         ChatTextArea[] var2 = this.method924();
 
-        for (int var3 = 0; var3 < var2.length; ++var3) {
-            var2[var3].addLocalizedServerSay(var1);
+        for (ChatTextArea chatTextArea : var2) {
+            chatTextArea.addLocalizedServerSay(var1);
         }
 
     }
@@ -125,8 +124,8 @@ final class GlobalTextArea extends IPanel implements ComponentListener, TabBarLi
     protected void method921(String var1) {
         ChatTextArea[] var2 = this.method924();
 
-        for (int var3 = 0; var3 < var2.length; ++var3) {
-            var2[var3].addBroadcastMessage(var1);
+        for (ChatTextArea chatTextArea : var2) {
+            chatTextArea.addBroadcastMessage(var1);
         }
 
     }
@@ -134,8 +133,8 @@ final class GlobalTextArea extends IPanel implements ComponentListener, TabBarLi
     public void clear() {
         ChatTextArea[] var1 = this.method924();
 
-        for (int var2 = 0; var2 < var1.length; ++var2) {
-            var1[var2].clear();
+        for (ChatTextArea chatTextArea : var1) {
+            chatTextArea.clear();
         }
 
     }

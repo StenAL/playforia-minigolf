@@ -148,7 +148,7 @@ public class ChatTextArea extends ColorTextArea {
 
     private int method859(String var1, int var2) {
         Integer var3 = this.aHashtable4730.get(var1);
-        return var3 == null ? var2 : var3.intValue();
+        return var3 == null ? var2 : var3;
     }
 
     private String method860(String var1, boolean var2) {
@@ -195,7 +195,7 @@ public class ChatTextArea extends ColorTextArea {
     }
 
     static {
-        DEFAULT_FONT = new Font("Dialog", 0, 12);
-        SMALL_FONT = new Font("Dialog", 0, 11);
+        DEFAULT_FONT = new Font("Dialog", Font.PLAIN, 12);
+        SMALL_FONT = new Font("Dialog", Font.PLAIN, 11);
     }
 }

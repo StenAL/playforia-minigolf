@@ -200,7 +200,6 @@ public final class Parameters {
                 return true;
             }
         } catch (Exception e) {
-            ;
         }
 
         return false;
@@ -234,7 +233,6 @@ public final class Parameters {
             this.aString1457 = var2;
             this.anInt1455 = 1;
         } catch (Exception e) {
-            ;
         }
 
     }
@@ -274,7 +272,6 @@ public final class Parameters {
             this.showPlayerList(this.aStringArray1456, winners, this.aString1457);
             this.anInt1455 = 2;
         } catch (Exception e) {
-            ;
         }
 
     }
@@ -292,7 +289,6 @@ public final class Parameters {
             this.showPlayerList(null, null, null);
             this.anInt1455 = 0;
         } catch (Exception e) {
-            ;
         }
 
     }
@@ -492,7 +488,7 @@ public final class Parameters {
         this.json = this.getParameter("json");
         this.username = this.getParameter("username");
         if (this.json != null) {
-            this.json = Tools.replaceFirst(this.json, "\'%o\'", "%o");
+            this.json = Tools.replaceFirst(this.json, "'%o'", "%o");
             if (!this.json.toLowerCase().startsWith("javascript:")) {
                 this.json = "javascript:" + this.json;
             }
@@ -531,7 +527,6 @@ public final class Parameters {
                 return locale;
             }
         } catch (Exception e) {
-            ;
         }
 
         if (this.codeBaseHost.endsWith("aapeli.com")) {
@@ -546,7 +541,6 @@ public final class Parameters {
                         return locale;
                     }
                 } catch (Exception e) {
-                    ;
                 }
             }
 
@@ -557,7 +551,6 @@ public final class Parameters {
                         return locale;
                     }
                 } catch (Exception e) {
-                    ;
                 }
             }
 
@@ -577,7 +570,6 @@ public final class Parameters {
                 return language;
             }
         } catch (Exception e) {
-            ;
         }
 
         return null;
@@ -595,7 +587,6 @@ public final class Parameters {
                 return chatLanguage;
             }
         } catch (Exception e) {
-            ;
         }
 
         return null;
@@ -608,7 +599,6 @@ public final class Parameters {
                 return siteName;
             }
         } catch (Exception e) {
-            ;
         }
 
         if (this.documentBaseHost.contains("aapeli.")) {

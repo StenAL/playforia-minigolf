@@ -81,9 +81,7 @@ public final class Connection implements Runnable {
                 }
             } while (this.anInt1613 != 4);
         } catch (Exception var2) {
-            ;
         } catch (Error var3) {
-            ;
         }
 
         this.method1792();
@@ -364,7 +362,6 @@ public final class Connection implements Runnable {
         } catch (InterruptedIOException var2) {
             return null;
         } catch (IOException var3) {
-            ;
         }
 
         this.method1783();
@@ -386,7 +383,6 @@ public final class Connection implements Runnable {
             try {
                 Thread.sleep(3000L);
             } catch (InterruptedException var4) {
-                ;
             }
 
             if (this.anInt1613 != 3) {
@@ -410,7 +406,6 @@ public final class Connection implements Runnable {
             try {
                 this.in.close();
             } catch (IOException var4) {
-                ;
             }
 
             this.in = null;
@@ -420,7 +415,6 @@ public final class Connection implements Runnable {
             try {
                 this.out.close();
             } catch (IOException var3) {
-                ;
             }
 
             this.out = null;
@@ -430,7 +424,6 @@ public final class Connection implements Runnable {
             try {
                 this.aSocket1617.close();
             } catch (IOException var2) {
-                ;
             }
 
             this.aSocket1617 = null;

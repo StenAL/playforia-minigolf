@@ -3,7 +3,6 @@ package com.aapeli.bigtext;
 import com.aapeli.bigtext.BigText;
 
 import java.awt.Color;
-import java.awt.Component;
 
 public class MediumText extends BigText {
 

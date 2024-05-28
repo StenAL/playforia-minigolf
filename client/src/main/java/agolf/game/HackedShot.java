@@ -106,8 +106,8 @@ public class HackedShot implements Runnable {
         this.aSeed_2836 = aSeed_2836.clone();
         this.anInt2839 = anInt2839;
         this.aBoolean2843 = aBoolean2843;
-        this.isSolidArrayIThink = Arrays.copyOf(isSolidArrayIThink, isSolidArrayIThink.length);;
-        this.mapTiles =  Arrays.copyOf(mapTiles , mapTiles .length);;
+        this.isSolidArrayIThink = Arrays.copyOf(isSolidArrayIThink, isSolidArrayIThink.length);
+        this.mapTiles =  Arrays.copyOf(mapTiles , mapTiles .length);
 
 
     }

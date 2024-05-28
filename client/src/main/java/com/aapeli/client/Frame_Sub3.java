@@ -9,7 +9,6 @@ import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.Insets;
-import java.awt.LayoutManager;
 import java.awt.Panel;
 import java.awt.Point;
 import java.awt.event.WindowEvent;

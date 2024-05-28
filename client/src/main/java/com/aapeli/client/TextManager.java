@@ -493,7 +493,6 @@ public final class TextManager implements Runnable {
                         result = this.getShared("DateToday");
                     }
                 } catch (Exception e) {
-                    ;
                 }
 
                 return result;
@@ -579,7 +578,6 @@ public final class TextManager implements Runnable {
                 codeBase = new URL(codeBase, "../Shared/");
             }
         } catch (MalformedURLException e) {
-            ;
         }
 
         this.sharedTable = this.loadLocalizationTable(codeBase);
@@ -646,7 +644,6 @@ public final class TextManager implements Runnable {
         try {
             reader.close();
         } catch (Exception e) {
-            ;
         }
 
         return localizationTable;

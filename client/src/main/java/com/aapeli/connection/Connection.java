@@ -122,9 +122,9 @@ public final class Connection implements Runnable {
                 }
             } while (this.state != STATE_DISCONNECTED);
         } catch (Exception ex) {
-            ; // TODO: hanlde
+            // TODO: hanlde
         } catch (Error err) {
-            ; // TODO: handle
+            // TODO: handle
         }
 
         this.close();
@@ -410,7 +410,6 @@ public final class Connection implements Runnable {
         } catch (InterruptedIOException ex) {
             return null;
         } catch (IOException ex) {
-            ;
         }
 
         this.disconnect();
@@ -432,7 +431,6 @@ public final class Connection implements Runnable {
             try {
                 Thread.sleep(3000L);
             } catch (InterruptedException ex) {
-                ;
             }
 
             if (this.state != STATE_DOWN) {
@@ -456,7 +454,6 @@ public final class Connection implements Runnable {
             try {
                 this.sockIn.close();
             } catch (IOException ex) {
-                ;
             }
 
             this.sockIn = null;
@@ -466,7 +463,6 @@ public final class Connection implements Runnable {
             try {
                 this.sockOut.close();
             } catch (IOException ex) {
-                ;
             }
 
             this.sockOut = null;
@@ -476,7 +472,6 @@ public final class Connection implements Runnable {
             try {
                 this.socket.close();
             } catch (IOException ex) {
-                ;
             }
 
             this.socket = null;

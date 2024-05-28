@@ -112,7 +112,7 @@ public final class ColorSpinner extends IPanel implements MouseListener, MouseMo
             }
 
             if (this.aFont3316 == null || var1 != this.anInt3317) {
-                this.aFont3316 = new Font("Dialog", 0, var1);
+                this.aFont3316 = new Font("Dialog", Font.PLAIN, var1);
                 this.anInt3317 = var1;
             }
 
@@ -402,7 +402,7 @@ public final class ColorSpinner extends IPanel implements MouseListener, MouseMo
     protected void method846() {
         String var1 = this.getSelectedItem();
         if (var1 != null) {
-            ItemEvent var2 = new ItemEvent(this, 701, var1, 1);
+            ItemEvent var2 = new ItemEvent(this, 701, var1, ItemEvent.SELECTED);
             Enumeration<ItemListener> var3 = this.aVector3318.elements();
 
             while (var3.hasMoreElements()) {

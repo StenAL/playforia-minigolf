@@ -13,7 +13,6 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.LayoutManager;
 import java.awt.Panel;
 import java.awt.TextArea;
 import java.awt.event.ActionEvent;
@@ -366,10 +365,10 @@ class Panel_Sub24 extends Panel implements ActionListener, FocusListener {
         aColor620 = new Color(128, 255, 128);
         aColor621 = new Color(255, 128, 128);
         aColor622 = new Color(224, 224, 128);
-        aFont623 = new Font("Dialog", 0, 12);
-        aFont624 = new Font("Dialog", 0, 14);
-        aFont625 = new Font("Dialog", 0, 11);
-        aFont626 = new Font("Serif", 0, 18);
-        aFont627 = new Font("Dialog", 0, 16);
+        aFont623 = new Font("Dialog", Font.PLAIN, 12);
+        aFont624 = new Font("Dialog", Font.PLAIN, 14);
+        aFont625 = new Font("Dialog", Font.PLAIN, 11);
+        aFont626 = new Font("Serif", Font.PLAIN, 18);
+        aFont627 = new Font("Dialog", Font.PLAIN, 16);
     }
 }

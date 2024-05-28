@@ -157,7 +157,6 @@ public final class ImageManager {
                             codebaseURL = new URL(codebaseURL, "../Shared/picture/");
                         }
                     } catch (MalformedURLException var9) {
-                        ;
                     }
 
                     URL url = codebaseURL;
@@ -198,7 +197,6 @@ public final class ImageManager {
         try {
             var7.grabPixels();
         } catch (InterruptedException var9) {
-            ;
         }
 
         return var6;

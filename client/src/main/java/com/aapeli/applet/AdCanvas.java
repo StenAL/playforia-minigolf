@@ -5,7 +5,6 @@ import com.aapeli.client.Parameters;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.image.ImageObserver;
 import java.net.URL;
 import java.util.Vector;
 
@@ -147,7 +146,7 @@ class AdCanvas extends Canvas implements MouseListener {
 
             if (this.anURL119 != null) {
                 this.addMouseListener(this);
-                this.setCursor(new Cursor(12));
+                this.setCursor(new Cursor(Cursor.HAND_CURSOR));
             }
 
             this.aBoolean123 = true;
@@ -167,7 +166,7 @@ class AdCanvas extends Canvas implements MouseListener {
         } else {
             int var1 = (int) (System.currentTimeMillis() - this.aLong126);
             int var2 = this.anInt121 * 1000 - var1;
-            return var2 < 0 ? 0 : var2;
+            return Math.max(var2, 0);
         }
     }
 

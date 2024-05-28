@@ -34,7 +34,7 @@ class Class79 {
             var2 = var2 + " " + this.aVector1368.elementAt(var3).toString() + "\n";
         }
 
-        var2 = var2 + "\'relatx\'=" + this.anInt1369 + " \'height\'=" + this.anInt1370 + "]";
+        var2 = var2 + "'relatx'=" + this.anInt1369 + " 'height'=" + this.anInt1370 + "]";
         return var2;
     }
 

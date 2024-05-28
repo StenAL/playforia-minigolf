@@ -16,7 +16,6 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.LayoutManager;
 import java.awt.Menu;
 import java.awt.MenuItem;
 import java.awt.Point;
@@ -27,7 +26,6 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.awt.event.WindowEvent;
 import java.net.URL;
 import java.util.Hashtable;
 import java.util.StringTokenizer;
@@ -504,8 +502,8 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
         if (var2 != null) {
             int var3 = var2.length;
             if (var3 > 0) {
-                for (int var5 = 0; var5 < var3; ++var5) {
-                    UserListItem var4 = (UserListItem) var2[var5].getData();
+                for (ColorListItem colorListItem : var2) {
+                    UserListItem var4 = (UserListItem) colorListItem.getData();
                     if (var4.getNick().equals(var1)) {
                         return var4;
                     }
@@ -525,8 +523,8 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
         if (var1 != null) {
             int var2 = var1.length;
             if (var2 > 0) {
-                for (int var4 = 0; var4 < var2; ++var4) {
-                    UserListItem var3 = (UserListItem) var1[var4].getData();
+                for (ColorListItem colorListItem : var1) {
+                    UserListItem var3 = (UserListItem) colorListItem.getData();
                     if (var3.isLocal()) {
                         return var3;
                     }
@@ -542,11 +540,11 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
         if (var2 != null) {
             int var3 = var2.length;
             if (var3 > 0) {
-                for (int var5 = 0; var5 < var3; ++var5) {
-                    UserListItem var4 = (UserListItem) var2[var5].getData();
+                for (ColorListItem colorListItem : var2) {
+                    UserListItem var4 = (UserListItem) colorListItem.getData();
                     if (var4.getNick().equals(var1)) {
-                        this.aColorList3465.removeItem(var2[var5]);
-                        if (var2[var5].isSelected()) {
+                        this.aColorList3465.removeItem(colorListItem);
+                        if (colorListItem.isSelected()) {
                             this.method932();
                         }
 
@@ -564,11 +562,11 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
         if (var2 != null) {
             int var3 = var2.length;
             if (var3 > 0) {
-                for (int var5 = 0; var5 < var3; ++var5) {
-                    UserListItem var4 = (UserListItem) var2[var5].getData();
+                for (ColorListItem colorListItem : var2) {
+                    UserListItem var4 = (UserListItem) colorListItem.getData();
                     if (var4.getNick().equals(var1)) {
-                        this.aColorList3465.removeItem(var2[var5]);
-                        if (var2[var5].isSelected()) {
+                        this.aColorList3465.removeItem(colorListItem);
+                        if (colorListItem.isSelected()) {
                             this.method932();
                         }
 
@@ -585,10 +583,8 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
     public void removeAllUsers() {
         ColorListItem[] var1 = this.aColorList3465.getAllItems();
         if (var1 != null) {
-            int var2 = var1.length;
-
-            for (int var3 = 0; var3 < var2; ++var3) {
-                this.method934((UserListItem) var1[var3].getData());
+            for (ColorListItem colorListItem : var1) {
+                this.method934((UserListItem) colorListItem.getData());
             }
         }
 
@@ -860,7 +856,6 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
 
                 this.imageManager.getApplet().getAppletContext().showDocument(new URL(var2), var3);
             } catch (Exception var4) {
-                ;
             }
 
             return true;
@@ -939,7 +934,7 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
     static {
         aColor3453 = Color.white;
         aColor3454 = Color.black;
-        aFont3455 = new Font("Dialog", 0, 9);
+        aFont3455 = new Font("Dialog", Font.PLAIN, 9);
         aColor3456 = new Color(224, 224, 224);
         aColor3457 = new Color(208, 208, 255);
     }

@@ -244,7 +244,7 @@ public class GameBackgroundCanvas extends Canvas {
                 if(subtknzr.countTokens() != 4) {
                     return false;
                 }
-                /**
+                /*
                  * 0 = num of completions
                  * 1 = num of strokes
                  * 2 = best num of strokes
@@ -384,7 +384,7 @@ public class GameBackgroundCanvas extends Canvas {
         return true;
     }
 
-    private String expandMap(String mapString) throws Exception {
+    private String expandMap(String mapString) {
         StringBuffer buffer = new StringBuffer(4900);
         int length = mapString.length();
 
@@ -408,9 +408,7 @@ public class GameBackgroundCanvas extends Canvas {
 
             char var6 = mapString.charAt(var4);
 
-            for (int var7 = 0; var7 < var5; ++var7) {
-                buffer.append(var6);
-            }
+            buffer.append(String.valueOf(var6).repeat(Math.max(0, var5)));
         }
 
         return buffer.toString();
@@ -660,7 +658,6 @@ public class GameBackgroundCanvas extends Canvas {
                 }
             }
         } catch (OutOfMemoryError e) {
-            ;
         }
 
         this.graphics.drawImage(this.gameContainer.imageManager.createImage(mapPixels, 735, 375), 0, 0, this);

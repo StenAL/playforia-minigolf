@@ -14,7 +14,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.awt.image.ImageObserver;
 import java.util.Enumeration;
 import java.util.Vector;
 
@@ -68,7 +67,7 @@ public class ColorButton extends IPanel implements MouseMotionListener, MouseLis
         this.setForeground(Class94.aColor1576);
         this.setFont(Class94.aFont1575);
         this.setLabel(var1);
-        this.setSecondaryFont(new Font("Dialog", 0, 11));
+        this.setSecondaryFont(new Font("Dialog", Font.PLAIN, 11));
         this.setSecondaryLabel(null);
         this.aBoolean3276 = true;
         this.aBoolean3277 = this.aBoolean3278 = false;
@@ -545,7 +544,7 @@ public class ColorButton extends IPanel implements MouseMotionListener, MouseLis
     }
 
     private Font method829(Font var1) {
-        return this.isBolded() ? new Font(var1.getName(), 1, var1.getSize()) : var1;
+        return this.isBolded() ? new Font(var1.getName(), Font.BOLD, var1.getSize()) : var1;
     }
 
     private Font method830(Font var1, String var2, int var3) {
