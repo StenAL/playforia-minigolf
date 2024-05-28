@@ -184,7 +184,7 @@ class LobbySinglePlayerPanel extends Panel implements ItemListener, ActionListen
     }
 
     private void create() {
-        this.setLayout((LayoutManager) null);
+        this.setLayout(null);
         /*if(isUsingCustomServer) {
             this.choicerTrackCategory = this.gameContainer.lobbyPanel.addChoicerTrackCategory(this, this.width / 2 - 170, 175, 150, 20);
         }*/

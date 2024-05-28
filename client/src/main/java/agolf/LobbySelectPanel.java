@@ -132,7 +132,7 @@ public class LobbySelectPanel extends Panel implements ActionListener, MouseList
             this.writeData("qmpt");
         } else {
             if (evtSource == this.buttonQuit) {
-                this.gameContainer.gameApplet.quit((String) null);
+                this.gameContainer.gameApplet.quit(null);
             }
 
         }

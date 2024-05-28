@@ -74,7 +74,7 @@ class LobbyGamePasswordPanel extends Panel implements KeyListener, ActionListene
         }
 
         if (evtSource == this.buttonCancel) {
-            this.lobbyMultiPlayerPanel.joinMultiPlayerGame(this.gameId, (String) null);
+            this.lobbyMultiPlayerPanel.joinMultiPlayerGame(this.gameId, null);
         }
 
     }
@@ -102,7 +102,7 @@ class LobbyGamePasswordPanel extends Panel implements KeyListener, ActionListene
         if (!this.emptyField && password.length() != 0) {
             this.lobbyMultiPlayerPanel.joinMultiPlayerGame(this.gameId, password);
         } else {
-            this.lobbyMultiPlayerPanel.joinMultiPlayerGame(this.gameId, (String) null);
+            this.lobbyMultiPlayerPanel.joinMultiPlayerGame(this.gameId, null);
         }
     }
 }

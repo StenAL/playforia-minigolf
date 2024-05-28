@@ -89,7 +89,7 @@ public class MultiColorList extends Panel implements AdjustmentListener, MouseLi
         this.anInt707 = this.anInt708 = -1;
         this.anInt709 = -1;
         this.aColor691 = aColor682;
-        this.setLayout((LayoutManager) null);
+        this.setLayout(null);
         this.aScrollbar686 = new Scrollbar(1);
         this.aScrollbar686.setBounds(var4 - 16 - 1, 1, 16, var5 - 2);
         this.aScrollbar686.setBlockIncrement(this.anInt703 - 1);
@@ -186,7 +186,7 @@ public class MultiColorList extends Panel implements AdjustmentListener, MouseLi
 
                 for (int var14 = 0; var14 < this.anInt698; ++var14) {
                     if (var9[var13][var14] != null) {
-                        this.aGraphics712.drawImage(var9[var13][var14], 3 + this.anIntArray704[var14] + 1, var15 - var3 + (8 - var9[var13][var14].getHeight((ImageObserver) null) / 2) + 1, this);
+                        this.aGraphics712.drawImage(var9[var13][var14], 3 + this.anIntArray704[var14] + 1, var15 - var3 + (8 - var9[var13][var14].getHeight(null) / 2) + 1, this);
                     } else if (var8[var13][var14] != null) {
                         this.aGraphics712.drawString(var8[var13][var14], 3 + this.anIntArray704[var14], var15);
                     }

@@ -200,10 +200,10 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
                     return;
                 }
 
-                var3 = (ColorListItem) ((ColorListItem) var1.getItem());
+                var3 = (ColorListItem) var1.getItem();
             }
 
-            UserListItem var8 = (UserListItem) ((UserListItem) var3.getData());
+            UserListItem var8 = (UserListItem) var3.getData();
             if (var2 == this.aColorList3465) {
                 int var6 = var1.getID();
                 if (var6 == 2) {
@@ -269,16 +269,16 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
             this.method929(2, this.anUserListItem3495.getNick());
         } else if (var2 != this.aMenuItem3485 && var2 != this.aMenuItem3486 && var2 != this.aMenuItem3487 && var2 != this.aMenuItem3488 && var2 != this.aMenuItem3489) {
             if (var2 == this.aMenuItem3490) {
-                this.method929(4, (String) null);
+                this.method929(4, null);
             } else if (var2 == this.aMenuItem3491) {
                 CopyChatFrame var4 = new CopyChatFrame();
-                var4.create(this.imageManager.getApplet(), (ColorTextArea) (this.aChatBase3502 != null ? this.aChatBase3502.chatTextArea : this.aColorTextArea3501));
+                var4.create(this.imageManager.getApplet(), this.aChatBase3502 != null ? this.aChatBase3502.chatTextArea : this.aColorTextArea3501);
             } else if (var2 == this.aMenuItem3492) {
                 this.anUserListHandler3458.adminCommand("info", this.anUserListItem3495.getNick());
             } else if (var2 == this.aMenuItem3493) {
                 this.anUserListHandler3458.adminCommand("unmute", this.anUserListItem3495.getNick());
             } else if (var2 == this.aMenuItem3494) {
-                this.method929(5, (String) null);
+                this.method929(5, null);
             }
         } else {
             short var3 = 0;
@@ -370,7 +370,7 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
     }
 
     public void setBackgroundImage(Image var1, int var2, int var3) {
-        this.setBackgroundImage(var1, (Image) null, var2, var3);
+        this.setBackgroundImage(var1, null, var2, var3);
     }
 
     public void setBackgroundImage(Image var1, Image var2, int var3, int var4) {
@@ -496,7 +496,7 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
 
     public UserListItem getSelectedUser() {
         ColorListItem var1 = this.aColorList3465.getSelectedItem();
-        return var1 == null ? null : (UserListItem) ((UserListItem) var1.getData());
+        return var1 == null ? null : (UserListItem) var1.getData();
     }
 
     public UserListItem getUser(String var1) {
@@ -505,7 +505,7 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
             int var3 = var2.length;
             if (var3 > 0) {
                 for (int var5 = 0; var5 < var3; ++var5) {
-                    UserListItem var4 = (UserListItem) ((UserListItem) var2[var5].getData());
+                    UserListItem var4 = (UserListItem) var2[var5].getData();
                     if (var4.getNick().equals(var1)) {
                         return var4;
                     }
@@ -526,7 +526,7 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
             int var2 = var1.length;
             if (var2 > 0) {
                 for (int var4 = 0; var4 < var2; ++var4) {
-                    UserListItem var3 = (UserListItem) ((UserListItem) var1[var4].getData());
+                    UserListItem var3 = (UserListItem) var1[var4].getData();
                     if (var3.isLocal()) {
                         return var3;
                     }
@@ -543,7 +543,7 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
             int var3 = var2.length;
             if (var3 > 0) {
                 for (int var5 = 0; var5 < var3; ++var5) {
-                    UserListItem var4 = (UserListItem) ((UserListItem) var2[var5].getData());
+                    UserListItem var4 = (UserListItem) var2[var5].getData();
                     if (var4.getNick().equals(var1)) {
                         this.aColorList3465.removeItem(var2[var5]);
                         if (var2[var5].isSelected()) {
@@ -565,7 +565,7 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
             int var3 = var2.length;
             if (var3 > 0) {
                 for (int var5 = 0; var5 < var3; ++var5) {
-                    UserListItem var4 = (UserListItem) ((UserListItem) var2[var5].getData());
+                    UserListItem var4 = (UserListItem) var2[var5].getData();
                     if (var4.getNick().equals(var1)) {
                         this.aColorList3465.removeItem(var2[var5]);
                         if (var2[var5].isSelected()) {
@@ -588,7 +588,7 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
             int var2 = var1.length;
 
             for (int var3 = 0; var3 < var2; ++var3) {
-                this.method934((UserListItem) ((UserListItem) var1[var3].getData()));
+                this.method934((UserListItem) var1[var3].getData());
             }
         }
 
@@ -732,7 +732,7 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
 
     private void method929(int var1, String var2) {
         if (this.aStaffActionFrame__3496 != null) {
-            this.aStaffActionFrame__3496.windowClosing((WindowEvent) null);
+            this.aStaffActionFrame__3496.windowClosing(null);
         }
 
         this.aStaffActionFrame__3496 = new StaffActionFrame(this.textManager, this.anUserListHandler3458, var1, var2);

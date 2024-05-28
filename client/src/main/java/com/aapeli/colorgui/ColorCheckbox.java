@@ -44,11 +44,11 @@ public class ColorCheckbox extends IPanel implements ItemSelectable, MouseListen
 
 
     public ColorCheckbox() {
-        this((String) null, false);
+        this(null, false);
     }
 
     public ColorCheckbox(boolean var1) {
-        this((String) null, var1);
+        this(null, var1);
     }
 
     public ColorCheckbox(String var1) {
@@ -249,7 +249,7 @@ public class ColorCheckbox extends IPanel implements ItemSelectable, MouseListen
     }
 
     public void click() {
-        this.mouseReleased((MouseEvent) null);
+        this.mouseReleased(null);
     }
 
     public Dimension getPreferredSize() {

@@ -142,7 +142,7 @@ class ImageTracker implements Runnable {
 
             while (this.aThread1401 != null && var1 > 0) {
                 var1 -= var2;
-                Tools.sleep((long) var2);
+                Tools.sleep(var2);
             }
         }
 
@@ -263,7 +263,7 @@ class ImageTracker implements Runnable {
                 return true;
             }
 
-            Tools.sleep((long) var5);
+            Tools.sleep(var5);
         }
 
         if (this.anAApplet1400 != null) {

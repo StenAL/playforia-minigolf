@@ -35,7 +35,7 @@ class GameControlPanel extends Panel implements ActionListener, ItemListener {
         this.anInt342 = var3;
         this.anInt343 = var4;
         this.setSize(var3, var4);
-        this.setLayout((LayoutManager) null);
+        this.setLayout(null);
         this.skipButtonVisible = false;
     }
 

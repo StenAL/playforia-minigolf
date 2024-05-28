@@ -207,7 +207,7 @@ public final class Parameters {
     }
 
     public void showPlayerList(String[] var1) {
-        this.showPlayerList(var1, (String) null);
+        this.showPlayerList(var1, null);
     }
 
     public void showPlayerList(String[] nicks, String var2) {

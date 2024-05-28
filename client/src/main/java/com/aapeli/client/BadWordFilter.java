@@ -22,11 +22,11 @@ public final class BadWordFilter {
 
 
     public BadWordFilter(TextManager var1) {
-        this(var1, true, (String) null);
+        this(var1, true, null);
     }
 
     protected BadWordFilter(TextManager var1, boolean var2) {
-        this(var1, var2, (String) null);
+        this(var1, var2, null);
     }
 
     protected BadWordFilter(TextManager var1, boolean var2, String var3) {

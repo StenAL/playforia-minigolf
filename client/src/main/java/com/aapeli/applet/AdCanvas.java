@@ -54,7 +54,7 @@ class AdCanvas extends Canvas implements MouseListener {
                     }
                 }
 
-                var1.drawImage(this.anImage122, 0, 0, (ImageObserver) null);
+                var1.drawImage(this.anImage122, 0, 0, null);
                 int var5 = this.aVector118.size();
 
                 for (int var6 = 0; var6 < var5; ++var6) {
@@ -134,12 +134,12 @@ class AdCanvas extends Canvas implements MouseListener {
             this.aBoolean125 = true;
         }
 
-        if (!this.aBoolean125 && !this.gameApplet.prepareImage(this.anImage122, (ImageObserver) null)) {
+        if (!this.aBoolean125 && !this.gameApplet.prepareImage(this.anImage122, null)) {
             return false;
         } else {
             if (!this.aBoolean125) {
-                int var1 = this.anImage122.getWidth((ImageObserver) null);
-                int var2 = this.anImage122.getHeight((ImageObserver) null);
+                int var1 = this.anImage122.getWidth(null);
+                int var2 = this.anImage122.getHeight(null);
                 this.setSize(var1, var2);
             } else {
                 this.setSize(20, 20);

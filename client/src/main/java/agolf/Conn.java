@@ -32,7 +32,7 @@ public class Conn implements ConnListener {
                 ;
             }
 
-            this.gameContainer.gameApplet.setEndState((Throwable) var4);
+            this.gameContainer.gameApplet.setEndState(var4);
             this.connection.closeConnection();
         }
     }

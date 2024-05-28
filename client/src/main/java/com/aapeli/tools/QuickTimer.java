@@ -13,7 +13,7 @@ public class QuickTimer implements Runnable {
 
 
     public QuickTimer(int var1) {
-        this(var1, (QuickTimerListener) null, false);
+        this(var1, null, false);
     }
 
     public QuickTimer(int var1, QuickTimerListener var2) {
@@ -39,7 +39,7 @@ public class QuickTimer implements Runnable {
     }
 
     public void run() {
-        Tools.sleep((long) this.anInt1727);
+        Tools.sleep(this.anInt1727);
         if (!this.stopped) {
             Enumeration<QuickTimerListener> var1 = this.aVector1728.elements();
 

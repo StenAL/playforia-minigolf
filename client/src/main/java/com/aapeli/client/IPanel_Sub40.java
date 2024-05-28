@@ -80,7 +80,7 @@ class IPanel_Sub40 extends IPanel implements ActionListener {
     }
 
     private void method821() {
-        this.setLayout((LayoutManager) null);
+        this.setLayout(null);
         if (this.anInt3212 == 0) {
             this.aRoundButton3215 = new RoundButton(this.anAApplet3210.textManager.getShared("GameFin_W_CreateAccount"));
             this.aRoundButton3215.setBounds(210, 225, 220, 30);

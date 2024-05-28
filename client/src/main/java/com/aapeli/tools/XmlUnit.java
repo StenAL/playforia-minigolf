@@ -218,7 +218,7 @@ public class XmlUnit {
                 if (var2.empty()) {
                     var7 = 5;
                 } else {
-                    XmlUnit var6 = (XmlUnit) ((XmlUnit) var2.pop());
+                    XmlUnit var6 = var2.pop();
                     var6.addChild(tagStart);
                     tagStart = var6;
                     var7 = 2;

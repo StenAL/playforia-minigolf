@@ -60,7 +60,7 @@ public class ColorButton extends IPanel implements MouseMotionListener, MouseLis
     public static boolean aBoolean3287;
 
     public ColorButton() {
-        this((String) null);
+        this(null);
     }
 
     public ColorButton(String var1) {
@@ -69,7 +69,7 @@ public class ColorButton extends IPanel implements MouseMotionListener, MouseLis
         this.setFont(Class94.aFont1575);
         this.setLabel(var1);
         this.setSecondaryFont(new Font("Dialog", 0, 11));
-        this.setSecondaryLabel((String) null);
+        this.setSecondaryLabel(null);
         this.aBoolean3276 = true;
         this.aBoolean3277 = this.aBoolean3278 = false;
         this.anInt3279 = 1;
@@ -282,9 +282,9 @@ public class ColorButton extends IPanel implements MouseMotionListener, MouseLis
 
     public void setIconImage(Image var1) {
         if (var1 != null) {
-            this.setIconImage(var1, var1.getWidth((ImageObserver) null), var1.getHeight((ImageObserver) null));
+            this.setIconImage(var1, var1.getWidth(null), var1.getHeight(null));
         } else {
-            this.setIconImage((Image) null, -1, -1);
+            this.setIconImage(null, -1, -1);
         }
 
     }
@@ -341,7 +341,7 @@ public class ColorButton extends IPanel implements MouseMotionListener, MouseLis
 
     public void click() {
         this.aBoolean3278 = true;
-        this.mouseReleased((MouseEvent) null);
+        this.mouseReleased(null);
     }
 
     public Dimension getPreferredSize() {

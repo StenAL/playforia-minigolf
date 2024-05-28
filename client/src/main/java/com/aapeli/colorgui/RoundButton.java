@@ -45,15 +45,15 @@ public class RoundButton extends IPanel implements MouseMotionListener, MouseLis
 
 
     public RoundButton() {
-        this((String) null, (Image) null, (Image) null);
+        this(null, null, null);
     }
 
     public RoundButton(String var1) {
-        this(var1, (Image) null, (Image) null);
+        this(var1, null, null);
     }
 
     public RoundButton(String var1, Image var2) {
-        this(var1, var2, (Image) null);
+        this(var1, var2, null);
     }
 
     public RoundButton(String var1, Image var2, Image var3) {
@@ -63,7 +63,7 @@ public class RoundButton extends IPanel implements MouseMotionListener, MouseLis
         this.setFont(aFont3382);
         this.setLabel(var1);
         this.setSecondaryFont(aFont3382);
-        this.setSecondaryLabel((String) null);
+        this.setSecondaryLabel(null);
         this.anImage3391 = var2;
         this.anImage3392 = var3;
         this.aBoolean3393 = this.aBoolean3394 = false;
@@ -214,7 +214,7 @@ public class RoundButton extends IPanel implements MouseMotionListener, MouseLis
     }
 
     public Dimension getPreferredSize() {
-        return this.anImage3391 == null ? new Dimension(13 + this.getFontMetrics(this.aFont3388).stringWidth(this.aString3387) + 13, 5 + this.aFont3388.getSize() + 5) : new Dimension(this.anImage3391.getWidth((ImageObserver) null), this.anImage3391.getHeight((ImageObserver) null));
+        return this.anImage3391 == null ? new Dimension(13 + this.getFontMetrics(this.aFont3388).stringWidth(this.aString3387) + 13, 5 + this.aFont3388.getSize() + 5) : new Dimension(this.anImage3391.getWidth(null), this.anImage3391.getHeight(null));
     }
 
     public void addActionListener(ActionListener var1) {
@@ -287,8 +287,8 @@ public class RoundButton extends IPanel implements MouseMotionListener, MouseLis
     }
 
     private void method871(Graphics var1, Color var2, int var3, int var4, boolean var5) {
-        int var6 = (int) (Math.sqrt((double) var4) + 1.8D);
-        double var7 = Math.sqrt(Math.sqrt((double) var4)) - 0.34D;
+        int var6 = (int) (Math.sqrt(var4) + 1.8D);
+        double var7 = Math.sqrt(Math.sqrt(var4)) - 0.34D;
         Color var9 = this.getParent().getBackground();
         Color var10 = this.aColor3386;
         if (!var5) {
@@ -316,8 +316,8 @@ public class RoundButton extends IPanel implements MouseMotionListener, MouseLis
                     var14 = var3 - var6 - 1;
                 }
 
-                double var16 = (double) (var13 - var14);
-                double var18 = (double) (var12 - var15);
+                double var16 = var13 - var14;
+                double var18 = var12 - var15;
                 double var20 = Math.sqrt(var16 * var16 + var18 * var18);
                 if (var20 <= (double) var6 + 1.0D && var20 <= (double) var6) {
                     if (var20 > (double) var6 - var7) {

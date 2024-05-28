@@ -18,7 +18,7 @@ class GameQueue {
     protected void add(String var1) {
         long var2;
         synchronized (this) {
-            var2 = (long) (this.sendSeqNum++);
+            var2 = this.sendSeqNum++;
         }
 
         var1 = this.connCipher.encrypt(var2 + " " + var1);

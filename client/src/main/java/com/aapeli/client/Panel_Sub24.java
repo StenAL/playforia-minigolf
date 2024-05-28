@@ -62,7 +62,7 @@ class Panel_Sub24 extends Panel implements ActionListener, FocusListener {
         this.anInt638 = 0;
         this.aBoolean640 = false;
         this.anInt639 = 1;
-        this.method481((InputTextField) null);
+        this.method481(null);
     }
 
     public void addNotify() {
@@ -241,7 +241,7 @@ class Panel_Sub24 extends Panel implements ActionListener, FocusListener {
     }
 
     private void method480() {
-        this.setLayout((LayoutManager) null);
+        this.setLayout(null);
         this.anInputTextFieldArray632 = new InputTextField[4];
 
         int var1;
@@ -317,7 +317,7 @@ class Panel_Sub24 extends Panel implements ActionListener, FocusListener {
 
     private void method482(boolean var1) {
         ++this.anInt639;
-        this.method481((InputTextField) null);
+        this.method481(null);
         if (var1) {
             this.anInputTextFieldArray632[this.anInt639 - 1].requestFocus();
         }

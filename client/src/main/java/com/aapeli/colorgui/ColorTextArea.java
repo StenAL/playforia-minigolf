@@ -62,7 +62,7 @@ public class ColorTextArea extends IPanel implements ComponentListener, Adjustme
     private Object anObject3352;
 
     public ColorTextArea(int var1, int var2) {
-        this(var1, var2, (Font) null);
+        this(var1, var2, null);
     }
 
     public ColorTextArea(int var1, int var2, Font var3) {
@@ -85,7 +85,7 @@ public class ColorTextArea extends IPanel implements ComponentListener, Adjustme
         this.method849();
         this.anInt3351 = 1;
         this.addComponentListener(this);
-        this.setLayout((LayoutManager) null);
+        this.setLayout(null);
         this.aScrollbar3331 = new Scrollbar(1);
         this.method850();
         this.aScrollbar3331.setUnitIncrement(1);
@@ -184,7 +184,7 @@ public class ColorTextArea extends IPanel implements ComponentListener, Adjustme
     }
 
     public void addLine() {
-        this.addLine((Color) null, (String) null, false);
+        this.addLine(null, null, false);
     }
 
     public void addLine(int var1, String var2) {

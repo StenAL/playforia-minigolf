@@ -113,7 +113,7 @@ public class InputTextField extends TextField implements FocusListener, KeyListe
 
                     String var4;
                     if (this.anInt727 < this.userInputzCount) {
-                        var4 = (String) this.userInputz.elementAt(this.anInt727);
+                        var4 = this.userInputz.elementAt(this.anInt727);
                     } else {
                         var4 = this.finalInput;
                     }

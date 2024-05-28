@@ -31,7 +31,7 @@ final class GlobalTextArea extends IPanel implements ComponentListener, TabBarLi
         this.anInt2363 = var4.width;
         this.anInt2364 = var4.height;
         this.setSize(this.anInt2363, this.anInt2364);
-        this.setLayout((LayoutManager) null);
+        this.setLayout(null);
         var2.setLocation(0, 0);
         this.add(var2);
         this.aChatTextArea2365 = var2;
@@ -65,7 +65,7 @@ final class GlobalTextArea extends IPanel implements ComponentListener, TabBarLi
 
     public void selectedTabChanged(int var1) {
         TabBarItem var2 = this.aTabBar2367.getTabBarItemByIndex(var1);
-        ChatTextArea var3 = (ChatTextArea) ((ChatTextArea) var2.getComponent());
+        ChatTextArea var3 = (ChatTextArea) var2.getComponent();
         this.aChatBase2361.setCurrentOutput(var3);
     }
 
@@ -163,9 +163,9 @@ final class GlobalTextArea extends IPanel implements ComponentListener, TabBarLi
 
             TabBarItem var3 = this.aTabBar2367.getTabBarItemByID(var1);
             if (var3 != null) {
-                return (ChatTextArea) ((ChatTextArea) var3.getComponent());
+                return (ChatTextArea) var3.getComponent();
             } else {
-                ChatTextArea var4 = (ChatTextArea) ((ChatTextArea) this.aTabBar2367.getTabBarItemByIndex(0).getComponent());
+                ChatTextArea var4 = (ChatTextArea) this.aTabBar2367.getTabBarItemByIndex(0).getComponent();
                 var4 = new ChatTextArea(var4.getTextManager(), var4.getBadWordFilter(), this.anInt2363, this.anInt2364 - 15, var4.getFont());
                 var4.setLocation(0, 15);
                 this.method923(var1, var4);
@@ -193,7 +193,7 @@ final class GlobalTextArea extends IPanel implements ComponentListener, TabBarLi
                 ChatTextArea[] var4 = new ChatTextArea[var3];
 
                 for (int var5 = 0; var5 < var3; ++var5) {
-                    var4[var5] = (ChatTextArea) ((ChatTextArea) var2[var5].getComponent());
+                    var4[var5] = (ChatTextArea) var2[var5].getComponent();
                 }
 
                 return var4;

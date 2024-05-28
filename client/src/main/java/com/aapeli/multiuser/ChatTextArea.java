@@ -16,15 +16,15 @@ public class ChatTextArea extends ColorTextArea {
     private Hashtable<String, Integer> aHashtable4730;
 
     public ChatTextArea(TextManager var1, int var2, int var3) {
-        this(var1, (BadWordFilter) null, var2, var3, (Font) null);
+        this(var1, null, var2, var3, null);
     }
 
     public ChatTextArea(TextManager var1, int var2, int var3, Font var4) {
-        this(var1, (BadWordFilter) null, var2, var3, var4);
+        this(var1, null, var2, var3, var4);
     }
 
     public ChatTextArea(TextManager var1, BadWordFilter var2, int var3, int var4) {
-        this(var1, var2, var3, var4, (Font) null);
+        this(var1, var2, var3, var4, null);
     }
 
     public ChatTextArea(TextManager var1, BadWordFilter var2, int var3, int var4, Font var5) {

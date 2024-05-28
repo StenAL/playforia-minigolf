@@ -18,7 +18,7 @@ class Class98 {
     protected void method1772(String var1) {
         long var2;
         synchronized (this) {
-            var2 = (long) (this.aLong1607++);
+            var2 = this.aLong1607++;
         }
 
         var1 = this.aConnCrypto_1606.encrypt(var2 + " " + var1);

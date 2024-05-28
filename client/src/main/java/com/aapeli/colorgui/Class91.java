@@ -88,14 +88,14 @@ class Class91 {
             var1.fillRect(this.anInt1536, this.anInt1537, this.anInt1538, this.anInt1539);
         }
 
-        this.method1744(var1, var2, this.anImage1547, this.aColor1545, this.aFont1542, this.aString1546, (Image) null);
+        this.method1744(var1, var2, this.anImage1547, this.aColor1545, this.aFont1542, this.aString1546, null);
     }
 
     private void method1744(Graphics var1, ColorList var2, Image var3, Color var4, Font var5, String var6, Image var7) {
         int var8 = 4;
         if (var3 != null) {
             var1.drawImage(var3, var8, this.anInt1537 + this.anInt1539 / 2 - var3.getHeight(var2) / 2, var2);
-            int var9 = this.anInt1540 > 0 ? this.anInt1540 : var3.getWidth((ImageObserver) null);
+            int var9 = this.anInt1540 > 0 ? this.anInt1540 : var3.getWidth(null);
             var8 += var9 + 3;
         }
 

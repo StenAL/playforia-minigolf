@@ -262,7 +262,7 @@ class LobbyMultiPlayerPanel extends Panel implements ItemListener, ActionListene
     }
 
     protected void create() {
-        this.setLayout((LayoutManager) null);
+        this.setLayout(null);
         this.choicerNumPlayers = new Choicer();
 
         for (int num = 2; num <= 4; ++num) {

@@ -32,15 +32,15 @@ public class ColorListItem {
 
 
     public ColorListItem(String var1) {
-        this((Image) null, 0, false, var1, (Object) null, false);
+        this(null, 0, false, var1, null, false);
     }
 
     public ColorListItem(int var1, boolean var2, String var3) {
-        this((Image) null, var1, var2, var3, (Object) null, false);
+        this(null, var1, var2, var3, null, false);
     }
 
     public ColorListItem(int var1, boolean var2, String var3, Object var4, boolean var5) {
-        this((Image) null, aColorArray1554[var1], var2, var3, var4, var5);
+        this(null, aColorArray1554[var1], var2, var3, var4, var5);
     }
 
     public ColorListItem(Image var1, int var2, boolean var3, String var4, Object var5, boolean var6) {

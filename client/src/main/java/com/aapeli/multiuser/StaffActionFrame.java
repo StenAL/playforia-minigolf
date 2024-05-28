@@ -193,7 +193,7 @@ class StaffActionFrame extends Frame implements WindowListener, ItemListener, Ke
         Dimension var5 = var1.getSize();
         this.setLocation(var4.x + var5.width / 2 - this.width / 2, var4.y + var5.height / 2 - this.height / 2);
         this.method252(this, true);
-        this.setLayout((LayoutManager) null);
+        this.setLayout(null);
         String var6 = null;
         Label var7 = new Label("Target user:");
         var7.setBounds(this.insets.left + 10, this.insets.top + 10, 80, 25);

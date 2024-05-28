@@ -64,7 +64,7 @@ public class TabBar extends IPanel implements ComponentListener, ActionListener 
         this.anInt3421 = -1;
         this.addComponentListener(this);
         this.aVector3424 = new Vector<>();
-        this.setLayout((LayoutManager) null);
+        this.setLayout(null);
         this.anInt3423 = 0;
     }
 

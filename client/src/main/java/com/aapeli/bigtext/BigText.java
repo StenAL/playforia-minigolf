@@ -59,7 +59,7 @@ public class BigText {
     }
 
     public BigText(String var1, Color var2, int var3) {
-        this(var1, var2, var3, anIntArray1317, anIntArray1318, 1, (Component) null);
+        this(var1, var2, var3, anIntArray1317, anIntArray1318, 1, null);
     }
 
     public BigText(String var1, Color var2, int var3, Component var4) {
@@ -82,7 +82,7 @@ public class BigText {
     }
 
     public void setAlpha(int var1) {
-        this.method1558(var1, (Component) null);
+        this.method1558(var1, null);
     }
 
     public void drawText(Graphics var1, int var2, int var3, int var4, int var5) {

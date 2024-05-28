@@ -191,7 +191,7 @@ class ChatPanel extends Panel implements KeyListener, ActionListener {
             }
 
             if (var1 != ChatBase.CIDR_NONE) {
-                ChatBase.setInputByCIDR(var1, this, this.textFieldMessage, this.buttonSay, (UrlLabel) null, this.gameContainer.textManager, this.gameContainer.params);
+                ChatBase.setInputByCIDR(var1, this, this.textFieldMessage, this.buttonSay, null, this.gameContainer.textManager, this.gameContainer.params);
             }
         }
 

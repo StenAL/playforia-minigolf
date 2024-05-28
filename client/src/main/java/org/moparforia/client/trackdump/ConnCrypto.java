@@ -34,7 +34,7 @@ public class ConnCrypto {
             this.anIntArrayArray1603[1][var2 - 128] = -1;
         }
 
-        Class100 var5 = new Class100((long) newKey);
+        Class100 var5 = new Class100(newKey);
 
         int var3;
         int var4;

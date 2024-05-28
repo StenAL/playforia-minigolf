@@ -81,7 +81,7 @@ abstract class Frame_Sub3 extends Frame implements WindowListener {
         Dimension var7 = var1.getSize();
         this.setLocation(var6.x + var7.width / 2 - this.anInt188 / 2, var6.y + var7.height / 2 - this.anInt189 / 2);
         this.setBackground(Panel_Sub24.aColor616);
-        this.setLayout((LayoutManager) null);
+        this.setLayout(null);
         var3.setLocation(var4.left, var4.top);
         this.add(var3);
         this.addWindowListener(this);

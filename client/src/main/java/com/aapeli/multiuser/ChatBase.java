@@ -432,7 +432,7 @@ public abstract class ChatBase extends IPanel implements ComponentListener, User
     }
 
     public RoundButton copyColorButtonToRoundButton(Component var1) {
-        ColorButton var2 = (ColorButton) ((ColorButton) var1);
+        ColorButton var2 = (ColorButton) var1;
         var2.removeActionListener(this);
         this.remove(var2);
         RoundButton var3 = new RoundButton(var2.getLabel());
@@ -587,7 +587,7 @@ public abstract class ChatBase extends IPanel implements ComponentListener, User
                                     var6 = this.gui_globaloutput.method914();
 
                                     for (int var7 = 0; var7 < var4.length; ++var7) {
-                                        ((GlobalChatListener) ((GlobalChatListener) var4[var7])).localUserSay(var6, message);
+                                        ((GlobalChatListener) var4[var7]).localUserSay(var6, message);
                                     }
                                 }
                             }

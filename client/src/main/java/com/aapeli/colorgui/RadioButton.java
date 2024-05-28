@@ -16,15 +16,15 @@ public class RadioButton extends ColorButton {
 
 
     public RadioButton() {
-        this((String) null, (RadioButtonGroup) null);
+        this(null, null);
     }
 
     public RadioButton(RadioButtonGroup var1) {
-        this((String) null, var1);
+        this(null, var1);
     }
 
     public RadioButton(String var1) {
-        this(var1, (RadioButtonGroup) null);
+        this(var1, null);
     }
 
     public RadioButton(String var1, RadioButtonGroup var2) {
@@ -75,7 +75,7 @@ public class RadioButton extends ColorButton {
     }
 
     public void click() {
-        this.mousePressed((MouseEvent) null);
+        this.mousePressed(null);
     }
 
     public void boldSelected(boolean var1) {

@@ -99,7 +99,7 @@ public final class ColorList extends Panel implements ComponentListener, Adjustm
         this.anInt671 = this.anInt672 = this.anInt678 = this.anInt679 = -1;
         this.anInt673 = -1;
         this.anInt675 = 0;
-        this.setLayout((LayoutManager) null);
+        this.setLayout(null);
         this.aScrollbar653 = new Scrollbar(1);
         this.aScrollbar653.setBounds(var1 - 16 - 1, 1, 16, var2 - 2);
         this.aScrollbar653.setBlockIncrement(this.anInt664 - 1);
@@ -140,7 +140,7 @@ public final class ColorList extends Panel implements ComponentListener, Adjustm
             int var6 = 0;
             Class91 var2;
             if (this.aString667 != null) {
-                var2 = new Class91(1, var6, this.anInt661 - 2, this.anInt663, this.anInt660, this.anImage655 != null, this.aFont659, this.aColor668, this.aString667, (Image) null);
+                var2 = new Class91(1, var6, this.anInt661 - 2, this.anInt663, this.anInt660, this.anImage655 != null, this.aFont659, this.aColor668, this.aString667, null);
                 this.aVector670.addElement(var2);
                 var2.method1739(this.aGraphics677, this);
                 var6 += this.anInt663;
@@ -521,7 +521,7 @@ public final class ColorList extends Panel implements ComponentListener, Adjustm
             return null;
         } else {
             for (int var4 = 0; var4 < var2; ++var4) {
-                Class91 var3 = (Class91) ((Class91) this.aVector670.elementAt(var4));
+                Class91 var3 = this.aVector670.elementAt(var4);
                 if (var3.method1740(var1)) {
                     return var3.method1741();
                 }

@@ -785,9 +785,9 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
 
                     for (int magnetIndex = 0; magnetIndex < magnetVecLen; ++magnetIndex) {
                         // [ x, y, blockid ]
-                        int[] magnet = (int[]) magnetVec.elementAt(magnetIndex);
-                        double forceTemp2X = (double) (magnet[0] - magnetLoopX);
-                        double forcetemp2Y = (double) (magnet[1] - magnetLoopY);
+                        int[] magnet = magnetVec.elementAt(magnetIndex);
+                        double forceTemp2X = magnet[0] - magnetLoopX;
+                        double forcetemp2Y = magnet[1] - magnetLoopY;
                         double force = Math.sqrt(forceTemp2X * forceTemp2X + forcetemp2Y * forcetemp2Y);
                         if (force <= 127.0D) {
                             double var35 = Math.abs(forceTemp2X) / force;
@@ -1394,7 +1394,7 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
                 do {
                     i = startLen - 1;
                     random = this.rngSeed.next() % (i + 1);
-                    teleportPos = (double[]) this.teleportStarts[teleportId].elementAt(random);
+                    teleportPos = this.teleportStarts[teleportId].elementAt(random);
                     if (Math.abs(teleportPos[0] - (double) x) >= 15.0D || Math.abs(teleportPos[1] - (double) y) >= 15.0D) {
                         this.playerX[playerId] = teleportPos[0];
                         this.playerY[playerId] = teleportPos[1];
@@ -1429,7 +1429,7 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
         }
 
         //finally move player to exit position
-        teleportPos = (double[]) this.teleportExists[var13].elementAt(random);
+        teleportPos = this.teleportExists[var13].elementAt(random);
         this.playerX[playerId] = teleportPos[0];
         this.playerY[playerId] = teleportPos[1];
     }
@@ -1666,8 +1666,8 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
         int var6 = var4 >= 0 ? var4 : -var4;
         int var7 = var5 >= 0 ? var5 : -var5;
         int var8 = Math.max(var6, var7) / 10;
-        double var9 = (double) var2;
-        double var11 = (double) var3;
+        double var9 = var2;
+        double var11 = var3;
         double var13 = (double) var4 / ((double) var8 * 2.0D);
         double var15 = (double) var5 / ((double) var8 * 2.0D);
         var9 += var13;
