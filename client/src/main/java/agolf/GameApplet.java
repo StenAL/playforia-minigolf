@@ -7,10 +7,7 @@ import com.aapeli.applet.AApplet;
 import com.aapeli.client.*;
 import org.moparforia.client.Launcher;
 
-import java.applet.Applet;
-import java.applet.AudioClip;
 import java.awt.*;
-import java.net.URL;
 
 public class GameApplet extends AApplet {
 
@@ -29,7 +26,7 @@ public class GameApplet extends AApplet {
     public static final Font fontDialog12 = new Font("Dialog", 0, 12);
     public static final Font fontDialog11 = new Font("Dialog", 0, 11);
     private GameContainer gameContainer;
-    private int anInt3769;
+    private int activePanel;
     private SynchronizedBool syncUnknownBool;
     private SynchronizedInteger syncPlayerAccessLevel;
     private boolean disableGuestChat;
@@ -112,7 +109,7 @@ public class GameApplet extends AApplet {
     }
 
     protected int method32() {
-        return this.anInt3769;
+        return this.activePanel;
     }
 
     public void setGameState(int state) {
@@ -123,15 +120,19 @@ public class GameApplet extends AApplet {
         this.setGameState(state, lobbyId, 0);
     }
 
-    protected void setGameState(int panelActive, int lobbyId, int lobbyExtra) {
-        if (panelActive != this.anInt3769 && this.syncIsValidSite.get()) {
-            this.anInt3769 = panelActive;
+    /**
+     * @param activePanel 0 == ?, 1 == login, 2 == lobby selection panel, 3 == in lobby, 4 == in game
+     * @param lobbyId game type, single player == 1, dual player == 2, multiplayer == 3
+     */
+    protected void setGameState(int activePanel, int lobbyId, int lobbyExtra) {
+        if (activePanel != this.activePanel && this.syncIsValidSite.get()) {
+            this.activePanel = activePanel;
             if (this.gameContainer.lobbySelectionPanel != null) {
                 this.gameContainer.lobbySelectionPanel.destroyRNOP();
             }
 
             this.clearContent();
-            if (panelActive == 1) {
+            if (activePanel == 1) {
                 if (this.aBoolean3773) {
                     super.param.removeSession();
                 } else {
@@ -151,16 +152,16 @@ public class GameApplet extends AApplet {
                 } else if (this.hasSession()) {
                     super.param.noGuestAutoLogin();
                     this.gameContainer.connection.writeData("login\t" + super.param.getSession());
-                    this.anInt3769 = 0;
+                    this.activePanel = 0;
                 } else if (!this.gameContainer.synchronizedTrackTestMode.get()) {
                     this.gameContainer.connection.writeData("login");
-                    this.anInt3769 = 0;
+                    this.activePanel = 0;
                 } else {
 
                 }
             }
 
-            if (panelActive == 2) {
+            if (activePanel == 2) {
                 if (this.gameContainer.lobbySelectionPanel == null) {
                     this.gameContainer.lobbySelectionPanel = new LobbySelectPanel(this.gameContainer, super.appletWidth, super.appletHeight);
                     this.gameContainer.lobbySelectionPanel.setLocation(0, 0);
@@ -187,7 +188,7 @@ public class GameApplet extends AApplet {
                 }
             }
 
-            if (panelActive == 3) {
+            if (activePanel == 3) {
                 this.gameContainer.gamePanel = null;
                 if (this.gameContainer.lobbyPanel == null) {
                     this.gameContainer.lobbyPanel = new LobbyPanel(this.gameContainer, super.appletWidth, super.appletHeight);
@@ -205,13 +206,13 @@ public class GameApplet extends AApplet {
                 this.addToContent(this.gameContainer.lobbyPanel);
             }
 
-            if (panelActive == 4) {
+            if (activePanel == 4) {
                 this.gameContainer.gamePanel = new GamePanel(this.gameContainer, super.appletWidth, super.appletHeight, this.anImage3774);
                 this.gameContainer.gamePanel.setLocation(0, 0);
                 this.addToContent(this.gameContainer.gamePanel);
             }
 
-            if (panelActive == 5) {
+            if (activePanel == 5) {
                 //super.param.showQuitPage();
                 System.exit(0);
             } else {

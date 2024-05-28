@@ -47,7 +47,7 @@ class AdCanvas extends Canvas implements MouseListener {
         if (this.aBoolean123) {
             if (!this.aBoolean125) {
                 if (this.loadingPanel != null) {
-                    Image var2 = this.loadingPanel.method469();
+                    Image var2 = this.loadingPanel.getImage();
                     if (var2 != null) {
                         Point var3 = this.getLocation();
                         var1.drawImage(var2, -var3.x, -var3.y, this);

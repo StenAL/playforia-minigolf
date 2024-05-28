@@ -59,10 +59,10 @@ public abstract class AApplet extends Applet implements Runnable, ActionListener
     private int endState;
     private String endTextCustom;
     private Throwable aThrowable2553;
-    private boolean aBoolean2554;
+    private boolean drawTextOutline;
     private boolean notStarted;
     private boolean destroyed;
-    private boolean aBoolean2557;
+    private boolean ready;
     private RetryCanvas retryCanvas;
     private Image splashImage;
     private long splashTimestamp;
@@ -83,8 +83,8 @@ public abstract class AApplet extends Applet implements Runnable, ActionListener
         this.endState = 0;
         this.endTextCustom = null;
         this.aThrowable2553 = null;
-        this.aBoolean2554 = false;
-        this.aBoolean2557 = false;
+        this.drawTextOutline = false;
+        this.ready = false;
         this.notStarted = true;
         this.destroyed = false;
         this.verbose = false;
@@ -181,47 +181,47 @@ public abstract class AApplet extends Applet implements Runnable, ActionListener
 
                 if (this.textManager != null) {
                     this.appletGraphics.setColor(this.getForeground());
-                    Color color = this.aBoolean2554 ? backgroundColor : null;
+                    Color outlineColor = this.drawTextOutline ? backgroundColor : null;
                     if (this.endState == END_ERROR_CONNECTION) {
-                        byte yOffset = -20;
+                        byte textYOffset = -20;
                         this.appletGraphics.setFont(fontDialog15);
-                        StringDraw.drawOutlinedString(this.appletGraphics, color, this.textManager.getShared("Message_CE_ConnectionError"), 40, 80 + yOffset, -1);
+                        StringDraw.drawOutlinedString(this.appletGraphics, outlineColor, this.textManager.getShared("Message_CE_ConnectionError"), 40,80 + textYOffset, -1);
                         this.appletGraphics.setFont(fontDialog12);
-                        StringDraw.drawOutlinedString(this.appletGraphics, color, this.textManager.getShared("Message_CE_PossibleReasons"), 40, 125 + yOffset, -1);
-                        if (!this.aBoolean2557) {
+                        StringDraw.drawOutlinedString(this.appletGraphics, outlineColor, this.textManager.getShared("Message_CE_PossibleReasons"), 40,125 + textYOffset, -1);
+                        if (!this.ready) {
                             this.appletGraphics.setFont(fontDialog12);
-                            StringDraw.drawOutlinedString(this.appletGraphics, color, "- " + this.textManager.getShared("Message_CE0_1_Short"), 40, 160 + yOffset, -1);
+                            StringDraw.drawOutlinedString(this.appletGraphics, outlineColor, "- " + this.textManager.getShared("Message_CE0_1_Short"), 40,160 + textYOffset, -1);
                             this.appletGraphics.setFont(fontDialog11);
-                            StringDraw.drawOutlinedStringWithMaxWidth(this.appletGraphics, color, this.textManager.getShared("Message_CE0_1_Long", this.param.getServerIp(), "" + this.param.getServerPort()), 50, 180 + yOffset, -1, this.appletWidth - 50 - 50);
+                            StringDraw.drawOutlinedStringWithMaxWidth(this.appletGraphics, outlineColor, this.textManager.getShared("Message_CE0_1_Long", this.param.getServerIp(), "" + this.param.getServerPort()), 50, 180 + textYOffset, -1, this.appletWidth - 50 - 50);
                             this.appletGraphics.setFont(fontDialog12);
-                            StringDraw.drawOutlinedString(this.appletGraphics, color, "- " + this.textManager.getShared("Message_CE0_2_Short"), 40, 245 + yOffset, -1);
+                            StringDraw.drawOutlinedString(this.appletGraphics, outlineColor, "- " + this.textManager.getShared("Message_CE0_2_Short"), 40,245 + textYOffset, -1);
                             this.appletGraphics.setFont(fontDialog11);
-                            StringDraw.drawOutlinedStringWithMaxWidth(this.appletGraphics, color, this.textManager.getShared("Message_CE0_2_Long"), 50, 265 + yOffset, -1, this.appletWidth - 50 - 50);
+                            StringDraw.drawOutlinedStringWithMaxWidth(this.appletGraphics, outlineColor, this.textManager.getShared("Message_CE0_2_Long"), 50,265 + textYOffset, -1, this.appletWidth - 50 - 50);
                             this.appletGraphics.setFont(fontDialog12);
-                            StringDraw.drawOutlinedString(this.appletGraphics, color, "- " + this.textManager.getShared("Message_CE0_3_Short"), 40, 305 + yOffset, -1);
+                            StringDraw.drawOutlinedString(this.appletGraphics, outlineColor, "- " + this.textManager.getShared("Message_CE0_3_Short"), 40,305 + textYOffset, -1);
                             this.appletGraphics.setFont(fontDialog11);
-                            StringDraw.drawOutlinedStringWithMaxWidth(this.appletGraphics, color, this.textManager.getShared("Message_CE0_3_Long"), 50, 325 + yOffset, -1, this.appletWidth - 50 - 50);
+                            StringDraw.drawOutlinedStringWithMaxWidth(this.appletGraphics, outlineColor, this.textManager.getShared("Message_CE0_3_Long"), 50,325 + textYOffset, -1, this.appletWidth - 50 - 50);
                         } else {
                             this.appletGraphics.setFont(fontDialog12);
-                            StringDraw.drawOutlinedString(this.appletGraphics, color, "- " + this.textManager.getShared("Message_CE1_1_Short"), 40, 160 + yOffset, -1);
+                            StringDraw.drawOutlinedString(this.appletGraphics, outlineColor, "- " + this.textManager.getShared("Message_CE1_1_Short"), 40,160 + textYOffset, -1);
                             this.appletGraphics.setFont(fontDialog11);
-                            StringDraw.drawOutlinedStringWithMaxWidth(this.appletGraphics, color, this.textManager.getShared("Message_CE1_1_Long"), 50, 180 + yOffset, -1, this.appletWidth - 50 - 50);
+                            StringDraw.drawOutlinedStringWithMaxWidth(this.appletGraphics, outlineColor, this.textManager.getShared("Message_CE1_1_Long"), 50,180 + textYOffset, -1, this.appletWidth - 50 - 50);
                             this.appletGraphics.setFont(fontDialog12);
-                            StringDraw.drawOutlinedString(this.appletGraphics, color, "- " + this.textManager.getShared("Message_CE1_2_Short"), 40, 235 + yOffset, -1);
+                            StringDraw.drawOutlinedString(this.appletGraphics, outlineColor, "- " + this.textManager.getShared("Message_CE1_2_Short"), 40,235 + textYOffset, -1);
                             this.appletGraphics.setFont(fontDialog11);
-                            StringDraw.drawOutlinedStringWithMaxWidth(this.appletGraphics, color, this.textManager.getShared("Message_CE1_2_Long"), 50, 255 + yOffset, -1, this.appletWidth - 50 - 50);
+                            StringDraw.drawOutlinedStringWithMaxWidth(this.appletGraphics, outlineColor, this.textManager.getShared("Message_CE1_2_Long"), 50,255 + textYOffset, -1, this.appletWidth - 50 - 50);
                             this.appletGraphics.setFont(fontDialog12);
-                            StringDraw.drawOutlinedString(this.appletGraphics, color, "- " + this.textManager.getShared("Message_CE1_3_Short"), 40, 305 + yOffset, -1);
+                            StringDraw.drawOutlinedString(this.appletGraphics, outlineColor, "- " + this.textManager.getShared("Message_CE1_3_Short"), 40,305 + textYOffset, -1);
                             this.appletGraphics.setFont(fontDialog11);
-                            StringDraw.drawOutlinedStringWithMaxWidth(this.appletGraphics, color, this.textManager.getShared("Message_CE1_3_Long"), 50, 325 + yOffset, -1, this.appletWidth - 50 - 50);
+                            StringDraw.drawOutlinedStringWithMaxWidth(this.appletGraphics, outlineColor, this.textManager.getShared("Message_CE1_3_Long"), 50,325 + textYOffset, -1, this.appletWidth - 50 - 50);
                         }
                     } else if (this.endState == END_THROWABLE) {
                         this.appletGraphics.setFont(fontDialog15);
-                        StringDraw.drawOutlinedString(this.appletGraphics, color, this.textManager.getShared("Message_PE_ProgramError"), 50, 100, -1);
+                        StringDraw.drawOutlinedString(this.appletGraphics, outlineColor, this.textManager.getShared("Message_PE_ProgramError"), 50,100, -1);
                         this.appletGraphics.setFont(fontDialog12);
-                        StringDraw.drawOutlinedStringWithMaxWidth(this.appletGraphics, color, this.textManager.getShared("Message_PE_GameClosed"), 50, 150, -1, this.appletWidth - 70 - 50);
+                        StringDraw.drawOutlinedStringWithMaxWidth(this.appletGraphics, outlineColor, this.textManager.getShared("Message_PE_GameClosed"), 50,150, -1, this.appletWidth - 70 - 50);
                         this.appletGraphics.setFont(fontDialog12b);
-                        StringDraw.drawOutlinedString(this.appletGraphics, color, this.textManager.getShared("Message_PE_ErrorDesc", this.aThrowable2553.toString()), 50, 235, -1);
+                        StringDraw.drawOutlinedString(this.appletGraphics, outlineColor, this.textManager.getShared("Message_PE_ErrorDesc", this.aThrowable2553.toString()), 50, 235, -1);
                     } else {
                         String endText = this.textManager.getShared("Message_WaitWhile");
                         String endTextHelp = null;
@@ -261,21 +261,21 @@ public abstract class AApplet extends Applet implements Runnable, ActionListener
 
                         this.appletGraphics.setFont(fontDialog15);
                         if (this.endTextLocation == TEXT_CENTER) {
-                            StringDraw.drawOutlinedString(this.appletGraphics, color, endText, this.appletWidth / 2, this.appletHeight / 2 - 10, 0);
+                            StringDraw.drawOutlinedString(this.appletGraphics, outlineColor, endText, this.appletWidth / 2, this.appletHeight / 2 - 10, 0);
                         } else if (this.endTextLocation == TEXT_LOWERLEFT) {
-                            StringDraw.drawOutlinedString(this.appletGraphics, color, endText, this.appletWidth / 12, this.appletHeight - 120, -1);
+                            StringDraw.drawOutlinedString(this.appletGraphics, outlineColor, endText, this.appletWidth / 12, this.appletHeight - 120, -1);
                         } else if (this.endTextLocation == TEXT_LOWERMIDDLE) {
-                            StringDraw.drawOutlinedString(this.appletGraphics, color, endText, this.appletWidth / 2, this.appletHeight - 120, 0);
+                            StringDraw.drawOutlinedString(this.appletGraphics, outlineColor, endText, this.appletWidth / 2, this.appletHeight - 120, 0);
                         }
 
                         if (endTextHelp != null) {
                             this.appletGraphics.setFont(fontDialog12);
                             if (this.endTextLocation == TEXT_CENTER) {
-                                StringDraw.drawOutlinedStringWithMaxWidth(this.appletGraphics, color, endTextHelp, this.appletWidth / 2, this.appletHeight / 2 + 30, 0, (int) ((double) this.appletWidth * 0.8D));
+                                StringDraw.drawOutlinedStringWithMaxWidth(this.appletGraphics, outlineColor, endTextHelp, this.appletWidth / 2, this.appletHeight / 2 + 30, 0, (int) ((double) this.appletWidth * 0.8D));
                             } else if (this.endTextLocation == TEXT_LOWERLEFT) {
-                                StringDraw.drawOutlinedStringWithMaxWidth(this.appletGraphics, color, endTextHelp, this.appletWidth / 12, this.appletHeight - 80, -1, (int) ((double) this.appletWidth * 0.6D));
+                                StringDraw.drawOutlinedStringWithMaxWidth(this.appletGraphics, outlineColor, endTextHelp, this.appletWidth / 12, this.appletHeight - 80, -1, (int) ((double) this.appletWidth * 0.6D));
                             } else if (this.endTextLocation == TEXT_LOWERMIDDLE) {
-                                StringDraw.drawOutlinedStringWithMaxWidth(this.appletGraphics, color, endTextHelp, this.appletWidth / 2, this.appletHeight - 80, 0, (int) ((double) this.appletWidth * 0.5D));
+                                StringDraw.drawOutlinedStringWithMaxWidth(this.appletGraphics, outlineColor, endTextHelp, this.appletWidth / 2, this.appletHeight - 80, 0, (int) ((double) this.appletWidth * 0.5D));
                             }
                         }
                     }
@@ -344,7 +344,7 @@ public abstract class AApplet extends Applet implements Runnable, ActionListener
 
             this.loadingPanel.setActualProgress(0.5D);
             this.textManager = new TextManager(this.param, true, this.isDebug());
-            this.loadingPanel.method462(this.param, this.textManager);
+            this.loadingPanel.init(this.param, this.textManager);
             if (startupDebug) {
                 this.printSUD("Loading texts...");
             }
@@ -458,7 +458,7 @@ public abstract class AApplet extends Applet implements Runnable, ActionListener
 
                                 if (this.endState == 0) {
                                     int readyTime = (int) (System.currentTimeMillis() - startTime);
-                                    this.aBoolean2557 = true;
+                                    this.ready = true;
                                     if (startupDebug) {
                                         this.printSUD("Waiting loader screen to finish...");
                                     }
@@ -555,13 +555,13 @@ public abstract class AApplet extends Applet implements Runnable, ActionListener
         this.repaint();
     }
 
-    public void setTextLocation(int var1) {
-        this.endTextLocation = var1;
+    public void setTextLocation(int textLocation) {
+        this.endTextLocation = textLocation;
         this.repaint();
     }
 
-    public void setTextOutline(boolean var1) {
-        this.aBoolean2554 = var1;
+    public void setTextOutline(boolean drawTextOutline) {
+        this.drawTextOutline = drawTextOutline;
         this.repaint();
     }
 
@@ -606,9 +606,9 @@ public abstract class AApplet extends Applet implements Runnable, ActionListener
 
     }
 
-    public void addToContent(Component var1) {
+    public void addToContent(Component component) {
         if (this.endState == 0) {
-            this.contentPanel.add(var1);
+            this.contentPanel.add(component);
         }
 
     }
