@@ -1,8 +1,5 @@
 package com.aapeli.client;
 
-import com.aapeli.client.Class80;
-import com.aapeli.client.HtmlText;
-
 import java.awt.Font;
 import java.awt.Graphics;
 import java.util.Vector;

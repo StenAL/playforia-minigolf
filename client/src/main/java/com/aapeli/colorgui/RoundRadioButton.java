@@ -1,8 +1,5 @@
 package com.aapeli.colorgui;
 
-import com.aapeli.colorgui.RadioButtonGroup;
-import com.aapeli.colorgui.RoundButton;
-
 import java.awt.event.MouseEvent;
 
 public class RoundRadioButton extends RoundButton {

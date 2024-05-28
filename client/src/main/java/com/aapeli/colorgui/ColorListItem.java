@@ -1,8 +1,5 @@
 package com.aapeli.colorgui;
 
-import com.aapeli.colorgui.ColorList;
-import com.aapeli.colorgui.ColorListItemGroup;
-
 import java.awt.Color;
 import java.awt.Image;
 

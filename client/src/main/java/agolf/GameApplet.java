@@ -4,10 +4,17 @@ import agolf.game.GameBackgroundCanvas;
 import agolf.game.GamePanel;
 import agolf.lobby.LobbyPanel;
 import com.aapeli.applet.AApplet;
-import com.aapeli.client.*;
+import com.aapeli.client.AutoPopups;
+import com.aapeli.client.BadWordFilter;
+import com.aapeli.client.ImageManager;
+import com.aapeli.client.Parameters;
+import com.aapeli.client.SoundManager;
+import com.aapeli.client.TextManager;
 import org.moparforia.client.Launcher;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Image;
 
 public class GameApplet extends AApplet {
 

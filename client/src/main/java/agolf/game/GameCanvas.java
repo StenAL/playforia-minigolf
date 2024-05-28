@@ -3,13 +3,20 @@ package agolf.game;
 import agolf.GameContainer;
 import agolf.Seed;
 import agolf.SynchronizedBool;
-
 import com.aapeli.client.Parameters;
 import com.aapeli.client.StringDraw;
 import com.aapeli.tools.Tools;
 
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.util.Arrays;
 import java.util.StringTokenizer;
 import java.util.Vector;

@@ -2,7 +2,10 @@ package com.aapeli.colorgui;
 
 import com.aapeli.client.IPanel;
 
-import java.awt.*;
+import java.awt.Choice;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.ItemSelectable;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.ItemEvent;

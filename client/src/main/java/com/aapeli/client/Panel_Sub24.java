@@ -1,11 +1,5 @@
 package com.aapeli.client;
 
-import com.aapeli.client.Class88;
-import com.aapeli.client.Frame_Sub3_Sub3;
-import com.aapeli.client.ImageManager;
-import com.aapeli.client.InputTextField;
-import com.aapeli.client.StringDraw;
-import com.aapeli.client.TextManager;
 import com.aapeli.colorgui.ColorButton;
 import com.aapeli.tools.DelayRepaint;
 

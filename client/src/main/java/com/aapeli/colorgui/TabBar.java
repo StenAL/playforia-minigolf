@@ -1,11 +1,6 @@
 package com.aapeli.colorgui;
 
 import com.aapeli.client.IPanel;
-import com.aapeli.colorgui.Class94;
-import com.aapeli.colorgui.RadioButton;
-import com.aapeli.colorgui.RadioButtonGroup;
-import com.aapeli.colorgui.TabBarItem;
-import com.aapeli.colorgui.TabBarListener;
 
 import java.awt.Color;
 import java.awt.Component;

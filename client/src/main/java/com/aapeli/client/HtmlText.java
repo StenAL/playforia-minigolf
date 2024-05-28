@@ -1,8 +1,5 @@
 package com.aapeli.client;
 
-import com.aapeli.client.Class79;
-import com.aapeli.client.Class81;
-
 import java.awt.Graphics;
 import java.util.Vector;
 

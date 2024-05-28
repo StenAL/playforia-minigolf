@@ -1,6 +1,5 @@
 package com.aapeli.client;
 
-import com.aapeli.client.TextManager;
 import com.aapeli.tools.Tools;
 
 import java.util.StringTokenizer;

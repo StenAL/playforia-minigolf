@@ -1,8 +1,6 @@
 package com.aapeli.colorgui;
 
 import com.aapeli.client.IPanel;
-import com.aapeli.colorgui.Class90;
-import com.aapeli.colorgui.Class94;
 
 import java.awt.Color;
 import java.awt.Dimension;

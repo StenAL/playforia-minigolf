@@ -1,8 +1,5 @@
 package com.aapeli.colorgui;
 
-import com.aapeli.colorgui.ColorButton;
-import com.aapeli.colorgui.RadioButtonGroup;
-
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.MouseEvent;

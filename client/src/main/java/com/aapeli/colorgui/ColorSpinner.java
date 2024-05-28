@@ -2,7 +2,6 @@ package com.aapeli.colorgui;
 
 import com.aapeli.client.IPanel;
 import com.aapeli.client.StringDraw;
-import com.aapeli.colorgui.Class92;
 
 import java.awt.Color;
 import java.awt.Dimension;

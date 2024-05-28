@@ -1,8 +1,6 @@
 package com.aapeli.colorgui;
 
 import com.aapeli.client.StringDraw;
-import com.aapeli.colorgui.ColorList;
-import com.aapeli.colorgui.ColorListItem;
 
 import java.awt.Color;
 import java.awt.Font;

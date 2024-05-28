@@ -1,8 +1,5 @@
 package com.aapeli.colorgui;
 
-import com.aapeli.colorgui.RadioButton;
-import com.aapeli.colorgui.TabBar;
-
 import java.awt.Component;
 import java.awt.Image;
 

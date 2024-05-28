@@ -1,10 +1,5 @@
 package com.aapeli.colorgui;
 
-import com.aapeli.colorgui.Class91;
-import com.aapeli.colorgui.Class94;
-import com.aapeli.colorgui.ColorListItem;
-import com.aapeli.colorgui.ColorListItemGroup;
-
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;

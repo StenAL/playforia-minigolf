@@ -1,6 +1,7 @@
 package org.moparforia.client;
 
-import org.moparforia.client.trackdump.*;
+import org.moparforia.client.trackdump.ConnListener;
+import org.moparforia.client.trackdump.Connection;
 
 import java.io.File;
 import java.io.FileOutputStream;

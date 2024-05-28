@@ -1,8 +1,5 @@
 package com.aapeli.client;
 
-import com.aapeli.client.Panel_Sub24;
-import com.aapeli.client.TextManager;
-
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;

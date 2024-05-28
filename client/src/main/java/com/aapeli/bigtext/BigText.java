@@ -1,6 +1,5 @@
 package com.aapeli.bigtext;
 
-import com.aapeli.bigtext.MediumText;
 import com.aapeli.client.ImageManager;
 
 import java.applet.Applet;

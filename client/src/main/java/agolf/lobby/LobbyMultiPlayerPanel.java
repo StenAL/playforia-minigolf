@@ -5,7 +5,11 @@ import agolf.GameContainer;
 import com.aapeli.client.FilterTextField;
 import com.aapeli.client.InputTextField;
 import com.aapeli.client.StringDraw;
-import com.aapeli.colorgui.*;
+import com.aapeli.colorgui.Choicer;
+import com.aapeli.colorgui.ColorButton;
+import com.aapeli.colorgui.MultiColorList;
+import com.aapeli.colorgui.MultiColorListItem;
+import com.aapeli.colorgui.MultiColorListListener;
 
 import java.awt.Color;
 import java.awt.Graphics;

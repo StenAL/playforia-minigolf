@@ -3,7 +3,10 @@ package agolf.game;
 import agolf.GameApplet;
 import agolf.GameContainer;
 
-import java.awt.*;
+import java.awt.Canvas;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.util.StringTokenizer;
 
 public class GameBackgroundCanvas extends Canvas {

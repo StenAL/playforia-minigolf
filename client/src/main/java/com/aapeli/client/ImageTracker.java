@@ -4,7 +4,7 @@ import com.aapeli.applet.AApplet;
 import com.aapeli.tools.Tools;
 
 import java.applet.Applet;
-import java.awt.*;
+import java.awt.Image;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Vector;

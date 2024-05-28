@@ -1,6 +1,5 @@
 package com.aapeli.colorgui;
 
-import com.aapeli.colorgui.ColorSpinner;
 import com.aapeli.tools.Tools;
 
 class Class92 implements Runnable {

@@ -1,7 +1,5 @@
 package com.aapeli.client;
 
-import com.aapeli.client.Class79;
-
 import java.awt.Font;
 import java.awt.Graphics;
 

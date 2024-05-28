@@ -3,7 +3,11 @@ package agolf.lobby;
 import agolf.GameApplet;
 import agolf.GameContainer;
 import com.aapeli.client.StringDraw;
-import com.aapeli.colorgui.*;
+import com.aapeli.colorgui.Choicer;
+import com.aapeli.colorgui.ColorButton;
+import com.aapeli.colorgui.MultiColorList;
+import com.aapeli.colorgui.MultiColorListItem;
+import com.aapeli.colorgui.MultiColorListListener;
 import org.moparforia.client.Launcher;
 
 import java.awt.Color;

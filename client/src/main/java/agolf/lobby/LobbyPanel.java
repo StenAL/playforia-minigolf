@@ -6,7 +6,8 @@ import com.aapeli.colorgui.Choicer;
 import com.aapeli.multiuser.UserListItem;
 import org.moparforia.client.Launcher;
 
-import java.awt.*;
+import java.awt.Graphics;
+import java.awt.Panel;
 
 public class LobbyPanel extends Panel {
 

@@ -1,7 +1,5 @@
 package com.aapeli.colorgui;
 
-import com.aapeli.colorgui.ColorCheckbox;
-
 import java.util.Enumeration;
 import java.util.Vector;
 
