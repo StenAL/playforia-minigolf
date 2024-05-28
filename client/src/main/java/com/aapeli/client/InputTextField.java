@@ -23,7 +23,7 @@ public class InputTextField extends TextField implements FocusListener, KeyListe
     private int anInt722;
     private boolean aBoolean723;
     private boolean enabled;
-    private Vector userInputz;
+    private Vector<String> userInputz;
     private int userInputzCount;
     private int anInt727;
     private String finalInput;
@@ -53,7 +53,7 @@ public class InputTextField extends TextField implements FocusListener, KeyListe
         this.aBoolean723 = false;
         this.enabled = enabled;
         if (enabled) {
-            this.userInputz = new Vector();
+            this.userInputz = new Vector<>();
             this.userInputzCount = this.anInt727 = 0;
         }
 

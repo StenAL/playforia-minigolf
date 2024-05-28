@@ -61,14 +61,14 @@ public class MultiColorList extends Panel implements AdjustmentListener, MouseLi
     private int anInt703;
     private int[] anIntArray704;
     private int anInt705;
-    private Vector aVector706;
+    private Vector<MultiColorListItem> aVector706;
     private int anInt707;
     private int anInt708;
     private int anInt709;
     private int anInt710;
     private Image anImage711;
     private Graphics aGraphics712;
-    private Vector aVector713;
+    private Vector<ItemListener> aVector713;
     private MultiColorListListener listListener;
 
     public MultiColorList(String[] var1, int[] var2, int var3, int var4, int var5) {
@@ -81,7 +81,7 @@ public class MultiColorList extends Panel implements AdjustmentListener, MouseLi
         this.aString694 = null;
         this.aChar695 = 46;
         this.anInt698 = var1 != null ? var1.length : 0;
-        this.aVector706 = new Vector();
+        this.aVector706 = new Vector<>();
         this.anInt705 = 0;
         this.anInt702 = var4 - 6 - 16;
         this.anInt703 = var5 / 16 - 1;
@@ -96,7 +96,7 @@ public class MultiColorList extends Panel implements AdjustmentListener, MouseLi
         this.aScrollbar686.setUnitIncrement(1);
         this.aBoolean687 = false;
         this.addMouseListener(this);
-        this.aVector713 = new Vector();
+        this.aVector713 = new Vector<>();
     }
 
     public void addNotify() {
@@ -398,7 +398,7 @@ public class MultiColorList extends Panel implements AdjustmentListener, MouseLi
     }
 
     public synchronized MultiColorListItem getItem(int var1) {
-        return (MultiColorListItem) ((MultiColorListItem) this.aVector706.elementAt(var1));
+        return this.aVector706.elementAt(var1);
     }
 
     public synchronized MultiColorListItem getItem(int var1, String var2) {
@@ -716,10 +716,10 @@ public class MultiColorList extends Panel implements AdjustmentListener, MouseLi
     private synchronized void method962(MultiColorListItem var1, int var2, int var3) {
         if (this.aVector713.size() != 0) {
             ItemEvent var4 = new ItemEvent(this, var2, var1, var3);
-            Enumeration var5 = this.aVector713.elements();
+            Enumeration<ItemListener> var5 = this.aVector713.elements();
 
             while (var5.hasMoreElements()) {
-                ((ItemListener) ((ItemListener) var5.nextElement())).itemStateChanged(var4);
+                var5.nextElement().itemStateChanged(var4);
             }
 
         }

@@ -52,8 +52,8 @@ public class ColorTextArea extends IPanel implements ComponentListener, Adjustme
     private int anInt3342;
     private int anInt3343;
     private int anInt3344;
-    private Vector aVector3345;
-    private Vector aVector3346;
+    private Vector<Class93> aVector3345;
+    private Vector<Class93> aVector3346;
     private Image anImage3347;
     private Graphics aGraphics3348;
     private int anInt3349;
@@ -78,8 +78,8 @@ public class ColorTextArea extends IPanel implements ComponentListener, Adjustme
         this.aFontMetrics3338 = this.getFontMetrics(var3);
         this.anInt3339 = var3.getSize();
         this.aFont3337 = new Font(var3.getName(), 1, var3.getSize());
-        this.aVector3345 = new Vector();
-        this.aVector3346 = new Vector();
+        this.aVector3345 = new Vector<>();
+        this.aVector3346 = new Vector<>();
         this.anImage3333 = null;
         this.anInt3343 = this.anInt3339 + 3;
         this.method849();
@@ -124,7 +124,7 @@ public class ColorTextArea extends IPanel implements ComponentListener, Adjustme
                 int var5 = this.aBoolean3332 ? this.aScrollbar3331.getValue() : 0;
 
                 for (int var7 = 0; var7 <= this.anInt3344 && var5 < var3; ++var7) {
-                    Class93 var6 = (Class93) ((Class93) this.aVector3345.elementAt(var5));
+                    Class93 var6 = this.aVector3345.elementAt(var5);
                     if (!var6.method1754()) {
                         this.aGraphics3348.setFont(var6.method1753() ? this.aFont3337 : this.aFont3336);
                         this.aGraphics3348.setColor(var6.method1751());
@@ -216,7 +216,7 @@ public class ColorTextArea extends IPanel implements ComponentListener, Adjustme
                 String var4 = "";
 
                 for (int var9 = 0; var9 < var2; ++var9) {
-                    Class93 var5 = (Class93) ((Class93) this.aVector3346.elementAt(var9));
+                    Class93 var5 = this.aVector3346.elementAt(var9);
                     if (var5.method1754()) {
                         var3[var9] = var4;
                     } else {
@@ -280,7 +280,7 @@ public class ColorTextArea extends IPanel implements ComponentListener, Adjustme
                     break;
                 }
 
-                Class93 var3 = (Class93) ((Class93) this.aVector3346.elementAt(var4));
+                Class93 var3 = this.aVector3346.elementAt(var4);
                 this.method852(var3.method1751(), var3.method1752(), var3.method1753());
                 ++var4;
             }

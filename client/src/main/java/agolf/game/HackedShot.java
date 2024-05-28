@@ -28,8 +28,8 @@ public class HackedShot implements Runnable {
     private double aDouble2820;
     private double[] aDoubleArray2821;
     private double[] aDoubleArray2822;
-    private Vector[] aVectorArray2823;
-    private Vector[] aVectorArray2824;
+    private Vector<double[]>[] aVectorArray2823;
+    private Vector<double[]>[] aVectorArray2824;
     private short[][][] aShortArrayArrayArray2825;
     private double[] playerX;
     private double[] playerY;
@@ -60,8 +60,8 @@ public class HackedShot implements Runnable {
                       double aDouble2820,
                       double[] aDoubleArray2821,
                       double[] aDoubleArray2822,
-                      Vector[] aVectorArray2823,
-                      Vector[] aVectorArray2824,
+                      Vector<double[]>[] aVectorArray2823,
+                      Vector<double[]>[] aVectorArray2824,
                       short[][][] aShortArrayArrayArray2825,
                       double[] playerX,
                       double[] playerY,
@@ -515,7 +515,7 @@ public class HackedShot implements Runnable {
                 do {
                     var10 = var7 - 1;
                     var8 = this.aSeed_2836.next() % (var10 + 1);
-                    var11 = (double[]) this.aVectorArray2823[var1].elementAt(var8);
+                    var11 = this.aVectorArray2823[var1].elementAt(var8);
                     if (Math.abs(var11[0] - (double) var3) >= 15.0D || Math.abs(var11[1] - (double) var4) >= 15.0D) {
                         this.playerX[var2] = var11[0];
                         this.playerY[var2] = var11[1];
@@ -549,7 +549,7 @@ public class HackedShot implements Runnable {
             var8 = this.aSeed_2836.next() % (var12 + 1);
         }
 
-        var11 = (double[]) this.aVectorArray2824[var13].elementAt(var8);
+        var11 = this.aVectorArray2824[var13].elementAt(var8);
         this.playerX[var2] = var11[0];
         this.playerY[var2] = var11[1];
     }

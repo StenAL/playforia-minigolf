@@ -1,8 +1,6 @@
 package com.aapeli.colorgui;
 
 import com.aapeli.client.IPanel;
-import com.aapeli.colorgui.Class94;
-import com.aapeli.colorgui.ColorCheckboxGroup;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -38,7 +36,7 @@ public class ColorCheckbox extends IPanel implements ItemSelectable, MouseListen
     private boolean aBoolean3302;
     private boolean aBoolean3303;
     private ColorCheckboxGroup aColorCheckboxGroup3304;
-    private Vector aVector3305;
+    private Vector<ItemListener> aVector3305;
     private Image anImage3306;
     private Graphics aGraphics3307;
     private int anInt3308;
@@ -60,7 +58,7 @@ public class ColorCheckbox extends IPanel implements ItemSelectable, MouseListen
     public ColorCheckbox(String var1, boolean var2) {
         this.aString3300 = var1;
         this.aBoolean3302 = var2;
-        this.aVector3305 = new Vector();
+        this.aVector3305 = new Vector<>();
         this.anInt3301 = -1;
         this.aBoolean3303 = false;
         this.setFont(Class94.aFont1575);
@@ -168,14 +166,14 @@ public class ColorCheckbox extends IPanel implements ItemSelectable, MouseListen
     }
 
     public void addItemListener(ItemListener var1) {
-        Vector var2 = this.aVector3305;
+        Vector<ItemListener> var2 = this.aVector3305;
         synchronized (this.aVector3305) {
             this.aVector3305.addElement(var1);
         }
     }
 
     public void removeItemListener(ItemListener var1) {
-        Vector var2 = this.aVector3305;
+        Vector<ItemListener> var2 = this.aVector3305;
         synchronized (this.aVector3305) {
             this.aVector3305.removeElement(var1);
         }
@@ -327,14 +325,14 @@ public class ColorCheckbox extends IPanel implements ItemSelectable, MouseListen
     }
 
     private void method838() {
-        Vector var1 = this.aVector3305;
+        Vector<ItemListener> var1 = this.aVector3305;
         synchronized (this.aVector3305) {
             if (this.aVector3305.size() != 0) {
                 ItemEvent var2 = new ItemEvent(this, 0, this, 701);
-                Enumeration var3 = this.aVector3305.elements();
+                Enumeration<ItemListener> var3 = this.aVector3305.elements();
 
                 while (var3.hasMoreElements()) {
-                    ((ItemListener) ((ItemListener) var3.nextElement())).itemStateChanged(var2);
+                    var3.nextElement().itemStateChanged(var2);
                 }
 
             }

@@ -1,14 +1,13 @@
 package com.aapeli.colorgui;
 
-import com.aapeli.colorgui.RadioButton;
-import com.aapeli.colorgui.RoundRadioButton;
+import com.aapeli.client.IPanel;
 
 import java.util.Enumeration;
 import java.util.Vector;
 
 public final class RadioButtonGroup {
 
-    private Vector aVector1589;
+    private Vector<IPanel> aVector1589;
     private boolean aBoolean1590;
 
 
@@ -17,7 +16,7 @@ public final class RadioButtonGroup {
     }
 
     public RadioButtonGroup(boolean var1) {
-        this.aVector1589 = new Vector();
+        this.aVector1589 = new Vector<>();
         this.aBoolean1590 = var1;
     }
 
@@ -39,14 +38,14 @@ public final class RadioButtonGroup {
     }
 
     private void method1759() {
-        Enumeration var1 = this.aVector1589.elements();
+        Enumeration<IPanel> var1 = this.aVector1589.elements();
 
         while (var1.hasMoreElements()) {
             Object var2 = var1.nextElement();
             if (var2 instanceof RadioButton) {
-                ((RadioButton) ((RadioButton) var2)).realSetState(false);
+                ((RadioButton) var2).realSetState(false);
             } else {
-                ((RoundRadioButton) ((RoundRadioButton) var2)).realSetState(false);
+                ((RoundRadioButton) var2).realSetState(false);
             }
         }
 

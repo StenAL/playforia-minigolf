@@ -50,7 +50,7 @@ public class ColorButton extends IPanel implements MouseMotionListener, MouseLis
     private boolean aBoolean3277;
     private boolean aBoolean3278;
     private int anInt3279;
-    private Vector aVector3280;
+    private Vector<ActionListener> aVector3280;
     private Image anImage3281;
     private Graphics aGraphics3282;
     private int anInt3283;
@@ -73,7 +73,7 @@ public class ColorButton extends IPanel implements MouseMotionListener, MouseLis
         this.aBoolean3276 = true;
         this.aBoolean3277 = this.aBoolean3278 = false;
         this.anInt3279 = 1;
-        this.aVector3280 = new Vector();
+        this.aVector3280 = new Vector<>();
         this.aClass90_3285 = null;
         this.aBoolean3286 = false;
         this.addMouseMotionListener(this);
@@ -349,14 +349,14 @@ public class ColorButton extends IPanel implements MouseMotionListener, MouseLis
     }
 
     public void addActionListener(ActionListener var1) {
-        Vector var2 = this.aVector3280;
+        Vector<ActionListener> var2 = this.aVector3280;
         synchronized (this.aVector3280) {
             this.aVector3280.addElement(var1);
         }
     }
 
     public void removeActionListener(ActionListener var1) {
-        Vector var2 = this.aVector3280;
+        Vector<ActionListener> var2 = this.aVector3280;
         synchronized (this.aVector3280) {
             this.aVector3280.removeElement(var1);
         }
@@ -400,14 +400,14 @@ public class ColorButton extends IPanel implements MouseMotionListener, MouseLis
     }
 
     public void processActionEvent() {
-        Vector var1 = this.aVector3280;
+        Vector<ActionListener> var1 = this.aVector3280;
         synchronized (this.aVector3280) {
             if (this.aVector3280.size() != 0) {
                 ActionEvent var2 = new ActionEvent(this, 1001, this.aString3272);
-                Enumeration var3 = this.aVector3280.elements();
+                Enumeration<ActionListener> var3 = this.aVector3280.elements();
 
                 while (var3.hasMoreElements()) {
-                    ((ActionListener) ((ActionListener) var3.nextElement())).actionPerformed(var2);
+                    var3.nextElement().actionPerformed(var2);
                 }
 
             }

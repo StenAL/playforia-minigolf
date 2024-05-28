@@ -26,7 +26,7 @@ public final class Connection implements Runnable {
     private int anInt1621;
     private Class98 aClass98_1622;
     private GamePacketQueue aGamePacketQueue_1623;
-    private Vector aVector1624;
+    private Vector<String> aVector1624;
     private long numReceivedGamePackets;
     private long lastCmdReceived;
     private ConnCrypto connCrypto;
@@ -45,7 +45,7 @@ public final class Connection implements Runnable {
         this.aLong1620 = -1L;
         this.anInt1621 = 25;
         this.aClass98_1622 = new Class98();
-        this.aVector1624 = new Vector();
+        this.aVector1624 = new Vector<>();
         this.numReceivedGamePackets = -1L;
         this.anInt1613 = 0;
         this.disconnectReason = 0;
@@ -215,7 +215,7 @@ public final class Connection implements Runnable {
     private void method1781() {
         while (true) {
             if (this.anInt1613 == 2 && !this.aVector1624.isEmpty()) {
-                String var1 = (String) ((String) this.aVector1624.firstElement());
+                String var1 = this.aVector1624.firstElement();
                 this.aVector1624.removeElementAt(0);
                 if (this.writeLineS(var1)) {
                     continue;

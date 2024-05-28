@@ -7,7 +7,7 @@ import java.util.Vector;
 
 public final class ColorCheckboxGroup {
 
-    private Vector aVector1553 = new Vector();
+    private Vector<ColorCheckbox> aVector1553 = new Vector<>();
 
 
     protected void method1747(ColorCheckbox var1) {
@@ -24,10 +24,10 @@ public final class ColorCheckboxGroup {
     }
 
     private void method1749() {
-        Enumeration var1 = this.aVector1553.elements();
+        Enumeration<ColorCheckbox> var1 = this.aVector1553.elements();
 
         while (var1.hasMoreElements()) {
-            ((ColorCheckbox) ((ColorCheckbox) var1.nextElement())).realSetState(false);
+            var1.nextElement().realSetState(false);
         }
 
     }

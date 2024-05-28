@@ -15,7 +15,7 @@ class AdCanvas extends Canvas implements MouseListener {
     private AApplet gameApplet;
     private LoadingPanel loadingPanel;
     private URL anURL117;
-    private Vector aVector118;
+    private Vector<AdCanvasText> aVector118;
     private URL anURL119;
     private String aString120;
     private int anInt121;
@@ -26,7 +26,7 @@ class AdCanvas extends Canvas implements MouseListener {
     private long aLong126;
 
 
-    private AdCanvas(AApplet var1, URL var2, Vector var3, URL var4, String var5, int var6) {
+    private AdCanvas(AApplet var1, URL var2, Vector<AdCanvasText> var3, URL var4, String var5, int var6) {
         this.gameApplet = var1;
         this.anURL117 = var2;
         this.aVector118 = var3;
@@ -58,7 +58,7 @@ class AdCanvas extends Canvas implements MouseListener {
                 int var5 = this.aVector118.size();
 
                 for (int var6 = 0; var6 < var5; ++var6) {
-                    AdCanvasText var4 = (AdCanvasText) ((AdCanvasText) this.aVector118.elementAt(var6));
+                    AdCanvasText var4 = this.aVector118.elementAt(var6);
                     var4.method1548(var1);
                 }
             } else {
@@ -93,7 +93,7 @@ class AdCanvas extends Canvas implements MouseListener {
         try {
             String var2 = parameters.getParameter("ad_image");
             URL var3 = new URL(applet.getCodeBase(), var2);
-            Vector var4 = new Vector();
+            Vector<AdCanvasText> var4 = new Vector<>();
 
             String var6;
             for (int var5 = 1; (var6 = parameters.getParameter("ad_text-" + var5)) != null; ++var5) {

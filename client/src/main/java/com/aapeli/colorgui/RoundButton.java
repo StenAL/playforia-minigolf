@@ -1,7 +1,6 @@
 package com.aapeli.colorgui;
 
 import com.aapeli.client.IPanel;
-import com.aapeli.colorgui.Class95;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -35,7 +34,7 @@ public class RoundButton extends IPanel implements MouseMotionListener, MouseLis
     private Image anImage3392;
     private boolean aBoolean3393;
     private boolean aBoolean3394;
-    private Vector aVector3395;
+    private Vector<ActionListener> aVector3395;
     private Image anImage3396;
     private Graphics aGraphics3397;
     private int anInt3398;
@@ -68,7 +67,7 @@ public class RoundButton extends IPanel implements MouseMotionListener, MouseLis
         this.anImage3391 = var2;
         this.anImage3392 = var3;
         this.aBoolean3393 = this.aBoolean3394 = false;
-        this.aVector3395 = new Vector();
+        this.aVector3395 = new Vector<>();
         this.aClass95_3400 = null;
         this.aBoolean3401 = false;
         this.addMouseMotionListener(this);
@@ -219,14 +218,14 @@ public class RoundButton extends IPanel implements MouseMotionListener, MouseLis
     }
 
     public void addActionListener(ActionListener var1) {
-        Vector var2 = this.aVector3395;
+        Vector<ActionListener> var2 = this.aVector3395;
         synchronized (this.aVector3395) {
             this.aVector3395.addElement(var1);
         }
     }
 
     public void removeActionListener(ActionListener var1) {
-        Vector var2 = this.aVector3395;
+        Vector<ActionListener> var2 = this.aVector3395;
         synchronized (this.aVector3395) {
             this.aVector3395.removeElement(var1);
         }
@@ -261,14 +260,14 @@ public class RoundButton extends IPanel implements MouseMotionListener, MouseLis
     }
 
     public void processActionEvent() {
-        Vector var1 = this.aVector3395;
+        Vector<ActionListener> var1 = this.aVector3395;
         synchronized (this.aVector3395) {
             if (this.aVector3395.size() != 0) {
                 ActionEvent var2 = new ActionEvent(this, 1001, this.aString3387);
-                Enumeration var3 = this.aVector3395.elements();
+                Enumeration<ActionListener> var3 = this.aVector3395.elements();
 
                 while (var3.hasMoreElements()) {
-                    ((ActionListener) ((ActionListener) var3.nextElement())).actionPerformed(var2);
+                    var3.nextElement().actionPerformed(var2);
                 }
 
             }

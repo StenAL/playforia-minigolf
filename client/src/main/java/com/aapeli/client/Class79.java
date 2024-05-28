@@ -11,7 +11,7 @@ class Class79 {
 
     private int anInt1366;
     private boolean aBoolean1367;
-    private Vector aVector1368;
+    private Vector<Class80> aVector1368;
     private int anInt1369;
     private int anInt1370;
     private final HtmlText aHtmlText1371;
@@ -21,7 +21,7 @@ class Class79 {
         this.aHtmlText1371 = var1;
         this.anInt1366 = var3;
         this.aBoolean1367 = var4;
-        this.aVector1368 = new Vector();
+        this.aVector1368 = new Vector<>();
         this.anInt1369 = 0;
         this.anInt1370 = var2.getFont().getSize();
     }
@@ -31,7 +31,7 @@ class Class79 {
         String var2 = "[HtmlLine: words.size=" + var1 + "\n";
 
         for (int var3 = 0; var3 < var1; ++var3) {
-            var2 = var2 + " " + ((Class80) ((Class80) this.aVector1368.elementAt(var3))).toString() + "\n";
+            var2 = var2 + " " + this.aVector1368.elementAt(var3).toString() + "\n";
         }
 
         var2 = var2 + "\'relatx\'=" + this.anInt1369 + " \'height\'=" + this.anInt1370 + "]";
@@ -71,7 +71,7 @@ class Class79 {
             var6 = 0;
 
             for (int var7 = 0; var7 < var4; ++var7) {
-                var5 = (Class80) ((Class80) this.aVector1368.elementAt(var7));
+                var5 = this.aVector1368.elementAt(var7);
                 var6 += var5.method1609();
             }
 
@@ -79,7 +79,7 @@ class Class79 {
         }
 
         for (var6 = 0; var6 < var4; ++var6) {
-            var5 = (Class80) ((Class80) this.aVector1368.elementAt(var6));
+            var5 = this.aVector1368.elementAt(var6);
             var5.method1610(var1, var2, var3);
         }
 

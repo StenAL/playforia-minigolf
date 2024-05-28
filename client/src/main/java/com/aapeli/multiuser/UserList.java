@@ -83,14 +83,14 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
     private MenuItem aMenuItem3494;
     private UserListItem anUserListItem3495;
     private StaffActionFrame aStaffActionFrame__3496;
-    private Vector aVector3497;
-    private Vector aVector3498;
+    private Vector<String> aVector3497;
+    private Vector<String> aVector3498;
     private boolean aBoolean3499;
     private boolean aBoolean3500;
     private ColorTextArea aColorTextArea3501;
     private ChatBase aChatBase3502;
     private Languages aLanguages3503;
-    private Hashtable aHashtable3504;
+    private Hashtable<Integer, ColorListItemGroup> aHashtable3504;
 
 
     public UserList(UserListHandler handler, TextManager textManager, ImageManager imageManager, boolean var4, boolean var5, boolean var6) {
@@ -115,11 +115,11 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
 
         this.isSheriff = false;
         this.sheriffStatus = this.adminStatus = 0;
-        this.aVector3497 = new Vector();
-        this.aVector3498 = new Vector();
+        this.aVector3497 = new Vector<>();
+        this.aVector3498 = new Vector<>();
         this.aBoolean3499 = this.aBoolean3500 = true;
         this.aLanguages3503 = new Languages(textManager, imageManager);
-        this.aHashtable3504 = new Hashtable();
+        this.aHashtable3504 = new Hashtable<>();
         this.addComponentListener(this);
     }
 
@@ -472,7 +472,7 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
 
         int var5 = var1.getLanguage();
         Integer var6 = var5;
-        ColorListItemGroup var7 = (ColorListItemGroup) ((ColorListItemGroup) this.aHashtable3504.get(var6));
+        ColorListItemGroup var7 = this.aHashtable3504.get(var6);
         if (var7 == null) {
             int var8 = var5;
             if (var5 == 0) {

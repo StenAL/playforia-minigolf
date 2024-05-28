@@ -114,7 +114,7 @@ public class Tools {
         }
     }
 
-    public static String[] vectorToStringArray(Vector var0) {
+    public static <E> String[] vectorToStringArray(Vector<E> var0) {
         if (var0 == null) {
             return null;
         } else {

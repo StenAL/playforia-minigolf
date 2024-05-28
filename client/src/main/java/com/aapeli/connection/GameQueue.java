@@ -4,7 +4,7 @@ import java.util.Vector;
 
 class GameQueue {
 
-    private Vector commands = new Vector();
+    private Vector<String> commands = new Vector<>();
     private int count = 0;
     private ConnCipher connCipher = new ConnCipher((int) (Math.random() * 19.0D));
     protected long sendSeqNum;
@@ -29,7 +29,7 @@ class GameQueue {
         if (this.commands.size() <= this.count) {
             return null;
         } else {
-            String var1 = (String) ((String) this.commands.elementAt(this.count));
+            String var1 = this.commands.elementAt(this.count);
             var1 = this.connCipher.decrypt(var1);
             if (this.commands.size() > 3) {
                 this.commands.removeElementAt(0);

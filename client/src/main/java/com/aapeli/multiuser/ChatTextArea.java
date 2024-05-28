@@ -13,7 +13,7 @@ public class ChatTextArea extends ColorTextArea {
     public static final Font SMALL_FONT;
     private TextManager aTextManager4728;
     private BadWordFilter aBadWordFilter4729;
-    private Hashtable aHashtable4730;
+    private Hashtable<String, Integer> aHashtable4730;
 
     public ChatTextArea(TextManager var1, int var2, int var3) {
         this(var1, (BadWordFilter) null, var2, var3, (Font) null);
@@ -31,7 +31,7 @@ public class ChatTextArea extends ColorTextArea {
         super(var3, var4, var5 != null ? var5 : DEFAULT_FONT);
         this.aTextManager4728 = var1;
         this.aBadWordFilter4729 = var2;
-        this.aHashtable4730 = new Hashtable();
+        this.aHashtable4730 = new Hashtable<>();
     }
 
     public void addOwnSay(String var1, String var2) {
@@ -147,7 +147,7 @@ public class ChatTextArea extends ColorTextArea {
     }
 
     private int method859(String var1, int var2) {
-        Integer var3 = (Integer) ((Integer) this.aHashtable4730.get(var1));
+        Integer var3 = this.aHashtable4730.get(var1);
         return var3 == null ? var2 : var3.intValue();
     }
 
