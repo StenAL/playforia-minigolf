@@ -19,9 +19,8 @@ import java.awt.event.MouseListener;
 
 public class LobbySelectPanel extends Panel implements ActionListener, MouseListener, ItemListener {
 
-    private static final int[] anIntArray526 = new int[]{3000, 7000, 15000};
-    private static final int anInt527 = anIntArray526.length;
-    private static long[] aLongArray528;
+    private static final int[] lobbyJoinDelays = new int[]{1000};
+    private static long[] lobbyJoinAvailableTimestamps;
     private static boolean playHidden;
     private GameContainer gameContainer;
     private int width;
@@ -143,41 +142,41 @@ public class LobbySelectPanel extends Panel implements ActionListener, MouseList
         this.gameContainer.graphicsQualityIndex = this.choicerGraphics.getSelectedIndex();
     }
 
-    public static String method442(int var0) {
-        if (aLongArray528 == null) {
-            aLongArray528 = new long[anInt527];
+    public static String getLobbySelectMessage(int lobbyId) {
+        if (lobbyJoinAvailableTimestamps == null) {
+            lobbyJoinAvailableTimestamps = new long[lobbyJoinDelays.length];
 
-            for (int var1 = 0; var1 < anInt527; ++var1) {
-                aLongArray528[var1] = 0L;
+            for (int i = 0; i < lobbyJoinDelays.length; ++i) {
+                lobbyJoinAvailableTimestamps[i] = 0L;
             }
         }
 
-        long var2 = System.currentTimeMillis();
-        long var4 = 0L;
+        long now = System.currentTimeMillis();
+        long sleepTime = 0L;
 
-        for (int var6 = 0; var6 < anInt527; ++var6) {
-            long var7 = aLongArray528[var6] + (long) anIntArray526[var6] - var2;
-            if (var7 > var4) {
-                var4 = var7;
+        for (int i = 0; i < lobbyJoinDelays.length; ++i) {
+            long delayNeededForTimestamp = lobbyJoinAvailableTimestamps[i] + (long) lobbyJoinDelays[i] - now;
+            if (delayNeededForTimestamp > sleepTime) {
+                sleepTime = delayNeededForTimestamp;
             }
         }
 
-        for (int var9 = anInt527 - 1; var9 >= 1; --var9) {
-            aLongArray528[var9] = aLongArray528[var9 - 1];
+        for (int i = lobbyJoinDelays.length - 1; i >= 1; --i) {
+            lobbyJoinAvailableTimestamps[i] = lobbyJoinAvailableTimestamps[i - 1];
         }
 
-        aLongArray528[0] = var2 + var4;
-        Tools.sleep(var4);
-        return "select\t" + (var0 <= 2 ? String.valueOf(var0) : "x") + (var0 == 1 && playHidden ? "h" : "");
+        lobbyJoinAvailableTimestamps[0] = now + sleepTime;
+        Tools.sleep(sleepTime);
+        return "select\t" + (lobbyId <= 2 ? String.valueOf(lobbyId) : "x") + (lobbyId == 1 && playHidden ? "h" : "");
     }
 
-    protected boolean method443(int var1, boolean var2) {
-        if (this.gameContainer.disableSinglePlayer && var1 == 1) {
+    protected boolean selectLobby(int lobbyId, boolean playHidden) {
+        if (this.gameContainer.disableSinglePlayer && lobbyId == 1) {
             return false;
         } else {
-            this.checkboxPlayHidden.setState(var2);
-            playHidden = var2;
-            return this.selectLobby(var1);
+            this.checkboxPlayHidden.setState(playHidden);
+            LobbySelectPanel.playHidden = playHidden;
+            return this.selectLobby(lobbyId);
         }
     }
 
@@ -281,12 +280,12 @@ public class LobbySelectPanel extends Panel implements ActionListener, MouseList
         }
     }
 
-    private boolean selectLobby(int var1) {
-        if (this.lobbyNumPlayers[var1 - 1] >= this.lobbyMaxPlayers && this.gameContainer.gameApplet.getPlayerAccessLevel() == 0) {
+    private boolean selectLobby(int lobbyId) {
+        if (this.lobbyNumPlayers[lobbyId - 1] >= this.lobbyMaxPlayers && this.gameContainer.gameApplet.getPlayerAccessLevel() == 0) {
             return false;
         } else {
             this.gameContainer.gameApplet.setGameState(0);
-            this.writeData(method442(var1));
+            this.writeData(getLobbySelectMessage(lobbyId));
             return true;
         }
     }

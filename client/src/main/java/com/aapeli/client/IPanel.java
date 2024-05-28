@@ -1,8 +1,5 @@
 package com.aapeli.client;
 
-import com.aapeli.client.Class84;
-import com.aapeli.client.ImageManager;
-
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -10,45 +7,44 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Panel;
 import java.awt.Point;
-import java.awt.image.ImageObserver;
 
 public class IPanel extends Panel {
 
-    private Image anImage644;
-    private int anInt645;
-    private int anInt646;
+    private Image backgroundImage;
+    private int backgroundImageXOffset;
+    private int backgroundImageYOffset;
     private Class84 aClass84_647;
     private Object anObject648 = new Object();
     public static int anInt649;
 
 
-    public void paint(Graphics var1) {
-        this.update(var1);
+    public void paint(Graphics graphics) {
+        this.update(graphics);
     }
 
-    public void update(Graphics var1) {
-        this.drawBackground(var1);
+    public void update(Graphics graphics) {
+        this.drawBackground(graphics);
     }
 
-    public void setBackground(Image var1) {
-        this.setBackground(var1, 0, 0);
+    public void setBackground(Image image) {
+        this.setBackground(image, 0, 0);
     }
 
-    public void setBackground(Image var1, int var2, int var3) {
-        this.anImage644 = var1;
-        this.anInt645 = var2;
-        this.anInt646 = var3;
+    public void setBackground(Image image, int xOffset, int yOffset) {
+        this.backgroundImage = image;
+        this.backgroundImageXOffset = xOffset;
+        this.backgroundImageYOffset = yOffset;
         this.recursiveRepaint();
     }
 
-    public void setBackground(ImageManager var1, String var2) {
-        this.setBackground(var1, var2, 0, 0);
+    public void setBackground(ImageManager imageManager, String imageKey) {
+        this.setBackground(imageManager, imageKey, 0, 0);
     }
 
-    public void setBackground(ImageManager var1, String var2, int var3, int var4) {
-        Image var5 = var1.getIfAvailable(var2);
-        if (var5 != null) {
-            this.setBackground(var5, var3, var4);
+    public void setBackground(ImageManager imageManager, String imageKey, int xOffset, int yOffset) {
+        Image image = imageManager.getIfAvailable(imageKey);
+        if (image != null) {
+            this.setBackground(image, xOffset, yOffset);
         } else {
             Object var6 = this.anObject648;
             synchronized (this.anObject648) {
@@ -56,7 +52,7 @@ public class IPanel extends Panel {
                     this.aClass84_647.method1653();
                 }
 
-                this.aClass84_647 = new Class84(this, this, var1, var2, var3, var4, false);
+                this.aClass84_647 = new Class84(this, this, imageManager, imageKey, xOffset, yOffset, false);
             }
         }
 
@@ -87,31 +83,31 @@ public class IPanel extends Panel {
 
     }
 
-    public boolean drawBackgroundImage(Graphics var1) {
-        Object[] var2 = this.getBackgroundAndLocation(0, 0);
-        if (var2 == null) {
+    public boolean drawBackgroundImage(Graphics graphics) {
+        Object[] backgroundData = this.getBackgroundAndLocation(0, 0);
+        if (backgroundData == null) {
             return false;
         } else {
-            Image var3 = (Image) ((Image) var2[0]);
-            int var4 = ((Integer) ((Integer) var2[1])).intValue();
-            int var5 = ((Integer) ((Integer) var2[2])).intValue();
-            Dimension var6 = this.getSize();
-            var1.drawImage(var3, 0, 0, var6.width, var6.height, -var4, -var5, -var4 + var6.width, -var5 + var6.height, (ImageObserver) null);
+            Image backgroundImage = (Image) backgroundData[0];
+            int backgroundImageXOffset = (Integer) backgroundData[1];
+            int backgroundImageYOffset = (Integer) backgroundData[2];
+            Dimension size = this.getSize();
+            graphics.drawImage(backgroundImage, 0, 0, size.width, size.height, -backgroundImageXOffset, -backgroundImageYOffset, -backgroundImageXOffset + size.width, -backgroundImageYOffset + size.height, null);
             return true;
         }
     }
 
     public void recursiveRepaint() {
         this.repaint();
-        Component[] var1 = this.getComponents();
-        if (var1 != null) {
-            int var2 = var1.length;
-            if (var2 != 0) {
-                for (int var3 = 0; var3 < var2; ++var3) {
-                    if (var1[var3] instanceof IPanel) {
-                        ((IPanel) ((IPanel) var1[var3])).recursiveRepaint();
+        Component[] components = this.getComponents();
+        if (components != null) {
+            int componentsCount = components.length;
+            if (componentsCount != 0) {
+                for (Component component : components) {
+                    if (component instanceof IPanel) {
+                        ((IPanel) component).recursiveRepaint();
                     } else {
-                        var1[var3].repaint();
+                        component.repaint();
                     }
                 }
 
@@ -120,8 +116,8 @@ public class IPanel extends Panel {
     }
 
     public Object[] getBackgroundAndLocation(int var1, int var2) {
-        if (this.anImage644 != null) {
-            return new Object[]{this.anImage644, new Integer(this.anInt645 + var1), new Integer(this.anInt646 + var2)};
+        if (this.backgroundImage != null) {
+            return new Object[]{this.backgroundImage, new Integer(this.backgroundImageXOffset + var1), new Integer(this.backgroundImageYOffset + var2)};
         } else {
             Container var3 = this.getParent();
             if (var3 == null) {
@@ -132,7 +128,7 @@ public class IPanel extends Panel {
                 Point var4 = this.getLocation();
                 var1 -= var4.x;
                 var2 -= var4.y;
-                IPanel var5 = (IPanel) ((IPanel) var3);
+                IPanel var5 = (IPanel) var3;
                 return var5.getBackgroundAndLocation(var1, var2);
             }
         }

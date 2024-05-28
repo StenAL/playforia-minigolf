@@ -84,8 +84,8 @@ class ImageTracker implements Runnable {
         return this.getImage("N\t" + var1, false);
     }
 
-    protected Image getNImageFromTable(String var1) {
-        return this.getImageFromTable("N\t" + var1);
+    protected Image getNImageFromTable(String key) {
+        return this.getImageFromTable("N\t" + key);
     }
 
     protected Image method1629(String var1) {
@@ -205,10 +205,10 @@ class ImageTracker implements Runnable {
         }
     }
 
-    private Image getImageFromTable(String var1) {
-        Image var2 = (Image) ((Image) this.imageTable.get(var1));
-        if (var2 != null) {
-            return var2;
+    private Image getImageFromTable(String key) {
+        Image image = (Image) this.imageTable.get(key);
+        if (image != null) {
+            return image;
         } else {
             this.method1626();
             return null;

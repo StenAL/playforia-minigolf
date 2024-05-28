@@ -1,19 +1,17 @@
 package com.aapeli.applet;
 
-import com.aapeli.applet.AApplet;
 import com.aapeli.client.IPanel;
 
-import java.awt.LayoutManager;
 
 class ContentPanel extends IPanel {
 
-    protected ContentPanel(AApplet var1) {
-        this.setBackground(var1.getBackground());
-        this.setForeground(var1.getForeground());
-        this.setLayout((LayoutManager) null);
+    protected ContentPanel(AApplet applet) {
+        this.setBackground(applet.getBackground());
+        this.setForeground(applet.getForeground());
+        this.setLayout(null);
     }
 
-    protected void dispose() {
+    protected void destroy() {
         this.setVisible(false);
         this.removeAll();
     }
