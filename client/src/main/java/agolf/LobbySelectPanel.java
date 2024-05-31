@@ -8,7 +8,6 @@ import com.aapeli.tools.Tools;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.LayoutManager;
 import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -34,6 +33,7 @@ public class LobbySelectPanel extends Panel implements ActionListener, MouseList
     private ColorButton buttonQuit;
     private ColorCheckbox checkboxPlayHidden;
     private Choicer choicerGraphics;
+    private Choicer audioChoicer;
     private int[] lobbyNumPlayers;
     private LobbySelectRNOPspammer lobbySelectRNOP;
     private static final String[] aStringArray544 = new String[22];
@@ -139,7 +139,12 @@ public class LobbySelectPanel extends Panel implements ActionListener, MouseList
     }
 
     public void itemStateChanged(ItemEvent evt) {
-        this.gameContainer.graphicsQualityIndex = this.choicerGraphics.getSelectedIndex();
+        Object source = evt.getSource();
+        if (source == this.choicerGraphics) {
+            this.gameContainer.graphicsQualityIndex = this.choicerGraphics.getSelectedIndex();
+        } else if (source == this.audioChoicer) {
+            this.gameContainer.soundManager.audioChoicerIndex = this.audioChoicer.getSelectedIndex();
+        }
     }
 
     public static String getLobbySelectMessage(int lobbyId) {
@@ -209,7 +214,7 @@ public class LobbySelectPanel extends Panel implements ActionListener, MouseList
     }
 
     private void create() {
-        this.setLayout((LayoutManager) null);
+        this.setLayout(null);
         this.checkboxPlayHidden = new ColorCheckbox(this.gameContainer.textManager.getGame("LobbySelect_PlayHidden"));
         this.checkboxPlayHidden.setBounds(this.width / 6 - 75 - 10, this.height - 124, 220, 18);
         this.checkboxPlayHidden.setBackground(GameApplet.colourGameBackground);
@@ -226,34 +231,43 @@ public class LobbySelectPanel extends Panel implements ActionListener, MouseList
             this.add(this.buttonSingleQuick);
         }
 
-
-
         //this.buttonDual = new ColorButton(this.gameContainer.textManager.getGame("LobbySelect_DualPlayer"));
         this.buttonDual = new ColorButton("Coming soon...");
         this.buttonDual.setBounds(this.width * 3 / 6 - 75, this.height - 150, 150, 25);
         //this.buttonDual.addActionListener(this);
         this.add(this.buttonDual);
 
-
         this.buttonMulti = new ColorButton(this.gameContainer.textManager.getGame("LobbySelect_MultiPlayer"));
         this.buttonMulti.setBounds(this.width * 5 / 6 - 75, this.height - 150, 150, 25);
         this.buttonMulti.addActionListener(this);
         this.add(this.buttonMulti);
+
         this.buttonMultiQuick = new ColorButton(this.gameContainer.textManager.getGame("LobbySelect_QuickStart"));
         this.buttonMultiQuick.setBackground(GameApplet.colourButtonBlue);
         this.buttonMultiQuick.setBounds(this.width * 5 / 6 - 50, this.height - 95, 100, 20);
         this.buttonMultiQuick.addActionListener(this);
         this.add(this.buttonMultiQuick);
-        String text = this.gameContainer.textManager.getGame("LobbySelect_Gfx");
+
+        String graphicsOptionText = this.gameContainer.textManager.getGame("LobbySelect_Gfx");
         this.choicerGraphics = new Choicer();
-        this.choicerGraphics.addItem(text + " " + this.gameContainer.textManager.getGame("LobbySelect_Gfx0"));
-        this.choicerGraphics.addItem(text + " " + this.gameContainer.textManager.getGame("LobbySelect_Gfx1"));
-        this.choicerGraphics.addItem(text + " " + this.gameContainer.textManager.getGame("LobbySelect_Gfx2"));
-        this.choicerGraphics.addItem(text + " " + this.gameContainer.textManager.getGame("LobbySelect_Gfx3"));
+        this.choicerGraphics.addItem(graphicsOptionText + " " + this.gameContainer.textManager.getGame("LobbySelect_Gfx0"));
+        this.choicerGraphics.addItem(graphicsOptionText + " " + this.gameContainer.textManager.getGame("LobbySelect_Gfx1"));
+        this.choicerGraphics.addItem(graphicsOptionText + " " + this.gameContainer.textManager.getGame("LobbySelect_Gfx2"));
+        this.choicerGraphics.addItem(graphicsOptionText + " " + this.gameContainer.textManager.getGame("LobbySelect_Gfx3"));
         this.choicerGraphics.select(this.gameContainer.graphicsQualityIndex);
-        this.choicerGraphics.setBounds(this.width / 3 - 100, this.height - 10 - 20, 200, 20);
+        this.choicerGraphics.setBounds(this.width / 3 - 100, this.height - 10 - 50, 200, 20);
         this.choicerGraphics.addItemListener(this);
         this.add(this.choicerGraphics);
+
+        String audioOptionsText = "Audio:";
+        this.audioChoicer = new Choicer();
+        this.audioChoicer.addItem(audioOptionsText + " On");
+        this.audioChoicer.addItem(audioOptionsText + " Off");
+        this.audioChoicer.select(this.gameContainer.soundManager.audioChoicerIndex);
+        this.audioChoicer.setBounds(this.width / 3 - 100, this.height - 10 - 20, 200, 20);
+        this.audioChoicer.addItemListener(this);
+        this.add(this.audioChoicer);
+
         this.buttonQuit = new ColorButton(this.gameContainer.textManager.getGame("LobbySelect_Quit"));
         this.buttonQuit.setBackground(GameApplet.colourButtonRed);
         this.buttonQuit.setBounds(this.width * 2 / 3 - 50, this.height - 10 - 20, 100, 20);

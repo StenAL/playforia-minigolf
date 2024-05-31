@@ -12,193 +12,191 @@ import java.util.Vector;
 
 public class Choicer extends IPanel implements ComponentListener, ItemListener, ItemSelectable {
 
-    private Choice aChoice3248 = new Choice();
+    private Choice choice = new Choice();
     private ColorSpinner colorSpinner;
     private boolean choiceMode = true;
-    private Vector aVector3251;
-    private Object anObject3252 = new Object();
+    private Vector<ItemListener> listeners;
+    private Object synchronizationObject = new Object();
 
 
     public Choicer() {
-        this.aChoice3248.setBackground(Color.white);
-        this.aChoice3248.setForeground(Color.black);
-        this.aChoice3248.addItemListener(this);
-        this.aVector3251 = new Vector();
-        this.setLayout((LayoutManager) null);
-        this.aChoice3248.setLocation(0, 0);
-        this.add(this.aChoice3248);
+        this.choice.setBackground(Color.white);
+        this.choice.setForeground(Color.black);
+        this.choice.addItemListener(this);
+        this.listeners = new Vector<>();
+        this.setLayout(null);
+        this.choice.setLocation(0, 0);
+        this.add(this.choice);
         this.addComponentListener(this);
     }
 
-    public void componentHidden(ComponentEvent var1) {
+    public void componentHidden(ComponentEvent e) {
     }
 
-    public void componentShown(ComponentEvent var1) {
+    public void componentShown(ComponentEvent e) {
     }
 
-    public void componentMoved(ComponentEvent var1) {
+    public void componentMoved(ComponentEvent e) {
     }
 
-    public void componentResized(ComponentEvent var1) {
-        Object var2 = this.anObject3252;
-        synchronized (this.anObject3252) {
-            Dimension var3 = this.getSize();
+    public void componentResized(ComponentEvent e) {
+        Object synchronizationObject = this.synchronizationObject;
+        synchronized (this.synchronizationObject) {
+            Dimension size = this.getSize();
             if (this.choiceMode) {
-                this.aChoice3248.setSize(var3);
+                this.choice.setSize(size);
             } else {
-                this.colorSpinner.setSize(var3);
+                this.colorSpinner.setSize(size);
             }
 
         }
     }
 
-    public void itemStateChanged(ItemEvent var1) {
-        Vector var2 = this.aVector3251;
-        synchronized (this.aVector3251) {
-            if (!this.aVector3251.isEmpty()) {
-                var1 = new ItemEvent(this, var1.getID(), var1.getItem(), var1.getStateChange());
-                Enumeration var3 = this.aVector3251.elements();
+    public void itemStateChanged(ItemEvent e) {
+        Vector<ItemListener> listeners = this.listeners;
+        synchronized (this.listeners) {
+            if (!this.listeners.isEmpty()) {
+                e = new ItemEvent(this, e.getID(), e.getItem(), e.getStateChange());
+                Enumeration<ItemListener> listenerEnumeration = this.listeners.elements();
 
-                while (var3.hasMoreElements()) {
-                    ((ItemListener) ((ItemListener) var3.nextElement())).itemStateChanged(var1);
+                while (listenerEnumeration.hasMoreElements()) {
+                    listenerEnumeration.nextElement().itemStateChanged(e);
                 }
-
             }
         }
     }
 
     public Object[] getSelectedObjects() {
-        Object var1 = this.anObject3252;
-        synchronized (this.anObject3252) {
-            return this.choiceMode ? this.aChoice3248.getSelectedObjects() : this.colorSpinner.getSelectedObjects();
+        Object synchronizationObject = this.synchronizationObject;
+        synchronized (this.synchronizationObject) {
+            return this.choiceMode ? this.choice.getSelectedObjects() : this.colorSpinner.getSelectedObjects();
         }
     }
 
-    public void setBackground(Color var1) {
-        Object var2 = this.anObject3252;
-        synchronized (this.anObject3252) {
-            super.setBackground(var1);
+    public void setBackground(Color color) {
+        Object synchronizationObject = this.synchronizationObject;
+        synchronized (this.synchronizationObject) {
+            super.setBackground(color);
             if (this.choiceMode) {
-                this.aChoice3248.setBackground(var1);
+                this.choice.setBackground(color);
             } else {
-                this.colorSpinner.setBackground(var1);
+                this.colorSpinner.setBackground(color);
             }
 
         }
     }
 
-    public void setForeground(Color var1) {
-        Object var2 = this.anObject3252;
-        synchronized (this.anObject3252) {
-            super.setForeground(var1);
+    public void setForeground(Color color) {
+        Object synchronizationObject = this.synchronizationObject;
+        synchronized (this.synchronizationObject) {
+            super.setForeground(color);
             if (this.choiceMode) {
-                this.aChoice3248.setForeground(var1);
+                this.choice.setForeground(color);
             } else {
-                this.colorSpinner.setForeground(var1);
+                this.colorSpinner.setForeground(color);
             }
 
         }
     }
 
-    public void addItem(String var1) {
-        Object var2 = this.anObject3252;
-        synchronized (this.anObject3252) {
+    public void addItem(String text) {
+        Object synchronizationObject = this.synchronizationObject;
+        synchronized (this.synchronizationObject) {
             if (this.choiceMode) {
-                this.method825(var1);
+                this.moveToSpinnerIfNecessary(text);
             }
 
             if (this.choiceMode) {
-                this.aChoice3248.addItem(var1);
+                this.choice.addItem(text);
             } else {
-                this.colorSpinner.addItem(var1);
+                this.colorSpinner.addItem(text);
             }
 
         }
     }
 
-    public void removeItem(int var1) {
-        Object var2 = this.anObject3252;
-        synchronized (this.anObject3252) {
+    public void removeItem(int i) {
+        Object synchronizationObject = this.synchronizationObject;
+        synchronized (this.synchronizationObject) {
             if (this.choiceMode) {
-                this.aChoice3248.remove(var1);
+                this.choice.remove(i);
             } else {
-                this.colorSpinner.removeItem(var1);
+                this.colorSpinner.removeItem(i);
             }
 
         }
     }
 
     public int getItemCount() {
-        Object var1 = this.anObject3252;
-        synchronized (this.anObject3252) {
-            return this.choiceMode ? this.aChoice3248.getItemCount() : this.colorSpinner.getItemCount();
+        Object synchronizationObject = this.synchronizationObject;
+        synchronized (this.synchronizationObject) {
+            return this.choiceMode ? this.choice.getItemCount() : this.colorSpinner.getItemCount();
         }
     }
 
     public int getSelectedIndex() {
-        Object var1 = this.anObject3252;
-        synchronized (this.anObject3252) {
-            return this.choiceMode ? this.aChoice3248.getSelectedIndex() : this.colorSpinner.getSelectedIndex();
+        Object synchronizationObject = this.synchronizationObject;
+        synchronized (this.synchronizationObject) {
+            return this.choiceMode ? this.choice.getSelectedIndex() : this.colorSpinner.getSelectedIndex();
         }
     }
 
-    public void select(int var1) {
-        this.setSelectedIndex(var1);
+    public void select(int i) {
+        this.setSelectedIndex(i);
     }
 
-    public void setSelectedIndex(int var1) {
-        Object var2 = this.anObject3252;
-        synchronized (this.anObject3252) {
+    public void setSelectedIndex(int i) {
+        Object synchronizationObject = this.synchronizationObject;
+        synchronized (this.synchronizationObject) {
             if (this.choiceMode) {
-                this.aChoice3248.select(var1);
+                this.choice.select(i);
             } else {
-                this.colorSpinner.setSelectedIndex(var1);
+                this.colorSpinner.setSelectedIndex(i);
             }
 
         }
     }
 
-    public void addItemListener(ItemListener var1) {
-        Vector var2 = this.aVector3251;
-        synchronized (this.aVector3251) {
-            this.aVector3251.addElement(var1);
+    public void addItemListener(ItemListener listener) {
+        Vector<ItemListener> listeners = this.listeners;
+        synchronized (this.listeners) {
+            this.listeners.addElement(listener);
         }
     }
 
     public void removeItemListener(ItemListener var1) {
-        Vector var2 = this.aVector3251;
-        synchronized (this.aVector3251) {
-            this.aVector3251.removeElement(var1);
+        Vector<ItemListener> listeners = this.listeners;
+        synchronized (this.listeners) {
+            this.listeners.removeElement(var1);
         }
     }
 
     public void moveToSpinner() {
-        Object var1 = this.anObject3252;
-        synchronized (this.anObject3252) {
+        Object synchronizationObject = this.synchronizationObject;
+        synchronized (this.synchronizationObject) {
             if (this.choiceMode) {
                 this.colorSpinner = new ColorSpinner();
                 this.colorSpinner.setLocation(0, 0);
                 this.colorSpinner.setSize(this.getSize());
-                this.colorSpinner.setBackground(this.aChoice3248.getBackground());
-                this.colorSpinner.setForeground(this.aChoice3248.getForeground());
-                int var2 = this.aChoice3248.getItemCount();
+                this.colorSpinner.setBackground(this.choice.getBackground());
+                this.colorSpinner.setForeground(this.choice.getForeground());
+                int items = this.choice.getItemCount();
 
-                int var3;
-                for (var3 = 0; var3 < var2; ++var3) {
-                    this.colorSpinner.addItem(this.aChoice3248.getItem(var3));
+                for (int i = 0; i < items; ++i) {
+                    this.colorSpinner.addItem(this.choice.getItem(i));
                 }
 
-                var3 = this.aChoice3248.getSelectedIndex();
-                if (var3 >= 0) {
-                    this.colorSpinner.setSelectedIndex(var3);
+                int selectedIndex = this.choice.getSelectedIndex();
+                if (selectedIndex >= 0) {
+                    this.colorSpinner.setSelectedIndex(selectedIndex);
                 }
 
-                this.aChoice3248.removeItemListener(this);
-                this.remove(this.aChoice3248);
+                this.choice.removeItemListener(this);
+                this.remove(this.choice);
                 this.add(this.colorSpinner);
                 this.colorSpinner.addItemListener(this);
                 this.choiceMode = false;
-                this.aChoice3248 = null;
+                this.choice = null;
             }
         }
     }
@@ -211,11 +209,11 @@ public class Choicer extends IPanel implements ComponentListener, ItemListener, 
         return this.choiceMode;
     }
 
-    private void method825(String var1) {
-        char[] var2 = var1.toCharArray();
+    private void moveToSpinnerIfNecessary(String text) {
+        char[] chars = text.toCharArray();
 
-        for (int var3 = 0; var3 < var2.length; ++var3) {
-            if (var2[var3] > 255) {
+        for (char c : chars) {
+            if (c > 255) {
                 this.moveToSpinner();
                 return;
             }

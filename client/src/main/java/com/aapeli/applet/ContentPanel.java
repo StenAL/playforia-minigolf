@@ -2,12 +2,16 @@ package com.aapeli.applet;
 
 import com.aapeli.client.IPanel;
 
+import java.awt.Dimension;
+
 
 class ContentPanel extends IPanel {
 
     protected ContentPanel(AApplet applet) {
         this.setBackground(applet.getBackground());
         this.setForeground(applet.getForeground());
+        this.setSize(applet.appletWidth, applet.appletHeight);
+        this.setPreferredSize(new Dimension(applet.appletWidth, applet.appletHeight));
         this.setLayout(null);
     }
 

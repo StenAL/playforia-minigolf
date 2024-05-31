@@ -26,7 +26,7 @@ class LoadingPanel extends Panel implements Runnable, ActionListener {
     private double renderedProgress;
     private double aDouble586;
     private int updateInterval;
-    private boolean aBoolean588;
+    private boolean needsRepaint;
     private boolean aBoolean589;
     private boolean loaded;
     private boolean destroyed;
@@ -48,8 +48,10 @@ class LoadingPanel extends Panel implements Runnable, ActionListener {
         this.updateInterval = 50;
         this.loaded = false;
         this.destroyed = false;
-        this.aBoolean588 = true;
+        this.needsRepaint = true;
         this.aBoolean589 = true;
+        this.setSize(applet.appletWidth, applet.appletHeight);
+        this.setPreferredSize(new Dimension(applet.appletWidth, applet.appletHeight));
         this.startGameClicked = -1;
     }
 
@@ -66,7 +68,7 @@ class LoadingPanel extends Panel implements Runnable, ActionListener {
                 if (this.panelImage == null) {
                     this.panelImage = this.createImage(width, height);
                     this.panelGraphics = this.panelImage.getGraphics();
-                    this.aBoolean588 = true;
+                    this.needsRepaint = true;
                 }
 
                 Color background = this.getBackground();
@@ -74,9 +76,9 @@ class LoadingPanel extends Panel implements Runnable, ActionListener {
                     background = new Color(24, 24, 24);
                 }
 
-                boolean var6 = this.aBoolean588;
-                this.aBoolean588 = false;
-                if (var6) {
+                boolean needsRepaint = this.needsRepaint;
+                this.needsRepaint = false;
+                if (needsRepaint) {
                     this.drawGradient(this.panelGraphics, background, 0, 32, 0, height, 0, width, this.aBoolean589);
                     this.aBoolean589 = false;
                     if (this.loadingMessage != null && this.startGameClicked == -1) {
@@ -107,7 +109,7 @@ class LoadingPanel extends Panel implements Runnable, ActionListener {
 
     public void setBackground(Color var1) {
         super.setBackground(var1);
-        this.aBoolean588 = true;
+        this.needsRepaint = true;
         this.repaint();
     }
 
@@ -156,7 +158,7 @@ class LoadingPanel extends Panel implements Runnable, ActionListener {
 
     }
 
-    protected void method462(Parameters parameters, TextManager textManager) {
+    protected void init(Parameters parameters, TextManager textManager) {
         this.parameters = parameters;
         this.textManager = textManager;
     }
@@ -168,7 +170,7 @@ class LoadingPanel extends Panel implements Runnable, ActionListener {
 
     protected void setLoadingMessage(String message) {
         this.loadingMessage = message;
-        this.aBoolean588 = true;
+        this.needsRepaint = true;
         this.repaint();
     }
 
@@ -196,7 +198,7 @@ class LoadingPanel extends Panel implements Runnable, ActionListener {
         this.aDouble586 *= var1;
     }
 
-    protected Image method469() {
+    protected Image getImage() {
         return this.panelImage;
     }
 
@@ -212,7 +214,7 @@ class LoadingPanel extends Panel implements Runnable, ActionListener {
         if (this.adCanvas != null) {
             if (this.aBoolean595) {
                 this.startGameClicked = 0;
-                this.aBoolean588 = true;
+                this.needsRepaint = true;
                 this.repaint();
                 short var1 = 300;
                 int var2 = (this.gameApplet.appletWidth - 25 - 15 - 15 - 25) / 2;
