@@ -7,7 +7,76 @@ import com.aapeli.tools.Tools;
 
 public class Conn implements ConnListener {
 
-    private static final String[] cipherCmds = new String[68];
+    private static final String[] cipherCmds = new String[] {
+            "status\t",
+            "basicinfo\t",
+            "numberofusers\t",
+            "users\t",
+            "ownjoin\t",
+            "joinfromgame\t",
+            "say\t",
+            "logintype\t",
+            "login",
+            "lobbyselect\t",
+            "select\t",
+            "back",
+            "challenge\t",
+            "cancel\t",
+            "accept\t",
+            "cfail\t",
+            "nouser",
+            "nochall",
+            "cother",
+            "cbyother",
+            "refuse",
+            "afail",
+            "gsn\t",
+            "lobby\tnc\t",
+            "lobby\t",
+            "lobby",
+            "tracksetlist\t",
+            "tracksetlist",
+            "gamelist\t",
+            "full\t",
+            "add\t",
+            "change\t",
+            "remove\t",
+            "gameinfo\t",
+            "players",
+            "owninfo\t",
+            "game\tstarttrack\t",
+            "game\tstartturn\t",
+            "game\tstart",
+            "game\tbeginstroke\t",
+            "game\tendstroke\t",
+            "game\tresetvoteskip",
+            "game\t",
+            "game",
+            "quit",
+            "join\t",
+            "part\t",
+            "cspt\t",
+            "qmpt",
+            "cspc\t",
+            "jmpt\t",
+            "tracklist\t",
+            "Tiikoni",
+            "Leonardo",
+            "Ennaji",
+            "Hoeg",
+            "Darwin",
+            "Dante",
+            "ConTrick",
+            "Dewlor",
+            "Scope",
+            "SuperGenuis",
+            "Zwan",
+            "\tT !\t",
+            "\tcr\t",
+            "rnop",
+            "nop\t",
+            "error"
+    };
     private GameContainer gameContainer;
     private Connection connection;
     private String aString2372;
@@ -182,76 +251,5 @@ public class Conn implements ConnListener {
         else if (args[0].equals("game")) {
             this.gameContainer.gamePanel.handlePacket(args);
         }
-    }
-
-    static {
-        cipherCmds[0] = "status\t";
-        cipherCmds[1] = "basicinfo\t";
-        cipherCmds[2] = "numberofusers\t";
-        cipherCmds[3] = "users\t";
-        cipherCmds[4] = "ownjoin\t";
-        cipherCmds[5] = "joinfromgame\t";
-        cipherCmds[6] = "say\t";
-        cipherCmds[7] = "logintype\t";
-        cipherCmds[8] = "login";
-        cipherCmds[9] = "lobbyselect\t";
-        cipherCmds[10] = "select\t";
-        cipherCmds[11] = "back";
-        cipherCmds[12] = "challenge\t";
-        cipherCmds[13] = "cancel\t";
-        cipherCmds[14] = "accept\t";
-        cipherCmds[15] = "cfail\t";
-        cipherCmds[16] = "nouser";
-        cipherCmds[17] = "nochall";
-        cipherCmds[18] = "cother";
-        cipherCmds[19] = "cbyother";
-        cipherCmds[20] = "refuse";
-        cipherCmds[21] = "afail";
-        cipherCmds[22] = "gsn\t";
-        cipherCmds[23] = "lobby\tnc\t";
-        cipherCmds[24] = "lobby\t";
-        cipherCmds[25] = "lobby";
-        cipherCmds[26] = "tracksetlist\t";
-        cipherCmds[27] = "tracksetlist";
-        cipherCmds[28] = "gamelist\t";
-        cipherCmds[29] = "full\t";
-        cipherCmds[30] = "add\t";
-        cipherCmds[31] = "change\t";
-        cipherCmds[32] = "remove\t";
-        cipherCmds[33] = "gameinfo\t";
-        cipherCmds[34] = "players";
-        cipherCmds[35] = "owninfo\t";
-        cipherCmds[36] = "game\tstarttrack\t";
-        cipherCmds[37] = "game\tstartturn\t";
-        cipherCmds[38] = "game\tstart";
-        cipherCmds[39] = "game\tbeginstroke\t";
-        cipherCmds[40] = "game\tendstroke\t";
-        cipherCmds[41] = "game\tresetvoteskip";
-        cipherCmds[42] = "game\t";
-        cipherCmds[43] = "game";
-        cipherCmds[44] = "quit";
-        cipherCmds[45] = "join\t";
-        cipherCmds[46] = "part\t";
-        cipherCmds[47] = "cspt\t";
-        cipherCmds[48] = "qmpt";
-        cipherCmds[49] = "cspc\t";
-        cipherCmds[50] = "jmpt\t";
-        cipherCmds[51] = "tracklist\t";
-        cipherCmds[52] = "Tiikoni";
-        cipherCmds[53] = "Leonardo";
-        cipherCmds[54] = "Ennaji";
-        cipherCmds[55] = "Hoeg";
-        cipherCmds[56] = "Darwin";
-        cipherCmds[57] = "Dante";
-        cipherCmds[58] = "ConTrick";
-        cipherCmds[59] = "Dewlor";
-        cipherCmds[60] = "Scope";
-        cipherCmds[61] = "SuperGenuis";
-        cipherCmds[62] = "Zwan";
-        cipherCmds[63] = "\tT !\t";
-        cipherCmds[64] = "\tcr\t";
-        cipherCmds[65] = "rnop";
-        cipherCmds[66] = "nop\t";
-        cipherCmds[67] = "error";
     }
 }

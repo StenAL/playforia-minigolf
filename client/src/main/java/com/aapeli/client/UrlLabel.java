@@ -20,10 +20,10 @@ public class UrlLabel extends IPanel implements MouseListener {
     public static final int ALIGN_RIGHT = 1;
     public static final int TARGET_SAME = 0;
     public static final int TARGET_NEW = 1;
-    private static final String[] urlTargets = new String[2];
-    private static final Cursor defaultCursor;
-    private static final Cursor handCursor;
-    private static final Font fontDialog11;
+    private static final String[] urlTargets = new String[]{"_top", "_blank"};
+    private static final Cursor defaultCursor = new Cursor(Cursor.DEFAULT_CURSOR);
+    private static final Cursor handCursor = new Cursor(Cursor.HAND_CURSOR);
+    private static final Font fontDialog11 = new Font("Dialog", Font.PLAIN, 11);
     private Applet applet;
     private Font currentFont;
     private URL url;
@@ -205,14 +205,6 @@ public class UrlLabel extends IPanel implements MouseListener {
 
     public void setTarget(String target) {
         this.urlTarget = target;
-    }
-
-    static {
-        urlTargets[0] = "_top";
-        urlTargets[1] = "_blank";
-        defaultCursor = new Cursor(Cursor.DEFAULT_CURSOR);
-        handCursor = new Cursor(Cursor.HAND_CURSOR);
-        fontDialog11 = new Font("Dialog", Font.PLAIN, 11);
     }
 
     private static char[] method822(String var0) {

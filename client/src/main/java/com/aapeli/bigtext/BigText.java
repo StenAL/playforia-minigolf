@@ -18,10 +18,10 @@ public class BigText {
     public static final int VALIGN_TOP = -1;
     public static final int VALIGN_MIDDLE = 0;
     public static final int VALIGN_BOTTOM = 1;
-    protected static final Color aColor1312;
+    protected static final Color aColor1312 = Color.white;
     private static final String aString1313 = "ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ 1234567890:!?/&Ü+-*%<>()ÁÉÑ'\"¿¡ÍÓÚØ";
-    protected static final int[] anIntArray1314;
-    protected static final int anInt1315;
+    protected static final int[] anIntArray1314 = new int[]{0, 23, 47, 71, 95, 116, 136, 160, 183, 195, 219, 243, 264, 299, 323, 347, 370, 394, 418, 442, 465, 489, 513, 542, 566, 590, 614, 637, 661, 685, 700, 714, 736, 756, 777, 798, 819, 839, 859, 881, 901, 913, 924, 949, 972, 1002, 1027, 1051, 1071, 1097, 1126, 1149, 1172, 1186, 1200, 1225, 1246, 1270, 1281, 1303, 1328, 1339, 1354, 1378, 1402};
+    protected static final int anInt1315 = anIntArray1314.length;
     private static ImageManager anImageManager1316;
     private static int[] anIntArray1317;
     private static int[] anIntArray1318;
@@ -273,11 +273,5 @@ public class BigText {
                 this.anImage1321 = anImageManager1316.createImage(this.anIntArray1320, this.anInt1322, this.anInt1323, var2);
             }
         }
-    }
-
-    static {
-        aColor1312 = Color.white;
-        anIntArray1314 = new int[]{0, 23, 47, 71, 95, 116, 136, 160, 183, 195, 219, 243, 264, 299, 323, 347, 370, 394, 418, 442, 465, 489, 513, 542, 566, 590, 614, 637, 661, 685, 700, 714, 736, 756, 777, 798, 819, 839, 859, 881, 901, 913, 924, 949, 972, 1002, 1027, 1051, 1071, 1097, 1126, 1149, 1172, 1186, 1200, 1225, 1246, 1270, 1281, 1303, 1328, 1339, 1354, 1378, 1402};
-        anInt1315 = anIntArray1314.length;
     }
 }

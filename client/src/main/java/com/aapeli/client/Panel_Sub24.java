@@ -16,18 +16,18 @@ import java.awt.event.FocusListener;
 
 class Panel_Sub24 extends Panel implements ActionListener, FocusListener {
 
-    protected static final Color aColor616;
-    private static final Color aColor617;
-    private static final Color aColor618;
-    private static final Color aColor619;
-    private static final Color aColor620;
-    private static final Color aColor621;
-    private static final Color aColor622;
-    private static final Font aFont623;
-    private static final Font aFont624;
-    private static final Font aFont625;
-    private static final Font aFont626;
-    private static final Font aFont627;
+    protected static final Color aColor616 = new Color(240, 240, 240);
+    private static final Color aColor617 = Color.black;
+    private static final Color aColor618 = new Color(255, 224, 224);
+    private static final Color aColor619 = new Color(144, 144, 240);
+    private static final Color aColor620 = new Color(128, 255, 128);
+    private static final Color aColor621 = new Color(255, 128, 128);
+    private static final Color aColor622 = new Color(224, 224, 128);
+    private static final Font aFont623 = new Font("Dialog", Font.PLAIN, 12);
+    private static final Font aFont624 = new Font("Dialog", Font.PLAIN, 14);
+    private static final Font aFont625 = new Font("Dialog", Font.PLAIN, 11);
+    private static final Font aFont626 = new Font("Serif", Font.PLAIN, 18);
+    private static final Font aFont627 = new Font("Dialog", Font.PLAIN, 16);
     private TextManager aTextManager628;
     private ImageManager anImageManager629;
     private Class88 aClass88_630;
@@ -349,20 +349,5 @@ class Panel_Sub24 extends Panel implements ActionListener, FocusListener {
                 }
             }
         }
-    }
-
-    static {
-        aColor616 = new Color(240, 240, 240);
-        aColor617 = Color.black;
-        aColor618 = new Color(255, 224, 224);
-        aColor619 = new Color(144, 144, 240);
-        aColor620 = new Color(128, 255, 128);
-        aColor621 = new Color(255, 128, 128);
-        aColor622 = new Color(224, 224, 128);
-        aFont623 = new Font("Dialog", Font.PLAIN, 12);
-        aFont624 = new Font("Dialog", Font.PLAIN, 14);
-        aFont625 = new Font("Dialog", Font.PLAIN, 11);
-        aFont626 = new Font("Serif", Font.PLAIN, 18);
-        aFont627 = new Font("Dialog", Font.PLAIN, 16);
     }
 }
