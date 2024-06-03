@@ -7,6 +7,11 @@
     <packaging>pom</packaging>
     <version>2.1.2.0-BETA</version>
     <name>Playforia Minigolf</name>
+    <organization>
+        <name>Playforia</name>
+    </organization>
+    <inceptionYear>2002</inceptionYear>
+    <description>An online multiplayer minigolf game</description>
 
     <modules>
         <module>server</module>
