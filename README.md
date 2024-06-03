@@ -62,7 +62,13 @@ java -jar client.jar -server 192.168.1.7 -lang en_US # Replace IP with the one o
 
 #### Running Minigolf Server in Docker Container
 
-We provide an experimental Dockerfile for easy hosting of the server application. You can either build the image by yourself or download the pre-build images from [quay.io](https://quay.io/repository/philippvk/minigolf) via `docker pull quay.io/philippvk/minigolf:latest`.
+We provide an experimental Dockerfile for easy hosting of the server application. 
+You can either build and run the image:
+```sh
+docker build -t pfmg .
+docker run pfmg
+```
+or download the pre-built images from [quay.io](https://quay.io/repository/philippvk/minigolf) via `docker pull quay.io/philippvk/minigolf:latest`.
 
 Running the Editor is quite straightforward as it can be started like expected: `java -jar editor.jar`
 

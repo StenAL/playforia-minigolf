@@ -32,3 +32,7 @@ jobs:
         run: sudo apt-get install -y genisoimage
       - name: Build with Maven
         run: mvn -B install --file pom.xml
+      - name: Build Docker image
+        uses: docker/build-push-action@v5
+        with:
+          tags: philippvk/minigolf:latest
