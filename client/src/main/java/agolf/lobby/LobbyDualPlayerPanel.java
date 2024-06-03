@@ -211,7 +211,7 @@ class LobbyDualPlayerPanel extends IPanel implements ItemListener, ActionListene
                         /*if(isUsingCustomServer) {
                             this.trackCategory = this.choicerTrackCategory.getSelectedIndex();
                         }*/
-                        this.update(1);
+                        this.setState(1);
                         this.gameContainer.lobbyPanel.writeData("challenge\t" + this.opponentName + "\t" + this.tracksNum + "\t" + this.trackType + "\t" + this.maxStrokes + "\t" + this.timeLimit + "\t" + this.waterEvent + "\t" + this.collision + "\t" + this.scoring + "\t" + this.scoringEnd /*+ (isUsingCustomServer ? ("\t" + this.trackCategory) : "")*/);
                         return;
                     }
@@ -220,7 +220,7 @@ class LobbyDualPlayerPanel extends IPanel implements ItemListener, ActionListene
             } else if (evtSource == this.buttonCancel) {
                 synchronized (synchronizedObject) {
                     if (this.currentState == 1) {
-                        this.update(0);
+                        this.setState(0);
                         this.gameContainer.lobbyPanel.writeData("cancel\t" + this.opponentName);
                         return;
                     }
@@ -264,7 +264,7 @@ class LobbyDualPlayerPanel extends IPanel implements ItemListener, ActionListene
                 /*if(isUsingCustomServer) {
                     this.trackCategory = Integer.parseInt(args[11]);
                 }*/
-                this.update(2);
+                this.setState(2);
             }
 
             if (this.checkboxBeep.getState()) {
@@ -275,7 +275,7 @@ class LobbyDualPlayerPanel extends IPanel implements ItemListener, ActionListene
         } else if (args[1].equals("cancel")) {
             synchronized (synchronizedObject) {
                 if (this.currentState == 2) {
-                    this.update(0);
+                    this.setState(0);
                     return true;
                 }
 
@@ -287,7 +287,7 @@ class LobbyDualPlayerPanel extends IPanel implements ItemListener, ActionListene
                     return true;
                 }
 
-                this.update(0);
+                this.setState(0);
             }
 
             if (args[2].equals("nouser")) {
@@ -318,7 +318,7 @@ class LobbyDualPlayerPanel extends IPanel implements ItemListener, ActionListene
                     return true;
                 }
 
-                this.update(0);
+                this.setState(0);
             }
 
             this.extraText = this.gameContainer.textManager.getGame("LobbyReal_ChallengedLeft");
@@ -329,7 +329,7 @@ class LobbyDualPlayerPanel extends IPanel implements ItemListener, ActionListene
         }
     }
 
-    protected void update(int state) {
+    protected void setState(int state) {
         this.extraText = null;
         if (state == this.currentState) {
             this.repaint();
@@ -411,7 +411,7 @@ class LobbyDualPlayerPanel extends IPanel implements ItemListener, ActionListene
     private void accept() {
         synchronized (synchronizedObject) {
             if (this.currentState == 2) {
-                this.update(-1);
+                this.setState(-1);
                 this.gameContainer.lobbyPanel.writeData("accept\t" + this.opponentName);
                 return;
             }
@@ -421,7 +421,7 @@ class LobbyDualPlayerPanel extends IPanel implements ItemListener, ActionListene
     private void refuse() {
         synchronized (synchronizedObject) {
             if (this.currentState == 2) {
-                this.update(0);
+                this.setState(0);
                 this.gameContainer.lobbyPanel.writeData("cfail\t" + this.opponentName + "\trefuse");
                 return;
             }
