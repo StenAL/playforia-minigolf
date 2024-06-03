@@ -10,7 +10,7 @@ import java.security.MessageDigest;
 
 class Class88 implements ActionListener {
 
-    private static final Color aColor1499;
+    private static final Color aColor1499 = new Color(64, 160, 255);
     private Parameters aParameters1500;
     private TextManager aTextManager1501;
     private ImageManager anImageManager1502;
@@ -203,9 +203,5 @@ class Class88 implements ActionListener {
         }
 
         return var2.toString();
-    }
-
-    static {
-        aColor1499 = new Color(64, 160, 255);
     }
 }
