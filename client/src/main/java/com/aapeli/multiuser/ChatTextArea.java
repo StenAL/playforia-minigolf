@@ -9,8 +9,8 @@ import java.util.Hashtable;
 
 public class ChatTextArea extends ColorTextArea {
 
-    public static final Font DEFAULT_FONT;
-    public static final Font SMALL_FONT;
+    public static final Font DEFAULT_FONT = new Font("Dialog", Font.PLAIN, 12);
+    public static final Font SMALL_FONT = new Font("Dialog", Font.PLAIN, 11);
     private TextManager aTextManager4728;
     private BadWordFilter aBadWordFilter4729;
     private Hashtable<String, Integer> aHashtable4730;
@@ -192,10 +192,5 @@ public class ChatTextArea extends ColorTextArea {
         }
 
         return var1;
-    }
-
-    static {
-        DEFAULT_FONT = new Font("Dialog", Font.PLAIN, 12);
-        SMALL_FONT = new Font("Dialog", Font.PLAIN, 11);
     }
 }

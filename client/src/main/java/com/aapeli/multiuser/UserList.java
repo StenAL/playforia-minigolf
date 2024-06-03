@@ -37,11 +37,11 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
     public static final int SORT_NICKNAME_CBA = 2;
     public static final int SORT_RANKING_123 = 3;
     public static final int SORT_RANKING_321 = 4;
-    private static final Color aColor3453;
-    private static final Color aColor3454;
-    private static final Font aFont3455;
-    private static final Color aColor3456;
-    private static final Color aColor3457;
+    private static final Color aColor3453 = Color.white;
+    private static final Color aColor3454 = Color.black;
+    private static final Font aFont3455 = new Font("Dialog", Font.PLAIN, 9);
+    private static final Color aColor3456 = new Color(224, 224, 224);
+    private static final Color aColor3457 = new Color(208, 208, 255);
     private UserListHandler anUserListHandler3458;
     private TextManager textManager;
     private ImageManager imageManager;
@@ -929,13 +929,5 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
         }
 
         return var14;
-    }
-
-    static {
-        aColor3453 = Color.white;
-        aColor3454 = Color.black;
-        aFont3455 = new Font("Dialog", Font.PLAIN, 9);
-        aColor3456 = new Color(224, 224, 224);
-        aColor3457 = new Color(208, 208, 255);
     }
 }
