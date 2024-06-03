@@ -84,7 +84,7 @@
             <plugin>
                 <groupId>com.googlecode.maven-download-plugin</groupId>
                 <artifactId>download-maven-plugin</artifactId>
-                <version>1.6.8</version>
+                <version>1.9.0</version>
                 <executions>
                     <execution>
                       <id>download-osx-jre</id>
@@ -104,7 +104,6 @@
             <plugin>
                 <groupId>sh.tak.appbundler</groupId>
                 <artifactId>appbundle-maven-plugin</artifactId>
-                <version>1.2.0</version>
                 <configuration>
                     <bundleName>${project.name}</bundleName>
                     <iconFile>src/main/resources/icons/playforia.icns</iconFile>
@@ -133,7 +132,6 @@
             <plugin>
                 <groupId>com.akathist.maven.plugins.launch4j</groupId>
                 <artifactId>launch4j-maven-plugin</artifactId>
-                <version>2.3.3</version>
                 <executions>
                     <execution>
                         <id>windows-build</id>
@@ -174,7 +172,7 @@
             <plugin>
                 <artifactId>plantuml-generator-maven-plugin</artifactId>
                 <groupId>de.elnarion.maven</groupId>
-                <version>1.1.2</version>
+                <version>2.4.1</version>
                 <executions>
                     <execution>
                         <id>generate-simple-diagram</id>
