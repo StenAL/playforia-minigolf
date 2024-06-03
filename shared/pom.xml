@@ -38,11 +38,6 @@
             <artifactId>memoryfilesystem</artifactId>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>org.softsmithy.lib</groupId>
-            <artifactId>softsmithy-lib-core</artifactId>
-            <scope>test</scope>
-        </dependency>
     </dependencies>
     <build>
         <plugins>
