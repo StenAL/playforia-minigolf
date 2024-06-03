@@ -35,7 +35,7 @@ The Java Applet-based Minigolf Client was one of the most popular multiplayer ga
 
 ### Prerequisites
 - Clone this repo: `git clone git@github.com:PhilippvK/playforia-minigolf.git`
-- Install Java Development Kit 17 (https://adoptium.net/en-GB/temurin/releases/)
+- Install Java Development Kit 21 (https://adoptium.net/en-GB/temurin/releases/)
 - Install Apache `maven` for building: https://maven.apache.org/install.html
 - *Optional:* Install IntelliJ IDEA Java IDE (https://www.jetbrains.com/idea/download/) and import this repository as project
 
@@ -83,7 +83,7 @@ Client CLI options:
 ## Compatibility
 
 Tested:
-- Ubuntu 22.04 with Java version `17.0.6`
+- Ubuntu 22.04 with Java version `21.0.3`
 - Windows 10/11
 
 ## Problems

@@ -15,8 +15,8 @@
         <project.mainClass>org.moparforia.client.Launcher</project.mainClass>
         <project.name>Playforia Minigolf Client</project.name>
         <project.download.directory>${project.build.directory}/downloads</project.download.directory>
-        <project.jre.osx.link>https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.7%2B7/OpenJDK17U-jre_x64_mac_hotspot_17.0.7_7.tar.gz</project.jre.osx.link>
-        <project.jre.osx.name>jdk-17.0.7+7-jre</project.jre.osx.name>
+        <project.jre.osx.link>https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.2%2B13/OpenJDK21U-jre_aarch64_mac_hotspot_21.0.2_13.tar.gz</project.jre.osx.link>
+        <project.jre.osx.name>jdk-21.0.2+13-jre</project.jre.osx.name>
     </properties>
 
     <dependencies>
@@ -154,7 +154,7 @@
                             <icon>src/main/resources/icons/playforia.ico</icon>
                             <jre>
                                 <path>jre</path>
-                                <minVersion>17</minVersion>
+                                <minVersion>21</minVersion>
                             </jre>
                             <versionInfo>
                                 <fileVersion>1.0.0.0</fileVersion>
