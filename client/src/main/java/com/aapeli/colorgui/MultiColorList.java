@@ -8,7 +8,6 @@ import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.ItemSelectable;
-import java.awt.LayoutManager;
 import java.awt.Panel;
 import java.awt.Scrollbar;
 import java.awt.event.AdjustmentEvent;
@@ -17,7 +16,6 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.image.ImageObserver;
 import java.util.Enumeration;
 import java.util.Vector;
 
@@ -35,7 +33,7 @@ public class MultiColorList extends Panel implements AdjustmentListener, MouseLi
     public static final int ORDER_321_FIRST = 3;
     public static final int ORDER_123_ALL = 4;
     public static final int ORDER_321_ALL = 5;
-    private static final Font aFont681 = new Font("Dialog", 1, 12);
+    private static final Font aFont681 = new Font("Dialog", Font.BOLD, 12);
     private static final Color aColor682 = new Color(255, 255, 255);
     private static final Color aColor683 = new Color(192, 192, 192);
     private static final Color aColor684 = new Color(64, 64, 64);
@@ -61,14 +59,14 @@ public class MultiColorList extends Panel implements AdjustmentListener, MouseLi
     private int anInt703;
     private int[] anIntArray704;
     private int anInt705;
-    private Vector aVector706;
+    private Vector<MultiColorListItem> aVector706;
     private int anInt707;
     private int anInt708;
     private int anInt709;
     private int anInt710;
     private Image anImage711;
     private Graphics aGraphics712;
-    private Vector aVector713;
+    private Vector<ItemListener> aVector713;
     private MultiColorListListener listListener;
 
     public MultiColorList(String[] var1, int[] var2, int var3, int var4, int var5) {
@@ -81,7 +79,7 @@ public class MultiColorList extends Panel implements AdjustmentListener, MouseLi
         this.aString694 = null;
         this.aChar695 = 46;
         this.anInt698 = var1 != null ? var1.length : 0;
-        this.aVector706 = new Vector();
+        this.aVector706 = new Vector<>();
         this.anInt705 = 0;
         this.anInt702 = var4 - 6 - 16;
         this.anInt703 = var5 / 16 - 1;
@@ -89,14 +87,14 @@ public class MultiColorList extends Panel implements AdjustmentListener, MouseLi
         this.anInt707 = this.anInt708 = -1;
         this.anInt709 = -1;
         this.aColor691 = aColor682;
-        this.setLayout((LayoutManager) null);
+        this.setLayout(null);
         this.aScrollbar686 = new Scrollbar(1);
         this.aScrollbar686.setBounds(var4 - 16 - 1, 1, 16, var5 - 2);
         this.aScrollbar686.setBlockIncrement(this.anInt703 - 1);
         this.aScrollbar686.setUnitIncrement(1);
         this.aBoolean687 = false;
         this.addMouseListener(this);
-        this.aVector713 = new Vector();
+        this.aVector713 = new Vector<>();
     }
 
     public void addNotify() {
@@ -186,7 +184,7 @@ public class MultiColorList extends Panel implements AdjustmentListener, MouseLi
 
                 for (int var14 = 0; var14 < this.anInt698; ++var14) {
                     if (var9[var13][var14] != null) {
-                        this.aGraphics712.drawImage(var9[var13][var14], 3 + this.anIntArray704[var14] + 1, var15 - var3 + (8 - var9[var13][var14].getHeight((ImageObserver) null) / 2) + 1, this);
+                        this.aGraphics712.drawImage(var9[var13][var14], 3 + this.anIntArray704[var14] + 1, var15 - var3 + (8 - var9[var13][var14].getHeight(null) / 2) + 1, this);
                     } else if (var8[var13][var14] != null) {
                         this.aGraphics712.drawString(var8[var13][var14], 3 + this.anIntArray704[var14], var15);
                     }
@@ -398,7 +396,7 @@ public class MultiColorList extends Panel implements AdjustmentListener, MouseLi
     }
 
     public synchronized MultiColorListItem getItem(int var1) {
-        return (MultiColorListItem) ((MultiColorListItem) this.aVector706.elementAt(var1));
+        return this.aVector706.elementAt(var1);
     }
 
     public synchronized MultiColorListItem getItem(int var1, String var2) {
@@ -637,7 +635,7 @@ public class MultiColorList extends Panel implements AdjustmentListener, MouseLi
             } else if (var1.equals("-")) {
                 return -1.7976931348623157E308D;
             } else {
-                return (new Double(var1)).doubleValue();
+                return Double.parseDouble(var1);
             }
         }
     }
@@ -716,10 +714,10 @@ public class MultiColorList extends Panel implements AdjustmentListener, MouseLi
     private synchronized void method962(MultiColorListItem var1, int var2, int var3) {
         if (this.aVector713.size() != 0) {
             ItemEvent var4 = new ItemEvent(this, var2, var1, var3);
-            Enumeration var5 = this.aVector713.elements();
+            Enumeration<ItemListener> var5 = this.aVector713.elements();
 
             while (var5.hasMoreElements()) {
-                ((ItemListener) ((ItemListener) var5.nextElement())).itemStateChanged(var4);
+                var5.nextElement().itemStateChanged(var4);
             }
 
         }

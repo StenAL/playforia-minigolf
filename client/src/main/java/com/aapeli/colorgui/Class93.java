@@ -1,7 +1,5 @@
 package com.aapeli.colorgui;
 
-import com.aapeli.colorgui.ColorTextArea;
-
 import java.awt.Color;
 
 class Class93 {

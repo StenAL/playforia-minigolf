@@ -2,8 +2,16 @@ package agolf;
 
 import com.aapeli.multiuser.UsernameValidator;
 
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.Button;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Label;
+import java.awt.Panel;
+import java.awt.TextField;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 class TrackTestLoginPanel extends Panel implements ActionListener, KeyListener {
 

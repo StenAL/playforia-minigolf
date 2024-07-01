@@ -1,6 +1,14 @@
 package org.moparforia.client.trackdump;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.InterruptedIOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
 import java.net.Socket;
 import java.util.Vector;
 
@@ -26,7 +34,7 @@ public final class Connection implements Runnable {
     private int anInt1621;
     private Class98 aClass98_1622;
     private GamePacketQueue aGamePacketQueue_1623;
-    private Vector aVector1624;
+    private Vector<String> aVector1624;
     private long numReceivedGamePackets;
     private long lastCmdReceived;
     private ConnCrypto connCrypto;
@@ -45,7 +53,7 @@ public final class Connection implements Runnable {
         this.aLong1620 = -1L;
         this.anInt1621 = 25;
         this.aClass98_1622 = new Class98();
-        this.aVector1624 = new Vector();
+        this.aVector1624 = new Vector<>();
         this.numReceivedGamePackets = -1L;
         this.anInt1613 = 0;
         this.disconnectReason = 0;
@@ -81,9 +89,7 @@ public final class Connection implements Runnable {
                 }
             } while (this.anInt1613 != 4);
         } catch (Exception var2) {
-            ;
         } catch (Error var3) {
-            ;
         }
 
         this.method1792();
@@ -215,7 +221,7 @@ public final class Connection implements Runnable {
     private void method1781() {
         while (true) {
             if (this.anInt1613 == 2 && !this.aVector1624.isEmpty()) {
-                String var1 = (String) ((String) this.aVector1624.firstElement());
+                String var1 = this.aVector1624.firstElement();
                 this.aVector1624.removeElementAt(0);
                 if (this.writeLineS(var1)) {
                     continue;
@@ -364,7 +370,6 @@ public final class Connection implements Runnable {
         } catch (InterruptedIOException var2) {
             return null;
         } catch (IOException var3) {
-            ;
         }
 
         this.method1783();
@@ -386,7 +391,6 @@ public final class Connection implements Runnable {
             try {
                 Thread.sleep(3000L);
             } catch (InterruptedException var4) {
-                ;
             }
 
             if (this.anInt1613 != 3) {
@@ -410,7 +414,6 @@ public final class Connection implements Runnable {
             try {
                 this.in.close();
             } catch (IOException var4) {
-                ;
             }
 
             this.in = null;
@@ -420,7 +423,6 @@ public final class Connection implements Runnable {
             try {
                 this.out.close();
             } catch (IOException var3) {
-                ;
             }
 
             this.out = null;
@@ -430,7 +432,6 @@ public final class Connection implements Runnable {
             try {
                 this.aSocket1617.close();
             } catch (IOException var2) {
-                ;
             }
 
             this.aSocket1617 = null;

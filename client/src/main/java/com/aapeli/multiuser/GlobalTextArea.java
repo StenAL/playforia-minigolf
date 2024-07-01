@@ -7,7 +7,6 @@ import com.aapeli.colorgui.TabBarListener;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.LayoutManager;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 
@@ -31,7 +30,7 @@ final class GlobalTextArea extends IPanel implements ComponentListener, TabBarLi
         this.anInt2363 = var4.width;
         this.anInt2364 = var4.height;
         this.setSize(this.anInt2363, this.anInt2364);
-        this.setLayout((LayoutManager) null);
+        this.setLayout(null);
         var2.setLocation(0, 0);
         this.add(var2);
         this.aChatTextArea2365 = var2;
@@ -65,7 +64,7 @@ final class GlobalTextArea extends IPanel implements ComponentListener, TabBarLi
 
     public void selectedTabChanged(int var1) {
         TabBarItem var2 = this.aTabBar2367.getTabBarItemByIndex(var1);
-        ChatTextArea var3 = (ChatTextArea) ((ChatTextArea) var2.getComponent());
+        ChatTextArea var3 = (ChatTextArea) var2.getComponent();
         this.aChatBase2361.setCurrentOutput(var3);
     }
 
@@ -98,8 +97,8 @@ final class GlobalTextArea extends IPanel implements ComponentListener, TabBarLi
     protected void method918(String var1) {
         ChatTextArea[] var2 = this.method924();
 
-        for (int var3 = 0; var3 < var2.length; ++var3) {
-            var2[var3].addSheriffSay(var1);
+        for (ChatTextArea chatTextArea : var2) {
+            chatTextArea.addSheriffSay(var1);
         }
 
     }
@@ -107,8 +106,8 @@ final class GlobalTextArea extends IPanel implements ComponentListener, TabBarLi
     protected void method919(String var1) {
         ChatTextArea[] var2 = this.method924();
 
-        for (int var3 = 0; var3 < var2.length; ++var3) {
-            var2[var3].addServerSay(var1);
+        for (ChatTextArea chatTextArea : var2) {
+            chatTextArea.addServerSay(var1);
         }
 
     }
@@ -116,8 +115,8 @@ final class GlobalTextArea extends IPanel implements ComponentListener, TabBarLi
     protected void method920(String var1) {
         ChatTextArea[] var2 = this.method924();
 
-        for (int var3 = 0; var3 < var2.length; ++var3) {
-            var2[var3].addLocalizedServerSay(var1);
+        for (ChatTextArea chatTextArea : var2) {
+            chatTextArea.addLocalizedServerSay(var1);
         }
 
     }
@@ -125,8 +124,8 @@ final class GlobalTextArea extends IPanel implements ComponentListener, TabBarLi
     protected void method921(String var1) {
         ChatTextArea[] var2 = this.method924();
 
-        for (int var3 = 0; var3 < var2.length; ++var3) {
-            var2[var3].addBroadcastMessage(var1);
+        for (ChatTextArea chatTextArea : var2) {
+            chatTextArea.addBroadcastMessage(var1);
         }
 
     }
@@ -134,8 +133,8 @@ final class GlobalTextArea extends IPanel implements ComponentListener, TabBarLi
     public void clear() {
         ChatTextArea[] var1 = this.method924();
 
-        for (int var2 = 0; var2 < var1.length; ++var2) {
-            var1[var2].clear();
+        for (ChatTextArea chatTextArea : var1) {
+            chatTextArea.clear();
         }
 
     }
@@ -163,9 +162,9 @@ final class GlobalTextArea extends IPanel implements ComponentListener, TabBarLi
 
             TabBarItem var3 = this.aTabBar2367.getTabBarItemByID(var1);
             if (var3 != null) {
-                return (ChatTextArea) ((ChatTextArea) var3.getComponent());
+                return (ChatTextArea) var3.getComponent();
             } else {
-                ChatTextArea var4 = (ChatTextArea) ((ChatTextArea) this.aTabBar2367.getTabBarItemByIndex(0).getComponent());
+                ChatTextArea var4 = (ChatTextArea) this.aTabBar2367.getTabBarItemByIndex(0).getComponent();
                 var4 = new ChatTextArea(var4.getTextManager(), var4.getBadWordFilter(), this.anInt2363, this.anInt2364 - 15, var4.getFont());
                 var4.setLocation(0, 15);
                 this.method923(var1, var4);
@@ -193,7 +192,7 @@ final class GlobalTextArea extends IPanel implements ComponentListener, TabBarLi
                 ChatTextArea[] var4 = new ChatTextArea[var3];
 
                 for (int var5 = 0; var5 < var3; ++var5) {
-                    var4[var5] = (ChatTextArea) ((ChatTextArea) var2[var5].getComponent());
+                    var4[var5] = (ChatTextArea) var2[var5].getComponent();
                 }
 
                 return var4;

@@ -32,7 +32,7 @@ public class ConnCipher {
             this.randomsOther[1][i - 128] = -1;
         }
 
-        ConnRandom random = new ConnRandom((long) newSeed);
+        ConnRandom random = new ConnRandom(newSeed);
 
         int rand;
         for (int index = 1; index <= 125;) {

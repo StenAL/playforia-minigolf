@@ -15,10 +15,10 @@ import java.awt.event.ActionListener;
 
 class TrackInfoPanel extends Panel implements ActionListener {
 
-    private static final Font fontDialog12 = new Font("Dialog", 0, 12);
-    private static final Font fontDialog14 = new Font("Dialog", 0, 14);
-    private static final Font fontSerif16 = new Font("Serif", 0, 16);
-    private static final Font fontDialog11 = new Font("Dialog", 0, 11);
+    private static final Font fontDialog12 = new Font("Dialog", Font.PLAIN, 12);
+    private static final Font fontDialog14 = new Font("Dialog", Font.PLAIN, 14);
+    private static final Font fontSerif16 = new Font("Serif", Font.PLAIN, 16);
+    private static final Font fontDialog11 = new Font("Dialog", Font.PLAIN, 11);
     private static final Color[] voteColours = new Color[]{
             new Color(192, 0, 0), new Color(255, 0, 0), new Color(255, 64, 0),
             new Color(255, 128, 0), new Color(255, 192, 0), new Color(255, 255, 0),
@@ -108,7 +108,6 @@ class TrackInfoPanel extends Panel implements ActionListener {
 
                 Font font;
                 for (font = fontSerif16; this.getFontMetrics(font).stringWidth(this.trackName) / 2 > this.width / 4 - xMod; font = new Font(font.getName(), font.getStyle(), font.getSize() - 1)) {
-                    ;
                 }
 
                 this.graphics.setFont(font);

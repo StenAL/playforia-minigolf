@@ -3,13 +3,16 @@ package agolf.lobby;
 import agolf.GameApplet;
 import agolf.GameContainer;
 import com.aapeli.client.StringDraw;
-import com.aapeli.colorgui.*;
+import com.aapeli.colorgui.Choicer;
+import com.aapeli.colorgui.ColorButton;
+import com.aapeli.colorgui.MultiColorList;
+import com.aapeli.colorgui.MultiColorListItem;
+import com.aapeli.colorgui.MultiColorListListener;
 import org.moparforia.client.Launcher;
 
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.LayoutManager;
 import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -184,7 +187,7 @@ class LobbySinglePlayerPanel extends Panel implements ItemListener, ActionListen
     }
 
     private void create() {
-        this.setLayout((LayoutManager) null);
+        this.setLayout(null);
         /*if(isUsingCustomServer) {
             this.choicerTrackCategory = this.gameContainer.lobbyPanel.addChoicerTrackCategory(this, this.width / 2 - 170, 175, 150, 20);
         }*/

@@ -83,11 +83,11 @@ class CopyChatFrame extends Frame implements ComponentListener, WindowListener {
         int linesCount = lines.length;
         StringBuffer sb = new StringBuffer(linesCount * 20);
 
-        for (int i = 0; i < linesCount; ++i) {
-            int lineLength = lines[i].length();
+        for (String line : lines) {
+            int lineLength = line.length();
 
             for (int j = 0; j < lineLength; ++j) {
-                char chr = lines[i].charAt(j);
+                char chr = line.charAt(j);
                 if (chr == '<') {
                     chr = '{';
                 } else if (chr == '>') {

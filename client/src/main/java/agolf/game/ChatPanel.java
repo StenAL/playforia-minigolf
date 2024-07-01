@@ -3,14 +3,12 @@ package agolf.game;
 import agolf.GameApplet;
 import agolf.GameContainer;
 import com.aapeli.client.InputTextField;
-import com.aapeli.client.UrlLabel;
 import com.aapeli.colorgui.ColorButton;
 import com.aapeli.multiuser.ChatBase;
 import com.aapeli.multiuser.ChatTextArea;
 
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.LayoutManager;
 import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -161,7 +159,7 @@ class ChatPanel extends Panel implements KeyListener, ActionListener {
 
     private void create() {
         this.setLayout(null);
-        this.textAreaChat = new ChatTextArea(this.gameContainer.textManager, this.gameContainer.badWordFilter, this.width, this.height - 22, new Font("Dialog", 0, 11));
+        this.textAreaChat = new ChatTextArea(this.gameContainer.textManager, this.gameContainer.badWordFilter, this.width, this.height - 22, new Font("Dialog", Font.PLAIN, 11));
         this.textAreaChat.setLocation(0, 0);
         this.textFieldMessage = new InputTextField(this.gameContainer.textManager.getGame("GameChat_TypeHere"), 200, true);
         this.textFieldMessage.setBounds(0, this.height - 20, this.width - 70, 20);
@@ -191,7 +189,7 @@ class ChatPanel extends Panel implements KeyListener, ActionListener {
             }
 
             if (var1 != ChatBase.CIDR_NONE) {
-                ChatBase.setInputByCIDR(var1, this, this.textFieldMessage, this.buttonSay, (UrlLabel) null, this.gameContainer.textManager, this.gameContainer.params);
+                ChatBase.setInputByCIDR(var1, this, this.textFieldMessage, this.buttonSay, null, this.gameContainer.textManager, this.gameContainer.params);
             }
         }
 

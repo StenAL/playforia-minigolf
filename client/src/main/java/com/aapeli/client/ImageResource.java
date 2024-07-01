@@ -1,6 +1,6 @@
 package com.aapeli.client;
 
-import java.awt.*;
+import java.awt.Image;
 
 class ImageResource {
 

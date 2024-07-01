@@ -3,18 +3,21 @@ package agolf.game;
 import agolf.GameApplet;
 import agolf.GameContainer;
 
-import java.awt.*;
+import java.awt.Canvas;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.util.StringTokenizer;
 
 public class GameBackgroundCanvas extends Canvas {
 
-    protected static final Color aColor75;
+    protected static final Color aColor75 = new Color(240, 240, 255);
     private static final String mapChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
     private static final String defaultTrackSettings = "fttt14";
-    public static final int[] anIntArray78;
-    public static final int[] anIntArray79;
-    public static final String[] aStringArray80;
-    public static final int trackAdvertSize;
+    public static final int[] anIntArray78 = new int[]{3, 5, 8, 49};
+    public static final int[] anIntArray79 = new int[]{2, 3, 5, 25};
+    public static final String[] aStringArray80 = new String[]{"small", "medium", "large", "full"};
+    public static final int trackAdvertSize = aStringArray80.length;
     protected GameContainer gameContainer;
     private Image backgroundImg;
     protected Image image;
@@ -244,7 +247,7 @@ public class GameBackgroundCanvas extends Canvas {
                 if(subtknzr.countTokens() != 4) {
                     return false;
                 }
-                /**
+                /*
                  * 0 = num of completions
                  * 1 = num of strokes
                  * 2 = best num of strokes
@@ -384,7 +387,7 @@ public class GameBackgroundCanvas extends Canvas {
         return true;
     }
 
-    private String expandMap(String mapString) throws Exception {
+    private String expandMap(String mapString) {
         StringBuffer buffer = new StringBuffer(4900);
         int length = mapString.length();
 
@@ -408,9 +411,7 @@ public class GameBackgroundCanvas extends Canvas {
 
             char var6 = mapString.charAt(var4);
 
-            for (int var7 = 0; var7 < var5; ++var7) {
-                buffer.append(var6);
-            }
+            buffer.append(String.valueOf(var6).repeat(Math.max(0, var5)));
         }
 
         return buffer.toString();
@@ -660,7 +661,6 @@ public class GameBackgroundCanvas extends Canvas {
                 }
             }
         } catch (OutOfMemoryError e) {
-            ;
         }
 
         this.graphics.drawImage(this.gameContainer.imageManager.createImage(mapPixels, 735, 375), 0, 0, this);
@@ -731,17 +731,5 @@ public class GameBackgroundCanvas extends Canvas {
             int var18 = (int) ((double) var9 + (double) var15 * var3 + 0.5D);
             return (int) (4278190080L + (long) (var16 << 16) + (long) (var17 << 8) + (long) var18);
         }
-    }
-
-    static {
-        aColor75 = new Color(240, 240, 255);
-        anIntArray78 = new int[]{3, 5, 8, 49};
-        anIntArray79 = new int[]{2, 3, 5, 25};
-        aStringArray80 = new String[4];
-        aStringArray80[0] = "small";
-        aStringArray80[1] = "medium";
-        aStringArray80[2] = "large";
-        aStringArray80[3] = "full";
-        trackAdvertSize = aStringArray80.length;
     }
 }

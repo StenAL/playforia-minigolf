@@ -1,25 +1,23 @@
 package com.aapeli.client;
 
-import java.applet.Applet;
-import java.applet.AudioClip;
-import java.net.URL;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import java.net.URI;
 
 class SoundClip {
-
-    private Applet applet;
-    private URL dir;
+    private URI dir;
     private String file;
     private boolean debug;
-    private AudioClip audioClip;
+    private Clip clip;
     private boolean defined;
 
 
-    protected SoundClip(Applet applet, URL dir, String file, boolean debug) {
-        this.applet = applet;
+    protected SoundClip(URI dir, String file, boolean debug) {
         this.dir = dir;
         this.file = file;
         this.debug = debug;
-        this.audioClip = null;
+        this.clip = null;
         this.defined = false;
     }
 
@@ -34,18 +32,19 @@ class SoundClip {
             }
 
             //todo this.audioClip = this.applet.getAudioClip(this.dir, this.file);
-            URL url = dir;
             try {
-                url = new URL(dir, file);
+                URI uri = dir.resolve(file);
+                AudioInputStream sound = AudioSystem.getAudioInputStream(uri.toURL());
+                this.clip = AudioSystem.getClip();
+                clip.open(sound);
+                this.defined = true;
             } catch (Exception ex) {
                 System.out.println("SoundClip.defineClip(): failed to load sound clip");
             }
-            audioClip = Applet.newAudioClip(url);
-            this.defined = true;
         }
     }
 
-    protected AudioClip getAudioClip() {
-        return this.audioClip;
+    protected Clip getClip() {
+        return this.clip;
     }
 }

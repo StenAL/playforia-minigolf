@@ -212,9 +212,7 @@ class LobbyChatPanel extends ChatLobby implements GlobalChatListener {
             int i = args.length - 2;
             String[] users = new String[i];
 
-            for (int var4 = 0; var4 < i; ++var4) {
-                users[var4] = args[2 + var4];
-            }
+            System.arraycopy(args, 2, users, 0, i);
 
             this.setFullUserList(users);
             return true;

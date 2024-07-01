@@ -4,7 +4,7 @@ import java.util.Hashtable;
 
 public class TrackCollection {
 
-    private Hashtable tracks = new Hashtable();
+    private Hashtable<String, String> tracks = new Hashtable<>();
 
 
     public void addTrack(String author, String name, String data) {
@@ -15,6 +15,6 @@ public class TrackCollection {
     public String getTrack(String author, String name) {
         System.out.println("--------------- GET TRACK");
         String key = author + "\t" + name;
-        return (String) this.tracks.get(key);
+        return this.tracks.get(key);
     }
 }

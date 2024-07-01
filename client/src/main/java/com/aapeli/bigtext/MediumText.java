@@ -1,9 +1,6 @@
 package com.aapeli.bigtext;
 
-import com.aapeli.bigtext.BigText;
-
 import java.awt.Color;
-import java.awt.Component;
 
 public class MediumText extends BigText {
 
@@ -39,14 +36,14 @@ public class MediumText extends BigText {
     }
 
     public MediumText(String var1, Color var2, int var3) {
-        super(var1, var2, var3, anIntArray3591, anIntArray3592, 2, (Component) null);
+        super(var1, var2, var3, anIntArray3591, anIntArray3592, 2, null);
     }
 
     private static int method1560(int[] var0, int var1, int var2) {
-        long var3 = (long) var0[var2 * 1432 + var1];
-        long var5 = (long) var0[var2 * 1432 + var1 + 1];
-        long var7 = (long) var0[(var2 + 1) * 1432 + var1];
-        long var9 = (long) var0[(var2 + 1) * 1432 + var1 + 1];
+        long var3 = var0[var2 * 1432 + var1];
+        long var5 = var0[var2 * 1432 + var1 + 1];
+        long var7 = var0[(var2 + 1) * 1432 + var1];
+        long var9 = var0[(var2 + 1) * 1432 + var1 + 1];
         long var11 = ((var3 & 4278190080L) >> 24) + ((var5 & 4278190080L) >> 24) + ((var7 & 4278190080L) >> 24) + ((var9 & 4278190080L) >> 24);
         long var13 = ((var3 & 16711680L) >> 16) + ((var5 & 16711680L) >> 16) + ((var7 & 16711680L) >> 16) + ((var9 & 16711680L) >> 16);
         long var15 = ((var3 & 65280L) >> 8) + ((var5 & 65280L) >> 8) + ((var7 & 65280L) >> 8) + ((var9 & 65280L) >> 8);

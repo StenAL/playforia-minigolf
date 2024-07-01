@@ -4,7 +4,7 @@ import com.aapeli.applet.AApplet;
 import com.aapeli.tools.Tools;
 
 import java.applet.Applet;
-import java.awt.*;
+import java.awt.Image;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Vector;
@@ -17,8 +17,8 @@ class ImageTracker implements Runnable {
     private Applet anApplet1396;
     private boolean aBoolean1397;
 
-    private Vector imageResourceTable;
-    private Hashtable imageTable;
+    private Vector<ImageResource> imageResourceTable;
+    private Hashtable<String, Image> imageTable;
     private AApplet anAApplet1400;
     private Thread aThread1401;
     private boolean aBoolean1402;
@@ -26,8 +26,8 @@ class ImageTracker implements Runnable {
     protected ImageTracker(Applet var1, boolean var2) {
         this.anApplet1396 = var1;
         this.aBoolean1397 = var2;
-        this.imageResourceTable = new Vector();
-        this.imageTable = new Hashtable();
+        this.imageResourceTable = new Vector<>();
+        this.imageTable = new Hashtable<>();
         this.anAApplet1400 = null;
         this.aBoolean1402 = false;
     }
@@ -142,29 +142,27 @@ class ImageTracker implements Runnable {
 
             while (this.aThread1401 != null && var1 > 0) {
                 var1 -= var2;
-                Tools.sleep((long) var2);
+                Tools.sleep(var2);
             }
         }
 
-        Enumeration var6 = this.imageTable.elements();
+        Enumeration<Image> var6 = this.imageTable.elements();
 
         while (var6.hasMoreElements()) {
             try {
-                ((Image) ((Image) var6.nextElement())).flush();
+                var6.nextElement().flush();
             } catch (Exception var5) {
-                ;
             }
         }
 
         this.imageTable.clear();
         this.imageTable = null;
-        Enumeration var7 = this.imageResourceTable.elements();
+        Enumeration<ImageResource> var7 = this.imageResourceTable.elements();
 
         while (var7.hasMoreElements()) {
             try {
-                ((ImageResource) ((ImageResource) var7.nextElement())).method1652();
+                var7.nextElement().method1652();
             } catch (Exception var4) {
-                ;
             }
         }
 
@@ -198,7 +196,7 @@ class ImageTracker implements Runnable {
         } else {
             do {
                 Tools.sleep(100L);
-                var3 = (Image) ((Image) this.imageTable.get(var1));
+                var3 = this.imageTable.get(var1);
             } while (var3 == null);
 
             return var3;
@@ -206,7 +204,7 @@ class ImageTracker implements Runnable {
     }
 
     private Image getImageFromTable(String key) {
-        Image image = (Image) this.imageTable.get(key);
+        Image image = this.imageTable.get(key);
         if (image != null) {
             return image;
         } else {
@@ -223,7 +221,7 @@ class ImageTracker implements Runnable {
         int var2 = this.imageResourceTable.size();
 
         for (int var3 = 0; var3 < var2; ++var3) {
-            ImageResource var4 = (ImageResource) ((ImageResource) this.imageResourceTable.elementAt(var3));
+            ImageResource var4 = this.imageResourceTable.elementAt(var3);
             if (var4.method1648().equals(var1)) {
                 return var4;
             }
@@ -239,7 +237,7 @@ class ImageTracker implements Runnable {
                 return false;
             }
 
-            var1 = (ImageResource) ((ImageResource) this.imageResourceTable.elementAt(0));
+            var1 = this.imageResourceTable.elementAt(0);
         }
 
         String imageAlias = var1.method1648();
@@ -263,7 +261,7 @@ class ImageTracker implements Runnable {
                 return true;
             }
 
-            Tools.sleep((long) var5);
+            Tools.sleep(var5);
         }
 
         if (this.anAApplet1400 != null) {
@@ -271,7 +269,7 @@ class ImageTracker implements Runnable {
         }
 
         if (this.aBoolean1397) {
-            System.out.println("ImageTracker: Loaded image \"" + imageAlias + "\", moving from \'notloaded\' to \'loaded\'");
+            System.out.println("ImageTracker: Loaded image \"" + imageAlias + "\", moving from 'notloaded' to 'loaded'");
         }
 
         synchronized (this) {
@@ -285,7 +283,7 @@ class ImageTracker implements Runnable {
         int var2 = this.imageResourceTable.size();
 
         for (int var3 = 0; var3 < var2; ++var3) {
-            ImageResource var4 = (ImageResource) ((ImageResource) this.imageResourceTable.elementAt(var3));
+            ImageResource var4 = this.imageResourceTable.elementAt(var3);
             if (var4.method1648().equals(var1)) {
                 this.imageResourceTable.removeElementAt(var3);
                 return var4;

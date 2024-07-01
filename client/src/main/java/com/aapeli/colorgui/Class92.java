@@ -1,6 +1,5 @@
 package com.aapeli.colorgui;
 
-import com.aapeli.colorgui.ColorSpinner;
 import com.aapeli.tools.Tools;
 
 class Class92 implements Runnable {
@@ -22,7 +21,7 @@ class Class92 implements Runnable {
     }
 
     public void run() {
-        Tools.sleep((long) this.anInt1550);
+        Tools.sleep(this.anInt1550);
         if (this.aBoolean1551) {
             this.aColorSpinner1549.method846();
         }

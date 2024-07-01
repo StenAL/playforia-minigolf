@@ -13,7 +13,6 @@ import com.aapeli.tools.Tools;
 import java.applet.Applet;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridBagLayout;
@@ -41,10 +40,10 @@ public abstract class AApplet extends Applet implements Runnable, ActionListener
     public static final int END_ERROR_REGLOGIN_FAILED = 12;
     public static final int END_ERROR_TOOMANYIP_INIT = 13;
     public static final int END_THROWABLE = 14;
-    private static final Font fontDialog15 = new Font("Dialog", 0, 15);
-    private static final Font fontDialog12b = new Font("Dialog", 1, 12);
-    private static final Font fontDialog12 = new Font("Dialog", 0, 12);
-    private static final Font fontDialog11 = new Font("Dialog", 0, 12);
+    private static final Font fontDialog15 = new Font("Dialog", Font.PLAIN, 15);
+    private static final Font fontDialog12b = new Font("Dialog", Font.BOLD, 12);
+    private static final Font fontDialog12 = new Font("Dialog", Font.PLAIN, 12);
+    private static final Font fontDialog11 = new Font("Dialog", Font.PLAIN, 12);
     public int appletWidth;
     public int appletHeight;
     public Parameters param;
@@ -111,7 +110,6 @@ public abstract class AApplet extends Applet implements Runnable, ActionListener
         try {
             this.destroyApplet();
         } catch (Exception e) {
-            ;
         }
 
         if (this.contentPanel != null) {
@@ -756,12 +754,11 @@ public abstract class AApplet extends Applet implements Runnable, ActionListener
             queryUrl = Tools.replaceFirst(queryUrl, "%6", "" + time6);
             URL url = new URL(queryUrl);
             if (this.isDebug()) {
-                System.out.println("AApplet.sendLoadTimes(...): Displaying page \"" + url.toString() + "\"");
+                System.out.println("AApplet.sendLoadTimes(...): Displaying page \"" + url + "\"");
             }
 
             this.getAppletContext().showDocument(url);
         } catch (Exception e) {
-            ;
         }
 
     }
@@ -773,9 +770,7 @@ public abstract class AApplet extends Applet implements Runnable, ActionListener
                 return result;
             }
         } catch (Exception e) {
-            ;
         } catch (Error e) {
-            ;
         }
 
         return "";

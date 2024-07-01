@@ -16,8 +16,8 @@ import java.awt.event.ActionListener;
 
 class LoadingPanel extends Panel implements Runnable, ActionListener {
 
-    private static final Font fontDialog14 = new Font("Dialog", 0, 14);
-    private static final Font fontDialog20b = new Font("Dialog", 1, 20);
+    private static final Font fontDialog14 = new Font("Dialog", Font.PLAIN, 14);
+    private static final Font fontDialog20b = new Font("Dialog", Font.BOLD, 20);
     private AApplet gameApplet;
     private Parameters parameters;
     private TextManager textManager;
@@ -118,7 +118,6 @@ class LoadingPanel extends Panel implements Runnable, ActionListener {
             try {
                 Thread.sleep(this.updateInterval);
             } catch (InterruptedException e) {
-                ;
             }
 
             if (this.destroyed) {
@@ -371,7 +370,7 @@ class LoadingPanel extends Panel implements Runnable, ActionListener {
             } else {
                 double remainingProgress = 1.0D - this.renderedProgress;
                 double var4 = remainingProgress * (double) this.updateInterval / (double) var1;
-                return var4 > this.aDouble586 ? this.aDouble586 : var4;
+                return Math.min(var4, this.aDouble586);
             }
         }
     }

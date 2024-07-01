@@ -1,12 +1,20 @@
 package org.moparforia.client;
 
 import com.aapeli.multiuser.UsernameValidator;
+import org.moparforia.shared.ManifestVersionProvider;
 import picocli.CommandLine;
 
-import org.moparforia.shared.ManifestVersionProvider;
 import javax.imageio.ImageIO;
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JSpinner;
+import javax.swing.JTextField;
+import javax.swing.SpinnerNumberModel;
+import java.awt.GridLayout;
+import java.awt.Image;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.concurrent.Callable;

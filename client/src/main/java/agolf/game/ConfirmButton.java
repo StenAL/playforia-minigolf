@@ -14,7 +14,7 @@ import java.awt.event.MouseMotionListener;
 
 class ConfirmButton extends Canvas implements MouseMotionListener, MouseListener {
 
-    private static final Font fontDialog12 = new Font("Dialog", 0, 12);
+    private static final Font fontDialog12 = new Font("Dialog", Font.PLAIN, 12);
     private static final Color colourWhite = new Color(192, 192, 192);
     private static final Color colourBlack = new Color(0, 0, 0);
     private Font font;

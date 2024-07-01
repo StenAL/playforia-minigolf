@@ -145,7 +145,7 @@ public class ChatLobby extends ChatBase {
     }
 
     public void usersLeftStartedGame(String var1, String var2) {
-        this.usersLeftStartedGame(var1, var2, (String) null);
+        this.usersLeftStartedGame(var1, var2, null);
     }
 
     public UserListItem getSelectedUserForChallenge() {

@@ -5,12 +5,15 @@ import agolf.GameContainer;
 import com.aapeli.client.FilterTextField;
 import com.aapeli.client.InputTextField;
 import com.aapeli.client.StringDraw;
-import com.aapeli.colorgui.*;
+import com.aapeli.colorgui.Choicer;
+import com.aapeli.colorgui.ColorButton;
+import com.aapeli.colorgui.MultiColorList;
+import com.aapeli.colorgui.MultiColorListItem;
+import com.aapeli.colorgui.MultiColorListListener;
 
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.LayoutManager;
 import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -262,7 +265,7 @@ class LobbyMultiPlayerPanel extends Panel implements ItemListener, ActionListene
     }
 
     protected void create() {
-        this.setLayout((LayoutManager) null);
+        this.setLayout(null);
         this.choicerNumPlayers = new Choicer();
 
         for (int num = 2; num <= 4; ++num) {
@@ -418,12 +421,10 @@ class LobbyMultiPlayerPanel extends Panel implements ItemListener, ActionListene
         synchronized (trackList) {
             MultiColorListItem[] tracks = this.trackList.getAllItems();
             if (tracks != null) {
-                int tracksLen = tracks.length;
-
-                for (int index = 0; index < tracksLen; ++index) {
-                    int[] trackData = (int[]) tracks[index].getData();
+                for (MultiColorListItem track : tracks) {
+                    int[] trackData = (int[]) track.getData();
                     if (trackData[0] == var1) {
-                        this.trackList.removeItem(tracks[index]);
+                        this.trackList.removeItem(track);
                         return;
                     }
                 }

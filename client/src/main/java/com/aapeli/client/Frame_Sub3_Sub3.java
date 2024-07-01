@@ -1,11 +1,5 @@
 package com.aapeli.client;
 
-import com.aapeli.client.Class88;
-import com.aapeli.client.Frame_Sub3;
-import com.aapeli.client.ImageManager;
-import com.aapeli.client.Panel_Sub24;
-import com.aapeli.client.TextManager;
-
 import java.awt.Component;
 
 class Frame_Sub3_Sub3 extends Frame_Sub3 {

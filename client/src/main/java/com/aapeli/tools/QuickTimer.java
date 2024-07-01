@@ -7,13 +7,13 @@ import java.util.Vector;
 public class QuickTimer implements Runnable {
 
     private int anInt1727;
-    private Vector aVector1728;
+    private Vector<QuickTimerListener> aVector1728;
     private boolean stopped;
     private static final String aString1730 = "QuickTimer.start() called after QuickTimer.stopAll() was called";
 
 
     public QuickTimer(int var1) {
-        this(var1, (QuickTimerListener) null, false);
+        this(var1, null, false);
     }
 
     public QuickTimer(int var1, QuickTimerListener var2) {
@@ -22,7 +22,7 @@ public class QuickTimer implements Runnable {
 
     private QuickTimer(int var1, QuickTimerListener var2, boolean var3) {
         this.anInt1727 = var1;
-        this.aVector1728 = new Vector();
+        this.aVector1728 = new Vector<>();
         if (var2 != null) {
             this.addListener(var2);
         }
@@ -39,14 +39,14 @@ public class QuickTimer implements Runnable {
     }
 
     public void run() {
-        Tools.sleep((long) this.anInt1727);
+        Tools.sleep(this.anInt1727);
         if (!this.stopped) {
-            Enumeration var1 = this.aVector1728.elements();
+            Enumeration<QuickTimerListener> var1 = this.aVector1728.elements();
 
             while (var1.hasMoreElements()) {
                 QuickTimerListener var2;
                 try {
-                    var2 = (QuickTimerListener) ((QuickTimerListener) var1.nextElement());
+                    var2 = var1.nextElement();
                 } catch (NoSuchElementException var4) {
                     return;
                 }

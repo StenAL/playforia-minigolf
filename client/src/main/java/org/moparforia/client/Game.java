@@ -2,7 +2,7 @@ package org.moparforia.client;
 
 import agolf.AGolf;
 
-import javax.swing.*;
+import javax.swing.JFrame;
 import java.applet.Applet;
 import java.applet.AppletContext;
 import java.applet.AppletStub;

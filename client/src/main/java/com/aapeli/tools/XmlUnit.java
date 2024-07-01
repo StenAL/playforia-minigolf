@@ -10,15 +10,15 @@ public class XmlUnit {
     private static final String aString1736 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-:";
     private String name;
     private String value;
-    private Vector children;
-    private Hashtable attributes;
+    private Vector<XmlUnit> children;
+    private Hashtable<String, String> attributes;
 
 
     private XmlUnit(String var1) {
         this.name = var1;
         this.value = null;
-        this.children = new Vector();
-        this.attributes = new Hashtable();
+        this.children = new Vector<>();
+        this.attributes = new Hashtable<>();
     }
 
     public static XmlUnit parseString(String declarationTag, boolean var1, boolean var2) throws Exception {
@@ -43,7 +43,7 @@ public class XmlUnit {
             int childrenCount = this.children.size();
 
             for (int index = 0; index < childrenCount; ++index) {
-                XmlUnit child = (XmlUnit) this.children.elementAt(index);
+                XmlUnit child = this.children.elementAt(index);
                 if (child.getName().equals(name)) {
                     return child;
                 }
@@ -64,7 +64,7 @@ public class XmlUnit {
             XmlUnit[] childrenArray = new XmlUnit[childrenCount];
 
             for (int index = 0; index < childrenCount; ++index) {
-                childrenArray[index] = (XmlUnit) this.children.elementAt(index);
+                childrenArray[index] = this.children.elementAt(index);
             }
 
             return childrenArray;
@@ -73,11 +73,10 @@ public class XmlUnit {
 
     public XmlUnit[] getChildren(String name) {
         XmlUnit[] children = this.getChildren();
-        int childrenCount = children.length;
         int var4 = 0;
 
-        for (int index = 0; index < childrenCount; ++index) {
-            if (children[index].getName().equals(name)) {
+        for (XmlUnit xmlUnit : children) {
+            if (xmlUnit.getName().equals(name)) {
                 ++var4;
             }
         }
@@ -85,9 +84,9 @@ public class XmlUnit {
         XmlUnit[] childrenArray = new XmlUnit[var4];
         int var6 = 0;
 
-        for (int index = 0; index < childrenCount; ++index) {
-            if (children[index].getName().equals(name)) {
-                childrenArray[var6] = children[index];
+        for (XmlUnit child : children) {
+            if (child.getName().equals(name)) {
+                childrenArray[var6] = child;
                 ++var6;
             }
         }
@@ -97,12 +96,12 @@ public class XmlUnit {
 
     public String getAttribute(String var1) {
         synchronized (this.attributes) {
-            return (String) this.attributes.get(var1);
+            return this.attributes.get(var1);
         }
     }
 
     private static XmlUnit method1876(String var0, boolean var1) throws Exception {
-        Stack var2 = new Stack();
+        Stack<XmlUnit> var2 = new Stack<>();
         StringBuffer tagEnd = null;
         StringBuffer var4 = null;
         XmlUnit tagStart = null;
@@ -211,14 +210,14 @@ public class XmlUnit {
             }
 
             if (!var10) {
-                throw new Exception("Unexpected character \'" + var9 + "\'");
+                throw new Exception("Unexpected character '" + var9 + "'");
             }
 
             if (var11) {
                 if (var2.empty()) {
                     var7 = 5;
                 } else {
-                    XmlUnit var6 = (XmlUnit) ((XmlUnit) var2.pop());
+                    XmlUnit var6 = var2.pop();
                     var6.addChild(tagStart);
                     tagStart = var6;
                     var7 = 2;
@@ -294,7 +293,7 @@ public class XmlUnit {
             }
         } while (var9);
 
-        throw new Exception("Unexpected character \'" + var8 + "\' in attributes");
+        throw new Exception("Unexpected character '" + var8 + "' in attributes");
     }
 
     private static int method1878(StringBuffer var0, String var1, int var2) {

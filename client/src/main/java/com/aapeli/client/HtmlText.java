@@ -1,14 +1,11 @@
 package com.aapeli.client;
 
-import com.aapeli.client.Class79;
-import com.aapeli.client.Class81;
-
 import java.awt.Graphics;
 import java.util.Vector;
 
 public class HtmlText {
 
-    private Vector aVector1348;
+    private Vector<Class79> aVector1348;
     public HtmlText(Graphics var1, int var2, String var3) {
         this.aVector1348 = this.method1589(var1, var2, var3);
     }
@@ -18,7 +15,7 @@ public class HtmlText {
         String var2 = "[HtmlText: lines.size=" + var1 + "\n";
 
         for (int var3 = 0; var3 < var1; ++var3) {
-            var2 = var2 + " " + ((Class79) ((Class79) this.aVector1348.elementAt(var3))).toString() + "\n";
+            var2 = var2 + " " + this.aVector1348.elementAt(var3).toString() + "\n";
         }
 
         var2 = var2 + "]";
@@ -30,7 +27,7 @@ public class HtmlText {
         int var5 = 0;
 
         for (int var7 = 0; var7 < var4; ++var7) {
-            Class79 var6 = (Class79) ((Class79) this.aVector1348.elementAt(var7));
+            Class79 var6 = this.aVector1348.elementAt(var7);
             var5 = var6.method1607() + 5;
             if (var7 > 0) {
                 var3 += var5;
@@ -42,9 +39,9 @@ public class HtmlText {
         return var3 + var5;
     }
 
-    private Vector method1589(Graphics var1, int var2, String var3) {
+    private Vector<Class79> method1589(Graphics var1, int var2, String var3) {
         Class81 var4 = new Class81(this, var3, var1);
-        Vector var5 = new Vector();
+        Vector<Class79> var5 = new Vector<>();
         boolean var6 = false;
         Class79 var7 = new Class79(this, var1, var2, var6);
 
@@ -74,12 +71,12 @@ public class HtmlText {
         return var5;
     }
 
-    private Class79 method1590(Class79 var1, Vector var2, Graphics var3, int var4, boolean var5) {
+    private Class79 method1590(Class79 var1, Vector<Class79> var2, Graphics var3, int var4, boolean var5) {
         this.method1591(var1, var2);
         return new Class79(this, var3, var4, var5);
     }
 
-    private void method1591(Class79 var1, Vector var2) {
+    private void method1591(Class79 var1, Vector<Class79> var2) {
         if (!var1.method1606()) {
             var2.addElement(var1);
         }

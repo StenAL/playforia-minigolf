@@ -1,6 +1,5 @@
 package com.aapeli.colorgui;
 
-import com.aapeli.colorgui.RoundButton;
 import com.aapeli.tools.Tools;
 
 class Class95 implements Runnable {

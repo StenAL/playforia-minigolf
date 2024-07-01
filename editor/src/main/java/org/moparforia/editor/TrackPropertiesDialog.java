@@ -53,7 +53,7 @@ public class TrackPropertiesDialog extends JDialog {
         textTrackName = new JTextField();
         panel1 = new JPanel();
         label2 = new JLabel();
-        comboTrackCategory = new JComboBox();
+        comboTrackCategory = new JComboBox<>();
         buttonBar = new JPanel();
         okButton = new JButton();
         cancelButton = new JButton();
@@ -100,7 +100,7 @@ public class TrackPropertiesDialog extends JDialog {
 
                     //---- comboTrackCategory ----
                     comboTrackCategory.setPreferredSize(new Dimension(200, 20));
-                    comboTrackCategory.setModel(new DefaultComboBoxModel(new String[] {
+                    comboTrackCategory.setModel(new DefaultComboBoxModel<>(new String[] {
                         "Basic",
                         "Traditional",
                         "Modern",
@@ -162,7 +162,7 @@ public class TrackPropertiesDialog extends JDialog {
     private JTextField textTrackName;
     private JPanel panel1;
     private JLabel label2;
-    private JComboBox comboTrackCategory;
+    private JComboBox<String> comboTrackCategory;
     private JPanel buttonBar;
     private JButton okButton;
     private JButton cancelButton;

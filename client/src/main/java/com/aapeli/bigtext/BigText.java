@@ -1,6 +1,5 @@
 package com.aapeli.bigtext;
 
-import com.aapeli.bigtext.MediumText;
 import com.aapeli.client.ImageManager;
 
 import java.applet.Applet;
@@ -19,10 +18,10 @@ public class BigText {
     public static final int VALIGN_TOP = -1;
     public static final int VALIGN_MIDDLE = 0;
     public static final int VALIGN_BOTTOM = 1;
-    protected static final Color aColor1312;
-    private static final String aString1313 = "ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ 1234567890:!?/&Ü+-*%<>()ÁÉÑ\'\"¿¡ÍÓÚØ";
-    protected static final int[] anIntArray1314;
-    protected static final int anInt1315;
+    protected static final Color aColor1312 = Color.white;
+    private static final String aString1313 = "ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ 1234567890:!?/&Ü+-*%<>()ÁÉÑ'\"¿¡ÍÓÚØ";
+    protected static final int[] anIntArray1314 = new int[]{0, 23, 47, 71, 95, 116, 136, 160, 183, 195, 219, 243, 264, 299, 323, 347, 370, 394, 418, 442, 465, 489, 513, 542, 566, 590, 614, 637, 661, 685, 700, 714, 736, 756, 777, 798, 819, 839, 859, 881, 901, 913, 924, 949, 972, 1002, 1027, 1051, 1071, 1097, 1126, 1149, 1172, 1186, 1200, 1225, 1246, 1270, 1281, 1303, 1328, 1339, 1354, 1378, 1402};
+    protected static final int anInt1315 = anIntArray1314.length;
     private static ImageManager anImageManager1316;
     private static int[] anIntArray1317;
     private static int[] anIntArray1318;
@@ -59,7 +58,7 @@ public class BigText {
     }
 
     public BigText(String var1, Color var2, int var3) {
-        this(var1, var2, var3, anIntArray1317, anIntArray1318, 1, (Component) null);
+        this(var1, var2, var3, anIntArray1317, anIntArray1318, 1, null);
     }
 
     public BigText(String var1, Color var2, int var3, Component var4) {
@@ -82,7 +81,7 @@ public class BigText {
     }
 
     public void setAlpha(int var1) {
-        this.method1558(var1, (Component) null);
+        this.method1558(var1, null);
     }
 
     public void drawText(Graphics var1, int var2, int var3, int var4, int var5) {
@@ -123,7 +122,7 @@ public class BigText {
         int var2 = var1.length();
 
         for (int var3 = 0; var3 < var2; ++var3) {
-            if ("ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ 1234567890:!?/&Ü+-*%<>()ÁÉÑ\'\"¿¡ÍÓÚØ".indexOf(var1.charAt(var3)) == -1) {
+            if ("ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ 1234567890:!?/&Ü+-*%<>()ÁÉÑ'\"¿¡ÍÓÚØ".indexOf(var1.charAt(var3)) == -1) {
                 return false;
             }
         }
@@ -138,7 +137,7 @@ public class BigText {
         this.anInt1322 = 0;
 
         for (int var10 = 0; var10 < var6; ++var10) {
-            int var9 = "ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ 1234567890:!?/&Ü+-*%<>()ÁÉÑ\'\"¿¡ÍÓÚØ".indexOf(var1.charAt(var10));
+            int var9 = "ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ 1234567890:!?/&Ü+-*%<>()ÁÉÑ'\"¿¡ÍÓÚØ".indexOf(var1.charAt(var10));
             var7[var10] = anIntArray1314[var9] / var5;
             var8[var10] = var4[var9];
             this.anInt1322 += var8[var10];
@@ -181,7 +180,7 @@ public class BigText {
 
     private void method1554(String var1, Color var2, int var3, Component var4) {
         this.anInt1323 = 50 / var3;
-        Font var5 = new Font("Dialog", 1, this.anInt1323 * 6 / 8);
+        Font var5 = new Font("Dialog", Font.BOLD, this.anInt1323 * 6 / 8);
         Applet var6 = anImageManager1316.getApplet();
         this.anInt1322 = var6.getFontMetrics(var5).stringWidth(var1) + 2;
         Image var7 = null;
@@ -274,11 +273,5 @@ public class BigText {
                 this.anImage1321 = anImageManager1316.createImage(this.anIntArray1320, this.anInt1322, this.anInt1323, var2);
             }
         }
-    }
-
-    static {
-        aColor1312 = Color.white;
-        anIntArray1314 = new int[]{0, 23, 47, 71, 95, 116, 136, 160, 183, 195, 219, 243, 264, 299, 323, 347, 370, 394, 418, 442, 465, 489, 513, 542, 566, 590, 614, 637, 661, 685, 700, 714, 736, 756, 777, 798, 819, 839, 859, 881, 901, 913, 924, 949, 972, 1002, 1027, 1051, 1071, 1097, 1126, 1149, 1172, 1186, 1200, 1225, 1246, 1270, 1281, 1303, 1328, 1339, 1354, 1378, 1402};
-        anInt1315 = anIntArray1314.length;
     }
 }

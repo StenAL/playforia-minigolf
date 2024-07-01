@@ -2,10 +2,15 @@ package com.aapeli.applet;
 
 import com.aapeli.client.Parameters;
 
-import java.awt.*;
+import java.awt.Canvas;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.Point;
+import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.image.ImageObserver;
 import java.net.URL;
 import java.util.Vector;
 
@@ -15,7 +20,7 @@ class AdCanvas extends Canvas implements MouseListener {
     private AApplet gameApplet;
     private LoadingPanel loadingPanel;
     private URL anURL117;
-    private Vector aVector118;
+    private Vector<AdCanvasText> aVector118;
     private URL anURL119;
     private String aString120;
     private int anInt121;
@@ -26,7 +31,7 @@ class AdCanvas extends Canvas implements MouseListener {
     private long aLong126;
 
 
-    private AdCanvas(AApplet var1, URL var2, Vector var3, URL var4, String var5, int var6) {
+    private AdCanvas(AApplet var1, URL var2, Vector<AdCanvasText> var3, URL var4, String var5, int var6) {
         this.gameApplet = var1;
         this.anURL117 = var2;
         this.aVector118 = var3;
@@ -54,11 +59,11 @@ class AdCanvas extends Canvas implements MouseListener {
                     }
                 }
 
-                var1.drawImage(this.anImage122, 0, 0, (ImageObserver) null);
+                var1.drawImage(this.anImage122, 0, 0, null);
                 int var5 = this.aVector118.size();
 
                 for (int var6 = 0; var6 < var5; ++var6) {
-                    AdCanvasText var4 = (AdCanvasText) ((AdCanvasText) this.aVector118.elementAt(var6));
+                    AdCanvasText var4 = this.aVector118.elementAt(var6);
                     var4.method1548(var1);
                 }
             } else {
@@ -93,7 +98,7 @@ class AdCanvas extends Canvas implements MouseListener {
         try {
             String var2 = parameters.getParameter("ad_image");
             URL var3 = new URL(applet.getCodeBase(), var2);
-            Vector var4 = new Vector();
+            Vector<AdCanvasText> var4 = new Vector<>();
 
             String var6;
             for (int var5 = 1; (var6 = parameters.getParameter("ad_text-" + var5)) != null; ++var5) {
@@ -134,12 +139,12 @@ class AdCanvas extends Canvas implements MouseListener {
             this.aBoolean125 = true;
         }
 
-        if (!this.aBoolean125 && !this.gameApplet.prepareImage(this.anImage122, (ImageObserver) null)) {
+        if (!this.aBoolean125 && !this.gameApplet.prepareImage(this.anImage122, null)) {
             return false;
         } else {
             if (!this.aBoolean125) {
-                int var1 = this.anImage122.getWidth((ImageObserver) null);
-                int var2 = this.anImage122.getHeight((ImageObserver) null);
+                int var1 = this.anImage122.getWidth(null);
+                int var2 = this.anImage122.getHeight(null);
                 this.setSize(var1, var2);
             } else {
                 this.setSize(20, 20);
@@ -147,7 +152,7 @@ class AdCanvas extends Canvas implements MouseListener {
 
             if (this.anURL119 != null) {
                 this.addMouseListener(this);
-                this.setCursor(new Cursor(12));
+                this.setCursor(new Cursor(Cursor.HAND_CURSOR));
             }
 
             this.aBoolean123 = true;
@@ -167,7 +172,7 @@ class AdCanvas extends Canvas implements MouseListener {
         } else {
             int var1 = (int) (System.currentTimeMillis() - this.aLong126);
             int var2 = this.anInt121 * 1000 - var1;
-            return var2 < 0 ? 0 : var2;
+            return Math.max(var2, 0);
         }
     }
 
