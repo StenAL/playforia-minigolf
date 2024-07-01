@@ -13,25 +13,25 @@ public class ChatTextArea extends ColorTextArea {
     public static final Font SMALL_FONT;
     private TextManager aTextManager4728;
     private BadWordFilter aBadWordFilter4729;
-    private Hashtable aHashtable4730;
+    private Hashtable<String, Integer> aHashtable4730;
 
     public ChatTextArea(TextManager var1, int var2, int var3) {
-        this(var1, (BadWordFilter) null, var2, var3, (Font) null);
+        this(var1, null, var2, var3, null);
     }
 
     public ChatTextArea(TextManager var1, int var2, int var3, Font var4) {
-        this(var1, (BadWordFilter) null, var2, var3, var4);
+        this(var1, null, var2, var3, var4);
     }
 
     public ChatTextArea(TextManager var1, BadWordFilter var2, int var3, int var4) {
-        this(var1, var2, var3, var4, (Font) null);
+        this(var1, var2, var3, var4, null);
     }
 
     public ChatTextArea(TextManager var1, BadWordFilter var2, int var3, int var4, Font var5) {
         super(var3, var4, var5 != null ? var5 : DEFAULT_FONT);
         this.aTextManager4728 = var1;
         this.aBadWordFilter4729 = var2;
-        this.aHashtable4730 = new Hashtable();
+        this.aHashtable4730 = new Hashtable<>();
     }
 
     public void addOwnSay(String var1, String var2) {
@@ -109,7 +109,7 @@ public class ChatTextArea extends ColorTextArea {
     }
 
     public void setUserColor(String var1, int var2) {
-        this.aHashtable4730.put(var1, new Integer(var2));
+        this.aHashtable4730.put(var1, var2);
     }
 
     public void removeUserColor(String var1) {
@@ -147,8 +147,8 @@ public class ChatTextArea extends ColorTextArea {
     }
 
     private int method859(String var1, int var2) {
-        Integer var3 = (Integer) ((Integer) this.aHashtable4730.get(var1));
-        return var3 == null ? var2 : var3.intValue();
+        Integer var3 = this.aHashtable4730.get(var1);
+        return var3 == null ? var2 : var3;
     }
 
     private String method860(String var1, boolean var2) {
@@ -195,7 +195,7 @@ public class ChatTextArea extends ColorTextArea {
     }
 
     static {
-        DEFAULT_FONT = new Font("Dialog", 0, 12);
-        SMALL_FONT = new Font("Dialog", 0, 11);
+        DEFAULT_FONT = new Font("Dialog", Font.PLAIN, 12);
+        SMALL_FONT = new Font("Dialog", Font.PLAIN, 11);
     }
 }

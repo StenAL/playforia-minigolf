@@ -4,10 +4,17 @@ import agolf.game.GameBackgroundCanvas;
 import agolf.game.GamePanel;
 import agolf.lobby.LobbyPanel;
 import com.aapeli.applet.AApplet;
-import com.aapeli.client.*;
+import com.aapeli.client.AutoPopups;
+import com.aapeli.client.BadWordFilter;
+import com.aapeli.client.ImageManager;
+import com.aapeli.client.Parameters;
+import com.aapeli.client.SoundManager;
+import com.aapeli.client.TextManager;
 import org.moparforia.client.Launcher;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Image;
 
 public class GameApplet extends AApplet {
 
@@ -20,11 +27,11 @@ public class GameApplet extends AApplet {
     public static final Color colourButtonYellow = new Color(224, 224, 144);
     public static final Color colourButtonRed = new Color(224, 144, 144);
     public static final Color colourButtonBlue = new Color(144, 144, 224);
-    public static final Font fontSerif26b = new Font("Serif", 1, 26);
-    public static final Font fontSerif20 = new Font("Serif", 0, 20);
-    public static final Font fontDialog14b = new Font("Dialog", 1, 14);
-    public static final Font fontDialog12 = new Font("Dialog", 0, 12);
-    public static final Font fontDialog11 = new Font("Dialog", 0, 11);
+    public static final Font fontSerif26b = new Font("Serif", Font.BOLD, 26);
+    public static final Font fontSerif20 = new Font("Serif", Font.PLAIN, 20);
+    public static final Font fontDialog14b = new Font("Dialog", Font.BOLD, 14);
+    public static final Font fontDialog12 = new Font("Dialog", Font.PLAIN, 12);
+    public static final Font fontDialog11 = new Font("Dialog", Font.PLAIN, 11);
     private GameContainer gameContainer;
     private int activePanel;
     private SynchronizedBool syncUnknownBool;
@@ -284,12 +291,12 @@ public class GameApplet extends AApplet {
     }
 
     private boolean containsDomain(String host, String domain, String[] tld) {
-        for (int i = 0; i < tld.length; ++i) {
-            if (host.equals(domain + "." + tld[i])) {
+        for (String text : tld) {
+            if (host.equals(domain + "." + text)) {
                 return true;
             }
 
-            if (host.endsWith("." + domain + "." + tld[i])) {
+            if (host.endsWith("." + domain + "." + text)) {
                 return true;
             }
         }

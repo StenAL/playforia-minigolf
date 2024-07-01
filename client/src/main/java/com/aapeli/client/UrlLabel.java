@@ -139,7 +139,6 @@ public class UrlLabel extends IPanel implements MouseListener {
                 try {
                     this.url = new URL(url);
                 } catch (MalformedURLException e) {
-                    ;
                 }
             }
 

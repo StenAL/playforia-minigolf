@@ -1,6 +1,5 @@
 package com.aapeli.colorgui;
 
-import com.aapeli.colorgui.ColorButton;
 import com.aapeli.tools.Tools;
 
 class Class90 implements Runnable {

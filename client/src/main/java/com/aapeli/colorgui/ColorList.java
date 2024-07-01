@@ -1,17 +1,11 @@
 package com.aapeli.colorgui;
 
-import com.aapeli.colorgui.Class91;
-import com.aapeli.colorgui.Class94;
-import com.aapeli.colorgui.ColorListItem;
-import com.aapeli.colorgui.ColorListItemGroup;
-
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.ItemSelectable;
-import java.awt.LayoutManager;
 import java.awt.Panel;
 import java.awt.Scrollbar;
 import java.awt.event.AdjustmentEvent;
@@ -57,8 +51,8 @@ public final class ColorList extends Panel implements ComponentListener, Adjustm
     private int anInt666;
     private String aString667;
     private Color aColor668;
-    private Vector aVector669;
-    private Vector aVector670;
+    private Vector<ColorListItem> aVector669;
+    private Vector<Class91> aVector670;
     private int anInt671;
     private int anInt672;
     private int anInt673;
@@ -68,7 +62,7 @@ public final class ColorList extends Panel implements ComponentListener, Adjustm
     private Graphics aGraphics677;
     private int anInt678;
     private int anInt679;
-    private Vector aVector680;
+    private Vector<ItemListener> aVector680;
 
 
     public ColorList(int var1, int var2) {
@@ -89,17 +83,17 @@ public final class ColorList extends Panel implements ComponentListener, Adjustm
         this.setSize(var1, var2);
         this.aFont658 = var3;
         int var6 = var3.getSize();
-        this.aFont659 = new Font(var3.getName(), 1, var6);
+        this.aFont659 = new Font(var3.getName(), Font.BOLD, var6);
         this.anInt660 = var4;
-        this.aVector669 = new Vector();
+        this.aVector669 = new Vector<>();
         this.anInt665 = 0;
         this.anInt666 = 0;
-        this.anInt663 = (var6 > var5 ? var6 : var5) + 4;
+        this.anInt663 = (Math.max(var6, var5)) + 4;
         this.anInt664 = var2 / this.anInt663;
         this.anInt671 = this.anInt672 = this.anInt678 = this.anInt679 = -1;
         this.anInt673 = -1;
         this.anInt675 = 0;
-        this.setLayout((LayoutManager) null);
+        this.setLayout(null);
         this.aScrollbar653 = new Scrollbar(1);
         this.aScrollbar653.setBounds(var1 - 16 - 1, 1, 16, var2 - 2);
         this.aScrollbar653.setBlockIncrement(this.anInt664 - 1);
@@ -107,7 +101,7 @@ public final class ColorList extends Panel implements ComponentListener, Adjustm
         this.aBoolean654 = false;
         this.addComponentListener(this);
         this.addMouseListener(this);
-        this.aVector680 = new Vector();
+        this.aVector680 = new Vector<>();
     }
 
     public void addNotify() {
@@ -136,11 +130,11 @@ public final class ColorList extends Panel implements ComponentListener, Adjustm
 
         ColorListItemGroup var3 = null;
         synchronized (this) {
-            this.aVector670 = new Vector();
+            this.aVector670 = new Vector<>();
             int var6 = 0;
             Class91 var2;
             if (this.aString667 != null) {
-                var2 = new Class91(1, var6, this.anInt661 - 2, this.anInt663, this.anInt660, this.anImage655 != null, this.aFont659, this.aColor668, this.aString667, (Image) null);
+                var2 = new Class91(1, var6, this.anInt661 - 2, this.anInt663, this.anInt660, this.anImage655 != null, this.aFont659, this.aColor668, this.aString667, null);
                 this.aVector670.addElement(var2);
                 var2.method1739(this.aGraphics677, this);
                 var6 += this.anInt663;
@@ -195,10 +189,10 @@ public final class ColorList extends Panel implements ComponentListener, Adjustm
 
     private boolean method944() {
         ColorListItemGroup var1 = null;
-        Enumeration var4 = this.aVector669.elements();
+        Enumeration<ColorListItem> var4 = this.aVector669.elements();
 
         while (var4.hasMoreElements()) {
-            ColorListItem var3 = (ColorListItem) ((ColorListItem) var4.nextElement());
+            ColorListItem var3 = var4.nextElement();
             ColorListItemGroup var2 = var3.getGroup();
             if (var2 != null) {
                 if (var1 != null && var2 != var1) {
@@ -409,7 +403,7 @@ public final class ColorList extends Panel implements ComponentListener, Adjustm
     }
 
     public synchronized ColorListItem getItem(int var1) {
-        return (ColorListItem) ((ColorListItem) this.aVector669.elementAt(var1));
+        return this.aVector669.elementAt(var1);
     }
 
     public synchronized ColorListItem getItem(String var1) {
@@ -521,7 +515,7 @@ public final class ColorList extends Panel implements ComponentListener, Adjustm
             return null;
         } else {
             for (int var4 = 0; var4 < var2; ++var4) {
-                Class91 var3 = (Class91) ((Class91) this.aVector670.elementAt(var4));
+                Class91 var3 = this.aVector670.elementAt(var4);
                 if (var3.method1740(var1)) {
                     return var3.method1741();
                 }
@@ -570,7 +564,7 @@ public final class ColorList extends Panel implements ComponentListener, Adjustm
 
     private int method950(int var1, int var2) {
         for (int var4 = 0; var4 < var2; ++var4) {
-            int var3 = this.method949((ColorListItem) ((ColorListItem) this.aVector669.elementAt(var4)));
+            int var3 = this.method949(this.aVector669.elementAt(var4));
             if (var1 <= var3) {
                 return var4;
             }
@@ -581,7 +575,7 @@ public final class ColorList extends Panel implements ComponentListener, Adjustm
 
     private int method951(int var1, int var2, int var3) {
         for (int var5 = var2; var5 < var3; ++var5) {
-            int var4 = this.method949((ColorListItem) ((ColorListItem) this.aVector669.elementAt(var5)));
+            int var4 = this.method949(this.aVector669.elementAt(var5));
             if (var4 > var1) {
                 return var5;
             }
@@ -671,10 +665,10 @@ public final class ColorList extends Panel implements ComponentListener, Adjustm
     private synchronized void method954(ColorListItem var1, int var2, int var3) {
         if (this.aVector680.size() != 0) {
             ItemEvent var4 = new ItemEvent(this, var2, var1, var3);
-            Enumeration var5 = this.aVector680.elements();
+            Enumeration<ItemListener> var5 = this.aVector680.elements();
 
             while (var5.hasMoreElements()) {
-                ((ItemListener) ((ItemListener) var5.nextElement())).itemStateChanged(var4);
+                var5.nextElement().itemStateChanged(var4);
             }
 
         }

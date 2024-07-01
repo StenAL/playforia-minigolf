@@ -23,7 +23,7 @@ public class InputTextField extends TextField implements FocusListener, KeyListe
     private int anInt722;
     private boolean aBoolean723;
     private boolean enabled;
-    private Vector userInputz;
+    private Vector<String> userInputz;
     private int userInputzCount;
     private int anInt727;
     private String finalInput;
@@ -53,7 +53,7 @@ public class InputTextField extends TextField implements FocusListener, KeyListe
         this.aBoolean723 = false;
         this.enabled = enabled;
         if (enabled) {
-            this.userInputz = new Vector();
+            this.userInputz = new Vector<>();
             this.userInputzCount = this.anInt727 = 0;
         }
 
@@ -64,7 +64,7 @@ public class InputTextField extends TextField implements FocusListener, KeyListe
         this.addKeyListener(this);
         this.addActionListener(this);
         this.inputTextLength = 0;
-        this.listeners = new Vector<InputTextFieldListener>();
+        this.listeners = new Vector<>();
     }
 
     public void focusGained(FocusEvent var1) {
@@ -113,7 +113,7 @@ public class InputTextField extends TextField implements FocusListener, KeyListe
 
                     String var4;
                     if (this.anInt727 < this.userInputzCount) {
-                        var4 = (String) this.userInputz.elementAt(this.anInt727);
+                        var4 = this.userInputz.elementAt(this.anInt727);
                     } else {
                         var4 = this.finalInput;
                     }

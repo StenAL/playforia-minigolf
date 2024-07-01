@@ -1,11 +1,6 @@
 package com.aapeli.colorgui;
 
 import com.aapeli.client.IPanel;
-import com.aapeli.colorgui.Class94;
-import com.aapeli.colorgui.RadioButton;
-import com.aapeli.colorgui.RadioButtonGroup;
-import com.aapeli.colorgui.TabBarItem;
-import com.aapeli.colorgui.TabBarListener;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -13,7 +8,6 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
@@ -39,12 +33,12 @@ public class TabBar extends IPanel implements ComponentListener, ActionListener 
     private int anInt3416;
     private int anInt3417;
     private RadioButtonGroup aRadioButtonGroup3418;
-    private Vector aVector3419;
+    private Vector<TabBarItem> aVector3419;
     private int anInt3420;
     private int anInt3421;
     private int anInt3422;
     private int anInt3423;
-    private Vector aVector3424;
+    private Vector<TabBarListener> aVector3424;
     private Object anObject3425 = new Object();
 
 
@@ -59,12 +53,12 @@ public class TabBar extends IPanel implements ComponentListener, ActionListener 
         this.setButtonForeground(aColor3406);
         this.anInt3422 = 2;
         this.aRadioButtonGroup3418 = new RadioButtonGroup();
-        this.aVector3419 = new Vector();
+        this.aVector3419 = new Vector<>();
         this.anInt3420 = 0;
         this.anInt3421 = -1;
         this.addComponentListener(this);
-        this.aVector3424 = new Vector();
-        this.setLayout((LayoutManager) null);
+        this.aVector3424 = new Vector<>();
+        this.setLayout(null);
         this.anInt3423 = 0;
     }
 
@@ -223,7 +217,7 @@ public class TabBar extends IPanel implements ComponentListener, ActionListener 
     }
 
     public TabBarItem getTabBarItemByIndex(int var1) {
-        TabBarItem var2 = (TabBarItem) ((TabBarItem) this.aVector3419.elementAt(var1));
+        TabBarItem var2 = this.aVector3419.elementAt(var1);
         return var2;
     }
 
@@ -388,10 +382,10 @@ public class TabBar extends IPanel implements ComponentListener, ActionListener 
         Object var2 = this.anObject3425;
         synchronized (this.anObject3425) {
             if (this.aVector3424.size() != 0) {
-                Enumeration var3 = this.aVector3424.elements();
+                Enumeration<TabBarListener> var3 = this.aVector3424.elements();
 
                 while (var3.hasMoreElements()) {
-                    ((TabBarListener) ((TabBarListener) var3.nextElement())).selectedTabChanged(var1);
+                    var3.nextElement().selectedTabChanged(var1);
                 }
 
             }

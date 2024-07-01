@@ -1,7 +1,5 @@
 package com.aapeli.client;
 
-import com.aapeli.client.HtmlText;
-
 import java.awt.Font;
 import java.awt.Graphics;
 
@@ -29,11 +27,11 @@ class Class81 {
                 Font var4;
                 if (this.method1615("strong", "b")) {
                     var4 = this.aGraphics1380.getFont();
-                    this.aGraphics1380.setFont(new Font(var4.getName(), 1, var4.getSize()));
+                    this.aGraphics1380.setFont(new Font(var4.getName(), Font.BOLD, var4.getSize()));
                     return this.method1611();
                 } else if (this.method1615("/strong", "/b")) {
                     var4 = this.aGraphics1380.getFont();
-                    this.aGraphics1380.setFont(new Font(var4.getName(), 0, var4.getSize()));
+                    this.aGraphics1380.setFont(new Font(var4.getName(), Font.PLAIN, var4.getSize()));
                     return this.method1611();
                 } else if (this.method1614("big")) {
                     var4 = this.aGraphics1380.getFont();
@@ -99,9 +97,9 @@ class Class81 {
     private boolean method1617(String[] var1) {
         String var2 = this.aString1379.toLowerCase();
 
-        for (int var3 = 0; var3 < var1.length; ++var3) {
-            if (var2.startsWith(var1[var3])) {
-                int var4 = var1[var3].length();
+        for (String text : var1) {
+            if (var2.startsWith(text)) {
+                int var4 = text.length();
                 this.aString1379 = this.aString1379.substring(var4);
                 return true;
             }

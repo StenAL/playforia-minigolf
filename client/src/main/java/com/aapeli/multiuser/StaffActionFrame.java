@@ -14,7 +14,6 @@ import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.Insets;
 import java.awt.Label;
-import java.awt.LayoutManager;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -85,7 +84,7 @@ class StaffActionFrame extends Frame implements WindowListener, ItemListener, Ke
         }
 
         if (this.actionType == 4) {
-            StringDraw.drawStringWithMaxWidth(g, "(Message is displayed to all users after chat is cleared. To avoid any confusion, it\'s highly recommended that some message is provided.)", this.insets.left + 10, 135, -1, this.width - this.insets.right - 10 - this.insets.left - 10);
+            StringDraw.drawStringWithMaxWidth(g, "(Message is displayed to all users after chat is cleared. To avoid any confusion, it's highly recommended that some message is provided.)", this.insets.left + 10, 135, -1, this.width - this.insets.right - 10 - this.insets.left - 10);
         }
 
     }
@@ -193,7 +192,7 @@ class StaffActionFrame extends Frame implements WindowListener, ItemListener, Ke
         Dimension var5 = var1.getSize();
         this.setLocation(var4.x + var5.width / 2 - this.width / 2, var4.y + var5.height / 2 - this.height / 2);
         this.method252(this, true);
-        this.setLayout((LayoutManager) null);
+        this.setLayout(null);
         String var6 = null;
         Label var7 = new Label("Target user:");
         var7.setBounds(this.insets.left + 10, this.insets.top + 10, 80, 25);

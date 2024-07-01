@@ -1,15 +1,12 @@
 package org.moparforia.client;
 
-import org.moparforia.client.trackdump.*;
+import org.moparforia.client.trackdump.ConnListener;
+import org.moparforia.client.trackdump.Connection;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
 
-/**
- * Playforia
- * 3.6.2013
- */
 public class TrackDumper implements ConnListener {
 
     static int track_basic = 1;
@@ -31,7 +28,7 @@ public class TrackDumper implements ConnListener {
         System.out.println("started downloading " + track_type + " into " + map_dir);
     }
 
-    public static void main(String args[]) {
+    public static void main(String[] args) {
         new TrackDumper(track_basic, "tracks/basic/");
         new TrackDumper(track_traditional, "tracks/traditional/");
         new TrackDumper(track_modern, "tracks/modern/");

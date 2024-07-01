@@ -1,8 +1,6 @@
 package com.aapeli.colorgui;
 
 import com.aapeli.client.IPanel;
-import com.aapeli.colorgui.Class90;
-import com.aapeli.colorgui.Class94;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -14,7 +12,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.awt.image.ImageObserver;
 import java.util.Enumeration;
 import java.util.Vector;
 
@@ -50,7 +47,7 @@ public class ColorButton extends IPanel implements MouseMotionListener, MouseLis
     private boolean aBoolean3277;
     private boolean aBoolean3278;
     private int anInt3279;
-    private Vector aVector3280;
+    private Vector<ActionListener> aVector3280;
     private Image anImage3281;
     private Graphics aGraphics3282;
     private int anInt3283;
@@ -60,7 +57,7 @@ public class ColorButton extends IPanel implements MouseMotionListener, MouseLis
     public static boolean aBoolean3287;
 
     public ColorButton() {
-        this((String) null);
+        this(null);
     }
 
     public ColorButton(String var1) {
@@ -68,12 +65,12 @@ public class ColorButton extends IPanel implements MouseMotionListener, MouseLis
         this.setForeground(Class94.aColor1576);
         this.setFont(Class94.aFont1575);
         this.setLabel(var1);
-        this.setSecondaryFont(new Font("Dialog", 0, 11));
-        this.setSecondaryLabel((String) null);
+        this.setSecondaryFont(new Font("Dialog", Font.PLAIN, 11));
+        this.setSecondaryLabel(null);
         this.aBoolean3276 = true;
         this.aBoolean3277 = this.aBoolean3278 = false;
         this.anInt3279 = 1;
-        this.aVector3280 = new Vector();
+        this.aVector3280 = new Vector<>();
         this.aClass90_3285 = null;
         this.aBoolean3286 = false;
         this.addMouseMotionListener(this);
@@ -282,9 +279,9 @@ public class ColorButton extends IPanel implements MouseMotionListener, MouseLis
 
     public void setIconImage(Image var1) {
         if (var1 != null) {
-            this.setIconImage(var1, var1.getWidth((ImageObserver) null), var1.getHeight((ImageObserver) null));
+            this.setIconImage(var1, var1.getWidth(null), var1.getHeight(null));
         } else {
-            this.setIconImage((Image) null, -1, -1);
+            this.setIconImage(null, -1, -1);
         }
 
     }
@@ -341,7 +338,7 @@ public class ColorButton extends IPanel implements MouseMotionListener, MouseLis
 
     public void click() {
         this.aBoolean3278 = true;
-        this.mouseReleased((MouseEvent) null);
+        this.mouseReleased(null);
     }
 
     public Dimension getPreferredSize() {
@@ -349,14 +346,14 @@ public class ColorButton extends IPanel implements MouseMotionListener, MouseLis
     }
 
     public void addActionListener(ActionListener var1) {
-        Vector var2 = this.aVector3280;
+        Vector<ActionListener> var2 = this.aVector3280;
         synchronized (this.aVector3280) {
             this.aVector3280.addElement(var1);
         }
     }
 
     public void removeActionListener(ActionListener var1) {
-        Vector var2 = this.aVector3280;
+        Vector<ActionListener> var2 = this.aVector3280;
         synchronized (this.aVector3280) {
             this.aVector3280.removeElement(var1);
         }
@@ -400,14 +397,14 @@ public class ColorButton extends IPanel implements MouseMotionListener, MouseLis
     }
 
     public void processActionEvent() {
-        Vector var1 = this.aVector3280;
+        Vector<ActionListener> var1 = this.aVector3280;
         synchronized (this.aVector3280) {
             if (this.aVector3280.size() != 0) {
                 ActionEvent var2 = new ActionEvent(this, 1001, this.aString3272);
-                Enumeration var3 = this.aVector3280.elements();
+                Enumeration<ActionListener> var3 = this.aVector3280.elements();
 
                 while (var3.hasMoreElements()) {
-                    ((ActionListener) ((ActionListener) var3.nextElement())).actionPerformed(var2);
+                    var3.nextElement().actionPerformed(var2);
                 }
 
             }
@@ -545,7 +542,7 @@ public class ColorButton extends IPanel implements MouseMotionListener, MouseLis
     }
 
     private Font method829(Font var1) {
-        return this.isBolded() ? new Font(var1.getName(), 1, var1.getSize()) : var1;
+        return this.isBolded() ? new Font(var1.getName(), Font.BOLD, var1.getSize()) : var1;
     }
 
     private Font method830(Font var1, String var2, int var3) {

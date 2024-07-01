@@ -1,8 +1,5 @@
 package com.aapeli.colorgui;
 
-import com.aapeli.colorgui.RadioButtonGroup;
-import com.aapeli.colorgui.RoundButton;
-
 import java.awt.event.MouseEvent;
 
 public class RoundRadioButton extends RoundButton {
@@ -14,15 +11,15 @@ public class RoundRadioButton extends RoundButton {
 
 
     public RoundRadioButton() {
-        this((String) null, (RadioButtonGroup) null);
+        this(null, null);
     }
 
     public RoundRadioButton(RadioButtonGroup var1) {
-        this((String) null, var1);
+        this(null, var1);
     }
 
     public RoundRadioButton(String var1) {
-        this(var1, (RadioButtonGroup) null);
+        this(var1, null);
     }
 
     public RoundRadioButton(String var1, RadioButtonGroup var2) {
@@ -62,7 +59,7 @@ public class RoundRadioButton extends RoundButton {
     }
 
     public void click() {
-        this.mousePressed((MouseEvent) null);
+        this.mousePressed(null);
     }
 
     public void boldSelected(boolean var1) {

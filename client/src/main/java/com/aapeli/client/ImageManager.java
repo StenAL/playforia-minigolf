@@ -4,7 +4,9 @@ import com.aapeli.applet.AApplet;
 import com.aapeli.tools.Tools;
 
 import java.applet.Applet;
-import java.awt.*;
+import java.awt.Component;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.image.MemoryImageSource;
 import java.awt.image.PixelGrabber;
 import java.net.MalformedURLException;
@@ -157,7 +159,6 @@ public final class ImageManager {
                             codebaseURL = new URL(codebaseURL, "../Shared/picture/");
                         }
                     } catch (MalformedURLException var9) {
-                        ;
                     }
 
                     URL url = codebaseURL;
@@ -198,7 +199,6 @@ public final class ImageManager {
         try {
             var7.grabPixels();
         } catch (InterruptedException var9) {
-            ;
         }
 
         return var6;

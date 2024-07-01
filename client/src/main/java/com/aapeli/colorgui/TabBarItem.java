@@ -1,8 +1,5 @@
 package com.aapeli.colorgui;
 
-import com.aapeli.colorgui.RadioButton;
-import com.aapeli.colorgui.TabBar;
-
 import java.awt.Component;
 import java.awt.Image;
 
@@ -15,7 +12,7 @@ public final class TabBarItem {
 
 
     public TabBarItem(TabBar var1, String var2, Component var3) {
-        this(var1, (Image) null, var2, var3);
+        this(var1, null, var2, var3);
     }
 
     public TabBarItem(TabBar var1, Image var2, String var3, Component var4) {

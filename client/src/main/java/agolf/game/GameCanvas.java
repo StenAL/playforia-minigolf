@@ -3,13 +3,20 @@ package agolf.game;
 import agolf.GameContainer;
 import agolf.Seed;
 import agolf.SynchronizedBool;
-
 import com.aapeli.client.Parameters;
 import com.aapeli.client.StringDraw;
 import com.aapeli.tools.Tools;
 
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.util.Arrays;
 import java.util.StringTokenizer;
 import java.util.Vector;
@@ -21,7 +28,7 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
     private static final Cursor cursorDefault = new Cursor(Cursor.DEFAULT_CURSOR);
     private static final Cursor cursorCrosshair = new Cursor(Cursor.CROSSHAIR_CURSOR);
     private static final Color colourAimLine = new Color(128, 0, 32);
-    private static final Font gameFont = new Font("Dialog", 0, 10);
+    private static final Font gameFont = new Font("Dialog", Font.PLAIN, 10);
     private static final Color blackColour = Color.black;
     private static final Color whiteColour = Color.white;
     private static final Color backgroundColour = new Color(19, 167, 19);
@@ -785,9 +792,9 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
 
                     for (int magnetIndex = 0; magnetIndex < magnetVecLen; ++magnetIndex) {
                         // [ x, y, blockid ]
-                        int[] magnet = (int[]) magnetVec.elementAt(magnetIndex);
-                        double forceTemp2X = (double) (magnet[0] - magnetLoopX);
-                        double forcetemp2Y = (double) (magnet[1] - magnetLoopY);
+                        int[] magnet = magnetVec.elementAt(magnetIndex);
+                        double forceTemp2X = magnet[0] - magnetLoopX;
+                        double forcetemp2Y = magnet[1] - magnetLoopY;
                         double force = Math.sqrt(forceTemp2X * forceTemp2X + forcetemp2Y * forcetemp2Y);
                         if (force <= 127.0D) {
                             double var35 = Math.abs(forceTemp2X) / force;
@@ -1394,7 +1401,7 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
                 do {
                     i = startLen - 1;
                     random = this.rngSeed.next() % (i + 1);
-                    teleportPos = (double[]) this.teleportStarts[teleportId].elementAt(random);
+                    teleportPos = this.teleportStarts[teleportId].elementAt(random);
                     if (Math.abs(teleportPos[0] - (double) x) >= 15.0D || Math.abs(teleportPos[1] - (double) y) >= 15.0D) {
                         this.playerX[playerId] = teleportPos[0];
                         this.playerY[playerId] = teleportPos[1];
@@ -1429,7 +1436,7 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
         }
 
         //finally move player to exit position
-        teleportPos = (double[]) this.teleportExists[var13].elementAt(random);
+        teleportPos = this.teleportExists[var13].elementAt(random);
         this.playerX[playerId] = teleportPos[0];
         this.playerY[playerId] = teleportPos[1];
     }
@@ -1666,8 +1673,8 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
         int var6 = var4 >= 0 ? var4 : -var4;
         int var7 = var5 >= 0 ? var5 : -var5;
         int var8 = Math.max(var6, var7) / 10;
-        double var9 = (double) var2;
-        double var11 = (double) var3;
+        double var9 = var2;
+        double var11 = var3;
         double var13 = (double) var4 / ((double) var8 * 2.0D);
         double var15 = (double) var5 / ((double) var8 * 2.0D);
         var9 += var13;

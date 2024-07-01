@@ -1,6 +1,5 @@
 package com.aapeli.bigtext;
 
-import com.aapeli.bigtext.MediumText;
 import com.aapeli.client.ImageManager;
 
 import java.applet.Applet;
@@ -20,7 +19,7 @@ public class BigText {
     public static final int VALIGN_MIDDLE = 0;
     public static final int VALIGN_BOTTOM = 1;
     protected static final Color aColor1312;
-    private static final String aString1313 = "ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ 1234567890:!?/&Ü+-*%<>()ÁÉÑ\'\"¿¡ÍÓÚØ";
+    private static final String aString1313 = "ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ 1234567890:!?/&Ü+-*%<>()ÁÉÑ'\"¿¡ÍÓÚØ";
     protected static final int[] anIntArray1314;
     protected static final int anInt1315;
     private static ImageManager anImageManager1316;
@@ -59,7 +58,7 @@ public class BigText {
     }
 
     public BigText(String var1, Color var2, int var3) {
-        this(var1, var2, var3, anIntArray1317, anIntArray1318, 1, (Component) null);
+        this(var1, var2, var3, anIntArray1317, anIntArray1318, 1, null);
     }
 
     public BigText(String var1, Color var2, int var3, Component var4) {
@@ -82,7 +81,7 @@ public class BigText {
     }
 
     public void setAlpha(int var1) {
-        this.method1558(var1, (Component) null);
+        this.method1558(var1, null);
     }
 
     public void drawText(Graphics var1, int var2, int var3, int var4, int var5) {
@@ -123,7 +122,7 @@ public class BigText {
         int var2 = var1.length();
 
         for (int var3 = 0; var3 < var2; ++var3) {
-            if ("ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ 1234567890:!?/&Ü+-*%<>()ÁÉÑ\'\"¿¡ÍÓÚØ".indexOf(var1.charAt(var3)) == -1) {
+            if ("ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ 1234567890:!?/&Ü+-*%<>()ÁÉÑ'\"¿¡ÍÓÚØ".indexOf(var1.charAt(var3)) == -1) {
                 return false;
             }
         }
@@ -138,7 +137,7 @@ public class BigText {
         this.anInt1322 = 0;
 
         for (int var10 = 0; var10 < var6; ++var10) {
-            int var9 = "ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ 1234567890:!?/&Ü+-*%<>()ÁÉÑ\'\"¿¡ÍÓÚØ".indexOf(var1.charAt(var10));
+            int var9 = "ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ 1234567890:!?/&Ü+-*%<>()ÁÉÑ'\"¿¡ÍÓÚØ".indexOf(var1.charAt(var10));
             var7[var10] = anIntArray1314[var9] / var5;
             var8[var10] = var4[var9];
             this.anInt1322 += var8[var10];
@@ -181,7 +180,7 @@ public class BigText {
 
     private void method1554(String var1, Color var2, int var3, Component var4) {
         this.anInt1323 = 50 / var3;
-        Font var5 = new Font("Dialog", 1, this.anInt1323 * 6 / 8);
+        Font var5 = new Font("Dialog", Font.BOLD, this.anInt1323 * 6 / 8);
         Applet var6 = anImageManager1316.getApplet();
         this.anInt1322 = var6.getFontMetrics(var5).stringWidth(var1) + 2;
         Image var7 = null;

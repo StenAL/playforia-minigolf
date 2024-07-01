@@ -1,15 +1,11 @@
 package com.aapeli.client;
 
-import com.aapeli.client.Panel_Sub24;
-import com.aapeli.client.TextManager;
-
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.Insets;
-import java.awt.LayoutManager;
 import java.awt.Panel;
 import java.awt.Point;
 import java.awt.event.WindowEvent;
@@ -81,7 +77,7 @@ abstract class Frame_Sub3 extends Frame implements WindowListener {
         Dimension var7 = var1.getSize();
         this.setLocation(var6.x + var7.width / 2 - this.anInt188 / 2, var6.y + var7.height / 2 - this.anInt189 / 2);
         this.setBackground(Panel_Sub24.aColor616);
-        this.setLayout((LayoutManager) null);
+        this.setLayout(null);
         var3.setLocation(var4.left, var4.top);
         this.add(var3);
         this.addWindowListener(this);

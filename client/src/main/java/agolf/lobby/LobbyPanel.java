@@ -6,7 +6,8 @@ import com.aapeli.colorgui.Choicer;
 import com.aapeli.multiuser.UserListItem;
 import org.moparforia.client.Launcher;
 
-import java.awt.*;
+import java.awt.Graphics;
+import java.awt.Panel;
 
 public class LobbyPanel extends Panel {
 
@@ -188,7 +189,6 @@ public class LobbyPanel extends Panel {
         }
 
         if (dummy) {
-            ;
         }
 
     }
@@ -344,7 +344,7 @@ public class LobbyPanel extends Panel {
     }
 
     protected String getTime(int var1) {
-        return var1 == 0 ? this.gameContainer.textManager.getGame("LobbyReal_TimeLimitNo") : this.gameContainer.textManager.getTime((long) var1);
+        return var1 == 0 ? this.gameContainer.textManager.getGame("LobbyReal_TimeLimitNo") : this.gameContainer.textManager.getTime(var1);
     }
 
     protected void addMessage(String var1) {

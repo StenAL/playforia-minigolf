@@ -64,7 +64,6 @@ class Class78 {
                 this.frame.close();
             }
         } catch (Exception var2) {
-            ;
         }
 
     }

@@ -71,13 +71,13 @@ public class IPanel extends Panel {
 
     public void drawBackground(Graphics var1) {
         if (!this.drawBackgroundImage(var1)) {
-            Object var2 = this.getParent();
+            Component var2 = this.getParent();
             if (var2 == null) {
                 var2 = this;
             }
 
             Dimension var3 = this.getSize();
-            var1.setColor(((Component) var2).getBackground());
+            var1.setColor(var2.getBackground());
             var1.fillRect(0, 0, var3.width, var3.height);
         }
 
@@ -117,7 +117,7 @@ public class IPanel extends Panel {
 
     public Object[] getBackgroundAndLocation(int var1, int var2) {
         if (this.backgroundImage != null) {
-            return new Object[]{this.backgroundImage, new Integer(this.backgroundImageXOffset + var1), new Integer(this.backgroundImageYOffset + var2)};
+            return new Object[]{this.backgroundImage, this.backgroundImageXOffset + var1, this.backgroundImageYOffset + var2};
         } else {
             Container var3 = this.getParent();
             if (var3 == null) {

@@ -21,7 +21,7 @@ class LobbySelectRNOPspammer implements Runnable {
 
         do {
             this.lobbySelectPanel.requestNumberOfPlayers();
-            Tools.sleep((long) sleepTime);
+            Tools.sleep(sleepTime);
             if (sleepTime < 120000) {
                 sleepTime += 5000;
             }

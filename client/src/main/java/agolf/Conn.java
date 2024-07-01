@@ -29,10 +29,9 @@ public class Conn implements ConnListener {
             try {
                 this.writeData("error-debug\t" + this.gameContainer.gameApplet.method32() + "\t" + var2.toString().trim().replace('\n', '\\') + "\t" + var1.replace('\t', '\\') + "\t" + this.aString2373.replace('\t', '\\') + "\t" + this.aString2372.replace('\t', '\\'));
             } catch (Exception var3) {
-                ;
             }
 
-            this.gameContainer.gameApplet.setEndState((Throwable) var4);
+            this.gameContainer.gameApplet.setEndState(var4);
             this.connection.closeConnection();
         }
     }
@@ -75,7 +74,7 @@ public class Conn implements ConnListener {
         }
     }
 
-    private void handlePacket(String cmd) throws Exception {
+    private void handlePacket(String cmd) {
         String[] args = Tools.separateString(cmd, "\t");
         if (args[0].equals("error")) {
             if (args[1].equals("vernotok")) {

@@ -83,7 +83,6 @@ class Class88 implements ActionListener {
                     this.method1704();
                     return true;
                 } catch (Exception var2) {
-                    ;
                 }
             }
 
@@ -97,7 +96,6 @@ class Class88 implements ActionListener {
                 this.aFrame_Sub3_Sub3_1508.close();
             }
         } catch (Exception var2) {
-            ;
         }
 
     }
@@ -131,9 +129,7 @@ class Class88 implements ActionListener {
             this.aParameters1500.getAppletContext().showDocument(var14, this.aString1505);
             return true;
         } catch (Exception var12) {
-            ;
         } catch (Error var13) {
-            ;
         }
 
         return false;
@@ -151,11 +147,9 @@ class Class88 implements ActionListener {
 
     private String method1705(String[] var1, String var2) {
         String var3 = "";
-        int var4 = var1.length;
-
-        for (int var5 = 0; var5 < var4; ++var5) {
-            if (var1[var5] != null) {
-                var3 = var3 + var1[var5];
+        for (String text : var1) {
+            if (text != null) {
+                var3 = var3 + text;
             }
         }
 
@@ -177,8 +171,8 @@ class Class88 implements ActionListener {
         int var2 = var1.length;
         StringBuffer var3 = new StringBuffer(var2 * 2);
 
-        for (int var4 = 0; var4 < var2; ++var4) {
-            int var5 = var1[var4] >= 0 ? var1[var4] : 256 + var1[var4];
+        for (byte b : var1) {
+            int var5 = b >= 0 ? b : 256 + b;
             if (var5 < 16) {
                 var3.append('0');
             }
@@ -193,9 +187,9 @@ class Class88 implements ActionListener {
         char[] var1 = var0.toCharArray();
         StringBuffer var2 = new StringBuffer(var1.length);
 
-        for (int var3 = 0; var3 < var1.length; ++var3) {
-            if ((var1[var3] < 97 || var1[var3] > 122) && (var1[var3] < 65 || var1[var3] > 90) && (var1[var3] < 48 || var1[var3] > 57)) {
-                char var4 = var1[var3];
+        for (char c : var1) {
+            if ((c < 97 || c > 122) && (c < 65 || c > 90) && (c < 48 || c > 57)) {
+                char var4 = c;
                 if (var4 > 255) {
                     var4 = 255;
                 }
@@ -204,7 +198,7 @@ class Class88 implements ActionListener {
                 var2.append(Integer.toHexString(var4 / 16));
                 var2.append(Integer.toHexString(var4 % 16));
             } else {
-                var2.append(var1[var3]);
+                var2.append(c);
             }
         }
 

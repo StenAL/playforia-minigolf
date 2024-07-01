@@ -219,7 +219,7 @@ public final class SoundManager implements Runnable {
     }
 
     private void defineSoundClip(int id, URL soundDir, String clipName) {
-        this.clientSounds.put(new Integer(id), new SoundClip(this.applet, soundDir, clipName + ".au", this.debug));
+        this.clientSounds.put(id, new SoundClip(this.applet, soundDir, clipName + ".au", this.debug));
     }
 
     private synchronized void loadAllSoundClips() {
@@ -232,7 +232,7 @@ public final class SoundManager implements Runnable {
     }
 
     private void playAudioClip(int id) {
-        SoundClip soundClip = this.clientSounds.get(new Integer(id));
+        SoundClip soundClip = this.clientSounds.get(id);
         if (soundClip != null && this.audioChoicerIndex != 1) {
             AudioClip audioClip = soundClip.getAudioClip();
             if (audioClip != null) {

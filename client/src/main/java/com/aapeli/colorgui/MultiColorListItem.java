@@ -30,11 +30,11 @@ public class MultiColorListItem {
 
 
     public MultiColorListItem(String[] strings) {
-        this(colours[0], false, strings, (Object) null, false);
+        this(colours[0], false, strings, null, false);
     }
 
     public MultiColorListItem(int colourIndex, boolean bold, String[] strings) {
-        this(colours[colourIndex], bold, strings, (Object) null, false);
+        this(colours[colourIndex], bold, strings, null, false);
     }
 
     public MultiColorListItem(int colourIndex, String[] strings, Object data) {

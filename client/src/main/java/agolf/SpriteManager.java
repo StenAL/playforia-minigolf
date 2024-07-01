@@ -62,7 +62,7 @@ public class SpriteManager {
             int shapeIndex = tileCode / 65536 % 256; // Becomes the SpecialIndex if isNoSpecial==2
             int foregroundElementIndex = tileCode / 256 % 256;
             int backgroundElementIndex = tileCode % 256;
-            /**
+            /*
              * element index's
              * 0=grass, 1=dirt, 2=mud, 3=ice, 4=speed-n, 5=speed-ne,  6=speed-e, 7=speed-se
              * 8=speed-s, 9=speed-sw,  10=speed-w, 11=speed-nw

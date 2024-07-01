@@ -6,7 +6,6 @@ import com.aapeli.colorgui.RoundButton;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -80,7 +79,7 @@ class IPanel_Sub40 extends IPanel implements ActionListener {
     }
 
     private void method821() {
-        this.setLayout((LayoutManager) null);
+        this.setLayout(null);
         if (this.anInt3212 == 0) {
             this.aRoundButton3215 = new RoundButton(this.anAApplet3210.textManager.getShared("GameFin_W_CreateAccount"));
             this.aRoundButton3215.setBounds(210, 225, 220, 30);
@@ -107,6 +106,6 @@ class IPanel_Sub40 extends IPanel implements ActionListener {
         aColor3206 = Color.black;
         aColor3207 = new Color(128, 255, 128);
         aColor3208 = new Color(240, 240, 96);
-        aFont3209 = new Font("Dialog", 0, 16);
+        aFont3209 = new Font("Dialog", Font.PLAIN, 16);
     }
 }

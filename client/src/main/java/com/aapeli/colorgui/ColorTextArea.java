@@ -1,8 +1,6 @@
 package com.aapeli.colorgui;
 
 import com.aapeli.client.IPanel;
-import com.aapeli.colorgui.Class93;
-import com.aapeli.colorgui.Class94;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -10,7 +8,6 @@ import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.LayoutManager;
 import java.awt.Scrollbar;
 import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
@@ -52,8 +49,8 @@ public class ColorTextArea extends IPanel implements ComponentListener, Adjustme
     private int anInt3342;
     private int anInt3343;
     private int anInt3344;
-    private Vector aVector3345;
-    private Vector aVector3346;
+    private Vector<Class93> aVector3345;
+    private Vector<Class93> aVector3346;
     private Image anImage3347;
     private Graphics aGraphics3348;
     private int anInt3349;
@@ -62,7 +59,7 @@ public class ColorTextArea extends IPanel implements ComponentListener, Adjustme
     private Object anObject3352;
 
     public ColorTextArea(int var1, int var2) {
-        this(var1, var2, (Font) null);
+        this(var1, var2, null);
     }
 
     public ColorTextArea(int var1, int var2, Font var3) {
@@ -77,15 +74,15 @@ public class ColorTextArea extends IPanel implements ComponentListener, Adjustme
         this.aFont3336 = var3;
         this.aFontMetrics3338 = this.getFontMetrics(var3);
         this.anInt3339 = var3.getSize();
-        this.aFont3337 = new Font(var3.getName(), 1, var3.getSize());
-        this.aVector3345 = new Vector();
-        this.aVector3346 = new Vector();
+        this.aFont3337 = new Font(var3.getName(), Font.BOLD, var3.getSize());
+        this.aVector3345 = new Vector<>();
+        this.aVector3346 = new Vector<>();
         this.anImage3333 = null;
         this.anInt3343 = this.anInt3339 + 3;
         this.method849();
         this.anInt3351 = 1;
         this.addComponentListener(this);
-        this.setLayout((LayoutManager) null);
+        this.setLayout(null);
         this.aScrollbar3331 = new Scrollbar(1);
         this.method850();
         this.aScrollbar3331.setUnitIncrement(1);
@@ -124,7 +121,7 @@ public class ColorTextArea extends IPanel implements ComponentListener, Adjustme
                 int var5 = this.aBoolean3332 ? this.aScrollbar3331.getValue() : 0;
 
                 for (int var7 = 0; var7 <= this.anInt3344 && var5 < var3; ++var7) {
-                    Class93 var6 = (Class93) ((Class93) this.aVector3345.elementAt(var5));
+                    Class93 var6 = this.aVector3345.elementAt(var5);
                     if (!var6.method1754()) {
                         this.aGraphics3348.setFont(var6.method1753() ? this.aFont3337 : this.aFont3336);
                         this.aGraphics3348.setColor(var6.method1751());
@@ -184,7 +181,7 @@ public class ColorTextArea extends IPanel implements ComponentListener, Adjustme
     }
 
     public void addLine() {
-        this.addLine((Color) null, (String) null, false);
+        this.addLine(null, null, false);
     }
 
     public void addLine(int var1, String var2) {
@@ -216,14 +213,14 @@ public class ColorTextArea extends IPanel implements ComponentListener, Adjustme
                 String var4 = "";
 
                 for (int var9 = 0; var9 < var2; ++var9) {
-                    Class93 var5 = (Class93) ((Class93) this.aVector3346.elementAt(var9));
+                    Class93 var5 = this.aVector3346.elementAt(var9);
                     if (var5.method1754()) {
                         var3[var9] = var4;
                     } else {
                         Calendar var6 = Calendar.getInstance();
                         var6.setTime(new Date(var5.method1750()));
-                        int var7 = var6.get(11);
-                        int var8 = var6.get(12);
+                        int var7 = var6.get(Calendar.HOUR_OF_DAY);
+                        int var8 = var6.get(Calendar.MINUTE);
                         var3[var9] = "[" + (var7 < 10 ? "0" : "") + var7 + ":" + (var8 < 10 ? "0" : "") + var8 + "] " + var5.method1752();
                     }
                 }
@@ -280,7 +277,7 @@ public class ColorTextArea extends IPanel implements ComponentListener, Adjustme
                     break;
                 }
 
-                Class93 var3 = (Class93) ((Class93) this.aVector3346.elementAt(var4));
+                Class93 var3 = this.aVector3346.elementAt(var4);
                 this.method852(var3.method1751(), var3.method1752(), var3.method1753());
                 ++var4;
             }
@@ -331,7 +328,6 @@ public class ColorTextArea extends IPanel implements ComponentListener, Adjustme
 
                 int var8;
                 for (var8 = var7; var8 > 3 && var2.charAt(var8) != 32; --var8) {
-                    ;
                 }
 
                 if (var8 == 3) {

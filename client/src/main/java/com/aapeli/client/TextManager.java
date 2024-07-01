@@ -493,7 +493,6 @@ public final class TextManager implements Runnable {
                         result = this.getShared("DateToday");
                     }
                 } catch (Exception e) {
-                    ;
                 }
 
                 return result;
@@ -579,14 +578,13 @@ public final class TextManager implements Runnable {
                 codeBase = new URL(codeBase, "../Shared/");
             }
         } catch (MalformedURLException e) {
-            ;
         }
 
         this.sharedTable = this.loadLocalizationTable(codeBase);
     }
 
-    private Hashtable loadLocalizationTable(URL baseUrl) {
-        Hashtable localizationTable = new Hashtable();
+    private Hashtable<String, String> loadLocalizationTable(URL baseUrl) {
+        Hashtable<String, String> localizationTable = new Hashtable<>();
         BufferedReader reader = null;
         String languageFileName = this.language + ".loc";
 
@@ -646,7 +644,6 @@ public final class TextManager implements Runnable {
         try {
             reader.close();
         } catch (Exception e) {
-            ;
         }
 
         return localizationTable;

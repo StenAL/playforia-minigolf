@@ -1,12 +1,12 @@
 package org.moparforia.client;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.util.ArrayList;
 
-/**
- * Playforia
- * 7.7.2013
- */
 public class recordz {
 
     public static final void main(String[] args) throws Exception {
@@ -42,7 +42,7 @@ public class recordz {
     }
 
     private static File[] listTracks(String dir) {
-        ArrayList<File> list = new ArrayList<File>();
+        ArrayList<File> list = new ArrayList<>();
         File dirfile = new File(dir);
         for(File subdir : dirfile.listFiles()) {
             if(subdir.isDirectory()) {

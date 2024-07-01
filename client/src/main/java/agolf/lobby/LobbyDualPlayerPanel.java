@@ -13,7 +13,6 @@ import com.aapeli.multiuser.NoChallCheckbox;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -172,7 +171,7 @@ class LobbyDualPlayerPanel extends IPanel implements ItemListener, ActionListene
                 }
 
                 this.gameContainer.lobbyPanel.writeData("nc\t" + (noChallenges ? 't' : 'f'));
-                this.gameContainer.lobbyPanel.getUser((String) null, noChallenges);
+                this.gameContainer.lobbyPanel.getUser(null, noChallenges);
             }
 
         }
@@ -369,7 +368,7 @@ class LobbyDualPlayerPanel extends IPanel implements ItemListener, ActionListene
     }
 
     private void create() {
-        this.setLayout((LayoutManager) null);
+        this.setLayout(null);
         /*if(isUsingCustomServer) {
             choicerTrackCategory = this.gameContainer.lobbyPanel.addChoicerTrackCategory(this, this.width / 2 - 170, 81, 150, 20);
         }*/

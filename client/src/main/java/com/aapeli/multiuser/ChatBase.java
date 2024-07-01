@@ -119,8 +119,8 @@ public abstract class ChatBase extends IPanel implements ComponentListener, User
     public void adminCommand(String var1, String var2) {
         ChatListener[] var3 = this.getChatListenersCopy();
 
-        for (int var4 = 0; var4 < var3.length; ++var4) {
-            var3[var4].localUserAdminCommand(var1, var2);
+        for (ChatListener chatListener : var3) {
+            chatListener.localUserAdminCommand(var1, var2);
         }
 
     }
@@ -128,8 +128,8 @@ public abstract class ChatBase extends IPanel implements ComponentListener, User
     public void adminCommand(String var1, String var2, String var3) {
         ChatListener[] var4 = this.getChatListenersCopy();
 
-        for (int var5 = 0; var5 < var4.length; ++var5) {
-            var4[var5].localUserAdminCommand(var1, var2, var3);
+        for (ChatListener chatListener : var4) {
+            chatListener.localUserAdminCommand(var1, var2, var3);
         }
 
     }
@@ -432,7 +432,7 @@ public abstract class ChatBase extends IPanel implements ComponentListener, User
     }
 
     public RoundButton copyColorButtonToRoundButton(Component var1) {
-        ColorButton var2 = (ColorButton) ((ColorButton) var1);
+        ColorButton var2 = (ColorButton) var1;
         var2.removeActionListener(this);
         this.remove(var2);
         RoundButton var3 = new RoundButton(var2.getLabel());
@@ -568,8 +568,8 @@ public abstract class ChatBase extends IPanel implements ComponentListener, User
                         if (message.length() > 0) {
                             ChatListener[] var4 = this.getChatListenersCopy();
                             if (var2 != null) {
-                                for (int var10 = 0; var10 < var4.length; ++var10) {
-                                    var4[var10].localUserSayPrivately(var2, message);
+                                for (ChatListener chatListener : var4) {
+                                    chatListener.localUserSayPrivately(var2, message);
                                 }
 
                                 this.chatTextArea.addOwnSayPrivately(this.aString2355, var2, message);
@@ -586,8 +586,8 @@ public abstract class ChatBase extends IPanel implements ComponentListener, User
                                 } else {
                                     var6 = this.gui_globaloutput.method914();
 
-                                    for (int var7 = 0; var7 < var4.length; ++var7) {
-                                        ((GlobalChatListener) ((GlobalChatListener) var4[var7])).localUserSay(var6, message);
+                                    for (ChatListener chatListener : var4) {
+                                        ((GlobalChatListener) chatListener).localUserSay(var6, message);
                                     }
                                 }
                             }

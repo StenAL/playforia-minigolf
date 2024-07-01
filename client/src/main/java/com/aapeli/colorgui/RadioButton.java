@@ -1,8 +1,5 @@
 package com.aapeli.colorgui;
 
-import com.aapeli.colorgui.ColorButton;
-import com.aapeli.colorgui.RadioButtonGroup;
-
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.MouseEvent;
@@ -16,15 +13,15 @@ public class RadioButton extends ColorButton {
 
 
     public RadioButton() {
-        this((String) null, (RadioButtonGroup) null);
+        this(null, null);
     }
 
     public RadioButton(RadioButtonGroup var1) {
-        this((String) null, var1);
+        this(null, var1);
     }
 
     public RadioButton(String var1) {
-        this(var1, (RadioButtonGroup) null);
+        this(var1, null);
     }
 
     public RadioButton(String var1, RadioButtonGroup var2) {
@@ -75,7 +72,7 @@ public class RadioButton extends ColorButton {
     }
 
     public void click() {
-        this.mousePressed((MouseEvent) null);
+        this.mousePressed(null);
     }
 
     public void boldSelected(boolean var1) {
@@ -139,10 +136,7 @@ public class RadioButton extends ColorButton {
     }
 
     public int drawIcon(Graphics var1, Image var2, int var3) {
-        int var4 = var3;
-        if (var3 < 5) {
-            var4 = 5;
-        }
+        int var4 = Math.max(var3, 5);
 
         var1.drawImage(var2, var4, var3, this);
         return var4;

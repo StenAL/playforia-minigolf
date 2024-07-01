@@ -16,7 +16,6 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.LayoutManager;
 import java.awt.Menu;
 import java.awt.MenuItem;
 import java.awt.Point;
@@ -27,7 +26,6 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.awt.event.WindowEvent;
 import java.net.URL;
 import java.util.Hashtable;
 import java.util.StringTokenizer;
@@ -83,14 +81,14 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
     private MenuItem aMenuItem3494;
     private UserListItem anUserListItem3495;
     private StaffActionFrame aStaffActionFrame__3496;
-    private Vector aVector3497;
-    private Vector aVector3498;
+    private Vector<String> aVector3497;
+    private Vector<String> aVector3498;
     private boolean aBoolean3499;
     private boolean aBoolean3500;
     private ColorTextArea aColorTextArea3501;
     private ChatBase aChatBase3502;
     private Languages aLanguages3503;
-    private Hashtable aHashtable3504;
+    private Hashtable<Integer, ColorListItemGroup> aHashtable3504;
 
 
     public UserList(UserListHandler handler, TextManager textManager, ImageManager imageManager, boolean var4, boolean var5, boolean var6) {
@@ -115,11 +113,11 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
 
         this.isSheriff = false;
         this.sheriffStatus = this.adminStatus = 0;
-        this.aVector3497 = new Vector();
-        this.aVector3498 = new Vector();
+        this.aVector3497 = new Vector<>();
+        this.aVector3498 = new Vector<>();
         this.aBoolean3499 = this.aBoolean3500 = true;
         this.aLanguages3503 = new Languages(textManager, imageManager);
-        this.aHashtable3504 = new Hashtable();
+        this.aHashtable3504 = new Hashtable<>();
         this.addComponentListener(this);
     }
 
@@ -200,10 +198,10 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
                     return;
                 }
 
-                var3 = (ColorListItem) ((ColorListItem) var1.getItem());
+                var3 = (ColorListItem) var1.getItem();
             }
 
-            UserListItem var8 = (UserListItem) ((UserListItem) var3.getData());
+            UserListItem var8 = (UserListItem) var3.getData();
             if (var2 == this.aColorList3465) {
                 int var6 = var1.getID();
                 if (var6 == 2) {
@@ -269,16 +267,16 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
             this.method929(2, this.anUserListItem3495.getNick());
         } else if (var2 != this.aMenuItem3485 && var2 != this.aMenuItem3486 && var2 != this.aMenuItem3487 && var2 != this.aMenuItem3488 && var2 != this.aMenuItem3489) {
             if (var2 == this.aMenuItem3490) {
-                this.method929(4, (String) null);
+                this.method929(4, null);
             } else if (var2 == this.aMenuItem3491) {
                 CopyChatFrame var4 = new CopyChatFrame();
-                var4.create(this.imageManager.getApplet(), (ColorTextArea) (this.aChatBase3502 != null ? this.aChatBase3502.chatTextArea : this.aColorTextArea3501));
+                var4.create(this.imageManager.getApplet(), this.aChatBase3502 != null ? this.aChatBase3502.chatTextArea : this.aColorTextArea3501);
             } else if (var2 == this.aMenuItem3492) {
                 this.anUserListHandler3458.adminCommand("info", this.anUserListItem3495.getNick());
             } else if (var2 == this.aMenuItem3493) {
                 this.anUserListHandler3458.adminCommand("unmute", this.anUserListItem3495.getNick());
             } else if (var2 == this.aMenuItem3494) {
-                this.method929(5, (String) null);
+                this.method929(5, null);
             }
         } else {
             short var3 = 0;
@@ -370,7 +368,7 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
     }
 
     public void setBackgroundImage(Image var1, int var2, int var3) {
-        this.setBackgroundImage(var1, (Image) null, var2, var3);
+        this.setBackgroundImage(var1, null, var2, var3);
     }
 
     public void setBackgroundImage(Image var1, Image var2, int var3, int var4) {
@@ -471,8 +469,8 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
         }
 
         int var5 = var1.getLanguage();
-        Integer var6 = new Integer(var5);
-        ColorListItemGroup var7 = (ColorListItemGroup) ((ColorListItemGroup) this.aHashtable3504.get(var6));
+        Integer var6 = var5;
+        ColorListItemGroup var7 = this.aHashtable3504.get(var6);
         if (var7 == null) {
             int var8 = var5;
             if (var5 == 0) {
@@ -496,7 +494,7 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
 
     public UserListItem getSelectedUser() {
         ColorListItem var1 = this.aColorList3465.getSelectedItem();
-        return var1 == null ? null : (UserListItem) ((UserListItem) var1.getData());
+        return var1 == null ? null : (UserListItem) var1.getData();
     }
 
     public UserListItem getUser(String var1) {
@@ -504,8 +502,8 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
         if (var2 != null) {
             int var3 = var2.length;
             if (var3 > 0) {
-                for (int var5 = 0; var5 < var3; ++var5) {
-                    UserListItem var4 = (UserListItem) ((UserListItem) var2[var5].getData());
+                for (ColorListItem colorListItem : var2) {
+                    UserListItem var4 = (UserListItem) colorListItem.getData();
                     if (var4.getNick().equals(var1)) {
                         return var4;
                     }
@@ -525,8 +523,8 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
         if (var1 != null) {
             int var2 = var1.length;
             if (var2 > 0) {
-                for (int var4 = 0; var4 < var2; ++var4) {
-                    UserListItem var3 = (UserListItem) ((UserListItem) var1[var4].getData());
+                for (ColorListItem colorListItem : var1) {
+                    UserListItem var3 = (UserListItem) colorListItem.getData();
                     if (var3.isLocal()) {
                         return var3;
                     }
@@ -542,11 +540,11 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
         if (var2 != null) {
             int var3 = var2.length;
             if (var3 > 0) {
-                for (int var5 = 0; var5 < var3; ++var5) {
-                    UserListItem var4 = (UserListItem) ((UserListItem) var2[var5].getData());
+                for (ColorListItem colorListItem : var2) {
+                    UserListItem var4 = (UserListItem) colorListItem.getData();
                     if (var4.getNick().equals(var1)) {
-                        this.aColorList3465.removeItem(var2[var5]);
-                        if (var2[var5].isSelected()) {
+                        this.aColorList3465.removeItem(colorListItem);
+                        if (colorListItem.isSelected()) {
                             this.method932();
                         }
 
@@ -564,11 +562,11 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
         if (var2 != null) {
             int var3 = var2.length;
             if (var3 > 0) {
-                for (int var5 = 0; var5 < var3; ++var5) {
-                    UserListItem var4 = (UserListItem) ((UserListItem) var2[var5].getData());
+                for (ColorListItem colorListItem : var2) {
+                    UserListItem var4 = (UserListItem) colorListItem.getData();
                     if (var4.getNick().equals(var1)) {
-                        this.aColorList3465.removeItem(var2[var5]);
-                        if (var2[var5].isSelected()) {
+                        this.aColorList3465.removeItem(colorListItem);
+                        if (colorListItem.isSelected()) {
                             this.method932();
                         }
 
@@ -585,10 +583,8 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
     public void removeAllUsers() {
         ColorListItem[] var1 = this.aColorList3465.getAllItems();
         if (var1 != null) {
-            int var2 = var1.length;
-
-            for (int var3 = 0; var3 < var2; ++var3) {
-                this.method934((UserListItem) ((UserListItem) var1[var3].getData()));
+            for (ColorListItem colorListItem : var1) {
+                this.method934((UserListItem) colorListItem.getData());
             }
         }
 
@@ -732,7 +728,7 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
 
     private void method929(int var1, String var2) {
         if (this.aStaffActionFrame__3496 != null) {
-            this.aStaffActionFrame__3496.windowClosing((WindowEvent) null);
+            this.aStaffActionFrame__3496.windowClosing(null);
         }
 
         this.aStaffActionFrame__3496 = new StaffActionFrame(this.textManager, this.anUserListHandler3458, var1, var2);
@@ -860,7 +856,6 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
 
                 this.imageManager.getApplet().getAppletContext().showDocument(new URL(var2), var3);
             } catch (Exception var4) {
-                ;
             }
 
             return true;
@@ -939,7 +934,7 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
     static {
         aColor3453 = Color.white;
         aColor3454 = Color.black;
-        aFont3455 = new Font("Dialog", 0, 9);
+        aFont3455 = new Font("Dialog", Font.PLAIN, 9);
         aColor3456 = new Color(224, 224, 224);
         aColor3457 = new Color(208, 208, 255);
     }
