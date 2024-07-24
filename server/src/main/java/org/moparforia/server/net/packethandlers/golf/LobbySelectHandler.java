@@ -12,10 +12,6 @@ import org.moparforia.shared.Tools;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * Playforia
- * 11.6.2013
- */
 public class LobbySelectHandler implements PacketHandler {
 
     public PacketType getType() {

@@ -10,10 +10,6 @@ import org.moparforia.server.net.PacketType;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * Playforia
- * 12.6.2013
- */
 public class GameHandler implements PacketHandler {
     @Override
     public PacketType getType() {

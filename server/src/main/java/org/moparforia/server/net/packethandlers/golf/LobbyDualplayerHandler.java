@@ -12,10 +12,6 @@ import org.moparforia.shared.Tools;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * Playforia
- * 24.6.2013
- */
 public class LobbyDualplayerHandler implements PacketHandler {
     @Override
     public PacketType getType() {

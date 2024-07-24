@@ -11,10 +11,6 @@ import org.moparforia.shared.Tools;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * Playforia
- * 13.6.2013
- */
 public class TrackTestLoginHandler implements PacketHandler {
     Pattern namePattern;
 

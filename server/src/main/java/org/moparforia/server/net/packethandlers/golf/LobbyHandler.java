@@ -16,10 +16,6 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * Playforia
- * 12.6.2013
- */
 public class LobbyHandler implements PacketHandler {
     private static final TrackManager manager = FileSystemTrackManager.getInstance();
 

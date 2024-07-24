@@ -2,10 +2,6 @@ package org.moparforia.shared.tracks;
 
 import java.util.List;
 
-/**
- * Playforia
- * 18.6.2013
- */
 public class TrackSet {
 
     private String name;

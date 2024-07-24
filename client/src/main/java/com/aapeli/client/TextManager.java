@@ -508,7 +508,7 @@ public final class TextManager implements Runnable {
             var5 = false;
         }
 
-        int var6 = var4.get(var5 ? 11 : 10);
+        int var6 = var4.get(var5 ? Calendar.HOUR_OF_DAY : Calendar.HOUR);
         int var7 = var4.get(Calendar.MINUTE);
         String var8 = "";
         if (!var5) {

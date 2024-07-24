@@ -8,10 +8,6 @@ import org.moparforia.shared.Tools;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-/**
- * Playforia
- * 11.6.2013
- */
 public class Lobby extends PlayerCollection {
 
     public static final int PART_REASON_STARTED_SP = 1; // todo: enum this ?

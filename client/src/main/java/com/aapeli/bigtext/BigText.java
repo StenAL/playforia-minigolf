@@ -175,7 +175,7 @@ public class BigText {
     }
 
     private int method1553(int var1, int var2, double var3, double var5, double var7) {
-        return (var2 << 24) + ((int) ((double) ((var1 & 16711680) >> 16) * var3) << 16) + ((int) ((double) ((var1 & '\uff00') >> 8) * var5) << 8) + (int) ((double) (var1 & 255) * var7);
+        return (var2 << 24) + ((int) ((double) ((var1 & 16711680) >> 16) * var3) << 16) + ((int) ((double) ((var1 & 65280) >> 8) * var5) << 8) + (int) ((double) (var1 & 255) * var7);
     }
 
     private void method1554(String var1, Color var2, int var3, Component var4) {
