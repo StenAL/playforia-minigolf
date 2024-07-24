@@ -12,7 +12,6 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.Enumeration;
 import java.util.Vector;
 
 public class ColorCheckbox extends IPanel implements ItemSelectable, MouseListener {
@@ -329,12 +328,9 @@ public class ColorCheckbox extends IPanel implements ItemSelectable, MouseListen
         synchronized (this.aVector3305) {
             if (this.aVector3305.size() != 0) {
                 ItemEvent var2 = new ItemEvent(this, 0, this, 701);
-                Enumeration<ItemListener> var3 = this.aVector3305.elements();
-
-                while (var3.hasMoreElements()) {
-                    var3.nextElement().itemStateChanged(var2);
+                for (ItemListener listener : aVector3305) {
+                    listener.itemStateChanged(var2);
                 }
-
             }
         }
     }

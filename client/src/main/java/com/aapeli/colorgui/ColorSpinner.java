@@ -14,7 +14,6 @@ import java.awt.event.ItemListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.util.Enumeration;
 import java.util.Vector;
 
 public final class ColorSpinner extends IPanel implements MouseListener, MouseMotionListener, ItemSelectable {
@@ -402,12 +401,9 @@ public final class ColorSpinner extends IPanel implements MouseListener, MouseMo
         String var1 = this.getSelectedItem();
         if (var1 != null) {
             ItemEvent var2 = new ItemEvent(this, 701, var1, ItemEvent.SELECTED);
-            Enumeration<ItemListener> var3 = this.aVector3318.elements();
-
-            while (var3.hasMoreElements()) {
-                var3.nextElement().itemStateChanged(var2);
+            for (ItemListener listener : aVector3318) {
+                listener.itemStateChanged(var2);
             }
-
         }
     }
 

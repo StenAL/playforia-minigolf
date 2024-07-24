@@ -8,7 +8,6 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.Enumeration;
 import java.util.Vector;
 
 public class InputTextField extends TextField implements FocusListener, KeyListener, ActionListener {
@@ -135,10 +134,8 @@ public class InputTextField extends TextField implements FocusListener, KeyListe
     public void actionPerformed(ActionEvent evt) {
         if (evt.getSource() == this) {
             synchronized (this) {
-                Enumeration<InputTextFieldListener> enumeration = this.listeners.elements();
-
-                while (enumeration.hasMoreElements()) {
-                    enumeration.nextElement().enterPressed();
+                for (InputTextFieldListener listener: this.listeners) {
+                    listener.enterPressed();
                 }
             }
         }
@@ -244,20 +241,15 @@ public class InputTextField extends TextField implements FocusListener, KeyListe
             this.setCaretPosition(lastCharIndex);
         }
 
-        Enumeration<InputTextFieldListener> enumeration;
         if (this.inputTextLength == 0 && textLen > 0) {
-            enumeration = this.listeners.elements();
-
-            while (enumeration.hasMoreElements()) {
-                enumeration.nextElement().startedTyping();
+            for (InputTextFieldListener listener: this.listeners) {
+                listener.startedTyping();
             }
         }
 
         if (this.inputTextLength > 0 && textLen == 0) {
-            enumeration = this.listeners.elements();
-
-            while (enumeration.hasMoreElements()) {
-                enumeration.nextElement().clearedField();
+            for (InputTextFieldListener listener: this.listeners) {
+                listener.clearedField();
             }
         }
 

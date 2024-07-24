@@ -5,7 +5,6 @@ import com.aapeli.tools.Tools;
 
 import java.applet.Applet;
 import java.awt.Image;
-import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Vector;
 
@@ -146,24 +145,18 @@ class ImageTracker implements Runnable {
             }
         }
 
-        Enumeration<Image> var6 = this.imageTable.elements();
-
-        while (var6.hasMoreElements()) {
+        for (Image image: this.imageTable.values()) {
             try {
-                var6.nextElement().flush();
-            } catch (Exception var5) {
-            }
+                image.flush();
+            } catch (Exception e) {}
         }
 
         this.imageTable.clear();
         this.imageTable = null;
-        Enumeration<ImageResource> var7 = this.imageResourceTable.elements();
-
-        while (var7.hasMoreElements()) {
+        for (ImageResource imageResource: this.imageResourceTable) {
             try {
-                var7.nextElement().method1652();
-            } catch (Exception var4) {
-            }
+                imageResource.method1652();
+            } catch (Exception e) {}
         }
 
         this.imageResourceTable.removeAllElements();
