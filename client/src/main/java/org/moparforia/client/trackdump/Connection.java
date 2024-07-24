@@ -8,7 +8,6 @@ import java.io.InputStreamReader;
 import java.io.InterruptedIOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
 import java.net.Socket;
 import java.util.Vector;
 
@@ -20,7 +19,6 @@ public final class Connection implements Runnable {
     public static final int DCR_RETRYFAIL = 3;
     public static final int DCR_VERSION = 4;
     public static final int DCR_HANDLEFAILED = 5;
-    private static final String aString1608 = "UTF-8";
     private ConnListener aConnListener1611;
     private GameCrypto aGameCrypto_1612;
     private int anInt1613;
@@ -161,13 +159,8 @@ public final class Connection implements Runnable {
 
             InputStreamReader var5;
             OutputStreamWriter var6;
-            try {
-                var5 = new InputStreamReader(var3, "UTF-8");
-                var6 = new OutputStreamWriter(var4, "UTF-8");
-            } catch (UnsupportedEncodingException var8) {
-                var5 = new InputStreamReader(var3);
-                var6 = new OutputStreamWriter(var4);
-            }
+            var5 = new InputStreamReader(var3);
+            var6 = new OutputStreamWriter(var4);
 
             this.in = new BufferedReader(var5);
             this.out = new BufferedWriter(var6);

@@ -718,10 +718,10 @@ public class GameBackgroundCanvas extends Canvas {
             return var1;
         } else {
             int var7 = (var1 & 16711680) >> 16;
-            int var8 = (var1 & '\uff00') >> 8;
+            int var8 = (var1 & 65280) >> 8;
             int var9 = var1 & 255;
             int var10 = (var2 & 16711680) >> 16;
-            int var11 = (var2 & '\uff00') >> 8;
+            int var11 = (var2 & 65280) >> 8;
             int var12 = var2 & 255;
             int var13 = var10 - var7;
             int var14 = var11 - var8;

@@ -10,10 +10,6 @@ import org.moparforia.shared.Tools;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 
-/**
- * Playforia
- * 11.6.2013
- */
 public abstract class Game extends PlayerCollection {
 
     protected final int gameId;

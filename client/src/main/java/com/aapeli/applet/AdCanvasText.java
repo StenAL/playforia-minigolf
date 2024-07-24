@@ -26,7 +26,7 @@ class AdCanvasText {
         this.aColor1306 = var5;
         this.aColor1307 = var6;
         this.aString1308 = var9;
-        this.fontDialog = new Font("Dialog", bold ? 1 : 0, size);
+        this.fontDialog = new Font("Dialog", bold ? Font.BOLD : Font.PLAIN, size);
         this.anInt1310 = -1;
         if (var3 > 0) {
             this.anInt1310 = 1;

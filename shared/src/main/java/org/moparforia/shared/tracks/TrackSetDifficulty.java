@@ -1,9 +1,5 @@
 package org.moparforia.shared.tracks;
 
-/**
- * Playforia
- * 18.6.2013
- */
 public enum TrackSetDifficulty {
 
     EASY(1), MEDIUM(2), HARD(3);
