@@ -42,7 +42,7 @@ jobs:
       - name: Build Docker image
         uses: docker/build-push-action@v5
         with:
-          tags: ${{ secrets.DOCKER_REGISTRY }}/${{ secrets.DOCKER_NAMESPACE }}/playforia-minigolf:latest
+          tags: playforia-minigolf:latest
       - name: Push Docker image
         uses: docker/build-push-action@v5
         if:  ${{ github.repository == 'philippvk/playforia-minigolf' && github.ref == 'refs/heads/master' && github.event_name == 'push' }}
