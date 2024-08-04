@@ -32,21 +32,3 @@ jobs:
         run: sudo apt-get install -y genisoimage
       - name: Build with Maven
         run: mvn -B install --file pom.xml
-      - name: Login to DockerHub
-        uses: docker/login-action@v2
-        if: ${{ github.repository == 'philippvk/playforia-minigolf' && github.ref == 'refs/heads/master' && github.event_name == 'push' }}
-        with:
-          registry: ${{ secrets.DOCKER_REGISTRY }}
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-      - name: Build Docker image
-        uses: docker/build-push-action@v5
-        with:
-          tags: playforia-minigolf:latest
-      - name: Push Docker image
-        uses: docker/build-push-action@v5
-        if:  ${{ github.repository == 'philippvk/playforia-minigolf' && github.ref == 'refs/heads/master' && github.event_name == 'push' }}
-        with:
-          push: true
-          tags: ${{ secrets.DOCKER_REGISTRY }}/${{ secrets.DOCKER_NAMESPACE }}/playforia-minigolf:latest
-          
