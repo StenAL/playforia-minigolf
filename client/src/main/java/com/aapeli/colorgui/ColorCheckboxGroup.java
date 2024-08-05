@@ -1,6 +1,5 @@
 package com.aapeli.colorgui;
 
-import java.util.Enumeration;
 import java.util.Vector;
 
 public final class ColorCheckboxGroup {
@@ -22,11 +21,8 @@ public final class ColorCheckboxGroup {
     }
 
     private void method1749() {
-        Enumeration<ColorCheckbox> var1 = this.aVector1553.elements();
-
-        while (var1.hasMoreElements()) {
-            var1.nextElement().realSetState(false);
+        for (ColorCheckbox colorCheckbox : aVector1553) {
+            colorCheckbox.realSetState(false);
         }
-
     }
 }

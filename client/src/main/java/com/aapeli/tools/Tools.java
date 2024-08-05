@@ -302,8 +302,8 @@ public class Tools {
     }
 
     private static void method1875(StringBuffer var0, int var1) {
-        int var2 = var1 / '\uea60';
-        var1 -= var2 * '\uea60';
+        int var2 = var1 / 60000;
+        var1 -= var2 * 60000;
         int var3 = var1 / 1000;
         int var4 = var1 - var3 * 1000;
         if (var2 < 10) {

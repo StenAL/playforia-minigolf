@@ -8,10 +8,6 @@ import org.moparforia.shared.Tools;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-/**
- * Playforia
- * 11.6.2013
- */
 public class Lobby extends PlayerCollection {
 
     public static final int PART_REASON_STARTED_SP = 1; // todo: enum this ?
@@ -45,7 +41,7 @@ public class Lobby extends PlayerCollection {
         writeAll(new Packet(PacketType.DATA, cmd));
 
         if (player.getChannel().isWritable() && partReason == PART_REASON_USERLEFT) {
-            player.getChannel().write(new Packet(PacketType.DATA, "status\tlobbyselect\t300"));
+            player.getChannel().writeAndFlush(new Packet(PacketType.DATA, "status\tlobbyselect\t300"));
         }
         return true;
     }
@@ -54,23 +50,23 @@ public class Lobby extends PlayerCollection {
         if (player.getLobby() != null) {
             player.getLobby().removePlayer(player, PART_REASON_USERLEFT);
         }
-        player.getChannel().write(new Packet(PacketType.DATA, Tools.tabularize("status", "lobby", type + (player.isChatHidden() ? "h" : ""))));
+        player.getChannel().writeAndFlush(new Packet(PacketType.DATA, Tools.tabularize("status", "lobby", type + (player.isChatHidden() ? "h" : ""))));
         String[] otherPlayers = new String[playerCount()];
         int pointer = 0;
 
         for (Player p : getPlayers()) {
-            p.getChannel().write(new Packet(PacketType.DATA, Tools.tabularize(
+            p.getChannel().writeAndFlush(new Packet(PacketType.DATA, Tools.tabularize(
                     "lobby", joinType == JOIN_TYPE_NORMAL ? "join" : "joinfromgame", player.toString()//todo not sure if should be getNick or getGameString
             )));
             otherPlayers[pointer++] = p.toString();
         }
         if (pointer != 0) {
-            player.getChannel().write(new Packet(PacketType.DATA, Tools.tabularize("lobby", "users", otherPlayers)));
+            player.getChannel().writeAndFlush(new Packet(PacketType.DATA, Tools.tabularize("lobby", "users", otherPlayers)));
         } else {
-            player.getChannel().write(new Packet(PacketType.DATA, Tools.tabularize("lobby", "users")));
+            player.getChannel().writeAndFlush(new Packet(PacketType.DATA, Tools.tabularize("lobby", "users")));
         }
 
-        player.getChannel().write(new Packet(PacketType.DATA, Tools.tabularize("lobby", "ownjoin", player.toString())));
+        player.getChannel().writeAndFlush(new Packet(PacketType.DATA, Tools.tabularize("lobby", "ownjoin", player.toString())));
         if (getLobbyType() == LobbyType.MULTI) {
             sendGameList(player);
         }
@@ -89,7 +85,7 @@ public class Lobby extends PlayerCollection {
                 length++;
             }
         }
-        player.getChannel().write(new Packet(PacketType.DATA, Tools.tabularize("lobby", "gamelist", "full", length, buff.toString())));
+        player.getChannel().writeAndFlush(new Packet(PacketType.DATA, Tools.tabularize("lobby", "gamelist", "full", length, buff.toString())));
     }
 
     public Game getGame(int id) {

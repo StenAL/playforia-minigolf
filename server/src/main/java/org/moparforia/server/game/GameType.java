@@ -1,9 +1,5 @@
 package org.moparforia.server.game;
 
-/**
- * Playforia
- * 24.6.2013
- */
 public enum GameType {
 
     GOLF(35), GOLF2(14), CANNONS(24), POOL(41);//, DRAW(16)

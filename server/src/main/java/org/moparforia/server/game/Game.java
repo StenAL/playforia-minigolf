@@ -1,6 +1,6 @@
 package org.moparforia.server.game;
 
-import org.jboss.netty.channel.Channel;
+import io.netty.channel.Channel;
 import org.moparforia.server.Server;
 import org.moparforia.server.game.gametypes.golf.MultiGame;
 import org.moparforia.server.net.Packet;
@@ -10,10 +10,6 @@ import org.moparforia.shared.Tools;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 
-/**
- * Playforia
- * 11.6.2013
- */
 public abstract class Game extends PlayerCollection {
 
     protected final int gameId;
@@ -102,7 +98,7 @@ public abstract class Game extends PlayerCollection {
         sendGameInfo(player);
         sendPlayerNames(player);
         writeExcluding(player, new Packet(PacketType.DATA, Tools.tabularize("game", "join", playerCount(), player.getNick(), player.getClan())));
-        player.getChannel().write(new Packet(PacketType.DATA, Tools.tabularize("game", "owninfo", numberIndex, player.getNick(), player.getClan())));
+        player.getChannel().writeAndFlush(new Packet(PacketType.DATA, Tools.tabularize("game", "owninfo", numberIndex, player.getNick(), player.getClan())));
     }
 
     protected void sendPlayerNames(Player player) {
@@ -112,7 +108,7 @@ public abstract class Game extends PlayerCollection {
             if (!p.equals(player))
                 playersData += Tools.tabularize("", getPlayerId(p), p.getNick(), p.getClan());
         }
-        c.write(new Packet(PacketType.DATA, playersData));
+        c.writeAndFlush(new Packet(PacketType.DATA, playersData));
     }
 
 

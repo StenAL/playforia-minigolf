@@ -9,10 +9,6 @@ import org.moparforia.shared.Tools;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * Playforia
- * 11.6.2013
- */
 public class LoginTypeHandler implements PacketHandler {
     @Override
     public PacketType getType() {
@@ -26,7 +22,7 @@ public class LoginTypeHandler implements PacketHandler {
 
     @Override
     public boolean handle(Server server, Packet packet, Matcher message) {
-        packet.getChannel().write(new Packet(PacketType.DATA, Tools.tabularize("status", "login")));
+        packet.getChannel().writeAndFlush(new Packet(PacketType.DATA, Tools.tabularize("status", "login")));
         return true;
     }
 }

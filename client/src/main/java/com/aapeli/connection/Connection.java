@@ -34,7 +34,6 @@ public final class Connection implements Runnable {
     public static final int STATE_DISCONNECTED = 4;
 
     /* Other Constants */
-    private static final String encoding = "UTF-8";
     public static final int CIPHER_MAGIC_DEFAULT = 4;
     
     private AApplet gameApplet;
@@ -199,13 +198,8 @@ public final class Connection implements Runnable {
 
             InputStreamReader reader;
             OutputStreamWriter writer;
-            try {
-                reader = new InputStreamReader(in, encoding);
-                writer = new OutputStreamWriter(out, encoding);
-            } catch (UnsupportedEncodingException ex) {
-                reader = new InputStreamReader(in);
-                writer = new OutputStreamWriter(out);
-            }
+            reader = new InputStreamReader(in);
+            writer = new OutputStreamWriter(out);
 
             this.sockIn = new BufferedReader(reader);
             this.sockOut = new BufferedWriter(writer);

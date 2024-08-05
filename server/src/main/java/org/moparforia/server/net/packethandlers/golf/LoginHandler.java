@@ -10,10 +10,6 @@ import org.moparforia.shared.Tools;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * Playforia
- * 11.6.2013
- */
 public class LoginHandler implements PacketHandler {
     @Override
     public PacketType getType() {
@@ -27,7 +23,7 @@ public class LoginHandler implements PacketHandler {
 
     @Override
     public boolean handle(Server server, Packet packet, Matcher message) {
-        Player player = (Player) packet.getChannel().getAttachment();
+        Player player = packet.getChannel().attr(Player.PLAYER_ATTRIBUTE_KEY).get();
 
 
         String username = "~anonym-" + (int) (Math.random() * 10000);
@@ -36,8 +32,8 @@ public class LoginHandler implements PacketHandler {
         player.setEmailVerified(true);
         player.setRegistered(false);
 
-        packet.getChannel().write(new Packet(PacketType.DATA, Tools.tabularize("basicinfo", player.isEmailVerified(), player.getAccessLevel(), "t", "t")));
-        packet.getChannel().write(new Packet(PacketType.DATA, Tools.tabularize("status", "lobbyselect", "300")));
+        packet.getChannel().writeAndFlush(new Packet(PacketType.DATA, Tools.tabularize("basicinfo", player.isEmailVerified(), player.getAccessLevel(), "t", "t")));
+        packet.getChannel().writeAndFlush(new Packet(PacketType.DATA, Tools.tabularize("status", "lobbyselect", "300")));
         return true;
     }
 }

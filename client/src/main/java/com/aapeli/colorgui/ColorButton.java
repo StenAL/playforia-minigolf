@@ -12,7 +12,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.util.Enumeration;
 import java.util.Vector;
 
 public class ColorButton extends IPanel implements MouseMotionListener, MouseListener {
@@ -20,7 +19,7 @@ public class ColorButton extends IPanel implements MouseMotionListener, MouseLis
     public static final int BORDER_NONE = 0;
     public static final int BORDER_NORMAL = 1;
     public static final int BORDER_THICK = 2;
-    private static final Color aColor3253;
+    private static final Color aColor3253 = new Color(192, 192, 192);
     private Color aColor3254;
     private Color aColor3255;
     private Color aColor3256;
@@ -401,12 +400,9 @@ public class ColorButton extends IPanel implements MouseMotionListener, MouseLis
         synchronized (this.aVector3280) {
             if (this.aVector3280.size() != 0) {
                 ActionEvent var2 = new ActionEvent(this, 1001, this.aString3272);
-                Enumeration<ActionListener> var3 = this.aVector3280.elements();
-
-                while (var3.hasMoreElements()) {
-                    var3.nextElement().actionPerformed(var2);
+                for (ActionListener listener : aVector3280) {
+                    listener.actionPerformed(var2);
                 }
-
             }
         }
     }
@@ -570,9 +566,5 @@ public class ColorButton extends IPanel implements MouseMotionListener, MouseLis
     public void innerSetFlashState(boolean var1) {
         this.aBoolean3286 = var1;
         this.repaint();
-    }
-
-    static {
-        aColor3253 = new Color(192, 192, 192);
     }
 }

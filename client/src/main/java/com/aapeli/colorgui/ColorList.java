@@ -16,7 +16,6 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.Enumeration;
 import java.util.Vector;
 
 public final class ColorList extends Panel implements ComponentListener, AdjustmentListener, MouseListener, ItemSelectable {
@@ -189,11 +188,9 @@ public final class ColorList extends Panel implements ComponentListener, Adjustm
 
     private boolean method944() {
         ColorListItemGroup var1 = null;
-        Enumeration<ColorListItem> var4 = this.aVector669.elements();
 
-        while (var4.hasMoreElements()) {
-            ColorListItem var3 = var4.nextElement();
-            ColorListItemGroup var2 = var3.getGroup();
+        for (ColorListItem colorListItem: this.aVector669) {
+            ColorListItemGroup var2 = colorListItem.getGroup();
             if (var2 != null) {
                 if (var1 != null && var2 != var1) {
                     return true;
@@ -665,12 +662,9 @@ public final class ColorList extends Panel implements ComponentListener, Adjustm
     private synchronized void method954(ColorListItem var1, int var2, int var3) {
         if (this.aVector680.size() != 0) {
             ItemEvent var4 = new ItemEvent(this, var2, var1, var3);
-            Enumeration<ItemListener> var5 = this.aVector680.elements();
-
-            while (var5.hasMoreElements()) {
-                var5.nextElement().itemStateChanged(var4);
+            for (ItemListener itemListener: this.aVector680) {
+                itemListener.itemStateChanged(var4);
             }
-
         }
     }
 

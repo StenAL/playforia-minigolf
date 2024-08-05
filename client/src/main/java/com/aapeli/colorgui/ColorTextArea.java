@@ -31,10 +31,10 @@ public class ColorTextArea extends IPanel implements ComponentListener, Adjustme
     public static final int BORDER_NONE = 0;
     public static final int BORDER_BEVELED = 1;
     public static final int BORDER_NONE_ROUNDCORNER = 2;
-    private static final Color[] aColorArray3327;
-    private static final Color aColor3328;
-    private static final Color aColor3329;
-    private static final Color aColor3330;
+    private static final Color[] aColorArray3327 = new Color[]{new Color(0, 0, 0), new Color(224, 0, 0), new Color(0, 160, 0), new Color(0, 0, 240), new Color(160, 128, 0), new Color(160, 0, 160), new Color(0, 144, 160), new Color(112, 112, 112), new Color(255, 255, 255)};
+    private static final Color aColor3328 = new Color(255, 255, 255);
+    private static final Color aColor3329 = new Color(192, 192, 192);
+    private static final Color aColor3330 = new Color(64, 64, 64);
     private Scrollbar aScrollbar3331;
     private boolean aBoolean3332;
     private Image anImage3333;
@@ -367,12 +367,5 @@ public class ColorTextArea extends IPanel implements ComponentListener, Adjustme
                 this.aScrollbar3331.setValues(var5, this.anInt3344, 0, var4);
             }
         }
-    }
-
-    static {
-        aColorArray3327 = new Color[]{new Color(0, 0, 0), new Color(224, 0, 0), new Color(0, 160, 0), new Color(0, 0, 240), new Color(160, 128, 0), new Color(160, 0, 160), new Color(0, 144, 160), new Color(112, 112, 112), new Color(255, 255, 255)};
-        aColor3328 = new Color(255, 255, 255);
-        aColor3329 = new Color(192, 192, 192);
-        aColor3330 = new Color(64, 64, 64);
     }
 }
