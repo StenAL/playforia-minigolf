@@ -113,6 +113,7 @@ Tested:
 - [@maitovelkkis](https://github.com/maitovelkkis)
 - [@eYeWoRRy](https://github.com/eYeWoRRy)
 - [@pehala](https://github.com/pehala)
+- [@StenAL](https://github.com/StenAL)
 
 ### How to create a new Release?
 
