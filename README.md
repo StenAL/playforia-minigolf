@@ -118,9 +118,9 @@ Tested:
 ### How to create a new Release?
 
 1. Ensure that `git status` on `master` branch is clean and `mvn install` runs fine
-2. Update version via Maven: f.e. `mvn versions:set -DnewVersion=2.1.1.0-BETA`
-3. Create tag: f.e. `git tag v2.1.1.0-BETA`
-4. Push master branch and tag: f.e. `git push origin master v2.1.1.0-BETA`
+2. Update version via Maven: i.e. `mvn versions:set -DnewVersion=2.1.1.0-BETA`
+3. Commit changed files & create new tag: i.e. `git tag v2.1.1.0-BETA`
+4. Push master branch and tag: i.e. `git push origin master v2.1.1.0-BETA`
 5. Wait 5-10 minutes until GitHub release workflow is done (See: https://github.com/PhilippvK/playforia-minigolf/actions)
 6. There should be a new Draft for a Release on https://github.com/PhilippvK/playforia-minigolf/releases
 7. Edit Release text and publish!
