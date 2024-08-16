@@ -62,7 +62,7 @@ java -jar client.jar -server 192.168.1.7 -lang en_US # Replace IP with the one o
 
 #### Running Minigolf Server in Docker Container
 
-We provide an experimental Dockerfile for easy hosting of the server application. 
+We provide an experimental Dockerfile for easy hosting of the server application.
 You can either build and run the image:
 ```sh
 docker build -t pfmg .
@@ -84,7 +84,7 @@ Server CLI options:
 Client CLI options:
 - `--verbose` to enable debug logging
 - `--norandom` to disable randomization for shots
-- `--username` to set username from CLI and skip inputting it 
+- `--username` to set username from CLI and skip inputting it
 
 ## Compatibility
 
