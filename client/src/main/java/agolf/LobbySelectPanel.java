@@ -35,8 +35,7 @@ public class LobbySelectPanel extends Panel implements ActionListener, MouseList
     private Choicer choicerGraphics;
     private Choicer audioChoicer;
     private int[] lobbyNumPlayers;
-    private LobbySelectRNOPspammer lobbySelectRNOP;
-    private static final String[] aStringArray544 = new String[22];
+    private LobbySelectNumberOfPlayersFetcher lobbySelectNumberOfPlayersFetcher;
 
 
     protected LobbySelectPanel(GameContainer gameContainer, int width, int height) {
@@ -185,15 +184,15 @@ public class LobbySelectPanel extends Panel implements ActionListener, MouseList
         }
     }
 
-    protected void resetRNOP() {
-        this.destroyRNOP();
-        this.lobbySelectRNOP = new LobbySelectRNOPspammer(this);
+    protected void resetNumberOfPlayersFetcher() {
+        this.destroyNumberOfPlayersFetcher();
+        this.lobbySelectNumberOfPlayersFetcher = new LobbySelectNumberOfPlayersFetcher(this);
     }
 
-    protected void destroyRNOP() {
-        if (this.lobbySelectRNOP != null) {
-            this.lobbySelectRNOP.stop();
-            this.lobbySelectRNOP = null;
+    protected void destroyNumberOfPlayersFetcher() {
+        if (this.lobbySelectNumberOfPlayersFetcher != null) {
+            this.lobbySelectNumberOfPlayersFetcher.stop();
+            this.lobbySelectNumberOfPlayersFetcher = null;
         }
 
     }
