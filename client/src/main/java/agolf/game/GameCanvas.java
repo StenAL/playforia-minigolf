@@ -967,8 +967,8 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
         double speed = temp / 6.5D;
         speed *= speed;
         if (!this.norandom) {
-            this.speedX[playerId] += speed * ((double) (this.rngSeed.next() % '\uc351') / 100000.0D - 0.25D);
-            this.speedY[playerId] += speed * ((double) (this.rngSeed.next() % '\uc351') / 100000.0D - 0.25D);
+            this.speedX[playerId] += speed * ((double) (this.rngSeed.next() % 50001) / 100000.0D - 0.25D);
+            this.speedY[playerId] += speed * ((double) (this.rngSeed.next() % 50001) / 100000.0D - 0.25D);
         }
         this.isLocalPlayer = isLocalPlayer;
         this.gameState = 2;
@@ -1011,8 +1011,8 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
         var7 = Math.sqrt(temp_aDoubleArray2828[playerId] * temp_aDoubleArray2828[playerId] + temp_aDoubleArray2829[playerId] * temp_aDoubleArray2829[playerId]);
         double var9 = var7 / 6.5D;
         var9 *= var9;
-        temp_aDoubleArray2828[playerId] += var9 * ((double) (temp_aSeed_2836.next() % '\uc351') / 100000.0D - 0.25D);
-        temp_aDoubleArray2829[playerId] += var9 * ((double) (temp_aSeed_2836.next() % '\uc351') / 100000.0D - 0.25D);
+        temp_aDoubleArray2828[playerId] += var9 * ((double) (temp_aSeed_2836.next() % 50001) / 100000.0D - 0.25D);
+        temp_aDoubleArray2829[playerId] += var9 * ((double) (temp_aSeed_2836.next() % 50001) / 100000.0D - 0.25D);
         temp_aBoolean2832 = isLocalPlayer;
         //this.gameState = 2;
         temp_aBoolean2843 = false;

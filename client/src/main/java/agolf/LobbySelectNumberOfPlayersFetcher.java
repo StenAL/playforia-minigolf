@@ -2,13 +2,13 @@ package agolf;
 
 import com.aapeli.tools.Tools;
 
-class LobbySelectRNOPspammer implements Runnable {
+class LobbySelectNumberOfPlayersFetcher implements Runnable {
 
     private final LobbySelectPanel lobbySelectPanel;
     private boolean running;
 
 
-    protected LobbySelectRNOPspammer(LobbySelectPanel lobbySelectPanel) {
+    protected LobbySelectNumberOfPlayersFetcher(LobbySelectPanel lobbySelectPanel) {
         this.lobbySelectPanel = lobbySelectPanel;
         this.running = true;
         Thread thread = new Thread(this);

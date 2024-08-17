@@ -29,8 +29,8 @@ public abstract class ChatBase extends IPanel implements ComponentListener, User
     public static final int CIDR_NONE = 0;
     public static final int CIDR_UNREG = 1;
     public static final int CIDR_UNCONF = 2;
-    private static final Color sayButtonColor;
-    private static boolean shouldDisplayChatInputHelp;
+    private static final Color sayButtonColor = new Color(144, 144, 224);
+    private static boolean shouldDisplayChatInputHelp = true;
     public Parameters param;
     public TextManager textManager;
     public ImageManager imageManager;
@@ -619,10 +619,5 @@ public abstract class ChatBase extends IPanel implements ComponentListener, User
 
     private void paintSignupMessage() {
         this.signupMessage = getSignupMessage(this.chatDisabledStatus, this, this.inputTextField, this.sayButton, this.signupMessage, this.getRegisterationNeededText(), this.getConfirmationNeededText(), this.param);
-    }
-
-    static {
-        sayButtonColor = new Color(144, 144, 224);
-        shouldDisplayChatInputHelp = true;
     }
 }

@@ -20,7 +20,7 @@ public class ColorButton extends IPanel implements MouseMotionListener, MouseLis
     public static final int BORDER_NONE = 0;
     public static final int BORDER_NORMAL = 1;
     public static final int BORDER_THICK = 2;
-    private static final Color aColor3253;
+    private static final Color aColor3253 = new Color(192, 192, 192);
     private Color aColor3254;
     private Color aColor3255;
     private Color aColor3256;
@@ -570,9 +570,5 @@ public class ColorButton extends IPanel implements MouseMotionListener, MouseLis
     public void innerSetFlashState(boolean var1) {
         this.aBoolean3286 = var1;
         this.repaint();
-    }
-
-    static {
-        aColor3253 = new Color(192, 192, 192);
     }
 }

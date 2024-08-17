@@ -191,75 +191,74 @@ public class TrackDumper implements ConnListener {
         System.out.println("connected");
     }
 
-    static String[] aStringArray2369 = new String[68];
-    static {
-        aStringArray2369[0] = "status\t";
-        aStringArray2369[1] = "basicinfo\t";
-        aStringArray2369[2] = "numberofusers\t";
-        aStringArray2369[3] = "users\t";
-        aStringArray2369[4] = "ownjoin\t";
-        aStringArray2369[5] = "joinfromgame\t";
-        aStringArray2369[6] = "say\t";
-        aStringArray2369[7] = "logintype\t";
-        aStringArray2369[8] = "login";
-        aStringArray2369[9] = "lobbyselect\t";
-        aStringArray2369[10] = "select\t";
-        aStringArray2369[11] = "back";
-        aStringArray2369[12] = "challenge\t";
-        aStringArray2369[13] = "cancel\t";
-        aStringArray2369[14] = "accept\t";
-        aStringArray2369[15] = "cfail\t";
-        aStringArray2369[16] = "nouser";
-        aStringArray2369[17] = "nochall";
-        aStringArray2369[18] = "cother";
-        aStringArray2369[19] = "cbyother";
-        aStringArray2369[20] = "refuse";
-        aStringArray2369[21] = "afail";
-        aStringArray2369[22] = "gsn\t";
-        aStringArray2369[23] = "lobby\tnc\t";
-        aStringArray2369[24] = "lobby\t";
-        aStringArray2369[25] = "lobby";
-        aStringArray2369[26] = "tracksetlist\t";
-        aStringArray2369[27] = "tracksetlist";
-        aStringArray2369[28] = "gamelist\t";
-        aStringArray2369[29] = "full\t";
-        aStringArray2369[30] = "add\t";
-        aStringArray2369[31] = "change\t";
-        aStringArray2369[32] = "remove\t";
-        aStringArray2369[33] = "gameinfo\t";
-        aStringArray2369[34] = "players";
-        aStringArray2369[35] = "owninfo\t";
-        aStringArray2369[36] = "game\tstarttrack\t";
-        aStringArray2369[37] = "game\tstartturn\t";
-        aStringArray2369[38] = "game\tstart";
-        aStringArray2369[39] = "game\tbeginstroke\t";
-        aStringArray2369[40] = "game\tendstroke\t";
-        aStringArray2369[41] = "game\tresetvoteskip";
-        aStringArray2369[42] = "game\t";
-        aStringArray2369[43] = "game";
-        aStringArray2369[44] = "quit";
-        aStringArray2369[45] = "join\t";
-        aStringArray2369[46] = "part\t";
-        aStringArray2369[47] = "cspt\t";
-        aStringArray2369[48] = "qmpt";
-        aStringArray2369[49] = "cspc\t";
-        aStringArray2369[50] = "jmpt\t";
-        aStringArray2369[51] = "tracklist\t";
-        aStringArray2369[52] = "Tiikoni";
-        aStringArray2369[53] = "Leonardo";
-        aStringArray2369[54] = "Ennaji";
-        aStringArray2369[55] = "Hoeg";
-        aStringArray2369[56] = "Darwin";
-        aStringArray2369[57] = "Dante";
-        aStringArray2369[58] = "ConTrick";
-        aStringArray2369[59] = "Dewlor";
-        aStringArray2369[60] = "Scope";
-        aStringArray2369[61] = "SuperGenuis";
-        aStringArray2369[62] = "Zwan";
-        aStringArray2369[63] = "\tT !\t";
-        aStringArray2369[64] = "\tcr\t";
-        aStringArray2369[65] = "rnop";
-        aStringArray2369[66] = "nop\t";
-        aStringArray2369[67] = "error";
-    }
+    static String[] aStringArray2369 = new String[] {
+        "status\t",
+        "basicinfo\t",
+        "numberofusers\t",
+        "users\t",
+        "ownjoin\t",
+        "joinfromgame\t",
+        "say\t",
+        "logintype\t",
+        "login",
+        "lobbyselect\t",
+        "select\t",
+        "back",
+        "challenge\t",
+        "cancel\t",
+        "accept\t",
+        "cfail\t",
+        "nouser",
+        "nochall",
+        "cother",
+        "cbyother",
+        "refuse",
+        "afail",
+        "gsn\t",
+        "lobby\tnc\t",
+        "lobby\t",
+        "lobby",
+        "tracksetlist\t",
+        "tracksetlist",
+        "gamelist\t",
+        "full\t",
+        "add\t",
+        "change\t",
+        "remove\t",
+        "gameinfo\t",
+        "players",
+        "owninfo\t",
+        "game\tstarttrack\t",
+        "game\tstartturn\t",
+        "game\tstart",
+        "game\tbeginstroke\t",
+        "game\tendstroke\t",
+        "game\tresetvoteskip",
+        "game\t",
+        "game",
+        "quit",
+        "join\t",
+        "part\t",
+        "cspt\t",
+        "qmpt",
+        "cspc\t",
+        "jmpt\t",
+        "tracklist\t",
+        "Tiikoni",
+        "Leonardo",
+        "Ennaji",
+        "Hoeg",
+        "Darwin",
+        "Dante",
+        "ConTrick",
+        "Dewlor",
+        "Scope",
+        "SuperGenuis",
+        "Zwan",
+        "\tT !\t",
+        "\tcr\t",
+        "rnop",
+        "nop\t",
+        "error"
+    };
 }

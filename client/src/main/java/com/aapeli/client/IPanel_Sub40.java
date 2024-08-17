@@ -11,11 +11,11 @@ import java.awt.event.ActionListener;
 
 class IPanel_Sub40 extends IPanel implements ActionListener {
 
-    private static final Color aColor3205;
-    private static final Color aColor3206;
-    private static final Color aColor3207;
-    private static final Color aColor3208;
-    private static final Font aFont3209;
+    private static final Color aColor3205 = new Color(240, 240, 240);
+    private static final Color aColor3206 = Color.black;
+    private static final Color aColor3207 = new Color(128, 255, 128);
+    private static final Color aColor3208 = new Color(240, 240, 96);
+    private static final Font aFont3209 = new Font("Dialog", Font.PLAIN, 16);
     private AApplet anAApplet3210;
     private Frame_Sub3_Sub1 aFrame_Sub3_Sub1_3211;
     private int anInt3212;
@@ -99,13 +99,5 @@ class IPanel_Sub40 extends IPanel implements ActionListener {
             this.add(this.aRoundButton3217);
         }
 
-    }
-
-    static {
-        aColor3205 = new Color(240, 240, 240);
-        aColor3206 = Color.black;
-        aColor3207 = new Color(128, 255, 128);
-        aColor3208 = new Color(240, 240, 96);
-        aFont3209 = new Font("Dialog", Font.PLAIN, 16);
     }
 }

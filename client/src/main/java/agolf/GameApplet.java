@@ -135,7 +135,7 @@ public class GameApplet extends AApplet {
         if (activePanel != this.activePanel && this.syncIsValidSite.get()) {
             this.activePanel = activePanel;
             if (this.gameContainer.lobbySelectionPanel != null) {
-                this.gameContainer.lobbySelectionPanel.destroyRNOP();
+                this.gameContainer.lobbySelectionPanel.destroyNumberOfPlayersFetcher();
             }
 
             this.clearContent();
@@ -191,7 +191,7 @@ public class GameApplet extends AApplet {
 
                 if (!var5) {
                     this.addToContent(this.gameContainer.lobbySelectionPanel);
-                    this.gameContainer.lobbySelectionPanel.resetRNOP();
+                    this.gameContainer.lobbySelectionPanel.resetNumberOfPlayersFetcher();
                 }
             }
 
