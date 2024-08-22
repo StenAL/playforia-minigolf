@@ -93,7 +93,7 @@ public final class UserListItem {
             var2 = var2 + " " + var1;
         }
 
-        this.aColorListItem1682.setString(var2);
+        this.aColorListItem1682.setText(var2);
     }
 
     public void setAfterNickIcon(Image var1) {

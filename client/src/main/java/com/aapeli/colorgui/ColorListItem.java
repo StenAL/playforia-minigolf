@@ -14,141 +14,141 @@ public class ColorListItem {
     public static final int COLOR_CYAN = 6;
     public static final int COLOR_GRAY = 7;
     public static final int COLOR_WHITE = 8;
-    private static final Color[] aColorArray1554 = new Color[]{new Color(0, 0, 0), new Color(240, 0, 0), new Color(0, 160, 0), new Color(0, 0, 255), new Color(144, 144, 0), new Color(176, 0, 176), new Color(0, 160, 176), new Color(112, 112, 112), new Color(255, 255, 255)};
-    private Image anImage1555;
-    private Color aColor1556;
-    private boolean aBoolean1557;
-    private String aString1558;
-    private Image anImage1559;
-    private Object anObject1560;
-    private boolean aBoolean1561;
-    private int anInt1562;
-    private boolean aBoolean1563;
-    private ColorListItemGroup aColorListItemGroup1564;
-    private ColorList aColorList1565;
+    private static final Color[] colors = new Color[]{new Color(0, 0, 0), new Color(240, 0, 0), new Color(0, 160, 0), new Color(0, 0, 255), new Color(144, 144, 0), new Color(176, 0, 176), new Color(0, 160, 176), new Color(112, 112, 112), new Color(255, 255, 255)};
+    private Image icon;
+    private Color color;
+    private boolean bold;
+    private String text;
+    private Image iconAfterText;
+    private Object data;
+    private boolean selected;
+    private int value;
+    private boolean sortOverride;
+    private ColorListItemGroup group;
+    private ColorList colorList;
 
 
-    public ColorListItem(String var1) {
-        this(null, 0, false, var1, null, false);
+    public ColorListItem(String text) {
+        this(null, 0, false, text, null, false);
     }
 
-    public ColorListItem(int var1, boolean var2, String var3) {
-        this(null, var1, var2, var3, null, false);
+    public ColorListItem(int color, boolean bold, String text) {
+        this(null, color, bold, text, null, false);
     }
 
-    public ColorListItem(int var1, boolean var2, String var3, Object var4, boolean var5) {
-        this(null, aColorArray1554[var1], var2, var3, var4, var5);
+    public ColorListItem(int color, boolean bold, String text, Object data, boolean selected) {
+        this(null, colors[color], bold, text, data, selected);
     }
 
-    public ColorListItem(Image var1, int var2, boolean var3, String var4, Object var5, boolean var6) {
-        this(var1, aColorArray1554[var2], var3, var4, var5, var6);
+    public ColorListItem(Image icon, int color, boolean bold, String text, Object data, boolean selected) {
+        this(icon, colors[color], bold, text, data, selected);
     }
 
-    public ColorListItem(Image var1, Color var2, boolean var3, String var4, Object var5, boolean var6) {
-        this.anImage1555 = var1;
-        this.aColor1556 = var2;
-        this.aBoolean1557 = var3;
-        this.aString1558 = var4;
-        this.anObject1560 = var5;
-        this.aBoolean1561 = var6;
-        this.anInt1562 = 0;
-        this.aBoolean1563 = false;
+    public ColorListItem(Image icon, Color color, boolean bold, String text, Object data, boolean selected) {
+        this.icon = icon;
+        this.color = color;
+        this.bold = bold;
+        this.text = text;
+        this.data = data;
+        this.selected = selected;
+        this.value = 0;
+        this.sortOverride = false;
     }
 
-    public static Color getColorById(int var0) {
-        return aColorArray1554[var0];
+    public static Color getColorById(int i) {
+        return colors[i];
     }
 
-    public void setIcon(Image var1) {
-        this.anImage1555 = var1;
+    public void setIcon(Image icon) {
+        this.icon = icon;
     }
 
     public Image getIcon() {
-        return this.anImage1555;
+        return this.icon;
     }
 
-    public void setIconAfterText(Image var1) {
-        this.anImage1559 = var1;
+    public void setIconAfterText(Image iconAfterText) {
+        this.iconAfterText = iconAfterText;
     }
 
     public Image getIconAfterText() {
-        return this.anImage1559;
+        return this.iconAfterText;
     }
 
-    public void setColor(int var1) {
-        this.setColor(aColorArray1554[var1]);
+    public void setColor(int i) {
+        this.setColor(colors[i]);
     }
 
-    public void setColor(Color var1) {
-        this.aColor1556 = var1;
+    public void setColor(Color color) {
+        this.color = color;
     }
 
     public Color getColor() {
-        return this.aColor1556;
+        return this.color;
     }
 
-    public void setBold(boolean var1) {
-        this.aBoolean1557 = var1;
+    public void setBold(boolean bold) {
+        this.bold = bold;
     }
 
     public boolean isBold() {
-        return this.aBoolean1557;
+        return this.bold;
     }
 
-    public void setString(String var1) {
-        this.aString1558 = var1;
+    public void setText(String text) {
+        this.text = text;
     }
 
-    public String getString() {
-        return this.aString1558;
+    public String getText() {
+        return this.text;
     }
 
-    public void setData(Object var1) {
-        this.anObject1560 = var1;
+    public void setData(Object data) {
+        this.data = data;
     }
 
     public Object getData() {
-        return this.anObject1560;
+        return this.data;
     }
 
-    public void setSelected(boolean var1) {
-        this.aBoolean1561 = var1;
+    public void setSelected(boolean selected) {
+        this.selected = selected;
     }
 
     public boolean isSelected() {
-        return this.aBoolean1561;
+        return this.selected;
     }
 
-    public void setValue(int var1) {
-        this.anInt1562 = var1;
+    public void setValue(int value) {
+        this.value = value;
     }
 
     public int getValue() {
-        return this.anInt1562;
+        return this.value;
     }
 
-    public void setSortOverride(boolean var1) {
-        this.aBoolean1563 = var1;
+    public void setSortOverride(boolean sortOverride) {
+        this.sortOverride = sortOverride;
     }
 
     public boolean isSortOverride() {
-        return this.aBoolean1563;
+        return this.sortOverride;
     }
 
-    public void setGroup(ColorListItemGroup var1) {
-        this.aColorListItemGroup1564 = var1;
+    public void setGroup(ColorListItemGroup group) {
+        this.group = group;
     }
 
     public ColorListItemGroup getGroup() {
-        return this.aColorListItemGroup1564;
+        return this.group;
     }
 
-    public void setColorListReference(ColorList var1) {
-        this.aColorList1565 = var1;
+    public void setColorListReference(ColorList colorList) {
+        this.colorList = colorList;
     }
 
     public ColorList getColorListReference() {
-        return this.aColorList1565;
+        return this.colorList;
     }
 
 }
