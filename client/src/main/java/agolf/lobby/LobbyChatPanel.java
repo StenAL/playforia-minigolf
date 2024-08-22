@@ -5,7 +5,7 @@ import agolf.GameContainer;
 import com.aapeli.multiuser.ChatLobby;
 import com.aapeli.multiuser.GlobalChatListener;
 import com.aapeli.multiuser.Languages;
-import com.aapeli.multiuser.UserListItem;
+import com.aapeli.multiuser.User;
 
 class LobbyChatPanel extends ChatLobby implements GlobalChatListener {
 
@@ -293,7 +293,7 @@ class LobbyChatPanel extends ChatLobby implements GlobalChatListener {
     }
 
     protected void getUser(String name, boolean var2) {
-        UserListItem var3;
+        User var3;
         if (name != null) {
             var3 = super.userList.getUser(name);
             if (var3 == null) {

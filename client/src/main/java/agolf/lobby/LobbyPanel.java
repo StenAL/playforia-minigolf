@@ -3,7 +3,7 @@ package agolf.lobby;
 import agolf.GameApplet;
 import agolf.GameContainer;
 import com.aapeli.colorgui.Choicer;
-import com.aapeli.multiuser.UserListItem;
+import com.aapeli.multiuser.User;
 import org.moparforia.client.Launcher;
 
 import java.awt.Graphics;
@@ -225,7 +225,7 @@ public class LobbyPanel extends Panel {
     }
 
     protected boolean isNotAcceptingChallenges(String user) {
-        UserListItem userItem = this.lobbyChatPanelDual.userList.getUser(user);
+        User userItem = this.lobbyChatPanelDual.userList.getUser(user);
         return userItem != null ? userItem.isNotAcceptingChallenges() : true;
     }
 

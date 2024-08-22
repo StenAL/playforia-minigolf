@@ -19,41 +19,41 @@ class CopyChatFrame extends Frame implements ComponentListener, WindowListener {
     private TextArea textArea;
 
 
-    public void componentHidden(ComponentEvent var1) {
+    public void componentHidden(ComponentEvent e) {
     }
 
-    public void componentShown(ComponentEvent var1) {
+    public void componentShown(ComponentEvent e) {
     }
 
-    public void componentMoved(ComponentEvent var1) {
+    public void componentMoved(ComponentEvent e) {
     }
 
-    public void componentResized(ComponentEvent var1) {
+    public void componentResized(ComponentEvent e) {
         Dimension d = this.getSize();
         Insets i = this.getInsets();
         this.textArea.setBounds(i.left, i.top, d.width - i.left - i.right, d.height - i.top - i.bottom);
     }
 
-    public void windowOpened(WindowEvent var1) {
+    public void windowOpened(WindowEvent e) {
     }
 
-    public void windowClosed(WindowEvent var1) {
+    public void windowClosed(WindowEvent e) {
     }
 
-    public void windowClosing(WindowEvent var1) {
+    public void windowClosing(WindowEvent e) {
         this.dispose();
     }
 
-    public void windowActivated(WindowEvent var1) {
+    public void windowActivated(WindowEvent e) {
     }
 
-    public void windowDeactivated(WindowEvent var1) {
+    public void windowDeactivated(WindowEvent e) {
     }
 
-    public void windowIconified(WindowEvent var1) {
+    public void windowIconified(WindowEvent e) {
     }
 
-    public void windowDeiconified(WindowEvent var1) {
+    public void windowDeiconified(WindowEvent e) {
     }
 
     protected void create(Component parent, ColorTextArea colorTextArea) {

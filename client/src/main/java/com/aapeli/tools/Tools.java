@@ -59,31 +59,31 @@ public class Tools {
         return var2.toString();
     }
 
-    public static String changeFromSaveable(String var0) {
-        int var1 = var0.length();
-        StringBuffer var2 = new StringBuffer(var1);
+    public static String changeFromSaveable(String s) {
+        int length = s.length();
+        StringBuffer sb = new StringBuffer(length);
 
-        for (int var4 = 0; var4 < var1; ++var4) {
-            char var3 = var0.charAt(var4);
-            if (var3 == '$') {
-                ++var4;
-                var3 = var0.charAt(var4);
-                if (var3 == 'p') {
-                    var2.append('^');
+        for (int i = 0; i < length; ++i) {
+            char c = s.charAt(i);
+            if (c == '$') {
+                ++i;
+                c = s.charAt(i);
+                if (c == 'p') {
+                    sb.append('^');
                 } else {
-                    if (var3 != 'd') {
-                        System.out.println("Program error: Tools.changeFromSaveable(\"" + var0 + "\"), " + "unexpected character '" + var3 + "' after '$'");
+                    if (c != 'd') {
+                        System.out.println("Program error: Tools.changeFromSaveable(\"" + s + "\"), " + "unexpected character '" + c + "' after '$'");
                         return null;
                     }
 
-                    var2.append('$');
+                    sb.append('$');
                 }
             } else {
-                var2.append(var3);
+                sb.append(c);
             }
         }
 
-        return var2.toString();
+        return sb.toString();
     }
 
     public static int getRandomByPossibility(double[] var0) {
