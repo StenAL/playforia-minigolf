@@ -174,7 +174,7 @@ final class GlobalTextArea extends IPanel implements ComponentListener, TabBarLi
     }
 
     private void method923(int var1, ChatTextArea var2) {
-        var2.setBorder(0);
+        var2.setBorderStyle(0);
         TabBarItem var3 = new TabBarItem(this.aTabBar2367, this.aLanguages2362.getFlag(var1), this.aLanguages2362.getName(var1), var2);
         var3.setTabID(var1);
         var3.setComponentAutoSize(true);

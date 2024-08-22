@@ -60,8 +60,8 @@ public class ColorCheckbox extends IPanel implements ItemSelectable, MouseListen
         this.aVector3305 = new Vector<>();
         this.anInt3301 = -1;
         this.aBoolean3303 = false;
-        this.setFont(Class94.aFont1575);
-        this.setForeground(Class94.aColor1576);
+        this.setFont(FontConstants.font);
+        this.setForeground(FontConstants.black);
         this.setBoxBackground(aColor3289);
         this.setBoxForeground(aColor3290);
         this.addMouseListener(this);

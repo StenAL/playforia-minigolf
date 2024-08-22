@@ -237,7 +237,7 @@ public abstract class ChatBase extends IPanel implements ComponentListener, User
     }
 
     public void addLine() {
-        this.chatTextArea.addLine();
+        this.chatTextArea.addText();
     }
 
     public int setFullUserList(String[] list) {
@@ -281,13 +281,12 @@ public abstract class ChatBase extends IPanel implements ComponentListener, User
 
     }
 
-    public void sheriffSay(String var1) {
-        Object var2 = this.synchronizedObject;
+    public void sheriffSay(String text) {
         synchronized (this.synchronizedObject) {
             if (this.gui_globaloutput == null) {
-                this.chatTextArea.addSheriffSay(var1);
+                this.chatTextArea.addSheriffSay(text);
             } else {
-                this.gui_globaloutput.method918(var1);
+                this.gui_globaloutput.method918(text);
             }
 
         }

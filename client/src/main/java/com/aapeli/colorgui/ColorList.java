@@ -65,7 +65,7 @@ public final class ColorList extends Panel implements ComponentListener, Adjustm
 
 
     public ColorList(int var1, int var2) {
-        this(var1, var2, Class94.aFont1575, 0, 0);
+        this(var1, var2, FontConstants.font, 0, 0);
     }
 
     public ColorList(int var1, int var2, Font var3) {
@@ -73,7 +73,7 @@ public final class ColorList extends Panel implements ComponentListener, Adjustm
     }
 
     public ColorList(int var1, int var2, int var3, int var4) {
-        this(var1, var2, Class94.aFont1575, var3, var4);
+        this(var1, var2, FontConstants.font, var3, var4);
     }
 
     public ColorList(int var1, int var2, Font var3, int var4, int var5) {

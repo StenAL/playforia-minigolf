@@ -79,7 +79,7 @@ class CopyChatFrame extends Frame implements ComponentListener, WindowListener {
     }
 
     private String getChatText(ColorTextArea colorTextArea) {
-        String[] lines = colorTextArea.getTimeStampedCache();
+        String[] lines = colorTextArea.getTextWithTimestamps();
         int linesCount = lines.length;
         StringBuffer sb = new StringBuffer(linesCount * 20);
 

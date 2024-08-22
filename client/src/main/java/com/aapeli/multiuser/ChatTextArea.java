@@ -11,26 +11,26 @@ public class ChatTextArea extends ColorTextArea {
 
     public static final Font DEFAULT_FONT = new Font("Dialog", Font.PLAIN, 12);
     public static final Font SMALL_FONT = new Font("Dialog", Font.PLAIN, 11);
-    private TextManager aTextManager4728;
-    private BadWordFilter aBadWordFilter4729;
+    private TextManager textManager;
+    private BadWordFilter badWordFilter;
     private Hashtable<String, Integer> aHashtable4730;
 
-    public ChatTextArea(TextManager var1, int var2, int var3) {
-        this(var1, null, var2, var3, null);
+    public ChatTextArea(TextManager textManager, int width, int height) {
+        this(textManager, null, width, height, null);
     }
 
-    public ChatTextArea(TextManager var1, int var2, int var3, Font var4) {
-        this(var1, null, var2, var3, var4);
+    public ChatTextArea(TextManager textManager, int width, int height, Font font) {
+        this(textManager, null, width, height, font);
     }
 
-    public ChatTextArea(TextManager var1, BadWordFilter var2, int var3, int var4) {
-        this(var1, var2, var3, var4, null);
+    public ChatTextArea(TextManager textManager, BadWordFilter badWordFilter, int width, int height) {
+        this(textManager, badWordFilter, width, height, null);
     }
 
-    public ChatTextArea(TextManager var1, BadWordFilter var2, int var3, int var4, Font var5) {
-        super(var3, var4, var5 != null ? var5 : DEFAULT_FONT);
-        this.aTextManager4728 = var1;
-        this.aBadWordFilter4729 = var2;
+    public ChatTextArea(TextManager textManager, BadWordFilter badWordFilter, int width, int height, Font font) {
+        super(width, height, font != null ? font : DEFAULT_FONT);
+        this.textManager = textManager;
+        this.badWordFilter = badWordFilter;
         this.aHashtable4730 = new Hashtable<>();
     }
 
@@ -62,30 +62,30 @@ public class ChatTextArea extends ColorTextArea {
         this.addMessage(7, var1);
     }
 
-    public void addSheriffSay(String var1) {
-        this.addBoldLine(6, this.aTextManager4728.getShared("Chat_SheriffSay", var1));
+    public void addSheriffSay(String text) {
+        this.addImportantLine(6, this.textManager.getShared("Chat_SheriffSay", text));
     }
 
-    public void addServerSay(String var1) {
-        this.addLine(6, this.aTextManager4728.getShared("Chat_ServerSay", var1));
+    public void addServerSay(String text) {
+        this.addText(6, this.textManager.getShared("Chat_ServerSay", text));
     }
 
-    public void addLocalizedServerSay(String var1) {
-        this.addLine(6, var1);
+    public void addLocalizedServerSay(String text) {
+        this.addText(6, text);
     }
 
-    public void addBroadcastMessage(String var1) {
-        this.addBoldLine(6, this.aTextManager4728.getShared("Chat_ServerBroadcast", var1));
+    public void addBroadcastMessage(String text) {
+        this.addImportantLine(6, this.textManager.getShared("Chat_ServerBroadcast", text));
     }
 
-    public void addWelcomeMessage(String var1) {
-        if (var1 != null) {
-            this.addLine(6, var1);
+    public void addWelcomeMessage(String text) {
+        if (text != null) {
+            this.addText(6, text);
         }
     }
 
-    public void addPlainMessage(String var1) {
-        this.addLine(7, var1);
+    public void addPlainMessage(String text) {
+        this.addText(7, text);
     }
 
     public void addMessage(String var1) {
@@ -101,11 +101,11 @@ public class ChatTextArea extends ColorTextArea {
     }
 
     public void addFloodMessage() {
-        this.addMessage(7, this.aTextManager4728.getShared("Chat_MessageFlood"));
+        this.addMessage(7, this.textManager.getShared("Chat_MessageFlood"));
     }
 
     public void addPrivateMessageUserLeftMessage(String var1) {
-        this.addMessage(6, this.aTextManager4728.getShared("Chat_MessagePrivateMessageUserLeft", var1));
+        this.addMessage(6, this.textManager.getShared("Chat_MessagePrivateMessageUserLeft", var1));
     }
 
     public void setUserColor(String var1, int var2) {
@@ -117,29 +117,29 @@ public class ChatTextArea extends ColorTextArea {
     }
 
     public TextManager getTextManager() {
-        return this.aTextManager4728;
+        return this.textManager;
     }
 
     public BadWordFilter getBadWordFilter() {
-        return this.aBadWordFilter4729;
+        return this.badWordFilter;
     }
 
-    private void addMessage(int var1, String var2) {
-        this.addLine(this.method858(var1), this.aTextManager4728.getShared("Chat_Message", var2));
+    private void addMessage(int var1, String text) {
+        this.addText(this.method858(var1), this.textManager.getShared("Chat_Message", text));
     }
 
     private void method856(int var1, String var2, String var3, boolean var4) {
         var3 = this.method860(var3, var4);
         if (var3.length() > 4 && var3.toLowerCase().startsWith("/me ")) {
-            this.addLine(this.method859(var2, var1), this.aTextManager4728.getShared("Chat_UserAction", var2, var3.substring(4)), var4);
+            this.addText(this.method859(var2, var1), this.textManager.getShared("Chat_UserAction", var2, var3.substring(4)), var4);
         } else {
-            this.addLine(this.method859(var2, var1), this.aTextManager4728.getShared("Chat_UserSay", var2, var3), var4);
+            this.addText(this.method859(var2, var1), this.textManager.getShared("Chat_UserSay", var2, var3), var4);
         }
     }
 
     private void method857(int var1, String var2, String var3, String var4, boolean var5) {
         var4 = this.method860(var4, var5);
-        this.addLine(this.method859(var2, var1), this.aTextManager4728.getShared("Chat_UserSayPrivate", var2, var3, var4), var5);
+        this.addText(this.method859(var2, var1), this.textManager.getShared("Chat_UserSayPrivate", var2, var3, var4), var5);
     }
 
     private int method858(int var1) {
@@ -187,8 +187,8 @@ public class ChatTextArea extends ColorTextArea {
     }
 
     private String method862(String var1, boolean var2) {
-        if (this.aBadWordFilter4729 != null && !var2) {
-            var1 = this.aBadWordFilter4729.filter(var1);
+        if (this.badWordFilter != null && !var2) {
+            var1 = this.badWordFilter.filter(var1);
         }
 
         return var1;

@@ -205,7 +205,7 @@ class LobbyChatPanel extends ChatLobby implements GlobalChatListener {
                 super.chatTextArea.addPlainMessage(message);
             }
 
-            super.chatTextArea.addLine();
+            super.chatTextArea.addText();
             return true;
         }
         else if(args[1].equals("users")) {
