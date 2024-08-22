@@ -49,7 +49,7 @@ public class TrackTestLoginHandler implements PacketHandler {
         Player player = packet.getChannel().attr(Player.PLAYER_ATTRIBUTE_KEY).get();
         player.setNick(username);
         player.setEmailVerified(true);
-        player.setRegistered(!anonym);
+        player.setRegistered(true);
         packet.getChannel().writeAndFlush(new Packet(PacketType.DATA, Tools.tabularize("basicinfo", player.isEmailVerified(), player.getAccessLevel(), "t", "f")));
         packet.getChannel().writeAndFlush(new Packet(PacketType.DATA, Tools.tabularize("status", "lobbyselect", 300)));
         return true;
