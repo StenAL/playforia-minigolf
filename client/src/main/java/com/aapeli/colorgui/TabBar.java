@@ -12,7 +12,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
-import java.util.Enumeration;
 import java.util.Vector;
 
 public class TabBar extends IPanel implements ComponentListener, ActionListener {
@@ -382,12 +381,9 @@ public class TabBar extends IPanel implements ComponentListener, ActionListener 
         Object var2 = this.anObject3425;
         synchronized (this.anObject3425) {
             if (this.aVector3424.size() != 0) {
-                Enumeration<TabBarListener> var3 = this.aVector3424.elements();
-
-                while (var3.hasMoreElements()) {
-                    var3.nextElement().selectedTabChanged(var1);
+                for (TabBarListener tabBarListener : aVector3424) {
+                    tabBarListener.selectedTabChanged(var1);
                 }
-
             }
         }
     }

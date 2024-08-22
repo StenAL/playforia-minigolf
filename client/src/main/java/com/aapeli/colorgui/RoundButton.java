@@ -12,7 +12,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.util.Enumeration;
 import java.util.Vector;
 
 public class RoundButton extends IPanel implements MouseMotionListener, MouseListener {
@@ -263,12 +262,9 @@ public class RoundButton extends IPanel implements MouseMotionListener, MouseLis
         synchronized (this.aVector3395) {
             if (this.aVector3395.size() != 0) {
                 ActionEvent var2 = new ActionEvent(this, 1001, this.aString3387);
-                Enumeration<ActionListener> var3 = this.aVector3395.elements();
-
-                while (var3.hasMoreElements()) {
-                    var3.nextElement().actionPerformed(var2);
+                for (ActionListener listener : aVector3395) {
+                    listener.actionPerformed(var2);
                 }
-
             }
         }
     }

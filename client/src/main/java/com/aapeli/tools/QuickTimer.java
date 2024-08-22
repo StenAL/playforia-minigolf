@@ -1,7 +1,5 @@
 package com.aapeli.tools;
 
-import java.util.Enumeration;
-import java.util.NoSuchElementException;
 import java.util.Vector;
 
 public class QuickTimer implements Runnable {
@@ -41,16 +39,7 @@ public class QuickTimer implements Runnable {
     public void run() {
         Tools.sleep(this.anInt1727);
         if (!this.stopped) {
-            Enumeration<QuickTimerListener> var1 = this.aVector1728.elements();
-
-            while (var1.hasMoreElements()) {
-                QuickTimerListener var2;
-                try {
-                    var2 = var1.nextElement();
-                } catch (NoSuchElementException var4) {
-                    return;
-                }
-
+            for (QuickTimerListener var2: this.aVector1728) {
                 if (var2 != null) {
                     var2.qtFinished();
                 }

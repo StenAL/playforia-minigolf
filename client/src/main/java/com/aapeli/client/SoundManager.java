@@ -4,7 +4,6 @@ import com.aapeli.applet.AApplet;
 
 import java.applet.AudioClip;
 import java.net.URL;
-import java.util.Enumeration;
 import java.util.Hashtable;
 
 public final class SoundManager implements Runnable {
@@ -55,21 +54,14 @@ public final class SoundManager implements Runnable {
         boolean anySoundClipsNotDefined;
         do {
             anySoundClipsNotDefined = false;
-            Enumeration<SoundClip> soundClips = this.clientSounds.elements();
-
-            SoundClip soundClip;
-            while (soundClips.hasMoreElements()) {
-                soundClip = soundClips.nextElement();
+            for (SoundClip soundClip: this.clientSounds.values()) {
                 if (!soundClip.isDefined()) {
                     soundClip.defineClip();
                     anySoundClipsNotDefined = true;
                 }
             }
 
-            soundClips = this.sharedSounds.elements();
-
-            while (soundClips.hasMoreElements()) {
-                soundClip = soundClips.nextElement();
+            for (SoundClip soundClip: this.sharedSounds.values()) {
                 if (!soundClip.isDefined()) {
                     soundClip.defineClip();
                     anySoundClipsNotDefined = true;
