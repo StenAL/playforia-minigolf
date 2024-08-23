@@ -12,7 +12,8 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ColorCheckbox extends IPanel implements ItemSelectable, MouseListener {
 
@@ -35,7 +36,7 @@ public class ColorCheckbox extends IPanel implements ItemSelectable, MouseListen
     private boolean aBoolean3302;
     private boolean aBoolean3303;
     private ColorCheckboxGroup aColorCheckboxGroup3304;
-    private Vector<ItemListener> aVector3305;
+    private List<ItemListener> listeners;
     private Image anImage3306;
     private Graphics aGraphics3307;
     private int anInt3308;
@@ -57,7 +58,7 @@ public class ColorCheckbox extends IPanel implements ItemSelectable, MouseListen
     public ColorCheckbox(String var1, boolean var2) {
         this.aString3300 = var1;
         this.aBoolean3302 = var2;
-        this.aVector3305 = new Vector<>();
+        this.listeners = new ArrayList<>();
         this.anInt3301 = -1;
         this.aBoolean3303 = false;
         this.setFont(FontConstants.font);
@@ -164,17 +165,15 @@ public class ColorCheckbox extends IPanel implements ItemSelectable, MouseListen
         }
     }
 
-    public void addItemListener(ItemListener var1) {
-        Vector<ItemListener> var2 = this.aVector3305;
-        synchronized (this.aVector3305) {
-            this.aVector3305.addElement(var1);
+    public void addItemListener(ItemListener listener) {
+        synchronized (this.listeners) {
+            this.listeners.add(listener);
         }
     }
 
-    public void removeItemListener(ItemListener var1) {
-        Vector<ItemListener> var2 = this.aVector3305;
-        synchronized (this.aVector3305) {
-            this.aVector3305.removeElement(var1);
+    public void removeItemListener(ItemListener listener) {
+        synchronized (this.listeners) {
+            this.listeners.remove(listener);
         }
     }
 
@@ -258,7 +257,7 @@ public class ColorCheckbox extends IPanel implements ItemSelectable, MouseListen
 
     public void setGroup(ColorCheckboxGroup var1) {
         this.aColorCheckboxGroup3304 = var1;
-        var1.method1747(this);
+        var1.addCheckbox(this);
         this.repaint();
     }
 
@@ -324,11 +323,10 @@ public class ColorCheckbox extends IPanel implements ItemSelectable, MouseListen
     }
 
     private void method838() {
-        Vector<ItemListener> var1 = this.aVector3305;
-        synchronized (this.aVector3305) {
-            if (this.aVector3305.size() != 0) {
+        synchronized (this.listeners) {
+            if (this.listeners.size() != 0) {
                 ItemEvent var2 = new ItemEvent(this, 0, this, 701);
-                for (ItemListener listener : aVector3305) {
+                for (ItemListener listener : listeners) {
                     listener.itemStateChanged(var2);
                 }
             }

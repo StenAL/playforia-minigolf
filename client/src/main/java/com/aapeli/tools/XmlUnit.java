@@ -1,8 +1,9 @@
 package com.aapeli.tools;
 
+import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.Stack;
-import java.util.Vector;
 
 public class XmlUnit {
 
@@ -10,14 +11,14 @@ public class XmlUnit {
     private static final String aString1736 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-:";
     private String name;
     private String value;
-    private Vector<XmlUnit> children;
+    private List<XmlUnit> children;
     private Hashtable<String, String> attributes;
 
 
     private XmlUnit(String var1) {
         this.name = var1;
         this.value = null;
-        this.children = new Vector<>();
+        this.children = new ArrayList<>();
         this.attributes = new Hashtable<>();
     }
 
@@ -40,10 +41,7 @@ public class XmlUnit {
 
     public XmlUnit getChild(String name) {
         synchronized (this.children) {
-            int childrenCount = this.children.size();
-
-            for (int index = 0; index < childrenCount; ++index) {
-                XmlUnit child = this.children.elementAt(index);
+            for (XmlUnit child : this.children) {
                 if (child.getName().equals(name)) {
                     return child;
                 }
@@ -64,7 +62,7 @@ public class XmlUnit {
             XmlUnit[] childrenArray = new XmlUnit[childrenCount];
 
             for (int index = 0; index < childrenCount; ++index) {
-                childrenArray[index] = this.children.elementAt(index);
+                childrenArray[index] = this.children.get(index);
             }
 
             return childrenArray;
@@ -351,7 +349,7 @@ public class XmlUnit {
 
     private XmlUnit addChild(XmlUnit var1) {
         synchronized (this.children) {
-            this.children.addElement(var1);
+            this.children.add(var1);
             return this;
         }
     }

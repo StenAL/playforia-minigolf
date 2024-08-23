@@ -13,9 +13,10 @@ import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Vector;
+import java.util.List;
 
 public class ColorTextArea extends IPanel implements ComponentListener, AdjustmentListener {
 
@@ -49,8 +50,8 @@ public class ColorTextArea extends IPanel implements ComponentListener, Adjustme
     private int maxLineWidth;
     private int lineHeight;
     private int scrollWindowNumberOfLines;
-    private Vector<ColorText> lines;
-    private Vector<ColorText> texts;
+    private List<ColorText> lines;
+    private List<ColorText> texts;
     private Image image;
     private Graphics graphics;
     private int imageWidth;
@@ -75,8 +76,8 @@ public class ColorTextArea extends IPanel implements ComponentListener, Adjustme
         this.fontMetrics = this.getFontMetrics(font);
         this.fontSize = font.getSize();
         this.fontBold = new Font(font.getName(), Font.BOLD, font.getSize());
-        this.lines = new Vector<>();
-        this.texts = new Vector<>();
+        this.lines = new ArrayList<>();
+        this.texts = new ArrayList<>();
         this.backgroundImage = null;
         this.lineHeight = this.fontSize + 3;
         this.calculateLineStats();
@@ -120,7 +121,7 @@ public class ColorTextArea extends IPanel implements ComponentListener, Adjustme
                 int scrollbarOffset = this.hasScrollbar ? this.scrollbar.getValue() : 0;
 
                 for (int i = 0; i <= this.scrollWindowNumberOfLines && scrollbarOffset < linesCount; ++i) {
-                    ColorText colorText = this.lines.elementAt(scrollbarOffset);
+                    ColorText colorText = this.lines.get(scrollbarOffset);
                     if (!colorText.isTextEmpty()) {
                         this.graphics.setFont(colorText.isBold() ? this.fontBold : this.font);
                         this.graphics.setColor(colorText.getColor());
@@ -209,7 +210,7 @@ public class ColorTextArea extends IPanel implements ComponentListener, Adjustme
             String[] textWithTimestamps = new String[textCount];
             if (textCount > 0) {
                 for (int i = 0; i < textCount; ++i) {
-                    ColorText colorText = this.texts.elementAt(i);
+                    ColorText colorText = this.texts.get(i);
                     if (colorText.isTextEmpty()) {
                         textWithTimestamps[i] = "";
                     } else {
@@ -241,9 +242,9 @@ public class ColorTextArea extends IPanel implements ComponentListener, Adjustme
 
     private void reset(boolean clearText) {
         synchronized (this.synchronizationObject) {
-            this.lines.removeAllElements();
+            this.lines.clear();
             if (clearText) {
-                this.texts.removeAllElements();
+                this.texts.clear();
             }
 
             this.remove(this.scrollbar);
@@ -271,7 +272,7 @@ public class ColorTextArea extends IPanel implements ComponentListener, Adjustme
                     break;
                 }
 
-                ColorText colorText = this.texts.elementAt(i);
+                ColorText colorText = this.texts.get(i);
                 this.splitTextToLines(colorText.getColor(), colorText.getText(), colorText.isBold());
                 ++i;
             }
@@ -292,7 +293,7 @@ public class ColorTextArea extends IPanel implements ComponentListener, Adjustme
 
     private void addText(Color color, String text, boolean bold, boolean scrollToBottom) {
         synchronized (this.synchronizationObject) {
-            this.texts.addElement(new ColorText(color, text, bold));
+            this.texts.add(new ColorText(color, text, bold));
             int lineCount = this.lines.size();
             this.splitTextToLines(color, text, bold);
             this.updateScrollWindow(lineCount, scrollToBottom);
@@ -335,7 +336,7 @@ public class ColorTextArea extends IPanel implements ComponentListener, Adjustme
 
     private void addLine(Color color, String text, boolean bold) {
         synchronized (this.synchronizationObject) {
-            this.lines.addElement(new ColorText(color, text, bold));
+            this.lines.add(new ColorText(color, text, bold));
         }
     }
 

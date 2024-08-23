@@ -16,7 +16,8 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MultiColorList extends Panel implements AdjustmentListener, MouseListener, ItemSelectable {
 //todo refactor
@@ -58,14 +59,14 @@ public class MultiColorList extends Panel implements AdjustmentListener, MouseLi
     private int anInt703;
     private int[] anIntArray704;
     private int anInt705;
-    private Vector<MultiColorListItem> aVector706;
+    private List<MultiColorListItem> colorListItems;
     private int anInt707;
     private int anInt708;
     private int anInt709;
     private int anInt710;
     private Image anImage711;
     private Graphics aGraphics712;
-    private Vector<ItemListener> aVector713;
+    private List<ItemListener> listeners;
     private MultiColorListListener listListener;
 
     public MultiColorList(String[] var1, int[] var2, int var3, int var4, int var5) {
@@ -78,7 +79,7 @@ public class MultiColorList extends Panel implements AdjustmentListener, MouseLi
         this.aString694 = null;
         this.aChar695 = 46;
         this.anInt698 = var1 != null ? var1.length : 0;
-        this.aVector706 = new Vector<>();
+        this.colorListItems = new ArrayList<>();
         this.anInt705 = 0;
         this.anInt702 = var4 - 6 - 16;
         this.anInt703 = var5 / 16 - 1;
@@ -93,7 +94,7 @@ public class MultiColorList extends Panel implements AdjustmentListener, MouseLi
         this.aScrollbar686.setUnitIncrement(1);
         this.aBoolean687 = false;
         this.addMouseListener(this);
-        this.aVector713 = new Vector<>();
+        this.listeners = new ArrayList<>();
     }
 
     public void addNotify() {
@@ -119,7 +120,7 @@ public class MultiColorList extends Panel implements AdjustmentListener, MouseLi
         }
 
         this.anIntArray704 = null;
-        int var2 = this.aVector706.size();
+        int var2 = this.colorListItems.size();
         byte var3 = 14;
         byte var4 = var3;
         this.aGraphics712.setFont(aFont681);
@@ -203,7 +204,7 @@ public class MultiColorList extends Panel implements AdjustmentListener, MouseLi
     }
 
     public synchronized void mousePressed(MouseEvent evt) {
-        int var2 = this.aVector706.size();
+        int var2 = this.colorListItems.size();
         if (var2 != 0) {
             this.anInt707 = evt.getX();
             this.anInt708 = evt.getY();
@@ -303,11 +304,11 @@ public class MultiColorList extends Panel implements AdjustmentListener, MouseLi
     }
 
     public synchronized void addItemListener(ItemListener var1) {
-        this.aVector713.addElement(var1);
+        this.listeners.add(var1);
     }
 
     public synchronized void removeItemListener(ItemListener var1) {
-        this.aVector713.removeElement(var1);
+        this.listeners.remove(var1);
     }
 
     public Object[] getSelectedObjects() {
@@ -353,11 +354,11 @@ public class MultiColorList extends Panel implements AdjustmentListener, MouseLi
     }
 
     public int getItemCount() {
-        return this.aVector706.size();
+        return this.colorListItems.size();
     }
 
     public synchronized int getSelectedItemCount() {
-        int var1 = this.aVector706.size();
+        int var1 = this.colorListItems.size();
         int var2 = 0;
 
         for (int var3 = 0; var3 < var1; ++var3) {
@@ -383,7 +384,7 @@ public class MultiColorList extends Panel implements AdjustmentListener, MouseLi
         }
 
         int var3 = this.method957(var1);
-        this.aVector706.insertElementAt(var1, var3);
+        this.colorListItems.add(var3, var1);
         int var4 = this.aScrollbar686.getValue();
         int var5 = var3 < var4 ? 1 : 0;
         if (var5 == 0 && var4 + this.aScrollbar686.getVisibleAmount() == this.aScrollbar686.getMaximum()) {
@@ -395,11 +396,11 @@ public class MultiColorList extends Panel implements AdjustmentListener, MouseLi
     }
 
     public synchronized MultiColorListItem getItem(int var1) {
-        return this.aVector706.elementAt(var1);
+        return this.colorListItems.get(var1);
     }
 
     public synchronized MultiColorListItem getItem(int var1, String var2) {
-        int var3 = this.aVector706.size();
+        int var3 = this.colorListItems.size();
         if (var3 == 0) {
             return null;
         } else {
@@ -432,9 +433,9 @@ public class MultiColorList extends Panel implements AdjustmentListener, MouseLi
     }
 
     public synchronized void removeItem(MultiColorListItem var1) {
-        int var2 = this.aVector706.indexOf(var1);
+        int var2 = this.colorListItems.indexOf(var1);
         if (var2 >= 0) {
-            this.aVector706.removeElementAt(var2);
+            this.colorListItems.remove(var2);
             int var3 = var2 < this.aScrollbar686.getValue() ? -1 : 0;
             this.method955(var3);
             this.repaint();
@@ -443,15 +444,15 @@ public class MultiColorList extends Panel implements AdjustmentListener, MouseLi
     }
 
     public synchronized void removeAllItems() {
-        if (this.aVector706.size() != 0) {
-            this.aVector706.removeAllElements();
+        if (this.colorListItems.size() != 0) {
+            this.colorListItems.clear();
             this.method955(0);
             this.repaint();
         }
     }
 
     public synchronized void removeAllSelections() {
-        int var1 = this.aVector706.size();
+        int var1 = this.colorListItems.size();
 
         for (int var2 = 0; var2 < var1; ++var2) {
             this.getItem(var2).setSelected(false);
@@ -484,13 +485,13 @@ public class MultiColorList extends Panel implements AdjustmentListener, MouseLi
     }
 
     public synchronized void reSort() {
-        int var1 = this.aVector706.size();
+        int var1 = this.colorListItems.size();
         if (var1 != 0) {
             MultiColorListItem[] var2 = this.getAllItems();
-            this.aVector706.removeAllElements();
+            this.colorListItems.clear();
 
             for (int var3 = 0; var3 < var1; ++var3) {
-                this.aVector706.insertElementAt(var2[var3], this.method957(var2[var3]));
+                this.colorListItems.add(this.method957(var2[var3]), var2[var3]);
             }
 
             this.repaint();
@@ -516,7 +517,7 @@ public class MultiColorList extends Panel implements AdjustmentListener, MouseLi
     }
 
     private synchronized void method955(int var1) {
-        int var2 = this.aVector706.size();
+        int var2 = this.colorListItems.size();
         if (var2 <= this.anInt703) {
             if (this.aBoolean687) {
                 this.aScrollbar686.removeAdjustmentListener(this);
@@ -549,7 +550,7 @@ public class MultiColorList extends Panel implements AdjustmentListener, MouseLi
             return null;
         } else {
             MultiColorListItem[] var3 = new MultiColorListItem[var2];
-            int var4 = this.aVector706.size();
+            int var4 = this.colorListItems.size();
             int var5 = 0;
 
             for (int var7 = 0; var7 < var4; ++var7) {
@@ -565,7 +566,7 @@ public class MultiColorList extends Panel implements AdjustmentListener, MouseLi
     }
 
     private synchronized int method957(MultiColorListItem var1) {
-        int var2 = this.aVector706.size();
+        int var2 = this.colorListItems.size();
         if (var2 == 0) {
             return 0;
         } else if (this.anInt699 < 0) {
@@ -682,7 +683,7 @@ public class MultiColorList extends Panel implements AdjustmentListener, MouseLi
     }
 
     private int method960(int var1) {
-        int var2 = this.aVector706.size();
+        int var2 = this.colorListItems.size();
         if (var2 == 0) {
             return -1;
         } else {
@@ -701,7 +702,7 @@ public class MultiColorList extends Panel implements AdjustmentListener, MouseLi
     }
 
     private synchronized void method961(boolean var1) {
-        int var2 = this.aVector706.size();
+        int var2 = this.colorListItems.size();
 
         for (int var3 = 0; var3 < var2; ++var3) {
             this.getItem(var3).setSelected(var1);
@@ -711,9 +712,9 @@ public class MultiColorList extends Panel implements AdjustmentListener, MouseLi
     }
 
     private synchronized void method962(MultiColorListItem var1, int var2, int var3) {
-        if (this.aVector713.size() != 0) {
+        if (this.listeners.size() != 0) {
             ItemEvent var4 = new ItemEvent(this, var2, var1, var3);
-            for (ItemListener listener: this.aVector713) {
+            for (ItemListener listener: this.listeners) {
                 listener.itemStateChanged(var4);
             }
         }

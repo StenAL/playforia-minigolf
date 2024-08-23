@@ -6,7 +6,8 @@ import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Rectangle;
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
 
 public class StringDraw {
 
@@ -69,7 +70,7 @@ public class StringDraw {
     public static int[] drawOutlinedStringWithMaxWidth(Graphics g, Color outlineColor, String text, int x, int y, int alignment, int maxWidth) {
         Font font = g.getFont();
         FontMetrics fontMetrics = g.getFontMetrics(font);
-        Vector<String> lines = createLines(fontMetrics, text, maxWidth);
+        List<String> lines = createLines(fontMetrics, text, maxWidth);
         int fontSize = font.getSize();
         int lineHeight = fontSize + (fontSize + 4) / 5;
         if (outlineColor != null) {
@@ -80,8 +81,8 @@ public class StringDraw {
         linesData[1] = linesData[0] * lineHeight;
         linesData[2] = 0;
 
-        for (int line = 0; line < linesData[0]; ++line) {
-            int lineWidth = drawOutlinedString(g, outlineColor, lines.elementAt(line), x, y, alignment);
+        for (String line: lines) {
+            int lineWidth = drawOutlinedString(g, outlineColor, line, x, y, alignment);
             if (lineWidth > linesData[2]) {
                 linesData[2] = lineWidth;
             }
@@ -113,25 +114,25 @@ public class StringDraw {
         return fontMetrics.stringWidth(text);
     }
 
-    public static Vector<String> createLines(Graphics g, String text, int maximumWidth) {
+    public static List<String> createLines(Graphics g, String text, int maximumWidth) {
         return createLines(g, g.getFont(), text, maximumWidth);
     }
 
-    public static Vector<String> createLines(Graphics g, Font font, String text, int maximumWidth) {
+    public static List<String> createLines(Graphics g, Font font, String text, int maximumWidth) {
         return createLines(g.getFontMetrics(font), text, maximumWidth);
     }
 
-    public static Vector<String> createLines(Component component, Font font, String text, int maximumWidth) {
+    public static List<String> createLines(Component component, Font font, String text, int maximumWidth) {
         return createLines(component.getFontMetrics(font), text, maximumWidth);
     }
 
-    public static Vector<String> createLines(FontMetrics fontMetrics, String text, int maximumWidth) {
-        Vector<String> lines = new Vector<>();
+    public static List<String> createLines(FontMetrics fontMetrics, String text, int maximumWidth) {
+        List<String> lines = new ArrayList<>();
         createLinesPrivate(lines, text, fontMetrics, maximumWidth);
         return lines;
     }
 
-    private static void createLinesPrivate(Vector<String> lines, String text, FontMetrics fontMetrics, int maximumWidth) {
+    private static void createLinesPrivate(List<String> lines, String text, FontMetrics fontMetrics, int maximumWidth) {
         String line = text;
         int linebreak = text.indexOf('\n');
         if (linebreak >= 0) {
@@ -149,7 +150,7 @@ public class StringDraw {
             }
         }
 
-        lines.addElement(line);
+        lines.add(line);
         int l = line.length();
         if (l < text.length()) {
             String newText = text.substring(l);

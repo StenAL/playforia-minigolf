@@ -4,8 +4,8 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.util.Calendar;
+import java.util.List;
 import java.util.StringTokenizer;
-import java.util.Vector;
 
 public class Tools {
 
@@ -110,21 +110,6 @@ public class Tools {
             }
 
             return -1;
-        }
-    }
-
-    public static <E> String[] vectorToStringArray(Vector<E> var0) {
-        if (var0 == null) {
-            return null;
-        } else {
-            int var1 = var0.size();
-            String[] var2 = new String[var1];
-
-            for (int var3 = 0; var3 < var1; ++var3) {
-                var2[var3] = var0.elementAt(var3).toString();
-            }
-
-            return var2;
         }
     }
 

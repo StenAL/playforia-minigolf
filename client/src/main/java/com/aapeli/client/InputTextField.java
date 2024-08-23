@@ -8,7 +8,8 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
 
 public class InputTextField extends TextField implements FocusListener, KeyListener, ActionListener {
 
@@ -22,12 +23,12 @@ public class InputTextField extends TextField implements FocusListener, KeyListe
     private int anInt722;
     private boolean aBoolean723;
     private boolean enabled;
-    private Vector<String> userInputz;
+    private List<String> userInput;
     private int userInputzCount;
     private int anInt727;
     private String finalInput;
     private int inputTextLength;
-    private Vector<InputTextFieldListener> listeners;
+    private List<InputTextFieldListener> listeners;
 
 
     public InputTextField(int var1) {
@@ -52,7 +53,7 @@ public class InputTextField extends TextField implements FocusListener, KeyListe
         this.aBoolean723 = false;
         this.enabled = enabled;
         if (enabled) {
-            this.userInputz = new Vector<>();
+            this.userInput = new ArrayList<>();
             this.userInputzCount = this.anInt727 = 0;
         }
 
@@ -63,7 +64,7 @@ public class InputTextField extends TextField implements FocusListener, KeyListe
         this.addKeyListener(this);
         this.addActionListener(this);
         this.inputTextLength = 0;
-        this.listeners = new Vector<>();
+        this.listeners = new ArrayList<>();
     }
 
     public void focusGained(FocusEvent var1) {
@@ -87,7 +88,7 @@ public class InputTextField extends TextField implements FocusListener, KeyListe
         if (this.enabled) {
             int keyCode = evt.getKeyCode();
             if (keyCode == 38 || keyCode == 40) {
-                synchronized (this.userInputz) {
+                synchronized (this.userInput) {
                     if (this.userInputzCount == 0) {
                         return;
                     }
@@ -112,7 +113,7 @@ public class InputTextField extends TextField implements FocusListener, KeyListe
 
                     String var4;
                     if (this.anInt727 < this.userInputzCount) {
-                        var4 = this.userInputz.elementAt(this.anInt727);
+                        var4 = this.userInput.get(this.anInt727);
                     } else {
                         var4 = this.finalInput;
                     }
@@ -173,13 +174,13 @@ public class InputTextField extends TextField implements FocusListener, KeyListe
         }
 
         if (this.enabled) {
-            synchronized (this.userInputz) {
+            synchronized (this.userInput) {
                 if (this.userInputzCount >= 50) {
-                    this.userInputz.removeElementAt(0);
+                    this.userInput.remove(0);
                     --this.userInputzCount;
                 }
 
-                this.userInputz.addElement(userInput);
+                this.userInput.add(userInput);
                 ++this.userInputzCount;
                 this.anInt727 = this.userInputzCount;
             }
@@ -213,7 +214,7 @@ public class InputTextField extends TextField implements FocusListener, KeyListe
 
     public void addInputTextFieldListener(InputTextFieldListener listener) {
         synchronized (this) {
-            this.listeners.addElement(listener);
+            this.listeners.add(listener);
         }
     }
 

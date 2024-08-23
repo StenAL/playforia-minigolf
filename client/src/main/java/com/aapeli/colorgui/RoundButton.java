@@ -12,7 +12,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
 
 public class RoundButton extends IPanel implements MouseMotionListener, MouseListener {
 
@@ -32,7 +33,7 @@ public class RoundButton extends IPanel implements MouseMotionListener, MouseLis
     private Image anImage3392;
     private boolean aBoolean3393;
     private boolean aBoolean3394;
-    private Vector<ActionListener> aVector3395;
+    private List<ActionListener> listeners;
     private Image anImage3396;
     private Graphics aGraphics3397;
     private int anInt3398;
@@ -65,7 +66,7 @@ public class RoundButton extends IPanel implements MouseMotionListener, MouseLis
         this.anImage3391 = var2;
         this.anImage3392 = var3;
         this.aBoolean3393 = this.aBoolean3394 = false;
-        this.aVector3395 = new Vector<>();
+        this.listeners = new ArrayList<>();
         this.aClass95_3400 = null;
         this.aBoolean3401 = false;
         this.addMouseMotionListener(this);
@@ -216,16 +217,14 @@ public class RoundButton extends IPanel implements MouseMotionListener, MouseLis
     }
 
     public void addActionListener(ActionListener var1) {
-        Vector<ActionListener> var2 = this.aVector3395;
-        synchronized (this.aVector3395) {
-            this.aVector3395.addElement(var1);
+        synchronized (this.listeners) {
+            this.listeners.add(var1);
         }
     }
 
     public void removeActionListener(ActionListener var1) {
-        Vector<ActionListener> var2 = this.aVector3395;
-        synchronized (this.aVector3395) {
-            this.aVector3395.removeElement(var1);
+        synchronized (this.listeners) {
+            this.listeners.remove(var1);
         }
     }
 
@@ -258,11 +257,10 @@ public class RoundButton extends IPanel implements MouseMotionListener, MouseLis
     }
 
     public void processActionEvent() {
-        Vector<ActionListener> var1 = this.aVector3395;
-        synchronized (this.aVector3395) {
-            if (this.aVector3395.size() != 0) {
+        synchronized (this.listeners) {
+            if (this.listeners.size() != 0) {
                 ActionEvent var2 = new ActionEvent(this, 1001, this.aString3387);
-                for (ActionListener listener : aVector3395) {
+                for (ActionListener listener : listeners) {
                     listener.actionPerformed(var2);
                 }
             }

@@ -1,11 +1,12 @@
 package com.aapeli.tools;
 
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
 
 public class QuickTimer implements Runnable {
 
     private int anInt1727;
-    private Vector<QuickTimerListener> aVector1728;
+    private List<QuickTimerListener> listeners;
     private boolean stopped;
     private static final String aString1730 = "QuickTimer.start() called after QuickTimer.stopAll() was called";
 
@@ -20,7 +21,7 @@ public class QuickTimer implements Runnable {
 
     private QuickTimer(int var1, QuickTimerListener var2, boolean var3) {
         this.anInt1727 = var1;
-        this.aVector1728 = new Vector<>();
+        this.listeners = new ArrayList<>();
         if (var2 != null) {
             this.addListener(var2);
         }
@@ -39,7 +40,7 @@ public class QuickTimer implements Runnable {
     public void run() {
         Tools.sleep(this.anInt1727);
         if (!this.stopped) {
-            for (QuickTimerListener var2: this.aVector1728) {
+            for (QuickTimerListener var2: this.listeners) {
                 if (var2 != null) {
                     var2.qtFinished();
                 }
@@ -48,12 +49,16 @@ public class QuickTimer implements Runnable {
         }
     }
 
-    public void addListener(QuickTimerListener var1) {
-        this.aVector1728.addElement(var1);
+    public void addListener(QuickTimerListener listener) {
+        synchronized (this.listeners) {
+            this.listeners.add(listener);
+        }
     }
 
-    public void removeListener(QuickTimerListener var1) {
-        this.aVector1728.removeElement(var1);
+    public void removeListener(QuickTimerListener listener) {
+        synchronized (this.listeners) {
+            this.listeners.remove(listener);
+        }
     }
 
     public void start() {

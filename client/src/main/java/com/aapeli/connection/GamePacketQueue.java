@@ -1,14 +1,14 @@
 package com.aapeli.connection;
 
 import com.aapeli.tools.Tools;
-
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
 
 class GamePacketQueue implements Runnable {
 
     private Connection conn;
     private ConnListener connListener;
-    private Vector<String> packets;
+    private List<String> packets;
     private boolean running;
     private Thread thread;
 
@@ -16,7 +16,7 @@ class GamePacketQueue implements Runnable {
     protected GamePacketQueue(Connection conn, ConnListener connListener) {
         this.conn = conn;
         this.connListener = connListener;
-        this.packets = new Vector<>();
+        this.packets = new ArrayList<>();
         this.running = true;
         this.thread = new Thread(this);
         this.thread.start();
@@ -45,7 +45,7 @@ class GamePacketQueue implements Runnable {
     }
 
     protected synchronized void addGamePacket(String command) {
-        this.packets.addElement(command);
+        this.packets.add(command);
     }
 
     protected void stop() {
@@ -54,9 +54,9 @@ class GamePacketQueue implements Runnable {
 
     private synchronized String nextGamePacket() {
         if (!this.packets.isEmpty() && this.running) {
-            String var1 = this.packets.elementAt(0);
-            this.packets.removeElementAt(0);
-            return var1;
+            String packet = this.packets.getFirst();
+            this.packets.removeFirst();
+            return packet;
         } else {
             return null;
         }

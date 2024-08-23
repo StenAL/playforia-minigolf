@@ -22,7 +22,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class ChatBase extends IPanel implements ComponentListener, UserListHandler, ActionListener, InputTextFieldListener {
 
@@ -52,7 +53,7 @@ public abstract class ChatBase extends IPanel implements ComponentListener, User
     public Component sayButton;
     public UrlLabel signupMessage;
     private String aString2357;
-    private Vector<ChatListener> chatListeners;
+    private List<ChatListener> chatListeners;
     private Object synchronizedObject;
 
     public ChatBase(Parameters parameters, TextManager textManager, ImageManager imageManager, BadWordFilter badWordFilter, boolean useSmallFont, boolean var6, int width, int height) {
@@ -77,7 +78,7 @@ public abstract class ChatBase extends IPanel implements ComponentListener, User
         this.chatDisabledStatus = 0;
         this.init(var5, var6, useSmallFont, var8, shouldNotWriteWelcomeMessage);
         this.addComponentListener(this);
-        this.chatListeners = new Vector<>();
+        this.chatListeners = new ArrayList<>();
     }
 
     public void update(Graphics g) {
@@ -192,12 +193,12 @@ public abstract class ChatBase extends IPanel implements ComponentListener, User
         this.repaint();
     }
 
-    public void addChatListener(ChatListener var1) {
-        this.chatListeners.addElement(var1);
+    public synchronized void addChatListener(ChatListener listener) {
+        this.chatListeners.add(listener);
     }
 
-    public void removeChatListener(ChatListener var1) {
-        this.chatListeners.removeElement(var1);
+    public synchronized void removeChatListener(ChatListener listener) {
+        this.chatListeners.remove(listener);
     }
 
     public void setMessageMaximumLength(int var1) {
@@ -610,7 +611,7 @@ public abstract class ChatBase extends IPanel implements ComponentListener, User
         ChatListener[] chatListeners = new ChatListener[chatListenersCount];
 
         for (int i = 0; i < chatListenersCount; ++i) {
-            chatListeners[i] = this.chatListeners.elementAt(i);
+            chatListeners[i] = this.chatListeners.get(i);
         }
 
         return chatListeners;

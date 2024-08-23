@@ -5,8 +5,9 @@ import com.aapeli.tools.Tools;
 
 import java.applet.Applet;
 import java.awt.Image;
+import java.util.ArrayList;
 import java.util.Hashtable;
-import java.util.Vector;
+import java.util.List;
 
 class ImageTracker implements Runnable {
 
@@ -16,7 +17,7 @@ class ImageTracker implements Runnable {
     private Applet anApplet1396;
     private boolean aBoolean1397;
 
-    private Vector<ImageResource> imageResourceTable;
+    private List<ImageResource> imageResourceTable;
     private Hashtable<String, Image> imageTable;
     private AApplet anAApplet1400;
     private Thread aThread1401;
@@ -25,7 +26,7 @@ class ImageTracker implements Runnable {
     protected ImageTracker(Applet var1, boolean var2) {
         this.anApplet1396 = var1;
         this.aBoolean1397 = var2;
-        this.imageResourceTable = new Vector<>();
+        this.imageResourceTable = new ArrayList<>();
         this.imageTable = new Hashtable<>();
         this.anAApplet1400 = null;
         this.aBoolean1402 = false;
@@ -45,7 +46,7 @@ class ImageTracker implements Runnable {
         imageAlias = "N\t" + imageAlias;
         synchronized (this) {
             if (!this.containsResource(imageAlias)) {
-                this.imageResourceTable.addElement(new ImageResource(this, imageAlias, image));
+                this.imageResourceTable.add(new ImageResource(this, imageAlias, image));
             }
         }
     }
@@ -54,7 +55,7 @@ class ImageTracker implements Runnable {
         var1 = "S\t" + var1;
         synchronized (this) {
             if (!this.containsResource(var1)) {
-                this.imageResourceTable.insertElementAt(new ImageResource(this, var1, var2), 0);
+                this.imageResourceTable.addFirst(new ImageResource(this, var1, var2));
             }
         }
     }
@@ -63,7 +64,7 @@ class ImageTracker implements Runnable {
         var1 = "C\t" + var1;
         synchronized (this) {
             if (!this.containsResource(var1)) {
-                this.imageResourceTable.addElement(new ImageResource(this, var1, var2));
+                this.imageResourceTable.add(new ImageResource(this, var1, var2));
             }
         }
     }
@@ -159,7 +160,7 @@ class ImageTracker implements Runnable {
             } catch (Exception e) {}
         }
 
-        this.imageResourceTable.removeAllElements();
+        this.imageResourceTable.clear();
         this.imageResourceTable = null;
         this.anApplet1396 = null;
     }
@@ -211,10 +212,7 @@ class ImageTracker implements Runnable {
     }
 
     private synchronized ImageResource getImageResource(String var1) {
-        int var2 = this.imageResourceTable.size();
-
-        for (int var3 = 0; var3 < var2; ++var3) {
-            ImageResource var4 = this.imageResourceTable.elementAt(var3);
+        for (ImageResource var4 : this.imageResourceTable) {
             if (var4.method1648().equals(var1)) {
                 return var4;
             }
@@ -230,7 +228,7 @@ class ImageTracker implements Runnable {
                 return false;
             }
 
-            var1 = this.imageResourceTable.elementAt(0);
+            var1 = this.imageResourceTable.getFirst();
         }
 
         String imageAlias = var1.method1648();
@@ -276,9 +274,9 @@ class ImageTracker implements Runnable {
         int var2 = this.imageResourceTable.size();
 
         for (int var3 = 0; var3 < var2; ++var3) {
-            ImageResource var4 = this.imageResourceTable.elementAt(var3);
+            ImageResource var4 = this.imageResourceTable.get(var3);
             if (var4.method1648().equals(var1)) {
-                this.imageResourceTable.removeElementAt(var3);
+                this.imageResourceTable.remove(var3);
                 return var4;
             }
         }
@@ -289,7 +287,7 @@ class ImageTracker implements Runnable {
     private synchronized void method1647(String var1) {
         ImageResource var2 = this.method1646(var1);
         if (var2 != null && !var2.method1651()) {
-            this.imageResourceTable.addElement(var2);
+            this.imageResourceTable.add(var2);
         }
 
     }

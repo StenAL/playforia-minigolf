@@ -17,9 +17,10 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.StringTokenizer;
-import java.util.Vector;
 
 public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseMotionListener, MouseListener, KeyListener {
 
@@ -48,8 +49,8 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
     private double somethingSpeedThing;
     private double[] resetPositionX;
     private double[] resetPositionY;
-    private Vector<double[]>[] teleportStarts;
-    private Vector<double[]>[] teleportExists;
+    private List<double[]>[] teleportStarts;
+    private List<double[]>[] teleportExists;
     private short[][][] magnetMap;
     private double[] playerX;
     private double[] playerY;
@@ -704,17 +705,17 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
             }
         }
 
-        Vector<double[]> startPositions = new Vector<>();
+        List<double[]> startPositions = new ArrayList<>();
         this.resetPositionX = new double[4];
         this.resetPositionY = new double[4];
-        this.teleportExists = new Vector[4];
-        this.teleportStarts = new Vector[4];
-        Vector<int[]> magnetVec = new Vector<>();
+        this.teleportExists = new ArrayList[4];
+        this.teleportStarts = new ArrayList[4];
+        List<int[]> magnets = new ArrayList<>();
 
         for (int i = 0; i < 4; ++i) {
             this.resetPositionX[i] = this.resetPositionY[i] = -1.0D;
-            this.teleportExists[i] = new Vector<>();
-            this.teleportStarts[i] = new Vector<>();
+            this.teleportExists[i] = new ArrayList<>();
+            this.teleportStarts[i] = new ArrayList<>();
         }
 
         // Iterates over the 49*25 map
@@ -727,7 +728,7 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
                     //24 Start Position Common
                     if (tile == 24) {
                         double[] startPosition = new double[]{screenX, screenY};
-                        startPositions.addElement(startPosition);
+                        startPositions.add(startPosition);
                     }
                     //48 Start Position Blue
                     //49 Start Position Red
@@ -746,7 +747,7 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
                     if (tile == 33 || tile == 35 || tile == 37 || tile == 39) {
                         teleportIndex = (tile - 33) / 2;
                         double[] teleporter = new double[]{screenX, screenY};
-                        this.teleportExists[teleportIndex].addElement(teleporter);
+                        this.teleportExists[teleportIndex].add(teleporter);
                     }
 
                     //33 Teleport Start Blue
@@ -756,14 +757,14 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
                     if (tile == 32 || tile == 34 || tile == 36 || tile == 38) {
                         teleportIndex = (tile - 32) / 2;
                         double[] teleporter = new double[]{screenX, screenY};
-                        this.teleportStarts[teleportIndex].addElement(teleporter);
+                        this.teleportStarts[teleportIndex].add(teleporter);
                     }
 
                     //44 magnet attract
                     //45 magnet repel
                     if (tile == 44 || tile == 45) {
                         int[] magnet = new int[]{(int) (screenX + 0.5D), (int) (screenY + 0.5D), tile};
-                        magnetVec.addElement(magnet);
+                        magnets.add(magnet);
                     }
                 }
             }
@@ -773,12 +774,12 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
         if (startPositionsCount == 0) {
             this.startPositionX = this.startPositionY = -1.0D;
         } else {
-            double[] startPosition = startPositions.elementAt(gameId % startPositionsCount);
+            double[] startPosition = startPositions.get(gameId % startPositionsCount);
             this.startPositionX = startPosition[0];
             this.startPositionY = startPosition[1];
         }
 
-        int magnetVecLen = magnetVec.size();
+        int magnetVecLen = magnets.size();
         if (magnetVecLen == 0) {
             this.magnetMap = null;
         } else {
@@ -792,7 +793,7 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
 
                     for (int magnetIndex = 0; magnetIndex < magnetVecLen; ++magnetIndex) {
                         // [ x, y, blockid ]
-                        int[] magnet = magnetVec.elementAt(magnetIndex);
+                        int[] magnet = magnets.get(magnetIndex);
                         double forceTemp2X = magnet[0] - magnetLoopX;
                         double forcetemp2Y = magnet[1] - magnetLoopY;
                         double force = Math.sqrt(forceTemp2X * forceTemp2X + forcetemp2Y * forcetemp2Y);
@@ -1401,7 +1402,7 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
                 do {
                     i = startLen - 1;
                     random = this.rngSeed.next() % (i + 1);
-                    teleportPos = this.teleportStarts[teleportId].elementAt(random);
+                    teleportPos = this.teleportStarts[teleportId].get(random);
                     if (Math.abs(teleportPos[0] - (double) x) >= 15.0D || Math.abs(teleportPos[1] - (double) y) >= 15.0D) {
                         this.playerX[playerId] = teleportPos[0];
                         this.playerY[playerId] = teleportPos[1];
@@ -1436,7 +1437,7 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
         }
 
         //finally move player to exit position
-        teleportPos = this.teleportExists[var13].elementAt(random);
+        teleportPos = this.teleportExists[var13].get(random);
         this.playerX[playerId] = teleportPos[0];
         this.playerY[playerId] = teleportPos[1];
     }
