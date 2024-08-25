@@ -20,7 +20,7 @@ public class Player {
     private String avatarUrl;
     private String clan;
     private int accessLevel;
-    private int points;
+    private int ranking;
     private boolean emailVerified;// todo or something like that maybe, find out
     private boolean registered;
     private boolean vip;
@@ -36,7 +36,7 @@ public class Player {
     public Player(Channel channel, int id) {
         this.channel = channel;
         this.id = id;
-        points = 0;
+        ranking = 0;
         resetVals();
     }
 
@@ -52,7 +52,7 @@ public class Player {
         avatarUrl = "-";
         clan = "-";
         accessLevel = ACCESSLEVEL_NORMAL;
-        points = 10000;
+        ranking = 0;
         emailVerified = false;
         registered = false;
         vip = false;
@@ -132,12 +132,12 @@ public class Player {
         this.accessLevel = whatsyourgame;
     }
 
-    public int getPoints() {
-        return points;
+    public int getRanking() {
+        return ranking;
     }
 
-    public void setPoints(int points) {
-        this.points = points;
+    public void setRanking(int ranking) {
+        this.ranking = ranking;
     }
 
     public boolean isEmailVerified() {
@@ -216,7 +216,7 @@ public class Player {
         if (o == null || !(o instanceof Player))
             return false;
         Player p = (Player) o;
-        return nick.equals(p.nick) && points == p.points && locale.equals(p.locale);
+        return nick.equals(p.nick) && ranking == p.ranking && locale.equals(p.locale);
     }
 
     public String toString() {
@@ -224,7 +224,7 @@ public class Player {
         return Tools.triangelize(
                 "3:" + (nick != null ? nick : ""),
                 tmp.equals("") ? "w" : tmp,
-                points,
+                ranking,
                 locale != null ? locale : "",
                 profileUrl != null ? profileUrl : "",
                 avatarUrl != null ? avatarUrl : ""

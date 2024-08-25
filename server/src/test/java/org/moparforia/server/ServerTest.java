@@ -77,7 +77,7 @@ public class ServerTest {
         String lobbyOwnjoin = reader.readLine();
         assertEquals("d 4 status\tlobby\t1", statusLobby);
         assertEquals("d 5 lobby\tusers", lobbyUsers);
-        assertEquals("d 6 lobby\townjoin\t3:" + nickname + "^w^10000^-^-^-", lobbyOwnjoin);
+        assertEquals("d 6 lobby\townjoin\t3:" + nickname + "^r^0^-^-^-", lobbyOwnjoin);
         this.sendMessage(writer, "d 4 lobby\ttracksetlist");
         String tracksetlist = reader.readLine();
         assertEquals(tracksetlist, "d 7 lobby\ttracksetlist\tBirchwood\t1\t9\tNo one\t1\tNo one\t1\tNo one\t1\tNo one\t1\tOak Park\t1\t18\tNo one\t1\tNo one\t1\tNo one\t1\tNo one\t1\tOne by One\t2\t18\tNo one\t1\tNo one\t1\tNo one\t1\tNo one\t1\tScary Set\t3\t9\tNo one\t1\tNo one\t1\tNo one\t1\tNo one\t1\tSpruce Corpse\t2\t9\tNo one\t1\tNo one\t1\tNo one\t1\tNo one\t1\tThe First\t2\t18\tNo one\t1\tNo one\t1\tNo one\t1\tNo one\t1\tTorment Fields\t3\t18\tNo one\t1\tNo one\t1\tNo one\t1\tNo one\t1");
@@ -108,7 +108,7 @@ public class ServerTest {
         lobbyOwnjoin = reader.readLine();
         assertEquals("d 16 status\tlobby\t1", statusLobby);
         assertEquals("d 17 lobby\tusers", lobbyUsers);
-        assertEquals("d 18 lobby\townjoin\t3:" + nickname + "^w^10000^-^-^-", lobbyOwnjoin);
+        assertEquals("d 18 lobby\townjoin\t3:" + nickname + "^r^0^-^-^-", lobbyOwnjoin);
 
         // quit game
         this.sendMessage(writer, "d 7 lobby\tquit");

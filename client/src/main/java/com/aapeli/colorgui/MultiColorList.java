@@ -16,7 +16,6 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.Enumeration;
 import java.util.Vector;
 
 public class MultiColorList extends Panel implements AdjustmentListener, MouseListener, ItemSelectable {
@@ -714,12 +713,9 @@ public class MultiColorList extends Panel implements AdjustmentListener, MouseLi
     private synchronized void method962(MultiColorListItem var1, int var2, int var3) {
         if (this.aVector713.size() != 0) {
             ItemEvent var4 = new ItemEvent(this, var2, var1, var3);
-            Enumeration<ItemListener> var5 = this.aVector713.elements();
-
-            while (var5.hasMoreElements()) {
-                var5.nextElement().itemStateChanged(var4);
+            for (ItemListener listener: this.aVector713) {
+                listener.itemStateChanged(var4);
             }
-
         }
     }
 

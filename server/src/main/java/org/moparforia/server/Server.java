@@ -35,9 +35,9 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Optional;
-import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 
 public class Server implements Runnable {
@@ -47,7 +47,7 @@ public class Server implements Runnable {
 
     private HashMap<Integer, Player> players = new HashMap<>();
     private ChannelGroup allChannels = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
-    private ConcurrentLinkedQueue<Event> events = new ConcurrentLinkedQueue<>();
+    private BlockingQueue<Event> events = new LinkedBlockingQueue<>();
     private HashMap<PacketType, ArrayList<PacketHandler>> packetHandlers = new HashMap<>();
 
     private String host;
@@ -57,7 +57,7 @@ public class Server implements Runnable {
     private ChannelFuture serverChannelFuture;
     private boolean running;
 
-    private HashMap<LobbyType, Lobby> lobbies = new HashMap<LobbyType, Lobby>();
+    private HashMap<LobbyType, Lobby> lobbies = new HashMap<>();
     //private ArrayList<LobbyRef> lobbies = new ArrayList<LobbyRef>();
     //private HashMap<Integer, Game> games = new HashMap<Integer, Game>();
 
@@ -137,11 +137,13 @@ public class Server implements Runnable {
 
     /**
      * This is the only method that should be called from another thread (ie, the ClientChannelHandler)
-     *
-     * @param evt
      */
     public void addEvent(Event evt) {
-        events.add(evt);
+        try {
+            events.put(evt);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public ArrayList<PacketHandler> getPacketHandlers(PacketType type) {
@@ -219,19 +221,9 @@ public class Server implements Runnable {
         System.out.println("Started server on host " + this.host + " with port " + this.port);
         while (this.running) {
             try {
-                Thread.sleep(10);
-                Iterator<Event> iterator = events.iterator();
-                while (iterator.hasNext()) {
-                    Event evt = iterator.next();
-                    try {
-                        if (evt.shouldProcess(this)) {
-                            evt.process(this);
-                            iterator.remove();
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        iterator.remove();
-                    }
+                Event evt = events.take();
+                if (evt.shouldProcess(this)) {
+                    evt.process(this);
                 }
             } catch (Exception e) {
                 e.printStackTrace();

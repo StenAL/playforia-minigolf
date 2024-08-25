@@ -10,7 +10,6 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.util.Enumeration;
 import java.util.Vector;
 
 public class Choicer extends IPanel implements ComponentListener, ItemListener, ItemSelectable {
@@ -60,10 +59,8 @@ public class Choicer extends IPanel implements ComponentListener, ItemListener, 
         synchronized (this.listeners) {
             if (!this.listeners.isEmpty()) {
                 e = new ItemEvent(this, e.getID(), e.getItem(), e.getStateChange());
-                Enumeration<ItemListener> listenerEnumeration = this.listeners.elements();
-
-                while (listenerEnumeration.hasMoreElements()) {
-                    listenerEnumeration.nextElement().itemStateChanged(e);
+                for (ItemListener listener: this.listeners) {
+                    listener.itemStateChanged(e);
                 }
             }
         }
