@@ -51,11 +51,11 @@ class StaffActionFrame extends Frame implements WindowListener, ItemListener, Ke
     private ColorButton btnCancel;
 
 
-    protected StaffActionFrame(TextManager tm, UserListHandler ulh, int action, String tar) {
-        this.textManager = tm;
-        this.userListHandler = ulh;
-        this.actionType = action;
-        this.targetNick = tar;
+    protected StaffActionFrame(TextManager textManager, UserListHandler userListHandler, int actionType, String targetNick) {
+        this.textManager = textManager;
+        this.userListHandler = userListHandler;
+        this.actionType = actionType;
+        this.targetNick = targetNick;
         this.width = 420;
         this.height = 190;
     }
@@ -143,7 +143,7 @@ class StaffActionFrame extends Frame implements WindowListener, ItemListener, Ke
     }
 
     public void keyPressed(KeyEvent evt) {
-        if (evt.getSource() == this.textFieldMessage && evt.getKeyCode() == 10) {
+        if (evt.getSource() == this.textFieldMessage && evt.getKeyCode() == KeyEvent.VK_ENTER) {
             this.sendAction();
         }
 
@@ -156,48 +156,48 @@ class StaffActionFrame extends Frame implements WindowListener, ItemListener, Ke
     }
 
     public void actionPerformed(ActionEvent evt) {
-        Object var2 = evt.getSource();
-        if (var2 == this.btnAction) {
+        Object source = evt.getSource();
+        if (source == this.btnAction) {
             this.sendAction();
         }
 
-        if (var2 == this.btnCancel) {
+        if (source == this.btnCancel) {
             this.destroy();
         }
 
     }
 
-    protected void method251(Component var1, boolean var2) {
-        String var3 = null;
+    protected void show(Component parent, boolean isAdmin) {
+        String title = null;
         if (this.actionType == 1) {
-            var3 = "Admin: Remove user";
+            title = "Admin: Remove user";
         } else if (this.actionType == 2) {
-            var3 = "Sheriff: Send message to user";
+            title = "Sheriff: Send message to user";
         } else if (this.actionType == 3) {
-            var3 = "Sheriff: Mute user";
+            title = "Sheriff: Mute user";
         } else if (this.actionType == 4) {
-            var3 = "Sheriff: Clear chat of every user";
+            title = "Sheriff: Clear chat of every user";
         } else if (this.actionType == 5) {
-            var3 = "Admin: Broadcast message to all users";
+            title = "Admin: Broadcast message to all users";
         }
 
-        this.setTitle(var3);
+        this.setTitle(title);
         this.setVisible(true);
         this.insets = this.getInsets();
         this.width = this.insets.left + 420 + this.insets.right;
         this.height = this.insets.top + 190 + this.insets.bottom;
         this.setSize(this.width, this.height);
         this.setResizable(false);
-        Point var4 = var1.getLocationOnScreen();
-        Dimension var5 = var1.getSize();
-        this.setLocation(var4.x + var5.width / 2 - this.width / 2, var4.y + var5.height / 2 - this.height / 2);
-        this.method252(this, true);
+        Point parentLocation = parent.getLocationOnScreen();
+        Dimension parentSize = parent.getSize();
+        this.setLocation(parentLocation.x + parentSize.width / 2 - this.width / 2, parentLocation.y + parentSize.height / 2 - this.height / 2);
+        this.configureColors(this, true);
         this.setLayout(null);
-        String var6 = null;
-        Label var7 = new Label("Target user:");
-        var7.setBounds(this.insets.left + 10, this.insets.top + 10, 80, 25);
-        this.method252(var7, false);
-        this.add(var7);
+        String actionLabel = null;
+        Label targetUserLabel = new Label("Target user:");
+        targetUserLabel.setBounds(this.insets.left + 10, this.insets.top + 10, 80, 25);
+        this.configureColors(targetUserLabel, false);
+        this.add(targetUserLabel);
         if (this.actionType == 1 || this.actionType == 2 || this.actionType == 3) {
             this.textFieldNickname = new InputTextField(this.targetNick, 32);
             this.textFieldNickname.setBounds(this.insets.left + 10 + 80 + 5, this.insets.top + 10, 150, 25);
@@ -205,28 +205,28 @@ class StaffActionFrame extends Frame implements WindowListener, ItemListener, Ke
             this.add(this.textFieldNickname);
         }
 
-        Label var8;
+        Label label;
         if (this.actionType == 4 || this.actionType == 5) {
-            var8 = new Label(this.actionType == 4 ? "EVERY user in this lobby" : "All");
-            var8.setBounds(this.insets.left + 10 + 80 + 5, this.insets.top + 10, 160, 25);
-            this.method252(var8, false);
-            this.add(var8);
+            label = new Label(this.actionType == 4 ? "EVERY user in this lobby" : "All");
+            label.setBounds(this.insets.left + 10 + 80 + 5, this.insets.top + 10, 160, 25);
+            this.configureColors(label, false);
+            this.add(label);
         }
 
         if (this.actionType == 1) {
             this.cboxBan = new ColorCheckbox("Ban user, minutes:");
-            int var10 = this.cboxBan.getPreferredSize().width;
-            this.cboxBan.setBounds(this.insets.left + 10, this.insets.top + 10 + 25 + 20, var10, 20);
-            this.method252(this.cboxBan, true);
+            int width = this.cboxBan.getPreferredSize().width;
+            this.cboxBan.setBounds(this.insets.left + 10, this.insets.top + 10 + 25 + 20, width, 20);
+            this.configureColors(this.cboxBan, true);
             this.add(this.cboxBan);
-            this.textFieldBanTime = new InputTextField("" + (var2 ? 360 : 180), 4);
-            this.textFieldBanTime.setBounds(this.insets.left + 10 + var10 + 5, this.insets.top + 10 + 25 + 20, 50, 20);
+            this.textFieldBanTime = new InputTextField("" + (isAdmin ? 360 : 180), 4);
+            this.textFieldBanTime.setBounds(this.insets.left + 10 + width + 5, this.insets.top + 10 + 25 + 20, 50, 20);
             this.textFieldBanTime.noClearOnFirstFocus();
             this.add(this.textFieldBanTime);
             this.choiceBanPresets = new Choice();
 
-            for (int var9 = 0; var9 < banPresetTimesCount; ++var9) {
-                this.choiceBanPresets.addItem(banPresetOptions[var9]);
+            for (int i = 0; i < banPresetTimesCount; ++i) {
+                this.choiceBanPresets.addItem(banPresetOptions[i]);
             }
 
             this.choiceBanPresets.setBounds(this.width - this.insets.right - 15 - 100, this.insets.top + 10 + 25 + 20, 100, 20);
@@ -235,15 +235,15 @@ class StaffActionFrame extends Frame implements WindowListener, ItemListener, Ke
             this.choiceBanPresets.select(0);
             this.choiceBanPresets.addItemListener(this);
             this.add(this.choiceBanPresets);
-            var6 = "Kick";
+            actionLabel = "Kick";
         }
 
         if (this.actionType == 4 || this.actionType == 2 || this.actionType == 5) {
-            var8 = new Label("Message:");
-            var8.setBounds(this.insets.left + 10, this.insets.top + 10 + 25 + 20, 80, 25);
-            this.method252(var8, true);
-            this.add(var8);
-            this.textFieldMessage = new InputTextField(var2 ? (this.actionType == 5 ? 1000 : 1500) : 500);
+            label = new Label("Message:");
+            label.setBounds(this.insets.left + 10, this.insets.top + 10 + 25 + 20, 80, 25);
+            this.configureColors(label, true);
+            this.add(label);
+            this.textFieldMessage = new InputTextField(isAdmin ? (this.actionType == 5 ? 1000 : 1500) : 500);
             this.textFieldMessage.setBounds(this.insets.left + 10 + 80 + 5, this.insets.top + 10 + 25 + 20, 315, 25);
             if (this.actionType == 4) {
                 this.textFieldMessage.setText(this.textManager.getShared("SDM_ChatCleared"));
@@ -253,10 +253,10 @@ class StaffActionFrame extends Frame implements WindowListener, ItemListener, Ke
         }
 
         if (this.actionType == 2) {
-            var8 = new Label("Default messages:");
-            var8.setBounds(this.insets.left + 10 + 80 + 5, this.insets.top + 10 + 25 + 20 + 5 + 25, 140, 23);
-            this.method252(var8, true);
-            this.add(var8);
+            label = new Label("Default messages:");
+            label.setBounds(this.insets.left + 10 + 80 + 5, this.insets.top + 10 + 25 + 20 + 5 + 25, 140, 23);
+            this.configureColors(label, true);
+            this.add(label);
             this.choiceDefaultMessages = new Choice();
             this.choiceDefaultMessages.addItem("Choose...");
             this.choiceDefaultMessages.addItem("Bad nickname");
@@ -270,24 +270,24 @@ class StaffActionFrame extends Frame implements WindowListener, ItemListener, Ke
             this.add(this.choiceDefaultMessages);
             this.cboxAddIP = new ColorCheckbox("Add target user IP to message");
             this.cboxAddIP.setBounds(this.insets.left + 10, this.insets.top + 10 + 25 + 20 + 25 + 5 + 25 + 5, 400, 20);
-            this.method252(this.cboxAddIP, true);
+            this.configureColors(this.cboxAddIP, true);
             this.add(this.cboxAddIP);
-            var6 = "Send";
+            actionLabel = "Send";
         }
 
         if (this.actionType == 3) {
-            var6 = "Mute";
+            actionLabel = "Mute";
         }
 
         if (this.actionType == 4) {
-            var6 = "Clear";
+            actionLabel = "Clear";
         }
 
         if (this.actionType == 5) {
-            var6 = "Broadcast";
+            actionLabel = "Broadcast";
         }
 
-        this.btnAction = new ColorButton(var6);
+        this.btnAction = new ColorButton(actionLabel);
         this.btnAction.setBounds(this.insets.left + 420 - 10 - 90 - 5 - 90, this.insets.top + 190 - 10 - 25, 90, 25);
         this.btnAction.setBackground(new Color(160, 160, 224));
         this.add(this.btnAction);
@@ -310,22 +310,22 @@ class StaffActionFrame extends Frame implements WindowListener, ItemListener, Ke
         this.repaint();
     }
 
-    private void method252(Component var1, boolean var2) {
-        var1.setBackground(var2 ? colourBackground : colourBackground2);
-        var1.setForeground(colourText);
+    private void configureColors(Component component, boolean useDarkBackground) {
+        component.setBackground(useDarkBackground ? colourBackground : colourBackground2);
+        component.setForeground(colourText);
     }
 
-    private String getDefaultMessages(int var1) {
-        if (var1 == 1) {
-            boolean var2 = false;
-            String var3 = this.textFieldNickname.getInputText(false);
-            if (var3.length() > 0 && var3.charAt(0) != 126) {
-                var2 = true;
+    private String getDefaultMessages(int messageIndex) {
+        if (messageIndex == 1) {
+            boolean isRegistered = false;
+            String nick = this.textFieldNickname.getInputText(false);
+            if (nick.length() > 0 && nick.charAt(0) != '~') {
+                isRegistered = true;
             }
 
-            return this.textManager.getShared("SDM_BadNick" + (var2 ? "Reg" : "Worm"));
+            return this.textManager.getShared("SDM_BadNick" + (isRegistered ? "Reg" : "Worm"));
         } else {
-            return var1 == 2 ? this.textManager.getShared("SDM_SexMessages") : (var1 == 3 ? this.textManager.getShared("SDM_BadMessages") : null);
+            return messageIndex == 2 ? this.textManager.getShared("SDM_SexMessages") : (messageIndex == 3 ? this.textManager.getShared("SDM_BadMessages") : null);
         }
     }
 
@@ -340,7 +340,7 @@ class StaffActionFrame extends Frame implements WindowListener, ItemListener, Ke
                     int banTime;
                     try {
                         banTime = Integer.parseInt(this.textFieldBanTime.getInputText(false));
-                    } catch (NumberFormatException var4) {
+                    } catch (NumberFormatException e) {
                         banTime = 0;
                     }
 

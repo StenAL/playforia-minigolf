@@ -84,7 +84,7 @@ public class ChatLobby extends ChatBase {
     }
 
     public String userJoin(String var1, boolean var2) {
-        UserListItem var3 = this.addToUserListNew(var1, false);
+        User var3 = this.addToUserListNew(var1, false);
         if (!this.noJoinAndPartMessagesCheckbox.getState()) {
             this.method889(var3, super.textManager.getShared("Chat_Lobby_User" + (var2 ? "ReturnedFromGame" : "Joined"), var3.getNick()));
         }
@@ -97,7 +97,7 @@ public class ChatLobby extends ChatBase {
     }
 
     public void userLeft(String var1, boolean var2) {
-        UserListItem var3 = super.userList.removeUserNew(var1);
+        User var3 = super.userList.removeAndReturnUser(var1);
         if (var3 != null && !this.noJoinAndPartMessagesCheckbox.getState()) {
             this.method889(var3, super.textManager.getShared("Chat_Lobby_UserLeft" + (var2 ? "ConnectionProblem" : ""), var1));
         }
@@ -105,7 +105,7 @@ public class ChatLobby extends ChatBase {
     }
 
     public void userLeftCreatedGame(String var1, String var2) {
-        UserListItem var3 = super.userList.removeUserNew(var1);
+        User var3 = super.userList.removeAndReturnUser(var1);
         if (var3 != null && !this.noGameMessagesChatbox.getState()) {
             this.method889(var3, super.textManager.getShared("Chat_Lobby_UserCreatedGame", var1, var2));
         }
@@ -113,7 +113,7 @@ public class ChatLobby extends ChatBase {
     }
 
     public void userLeftJoinedGame(String var1, String var2) {
-        UserListItem var3 = super.userList.removeUserNew(var1);
+        User var3 = super.userList.removeAndReturnUser(var1);
         if (var3 != null && !this.noGameMessagesChatbox.getState()) {
             this.method889(var3, super.textManager.getShared("Chat_Lobby_UserJoinedGame", var1, var2));
         }
@@ -121,7 +121,7 @@ public class ChatLobby extends ChatBase {
     }
 
     public void userLeftWatchingGame(String var1, String var2) {
-        UserListItem var3 = super.userList.removeUserNew(var1);
+        User var3 = super.userList.removeAndReturnUser(var1);
         if (var3 != null && !this.noGameMessagesChatbox.getState()) {
             this.method889(var3, super.textManager.getShared("Chat_Lobby_UserWathicngGame", var1, var2));
         }
@@ -129,8 +129,8 @@ public class ChatLobby extends ChatBase {
     }
 
     public void usersLeftStartedGame(String var1, String var2, String var3) {
-        UserListItem var4 = super.userList.removeUserNew(var1);
-        UserListItem var5 = super.userList.removeUserNew(var2);
+        User var4 = super.userList.removeAndReturnUser(var1);
+        User var5 = super.userList.removeAndReturnUser(var2);
         if (var4 != null && var5 != null && !this.noGameMessagesChatbox.getState()) {
             String var6;
             if (var3 != null) {
@@ -148,8 +148,8 @@ public class ChatLobby extends ChatBase {
         this.usersLeftStartedGame(var1, var2, null);
     }
 
-    public UserListItem getSelectedUserForChallenge() {
-        UserListItem var1 = super.userList.getSelectedUser();
+    public User getSelectedUserForChallenge() {
+        User var1 = super.userList.getSelectedUser();
         if (var1 == null) {
             super.chatTextArea.addMessage(super.textManager.getShared("Chat_Lobby_CantChallengeNone"));
         } else {
@@ -164,7 +164,7 @@ public class ChatLobby extends ChatBase {
     }
 
     public String getSelectedNickForChallenge() {
-        UserListItem var1 = this.getSelectedUserForChallenge();
+        User var1 = this.getSelectedUserForChallenge();
         return var1 != null ? var1.getNick() : null;
     }
 

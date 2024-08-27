@@ -217,7 +217,7 @@ public abstract class ChatBase extends IPanel implements ComponentListener, User
     }
 
     public void enablePopUp(boolean isModerator, boolean isAdmin) {
-        this.userList.enablePopUp(isModerator, isAdmin);
+        this.userList.enableRightClickMenu(isModerator, isAdmin);
     }
 
     public void addPlainMessage(String var1) {
@@ -237,7 +237,7 @@ public abstract class ChatBase extends IPanel implements ComponentListener, User
     }
 
     public void addLine() {
-        this.chatTextArea.addLine();
+        this.chatTextArea.addText();
     }
 
     public int setFullUserList(String[] list) {
@@ -281,13 +281,12 @@ public abstract class ChatBase extends IPanel implements ComponentListener, User
 
     }
 
-    public void sheriffSay(String var1) {
-        Object var2 = this.synchronizedObject;
+    public void sheriffSay(String text) {
         synchronized (this.synchronizedObject) {
             if (this.gui_globaloutput == null) {
-                this.chatTextArea.addSheriffSay(var1);
+                this.chatTextArea.addSheriffSay(text);
             } else {
-                this.gui_globaloutput.method918(var1);
+                this.gui_globaloutput.method918(text);
             }
 
         }
@@ -364,7 +363,7 @@ public abstract class ChatBase extends IPanel implements ComponentListener, User
     }
 
     public boolean isUserIgnored(String user) {
-        UserListItem userItem = this.userList.getUser(user);
+        User userItem = this.userList.getUser(user);
         return userItem == null ? true : userItem.isIgnore();
     }
 
@@ -415,8 +414,8 @@ public abstract class ChatBase extends IPanel implements ComponentListener, User
         return this.addToUserListNew(var1, var2).getNick();
     }
 
-    public UserListItem addToUserListNew(String var1, boolean var2) {
-        UserListItem var3 = this.userList.addUser(var1, var2);
+    public User addToUserListNew(String var1, boolean var2) {
+        User var3 = this.userList.addUser(var1, var2);
         if (var2) {
             this.aString2355 = var3.getNick();
         }
@@ -455,7 +454,7 @@ public abstract class ChatBase extends IPanel implements ComponentListener, User
         this.chatTextArea = var1;
     }
 
-    protected void method889(UserListItem var1, String var2) {
+    protected void method889(User var1, String var2) {
         Object var3 = this.synchronizedObject;
         synchronized (this.synchronizedObject) {
             if (this.gui_globaloutput == null) {
@@ -467,7 +466,7 @@ public abstract class ChatBase extends IPanel implements ComponentListener, User
         }
     }
 
-    protected void method890(UserListItem var1, UserListItem var2, String var3) {
+    protected void method890(User var1, User var2, String var3) {
         Object var4 = this.synchronizedObject;
         synchronized (this.synchronizedObject) {
             if (this.gui_globaloutput == null) {
@@ -602,8 +601,8 @@ public abstract class ChatBase extends IPanel implements ComponentListener, User
     }
 
     private String getMessageRecipient() {
-        UserListItem user = this.userList.getSelectedUser();
-        return user != null && user.isPrivately() ? user.getNick() : null;
+        User user = this.userList.getSelectedUser();
+        return user != null && user.isGettingPrivateMessages() ? user.getNick() : null;
     }
 
     private ChatListener[] getChatListenersCopy() {

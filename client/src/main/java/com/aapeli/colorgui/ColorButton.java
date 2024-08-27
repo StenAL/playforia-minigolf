@@ -61,8 +61,8 @@ public class ColorButton extends IPanel implements MouseMotionListener, MouseLis
 
     public ColorButton(String var1) {
         this.setBackground(aColor3253);
-        this.setForeground(Class94.aColor1576);
-        this.setFont(Class94.aFont1575);
+        this.setForeground(FontConstants.black);
+        this.setFont(FontConstants.font);
         this.setLabel(var1);
         this.setSecondaryFont(new Font("Dialog", Font.PLAIN, 11));
         this.setSecondaryLabel(null);
@@ -221,7 +221,7 @@ public class ColorButton extends IPanel implements MouseMotionListener, MouseLis
 
     public void setForeground(Color var1) {
         if (var1 == null) {
-            var1 = Class94.aColor1576;
+            var1 = FontConstants.black;
         }
 
         this.aColor3255 = var1;

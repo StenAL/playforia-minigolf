@@ -20,7 +20,7 @@ public class TabBar extends IPanel implements ComponentListener, ActionListener 
     private static final Color aColor3404 = Color.black;
     private static final Color aColor3405 = Color.blue;
     private static final Color aColor3406 = Color.white;
-    private static final Font aFont3407 = Class94.aFont1575;
+    private static final Font aFont3407 = FontConstants.font;
     private int anInt3408;
     private int anInt3409;
     private Color aColor3410;

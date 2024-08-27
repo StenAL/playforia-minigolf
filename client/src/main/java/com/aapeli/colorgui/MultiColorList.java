@@ -139,7 +139,7 @@ public class MultiColorList extends Panel implements AdjustmentListener, MouseLi
             }
 
             if (this.aString694 != null) {
-                this.aGraphics712.setFont(Class94.aFont1575);
+                this.aGraphics712.setFont(FontConstants.font);
                 StringDraw.drawStringWithMaxWidth(this.aGraphics712, this.aString694, this.anInt700 / 2, this.anInt701 / 2, 0, this.anInt700 * 9 / 10);
             }
         } else {
@@ -172,7 +172,7 @@ public class MultiColorList extends Panel implements AdjustmentListener, MouseLi
             var11 = var10;
 
             for (var13 = 0; var13 < this.anInt703 + 1 && var11 < var2; ++var13) {
-                this.aGraphics712.setFont(var17[var13] ? aFont681 : Class94.aFont1575);
+                this.aGraphics712.setFont(var17[var13] ? aFont681 : FontConstants.font);
                 if (var7[var13]) {
                     this.aGraphics712.setColor(var16[var13]);
                     this.aGraphics712.fillRect(1, var15 - 12 - 1, this.anInt700 - 2, 16);
@@ -641,7 +641,7 @@ public class MultiColorList extends Panel implements AdjustmentListener, MouseLi
 
     private int[] method959(String[][] var1) {
         if (this.aFontMetrics693 == null) {
-            this.aFontMetrics693 = this.getFontMetrics(Class94.aFont1575);
+            this.aFontMetrics693 = this.getFontMetrics(FontConstants.font);
         }
 
         int var2 = var1.length;

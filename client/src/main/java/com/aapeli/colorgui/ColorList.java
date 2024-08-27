@@ -31,76 +31,79 @@ public final class ColorList extends Panel implements ComponentListener, Adjustm
     public static final int SORT_TEXT_CBA = 2;
     public static final int SORT_VALUE_123 = 3;
     public static final int SORT_VALUE_321 = 4;
-    protected static final Color aColor650 = new Color(255, 255, 255);
-    private static final Color aColor651 = new Color(192, 192, 192);
-    private static final Color aColor652 = new Color(64, 64, 64);
-    private Scrollbar aScrollbar653;
-    private boolean aBoolean654;
-    private Image anImage655;
-    private int anInt656;
-    private int anInt657;
-    private Font aFont658;
-    private Font aFont659;
-    private int anInt660;
-    private int anInt661;
-    private int anInt662;
-    private int anInt663;
-    private int anInt664;
-    private int anInt665;
-    private int anInt666;
-    private String aString667;
-    private Color aColor668;
-    private Vector<ColorListItem> aVector669;
-    private Vector<Class91> aVector670;
-    private int anInt671;
-    private int anInt672;
-    private int anInt673;
-    private int anInt674;
-    private int anInt675;
-    private Image anImage676;
-    private Graphics aGraphics677;
-    private int anInt678;
-    private int anInt679;
-    private Vector<ItemListener> aVector680;
+    protected static final Color backgroundColor = new Color(255, 255, 255);
+    private static final Color borderMedium = new Color(192, 192, 192);
+    private static final Color borderDark = new Color(64, 64, 64);
+    private Scrollbar scrollbar;
+    private boolean scrollbarVisible;
+    private Image backgroundImage;
+    private int backgroundImageoffsetX;
+    private int backgroundImageOffsetY;
+    private Font font;
+    private Font fontBold;
+    private int iconWidth;
+    private int width;
+    private int height;
+    private int rowHeight;
+    private int rows;
+    private int selectable;
+    private int sorting;
+    private String title;
+    private Color titleColor;
+    private Vector<ColorListItem> items;
+    private Vector<ColorListNode> nodes;
+    private int lastMouseClickX;
+    private int lastMouseClickY;
+    private int rangeSelectionLastIndex;
+    private int rangeSelectionState;
+    private int groupsDrawn;
+    private Image image;
+    private Graphics imageGraphics;
+    private int imageWidth;
+    private int imageHeight;
+    private Vector<ItemListener> listeners;
 
 
-    public ColorList(int var1, int var2) {
-        this(var1, var2, Class94.aFont1575, 0, 0);
+    public ColorList(int width, int height) {
+        this(width, height, FontConstants.font, 0, 0);
     }
 
-    public ColorList(int var1, int var2, Font var3) {
-        this(var1, var2, var3, 0, 0);
+    public ColorList(int width, int height, Font font) {
+        this(width, height, font, 0, 0);
     }
 
-    public ColorList(int var1, int var2, int var3, int var4) {
-        this(var1, var2, Class94.aFont1575, var3, var4);
+    public ColorList(int width, int height, int iconWidth, int rowHeight) {
+        this(width, height, FontConstants.font, iconWidth, rowHeight);
     }
 
-    public ColorList(int var1, int var2, Font var3, int var4, int var5) {
-        this.anInt661 = var1;
-        this.anInt662 = var2;
-        this.setSize(var1, var2);
-        this.aFont658 = var3;
-        int var6 = var3.getSize();
-        this.aFont659 = new Font(var3.getName(), Font.BOLD, var6);
-        this.anInt660 = var4;
-        this.aVector669 = new Vector<>();
-        this.anInt665 = 0;
-        this.anInt666 = 0;
-        this.anInt663 = (Math.max(var6, var5)) + 4;
-        this.anInt664 = var2 / this.anInt663;
-        this.anInt671 = this.anInt672 = this.anInt678 = this.anInt679 = -1;
-        this.anInt673 = -1;
-        this.anInt675 = 0;
+    public ColorList(int width, int height, Font font, int iconWidth, int rowHeight) {
+        this.width = width;
+        this.height = height;
+        this.setSize(width, height);
+        this.font = font;
+        int fontSize = font.getSize();
+        this.fontBold = new Font(font.getName(), Font.BOLD, fontSize);
+        this.iconWidth = iconWidth;
+        this.items = new Vector<>();
+        this.selectable = 0;
+        this.sorting = 0;
+        this.rowHeight = (Math.max(fontSize, rowHeight)) + 4;
+        this.rows = height / this.rowHeight;
+        this.lastMouseClickX = -1;
+        this.lastMouseClickY = -1;
+        this.imageWidth = -1;
+        this.imageHeight = -1;
+        this.rangeSelectionLastIndex = -1;
+        this.groupsDrawn = 0;
         this.setLayout(null);
-        this.aScrollbar653 = new Scrollbar(1);
-        this.aScrollbar653.setBounds(var1 - 16 - 1, 1, 16, var2 - 2);
-        this.aScrollbar653.setBlockIncrement(this.anInt664 - 1);
-        this.aScrollbar653.setUnitIncrement(1);
-        this.aBoolean654 = false;
+        this.scrollbar = new Scrollbar(1);
+        this.scrollbar.setBounds(width - 16 - 1, 1, 16, height - 2);
+        this.scrollbar.setBlockIncrement(this.rows - 1);
+        this.scrollbar.setUnitIncrement(1);
+        this.scrollbarVisible = false;
         this.addComponentListener(this);
         this.addMouseListener(this);
-        this.aVector680 = new Vector<>();
+        this.listeners = new Vector<>();
     }
 
     public void addNotify() {
@@ -108,239 +111,238 @@ public final class ColorList extends Panel implements ComponentListener, Adjustm
         this.repaint();
     }
 
-    public void paint(Graphics var1) {
-        this.update(var1);
+    public void paint(Graphics graphics) {
+        this.update(graphics);
     }
 
-    public void update(Graphics var1) {
-        if (this.anImage676 == null || this.anInt661 != this.anInt678 || this.anInt662 != this.anInt679) {
-            this.anImage676 = this.createImage(this.anInt661, this.anInt662);
-            this.aGraphics677 = this.anImage676.getGraphics();
-            this.anInt678 = this.anInt661;
-            this.anInt679 = this.anInt662;
+    public void update(Graphics g) {
+        if (this.image == null || this.width != this.imageWidth || this.height != this.imageHeight) {
+            this.image = this.createImage(this.width, this.height);
+            this.imageGraphics = this.image.getGraphics();
+            this.imageWidth = this.width;
+            this.imageHeight = this.height;
         }
 
-        if (this.anImage655 == null) {
-            this.aGraphics677.setColor(aColor650);
-            this.aGraphics677.fillRect(0, 0, this.anInt661, this.anInt662);
+        if (this.backgroundImage == null) {
+            this.imageGraphics.setColor(backgroundColor);
+            this.imageGraphics.fillRect(0, 0, this.width, this.height);
         } else {
-            this.aGraphics677.drawImage(this.anImage655, 0, 0, this.anInt661, this.anInt662, this.anInt656, this.anInt657, this.anInt656 + this.anInt661, this.anInt657 + this.anInt662, this);
+            this.imageGraphics.drawImage(this.backgroundImage, 0, 0, this.width, this.height, this.backgroundImageoffsetX, this.backgroundImageOffsetY, this.backgroundImageoffsetX + this.width, this.backgroundImageOffsetY + this.height, this);
         }
 
-        ColorListItemGroup var3 = null;
+        ColorListItemGroup currentGroup = null;
         synchronized (this) {
-            this.aVector670 = new Vector<>();
-            int var6 = 0;
-            Class91 var2;
-            if (this.aString667 != null) {
-                var2 = new Class91(1, var6, this.anInt661 - 2, this.anInt663, this.anInt660, this.anImage655 != null, this.aFont659, this.aColor668, this.aString667, null);
-                this.aVector670.addElement(var2);
-                var2.method1739(this.aGraphics677, this);
-                var6 += this.anInt663;
+            this.nodes = new Vector<>();
+            int y = 0;
+            ColorListNode node;
+            if (this.title != null) {
+                node = new ColorListNode(1, y, this.width - 2, this.rowHeight, this.iconWidth, this.backgroundImage != null, this.fontBold, this.titleColor, this.title, null);
+                this.nodes.addElement(node);
+                node.draw(this.imageGraphics, this);
+                y += this.rowHeight;
             }
 
-            int var7 = this.aVector669.size();
-            int var8 = 0;
-            if (var7 > 0) {
-                int var9 = this.aString667 != null ? this.anInt664 - 1 : this.anInt664;
-                int var10 = var9;
-                int var11 = this.aBoolean654 ? this.aScrollbar653.getValue() : 0;
-                boolean var12 = this.method944();
+            int itemsCount = this.items.size();
+            int groupsDrawn = 0;
+            if (itemsCount > 0) {
+                int rowsToDraw = this.title != null ? this.rows - 1 : this.rows;
+                int rowsRemaining = rowsToDraw;
+                int itemIndex = this.scrollbarVisible ? this.scrollbar.getValue() : 0;
+                boolean hasMultipleGroups = this.hasMultipleGroups();
 
-                for (int var14 = 0; var14 < var10 + 1 && var11 < var7; ++var14) {
-                    ColorListItem var13 = this.getItem(var11);
-                    if (var12) {
-                        ColorListItemGroup var4 = var13.getGroup();
-                        if (var4 != var3) {
-                            var2 = new Class91(1, var6, this.anInt661 - 2, this.anInt663, this.anInt660, this.anImage655 != null, this.aFont659, Color.darkGray, var4.getText(), var4.getIcon());
-                            this.aVector670.addElement(var2);
-                            var2.method1739(this.aGraphics677, this);
-                            var3 = var4;
-                            var6 += this.anInt663;
-                            --var10;
-                            ++var8;
+                for (int i = 0; i < rowsRemaining + 1 && itemIndex < itemsCount; ++i) {
+                    ColorListItem item = this.getItem(itemIndex);
+                    if (hasMultipleGroups) {
+                        ColorListItemGroup group = item.getGroup();
+                        if (group != currentGroup) {
+                            node = new ColorListNode(1, y, this.width - 2, this.rowHeight, this.iconWidth, this.backgroundImage != null, this.fontBold, Color.darkGray, group.getText(), group.getIcon());
+                            this.nodes.addElement(node);
+                            node.draw(this.imageGraphics, this);
+                            currentGroup = group;
+                            y += this.rowHeight;
+                            --rowsRemaining;
+                            ++groupsDrawn;
                         }
                     }
 
-                    var2 = new Class91(1, var6, this.anInt661 - 2, this.anInt663, this.anInt660, this.anImage655 != null, this.aFont658, this.aFont659, var13);
-                    this.aVector670.addElement(var2);
-                    var2.method1739(this.aGraphics677, this);
-                    var6 += this.anInt663;
-                    ++var11;
+                    node = new ColorListNode(1, y, this.width - 2, this.rowHeight, this.iconWidth, this.backgroundImage != null, this.font, this.fontBold, item);
+                    this.nodes.addElement(node);
+                    node.draw(this.imageGraphics, this);
+                    y += this.rowHeight;
+                    ++itemIndex;
                 }
 
-                if (var8 != this.anInt675) {
-                    this.anInt675 = var8;
-                    if (this.aScrollbar653 != null) {
-                        this.aScrollbar653.setValues(this.aScrollbar653.getValue(), var9 - var8, 0, var7);
+                if (groupsDrawn != this.groupsDrawn) {
+                    this.groupsDrawn = groupsDrawn;
+                    if (this.scrollbar != null) {
+                        this.scrollbar.setValues(this.scrollbar.getValue(), rowsToDraw - groupsDrawn, 0, itemsCount);
                     }
                 }
             }
         }
 
-        this.aGraphics677.setColor(aColor651);
-        this.aGraphics677.drawRect(0, 0, this.anInt661 - 1, this.anInt662 - 1);
-        this.aGraphics677.setColor(aColor652);
-        this.aGraphics677.drawLine(0, 0, this.anInt661 - 1, 0);
-        this.aGraphics677.drawLine(0, 0, 0, this.anInt662 - 1);
-        var1.drawImage(this.anImage676, 0, 0, this);
+        this.imageGraphics.setColor(borderMedium);
+        this.imageGraphics.drawRect(0, 0, this.width - 1, this.height - 1);
+        this.imageGraphics.setColor(borderDark);
+        this.imageGraphics.drawLine(0, 0, this.width - 1, 0);
+        this.imageGraphics.drawLine(0, 0, 0, this.height - 1);
+        g.drawImage(this.image, 0, 0, this);
     }
 
-    private boolean method944() {
-        ColorListItemGroup var1 = null;
+    private boolean hasMultipleGroups() {
+        ColorListItemGroup group = null;
 
-        for (ColorListItem colorListItem: this.aVector669) {
-            ColorListItemGroup var2 = colorListItem.getGroup();
-            if (var2 != null) {
-                if (var1 != null && var2 != var1) {
+        for (ColorListItem colorListItem: this.items) {
+            ColorListItemGroup group2 = colorListItem.getGroup();
+            if (group2 != null) {
+                if (group != null && group2 != group) {
                     return true;
                 }
 
-                var1 = var2;
+                group = group2;
             }
         }
 
         return false;
     }
 
-    public void componentShown(ComponentEvent var1) {
+    public void componentShown(ComponentEvent e) {
     }
 
-    public void componentHidden(ComponentEvent var1) {
+    public void componentHidden(ComponentEvent e) {
     }
 
-    public void componentMoved(ComponentEvent var1) {
+    public void componentMoved(ComponentEvent e) {
     }
 
-    public void componentResized(ComponentEvent var1) {
-        Dimension var2 = this.getSize();
-        this.anInt661 = var2.width;
-        this.anInt662 = var2.height;
-        this.anInt664 = this.anInt662 / this.anInt663;
-        this.aScrollbar653.setBounds(this.anInt661 - 16 - 1, 1, 16, this.anInt662 - 2);
-        this.aScrollbar653.setBlockIncrement(this.anInt664 - 1);
-        this.method945(false, 0);
+    public void componentResized(ComponentEvent e) {
+        Dimension size = this.getSize();
+        this.width = size.width;
+        this.height = size.height;
+        this.rows = this.height / this.rowHeight;
+        this.scrollbar.setBounds(this.width - 16 - 1, 1, 16, this.height - 2);
+        this.scrollbar.setBlockIncrement(this.rows - 1);
+        this.configureScrollbar(false, 0);
         this.repaint();
     }
 
-    public void adjustmentValueChanged(AdjustmentEvent var1) {
+    public void adjustmentValueChanged(AdjustmentEvent e) {
         this.repaint();
     }
 
-    public synchronized void mousePressed(MouseEvent var1) {
-        this.anInt671 = var1.getX();
-        this.anInt672 = var1.getY();
-        ColorListItem var2 = this.method946(this.anInt672);
-        if (var2 != null) {
-            boolean var3 = var1.isMetaDown();
-            boolean var4 = var1.getClickCount() == 2;
-            int var5 = var3 ? 1 : (var4 ? 2 : 0);
-            short var6 = 701;
-            if (!var2.isSelected()) {
-                if (this.anInt665 == 0) {
+    public synchronized void mousePressed(MouseEvent e) {
+        this.lastMouseClickX = e.getX();
+        this.lastMouseClickY = e.getY();
+        ColorListItem item = this.getItemAt(this.lastMouseClickY);
+        if (item != null) {
+            boolean isMetaDown = e.isMetaDown();
+            boolean isDoubleClick = e.getClickCount() == 2;
+            int clickMode = isMetaDown ? ID_RIGHTCLICKED : (isDoubleClick ? ID_DOUBLECLICKED : ID_CLICKED);
+            short newState = 701;
+            if (!item.isSelected()) {
+                if (this.selectable == SELECTABLE_NONE) {
                     return;
                 }
 
-                if (this.anInt665 == 1) {
+                if (this.selectable == SELECTABLE_ONE) {
                     this.removeAllSelections();
                 }
 
-                var2.setSelected(true);
-                var6 = 1;
-            } else if (!var3) {
-                var2.setSelected(false);
-                var6 = 2;
+                item.setSelected(true);
+                newState = ItemEvent.SELECTED;
+            } else if (!isMetaDown) {
+                item.setSelected(false);
+                newState = ItemEvent.DESELECTED;
             }
 
-            if (this.anInt665 == 2) {
-                int var7 = this.aVector669.indexOf(var2);
-                if (var5 == 0 && (var6 == 1 || var6 == 2)) {
-                    if (this.anInt673 >= 0 && var1.isShiftDown()) {
-                        int var8 = Math.min(this.anInt673, var7);
-                        int var9 = Math.max(this.anInt673, var7);
+            if (this.selectable == SELECTABLE_MULTI) {
+                int i = this.items.indexOf(item);
+                if (clickMode == ID_CLICKED && (newState == ItemEvent.SELECTED || newState == ItemEvent.DESELECTED)) {
+                    if (this.rangeSelectionLastIndex >= 0 && e.isShiftDown()) {
+                        int startOfRange = Math.min(this.rangeSelectionLastIndex, i);
+                        int endOfRange = Math.max(this.rangeSelectionLastIndex, i);
 
-                        for (int var10 = var8; var10 <= var9; ++var10) {
-                            this.getItem(var10).setSelected(this.anInt674 == 1);
+                        for (int j = startOfRange; j <= endOfRange; ++j) {
+                            this.getItem(j).setSelected(this.rangeSelectionState == 1);
                         }
                     }
 
-                    this.anInt673 = var7;
-                    this.anInt674 = var6;
+                    this.rangeSelectionLastIndex = i;
+                    this.rangeSelectionState = newState;
                 } else {
-                    this.anInt673 = -1;
+                    this.rangeSelectionLastIndex = -1;
                 }
             }
 
-            if (var3) {
+            if (isMetaDown) {
                 this.update(this.getGraphics());
             }
 
-            this.method954(var2, var5, var6);
+            this.itemPressed(item, clickMode, newState);
             this.repaint();
         }
     }
 
-    public void mouseReleased(MouseEvent var1) {
+    public void mouseReleased(MouseEvent e) {
     }
 
-    public void mouseClicked(MouseEvent var1) {
+    public void mouseClicked(MouseEvent e) {
     }
 
-    public void mouseEntered(MouseEvent var1) {
+    public void mouseEntered(MouseEvent e) {
     }
 
-    public void mouseExited(MouseEvent var1) {
+    public void mouseExited(MouseEvent e) {
     }
 
-    public synchronized void addItemListener(ItemListener var1) {
-        this.aVector680.addElement(var1);
+    public synchronized void addItemListener(ItemListener listener) {
+        this.listeners.addElement(listener);
     }
 
-    public synchronized void removeItemListener(ItemListener var1) {
-        this.aVector680.removeElement(var1);
+    public synchronized void removeItemListener(ItemListener listener) {
+        this.listeners.removeElement(listener);
     }
 
     public Object[] getSelectedObjects() {
         return this.getSelectedItems();
     }
 
-    public void setSelectable(int var1) {
-        this.anInt665 = var1;
-        if (var1 == 0) {
+    public void setSelectable(int selectable) {
+        this.selectable = selectable;
+        if (selectable == SELECTABLE_NONE) {
             this.removeAllSelections();
-        } else if (var1 == 1 && this.getSelectedItemCount() > 1) {
+        } else if (selectable == SELECTABLE_ONE && this.getSelectedItemCount() > 1) {
             this.removeAllSelections();
         }
 
     }
 
-    public void setSorted(boolean var1) {
-        this.setSorting(var1 ? 1 : 0);
+    public void setSorted(boolean sorted) {
+        this.setSorting(sorted ? SORT_TEXT_ABC : SORT_NONE);
     }
 
-    public void setSorting(int var1) {
-        if (var1 != this.anInt666) {
-            this.anInt666 = var1;
-            if (var1 != 0) {
+    public void setSorting(int sorting) {
+        if (sorting != this.sorting) {
+            this.sorting = sorting;
+            if (sorting != SORT_NONE) {
                 this.reSort();
             }
         }
     }
 
     public synchronized void reSort() {
-        int var1 = this.aVector669.size();
-        if (var1 != 0) {
-            ColorListItem[] var2 = new ColorListItem[var1];
+        int itemsCount = this.items.size();
+        if (itemsCount != 0) {
+            ColorListItem[] newItems = new ColorListItem[itemsCount];
 
-            int var3;
-            for (var3 = 0; var3 < var1; ++var3) {
-                var2[var3] = this.getItem(var3);
+            for (int i = 0; i < itemsCount; ++i) {
+                newItems[i] = this.getItem(i);
             }
 
-            this.aVector669.removeAllElements();
+            this.items.removeAllElements();
 
-            for (var3 = 0; var3 < var1; ++var3) {
-                this.aVector669.insertElementAt(var2[var3], this.method948(var2[var3]));
+            for (int i = 0; i < itemsCount; ++i) {
+                this.items.insertElementAt(newItems[i], this.getPositionFor(newItems[i]));
             }
 
             this.repaint();
@@ -348,70 +350,70 @@ public final class ColorList extends Panel implements ComponentListener, Adjustm
     }
 
     public int getSorting() {
-        return this.anInt666;
+        return this.sorting;
     }
 
-    public void setBackgroundImage(Image var1, int var2, int var3) {
-        this.anImage655 = var1;
-        this.anInt656 = var2;
-        this.anInt657 = var3;
+    public void setBackgroundImage(Image backgroundImage, int backgroundImageOffsetX, int backgroundImageOffsetY) {
+        this.backgroundImage = backgroundImage;
+        this.backgroundImageoffsetX = backgroundImageOffsetX;
+        this.backgroundImageOffsetY = backgroundImageOffsetY;
         this.repaint();
     }
 
-    public void setTitle(String var1, Color var2) {
-        this.aString667 = var1;
-        this.aColor668 = var2;
+    public void setTitle(String title, Color titleColor) {
+        this.title = title;
+        this.titleColor = titleColor;
         this.repaint();
     }
 
     public int getItemCount() {
-        return this.aVector669.size();
+        return this.items.size();
     }
 
     public synchronized int getSelectedItemCount() {
-        int var1 = this.aVector669.size();
-        int var2 = 0;
+        int itemsCount = this.items.size();
+        int selectedCount = 0;
 
-        for (int var3 = 0; var3 < var1; ++var3) {
-            if (this.getItem(var3).isSelected()) {
-                ++var2;
+        for (int i = 0; i < itemsCount; ++i) {
+            if (this.getItem(i).isSelected()) {
+                ++selectedCount;
             }
         }
 
-        return var2;
+        return selectedCount;
     }
 
-    public void addItem(String var1) {
-        this.addItem(new ColorListItem(var1));
+    public void addItem(String text) {
+        this.addItem(new ColorListItem(text));
     }
 
-    public synchronized void addItem(ColorListItem var1) {
-        var1.setColorListReference(this);
-        int var2 = this.method948(var1);
-        this.aVector669.insertElementAt(var1, var2);
-        int var3 = this.aScrollbar653.getValue();
-        int var4 = var2 < var3 ? 1 : 0;
-        if (var4 == 0 && var3 > 0 && var3 + this.aScrollbar653.getVisibleAmount() == this.aScrollbar653.getMaximum()) {
-            var4 = 1;
+    public synchronized void addItem(ColorListItem item) {
+        item.setColorListReference(this);
+        int position = this.getPositionFor(item);
+        this.items.insertElementAt(item, position);
+        int scrollbarValue = this.scrollbar.getValue();
+        int scrollbarOffset = position < scrollbarValue ? 1 : 0;
+        if (scrollbarOffset == 0 && scrollbarValue > 0 && scrollbarValue + this.scrollbar.getVisibleAmount() == this.scrollbar.getMaximum()) {
+            scrollbarOffset = 1;
         }
 
-        this.method945(this.anInt666 == 0, var4);
+        this.configureScrollbar(this.sorting == 0, scrollbarOffset);
         this.repaint();
     }
 
-    public synchronized ColorListItem getItem(int var1) {
-        return this.aVector669.elementAt(var1);
+    public synchronized ColorListItem getItem(int i) {
+        return this.items.elementAt(i);
     }
 
-    public synchronized ColorListItem getItem(String var1) {
-        int var2 = this.aVector669.size();
-        if (var2 == 0) {
+    public synchronized ColorListItem getItem(String text) {
+        int itemsCount = this.items.size();
+        if (itemsCount == 0) {
             return null;
         } else {
-            for (int var4 = 0; var4 < var2; ++var4) {
-                ColorListItem var3 = this.getItem(var4);
-                if (var1.equals(var3.getString())) {
-                    return var3;
+            for (int i = 0; i < itemsCount; ++i) {
+                ColorListItem item = this.getItem(i);
+                if (text.equals(item.getText())) {
+                    return item;
                 }
             }
 
@@ -420,101 +422,100 @@ public final class ColorList extends Panel implements ComponentListener, Adjustm
     }
 
     public synchronized ColorListItem getSelectedItem() {
-        ColorListItem[] var1 = this.getSelectedItems();
-        return var1 == null ? null : (var1.length != 1 ? null : var1[0]);
+        ColorListItem[] selectedItems = this.getSelectedItems();
+        return selectedItems == null ? null : (selectedItems.length != 1 ? null : selectedItems[0]);
     }
 
     public synchronized ColorListItem[] getSelectedItems() {
-        return this.method947(true);
+        return this.getItems(true);
     }
 
     public synchronized ColorListItem[] getAllItems() {
-        return this.method947(false);
+        return this.getItems(false);
     }
 
-    public synchronized ColorListItem removeItem(String var1) {
-        ColorListItem var2 = this.getItem(var1);
-        return var2 == null ? null : this.removeItem(var2);
+    public synchronized ColorListItem removeItem(String text) {
+        ColorListItem item = this.getItem(text);
+        return item == null ? null : this.removeItem(item);
     }
 
-    public synchronized ColorListItem removeItem(ColorListItem var1) {
-        int var2 = this.aVector669.indexOf(var1);
-        if (var2 >= 0) {
-            this.aVector669.removeElementAt(var2);
-            int var3 = var2 < this.aScrollbar653.getValue() ? -1 : 0;
-            this.method945(false, var3);
+    public synchronized ColorListItem removeItem(ColorListItem item) {
+        int idx = this.items.indexOf(item);
+        if (idx >= 0) {
+            this.items.removeElementAt(idx);
+            int scrollbarOffset = idx < this.scrollbar.getValue() ? -1 : 0;
+            this.configureScrollbar(false, scrollbarOffset);
             this.repaint();
         }
 
-        return var1;
+        return item;
     }
 
     public synchronized void removeAllItems() {
-        if (this.aVector669.size() != 0) {
-            this.aVector669.removeAllElements();
-            this.method945(false, 0);
+        if (this.items.size() != 0) {
+            this.items.removeAllElements();
+            this.configureScrollbar(false, 0);
             this.repaint();
         }
     }
 
     public synchronized void removeAllSelections() {
-        int var1 = this.aVector669.size();
+        int itemCount = this.items.size();
 
-        for (int var2 = 0; var2 < var1; ++var2) {
-            this.getItem(var2).setSelected(false);
+        for (int i = 0; i < itemCount; ++i) {
+            this.getItem(i).setSelected(false);
         }
 
         this.repaint();
     }
 
     public int[] getLastClickedMouseXY() {
-        int[] var1 = new int[]{this.anInt671, this.anInt672};
-        return var1;
+        return new int[]{this.lastMouseClickX, this.lastMouseClickY};
     }
 
-    private synchronized void method945(boolean var1, int var2) {
-        int var3 = this.aVector669.size();
-        int var4 = this.anInt664;
-        if (this.aString667 != null) {
-            --var4;
+    private synchronized void configureScrollbar(boolean scrollToBottom, int offset) {
+        int maximum = this.items.size();
+        int visible = this.rows;
+        if (this.title != null) {
+            --visible;
         }
 
-        var4 -= this.anInt675;
-        if (var3 <= var4) {
-            if (this.aBoolean654) {
-                this.aScrollbar653.removeAdjustmentListener(this);
-                this.remove(this.aScrollbar653);
-                this.aBoolean654 = false;
+        visible -= this.groupsDrawn;
+        if (maximum <= visible) {
+            if (this.scrollbarVisible) {
+                this.scrollbar.removeAdjustmentListener(this);
+                this.remove(this.scrollbar);
+                this.scrollbarVisible = false;
             }
 
         } else {
-            int var5;
-            if (!this.aBoolean654) {
-                this.add(this.aScrollbar653);
-                this.aScrollbar653.addAdjustmentListener(this);
-                this.aBoolean654 = true;
-                var5 = 0;
+            int value;
+            if (!this.scrollbarVisible) {
+                this.add(this.scrollbar);
+                this.scrollbar.addAdjustmentListener(this);
+                this.scrollbarVisible = true;
+                value = 0;
             } else {
-                var5 = this.aScrollbar653.getValue();
-                if (var5 > var3 || var1) {
-                    var5 = var3;
+                value = this.scrollbar.getValue();
+                if (value > maximum || scrollToBottom) {
+                    value = maximum;
                 }
             }
 
-            var5 += var2;
-            this.aScrollbar653.setValues(var5, var4, 0, var3);
+            value += offset;
+            this.scrollbar.setValues(value, visible, 0, maximum);
         }
     }
 
-    private ColorListItem method946(int var1) {
-        int var2 = this.aVector670.size();
-        if (var2 == 0) {
+    private ColorListItem getItemAt(int y) {
+        int nodesCount = this.nodes.size();
+        if (nodesCount == 0) {
             return null;
         } else {
-            for (int var4 = 0; var4 < var2; ++var4) {
-                Class91 var3 = this.aVector670.elementAt(var4);
-                if (var3.method1740(var1)) {
-                    return var3.method1741();
+            for (int i = 0; i < nodesCount; ++i) {
+                ColorListNode node = this.nodes.elementAt(i);
+                if (node.containsYCoordinate(y)) {
+                    return node.getItem();
                 }
             }
 
@@ -522,148 +523,146 @@ public final class ColorList extends Panel implements ComponentListener, Adjustm
         }
     }
 
-    private synchronized ColorListItem[] method947(boolean var1) {
-        int var2 = var1 ? this.getSelectedItemCount() : this.getItemCount();
-        if (var2 == 0) {
+    private synchronized ColorListItem[] getItems(boolean selectedItemsOnly) {
+        int count = selectedItemsOnly ? this.getSelectedItemCount() : this.getItemCount();
+        if (count == 0) {
             return null;
         } else {
-            ColorListItem[] var3 = new ColorListItem[var2];
-            int var4 = this.aVector669.size();
-            int var5 = 0;
+            ColorListItem[] items = new ColorListItem[count];
+            int itemsCount = this.items.size();
+            int itemIndex = 0;
 
-            for (int var7 = 0; var7 < var4; ++var7) {
-                ColorListItem var6 = this.getItem(var7);
-                if (!var1 || var6.isSelected()) {
-                    var3[var5] = var6;
-                    ++var5;
+            for (int i = 0; i < itemsCount; ++i) {
+                ColorListItem item = this.getItem(i);
+                if (!selectedItemsOnly || item.isSelected()) {
+                    items[itemIndex] = item;
+                    ++itemIndex;
                 }
             }
 
-            return var3;
+            return items;
         }
     }
 
-    private synchronized int method948(ColorListItem var1) {
-        int var2 = this.aVector669.size();
-        if (var2 == 0) {
+    private synchronized int getPositionFor(ColorListItem item) {
+        int itemsCount = this.items.size();
+        if (itemsCount == 0) {
             return 0;
         } else {
-            int var3 = this.method949(var1);
-            int var4 = this.method950(var3, var2);
-            return var4 == var2 ? var2 : this.method952(var1, var3, var4, var2);
+            int groupSortValue = this.getGroupSortValue(item);
+            int groupPosition = this.getGroupStartPosition(groupSortValue, itemsCount);
+            return groupPosition == itemsCount ? itemsCount : this.getPositionFor(item, groupSortValue, groupPosition, itemsCount);
         }
     }
 
-    private int method949(ColorListItem var1) {
-        ColorListItemGroup var2 = var1.getGroup();
-        return var2 != null ? var2.getSortValue() : Integer.MAX_VALUE;
+    private int getGroupSortValue(ColorListItem item) {
+        ColorListItemGroup group = item.getGroup();
+        return group != null ? group.getSortValue() : Integer.MAX_VALUE;
     }
 
-    private int method950(int var1, int var2) {
-        for (int var4 = 0; var4 < var2; ++var4) {
-            int var3 = this.method949(this.aVector669.elementAt(var4));
-            if (var1 <= var3) {
-                return var4;
+    private int getGroupStartPosition(int groupSortValue, int itemsCount) {
+        for (int i = 0; i < itemsCount; ++i) {
+            int otherGroupSortValue = this.getGroupSortValue(this.items.elementAt(i));
+            if (groupSortValue <= otherGroupSortValue) {
+                return i;
             }
         }
 
-        return var2;
+        return itemsCount;
     }
 
-    private int method951(int var1, int var2, int var3) {
-        for (int var5 = var2; var5 < var3; ++var5) {
-            int var4 = this.method949(this.aVector669.elementAt(var5));
-            if (var4 > var1) {
-                return var5;
+    private int getNextGroupPosition(int groupSortValue, int groupPosition, int itemsCount) {
+        for (int i = groupPosition; i < itemsCount; ++i) {
+            int sortValue = this.getGroupSortValue(this.items.elementAt(i));
+            if (sortValue > groupSortValue) {
+                return i;
             }
         }
 
-        return var3;
+        return itemsCount;
     }
 
-    private int method952(ColorListItem var1, int var2, int var3, int var4) {
-        int var5 = this.method951(var2, var3, var4);
-        if (var5 == var3) {
-            return var3;
+    private int getPositionFor(ColorListItem item, int groupSortValue, int groupPosition, int itemsCount) {
+        int nextGroupPosition = this.getNextGroupPosition(groupSortValue, groupPosition, itemsCount);
+        if (nextGroupPosition == groupPosition) {
+            return groupPosition;
         } else {
-            boolean var6 = var1.isSortOverride();
-            int var8;
-            ColorListItem var9;
-            boolean var10;
-            if (this.anInt666 != 1 && this.anInt666 != 2) {
-                int var12 = var1.getValue();
+            boolean sortOverride = item.isSortOverride();
+            boolean otherItemSortOverride;
+            if (this.sorting != SORT_TEXT_ABC && this.sorting != SORT_TEXT_CBA) {
+                int value = item.getValue();
 
-                for (var8 = var3; var8 < var5; ++var8) {
-                    var9 = this.getItem(var8);
-                    var10 = var9.isSortOverride();
-                    if (var6 && !var10) {
-                        return var8;
+                for (int i = groupPosition; i < nextGroupPosition; ++i) {
+                    ColorListItem otherItem = this.getItem(i);
+                    otherItemSortOverride = otherItem.isSortOverride();
+                    if (sortOverride && !otherItemSortOverride) {
+                        return i;
                     }
 
-                    if (var6 == var10) {
-                        int var13 = var9.getValue();
-                        if (this.anInt666 == 3) {
-                            if (var12 < var13) {
-                                return var8;
+                    if (sortOverride == otherItemSortOverride) {
+                        int otherItemValue = otherItem.getValue();
+                        if (this.sorting == SORT_VALUE_123) {
+                            if (value < otherItemValue) {
+                                return i;
                             }
-                        } else if (var12 > var13) {
-                            return var8;
+                        } else if (value > otherItemValue) {
+                            return i;
                         }
                     }
                 }
 
-                return var5;
+                return nextGroupPosition;
             } else {
-                String var7 = this.method953(var1.getString());
+                String sortKey = this.getNormalizedSortKey(item.getText());
 
-                for (var8 = var3; var8 < var5; ++var8) {
-                    var9 = this.getItem(var8);
-                    var10 = var9.isSortOverride();
-                    if (var6 && !var10) {
-                        return var8;
+                for (int i = groupPosition; i < nextGroupPosition; ++i) {
+                    ColorListItem otherItem = this.getItem(i);
+                    otherItemSortOverride = otherItem.isSortOverride();
+                    if (sortOverride && !otherItemSortOverride) {
+                        return i;
                     }
 
-                    if (var6 == var10) {
-                        String var11 = this.method953(var9.getString());
-                        if (this.anInt666 == 1) {
-                            if (var7.compareTo(var11) < 0) {
-                                return var8;
+                    if (sortOverride == otherItemSortOverride) {
+                        String otherItemSortKey = this.getNormalizedSortKey(otherItem.getText());
+                        if (this.sorting == SORT_TEXT_ABC) {
+                            if (sortKey.compareTo(otherItemSortKey) < 0) {
+                                return i;
                             }
-                        } else if (var7.compareTo(var11) > 0) {
-                            return var8;
+                        } else if (sortKey.compareTo(otherItemSortKey) > 0) {
+                            return i;
                         }
                     }
                 }
 
-                return var5;
+                return nextGroupPosition;
             }
         }
     }
 
-    private String method953(String var1) {
-        var1 = var1.toLowerCase().trim();
-        int var2 = var1.length();
-        StringBuffer var3 = new StringBuffer(var2);
+    private String getNormalizedSortKey(String itemText) {
+        itemText = itemText.toLowerCase().trim();
+        int length = itemText.length();
+        StringBuffer sb = new StringBuffer(length);
 
-        for (int var5 = 0; var5 < var2; ++var5) {
-            char var4 = var1.charAt(var5);
-            if (var4 >= 97 && var4 <= 122 || var4 >= 48 && var4 <= 57 || var4 == 228 || var4 == 246 || var4 == 229) {
-                var3.append(var4);
+        for (int i = 0; i < length; ++i) {
+            char c = itemText.charAt(i);
+            if (c >= 'a' && c <= 'z' || c >= '0' && c <= '9' || c == 'ä' || c == 'ö' || c == 'å') {
+                sb.append(c);
             }
 
-            if (var4 == 126) {
-                var3.append('\u00ff');
+            if (c == '~') {
+                sb.append('\u00ff');
             }
         }
 
-        return var3.toString().trim();
+        return sb.toString().trim();
     }
 
-    private synchronized void method954(ColorListItem var1, int var2, int var3) {
-        if (this.aVector680.size() != 0) {
-            ItemEvent var4 = new ItemEvent(this, var2, var1, var3);
-            for (ItemListener itemListener: this.aVector680) {
-                itemListener.itemStateChanged(var4);
+    private synchronized void itemPressed(ColorListItem item, int eventId, int newState) {
+        if (this.listeners.size() != 0) {
+            ItemEvent event = new ItemEvent(this, eventId, item, newState);
+            for (ItemListener itemListener: this.listeners) {
+                itemListener.itemStateChanged(event);
             }
         }
     }

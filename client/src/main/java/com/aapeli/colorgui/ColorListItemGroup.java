@@ -4,30 +4,30 @@ import java.awt.Image;
 
 public class ColorListItemGroup {
 
-    private String aString1566;
-    private Image anImage1567;
-    private int anInt1568;
+    private String text;
+    private Image icon;
+    private int sortValue;
 
 
-    public ColorListItemGroup(String var1, Image var2, int var3) {
-        this.aString1566 = var1;
-        this.anImage1567 = var2;
-        this.anInt1568 = var3;
+    public ColorListItemGroup(String text, Image icon, int sortValue) {
+        this.text = text;
+        this.icon = icon;
+        this.sortValue = sortValue;
     }
 
     public String getText() {
-        return this.aString1566;
+        return this.text;
     }
 
     public Image getIcon() {
-        return this.anImage1567;
+        return this.icon;
     }
 
     public int getSortValue() {
-        return this.anInt1568;
+        return this.sortValue;
     }
 
-    public void changeSortValue(int var1) {
-        this.anInt1568 += var1;
+    public void changeSortValue(int offset) {
+        this.sortValue += offset;
     }
 }

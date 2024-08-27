@@ -8,40 +8,39 @@ import java.awt.Image;
 public final class Languages {
 
     public static final int LANGUAGE_UNKNOWN = 0;
-    public static final String[][] aStringArrayArray1664 = {
+    public static final String[][] languageData = {
             {"null", "-", }, {"bg", "null", }, {"de", "null", }, {"en", "null", }, {"es", "null", },
             {"et", "ee", }, {"fi", "null", }, {"fr", "null", }, {"hu", "null", }, {"it", "null", },
             {"lv", "null", }, {"nl", "null", }, {"no", "null", }, {"pl", "null", }, {"pt", "null", },
             {"ro", "null", }, {"ru", "null", }, {"sv", "se", }, {"tr", "null", }, {"lt", "null", },
     };
-    private static final int anInt1665 = aStringArrayArray1664.length;
-    private TextManager aTextManager1666;
-    private ImageManager anImageManager1667;
-    private Image[] anImageArray1668;
+    private TextManager textManager;
+    private ImageManager imageManager;
+    private Image[] flagImages;
 
-    public Languages(TextManager var1, ImageManager var2) {
-        this.aTextManager1666 = var1;
-        this.anImageManager1667 = var2;
+    public Languages(TextManager textManager, ImageManager imageManager) {
+        this.textManager = textManager;
+        this.imageManager = imageManager;
     }
 
-    public static int getLanguageIdByString(String var0) {
-        if (var0 == null) {
+    public static int getLanguageIdByString(String locale) {
+        if (locale == null) {
             return LANGUAGE_UNKNOWN;
         } else {
-            int var1 = var0.indexOf('_');
-            if (var1 > 0) {
-                var0 = var0.substring(0, var1);
+            int i = locale.indexOf('_');
+            if (i > 0) {
+                locale = locale.substring(0, i);
             }
 
-            var0 = var0.toLowerCase();
+            locale = locale.toLowerCase();
 
-            for (int var2 = 1; var2 < anInt1665; ++var2) {
-                if (var0.equals(aStringArrayArray1664[var2][0])) {
-                    return var2;
+            for (int j = 1; j < languageData.length; ++j) {
+                if (locale.equals(languageData[j][0])) {
+                    return j;
                 }
 
-                if (aStringArrayArray1664[var2][1] != null && var0.equals(aStringArrayArray1664[var2][1])) {
-                    return var2;
+                if (languageData[j][1] != null && locale.equals(languageData[j][1])) {
+                    return j;
                 }
             }
 
@@ -49,16 +48,16 @@ public final class Languages {
         }
     }
 
-    public Image getFlag(int var1) {
-        if (this.anImageArray1668 == null) {
-            Image var2 = this.anImageManager1667.getShared("language-flags.png");
-            this.anImageArray1668 = this.anImageManager1667.separateImages(var2, anInt1665);
+    public Image getFlag(int language) {
+        if (this.flagImages == null) {
+            Image languageFlags = this.imageManager.getShared("language-flags.png");
+            this.flagImages = this.imageManager.separateImages(languageFlags, languageData.length);
         }
 
-        return this.anImageArray1668[var1];
+        return this.flagImages[language];
     }
 
     public String getName(int var1) {
-        return this.aTextManager1666.getShared("Language_" + aStringArrayArray1664[var1][0]);
+        return this.textManager.getShared("Language_" + languageData[var1][0]);
     }
 }

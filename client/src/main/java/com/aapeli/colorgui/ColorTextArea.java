@@ -31,340 +31,331 @@ public class ColorTextArea extends IPanel implements ComponentListener, Adjustme
     public static final int BORDER_NONE = 0;
     public static final int BORDER_BEVELED = 1;
     public static final int BORDER_NONE_ROUNDCORNER = 2;
-    private static final Color[] aColorArray3327 = new Color[]{new Color(0, 0, 0), new Color(224, 0, 0), new Color(0, 160, 0), new Color(0, 0, 240), new Color(160, 128, 0), new Color(160, 0, 160), new Color(0, 144, 160), new Color(112, 112, 112), new Color(255, 255, 255)};
-    private static final Color aColor3328 = new Color(255, 255, 255);
-    private static final Color aColor3329 = new Color(192, 192, 192);
-    private static final Color aColor3330 = new Color(64, 64, 64);
-    private Scrollbar aScrollbar3331;
-    private boolean aBoolean3332;
-    private Image anImage3333;
-    private int anInt3334;
-    private int anInt3335;
-    private Font aFont3336;
-    private Font aFont3337;
-    private FontMetrics aFontMetrics3338;
-    private int anInt3339;
-    private int anInt3340;
-    private int anInt3341;
-    private int anInt3342;
-    private int anInt3343;
-    private int anInt3344;
-    private Vector<Class93> aVector3345;
-    private Vector<Class93> aVector3346;
-    private Image anImage3347;
-    private Graphics aGraphics3348;
-    private int anInt3349;
-    private int anInt3350;
-    private int anInt3351;
-    private Object anObject3352;
+    private static final Color[] colors = new Color[]{new Color(0, 0, 0), new Color(224, 0, 0), new Color(0, 160, 0), new Color(0, 0, 240), new Color(160, 128, 0), new Color(160, 0, 160), new Color(0, 144, 160), new Color(112, 112, 112), new Color(255, 255, 255)};
+    private static final Color backgroundImageBorderColor = new Color(255, 255, 255);
+    private static final Color borderLight = new Color(192, 192, 192);
+    private static final Color borderDark = new Color(64, 64, 64);
+    private Scrollbar scrollbar;
+    private boolean hasScrollbar;
+    private Image backgroundImage;
+    private int backgroundOffsetX;
+    private int backgroundOffsetY;
+    private Font font;
+    private Font fontBold;
+    private FontMetrics fontMetrics;
+    private int fontSize;
+    private int width;
+    private int height;
+    private int maxLineWidth;
+    private int lineHeight;
+    private int scrollWindowNumberOfLines;
+    private Vector<ColorText> lines;
+    private Vector<ColorText> texts;
+    private Image image;
+    private Graphics graphics;
+    private int imageWidth;
+    private int imageHeight;
+    private int borderStyle;
+    private Object synchronizationObject;
 
-    public ColorTextArea(int var1, int var2) {
-        this(var1, var2, null);
+    public ColorTextArea(int width, int height) {
+        this(width, height, null);
     }
 
-    public ColorTextArea(int var1, int var2, Font var3) {
-        this.anObject3352 = new Object();
-        this.anInt3340 = var1;
-        this.anInt3341 = var2;
-        this.setSize(var1, var2);
-        if (var3 == null) {
-            var3 = Class94.aFont1575;
+    public ColorTextArea(int width, int height, Font font) {
+        this.synchronizationObject = new Object();
+        this.width = width;
+        this.height = height;
+        this.setSize(width, height);
+        if (font == null) {
+            font = FontConstants.font;
         }
 
-        this.aFont3336 = var3;
-        this.aFontMetrics3338 = this.getFontMetrics(var3);
-        this.anInt3339 = var3.getSize();
-        this.aFont3337 = new Font(var3.getName(), Font.BOLD, var3.getSize());
-        this.aVector3345 = new Vector<>();
-        this.aVector3346 = new Vector<>();
-        this.anImage3333 = null;
-        this.anInt3343 = this.anInt3339 + 3;
-        this.method849();
-        this.anInt3351 = 1;
+        this.font = font;
+        this.fontMetrics = this.getFontMetrics(font);
+        this.fontSize = font.getSize();
+        this.fontBold = new Font(font.getName(), Font.BOLD, font.getSize());
+        this.lines = new Vector<>();
+        this.texts = new Vector<>();
+        this.backgroundImage = null;
+        this.lineHeight = this.fontSize + 3;
+        this.calculateLineStats();
+        this.borderStyle = 1;
         this.addComponentListener(this);
         this.setLayout(null);
-        this.aScrollbar3331 = new Scrollbar(1);
-        this.method850();
-        this.aScrollbar3331.setUnitIncrement(1);
-        this.aBoolean3332 = false;
+        this.scrollbar = new Scrollbar(1);
+        this.calculateScrollbarStats();
+        this.scrollbar.setUnitIncrement(1);
+        this.hasScrollbar = false;
     }
 
-    public void update(Graphics var1) {
-        if (this.anImage3347 == null || this.anInt3340 != this.anInt3349 || this.anInt3341 != this.anInt3350) {
-            this.anImage3347 = this.createImage(this.anInt3340, this.anInt3341);
-            this.aGraphics3348 = this.anImage3347.getGraphics();
-            this.anInt3349 = this.anInt3340;
-            this.anInt3350 = this.anInt3341;
+    public void update(Graphics g) {
+        if (this.image == null || this.width != this.imageWidth || this.height != this.imageHeight) {
+            this.image = this.createImage(this.width, this.height);
+            this.graphics = this.image.getGraphics();
+            this.imageWidth = this.width;
+            this.imageHeight = this.height;
         }
 
-        if (this.anImage3333 == null) {
-            this.aGraphics3348.setColor(aColor3328);
-            if (this.anInt3351 == 2) {
-                this.drawBackground(this.aGraphics3348);
-                this.aGraphics3348.fillRect(4, 0, this.anInt3340 - 8, this.anInt3341);
-                this.aGraphics3348.fillRect(2, 1, this.anInt3340 - 4, this.anInt3341 - 2);
-                this.aGraphics3348.fillRect(1, 2, this.anInt3340 - 2, this.anInt3341 - 4);
-                this.aGraphics3348.fillRect(0, 4, this.anInt3340, this.anInt3341 - 8);
+        if (this.backgroundImage == null) {
+            this.graphics.setColor(backgroundImageBorderColor);
+            if (this.borderStyle == 2) {
+                this.drawBackground(this.graphics);
+                this.graphics.fillRect(4, 0, this.width - 8, this.height);
+                this.graphics.fillRect(2, 1, this.width - 4, this.height - 2);
+                this.graphics.fillRect(1, 2, this.width - 2, this.height - 4);
+                this.graphics.fillRect(0, 4, this.width, this.height - 8);
             } else {
-                this.aGraphics3348.fillRect(0, 0, this.anInt3340, this.anInt3341);
+                this.graphics.fillRect(0, 0, this.width, this.height);
             }
         } else {
-            this.drawBackground(this.aGraphics3348);
-            this.aGraphics3348.drawImage(this.anImage3333, 0, 0, this.anInt3340, this.anInt3341, this.anInt3334, this.anInt3335, this.anInt3334 + this.anInt3340, this.anInt3335 + this.anInt3341, this);
+            this.drawBackground(this.graphics);
+            this.graphics.drawImage(this.backgroundImage, 0, 0, this.width, this.height, this.backgroundOffsetX, this.backgroundOffsetY, this.backgroundOffsetX + this.width, this.backgroundOffsetY + this.height, this);
         }
 
-        Object var2 = this.anObject3352;
-        synchronized (this.anObject3352) {
-            int var3 = this.aVector3345.size();
-            if (var3 > 0) {
-                int var4 = this.anInt3339;
-                int var5 = this.aBoolean3332 ? this.aScrollbar3331.getValue() : 0;
+        synchronized (this.synchronizationObject) {
+            int linesCount = this.lines.size();
+            if (linesCount > 0) {
+                int y = this.fontSize;
+                int scrollbarOffset = this.hasScrollbar ? this.scrollbar.getValue() : 0;
 
-                for (int var7 = 0; var7 <= this.anInt3344 && var5 < var3; ++var7) {
-                    Class93 var6 = this.aVector3345.elementAt(var5);
-                    if (!var6.method1754()) {
-                        this.aGraphics3348.setFont(var6.method1753() ? this.aFont3337 : this.aFont3336);
-                        this.aGraphics3348.setColor(var6.method1751());
-                        this.aGraphics3348.drawString(var6.method1752(), 3, var4);
+                for (int i = 0; i <= this.scrollWindowNumberOfLines && scrollbarOffset < linesCount; ++i) {
+                    ColorText colorText = this.lines.elementAt(scrollbarOffset);
+                    if (!colorText.isTextEmpty()) {
+                        this.graphics.setFont(colorText.isBold() ? this.fontBold : this.font);
+                        this.graphics.setColor(colorText.getColor());
+                        this.graphics.drawString(colorText.getText(), 3, y);
                     }
 
-                    var4 += this.anInt3343;
-                    ++var5;
+                    y += this.lineHeight;
+                    ++scrollbarOffset;
                 }
             }
         }
 
-        if (this.anInt3351 == 1) {
-            this.aGraphics3348.setColor(aColor3329);
-            this.aGraphics3348.drawRect(0, 0, this.anInt3340 - 1, this.anInt3341 - 1);
-            this.aGraphics3348.setColor(aColor3330);
-            this.aGraphics3348.drawLine(0, 0, this.anInt3340 - 1, 0);
-            this.aGraphics3348.drawLine(0, 0, 0, this.anInt3341 - 1);
+        if (this.borderStyle == 1) {
+            this.graphics.setColor(borderLight);
+            this.graphics.drawRect(0, 0, this.width - 1, this.height - 1);
+            this.graphics.setColor(borderDark);
+            this.graphics.drawLine(0, 0, this.width - 1, 0);
+            this.graphics.drawLine(0, 0, 0, this.height - 1);
         }
 
-        var1.drawImage(this.anImage3347, 0, 0, this);
+        g.drawImage(this.image, 0, 0, this);
     }
 
-    public void componentShown(ComponentEvent var1) {
+    public void componentShown(ComponentEvent e) {
     }
 
-    public void componentHidden(ComponentEvent var1) {
+    public void componentHidden(ComponentEvent e) {
     }
 
-    public void componentMoved(ComponentEvent var1) {
+    public void componentMoved(ComponentEvent e) {
     }
 
-    public void componentResized(ComponentEvent var1) {
-        Dimension var2 = this.getSize();
-        this.anInt3340 = var2.width;
-        this.anInt3341 = var2.height;
-        this.method848();
+    public void componentResized(ComponentEvent e) {
+        Dimension size = this.getSize();
+        this.width = size.width;
+        this.height = size.height;
+        this.resized();
     }
 
-    public void adjustmentValueChanged(AdjustmentEvent var1) {
+    public void adjustmentValueChanged(AdjustmentEvent e) {
         this.repaint();
     }
 
-    public void setBackgroundImage(Image var1) {
-        this.setBackgroundImage(var1, 0, 0);
+    public void setBackgroundImage(Image image) {
+        this.setBackgroundImage(image, 0, 0);
     }
 
-    public void setBackgroundImage(Image var1, int var2, int var3) {
-        this.anImage3333 = var1;
-        this.anInt3334 = var2;
-        this.anInt3335 = var3;
+    public void setBackgroundImage(Image image, int offsetX, int offsetY) {
+        this.backgroundImage = image;
+        this.backgroundOffsetX = offsetX;
+        this.backgroundOffsetY = offsetY;
         this.repaint();
     }
 
     public void clear() {
-        this.method847(true);
+        this.reset(true);
     }
 
-    public void addLine() {
-        this.addLine(null, null, false);
+    public void addText() {
+        this.addText(null, null, false);
     }
 
-    public void addLine(int var1, String var2) {
-        this.addLine(aColorArray3327[var1], var2, false);
+    public void addText(int i, String text) {
+        this.addText(colors[i], text, false);
     }
 
-    public void addLine(Color var1, String var2) {
-        this.addLine(var1, var2, false);
+    public void addText(Color color, String text) {
+        this.addText(color, text, false);
     }
 
-    public void addLine(int var1, String var2, boolean var3) {
-        this.addLine(aColorArray3327[var1], var2, var3);
+    public void addText(int i, String text, boolean scrollToBottom) {
+        this.addText(colors[i], text, scrollToBottom);
     }
 
-    public void addLine(Color var1, String var2, boolean var3) {
-        this.method851(var1, var2, false, var3);
+    public void addText(Color color, String text, boolean scrollToBottom) {
+        this.addText(color, text, false, scrollToBottom);
     }
 
-    public void addBoldLine(int var1, String var2) {
-        this.method851(aColorArray3327[var1], var2, true, true);
+    public void addImportantLine(int i, String text) {
+        this.addText(colors[i], text, true, true);
     }
 
-    public String[] getTimeStampedCache() {
-        Object var1 = this.anObject3352;
-        synchronized (this.anObject3352) {
-            int var2 = this.aVector3346.size();
-            String[] var3 = new String[var2];
-            if (var2 > 0) {
-                String var4 = "";
-
-                for (int var9 = 0; var9 < var2; ++var9) {
-                    Class93 var5 = this.aVector3346.elementAt(var9);
-                    if (var5.method1754()) {
-                        var3[var9] = var4;
+    public String[] getTextWithTimestamps() {
+        synchronized (this.synchronizationObject) {
+            int textCount = this.texts.size();
+            String[] textWithTimestamps = new String[textCount];
+            if (textCount > 0) {
+                for (int i = 0; i < textCount; ++i) {
+                    ColorText colorText = this.texts.elementAt(i);
+                    if (colorText.isTextEmpty()) {
+                        textWithTimestamps[i] = "";
                     } else {
-                        Calendar var6 = Calendar.getInstance();
-                        var6.setTime(new Date(var5.method1750()));
-                        int var7 = var6.get(Calendar.HOUR_OF_DAY);
-                        int var8 = var6.get(Calendar.MINUTE);
-                        var3[var9] = "[" + (var7 < 10 ? "0" : "") + var7 + ":" + (var8 < 10 ? "0" : "") + var8 + "] " + var5.method1752();
+                        Calendar calendar = Calendar.getInstance();
+                        calendar.setTime(new Date(colorText.getCreated()));
+                        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+                        int minute = calendar.get(Calendar.MINUTE);
+                        textWithTimestamps[i] = "[" + (hour < 10 ? "0" : "") + hour + ":" + (minute < 10 ? "0" : "") + minute + "] " + colorText.getText();
                     }
                 }
             }
 
-            return var3;
+            return textWithTimestamps;
         }
     }
 
-    public void drawBorders(boolean var1) {
-        this.setBorder(var1 ? 1 : 0);
+    public void setDrawBorders(boolean shouldDrawBorder) {
+        this.setBorderStyle(shouldDrawBorder ? 1 : 0);
     }
 
-    public void setBorder(int var1) {
-        this.anInt3351 = var1;
+    public void setBorderStyle(int borderStyle) {
+        this.borderStyle = borderStyle;
         this.repaint();
     }
 
     public Font getFont() {
-        return this.aFont3336;
+        return this.font;
     }
 
-    private void method847(boolean var1) {
-        Object var2 = this.anObject3352;
-        synchronized (this.anObject3352) {
-            this.aVector3345.removeAllElements();
-            if (var1) {
-                this.aVector3346.removeAllElements();
+    private void reset(boolean clearText) {
+        synchronized (this.synchronizationObject) {
+            this.lines.removeAllElements();
+            if (clearText) {
+                this.texts.removeAllElements();
             }
 
-            this.remove(this.aScrollbar3331);
-            this.aBoolean3332 = false;
+            this.remove(this.scrollbar);
+            this.hasScrollbar = false;
         }
 
         this.repaint();
     }
 
-    private void method848() {
-        Object var1 = this.anObject3352;
-        synchronized (this.anObject3352) {
-            this.method849();
-            this.method850();
-            this.method847(false);
-            int var2 = this.aVector3346.size();
-            if (var2 == 0) {
+    private void resized() {
+        synchronized (this.synchronizationObject) {
+            this.calculateLineStats();
+            this.calculateScrollbarStats();
+            this.reset(false);
+            int textsLength = this.texts.size();
+            if (textsLength == 0) {
                 return;
             }
 
-            int var4 = 0;
+            int i = 0;
 
             while (true) {
-                if (var4 >= var2) {
-                    this.method854(0, true);
+                if (i >= textsLength) {
+                    this.updateScrollWindow(0, true);
                     break;
                 }
 
-                Class93 var3 = this.aVector3346.elementAt(var4);
-                this.method852(var3.method1751(), var3.method1752(), var3.method1753());
-                ++var4;
+                ColorText colorText = this.texts.elementAt(i);
+                this.splitTextToLines(colorText.getColor(), colorText.getText(), colorText.isBold());
+                ++i;
             }
         }
 
         this.repaint();
     }
 
-    private void method849() {
-        this.anInt3342 = this.anInt3340 - 6 - 16;
-        this.anInt3344 = this.anInt3341 / this.anInt3343;
+    private void calculateLineStats() {
+        this.maxLineWidth = this.width - 6 - 16;
+        this.scrollWindowNumberOfLines = this.height / this.lineHeight;
     }
 
-    private void method850() {
-        this.aScrollbar3331.setBounds(this.anInt3340 - 16 - 1, 1, 16, this.anInt3341 - 2);
-        this.aScrollbar3331.setBlockIncrement(this.anInt3344 - 1);
+    private void calculateScrollbarStats() {
+        this.scrollbar.setBounds(this.width - 16 - 1, 1, 16, this.height - 2);
+        this.scrollbar.setBlockIncrement(this.scrollWindowNumberOfLines - 1);
     }
 
-    private void method851(Color var1, String var2, boolean var3, boolean var4) {
-        Object var5 = this.anObject3352;
-        synchronized (this.anObject3352) {
-            this.aVector3346.addElement(new Class93(this, var1, var2, var3));
-            int var6 = this.aVector3345.size();
-            this.method852(var1, var2, var3);
-            this.method854(var6, var4);
+    private void addText(Color color, String text, boolean bold, boolean scrollToBottom) {
+        synchronized (this.synchronizationObject) {
+            this.texts.addElement(new ColorText(color, text, bold));
+            int lineCount = this.lines.size();
+            this.splitTextToLines(color, text, bold);
+            this.updateScrollWindow(lineCount, scrollToBottom);
         }
 
         this.repaint();
     }
 
-    private void method852(Color var1, String var2, boolean var3) {
-        Object var4 = this.anObject3352;
-        synchronized (this.anObject3352) {
-            int var5 = var2 != null ? this.aFontMetrics3338.stringWidth(var2) : 0;
-            if (var5 <= this.anInt3342) {
-                this.method853(var1, var2, var3);
+    private void splitTextToLines(Color color, String text, boolean bold) {
+        synchronized (this.synchronizationObject) {
+            int textWidth = text != null ? this.fontMetrics.stringWidth(text) : 0;
+            if (textWidth <= this.maxLineWidth) {
+                this.addLine(color, text, bold);
             } else {
-                int var6 = var2.length();
-                int var7 = var6 - 1;
+                int length = text.length();
+                int i = length - 1;
 
-                while (this.aFontMetrics3338.stringWidth(var2.substring(0, var7)) > this.anInt3342) {
-                    --var7;
-                    if (var7 <= 5) {
-                        this.method853(var1, var2, var3);
+                while (this.fontMetrics.stringWidth(text.substring(0, i)) > this.maxLineWidth) {
+                    --i;
+                    if (i <= 5) {
+                        this.addLine(color, text, bold);
                         return;
                     }
                 }
 
-                int var8;
-                for (var8 = var7; var8 > 3 && var2.charAt(var8) != 32; --var8) {
+                int j = i;
+                while (j > 3 && text.charAt(j) != ' ') {
+                    --j;
                 }
 
-                if (var8 == 3) {
-                    var8 = var7;
+                if (j == 3) {
+                    j = i;
                 }
 
-                this.method853(var1, var2.substring(0, var8), var3);
-                this.method852(var1, (var2.charAt(var8) == 32 ? " " : "  ") + var2.substring(var8), var3);
+                this.addLine(color, text.substring(0, j), bold);
+                this.splitTextToLines(color, (text.charAt(j) == ' ' ? " " : "  ") + text.substring(j), bold);
             }
         }
     }
 
-    private void method853(Color var1, String var2, boolean var3) {
-        Object var4 = this.anObject3352;
-        synchronized (this.anObject3352) {
-            this.aVector3345.addElement(new Class93(this, var1, var2, var3));
+    private void addLine(Color color, String text, boolean bold) {
+        synchronized (this.synchronizationObject) {
+            this.lines.addElement(new ColorText(color, text, bold));
         }
     }
 
-    private void method854(int var1, boolean var2) {
-        Object var3 = this.anObject3352;
-        synchronized (this.anObject3352) {
-            int var4 = this.aVector3345.size();
-            if (var4 > this.anInt3344) {
-                int var5 = var4 - this.anInt3344;
-                if (!this.aBoolean3332) {
-                    this.add(this.aScrollbar3331);
-                    this.aScrollbar3331.addAdjustmentListener(this);
-                    this.aBoolean3332 = true;
+    private void updateScrollWindow(int scrollbarPosition, boolean scrollToBottom) {
+        synchronized (this.synchronizationObject) {
+            int linesCount = this.lines.size();
+            if (linesCount > this.scrollWindowNumberOfLines) {
+                int newScrollbarOffset = linesCount - this.scrollWindowNumberOfLines;
+                if (!this.hasScrollbar) {
+                    this.add(this.scrollbar);
+                    this.scrollbar.addAdjustmentListener(this);
+                    this.hasScrollbar = true;
                 } else {
-                    int var6 = this.aScrollbar3331.getValue();
-                    if (!var2 && var6 + this.anInt3344 < var1) {
-                        var5 = var6;
+                    int currentScrollbarOffset = this.scrollbar.getValue();
+                    if (!scrollToBottom && currentScrollbarOffset + this.scrollWindowNumberOfLines < scrollbarPosition) {
+                        newScrollbarOffset = currentScrollbarOffset;
                     }
                 }
 
-                this.aScrollbar3331.setValues(var5, this.anInt3344, 0, var4);
+                this.scrollbar.setValues(newScrollbarOffset, this.scrollWindowNumberOfLines, 0, linesCount);
             }
         }
     }

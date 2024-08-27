@@ -37,87 +37,89 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
     public static final int SORT_NICKNAME_CBA = 2;
     public static final int SORT_RANKING_123 = 3;
     public static final int SORT_RANKING_321 = 4;
-    private static final Color aColor3453 = Color.white;
-    private static final Color aColor3454 = Color.black;
-    private static final Font aFont3455 = new Font("Dialog", Font.PLAIN, 9);
-    private static final Color aColor3456 = new Color(224, 224, 224);
-    private static final Color aColor3457 = new Color(208, 208, 255);
-    private UserListHandler anUserListHandler3458;
+    private static final Color backgroundColor = Color.white;
+    private static final Color foregroundColor = Color.black;
+    private static final Font sortingButtonsFont = new Font("Dialog", Font.PLAIN, 9);
+    private static final Color columnHeaderDefaultColor = new Color(224, 224, 224);
+    private static final Color columnHeaderSortedColor = new Color(208, 208, 255);
+    private UserListHandler userListHandler;
     private TextManager textManager;
     private ImageManager imageManager;
     private int width;
     private int height;
-    private Image[] anImageArray3463;
-    private boolean aBoolean3464;
-    private ColorList aColorList3465;
-    private ColorCheckbox aColorCheckbox3466;
-    private ColorCheckbox aColorCheckbox3467;
-    private ColorButton_Sub1 aColorButton_Sub1_3468;
-    private ColorButton_Sub1 aColorButton_Sub1_3469;
-    private Image anImage3470;
-    private Image anImage3471;
-    private int anInt3472;
-    private int anInt3473;
-    private int anInt3474;
-    private int anInt3475;
-    private boolean isSheriff;
+    private Image[] rankingIcons;
+    private boolean rankingsShown;
+    private ColorList playersList;
+    private ColorCheckbox sendPrivatelyCheckbox;
+    private ColorCheckbox ignoreUserCheckbox;
+    private ColorButton_Sub1 sortByRankingButton;
+    private ColorButton_Sub1 sortByNicknameButton;
+    private Image backgroundImage;
+    private Image playersListBackgroundImage;
+    private int backgroundImageOffsetX;
+    private int backgroundImageOffsetY;
+    private int lastX;
+    private int lastY;
+    private boolean rightClickMenuEnabled;
     private int sheriffStatus;
     private int adminStatus;
-    private PopupMenu aPopupMenu3479;
-    private MenuItem aMenuItem3480;
-    private MenuItem aMenuItem3481;
-    private MenuItem aMenuItem3482;
-    private MenuItem aMenuItem3483;
-    private MenuItem aMenuItem3484;
-    private MenuItem aMenuItem3485;
-    private MenuItem aMenuItem3486;
-    private MenuItem aMenuItem3487;
-    private MenuItem aMenuItem3488;
-    private MenuItem aMenuItem3489;
-    private MenuItem aMenuItem3490;
-    private MenuItem aMenuItem3491;
-    private MenuItem aMenuItem3492;
-    private MenuItem aMenuItem3493;
-    private MenuItem aMenuItem3494;
-    private UserListItem anUserListItem3495;
-    private StaffActionFrame aStaffActionFrame__3496;
-    private Vector<String> aVector3497;
-    private Vector<String> aVector3498;
-    private boolean aBoolean3499;
-    private boolean aBoolean3500;
-    private ColorTextArea aColorTextArea3501;
-    private ChatBase aChatBase3502;
-    private Languages aLanguages3503;
-    private Hashtable<Integer, ColorListItemGroup> aHashtable3504;
+    private PopupMenu rightClickMenu;
+    private MenuItem openProfileMenuItem;
+    private MenuItem sendPrivatelyMenuItem;
+    private MenuItem ignoreUserMenuItem;
+    private MenuItem adminRemoveUserMenuItem;
+    private MenuItem sheriffSendMessageMenuItem;
+    private MenuItem sheriffMute5minutesMenuItem;
+    private MenuItem sheriffMute15minutesMenuItem;
+    private MenuItem sheriffMute1hourMenuItem;
+    private MenuItem sheriffMute6hoursMenuItem;
+    private MenuItem sheriffMute1dayMenuItem;
+    private MenuItem clearEveryUserChatMenuItem;
+    private MenuItem sheriffCopyChatMenuItem;
+    private MenuItem adminGetUserInfoMenuItem;
+    private MenuItem adminUnmuteUserMenuItem;
+    private MenuItem adminBroadcastMessageMenuItem;
+    private User selectedUser;
+    private StaffActionFrame staffActionFrame;
+    private Vector<String> privateMessageUsers;
+    private Vector<String> ignoredUsers;
+    private boolean sheriffMarkEnabled;
+    private boolean dimmerNicksEnabled;
+    private ColorTextArea chatOutput;
+    private ChatBase chat;
+    private Languages languages;
+    private Hashtable<Integer, ColorListItemGroup> languageGroups;
 
 
-    public UserList(UserListHandler handler, TextManager textManager, ImageManager imageManager, boolean var4, boolean var5, boolean var6) {
-        this(handler, textManager, imageManager, var4, var5, var6, 100, 200);
+    public UserList(UserListHandler handler, TextManager textManager, ImageManager imageManager, boolean showRankingIcons, boolean addSendPrivately, boolean addIgnoreUser) {
+        this(handler, textManager, imageManager, showRankingIcons, addSendPrivately, addIgnoreUser, 100, 200);
     }
 
-    public UserList(UserListHandler handler, TextManager textManager, ImageManager imageManager, boolean var4, boolean var5, boolean var6, int width, int height) {
-        this.anUserListHandler3458 = handler;
+    public UserList(UserListHandler handler, TextManager textManager, ImageManager imageManager, boolean showRankingIcons, boolean addSendPrivately, boolean addIgnoreUser, int width, int height) {
+        this.userListHandler = handler;
         this.textManager = textManager;
         this.imageManager = imageManager;
         this.width = width;
         this.height = height;
         this.setSize(width, height);
-        this.aBoolean3464 = var4;
-        this.method931(var5, var6);
-        this.setBackground(aColor3453);
-        this.setForeground(aColor3454);
-        if (var4) {
-            Image var9 = imageManager.getShared("ranking-icons.gif");
-            this.anImageArray3463 = imageManager.separateImages(var9, 14);
+        this.rankingsShown = showRankingIcons;
+        this.init(addSendPrivately, addIgnoreUser);
+        this.setBackground(backgroundColor);
+        this.setForeground(foregroundColor);
+        if (showRankingIcons) {
+            Image rankingIcons = imageManager.getShared("ranking-icons.gif");
+            this.rankingIcons = imageManager.separateImages(rankingIcons, 14);
         }
 
-        this.isSheriff = false;
-        this.sheriffStatus = this.adminStatus = 0;
-        this.aVector3497 = new Vector<>();
-        this.aVector3498 = new Vector<>();
-        this.aBoolean3499 = this.aBoolean3500 = true;
-        this.aLanguages3503 = new Languages(textManager, imageManager);
-        this.aHashtable3504 = new Hashtable<>();
+        this.rightClickMenuEnabled = false;
+        this.sheriffStatus = 0;
+        this.adminStatus = 0;
+        this.privateMessageUsers = new Vector<>();
+        this.ignoredUsers = new Vector<>();
+        this.sheriffMarkEnabled = true;
+        this.dimmerNicksEnabled = true;
+        this.languages = new Languages(textManager, imageManager);
+        this.languageGroups = new Hashtable<>();
         this.addComponentListener(this);
     }
 
@@ -126,115 +128,115 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
         this.repaint();
     }
 
-    public void paint(Graphics var1) {
-        this.update(var1);
+    public void paint(Graphics g) {
+        this.update(g);
     }
 
-    public void update(Graphics var1) {
-        if (this.anImage3470 != null) {
-            var1.drawImage(this.anImage3470, 0, 0, this.width, this.height, this.anInt3472, this.anInt3473, this.anInt3472 + this.width, this.anInt3473 + this.height, this);
+    public void update(Graphics g) {
+        if (this.backgroundImage != null) {
+            g.drawImage(this.backgroundImage, 0, 0, this.width, this.height, this.backgroundImageOffsetX, this.backgroundImageOffsetY, this.backgroundImageOffsetX + this.width, this.backgroundImageOffsetY + this.height, this);
         } else {
-            this.drawBackground(var1);
+            this.drawBackground(g);
         }
 
     }
 
-    public void componentShown(ComponentEvent var1) {
+    public void componentShown(ComponentEvent e) {
     }
 
-    public void componentHidden(ComponentEvent var1) {
+    public void componentHidden(ComponentEvent e) {
     }
 
-    public void componentMoved(ComponentEvent var1) {
-        if (this.anImage3470 != null) {
-            Point var2 = this.getLocation();
-            int var3 = var2.x - this.anInt3474;
-            int var4 = var2.y - this.anInt3475;
-            this.setBackgroundImage(this.anImage3470, this.anImage3471, this.anInt3472 + var3, this.anInt3473 + var4);
+    public void componentMoved(ComponentEvent e) {
+        if (this.backgroundImage != null) {
+            Point location = this.getLocation();
+            int newX = location.x - this.lastX;
+            int newY = location.y - this.lastY;
+            this.setBackgroundImage(this.backgroundImage, this.playersListBackgroundImage, this.backgroundImageOffsetX + newX, this.backgroundImageOffsetY + newY);
         }
 
         this.repaint();
     }
 
-    public void componentResized(ComponentEvent var1) {
-        Dimension var2 = this.getSize();
-        this.width = var2.width;
-        this.height = var2.height;
-        boolean var3 = this.aColorCheckbox3466 != null;
-        boolean var4 = this.aColorCheckbox3467 != null;
-        if (this.aBoolean3464) {
-            this.aColorButton_Sub1_3468.setSize(17, 11);
-            this.aColorButton_Sub1_3469.setSize(this.width - 17, 11);
+    public void componentResized(ComponentEvent e) {
+        Dimension size = this.getSize();
+        this.width = size.width;
+        this.height = size.height;
+        boolean sendPrivatelyCheckBoxExists = this.sendPrivatelyCheckbox != null;
+        boolean ignoreUserCheckBoxExists = this.ignoreUserCheckbox != null;
+        if (this.rankingsShown) {
+            this.sortByRankingButton.setSize(17, 11);
+            this.sortByNicknameButton.setSize(this.width - 17, 11);
         }
 
-        int var5 = this.width;
-        int var6 = this.height - (var4 ? 18 : 0) - (var3 ? 18 : 0) - (!var4 && !var3 ? 0 : 2) - (this.aBoolean3464 ? 11 : 0);
-        this.aColorList3465.setBounds(0, this.aBoolean3464 ? 11 : 0, var5, var6);
-        if (var3) {
-            this.aColorCheckbox3466.setBounds(0, this.height - 18 - (var4 ? 18 : 0), this.width, 18);
+        int width = this.width;
+        int height = this.height - (ignoreUserCheckBoxExists ? 18 : 0) - (sendPrivatelyCheckBoxExists ? 18 : 0) - (!ignoreUserCheckBoxExists && !sendPrivatelyCheckBoxExists ? 0 : 2) - (this.rankingsShown ? 11 : 0);
+        this.playersList.setBounds(0, this.rankingsShown ? 11 : 0, width, height);
+        if (sendPrivatelyCheckBoxExists) {
+            this.sendPrivatelyCheckbox.setBounds(0, this.height - 18 - (ignoreUserCheckBoxExists ? 18 : 0), this.width, 18);
         }
 
-        if (var4) {
-            this.aColorCheckbox3467.setBounds(0, this.height - 18, this.width, 18);
+        if (ignoreUserCheckBoxExists) {
+            this.ignoreUserCheckbox.setBounds(0, this.height - 18, this.width, 18);
         }
 
-        this.componentMoved(var1);
+        this.componentMoved(e);
     }
 
-    public void itemStateChanged(ItemEvent var1) {
-        Object var2 = var1.getSource();
-        if (var2 == this.aMenuItem3481) {
-            this.aColorCheckbox3466.click();
-        } else if (var2 == this.aMenuItem3482) {
-            this.aColorCheckbox3467.click();
+    public void itemStateChanged(ItemEvent e) {
+        Object source = e.getSource();
+        if (source == this.sendPrivatelyMenuItem) {
+            this.sendPrivatelyCheckbox.click();
+        } else if (source == this.ignoreUserMenuItem) {
+            this.ignoreUserCheckbox.click();
         } else {
-            ColorListItem var3 = this.aColorList3465.getSelectedItem();
-            boolean var4 = false;
-            if (var3 == null) {
-                this.method932();
-                var4 = true;
-                Object var5 = var1.getItem();
-                if (!(var5 instanceof ColorListItem)) {
+            ColorListItem selectedPlayer = this.playersList.getSelectedItem();
+            boolean playerDeselected = false;
+            if (selectedPlayer == null) {
+                this.resetCheckBoxes();
+                playerDeselected = true;
+                Object item = e.getItem();
+                if (!(item instanceof ColorListItem)) {
                     return;
                 }
 
-                var3 = (ColorListItem) var1.getItem();
+                selectedPlayer = (ColorListItem) e.getItem();
             }
 
-            UserListItem var8 = (UserListItem) var3.getData();
-            if (var2 == this.aColorList3465) {
-                int var6 = var1.getID();
-                if (var6 == 2) {
-                    if (this.openProfilePage(var8)) {
+            User user = (User) selectedPlayer.getData();
+            if (source == this.playersList) {
+                int eventId = e.getID();
+                if (eventId == ColorList.ID_DOUBLECLICKED) {
+                    if (this.openProfilePage(user)) {
                         return;
                     }
 
-                    this.anUserListHandler3458.openPlayerCard(var8.getNick());
-                } else if (var6 == 1 && this.isSheriff) {
-                    int[] var7 = this.aColorList3465.getLastClickedMouseXY();
-                    this.showSheriffMenu(var8, var7[0], var7[1]);
+                    this.userListHandler.openPlayerCard(user.getNick());
+                } else if (eventId == ColorList.ID_RIGHTCLICKED && this.rightClickMenuEnabled) {
+                    int[] mouseCoordinates = this.playersList.getLastClickedMouseXY();
+                    this.showRightClickMenu(user, mouseCoordinates[0], mouseCoordinates[1]);
                 }
             }
 
-            if (!var4) {
-                if (var2 == this.aColorList3465) {
-                    if (this.aColorCheckbox3466 != null) {
-                        this.aColorCheckbox3466.setState(var8.isPrivately());
+            if (!playerDeselected) {
+                if (source == this.playersList) {
+                    if (this.sendPrivatelyCheckbox != null) {
+                        this.sendPrivatelyCheckbox.setState(user.isGettingPrivateMessages());
                     }
 
-                    if (this.aColorCheckbox3467 != null) {
-                        this.aColorCheckbox3467.setState(var8.isIgnore());
+                    if (this.ignoreUserCheckbox != null) {
+                        this.ignoreUserCheckbox.setState(user.isIgnore());
                     }
 
                 } else {
-                    if (var2 == this.aColorCheckbox3466 || var2 == this.aColorCheckbox3467) {
-                        if (var8.isLocal()) {
-                            this.method932();
+                    if (source == this.sendPrivatelyCheckbox || source == this.ignoreUserCheckbox) {
+                        if (user.isLocal()) {
+                            this.resetCheckBoxes();
                         } else {
-                            var8.isPrivately(this.aColorCheckbox3466 != null ? this.aColorCheckbox3466.getState() : false);
-                            var8.isIgnore(this.aColorCheckbox3467 != null ? this.aColorCheckbox3467.getState() : false);
-                            var3.setColor(this.method930(var8));
-                            this.aColorList3465.repaint();
+                            user.setGettingPrivateMessages(this.sendPrivatelyCheckbox != null ? this.sendPrivatelyCheckbox.getState() : false);
+                            user.setIgnore(this.ignoreUserCheckbox != null ? this.ignoreUserCheckbox.getState() : false);
+                            selectedPlayer.setColor(this.getUserColor(user));
+                            this.playersList.repaint();
                         }
                     }
 
@@ -243,173 +245,173 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
         }
     }
 
-    public void actionPerformed(ActionEvent var1) {
-        Object var2 = var1.getSource();
-        if (var2 == this.aColorButton_Sub1_3468) {
-            if (this.getSorting() == 4) {
-                this.setSorting(3);
+    public void actionPerformed(ActionEvent e) {
+        Object source = e.getSource();
+        if (source == this.sortByRankingButton) {
+            if (this.getSorting() == SORT_RANKING_321) {
+                this.setSorting(SORT_RANKING_123);
             } else {
-                this.setSorting(4);
+                this.setSorting(SORT_RANKING_321);
             }
-        } else if (var2 == this.aColorButton_Sub1_3469) {
-            if (this.getSorting() == 1) {
-                this.setSorting(2);
+        } else if (source == this.sortByNicknameButton) {
+            if (this.getSorting() == SORT_NICKNAME_ABC) {
+                this.setSorting(SORT_NICKNAME_CBA);
             } else {
-                this.setSorting(1);
+                this.setSorting(SORT_NICKNAME_ABC);
             }
-        } else if (var2 == this.aMenuItem3480) {
-            if (!this.openProfilePage(this.anUserListItem3495)) {
-                this.anUserListHandler3458.openPlayerCard(this.anUserListItem3495.getNick());
+        } else if (source == this.openProfileMenuItem) {
+            if (!this.openProfilePage(this.selectedUser)) {
+                this.userListHandler.openPlayerCard(this.selectedUser.getNick());
             }
-        } else if (var2 == this.aMenuItem3483) {
-            this.method929(1, this.anUserListItem3495.getNick());
-        } else if (var2 == this.aMenuItem3484) {
-            this.method929(2, this.anUserListItem3495.getNick());
-        } else if (var2 != this.aMenuItem3485 && var2 != this.aMenuItem3486 && var2 != this.aMenuItem3487 && var2 != this.aMenuItem3488 && var2 != this.aMenuItem3489) {
-            if (var2 == this.aMenuItem3490) {
-                this.method929(4, null);
-            } else if (var2 == this.aMenuItem3491) {
-                CopyChatFrame var4 = new CopyChatFrame();
-                var4.create(this.imageManager.getApplet(), this.aChatBase3502 != null ? this.aChatBase3502.chatTextArea : this.aColorTextArea3501);
-            } else if (var2 == this.aMenuItem3492) {
-                this.anUserListHandler3458.adminCommand("info", this.anUserListItem3495.getNick());
-            } else if (var2 == this.aMenuItem3493) {
-                this.anUserListHandler3458.adminCommand("unmute", this.anUserListItem3495.getNick());
-            } else if (var2 == this.aMenuItem3494) {
-                this.method929(5, null);
+        } else if (source == this.adminRemoveUserMenuItem) {
+            this.showStaffActionFrame(1, this.selectedUser.getNick());
+        } else if (source == this.sheriffSendMessageMenuItem) {
+            this.showStaffActionFrame(2, this.selectedUser.getNick());
+        } else if (source != this.sheriffMute5minutesMenuItem && source != this.sheriffMute15minutesMenuItem && source != this.sheriffMute1hourMenuItem && source != this.sheriffMute6hoursMenuItem && source != this.sheriffMute1dayMenuItem) {
+            if (source == this.clearEveryUserChatMenuItem) {
+                this.showStaffActionFrame(4, null);
+            } else if (source == this.sheriffCopyChatMenuItem) {
+                CopyChatFrame copyChatFrame = new CopyChatFrame();
+                copyChatFrame.create(this.imageManager.getApplet(), this.chat != null ? this.chat.chatTextArea : this.chatOutput);
+            } else if (source == this.adminGetUserInfoMenuItem) {
+                this.userListHandler.adminCommand("info", this.selectedUser.getNick());
+            } else if (source == this.adminUnmuteUserMenuItem) {
+                this.userListHandler.adminCommand("unmute", this.selectedUser.getNick());
+            } else if (source == this.adminBroadcastMessageMenuItem) {
+                this.showStaffActionFrame(5, null);
             }
         } else {
-            short var3 = 0;
-            if (var2 == this.aMenuItem3485) {
-                var3 = 5;
-            } else if (var2 == this.aMenuItem3486) {
-                var3 = 15;
-            } else if (var2 == this.aMenuItem3487) {
-                var3 = 60;
-            } else if (var2 == this.aMenuItem3488) {
-                var3 = 360;
-            } else if (var2 == this.aMenuItem3489) {
-                var3 = 1440;
+            short muteTime = 0;
+            if (source == this.sheriffMute5minutesMenuItem) {
+                muteTime = 5;
+            } else if (source == this.sheriffMute15minutesMenuItem) {
+                muteTime = 15;
+            } else if (source == this.sheriffMute1hourMenuItem) {
+                muteTime = 60;
+            } else if (source == this.sheriffMute6hoursMenuItem) {
+                muteTime = 360;
+            } else if (source == this.sheriffMute1dayMenuItem) {
+                muteTime = 1440;
             }
 
-            this.anUserListHandler3458.adminCommand("mute", this.anUserListItem3495.getNick(), "" + var3);
+            this.userListHandler.adminCommand("mute", this.selectedUser.getNick(), "" + muteTime);
         }
 
     }
 
-    public static String getNickFromUserInfo(String var0) {
-        if (!method925(var0)) {
-            return method936(var0);
+    public static String getNickFromUserInfo(String userData) {
+        if (!isUserDataType3(userData)) {
+            return getNickFromUserData(userData);
         } else {
-            int var1 = var0.indexOf(58);
-            int var2 = var0.indexOf(94);
-            return Tools.changeFromSaveable(var0.substring(var1 + 1, var2));
+            int i = userData.indexOf(':');
+            int j = userData.indexOf('^');
+            return Tools.changeFromSaveable(userData.substring(i + 1, j));
         }
     }
 
     public void disableSheriffMark() {
-        this.aBoolean3499 = false;
+        this.sheriffMarkEnabled = false;
     }
 
     public void disableDimmerNicks() {
-        this.aBoolean3500 = false;
+        this.dimmerNicksEnabled = false;
     }
 
-    public void enablePopUp() {
-        this.enablePopUp(false, false);
+    public void enableRightClickMenu() {
+        this.enableRightClickMenu(false, false);
     }
 
-    public void enablePopUp(boolean isSheriff, boolean isAdmin) {
+    public void enableRightClickMenu(boolean isSheriff, boolean isAdmin) {
         this.sheriffStatus = isSheriff ? 2 : 0;
         this.adminStatus = isAdmin ? 1 : 0;
-        this.isSheriff = true;
+        this.rightClickMenuEnabled = true;
     }
 
     public void enablePopUpWithOnlyOldCommands(boolean isSheriff, boolean isAdmin) {
         this.sheriffStatus = isSheriff ? 1 : 0;
         this.adminStatus = isAdmin ? 1 : 0;
-        this.isSheriff = true;
+        this.rightClickMenuEnabled = true;
     }
 
-    public void setCheckBoxesVisible(boolean var1) {
-        if (this.aColorCheckbox3466 != null) {
-            this.aColorCheckbox3466.setVisible(var1);
+    public void setCheckBoxesVisible(boolean checkBoxesVisible) {
+        if (this.sendPrivatelyCheckbox != null) {
+            this.sendPrivatelyCheckbox.setVisible(checkBoxesVisible);
         }
 
-        if (this.aColorCheckbox3467 != null) {
-            this.aColorCheckbox3467.setVisible(var1);
+        if (this.ignoreUserCheckbox != null) {
+            this.ignoreUserCheckbox.setVisible(checkBoxesVisible);
         }
 
     }
 
-    public void setBackground(Color var1) {
-        super.setBackground(var1);
-        if (this.aColorCheckbox3466 != null) {
-            this.aColorCheckbox3466.setBackground(var1);
+    public void setBackground(Color color) {
+        super.setBackground(color);
+        if (this.sendPrivatelyCheckbox != null) {
+            this.sendPrivatelyCheckbox.setBackground(color);
         }
 
-        if (this.aColorCheckbox3467 != null) {
-            this.aColorCheckbox3467.setBackground(var1);
+        if (this.ignoreUserCheckbox != null) {
+            this.ignoreUserCheckbox.setBackground(color);
         }
 
         this.repaint();
     }
 
-    public void setForeground(Color var1) {
-        super.setForeground(var1);
-        if (this.aColorCheckbox3466 != null) {
-            this.aColorCheckbox3466.setForeground(var1);
+    public void setForeground(Color color) {
+        super.setForeground(color);
+        if (this.sendPrivatelyCheckbox != null) {
+            this.sendPrivatelyCheckbox.setForeground(color);
         }
 
-        if (this.aColorCheckbox3467 != null) {
-            this.aColorCheckbox3467.setForeground(var1);
+        if (this.ignoreUserCheckbox != null) {
+            this.ignoreUserCheckbox.setForeground(color);
         }
 
     }
 
-    public void setBackgroundImage(Image var1, int var2, int var3) {
-        this.setBackgroundImage(var1, null, var2, var3);
+    public void setBackgroundImage(Image image, int backgroundImageOffsetX, int backgroundImageOffsetY) {
+        this.setBackgroundImage(image, null, backgroundImageOffsetX, backgroundImageOffsetY);
     }
 
-    public void setBackgroundImage(Image var1, Image var2, int var3, int var4) {
-        this.anImage3470 = var1;
-        this.anImage3471 = var2;
-        this.anInt3472 = var3;
-        this.anInt3473 = var4;
-        Point var5 = this.getLocation();
-        this.anInt3474 = var5.x;
-        this.anInt3475 = var5.y;
-        Point var6;
-        if (var2 != null) {
-            var6 = this.aColorList3465.getLocation();
-            this.aColorList3465.setBackgroundImage(var2, var3 + var6.x, var4 + var6.y);
+    public void setBackgroundImage(Image image, Image playersListBackground, int backgroundImageOffsetX, int backgroundImageOffsetY) {
+        this.backgroundImage = image;
+        this.playersListBackgroundImage = playersListBackground;
+        this.backgroundImageOffsetX = backgroundImageOffsetX;
+        this.backgroundImageOffsetY = backgroundImageOffsetY;
+        Point currentLocation = this.getLocation();
+        this.lastX = currentLocation.x;
+        this.lastY = currentLocation.y;
+        Point location;
+        if (playersListBackground != null) {
+            location = this.playersList.getLocation();
+            this.playersList.setBackgroundImage(playersListBackground, backgroundImageOffsetX + location.x, backgroundImageOffsetY + location.y);
         }
 
-        if (this.aColorCheckbox3466 != null) {
-            var6 = this.aColorCheckbox3466.getLocation();
-            this.aColorCheckbox3466.setBackgroundImage(var1, var3 + var6.x, var4 + var6.y);
+        if (this.sendPrivatelyCheckbox != null) {
+            location = this.sendPrivatelyCheckbox.getLocation();
+            this.sendPrivatelyCheckbox.setBackgroundImage(image, backgroundImageOffsetX + location.x, backgroundImageOffsetY + location.y);
         }
 
-        if (this.aColorCheckbox3467 != null) {
-            var6 = this.aColorCheckbox3467.getLocation();
-            this.aColorCheckbox3467.setBackgroundImage(var1, var3 + var6.x, var4 + var6.y);
+        if (this.ignoreUserCheckbox != null) {
+            location = this.ignoreUserCheckbox.getLocation();
+            this.ignoreUserCheckbox.setBackgroundImage(image, backgroundImageOffsetX + location.x, backgroundImageOffsetY + location.y);
         }
 
         this.repaint();
     }
 
-    public void setListBackgroundImage(Image var1, int var2, int var3) {
-        Point var4 = this.aColorList3465.getLocation();
-        this.aColorList3465.setBackgroundImage(var1, var2 + var4.x, var3 + var4.y);
+    public void setListBackgroundImage(Image image, int backgroundImageOffsetX, int backgroundImageOffsetY) {
+        Point location = this.playersList.getLocation();
+        this.playersList.setBackgroundImage(image, backgroundImageOffsetX + location.x, backgroundImageOffsetY + location.y);
     }
 
-    public UserListItem addUser(String var1, boolean var2) {
-        return this.addUser(var1, var2, -1);
+    public User addUser(String userData, boolean isLocal) {
+        return this.addUser(userData, isLocal, -1);
     }
 
-    public UserListItem addUser(String userData, boolean userIsLocal, int var3) {
-        if (!method925(userData)) {
-            return this.method937(userData, userIsLocal, var3);
+    public User addUser(String userData, boolean userIsLocal, int color) {
+        if (!isUserDataType3(userData)) {
+            return this.addUser2(userData, userIsLocal, color);
         } else {
             // 3:im the man111^r^111^fi_FI^-^-
             int colonIndex = userData.indexOf(':');
@@ -417,95 +419,94 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
             StringTokenizer tokenizer = new StringTokenizer(userData, "^");
             String username = Tools.changeFromSaveable(tokenizer.nextToken());
             String elevation = tokenizer.nextToken();
-            int points = Integer.parseInt(tokenizer.nextToken());// points earned, maybe
+            int rating = Integer.parseInt(tokenizer.nextToken());
             String locale = tokenizer.nextToken();
-            String unknown = Tools.changeFromSaveable(tokenizer.nextToken());
+            String profilePage = Tools.changeFromSaveable(tokenizer.nextToken());
             String avatarUrl = Tools.changeFromSaveable(tokenizer.nextToken());
             boolean isRegistered = elevation.indexOf('r') >= 0;
             boolean isVip = elevation.indexOf('v') >= 0;
             boolean isSheriff = elevation.indexOf('s') >= 0;
             boolean isNotAcceptingChallenges = elevation.indexOf('n') >= 0;
-            UserListItem listItem = new UserListItem(username, userIsLocal, isRegistered, isVip, isSheriff, points);
-            listItem.isNotAcceptingChallenges(isNotAcceptingChallenges);
-            int var17 = Languages.getLanguageIdByString(locale);
-            listItem.setLanguage(var17);
-            listItem.setLanguageFlag(this.aLanguages3503.getFlag(var17));
-            if (var3 >= 0) {
-                listItem.setOverrideColor(var3);
+            User user = new User(username, userIsLocal, isRegistered, isVip, isSheriff, rating);
+            user.setIsNotAcceptingChallenges(isNotAcceptingChallenges);
+            int language = Languages.getLanguageIdByString(locale);
+            user.setLanguage(language);
+            user.setLanguageFlag(this.languages.getFlag(language));
+            if (color >= 0) {
+                user.setOverrideColor(color);
             }
 
-            this.addUser(listItem);
-            if (!unknown.equals("-")) {
-                listItem.method1825(unknown);
+            this.addUser(user);
+            if (!profilePage.equals("-")) {
+                user.setProfilePage(profilePage);
             }
 
             if (!avatarUrl.equals("-")) {
-                listItem.loadAvatar(avatarUrl, this.imageManager, this.aColorList3465);
+                user.loadAvatar(avatarUrl, this.imageManager, this.playersList);
             }
 
-            return listItem;
+            return user;
         }
     }
 
-    public void addUser(UserListItem var1) {
-        String var2 = var1.getNick();
-        if (this.aVector3497.contains(var2)) {
-            var1.isPrivately(true);
+    public void addUser(User user) {
+        String nick = user.getNick();
+        if (this.privateMessageUsers.contains(nick)) {
+            user.setGettingPrivateMessages(true);
         }
 
-        if (this.aVector3498.contains(var2)) {
-            var1.isIgnore(true);
+        if (this.ignoredUsers.contains(nick)) {
+            user.setIgnore(true);
         }
 
-        String var3 = var1.getNick();
-        if (var1.isSheriff() && this.aBoolean3499) {
-            var3 = var3 + " " + this.textManager.getShared("UserList_Sheriff");
+        String displayedNick = user.getNick();
+        if (user.isSheriff() && this.sheriffMarkEnabled) {
+            displayedNick = displayedNick + " " + this.textManager.getShared("UserList_Sheriff");
         }
 
-        ColorListItem var4 = new ColorListItem(this.method933(var1), this.method930(var1), var1.isRegistered(), var3, var1, false);
-        var4.setValue(var1.getRanking());
-        if (var1.isSheriff()) {
-            var4.setSortOverride(true);
+        ColorListItem colorListItem = new ColorListItem(this.getRankingIcon(user), this.getUserColor(user), user.isRegistered(), displayedNick, user, false);
+        colorListItem.setValue(user.getRating());
+        if (user.isSheriff()) {
+            colorListItem.setSortOverride(true);
         }
 
-        int var5 = var1.getLanguage();
-        Integer var6 = var5;
-        ColorListItemGroup var7 = this.aHashtable3504.get(var6);
-        if (var7 == null) {
-            int var8 = var5;
-            if (var5 == 0) {
-                var8 = var5 + 50;
+        int language = user.getLanguage();
+        ColorListItemGroup group = this.languageGroups.get(language);
+        if (group == null) {
+            int sortValue = language;
+            if (language == Languages.LANGUAGE_UNKNOWN) {
+                sortValue = language + 50;
             }
 
-            String var9 = this.aLanguages3503.getName(var5);
-            var7 = new ColorListItemGroup(var9, this.aLanguages3503.getFlag(var5), var8);
-            this.aHashtable3504.put(var6, var7);
+            String languageName = this.languages.getName(language);
+            group = new ColorListItemGroup(languageName, this.languages.getFlag(language), sortValue);
+            this.languageGroups.put(language, group);
         }
 
-        if (var1.isLocal()) {
-            var7.changeSortValue(-100);
-            this.aColorList3465.reSort();
+        if (user.isLocal()) {
+            group.changeSortValue(-100);
+            this.playersList.reSort();
         }
 
-        var4.setGroup(var7);
-        this.aColorList3465.addItem(var4);
-        var1.method1822(var4);
+        colorListItem.setGroup(group);
+        this.playersList.addItem(colorListItem);
+        user.setColorListItem(colorListItem);
     }
 
-    public UserListItem getSelectedUser() {
-        ColorListItem var1 = this.aColorList3465.getSelectedItem();
-        return var1 == null ? null : (UserListItem) var1.getData();
+    public User getSelectedUser() {
+        ColorListItem item = this.playersList.getSelectedItem();
+        return item == null ? null : (User) item.getData();
     }
 
-    public UserListItem getUser(String var1) {
-        ColorListItem[] var2 = this.aColorList3465.getAllItems();
-        if (var2 != null) {
-            int var3 = var2.length;
-            if (var3 > 0) {
-                for (ColorListItem colorListItem : var2) {
-                    UserListItem var4 = (UserListItem) colorListItem.getData();
-                    if (var4.getNick().equals(var1)) {
-                        return var4;
+    public User getUser(String nick) {
+        ColorListItem[] allItems = this.playersList.getAllItems();
+        if (allItems != null) {
+            int itemsCount = allItems.length;
+            if (itemsCount > 0) {
+                for (ColorListItem colorListItem : allItems) {
+                    User user = (User) colorListItem.getData();
+                    if (user.getNick().equals(nick)) {
+                        return user;
                     }
                 }
             }
@@ -514,19 +515,19 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
         return null;
     }
 
-    public boolean isUser(String var1) {
-        return this.getUser(var1) != null;
+    public boolean isUser(String nick) {
+        return this.getUser(nick) != null;
     }
 
-    public UserListItem getLocalUser() {
-        ColorListItem[] var1 = this.aColorList3465.getAllItems();
-        if (var1 != null) {
-            int var2 = var1.length;
-            if (var2 > 0) {
-                for (ColorListItem colorListItem : var1) {
-                    UserListItem var3 = (UserListItem) colorListItem.getData();
-                    if (var3.isLocal()) {
-                        return var3;
+    public User getLocalUser() {
+        ColorListItem[] allItems = this.playersList.getAllItems();
+        if (allItems != null) {
+            int itemsCount = allItems.length;
+            if (itemsCount > 0) {
+                for (ColorListItem colorListItem : allItems) {
+                    User user = (User) colorListItem.getData();
+                    if (user.isLocal()) {
+                        return user;
                     }
                 }
             }
@@ -535,20 +536,20 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
         return null;
     }
 
-    public void removeUser(String var1) {
-        ColorListItem[] var2 = this.aColorList3465.getAllItems();
-        if (var2 != null) {
-            int var3 = var2.length;
-            if (var3 > 0) {
-                for (ColorListItem colorListItem : var2) {
-                    UserListItem var4 = (UserListItem) colorListItem.getData();
-                    if (var4.getNick().equals(var1)) {
-                        this.aColorList3465.removeItem(colorListItem);
+    public void removeUser(String nick) {
+        ColorListItem[] allItems = this.playersList.getAllItems();
+        if (allItems != null) {
+            int itemsCount = allItems.length;
+            if (itemsCount > 0) {
+                for (ColorListItem colorListItem : allItems) {
+                    User user = (User) colorListItem.getData();
+                    if (user.getNick().equals(nick)) {
+                        this.playersList.removeItem(colorListItem);
                         if (colorListItem.isSelected()) {
-                            this.method932();
+                            this.resetCheckBoxes();
                         }
 
-                        this.method934(var4);
+                        this.removeUser(user);
                         return;
                     }
                 }
@@ -557,21 +558,21 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
 
     }
 
-    public UserListItem removeUserNew(String var1) {
-        ColorListItem[] var2 = this.aColorList3465.getAllItems();
-        if (var2 != null) {
-            int var3 = var2.length;
-            if (var3 > 0) {
-                for (ColorListItem colorListItem : var2) {
-                    UserListItem var4 = (UserListItem) colorListItem.getData();
-                    if (var4.getNick().equals(var1)) {
-                        this.aColorList3465.removeItem(colorListItem);
+    public User removeAndReturnUser(String nick) {
+        ColorListItem[] allItems = this.playersList.getAllItems();
+        if (allItems != null) {
+            int itemsCount = allItems.length;
+            if (itemsCount > 0) {
+                for (ColorListItem colorListItem : allItems) {
+                    User user = (User) colorListItem.getData();
+                    if (user.getNick().equals(nick)) {
+                        this.playersList.removeItem(colorListItem);
                         if (colorListItem.isSelected()) {
-                            this.method932();
+                            this.resetCheckBoxes();
                         }
 
-                        this.method934(var4);
-                        return var4;
+                        this.removeUser(user);
+                        return user;
                     }
                 }
             }
@@ -581,353 +582,353 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
     }
 
     public void removeAllUsers() {
-        ColorListItem[] var1 = this.aColorList3465.getAllItems();
-        if (var1 != null) {
-            for (ColorListItem colorListItem : var1) {
-                this.method934((UserListItem) colorListItem.getData());
+        ColorListItem[] users = this.playersList.getAllItems();
+        if (users != null) {
+            for (ColorListItem colorListItem : users) {
+                this.removeUser((User) colorListItem.getData());
             }
         }
 
-        this.aColorList3465.removeAllItems();
-        this.method932();
+        this.playersList.removeAllItems();
+        this.resetCheckBoxes();
     }
 
-    public void setNotAcceptingChallenges(UserListItem var1, boolean var2) {
-        var1.isNotAcceptingChallenges(var2);
-        ColorListItem var3 = var1.method1823();
-        var3.setColor(this.method930(var1));
-        this.aColorList3465.repaint();
+    public void setNotAcceptingChallenges(User user, boolean notAcceptingChallenges) {
+        user.setIsNotAcceptingChallenges(notAcceptingChallenges);
+        ColorListItem userListItem = user.getColorListItem();
+        userListItem.setColor(this.getUserColor(user));
+        this.playersList.repaint();
     }
 
-    public void setSorting(int var1) {
-        this.aColorList3465.setSorting(var1);
-        if (this.aBoolean3464) {
-            if (var1 != 3 && var1 != 4) {
-                this.aColorButton_Sub1_3468.setBackground(aColor3456);
-                this.aColorButton_Sub1_3469.setBackground(aColor3457);
+    public void setSorting(int sorting) {
+        this.playersList.setSorting(sorting);
+        if (this.rankingsShown) {
+            if (sorting != SORT_RANKING_123 && sorting != SORT_RANKING_321) {
+                this.sortByRankingButton.setBackground(columnHeaderDefaultColor);
+                this.sortByNicknameButton.setBackground(columnHeaderSortedColor);
             } else {
-                this.aColorButton_Sub1_3468.setBackground(aColor3457);
-                this.aColorButton_Sub1_3469.setBackground(aColor3456);
+                this.sortByRankingButton.setBackground(columnHeaderSortedColor);
+                this.sortByNicknameButton.setBackground(columnHeaderDefaultColor);
             }
         }
 
     }
 
     public int getSorting() {
-        return this.aColorList3465.getSorting();
+        return this.playersList.getSorting();
     }
 
     public int getUserCount() {
-        return this.aColorList3465.getItemCount();
+        return this.playersList.getItemCount();
     }
 
-    public void setChatOutputReference(ColorTextArea var1) {
-        this.aColorTextArea3501 = var1;
+    public void setChatOutputReference(ColorTextArea chatOutput) {
+        this.chatOutput = chatOutput;
     }
 
-    public void setChatReference(ChatBase var1) {
-        this.aChatBase3502 = var1;
+    public void setChatReference(ChatBase chat) {
+        this.chat = chat;
     }
 
     public void usePixelRoundedButtonsAndCheckBoxes() {
-        if (this.aColorButton_Sub1_3468 != null) {
-            this.aColorButton_Sub1_3468.setPixelRoundedUpperCorners();
+        if (this.sortByRankingButton != null) {
+            this.sortByRankingButton.setPixelRoundedUpperCorners();
         }
 
-        if (this.aColorButton_Sub1_3469 != null) {
-            this.aColorButton_Sub1_3469.setPixelRoundedUpperCorners();
+        if (this.sortByNicknameButton != null) {
+            this.sortByNicknameButton.setPixelRoundedUpperCorners();
         }
 
-        if (this.aColorCheckbox3466 != null) {
-            this.aColorCheckbox3466.setBoxPixelRoundedCorners(true);
+        if (this.sendPrivatelyCheckbox != null) {
+            this.sendPrivatelyCheckbox.setBoxPixelRoundedCorners(true);
         }
 
-        if (this.aColorCheckbox3467 != null) {
-            this.aColorCheckbox3467.setBoxPixelRoundedCorners(true);
+        if (this.ignoreUserCheckbox != null) {
+            this.ignoreUserCheckbox.setBoxPixelRoundedCorners(true);
         }
 
     }
 
-    private static boolean method925(String var0) {
-        return var0.startsWith("3:");
+    private static boolean isUserDataType3(String userData) {
+        return userData.startsWith("3:");
     }
 
-    private void showSheriffMenu(UserListItem var1, int var2, int var3) {
-        this.anUserListItem3495 = var1;
-        if (this.aPopupMenu3479 != null) {
-            this.remove(this.aPopupMenu3479);
+    private void showRightClickMenu(User user, int x, int y) {
+        this.selectedUser = user;
+        if (this.rightClickMenu != null) {
+            this.remove(this.rightClickMenu);
         }
 
-        this.aPopupMenu3479 = new PopupMenu();
-        this.aMenuItem3480 = this.method927(this.aPopupMenu3479, this.textManager.getShared("UserList_OpenPlayerCard"));
-        this.aMenuItem3480.setEnabled(var1.isRegistered() || var1.method1826() != null);
-        if (this.aColorCheckbox3466 != null || this.aColorCheckbox3467 != null) {
-            this.aPopupMenu3479.addSeparator();
+        this.rightClickMenu = new PopupMenu();
+        this.openProfileMenuItem = this.createButtonMenuItem(this.rightClickMenu, this.textManager.getShared("UserList_OpenPlayerCard"));
+        this.openProfileMenuItem.setEnabled(user.isRegistered() || user.getProfilePage() != null);
+        if (this.sendPrivatelyCheckbox != null || this.ignoreUserCheckbox != null) {
+            this.rightClickMenu.addSeparator();
         }
 
-        if (this.aColorCheckbox3466 != null) {
-            this.aMenuItem3481 = this.method928(this.aPopupMenu3479, this.aColorCheckbox3466.getLabel(), var1.isPrivately());
-            this.aMenuItem3481.setEnabled(!var1.isLocal());
+        if (this.sendPrivatelyCheckbox != null) {
+            this.sendPrivatelyMenuItem = this.createCheckboxMenuItem(this.rightClickMenu, this.sendPrivatelyCheckbox.getLabel(), user.isGettingPrivateMessages());
+            this.sendPrivatelyMenuItem.setEnabled(!user.isLocal());
         }
 
-        if (this.aColorCheckbox3467 != null) {
-            this.aMenuItem3482 = this.method928(this.aPopupMenu3479, this.aColorCheckbox3467.getLabel(), var1.isIgnore());
-            this.aMenuItem3482.setEnabled(!var1.isLocal());
+        if (this.ignoreUserCheckbox != null) {
+            this.ignoreUserMenuItem = this.createCheckboxMenuItem(this.rightClickMenu, this.ignoreUserCheckbox.getLabel(), user.isIgnore());
+            this.ignoreUserMenuItem.setEnabled(!user.isLocal());
         }
 
-        Menu var4;
+        Menu menu;
         if (this.sheriffStatus > 0) {
-            this.aPopupMenu3479.addSeparator();
-            var4 = new Menu("Sheriff");
-            this.aMenuItem3484 = this.method927(var4, "Send message...");
+            this.rightClickMenu.addSeparator();
+            menu = new Menu("Sheriff");
+            this.sheriffSendMessageMenuItem = this.createButtonMenuItem(menu, "Send message...");
             if (this.sheriffStatus > 1) {
-                Menu var5 = new Menu("Mute user");
-                this.aMenuItem3485 = this.method927(var5, "5 minutes");
-                this.aMenuItem3486 = this.method927(var5, "15 minutes");
-                this.aMenuItem3487 = this.method927(var5, "1 hour");
-                this.aMenuItem3488 = this.method927(var5, "6 hours");
+                Menu sheriffMuteUserMenu = new Menu("Mute user");
+                this.sheriffMute5minutesMenuItem = this.createButtonMenuItem(sheriffMuteUserMenu, "5 minutes");
+                this.sheriffMute15minutesMenuItem = this.createButtonMenuItem(sheriffMuteUserMenu, "15 minutes");
+                this.sheriffMute1hourMenuItem = this.createButtonMenuItem(sheriffMuteUserMenu, "1 hour");
+                this.sheriffMute6hoursMenuItem = this.createButtonMenuItem(sheriffMuteUserMenu, "6 hours");
                 if (this.adminStatus > 0) {
-                    this.aMenuItem3489 = this.method927(var5, "1 day (admin)");
+                    this.sheriffMute1dayMenuItem = this.createButtonMenuItem(sheriffMuteUserMenu, "1 day (admin)");
                 }
 
-                var4.add(var5);
-                if (this.aChatBase3502 != null || this.aColorTextArea3501 != null) {
-                    this.aMenuItem3491 = this.method927(var4, "Copy chat");
+                menu.add(sheriffMuteUserMenu);
+                if (this.chat != null || this.chatOutput != null) {
+                    this.sheriffCopyChatMenuItem = this.createButtonMenuItem(menu, "Copy chat");
                 }
             }
 
-            this.aPopupMenu3479.add(var4);
+            this.rightClickMenu.add(menu);
         }
 
         if (this.adminStatus > 0) {
-            var4 = new Menu("Admin");
-            this.aMenuItem3492 = this.method927(var4, "Get user info");
-            this.aMenuItem3493 = this.method927(var4, "Unmute user");
-            this.aMenuItem3483 = this.method927(var4, "Remove user...");
-            this.aMenuItem3494 = this.method927(var4, "Broadcast message...");
-            this.aPopupMenu3479.add(var4);
+            menu = new Menu("Admin");
+            this.adminGetUserInfoMenuItem = this.createButtonMenuItem(menu, "Get user info");
+            this.adminUnmuteUserMenuItem = this.createButtonMenuItem(menu, "Unmute user");
+            this.adminRemoveUserMenuItem = this.createButtonMenuItem(menu, "Remove user...");
+            this.adminBroadcastMessageMenuItem = this.createButtonMenuItem(menu, "Broadcast message...");
+            this.rightClickMenu.add(menu);
         }
 
-        this.add(this.aPopupMenu3479);
-        this.aPopupMenu3479.show(this.aColorList3465, var2, var3);
+        this.add(this.rightClickMenu);
+        this.rightClickMenu.show(this.playersList, x, y);
     }
 
-    private MenuItem method927(Menu var1, String var2) {
-        MenuItem var3 = new MenuItem(var2);
-        var3.addActionListener(this);
-        var1.add(var3);
-        return var3;
+    private MenuItem createButtonMenuItem(Menu menu, String label) {
+        MenuItem menuItem = new MenuItem(label);
+        menuItem.addActionListener(this);
+        menu.add(menuItem);
+        return menuItem;
     }
 
-    private MenuItem method928(Menu var1, String var2, boolean var3) {
-        CheckboxMenuItem var4 = new CheckboxMenuItem(var2, var3);
-        var4.addItemListener(this);
-        var1.add(var4);
-        return var4;
+    private MenuItem createCheckboxMenuItem(Menu menu, String label, boolean checked) {
+        CheckboxMenuItem menuItem = new CheckboxMenuItem(label, checked);
+        menuItem.addItemListener(this);
+        menu.add(menuItem);
+        return menuItem;
     }
 
-    private void method929(int var1, String var2) {
-        if (this.aStaffActionFrame__3496 != null) {
-            this.aStaffActionFrame__3496.windowClosing(null);
+    private void showStaffActionFrame(int actionType, String targetNick) {
+        if (this.staffActionFrame != null) {
+            this.staffActionFrame.windowClosing(null);
         }
 
-        this.aStaffActionFrame__3496 = new StaffActionFrame(this.textManager, this.anUserListHandler3458, var1, var2);
-        this.aStaffActionFrame__3496.method251(this.imageManager.getApplet(), this.adminStatus > 0);
+        this.staffActionFrame = new StaffActionFrame(this.textManager, this.userListHandler, actionType, targetNick);
+        this.staffActionFrame.show(this.imageManager.getApplet(), this.adminStatus > 0);
     }
 
-    private Color method930(UserListItem var1) {
-        int var2 = var1.method1821(this.aBoolean3499);
-        Color var3 = ColorListItem.getColorById(var2);
-        if (this.aBoolean3500 && var1.isNotAcceptingChallenges()) {
-            var3 = new Color((var3.getRed() + 896) / 5, (var3.getGreen() + 896) / 5, (var3.getBlue() + 896) / 5);
+    private Color getUserColor(User user) {
+        int colorIndex = user.getColor(this.sheriffMarkEnabled);
+        Color color = ColorListItem.getColorById(colorIndex);
+        if (this.dimmerNicksEnabled && user.isNotAcceptingChallenges()) {
+            color = new Color((color.getRed() + 896) / 5, (color.getGreen() + 896) / 5, (color.getBlue() + 896) / 5);
         }
 
-        return var3;
+        return color;
     }
 
-    private void method931(boolean var1, boolean var2) {
+    private void init(boolean addSendPrivately, boolean addIgnoreUser) {
         this.setLayout(null);
-        if (this.aBoolean3464) {
-            this.aColorButton_Sub1_3468 = new ColorButton_Sub1(this.textManager.getShared("UserList_SortByRanking"));
-            this.aColorButton_Sub1_3468.setBounds(0, 0, 17, 11);
-            this.aColorButton_Sub1_3468.setFont(aFont3455);
-            this.aColorButton_Sub1_3468.setBackground(aColor3456);
-            this.aColorButton_Sub1_3468.addActionListener(this);
-            this.add(this.aColorButton_Sub1_3468);
-            this.aColorButton_Sub1_3469 = new ColorButton_Sub1(this.textManager.getShared("UserList_SortByNick"));
-            this.aColorButton_Sub1_3469.setBounds(17, 0, this.width - 17, 11);
-            this.aColorButton_Sub1_3469.setFont(aFont3455);
-            this.aColorButton_Sub1_3469.setBackground(aColor3457);
-            this.aColorButton_Sub1_3469.addActionListener(this);
-            this.add(this.aColorButton_Sub1_3469);
+        if (this.rankingsShown) {
+            this.sortByRankingButton = new ColorButton_Sub1(this.textManager.getShared("UserList_SortByRanking"));
+            this.sortByRankingButton.setBounds(0, 0, 17, 11);
+            this.sortByRankingButton.setFont(sortingButtonsFont);
+            this.sortByRankingButton.setBackground(columnHeaderDefaultColor);
+            this.sortByRankingButton.addActionListener(this);
+            this.add(this.sortByRankingButton);
+            this.sortByNicknameButton = new ColorButton_Sub1(this.textManager.getShared("UserList_SortByNick"));
+            this.sortByNicknameButton.setBounds(17, 0, this.width - 17, 11);
+            this.sortByNicknameButton.setFont(sortingButtonsFont);
+            this.sortByNicknameButton.setBackground(columnHeaderSortedColor);
+            this.sortByNicknameButton.addActionListener(this);
+            this.add(this.sortByNicknameButton);
         }
 
-        int var3 = this.width;
-        int var4 = this.height - (var2 ? 18 : 0) - (var1 ? 18 : 0) - (!var2 && !var1 ? 0 : 2) - (this.aBoolean3464 ? 11 : 0);
-        if (this.aBoolean3464) {
-            this.aColorList3465 = new ColorList(var3, var4, 11, 11);
+        int width = this.width;
+        int height = this.height - (addIgnoreUser ? 18 : 0) - (addSendPrivately ? 18 : 0) - (!addIgnoreUser && !addSendPrivately ? 0 : 2) - (this.rankingsShown ? 11 : 0);
+        if (this.rankingsShown) {
+            this.playersList = new ColorList(width, height, 11, 11);
         } else {
-            this.aColorList3465 = new ColorList(var3, var4);
+            this.playersList = new ColorList(width, height);
         }
 
-        this.aColorList3465.setSelectable(1);
-        this.aColorList3465.setLocation(0, this.aBoolean3464 ? 11 : 0);
-        this.aColorList3465.addItemListener(this);
-        this.add(this.aColorList3465);
-        this.setSorting(1);
-        if (var1) {
-            this.aColorCheckbox3466 = new ColorCheckbox(this.textManager.getShared("UserList_Privately"));
-            this.aColorCheckbox3466.setBounds(0, this.height - 18 - (var2 ? 18 : 0), this.width, 18);
-            this.aColorCheckbox3466.addItemListener(this);
-            this.add(this.aColorCheckbox3466);
+        this.playersList.setSelectable(ColorList.SELECTABLE_ONE);
+        this.playersList.setLocation(0, this.rankingsShown ? 11 : 0);
+        this.playersList.addItemListener(this);
+        this.add(this.playersList);
+        this.setSorting(UserList.SORT_NICKNAME_ABC);
+        if (addSendPrivately) {
+            this.sendPrivatelyCheckbox = new ColorCheckbox(this.textManager.getShared("UserList_Privately"));
+            this.sendPrivatelyCheckbox.setBounds(0, this.height - 18 - (addIgnoreUser ? 18 : 0), this.width, 18);
+            this.sendPrivatelyCheckbox.addItemListener(this);
+            this.add(this.sendPrivatelyCheckbox);
         }
 
-        if (var2) {
-            this.aColorCheckbox3467 = new ColorCheckbox(this.textManager.getShared("UserList_Ignore"));
-            this.aColorCheckbox3467.setBounds(0, this.height - 18, this.width, 18);
-            this.aColorCheckbox3467.addItemListener(this);
-            this.add(this.aColorCheckbox3467);
-        }
-
-    }
-
-    private void method932() {
-        if (this.aColorCheckbox3466 != null) {
-            this.aColorCheckbox3466.setState(false);
-        }
-
-        if (this.aColorCheckbox3467 != null) {
-            this.aColorCheckbox3467.setState(false);
+        if (addIgnoreUser) {
+            this.ignoreUserCheckbox = new ColorCheckbox(this.textManager.getShared("UserList_Ignore"));
+            this.ignoreUserCheckbox.setBounds(0, this.height - 18, this.width, 18);
+            this.ignoreUserCheckbox.addItemListener(this);
+            this.add(this.ignoreUserCheckbox);
         }
 
     }
 
-    private Image method933(UserListItem var1) {
-        if (this.anImageArray3463 == null) {
+    private void resetCheckBoxes() {
+        if (this.sendPrivatelyCheckbox != null) {
+            this.sendPrivatelyCheckbox.setState(false);
+        }
+
+        if (this.ignoreUserCheckbox != null) {
+            this.ignoreUserCheckbox.setState(false);
+        }
+
+    }
+
+    private Image getRankingIcon(User user) {
+        if (this.rankingIcons == null) {
             return null;
-        } else if (!var1.isRegistered()) {
-            return this.anImageArray3463[0];
+        } else if (!user.isRegistered()) {
+            return this.rankingIcons[0];
         } else {
-            int var2 = var1.getRanking();
-            if (var2 < 0) {
+            int ranking = user.getRating();
+            if (ranking < 0) {
                 return null;
-            } else if (var2 == 0) {
-                return this.anImageArray3463[1];
-            } else if (var2 < 50) {
-                return this.anImageArray3463[2];
+            } else if (ranking == 0) {
+                return this.rankingIcons[1];
+            } else if (ranking < 50) {
+                return this.rankingIcons[2];
             } else {
-                for (int var3 = 100; var3 <= 1000; var3 += 100) {
-                    if (var2 < var3) {
-                        return this.anImageArray3463[2 + var3 / 100];
+                for (int i = 100; i <= 1000; i += 100) {
+                    if (ranking < i) {
+                        return this.rankingIcons[2 + i / 100];
                     }
                 }
 
-                return this.anImageArray3463[13];
+                return this.rankingIcons[13];
             }
         }
     }
 
-    private void method934(UserListItem var1) {
-        String var2 = var1.getNick();
-        if (var1.isPrivately()) {
-            this.aVector3497.addElement(var2);
+    private void removeUser(User user) {
+        String nick = user.getNick();
+        if (user.isGettingPrivateMessages()) {
+            this.privateMessageUsers.addElement(nick);
         } else {
-            this.aVector3497.removeElement(var2);
+            this.privateMessageUsers.removeElement(nick);
         }
 
-        if (var1.isIgnore()) {
-            this.aVector3498.addElement(var2);
+        if (user.isIgnore()) {
+            this.ignoredUsers.addElement(nick);
         } else {
-            this.aVector3498.removeElement(var2);
+            this.ignoredUsers.removeElement(nick);
         }
 
     }
 
-    private boolean openProfilePage(UserListItem var1) {
-        String var2 = var1.method1826();
-        if (var2 == null) {
+    private boolean openProfilePage(User user) {
+        String profilePage = user.getProfilePage();
+        if (profilePage == null) {
             return false;
         } else {
             try {
-                String var3 = this.textManager.getParameters().getParameter("guestinfotarget");
-                if (var3 == null) {
-                    var3 = "_blank";
+                String target = this.textManager.getParameters().getParameter("guestinfotarget");
+                if (target == null) {
+                    target = "_blank";
                 }
 
-                this.imageManager.getApplet().getAppletContext().showDocument(new URL(var2), var3);
-            } catch (Exception var4) {
+                this.imageManager.getApplet().getAppletContext().showDocument(new URL(profilePage), target);
+            } catch (Exception e) {
             }
 
             return true;
         }
     }
 
-    private static String method936(String var0) {
-        int var1;
-        int var2;
-        if (var0.startsWith("2:")) {
-            var1 = var0.lastIndexOf(94);
-            var2 = var0.lastIndexOf(94, var1 - 1);
-            var0 = var0.substring(2, var2);
+    private static String getNickFromUserData(String userData) {
+        int i;
+        int j;
+        if (userData.startsWith("2:")) {
+            i = userData.lastIndexOf('^');
+            j = userData.lastIndexOf('^', i - 1);
+            userData = userData.substring(2, j);
         }
 
-        var1 = var0.indexOf(44);
-        var2 = var0.lastIndexOf(44);
-        if (var1 == var2) {
-            var2 = var0.length();
+        i = userData.indexOf(',');
+        j = userData.lastIndexOf(',');
+        if (i == j) {
+            j = userData.length();
         }
 
-        return var0.substring(var1 + 1, var2);
+        return userData.substring(i + 1, j);
     }
 
-    private UserListItem method937(String var1, boolean var2, int var3) {
-        String var6 = null;
-        int var4;
-        int var5;
-        if (var1.startsWith("2:")) {
-            var4 = var1.lastIndexOf(94);
-            var5 = var1.lastIndexOf(94, var4 - 1);
-            var6 = var1.substring(var5 + 1);
-            var1 = var1.substring(2, var5);
+    private User addUser2(String userData, boolean isLocal, int color) {
+        String urls = null;
+        int j;
+        int i;
+        if (userData.startsWith("2:")) {
+            j = userData.lastIndexOf('^');
+            i = userData.lastIndexOf('^', j - 1);
+            urls = userData.substring(i + 1);
+            userData = userData.substring(2, i);
         }
 
-        var4 = var1.indexOf(44);
-        var5 = var1.lastIndexOf(44);
-        String var7;
-        int var8;
-        if (var4 == var5) {
-            var7 = var1.substring(var4 + 1);
-            var8 = -2;
+        j = userData.indexOf(',');
+        i = userData.lastIndexOf(',');
+        String nick;
+        int rating;
+        if (j == i) {
+            nick = userData.substring(j + 1);
+            rating = -2;
         } else {
-            var7 = var1.substring(var4 + 1, var5);
-            var8 = Integer.parseInt(var1.substring(var5 + 1));
+            nick = userData.substring(j + 1, i);
+            rating = Integer.parseInt(userData.substring(i + 1));
         }
 
-        String var9 = var1.substring(0, var4);
-        boolean var10 = var9.indexOf(114) >= 0;
-        boolean var11 = var9.indexOf(118) >= 0;
-        boolean var12 = var9.indexOf(115) >= 0;
-        boolean var13 = var9.indexOf(110) >= 0;
-        UserListItem var14 = new UserListItem(var7, var2, var10, var11, var12, var8);
-        var14.isNotAcceptingChallenges(var13);
-        if (var3 >= 0) {
-            var14.setOverrideColor(var3);
+        String userParameters = userData.substring(0, j);
+        boolean isRegistered = userParameters.indexOf('r') >= 0;
+        boolean isVip = userParameters.indexOf('v') >= 0;
+        boolean isSheriff = userParameters.indexOf('s') >= 0;
+        boolean notAcceptingChallenges = userParameters.indexOf('n') >= 0;
+        User user = new User(nick, isLocal, isRegistered, isVip, isSheriff, rating);
+        user.setIsNotAcceptingChallenges(notAcceptingChallenges);
+        if (color >= 0) {
+            user.setOverrideColor(color);
         }
 
-        this.addUser(var14);
-        if (var6 != null) {
-            var4 = var6.indexOf(94);
-            String var15 = var6.substring(0, var4);
-            String var16 = var6.substring(var4 + 1);
-            if (!var15.equals("-")) {
-                var14.method1825(Tools.changeFromSaveable(var15));
+        this.addUser(user);
+        if (urls != null) {
+            j = urls.indexOf('^');
+            String profilePage = urls.substring(0, j);
+            String avatarUrl = urls.substring(j + 1);
+            if (!profilePage.equals("-")) {
+                user.setProfilePage(Tools.changeFromSaveable(profilePage));
             }
 
-            if (!var16.equals("-")) {
-                var14.loadAvatar(Tools.changeFromSaveable(var16), this.imageManager, this.aColorList3465);
+            if (!avatarUrl.equals("-")) {
+                user.loadAvatar(Tools.changeFromSaveable(avatarUrl), this.imageManager, this.playersList);
             }
         }
 
-        return var14;
+        return user;
     }
 }
