@@ -12,10 +12,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Generate changelog
         id: changelog
-        uses: metcalfc/changelog-generator@v0.4.3
+        uses: metcalfc/changelog-generator@v4.3.1
         with:
           myToken: ${{ secrets.GITHUB_TOKEN }}
       - name: Set up JDK 21
@@ -25,7 +25,7 @@ jobs:
           distribution: 'temurin'
       # Step that caches and restores maven dependencies
       - name: Cache maven dependencies
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
           path: ~/.m2/repository
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
