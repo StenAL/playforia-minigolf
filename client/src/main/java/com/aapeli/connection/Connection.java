@@ -12,9 +12,9 @@ import java.io.InputStreamReader;
 import java.io.InterruptedIOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
 import java.net.Socket;
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
 
 public final class Connection implements Runnable {
 
@@ -51,7 +51,7 @@ public final class Connection implements Runnable {
     private int retryTimeoutS;
     private GameQueue gameQueue;
     private GamePacketQueue gamePacketQueue;
-    private Vector<String> thriftLogs;
+    private List<String> thriftLogs;
     private long numReceivedGamePackets;
     private long connActivityTime;
     private ConnCipher connCipher;
@@ -85,7 +85,7 @@ public final class Connection implements Runnable {
         this.clientId = -1L;
         this.retryTimeoutS = 25;
         this.gameQueue = new GameQueue();
-        this.thriftLogs = new Vector<>();
+        this.thriftLogs = new ArrayList<>();
         this.numReceivedGamePackets = -1L;
         this.state = STATE_OPENING;
         this.disconnectReason = DISCONNECT_REASON_UNDEFINED;
@@ -165,7 +165,9 @@ public final class Connection implements Runnable {
             var4 = var4 + "\t" + var3;
         }
 
-        this.thriftLogs.addElement(var4);
+        synchronized (this.thriftLogs) {
+            this.thriftLogs.add(var4);
+        }
     }
 
     public void closeConnection() {
@@ -250,19 +252,20 @@ public final class Connection implements Runnable {
     }
 
     private void processThriftLogs() {
-        while (true) {
-            if (this.state == STATE_CONNECTED && !this.thriftLogs.isEmpty()) {
-                String str = this.thriftLogs.firstElement();
-                this.thriftLogs.removeElementAt(0);
-                if (this.writeLineS(str)) {
-                    continue;
+        synchronized (this.thriftLogs) {
+            while (true) {
+                if (this.state == STATE_CONNECTED && !this.thriftLogs.isEmpty()) {
+                    String str = this.thriftLogs.removeFirst();
+                    if (this.writeLineS(str)) {
+                        continue;
+                    }
+
+                    this.disconnect();
+                    return;
                 }
 
-                this.disconnect();
                 return;
             }
-
-            return;
         }
     }
 

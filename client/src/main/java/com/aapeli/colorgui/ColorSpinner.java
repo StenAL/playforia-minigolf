@@ -14,11 +14,12 @@ import java.awt.event.ItemListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
 
 public final class ColorSpinner extends IPanel implements MouseListener, MouseMotionListener, ItemSelectable {
 
-    private Vector<String> aVector3310 = new Vector<>();
+    private List<String> items = new ArrayList<>();
     private int anInt3311 = -1;
     private int anInt3312 = 0;
     private boolean aBoolean3313;
@@ -26,7 +27,7 @@ public final class ColorSpinner extends IPanel implements MouseListener, MouseMo
     private boolean aBoolean3315;
     private Font aFont3316;
     private int anInt3317;
-    private Vector<ItemListener> aVector3318;
+    private List<ItemListener> listeners;
     private Image anImage3319;
     private Graphics aGraphics3320;
     private int anInt3321;
@@ -34,7 +35,6 @@ public final class ColorSpinner extends IPanel implements MouseListener, MouseMo
     private Class92 aClass92_3323;
     private int anInt3324;
     private Object anObject3325;
-    private static final String aString3326 = "Dialog";
 
 
     public ColorSpinner() {
@@ -45,7 +45,7 @@ public final class ColorSpinner extends IPanel implements MouseListener, MouseMo
         this.aClass92_3323 = null;
         this.anInt3324 = 0;
         this.anObject3325 = new Object();
-        this.aVector3318 = new Vector<>();
+        this.listeners = new ArrayList<>();
         this.addMouseListener(this);
         this.addMouseMotionListener(this);
         this.anInt3321 = this.anInt3322 = -1;
@@ -72,7 +72,7 @@ public final class ColorSpinner extends IPanel implements MouseListener, MouseMo
                 this.aGraphics3320.setColor(var5);
                 this.aGraphics3320.drawLine(0, var4 - 1, var3 - 1, var4 - 1);
                 this.aGraphics3320.setColor(this.method844(var5, var6));
-                double var7 = 1.0D * (double) (var3 - var4 * 2) / (double) this.aVector3310.size();
+                double var7 = 1.0D * (double) (var3 - var4 * 2) / (double) this.items.size();
                 this.aGraphics3320.drawLine((int) ((double) var4 + (double) this.anInt3311 * var7 + 0.5D), var4 - 2, (int) ((double) var4 + (double) (this.anInt3311 + 1) * var7 + 0.5D), var4 - 2);
             }
 
@@ -130,13 +130,12 @@ public final class ColorSpinner extends IPanel implements MouseListener, MouseMo
     }
 
     public void mousePressed(MouseEvent var1) {
-        Object var2 = this.anObject3325;
         synchronized (this.anObject3325) {
             Dimension var3 = this.getSize();
             int var4 = var3.width;
             int var5 = var3.height;
             int var6 = var1.getX();
-            int var7 = this.aVector3310.size();
+            int var7 = this.items.size();
             if (var6 < var5) {
                 --this.anInt3311;
                 if (this.anInt3311 < 0) {
@@ -184,11 +183,10 @@ public final class ColorSpinner extends IPanel implements MouseListener, MouseMo
     }
 
     public void mouseDragged(MouseEvent var1) {
-        Object var2 = this.anObject3325;
         synchronized (this.anObject3325) {
             if (this.aBoolean3314) {
                 Dimension var3 = this.getSize();
-                int var4 = this.aVector3310.size();
+                int var4 = this.items.size();
                 int var5 = (var1.getX() - var3.height) * var4 / (var3.width - var3.height * 2);
                 if (var5 < 0) {
                     var5 = 0;
@@ -212,33 +210,30 @@ public final class ColorSpinner extends IPanel implements MouseListener, MouseMo
     }
 
     public int addItem(String var1) {
-        Vector<String> var2 = this.aVector3310;
-        synchronized (this.aVector3310) {
-            this.aVector3310.addElement(var1);
+        synchronized (this.items) {
+            this.items.add(var1);
             if (this.anInt3311 == -1) {
                 this.anInt3311 = 0;
                 this.repaint();
             }
 
-            return this.aVector3310.size() - 1;
+            return this.items.size() - 1;
         }
     }
 
     public String getItem(int var1) {
-        Vector<String> var2 = this.aVector3310;
-        synchronized (this.aVector3310) {
-            return this.aVector3310.elementAt(var1);
+        synchronized (this.items) {
+            return this.items.get(var1);
         }
     }
 
     public String removeItem(int var1) {
-        Vector<String> var2 = this.aVector3310;
-        synchronized (this.aVector3310) {
-            String var3 = this.aVector3310.elementAt(var1);
-            this.aVector3310.removeElementAt(var1);
+        synchronized (this.items) {
+            String var3 = this.items.get(var1);
+            this.items.remove(var1);
             if (this.anInt3311 >= var1) {
                 --this.anInt3311;
-                if (this.anInt3311 == -1 && !this.aVector3310.isEmpty()) {
+                if (this.anInt3311 == -1 && !this.items.isEmpty()) {
                     this.anInt3311 = 0;
                 }
 
@@ -250,10 +245,9 @@ public final class ColorSpinner extends IPanel implements MouseListener, MouseMo
     }
 
     public boolean removeAllItems() {
-        Vector<String> var1 = this.aVector3310;
-        synchronized (this.aVector3310) {
-            if (!this.aVector3310.isEmpty()) {
-                this.aVector3310.removeAllElements();
+        synchronized (this.items) {
+            if (!this.items.isEmpty()) {
+                this.items.clear();
                 this.anInt3311 = -1;
                 this.repaint();
                 return true;
@@ -264,9 +258,8 @@ public final class ColorSpinner extends IPanel implements MouseListener, MouseMo
     }
 
     public boolean setSelectedIndex(int var1) {
-        Vector<String> var2 = this.aVector3310;
-        synchronized (this.aVector3310) {
-            if (var1 >= 0 && var1 < this.aVector3310.size()) {
+        synchronized (this.items) {
+            if (var1 >= 0 && var1 < this.items.size()) {
                 if (var1 != this.anInt3311) {
                     this.anInt3311 = var1;
                     this.repaint();
@@ -285,27 +278,24 @@ public final class ColorSpinner extends IPanel implements MouseListener, MouseMo
     }
 
     public String getSelectedItem() {
-        Vector<String> var1 = this.aVector3310;
-        synchronized (this.aVector3310) {
+        synchronized (this.items) {
             return this.anInt3311 == -1 ? null : this.getItem(this.anInt3311);
         }
     }
 
     public int getItemCount() {
-        return this.aVector3310.size();
+        return this.items.size();
     }
 
     public void addItemListener(ItemListener var1) {
-        Vector<ItemListener> var2 = this.aVector3318;
-        synchronized (this.aVector3318) {
-            this.aVector3318.addElement(var1);
+        synchronized (this.listeners) {
+            this.listeners.add(var1);
         }
     }
 
     public void removeItemListener(ItemListener var1) {
-        Vector<ItemListener> var2 = this.aVector3318;
-        synchronized (this.aVector3318) {
-            this.aVector3318.removeElement(var1);
+        synchronized (this.listeners) {
+            this.listeners.remove(var1);
         }
     }
 
@@ -379,9 +369,8 @@ public final class ColorSpinner extends IPanel implements MouseListener, MouseMo
     }
 
     private void method845() {
-        Vector<ItemListener> var1 = this.aVector3318;
-        synchronized (this.aVector3318) {
-            if (!this.aVector3318.isEmpty()) {
+        synchronized (this.listeners) {
+            if (!this.listeners.isEmpty()) {
                 if (this.aClass92_3323 != null) {
                     this.aClass92_3323.method1746();
                     this.aClass92_3323 = null;
@@ -401,7 +390,7 @@ public final class ColorSpinner extends IPanel implements MouseListener, MouseMo
         String var1 = this.getSelectedItem();
         if (var1 != null) {
             ItemEvent var2 = new ItemEvent(this, 701, var1, ItemEvent.SELECTED);
-            for (ItemListener listener : aVector3318) {
+            for (ItemListener listener : listeners) {
                 listener.itemStateChanged(var2);
             }
         }

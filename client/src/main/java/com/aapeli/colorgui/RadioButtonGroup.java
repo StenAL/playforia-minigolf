@@ -2,11 +2,12 @@ package com.aapeli.colorgui;
 
 import com.aapeli.client.IPanel;
 
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
 
 public final class RadioButtonGroup {
 
-    private Vector<IPanel> aVector1589;
+    private List<IPanel> buttons;
     private boolean aBoolean1590;
 
 
@@ -15,16 +16,20 @@ public final class RadioButtonGroup {
     }
 
     public RadioButtonGroup(boolean var1) {
-        this.aVector1589 = new Vector<>();
+        this.buttons = new ArrayList<>();
         this.aBoolean1590 = var1;
     }
 
-    protected void method1756(RadioButton var1) {
-        this.aVector1589.addElement(var1);
+    protected void method1756(RadioButton button) {
+        synchronized (this.buttons) {
+            this.buttons.add(button);
+        }
     }
 
-    protected void method1757(RoundRadioButton var1) {
-        this.aVector1589.addElement(var1);
+    protected void method1757(RoundRadioButton button) {
+        synchronized (this.buttons) {
+            this.buttons.add(button);
+        }
     }
 
     protected boolean method1758(boolean var1) {
@@ -37,7 +42,7 @@ public final class RadioButtonGroup {
     }
 
     private void method1759() {
-        for (IPanel var2: this.aVector1589) {
+        for (IPanel var2: this.buttons) {
             if (var2 instanceof RadioButton) {
                 ((RadioButton) var2).realSetState(false);
             } else {

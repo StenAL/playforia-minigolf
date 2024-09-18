@@ -10,14 +10,15 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Choicer extends IPanel implements ComponentListener, ItemListener, ItemSelectable {
 
     private Choice choice = new Choice();
     private ColorSpinner colorSpinner;
     private boolean choiceMode = true;
-    private Vector<ItemListener> listeners;
+    private List<ItemListener> listeners;
     private Object synchronizationObject = new Object();
 
 
@@ -25,7 +26,7 @@ public class Choicer extends IPanel implements ComponentListener, ItemListener, 
         this.choice.setBackground(Color.white);
         this.choice.setForeground(Color.black);
         this.choice.addItemListener(this);
-        this.listeners = new Vector<>();
+        this.listeners = new ArrayList<>();
         this.setLayout(null);
         this.choice.setLocation(0, 0);
         this.add(this.choice);
@@ -55,7 +56,6 @@ public class Choicer extends IPanel implements ComponentListener, ItemListener, 
     }
 
     public void itemStateChanged(ItemEvent e) {
-        Vector<ItemListener> listeners = this.listeners;
         synchronized (this.listeners) {
             if (!this.listeners.isEmpty()) {
                 e = new ItemEvent(this, e.getID(), e.getItem(), e.getStateChange());
@@ -158,16 +158,14 @@ public class Choicer extends IPanel implements ComponentListener, ItemListener, 
     }
 
     public void addItemListener(ItemListener listener) {
-        Vector<ItemListener> listeners = this.listeners;
         synchronized (this.listeners) {
-            this.listeners.addElement(listener);
+            this.listeners.add(listener);
         }
     }
 
     public void removeItemListener(ItemListener var1) {
-        Vector<ItemListener> listeners = this.listeners;
         synchronized (this.listeners) {
-            this.listeners.removeElement(var1);
+            this.listeners.remove(var1);
         }
     }
 

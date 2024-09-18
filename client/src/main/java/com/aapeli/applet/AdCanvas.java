@@ -12,7 +12,8 @@ import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.net.URL;
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
 
 class AdCanvas extends Canvas implements MouseListener {
 
@@ -20,7 +21,7 @@ class AdCanvas extends Canvas implements MouseListener {
     private AApplet gameApplet;
     private LoadingPanel loadingPanel;
     private URL anURL117;
-    private Vector<AdCanvasText> aVector118;
+    private List<AdCanvasText> texts;
     private URL anURL119;
     private String aString120;
     private int anInt121;
@@ -31,10 +32,10 @@ class AdCanvas extends Canvas implements MouseListener {
     private long aLong126;
 
 
-    private AdCanvas(AApplet var1, URL var2, Vector<AdCanvasText> var3, URL var4, String var5, int var6) {
+    private AdCanvas(AApplet var1, URL var2, List<AdCanvasText> var3, URL var4, String var5, int var6) {
         this.gameApplet = var1;
         this.anURL117 = var2;
-        this.aVector118 = var3;
+        this.texts = var3;
         this.anURL119 = var4;
         this.aString120 = var5;
         this.anInt121 = var6;
@@ -60,10 +61,10 @@ class AdCanvas extends Canvas implements MouseListener {
                 }
 
                 var1.drawImage(this.anImage122, 0, 0, null);
-                int var5 = this.aVector118.size();
+                int var5 = this.texts.size();
 
                 for (int var6 = 0; var6 < var5; ++var6) {
-                    AdCanvasText var4 = this.aVector118.elementAt(var6);
+                    AdCanvasText var4 = this.texts.get(var6);
                     var4.method1548(var1);
                 }
             } else {
@@ -98,13 +99,13 @@ class AdCanvas extends Canvas implements MouseListener {
         try {
             String var2 = parameters.getParameter("ad_image");
             URL var3 = new URL(applet.getCodeBase(), var2);
-            Vector<AdCanvasText> var4 = new Vector<>();
+            List<AdCanvasText> var4 = new ArrayList<>();
 
             String var6;
             for (int var5 = 1; (var6 = parameters.getParameter("ad_text-" + var5)) != null; ++var5) {
                 AdCanvasText var7 = AdCanvasText.method1547(var6);
                 if (var7 != null) {
-                    var4.addElement(var7);
+                    var4.add(var7);
                 }
             }
 

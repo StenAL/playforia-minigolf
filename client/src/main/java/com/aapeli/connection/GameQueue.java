@@ -1,10 +1,11 @@
 package com.aapeli.connection;
 
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
 
 class GameQueue {
 
-    private Vector<String> commands = new Vector<>();
+    private List<String> commands = new ArrayList<>();
     private int count = 0;
     private ConnCipher connCipher = new ConnCipher((int) (Math.random() * 19.0D));
     protected long sendSeqNum;
@@ -15,24 +16,22 @@ class GameQueue {
         this.sendSeqNum = 0L;
     }
 
-    protected void add(String var1) {
-        long var2;
+    protected void add(String command) {
         synchronized (this) {
-            var2 = this.sendSeqNum++;
+            long sendSequenceNumber = this.sendSeqNum++;
+            command = this.connCipher.encrypt(sendSequenceNumber + " " + command);
+            this.commands.add(command);
         }
-
-        var1 = this.connCipher.encrypt(var2 + " " + var1);
-        this.commands.addElement(var1);
     }
 
     protected String pop() {
         if (this.commands.size() <= this.count) {
             return null;
         } else {
-            String var1 = this.commands.elementAt(this.count);
+            String var1 = this.commands.get(this.count);
             var1 = this.connCipher.decrypt(var1);
             if (this.commands.size() > 3) {
-                this.commands.removeElementAt(0);
+                this.commands.removeFirst();
             } else {
                 ++this.count;
             }

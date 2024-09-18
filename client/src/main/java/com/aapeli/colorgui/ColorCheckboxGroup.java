@@ -1,14 +1,16 @@
 package com.aapeli.colorgui;
 
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
 
 public final class ColorCheckboxGroup {
 
-    private Vector<ColorCheckbox> aVector1553 = new Vector<>();
+    private List<ColorCheckbox> checkboxes = new ArrayList<>();
 
-
-    protected void method1747(ColorCheckbox var1) {
-        this.aVector1553.addElement(var1);
+    protected void addCheckbox(ColorCheckbox checkbox) {
+        synchronized(this.checkboxes) {
+            this.checkboxes.add(checkbox);
+        }
     }
 
     protected boolean method1748(boolean var1) {
@@ -21,7 +23,7 @@ public final class ColorCheckboxGroup {
     }
 
     private void method1749() {
-        for (ColorCheckbox colorCheckbox : aVector1553) {
+        for (ColorCheckbox colorCheckbox : checkboxes) {
             colorCheckbox.realSetState(false);
         }
     }

@@ -5,7 +5,7 @@ import agolf.SynchronizedBool;
 import com.aapeli.tools.Tools;
 
 import java.util.Arrays;
-import java.util.Vector;
+import java.util.List;
 
 /**
  * mmmkay children.
@@ -28,8 +28,8 @@ public class HackedShot implements Runnable {
     private double aDouble2820;
     private double[] aDoubleArray2821;
     private double[] aDoubleArray2822;
-    private Vector<double[]>[] aVectorArray2823;
-    private Vector<double[]>[] aVectorArray2824;
+    private List<double[]>[] teleportStarts;
+    private List<double[]>[] teleportExits;
     private short[][][] aShortArrayArrayArray2825;
     private double[] playerX;
     private double[] playerY;
@@ -60,8 +60,8 @@ public class HackedShot implements Runnable {
                       double aDouble2820,
                       double[] aDoubleArray2821,
                       double[] aDoubleArray2822,
-                      Vector<double[]>[] aVectorArray2823,
-                      Vector<double[]>[] aVectorArray2824,
+                      List<double[]>[] teleportStarts,
+                      List<double[]>[] teleportExits,
                       short[][][] aShortArrayArrayArray2825,
                       double[] playerX,
                       double[] playerY,
@@ -88,8 +88,8 @@ public class HackedShot implements Runnable {
         this.aDouble2820 = aDouble2820;
         this.aDoubleArray2821 = Arrays.copyOf(aDoubleArray2821, aDoubleArray2821.length);
         this.aDoubleArray2822 = Arrays.copyOf(aDoubleArray2822, aDoubleArray2822.length);
-        this.aVectorArray2823 = Arrays.copyOf(aVectorArray2823, aVectorArray2823.length);
-        this.aVectorArray2824 = Arrays.copyOf(aVectorArray2824, aVectorArray2824.length);
+        this.teleportStarts = Arrays.copyOf(teleportStarts, teleportStarts.length);
+        this.teleportExits = Arrays.copyOf(teleportExits, teleportExits.length);
         if (aShortArrayArrayArray2825 != null) {
             this.aShortArrayArrayArray2825 = Arrays.copyOf(aShortArrayArrayArray2825, aShortArrayArrayArray2825.length);
         } else {
@@ -497,7 +497,7 @@ public class HackedShot implements Runnable {
 
     private void method154(int var1, int var2, int var3, int var4) {
         boolean var5 = true;
-        int var6 = this.aVectorArray2824[var1].size();
+        int var6 = this.teleportExits[var1].size();
         int var7;
         int var8;
         double[] var11;
@@ -507,7 +507,7 @@ public class HackedShot implements Runnable {
             var7 = var6 - 1;
             var8 = this.aSeed_2836.next() % (var7 + 1);
         } else {
-            var7 = this.aVectorArray2823[var1].size();
+            var7 = this.teleportStarts[var1].size();
             int var10;
             if (var7 >= 2) {
                 int var14 = 0;
@@ -515,7 +515,7 @@ public class HackedShot implements Runnable {
                 do {
                     var10 = var7 - 1;
                     var8 = this.aSeed_2836.next() % (var10 + 1);
-                    var11 = this.aVectorArray2823[var1].elementAt(var8);
+                    var11 = this.teleportStarts[var1].get(var8);
                     if (Math.abs(var11[0] - (double) var3) >= 15.0D || Math.abs(var11[1] - (double) var4) >= 15.0D) {
                         this.playerX[var2] = var11[0];
                         this.playerY[var2] = var11[1];
@@ -531,7 +531,7 @@ public class HackedShot implements Runnable {
             boolean var9 = false;
 
             for (var10 = 0; var10 < 4 && !var9; ++var10) {
-                if (this.aVectorArray2824[var10].size() > 0) {
+                if (this.teleportExits[var10].size() > 0) {
                     var9 = true;
                 }
             }
@@ -542,14 +542,14 @@ public class HackedShot implements Runnable {
 
             do {
                 var13 = this.aSeed_2836.next() % 4;
-                var6 = this.aVectorArray2824[var13].size();
+                var6 = this.teleportExits[var13].size();
             } while (var6 == 0);
 
             int var12 = var6 - 1;
             var8 = this.aSeed_2836.next() % (var12 + 1);
         }
 
-        var11 = this.aVectorArray2824[var13].elementAt(var8);
+        var11 = this.teleportExits[var13].get(var8);
         this.playerX[var2] = var11[0];
         this.playerY[var2] = var11[1];
     }

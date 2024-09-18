@@ -27,9 +27,10 @@ import java.awt.event.ComponentListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.StringTokenizer;
-import java.util.Vector;
 
 public class UserList extends IPanel implements ComponentListener, ItemListener, ActionListener {
 
@@ -81,8 +82,8 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
     private MenuItem adminBroadcastMessageMenuItem;
     private User selectedUser;
     private StaffActionFrame staffActionFrame;
-    private Vector<String> privateMessageUsers;
-    private Vector<String> ignoredUsers;
+    private List<String> privateMessageUsers;
+    private List<String> ignoredUsers;
     private boolean sheriffMarkEnabled;
     private boolean dimmerNicksEnabled;
     private ColorTextArea chatOutput;
@@ -114,8 +115,8 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
         this.rightClickMenuEnabled = false;
         this.sheriffStatus = 0;
         this.adminStatus = 0;
-        this.privateMessageUsers = new Vector<>();
-        this.ignoredUsers = new Vector<>();
+        this.privateMessageUsers = new ArrayList<>();
+        this.ignoredUsers = new ArrayList<>();
         this.sheriffMarkEnabled = true;
         this.dimmerNicksEnabled = true;
         this.languages = new Languages(textManager, imageManager);
@@ -828,18 +829,18 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
         }
     }
 
-    private void removeUser(User user) {
+    private synchronized void removeUser(User user) {
         String nick = user.getNick();
         if (user.isGettingPrivateMessages()) {
-            this.privateMessageUsers.addElement(nick);
+            this.privateMessageUsers.add(nick);
         } else {
-            this.privateMessageUsers.removeElement(nick);
+            this.privateMessageUsers.remove(nick);
         }
 
         if (user.isIgnore()) {
-            this.ignoredUsers.addElement(nick);
+            this.ignoredUsers.add(nick);
         } else {
-            this.ignoredUsers.removeElement(nick);
+            this.ignoredUsers.remove(nick);
         }
 
     }
