@@ -79,28 +79,27 @@ public class Conn implements ConnListener {
     };
     private GameContainer gameContainer;
     private Connection connection;
-    private String aString2372;
-    private String aString2373;
+    private String lastPacketSent;
+    private String lastPacketReceived;
 
 
     protected Conn(GameContainer var1) {
         this.gameContainer = var1;
-        this.aString2372 = this.aString2373 = null;
+        this.lastPacketSent = this.lastPacketReceived = null;
     }
 
-    public void dataReceived(String var1) {
+    public void dataReceived(String packet) {
         try {
-            this.handlePacket(var1);
-            this.aString2373 = var1;
-        } catch (Exception var4) {
-            Exception var2 = var4;
+            this.handlePacket(packet);
+            this.lastPacketReceived = packet;
+        } catch (Exception e) {
 
             try {
-                this.writeData("error-debug\t" + this.gameContainer.gameApplet.method32() + "\t" + var2.toString().trim().replace('\n', '\\') + "\t" + var1.replace('\t', '\\') + "\t" + this.aString2373.replace('\t', '\\') + "\t" + this.aString2372.replace('\t', '\\'));
-            } catch (Exception var3) {
+                this.writeData("error-debug\t" + this.gameContainer.gameApplet.getActivePanel() + "\t" + e.toString().trim().replace('\n', '\\') + "\t" + packet.replace('\t', '\\') + "\t" + this.lastPacketReceived.replace('\t', '\\') + "\t" + this.lastPacketSent.replace('\t', '\\'));
+            } catch (Exception ex) {
             }
 
-            this.gameContainer.gameApplet.setEndState(var4);
+            this.gameContainer.gameApplet.setEndState(e);
             this.connection.closeConnection();
         }
     }
@@ -133,7 +132,7 @@ public class Conn implements ConnListener {
     }
 
     public void writeData(String var1) {
-        this.aString2372 = var1;
+        this.lastPacketSent = var1;
         this.connection.writeData(var1);
     }
 

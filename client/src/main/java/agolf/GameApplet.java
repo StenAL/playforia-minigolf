@@ -115,7 +115,7 @@ public class GameApplet extends AApplet {
         return verbose;
     }
 
-    protected int method32() {
+    protected int getActivePanel() {
         return this.activePanel;
     }
 
