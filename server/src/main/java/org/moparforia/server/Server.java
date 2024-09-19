@@ -192,7 +192,7 @@ public class Server implements Runnable {
                     ch.attr(ClientState.CLIENT_STATE_ATTRIBUTE_KEY).set(new ClientState());
                     ch.pipeline()
                         .addLast(
-                            new DelimiterBasedFrameDecoder(250, Delimiters.lineDelimiter()),
+                            new DelimiterBasedFrameDecoder(2000, Delimiters.lineDelimiter()),
                             new PacketDecoder(),
                             new PacketEncoder(),
                             new IdleStateHandler(2, 0, 0),
