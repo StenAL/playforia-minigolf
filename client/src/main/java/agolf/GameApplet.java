@@ -91,8 +91,8 @@ public class GameApplet extends AApplet {
     }
 
     public void connectToServer() {
-        this.gameContainer.connection = new Conn(this.gameContainer);
-        if (!this.gameContainer.connection.method1158()) {
+        this.gameContainer.connection = new GolfConnection(this.gameContainer);
+        if (!this.gameContainer.connection.openSocketConnection()) {
             this.setEndState(END_ERROR_CONNECTION);
         }
 
