@@ -1,11 +1,11 @@
 package agolf;
 
 import com.aapeli.applet.AApplet;
-import com.aapeli.connection.ConnListener;
-import com.aapeli.connection.Connection;
+import com.aapeli.connection.SocketConnectionListener;
+import com.aapeli.connection.SocketConnection;
 import com.aapeli.tools.Tools;
 
-public class Conn implements ConnListener {
+public class GolfConnection implements SocketConnectionListener {
 
     private static final String[] cipherCmds = new String[] {
             "status\t",
@@ -78,12 +78,12 @@ public class Conn implements ConnListener {
             "error"
     };
     private GameContainer gameContainer;
-    private Connection connection;
+    private SocketConnection socketConnection;
     private String lastPacketSent;
     private String lastPacketReceived;
 
 
-    protected Conn(GameContainer var1) {
+    protected GolfConnection(GameContainer var1) {
         this.gameContainer = var1;
         this.lastPacketSent = this.lastPacketReceived = null;
     }
@@ -100,7 +100,7 @@ public class Conn implements ConnListener {
             }
 
             this.gameContainer.gameApplet.setEndState(e);
-            this.connection.closeConnection();
+            this.socketConnection.closeConnection();
         }
     }
 
@@ -121,9 +121,9 @@ public class Conn implements ConnListener {
     public void notifyConnectionUp() {
     }
 
-    protected boolean method1158() {
-        this.connection = new Connection(this.gameContainer.gameApplet, this, cipherCmds);
-        return this.connection.openConnection();
+    protected boolean openSocketConnection() {
+        this.socketConnection = new SocketConnection(this.gameContainer.gameApplet, this, cipherCmds);
+        return this.socketConnection.openConnection();
     }
 
     protected void sendVersion() {
@@ -133,12 +133,12 @@ public class Conn implements ConnListener {
 
     public void writeData(String var1) {
         this.lastPacketSent = var1;
-        this.connection.writeData(var1);
+        this.socketConnection.writeData(var1);
     }
 
     protected void disconnect() {
-        if (this.connection != null) {
-            this.connection.closeConnection();
+        if (this.socketConnection != null) {
+            this.socketConnection.closeConnection();
         }
     }
 
@@ -151,7 +151,7 @@ public class Conn implements ConnListener {
                 this.gameContainer.gameApplet.setEndState(AApplet.END_ERROR_SERVERFULL);
             }
 
-            this.connection.closeConnection();
+            this.socketConnection.closeConnection();
         } else if (args[0].equals("versok")) {
             this.writeData("language\t" + this.gameContainer.params.getChatLang());
             String var4 = this.gameContainer.params.getSessionLocale();
