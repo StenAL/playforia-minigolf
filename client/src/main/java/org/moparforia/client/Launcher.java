@@ -185,19 +185,42 @@ public class Launcher implements Callable<Integer> {
     }
 
     public enum Locale {
-        EN_US("en_US"),
-        FI_FI("fi_FI"),
-        SV_SE("sv_SE");
+        EN_US("en_US", Language.ENGLISH),
+        FI_FI("fi_FI", Language.FINNISH),
+        SV_SE("sv_SE", Language.SWEDISH);
 
-        private final String name;
+        private final String localeCode;
+        private final Language language;
 
-        Locale(String name) {
-            this.name = name;
+        Locale(String localeCode, Language language) {
+            this.localeCode = localeCode;
+            this.language = language;
+        }
+
+        public Language getLanguage() {
+            return this.language;
         }
 
         @Override
         public String toString() {
-            return this.name;
+            return this.localeCode;
+        }
+    }
+
+    public enum Language {
+        ENGLISH("en"),
+        FINNISH("fi"),
+        SWEDISH("sv");
+
+        private final String languageCode;
+
+        Language(String languageCode) {
+            this.languageCode = languageCode;
+        }
+
+        @Override
+        public String toString() {
+            return this.languageCode;
         }
     }
 }
