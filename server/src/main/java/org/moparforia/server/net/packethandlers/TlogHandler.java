@@ -1,12 +1,11 @@
 package org.moparforia.server.net.packethandlers;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import org.moparforia.server.Server;
 import org.moparforia.server.net.Packet;
 import org.moparforia.server.net.PacketHandler;
 import org.moparforia.server.net.PacketType;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class TlogHandler implements PacketHandler {
 
@@ -24,5 +23,4 @@ public class TlogHandler implements PacketHandler {
     public boolean handle(Server server, Packet packet, Matcher message) {
         return true;
     }
-
 }

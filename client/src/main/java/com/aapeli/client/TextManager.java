@@ -3,7 +3,6 @@ package com.aapeli.client;
 import com.aapeli.tools.EncodedXmlReader;
 import com.aapeli.tools.Tools;
 import com.aapeli.tools.XmlUnit;
-
 import java.applet.Applet;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -64,7 +63,6 @@ public final class TextManager implements Runnable {
         } else {
             this.loadTexts(parameters.getApplet());
         }
-
     }
 
     private TextManager(boolean debug) {
@@ -85,7 +83,6 @@ public final class TextManager implements Runnable {
         if (this.debug) {
             System.out.println("TextManager.run(): Finished loading texts");
         }
-
     }
 
     public String getGame(String key) {
@@ -106,47 +103,48 @@ public final class TextManager implements Runnable {
     }
 
     public String getGame(String key, String argument1) {
-        String[] arguments = new String[]{argument1};
+        String[] arguments = new String[] {argument1};
         return this.getGame(key, arguments);
     }
 
     public String getGame(String key, String var2, String var3) {
-        String[] arguments = new String[]{var2, var3};
+        String[] arguments = new String[] {var2, var3};
         return this.getGame(key, arguments);
     }
 
     public String getGame(String key, String argument2, String argument3, String argument4) {
-        String[] arguments = new String[]{argument2, argument3, argument4};
+        String[] arguments = new String[] {argument2, argument3, argument4};
         return this.getGame(key, arguments);
     }
 
     public String getGame(String key, String argument2, String argument3, String argument4, String argument5) {
-        String[] arguments = new String[]{argument2, argument3, argument4, argument5};
+        String[] arguments = new String[] {argument2, argument3, argument4, argument5};
         return this.getGame(key, arguments);
     }
 
-    public String getGame(String key, String argument2, String argument3, String argument4, String argument5, String argument6) {
-        String[] arguments = new String[]{argument2, argument3, argument4, argument5, argument6};
+    public String getGame(
+            String key, String argument2, String argument3, String argument4, String argument5, String argument6) {
+        String[] arguments = new String[] {argument2, argument3, argument4, argument5, argument6};
         return this.getGame(key, arguments);
     }
 
     public String getGame(String key, int argument2) {
-        String[] arguments = new String[]{"" + argument2};
+        String[] arguments = new String[] {"" + argument2};
         return this.getGame(key, arguments);
     }
 
     public String getGame(String key, int argument2, int argument3) {
-        String[] arguments = new String[]{"" + argument2, "" + argument3};
+        String[] arguments = new String[] {"" + argument2, "" + argument3};
         return this.getGame(key, arguments);
     }
 
     public String getGame(String key, int argument2, int argument3, int argument4) {
-        String[] arguments = new String[]{"" + argument2, "" + argument3, "" + argument4};
+        String[] arguments = new String[] {"" + argument2, "" + argument3, "" + argument4};
         return this.getGame(key, arguments);
     }
 
     public String getGame(String key, int argument2, int argument3, int argument4, int argument5) {
-        String[] arguments = new String[]{"" + argument2, "" + argument3, "" + argument4, "" + argument5};
+        String[] arguments = new String[] {"" + argument2, "" + argument3, "" + argument4, "" + argument5};
         return this.getGame(key, arguments);
     }
 
@@ -244,7 +242,10 @@ public final class TextManager implements Runnable {
 
         result = result + seconds;
         if (includeSecondFraction) {
-            result = result + this.getShared("SeparatorSecondFraction") + (secondFraction < 10 ? "0" : "") + secondFraction;
+            result = result
+                    + this.getShared("SeparatorSecondFraction")
+                    + (secondFraction < 10 ? "0" : "")
+                    + secondFraction;
         }
 
         return result;
@@ -278,27 +279,27 @@ public final class TextManager implements Runnable {
     }
 
     public String getShared(String key, String argument) {
-        String[] arguments = new String[]{argument};
+        String[] arguments = new String[] {argument};
         return this.getShared(key, arguments);
     }
 
     public String getShared(String key, String argument1, String argument2) {
-        String[] arguments = new String[]{argument1, argument2};
+        String[] arguments = new String[] {argument1, argument2};
         return this.getShared(key, arguments);
     }
 
     public String getShared(String key, String argument2, String argument3, String argument4) {
-        String[] arguments = new String[]{argument2, argument3, argument4};
+        String[] arguments = new String[] {argument2, argument3, argument4};
         return this.getShared(key, arguments);
     }
 
     public String getShared(String key, String argument2, String argument3, String argument4, String argument5) {
-        String[] arguments = new String[]{argument2, argument3, argument4, argument5};
+        String[] arguments = new String[] {argument2, argument3, argument4, argument5};
         return this.getShared(key, arguments);
     }
 
     public String getWithQuantity(String key, int quantity) {
-        return this.getGame(key, new String[]{"" + quantity}, quantity);
+        return this.getGame(key, new String[] {"" + quantity}, quantity);
     }
 
     public String getWithQuantity(String key, String[] arguments, int quantity) {
@@ -313,7 +314,6 @@ public final class TextManager implements Runnable {
         while (!this.isLoadingFinished()) {
             Tools.sleep(50L);
         }
-
     }
 
     public Parameters getParameters() {
@@ -457,8 +457,8 @@ public final class TextManager implements Runnable {
     }
 
     /**
-     *
-     * @param mode -- 0 == just date, no time, standard format; 1 == just date, no time, locale format; 2 ==
+     * @param mode -- 0 == just date, no time, standard format; 1 == just date, no time, locale
+     *     format; 2 ==
      */
     private String getDate(long timestamp, int mode) {
         Calendar calendar = Calendar.getInstance();
@@ -564,7 +564,6 @@ public final class TextManager implements Runnable {
         } else {
             this.loadLocaleFiles(applet);
         }
-
     }
 
     private void loadLocaleFiles(Applet applet) {
@@ -609,18 +608,22 @@ public final class TextManager implements Runnable {
                     int equalSignLocation = line.indexOf('=');
                     if (equalSignLocation <= 0) {
                         if (this.debug) {
-                            System.out.println("Missing '='-character in \"" + this.language + "\"-locale file: \"" + line + "\"");
+                            System.out.println(
+                                    "Missing '='-character in \"" + this.language + "\"-locale file: \"" + line + "\"");
                             Thread.dumpStack();
                         }
                     } else {
                         String key = line.substring(0, equalSignLocation).trim();
                         if (key.length() == 0) {
                             if (this.debug) {
-                                System.out.println("Empty key in \"" + this.language + "\"-locale file: \"" + line + "\"");
+                                System.out.println(
+                                        "Empty key in \"" + this.language + "\"-locale file: \"" + line + "\"");
                                 Thread.dumpStack();
                             }
                         } else {
-                            localizationTable.put(key.toLowerCase(), line.substring(equalSignLocation + 1).trim());
+                            localizationTable.put(
+                                    key.toLowerCase(),
+                                    line.substring(equalSignLocation + 1).trim());
                         }
                     }
                 }
@@ -698,7 +701,7 @@ public final class TextManager implements Runnable {
     }
 
     private Hashtable<String, LocalizationNode> readTable(String fileUrl) {
-        EncodedXmlReader reader = new EncodedXmlReader(fileUrl, /*this.aBoolean1519*/true);
+        EncodedXmlReader reader = new EncodedXmlReader(fileUrl, /*this.aBoolean1519*/ true);
         XmlUnit unit = reader.readXmlUnit();
         if (unit == null) {
             System.out.println("Failed to read localization file '" + fileUrl + "'");
@@ -709,7 +712,10 @@ public final class TextManager implements Runnable {
             Hashtable<String, LocalizationNode> table = new Hashtable<>();
 
             for (XmlUnit child : children) {
-                table.put(child.getAttribute("key").toLowerCase(), new LocalizationNode(this, this.language, child, Tools.getBoolean(child.getAttribute("reverse"))));
+                table.put(
+                        child.getAttribute("key").toLowerCase(),
+                        new LocalizationNode(
+                                this, this.language, child, Tools.getBoolean(child.getAttribute("reverse"))));
             }
 
             return table;

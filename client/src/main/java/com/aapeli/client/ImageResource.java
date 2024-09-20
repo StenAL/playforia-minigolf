@@ -9,7 +9,6 @@ class ImageResource {
     private int anInt1406;
     private final ImageTracker aImageTracker_1407;
 
-
     protected ImageResource(ImageTracker var1, String var2, Image var3) {
         this.aImageTracker_1407 = var1;
         this.aString1404 = var2;

@@ -2,9 +2,7 @@ package org.moparforia.shared.tracks;
 
 import java.util.List;
 
-/**
- * Interface representing Manager that provides Tracks
- */
+/** Interface representing Manager that provides Tracks */
 public interface TrackManager {
 
     /**
@@ -15,12 +13,12 @@ public interface TrackManager {
     /**
      * Returns random tracks
      *
-     * @param limit  Maximum tracks that should be returned, if there are not enough tracks, it can be return less
-     * @param type   What category should be track belong to
+     * @param limit Maximum tracks that should be returned, if there are not enough tracks, it can
+     *     be return less
+     * @param type What category should be track belong to
      * @return Random tracks
      */
     List<Track> getRandomTracks(int limit, TrackCategory type);
-
 
     List<Track> getTracks();
 
@@ -34,6 +32,7 @@ public interface TrackManager {
 
     /**
      * Loads all Tracks and TrackSets
+     *
      * @throws TrackLoadException Exception
      */
     void load(TracksLocation tracksLocation) throws TrackLoadException;

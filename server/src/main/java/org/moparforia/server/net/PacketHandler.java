@@ -1,9 +1,8 @@
 package org.moparforia.server.net;
 
-import org.moparforia.server.Server;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.moparforia.server.Server;
 
 public interface PacketHandler {
     public PacketType getType();

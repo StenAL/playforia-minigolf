@@ -9,7 +9,6 @@ import com.aapeli.colorgui.ColorListItem;
 import com.aapeli.colorgui.ColorListItemGroup;
 import com.aapeli.colorgui.ColorTextArea;
 import com.aapeli.tools.Tools;
-
 import java.awt.CheckboxMenuItem;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -91,12 +90,25 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
     private Languages languages;
     private Hashtable<Integer, ColorListItemGroup> languageGroups;
 
-
-    public UserList(UserListHandler handler, TextManager textManager, ImageManager imageManager, boolean showRankingIcons, boolean addSendPrivately, boolean addIgnoreUser) {
+    public UserList(
+            UserListHandler handler,
+            TextManager textManager,
+            ImageManager imageManager,
+            boolean showRankingIcons,
+            boolean addSendPrivately,
+            boolean addIgnoreUser) {
         this(handler, textManager, imageManager, showRankingIcons, addSendPrivately, addIgnoreUser, 100, 200);
     }
 
-    public UserList(UserListHandler handler, TextManager textManager, ImageManager imageManager, boolean showRankingIcons, boolean addSendPrivately, boolean addIgnoreUser, int width, int height) {
+    public UserList(
+            UserListHandler handler,
+            TextManager textManager,
+            ImageManager imageManager,
+            boolean showRankingIcons,
+            boolean addSendPrivately,
+            boolean addIgnoreUser,
+            int width,
+            int height) {
         this.userListHandler = handler;
         this.textManager = textManager;
         this.imageManager = imageManager;
@@ -135,25 +147,36 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
 
     public void update(Graphics g) {
         if (this.backgroundImage != null) {
-            g.drawImage(this.backgroundImage, 0, 0, this.width, this.height, this.backgroundImageOffsetX, this.backgroundImageOffsetY, this.backgroundImageOffsetX + this.width, this.backgroundImageOffsetY + this.height, this);
+            g.drawImage(
+                    this.backgroundImage,
+                    0,
+                    0,
+                    this.width,
+                    this.height,
+                    this.backgroundImageOffsetX,
+                    this.backgroundImageOffsetY,
+                    this.backgroundImageOffsetX + this.width,
+                    this.backgroundImageOffsetY + this.height,
+                    this);
         } else {
             this.drawBackground(g);
         }
-
     }
 
-    public void componentShown(ComponentEvent e) {
-    }
+    public void componentShown(ComponentEvent e) {}
 
-    public void componentHidden(ComponentEvent e) {
-    }
+    public void componentHidden(ComponentEvent e) {}
 
     public void componentMoved(ComponentEvent e) {
         if (this.backgroundImage != null) {
             Point location = this.getLocation();
             int newX = location.x - this.lastX;
             int newY = location.y - this.lastY;
-            this.setBackgroundImage(this.backgroundImage, this.playersListBackgroundImage, this.backgroundImageOffsetX + newX, this.backgroundImageOffsetY + newY);
+            this.setBackgroundImage(
+                    this.backgroundImage,
+                    this.playersListBackgroundImage,
+                    this.backgroundImageOffsetX + newX,
+                    this.backgroundImageOffsetY + newY);
         }
 
         this.repaint();
@@ -171,10 +194,15 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
         }
 
         int width = this.width;
-        int height = this.height - (ignoreUserCheckBoxExists ? 18 : 0) - (sendPrivatelyCheckBoxExists ? 18 : 0) - (!ignoreUserCheckBoxExists && !sendPrivatelyCheckBoxExists ? 0 : 2) - (this.rankingsShown ? 11 : 0);
+        int height = this.height
+                - (ignoreUserCheckBoxExists ? 18 : 0)
+                - (sendPrivatelyCheckBoxExists ? 18 : 0)
+                - (!ignoreUserCheckBoxExists && !sendPrivatelyCheckBoxExists ? 0 : 2)
+                - (this.rankingsShown ? 11 : 0);
         this.playersList.setBounds(0, this.rankingsShown ? 11 : 0, width, height);
         if (sendPrivatelyCheckBoxExists) {
-            this.sendPrivatelyCheckbox.setBounds(0, this.height - 18 - (ignoreUserCheckBoxExists ? 18 : 0), this.width, 18);
+            this.sendPrivatelyCheckbox.setBounds(
+                    0, this.height - 18 - (ignoreUserCheckBoxExists ? 18 : 0), this.width, 18);
         }
 
         if (ignoreUserCheckBoxExists) {
@@ -234,13 +262,14 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
                         if (user.isLocal()) {
                             this.resetCheckBoxes();
                         } else {
-                            user.setGettingPrivateMessages(this.sendPrivatelyCheckbox != null ? this.sendPrivatelyCheckbox.getState() : false);
-                            user.setIgnore(this.ignoreUserCheckbox != null ? this.ignoreUserCheckbox.getState() : false);
+                            user.setGettingPrivateMessages(
+                                    this.sendPrivatelyCheckbox != null ? this.sendPrivatelyCheckbox.getState() : false);
+                            user.setIgnore(
+                                    this.ignoreUserCheckbox != null ? this.ignoreUserCheckbox.getState() : false);
                             selectedPlayer.setColor(this.getUserColor(user));
                             this.playersList.repaint();
                         }
                     }
-
                 }
             }
         }
@@ -268,12 +297,17 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
             this.showStaffActionFrame(1, this.selectedUser.getNick());
         } else if (source == this.sheriffSendMessageMenuItem) {
             this.showStaffActionFrame(2, this.selectedUser.getNick());
-        } else if (source != this.sheriffMute5minutesMenuItem && source != this.sheriffMute15minutesMenuItem && source != this.sheriffMute1hourMenuItem && source != this.sheriffMute6hoursMenuItem && source != this.sheriffMute1dayMenuItem) {
+        } else if (source != this.sheriffMute5minutesMenuItem
+                && source != this.sheriffMute15minutesMenuItem
+                && source != this.sheriffMute1hourMenuItem
+                && source != this.sheriffMute6hoursMenuItem
+                && source != this.sheriffMute1dayMenuItem) {
             if (source == this.clearEveryUserChatMenuItem) {
                 this.showStaffActionFrame(4, null);
             } else if (source == this.sheriffCopyChatMenuItem) {
                 CopyChatFrame copyChatFrame = new CopyChatFrame();
-                copyChatFrame.create(this.imageManager.getApplet(), this.chat != null ? this.chat.chatTextArea : this.chatOutput);
+                copyChatFrame.create(
+                        this.imageManager.getApplet(), this.chat != null ? this.chat.chatTextArea : this.chatOutput);
             } else if (source == this.adminGetUserInfoMenuItem) {
                 this.userListHandler.adminCommand("info", this.selectedUser.getNick());
             } else if (source == this.adminUnmuteUserMenuItem) {
@@ -297,7 +331,6 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
 
             this.userListHandler.adminCommand("mute", this.selectedUser.getNick(), "" + muteTime);
         }
-
     }
 
     public static String getNickFromUserInfo(String userData) {
@@ -342,7 +375,6 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
         if (this.ignoreUserCheckbox != null) {
             this.ignoreUserCheckbox.setVisible(checkBoxesVisible);
         }
-
     }
 
     public void setBackground(Color color) {
@@ -367,14 +399,14 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
         if (this.ignoreUserCheckbox != null) {
             this.ignoreUserCheckbox.setForeground(color);
         }
-
     }
 
     public void setBackgroundImage(Image image, int backgroundImageOffsetX, int backgroundImageOffsetY) {
         this.setBackgroundImage(image, null, backgroundImageOffsetX, backgroundImageOffsetY);
     }
 
-    public void setBackgroundImage(Image image, Image playersListBackground, int backgroundImageOffsetX, int backgroundImageOffsetY) {
+    public void setBackgroundImage(
+            Image image, Image playersListBackground, int backgroundImageOffsetX, int backgroundImageOffsetY) {
         this.backgroundImage = image;
         this.playersListBackgroundImage = playersListBackground;
         this.backgroundImageOffsetX = backgroundImageOffsetX;
@@ -385,17 +417,20 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
         Point location;
         if (playersListBackground != null) {
             location = this.playersList.getLocation();
-            this.playersList.setBackgroundImage(playersListBackground, backgroundImageOffsetX + location.x, backgroundImageOffsetY + location.y);
+            this.playersList.setBackgroundImage(
+                    playersListBackground, backgroundImageOffsetX + location.x, backgroundImageOffsetY + location.y);
         }
 
         if (this.sendPrivatelyCheckbox != null) {
             location = this.sendPrivatelyCheckbox.getLocation();
-            this.sendPrivatelyCheckbox.setBackgroundImage(image, backgroundImageOffsetX + location.x, backgroundImageOffsetY + location.y);
+            this.sendPrivatelyCheckbox.setBackgroundImage(
+                    image, backgroundImageOffsetX + location.x, backgroundImageOffsetY + location.y);
         }
 
         if (this.ignoreUserCheckbox != null) {
             location = this.ignoreUserCheckbox.getLocation();
-            this.ignoreUserCheckbox.setBackgroundImage(image, backgroundImageOffsetX + location.x, backgroundImageOffsetY + location.y);
+            this.ignoreUserCheckbox.setBackgroundImage(
+                    image, backgroundImageOffsetX + location.x, backgroundImageOffsetY + location.y);
         }
 
         this.repaint();
@@ -403,7 +438,8 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
 
     public void setListBackgroundImage(Image image, int backgroundImageOffsetX, int backgroundImageOffsetY) {
         Point location = this.playersList.getLocation();
-        this.playersList.setBackgroundImage(image, backgroundImageOffsetX + location.x, backgroundImageOffsetY + location.y);
+        this.playersList.setBackgroundImage(
+                image, backgroundImageOffsetX + location.x, backgroundImageOffsetY + location.y);
     }
 
     public User addUser(String userData, boolean isLocal) {
@@ -416,7 +452,7 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
         } else {
             // 3:im the man111^r^111^fi_FI^-^-
             int colonIndex = userData.indexOf(':');
-            userData = userData.substring(colonIndex + 1);// looks like the number is skipped
+            userData = userData.substring(colonIndex + 1); // looks like the number is skipped
             StringTokenizer tokenizer = new StringTokenizer(userData, "^");
             String username = Tools.changeFromSaveable(tokenizer.nextToken());
             String elevation = tokenizer.nextToken();
@@ -465,7 +501,8 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
             displayedNick = displayedNick + " " + this.textManager.getShared("UserList_Sheriff");
         }
 
-        ColorListItem colorListItem = new ColorListItem(this.getRankingIcon(user), this.getUserColor(user), user.isRegistered(), displayedNick, user, false);
+        ColorListItem colorListItem = new ColorListItem(
+                this.getRankingIcon(user), this.getUserColor(user), user.isRegistered(), displayedNick, user, false);
         colorListItem.setValue(user.getRating());
         if (user.isSheriff()) {
             colorListItem.setSortOverride(true);
@@ -556,7 +593,6 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
                 }
             }
         }
-
     }
 
     public User removeAndReturnUser(String nick) {
@@ -612,7 +648,6 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
                 this.sortByNicknameButton.setBackground(columnHeaderDefaultColor);
             }
         }
-
     }
 
     public int getSorting() {
@@ -647,7 +682,6 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
         if (this.ignoreUserCheckbox != null) {
             this.ignoreUserCheckbox.setBoxPixelRoundedCorners(true);
         }
-
     }
 
     private static boolean isUserDataType3(String userData) {
@@ -661,19 +695,22 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
         }
 
         this.rightClickMenu = new PopupMenu();
-        this.openProfileMenuItem = this.createButtonMenuItem(this.rightClickMenu, this.textManager.getShared("UserList_OpenPlayerCard"));
+        this.openProfileMenuItem =
+                this.createButtonMenuItem(this.rightClickMenu, this.textManager.getShared("UserList_OpenPlayerCard"));
         this.openProfileMenuItem.setEnabled(user.isRegistered() || user.getProfilePage() != null);
         if (this.sendPrivatelyCheckbox != null || this.ignoreUserCheckbox != null) {
             this.rightClickMenu.addSeparator();
         }
 
         if (this.sendPrivatelyCheckbox != null) {
-            this.sendPrivatelyMenuItem = this.createCheckboxMenuItem(this.rightClickMenu, this.sendPrivatelyCheckbox.getLabel(), user.isGettingPrivateMessages());
+            this.sendPrivatelyMenuItem = this.createCheckboxMenuItem(
+                    this.rightClickMenu, this.sendPrivatelyCheckbox.getLabel(), user.isGettingPrivateMessages());
             this.sendPrivatelyMenuItem.setEnabled(!user.isLocal());
         }
 
         if (this.ignoreUserCheckbox != null) {
-            this.ignoreUserMenuItem = this.createCheckboxMenuItem(this.rightClickMenu, this.ignoreUserCheckbox.getLabel(), user.isIgnore());
+            this.ignoreUserMenuItem = this.createCheckboxMenuItem(
+                    this.rightClickMenu, this.ignoreUserCheckbox.getLabel(), user.isIgnore());
             this.ignoreUserMenuItem.setEnabled(!user.isLocal());
         }
 
@@ -765,7 +802,11 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
         }
 
         int width = this.width;
-        int height = this.height - (addIgnoreUser ? 18 : 0) - (addSendPrivately ? 18 : 0) - (!addIgnoreUser && !addSendPrivately ? 0 : 2) - (this.rankingsShown ? 11 : 0);
+        int height = this.height
+                - (addIgnoreUser ? 18 : 0)
+                - (addSendPrivately ? 18 : 0)
+                - (!addIgnoreUser && !addSendPrivately ? 0 : 2)
+                - (this.rankingsShown ? 11 : 0);
         if (this.rankingsShown) {
             this.playersList = new ColorList(width, height, 11, 11);
         } else {
@@ -790,7 +831,6 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
             this.ignoreUserCheckbox.addItemListener(this);
             this.add(this.ignoreUserCheckbox);
         }
-
     }
 
     private void resetCheckBoxes() {
@@ -801,7 +841,6 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
         if (this.ignoreUserCheckbox != null) {
             this.ignoreUserCheckbox.setState(false);
         }
-
     }
 
     private Image getRankingIcon(User user) {
@@ -842,7 +881,6 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
         } else {
             this.ignoredUsers.remove(nick);
         }
-
     }
 
     private boolean openProfilePage(User user) {

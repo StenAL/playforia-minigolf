@@ -1,87 +1,86 @@
 package agolf;
 
 import com.aapeli.applet.AApplet;
-import com.aapeli.connection.SocketConnectionListener;
 import com.aapeli.connection.SocketConnection;
+import com.aapeli.connection.SocketConnectionListener;
 import com.aapeli.tools.Tools;
 
 public class GolfConnection implements SocketConnectionListener {
 
     private static final String[] cipherCmds = new String[] {
-            "status\t",
-            "basicinfo\t",
-            "numberofusers\t",
-            "users\t",
-            "ownjoin\t",
-            "joinfromgame\t",
-            "say\t",
-            "logintype\t",
-            "login",
-            "lobbyselect\t",
-            "select\t",
-            "back",
-            "challenge\t",
-            "cancel\t",
-            "accept\t",
-            "cfail\t",
-            "nouser",
-            "nochall",
-            "cother",
-            "cbyother",
-            "refuse",
-            "afail",
-            "gsn\t",
-            "lobby\tnc\t",
-            "lobby\t",
-            "lobby",
-            "tracksetlist\t",
-            "tracksetlist",
-            "gamelist\t",
-            "full\t",
-            "add\t",
-            "change\t",
-            "remove\t",
-            "gameinfo\t",
-            "players",
-            "owninfo\t",
-            "game\tstarttrack\t",
-            "game\tstartturn\t",
-            "game\tstart",
-            "game\tbeginstroke\t",
-            "game\tendstroke\t",
-            "game\tresetvoteskip",
-            "game\t",
-            "game",
-            "quit",
-            "join\t",
-            "part\t",
-            "cspt\t",
-            "qmpt",
-            "cspc\t",
-            "jmpt\t",
-            "tracklist\t",
-            "Tiikoni",
-            "Leonardo",
-            "Ennaji",
-            "Hoeg",
-            "Darwin",
-            "Dante",
-            "ConTrick",
-            "Dewlor",
-            "Scope",
-            "SuperGenuis",
-            "Zwan",
-            "\tT !\t",
-            "\tcr\t",
-            "rnop",
-            "nop\t",
-            "error"
+        "status\t",
+        "basicinfo\t",
+        "numberofusers\t",
+        "users\t",
+        "ownjoin\t",
+        "joinfromgame\t",
+        "say\t",
+        "logintype\t",
+        "login",
+        "lobbyselect\t",
+        "select\t",
+        "back",
+        "challenge\t",
+        "cancel\t",
+        "accept\t",
+        "cfail\t",
+        "nouser",
+        "nochall",
+        "cother",
+        "cbyother",
+        "refuse",
+        "afail",
+        "gsn\t",
+        "lobby\tnc\t",
+        "lobby\t",
+        "lobby",
+        "tracksetlist\t",
+        "tracksetlist",
+        "gamelist\t",
+        "full\t",
+        "add\t",
+        "change\t",
+        "remove\t",
+        "gameinfo\t",
+        "players",
+        "owninfo\t",
+        "game\tstarttrack\t",
+        "game\tstartturn\t",
+        "game\tstart",
+        "game\tbeginstroke\t",
+        "game\tendstroke\t",
+        "game\tresetvoteskip",
+        "game\t",
+        "game",
+        "quit",
+        "join\t",
+        "part\t",
+        "cspt\t",
+        "qmpt",
+        "cspc\t",
+        "jmpt\t",
+        "tracklist\t",
+        "Tiikoni",
+        "Leonardo",
+        "Ennaji",
+        "Hoeg",
+        "Darwin",
+        "Dante",
+        "ConTrick",
+        "Dewlor",
+        "Scope",
+        "SuperGenuis",
+        "Zwan",
+        "\tT !\t",
+        "\tcr\t",
+        "rnop",
+        "nop\t",
+        "error"
     };
     private GameContainer gameContainer;
     private SocketConnection socketConnection;
     private String lastPacketSent;
     private String lastPacketReceived;
-
 
     protected GolfConnection(GameContainer var1) {
         this.gameContainer = var1;
@@ -95,7 +94,16 @@ public class GolfConnection implements SocketConnectionListener {
         } catch (Exception e) {
 
             try {
-                this.writeData("error-debug\t" + this.gameContainer.gameApplet.getActivePanel() + "\t" + e.toString().trim().replace('\n', '\\') + "\t" + packet.replace('\t', '\\') + "\t" + this.lastPacketReceived.replace('\t', '\\') + "\t" + this.lastPacketSent.replace('\t', '\\'));
+                this.writeData("error-debug\t"
+                        + this.gameContainer.gameApplet.getActivePanel()
+                        + "\t"
+                        + e.toString().trim().replace('\n', '\\')
+                        + "\t"
+                        + packet.replace('\t', '\\')
+                        + "\t"
+                        + this.lastPacketReceived.replace('\t', '\\')
+                        + "\t"
+                        + this.lastPacketSent.replace('\t', '\\'));
             } catch (Exception ex) {
             }
 
@@ -115,11 +123,9 @@ public class GolfConnection implements SocketConnectionListener {
         }
     }
 
-    public void notifyConnectionDown() {
-    }
+    public void notifyConnectionDown() {}
 
-    public void notifyConnectionUp() {
-    }
+    public void notifyConnectionUp() {}
 
     protected boolean openSocketConnection() {
         this.socketConnection = new SocketConnection(this.gameContainer.gameApplet, this, cipherCmds);
@@ -159,9 +165,13 @@ public class GolfConnection implements SocketConnectionListener {
                 this.writeData("sessionlocale\t" + var4);
             }
 
-            this.writeData("logintype\t" + (this.gameContainer.synchronizedTrackTestMode.get() ? "ttm" : (this.gameContainer.gameApplet.hasSession() ? "reg" : "nr")));
+            this.writeData("logintype\t"
+                    + (this.gameContainer.synchronizedTrackTestMode.get()
+                            ? "ttm"
+                            : (this.gameContainer.gameApplet.hasSession() ? "reg" : "nr")));
         } else if (args[0].equals("basicinfo")) {
-            this.gameContainer.gameApplet.setGameSettings(args[1].equals("t"), Integer.parseInt(args[2]), args[3].equals("t"), args[4].equals("t"));
+            this.gameContainer.gameApplet.setGameSettings(
+                    args[1].equals("t"), Integer.parseInt(args[2]), args[3].equals("t"), args[4].equals("t"));
         } else if (args[0].equals("broadcast")) {
             if (this.gameContainer.lobbyPanel != null) {
                 this.gameContainer.lobbyPanel.broadcastMessage(args[1]);
@@ -171,8 +181,7 @@ public class GolfConnection implements SocketConnectionListener {
                 this.gameContainer.gamePanel.broadcastMessage(args[1]);
             }
 
-        }
-        else if (args[0].equals("status")) {
+        } else if (args[0].equals("status")) {
             if (args[1].equals("login")) {
                 if (args.length == 2) {
                     this.gameContainer.gameApplet.setGameState(1);
@@ -232,7 +241,8 @@ public class GolfConnection implements SocketConnectionListener {
                 }
 
                 this.gameContainer.gameApplet.setGameState(3, 1, args[2].equals("1") ? 1 : -1);
-                //enables tracklistadmin this.aGameContainer_2370.gameApplet.setGameState(3, -1, 1);
+                // enables tracklistadmin this.aGameContainer_2370.gameApplet.setGameState(3, -1,
+                // 1);
                 return;
             }
 
@@ -246,8 +256,7 @@ public class GolfConnection implements SocketConnectionListener {
             this.gameContainer.lobbySelectionPanel.handlePacket(args);
         } else if (args[0].equals("lobby")) {
             this.gameContainer.lobbyPanel.handlePacket(args);
-        }
-        else if (args[0].equals("game")) {
+        } else if (args[0].equals("game")) {
             this.gameContainer.gamePanel.handlePacket(args);
         }
     }

@@ -1,8 +1,6 @@
 package org.moparforia.editor;
 
-/**
- * makes maps smaller so Svitvona's ISP wont complain about too much bandwidth.
- */
+/** makes maps smaller so Svitvona's ISP wont complain about too much bandwidth. */
 public class MapCompressor {
 
     private static final String mapChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
@@ -25,13 +23,13 @@ public class MapCompressor {
 
         for (int i = 0; i < map.length(); i++) {
             int count = 1;
-                if(i+1 < map.length()) {
+            if (i + 1 < map.length()) {
                 while (map.charAt(i) == map.charAt(i + 1)) {
                     count++;
                     i++;
                     if (i + 1 == map.length()) break;
                 }
-                }
+            }
 
             if (count > 1) {
                 buff.append(Integer.toString(count));
@@ -58,7 +56,6 @@ public class MapCompressor {
                 }
 
                 buff.append(tileCodeToString(mapTiles[x][y]));
-
             }
         }
         return buff.toString();
@@ -67,7 +64,7 @@ public class MapCompressor {
     private char checkContiguousRegion(int tileX, int tileY) {
 
         if (tileX > 0)
-            if (this.mapTiles[tileX][tileY] == this.mapTiles[tileX - 1][tileY]) {  // if input = D
+            if (this.mapTiles[tileX][tileY] == this.mapTiles[tileX - 1][tileY]) { // if input = D
                 // tile to west is same as current
                 return 'D';
             }
@@ -85,7 +82,7 @@ public class MapCompressor {
             }
 
         if (tileX > 1)
-            if (this.mapTiles[tileX][tileY] == this.mapTiles[tileX - 2][tileY]) {  // if input = G;
+            if (this.mapTiles[tileX][tileY] == this.mapTiles[tileX - 2][tileY]) { // if input = G;
                 // 2 tiles west is same as current (skip a tile to the left)
                 return 'G';
             }
@@ -110,9 +107,13 @@ public class MapCompressor {
         int foregroundElementIndex = tileCode / 256 % 256;
         int backgroundElementIndex = tileCode % 256;
 
-
-        return mapChars.charAt(isNoSpecial) + "" + mapChars.charAt(shapeIndex) +
-                "" + mapChars.charAt(foregroundElementIndex) + "" + (isNoSpecial == 2 ? "" : mapChars.charAt(backgroundElementIndex));
+        return mapChars.charAt(isNoSpecial)
+                + ""
+                + mapChars.charAt(shapeIndex)
+                + ""
+                + mapChars.charAt(foregroundElementIndex)
+                + ""
+                + (isNoSpecial == 2 ? "" : mapChars.charAt(backgroundElementIndex));
     }
 
     private int[][] tileTotileCodes(Tile[][] tiles) {

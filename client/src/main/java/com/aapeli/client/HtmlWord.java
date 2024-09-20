@@ -11,7 +11,6 @@ class HtmlWord {
     private int length;
     private final HtmlLine htmlLine;
 
-
     protected HtmlWord(HtmlLine htmlLine, String word, Font font, int start, int length) {
         this.htmlLine = htmlLine;
         this.word = word;
@@ -21,7 +20,13 @@ class HtmlWord {
     }
 
     public String toString() {
-        return "[HtmlWord: 'word'=\"" + this.word + "\" 'font'=\"" + this.font.toString() + "\" 'relx'=" + this.start + "]";
+        return "[HtmlWord: 'word'=\""
+                + this.word
+                + "\" 'font'=\""
+                + this.font.toString()
+                + "\" 'relx'="
+                + this.start
+                + "]";
     }
 
     protected int getLength() {

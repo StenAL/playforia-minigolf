@@ -1,6 +1,5 @@
 package com.aapeli.connection;
 
-
 public interface SocketConnectionListener {
 
     void dataReceived(String data);

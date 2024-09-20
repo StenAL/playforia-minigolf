@@ -2,7 +2,6 @@ package com.aapeli.client;
 
 import com.aapeli.colorgui.ColorButton;
 import com.aapeli.tools.DelayRepaint;
-
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -86,14 +85,18 @@ class Panel_Sub24 extends Panel implements ActionListener, FocusListener {
         this.aGraphics642.setColor(aColor617);
         if (this.anInt638 == 0) {
             this.aGraphics642.setFont(aFont623);
-            StringDraw.drawStringWithMaxWidth(this.aGraphics642, this.aTextManager628.getShared("TellFriend_Info"), 10, 25, -1, 480);
+            StringDraw.drawStringWithMaxWidth(
+                    this.aGraphics642, this.aTextManager628.getShared("TellFriend_Info"), 10, 25, -1, 480);
             this.aGraphics642.setFont(aFont624);
-            StringDraw.drawStringWithMaxWidth(this.aGraphics642, this.aTextManager628.getShared("TellFriend_EmailTitle"), 10, 90, -1, 480);
+            StringDraw.drawStringWithMaxWidth(
+                    this.aGraphics642, this.aTextManager628.getShared("TellFriend_EmailTitle"), 10, 90, -1, 480);
             this.aGraphics642.setFont(aFont625);
-            StringDraw.drawStringWithMaxWidth(this.aGraphics642, this.aTextManager628.getShared("TellFriend_MessageTitle"), 200, 90, -1, 480);
+            StringDraw.drawStringWithMaxWidth(
+                    this.aGraphics642, this.aTextManager628.getShared("TellFriend_MessageTitle"), 200, 90, -1, 480);
         } else if (this.anInt638 == 1) {
             this.aGraphics642.setFont(aFont626);
-            StringDraw.drawStringWithMaxWidth(this.aGraphics642, this.aTextManager628.getShared("TellFriend_EmailSent"), 290, 122, 0, 340);
+            StringDraw.drawStringWithMaxWidth(
+                    this.aGraphics642, this.aTextManager628.getShared("TellFriend_EmailSent"), 290, 122, 0, 340);
             var3 = this.anImageManager629.getShared("tf-char-sent.gif", true);
             if (var3 != null) {
                 this.aGraphics642.drawImage(var3, 40, 60, this);
@@ -102,7 +105,8 @@ class Panel_Sub24 extends Panel implements ActionListener, FocusListener {
             }
         } else {
             this.aGraphics642.setFont(aFont627);
-            StringDraw.drawStringWithMaxWidth(this.aGraphics642, this.aTextManager628.getShared("TellFriend_EmailNotSent"), 310, 92, 0, 340);
+            StringDraw.drawStringWithMaxWidth(
+                    this.aGraphics642, this.aTextManager628.getShared("TellFriend_EmailNotSent"), 310, 92, 0, 340);
             var3 = this.anImageManager629.getShared("tf-char-error.gif", true);
             if (var3 != null) {
                 this.aGraphics642.drawImage(var3, 50, 120, this);
@@ -127,7 +131,6 @@ class Panel_Sub24 extends Panel implements ActionListener, FocusListener {
         if (var2) {
             new DelayRepaint(this);
         }
-
     }
 
     public synchronized void actionPerformed(ActionEvent var1) {
@@ -144,7 +147,10 @@ class Panel_Sub24 extends Panel implements ActionListener, FocusListener {
                 if (var2 == this.anInputTextFieldArray632[var3]) {
                     if (var3 < this.anInt639) {
                         for (var4 = 0; var4 < this.anInt639; ++var4) {
-                            if (this.anInputTextFieldArray632[var4].getInputText(false).length() == 0) {
+                            if (this.anInputTextFieldArray632[var4]
+                                            .getInputText(false)
+                                            .length()
+                                    == 0) {
                                 this.anInputTextFieldArray632[var4].requestFocus();
                                 return;
                             }
@@ -215,13 +221,11 @@ class Panel_Sub24 extends Panel implements ActionListener, FocusListener {
                 if (var2 == this.aColorButton637) {
                     this.aFrame_Sub3_Sub3_631.close();
                 }
-
             }
         }
     }
 
-    public void focusGained(FocusEvent var1) {
-    }
+    public void focusGained(FocusEvent var1) {}
 
     public synchronized void focusLost(FocusEvent var1) {
         for (int var3 = 0; var3 < this.anInt639; ++var3) {
@@ -230,7 +234,6 @@ class Panel_Sub24 extends Panel implements ActionListener, FocusListener {
                 this.anInputTextFieldArray632[var3].setBackground(this.method484(var2) ? Color.white : aColor618);
             }
         }
-
     }
 
     private void method480() {
@@ -314,7 +317,6 @@ class Panel_Sub24 extends Panel implements ActionListener, FocusListener {
         if (var1) {
             this.anInputTextFieldArray632[this.anInt639 - 1].requestFocus();
         }
-
     }
 
     private InputTextField method483() {

@@ -5,7 +5,6 @@ import com.aapeli.client.ImageManager;
 import com.aapeli.client.Parameters;
 import com.aapeli.client.TextManager;
 import com.aapeli.colorgui.ColorCheckbox;
-
 import java.awt.Color;
 import java.awt.Image;
 import java.awt.Point;
@@ -16,15 +15,36 @@ public class ChatLobby extends ChatBase {
     private ColorCheckbox noGameMessagesChatbox;
     private boolean shouldMuteMessagesIfUserListSet;
 
-    public ChatLobby(Parameters parameters, TextManager textManager, ImageManager imageManager, BadWordFilter badWordFilter, int width, int height) {
+    public ChatLobby(
+            Parameters parameters,
+            TextManager textManager,
+            ImageManager imageManager,
+            BadWordFilter badWordFilter,
+            int width,
+            int height) {
         this(parameters, textManager, imageManager, badWordFilter, false, false, width, height);
     }
 
-    public ChatLobby(Parameters parameters, TextManager textManager, ImageManager imageManager, BadWordFilter badWordFilter, boolean useSmallFont, int width, int height) {
+    public ChatLobby(
+            Parameters parameters,
+            TextManager textManager,
+            ImageManager imageManager,
+            BadWordFilter badWordFilter,
+            boolean useSmallFont,
+            int width,
+            int height) {
         this(parameters, textManager, imageManager, badWordFilter, useSmallFont, false, width, height);
     }
 
-    public ChatLobby(Parameters parameters, TextManager textManager, ImageManager imageManager, BadWordFilter badWordFilter, boolean useSmallFont, boolean var6, int width, int height) {
+    public ChatLobby(
+            Parameters parameters,
+            TextManager textManager,
+            ImageManager imageManager,
+            BadWordFilter badWordFilter,
+            boolean useSmallFont,
+            boolean var6,
+            int width,
+            int height) {
         super(parameters, textManager, imageManager, badWordFilter, useSmallFont, var6, width, height);
         this.createSettingsCheckBoxes();
         this.resizeLayout();
@@ -40,7 +60,6 @@ public class ChatLobby extends ChatBase {
         if (this.noGameMessagesChatbox != null) {
             this.noGameMessagesChatbox.setBackground(var1);
         }
-
     }
 
     public void setForeground(Color var1) {
@@ -52,7 +71,6 @@ public class ChatLobby extends ChatBase {
         if (this.noGameMessagesChatbox != null) {
             this.noGameMessagesChatbox.setForeground(var1);
         }
-
     }
 
     public void setBackgroundImage(Image var1, int var2, int var3) {
@@ -86,7 +104,10 @@ public class ChatLobby extends ChatBase {
     public String userJoin(String var1, boolean var2) {
         User var3 = this.addToUserListNew(var1, false);
         if (!this.noJoinAndPartMessagesCheckbox.getState()) {
-            this.method889(var3, super.textManager.getShared("Chat_Lobby_User" + (var2 ? "ReturnedFromGame" : "Joined"), var3.getNick()));
+            this.method889(
+                    var3,
+                    super.textManager.getShared(
+                            "Chat_Lobby_User" + (var2 ? "ReturnedFromGame" : "Joined"), var3.getNick()));
         }
 
         return var3.getNick();
@@ -99,9 +120,9 @@ public class ChatLobby extends ChatBase {
     public void userLeft(String var1, boolean var2) {
         User var3 = super.userList.removeAndReturnUser(var1);
         if (var3 != null && !this.noJoinAndPartMessagesCheckbox.getState()) {
-            this.method889(var3, super.textManager.getShared("Chat_Lobby_UserLeft" + (var2 ? "ConnectionProblem" : ""), var1));
+            this.method889(
+                    var3, super.textManager.getShared("Chat_Lobby_UserLeft" + (var2 ? "ConnectionProblem" : ""), var1));
         }
-
     }
 
     public void userLeftCreatedGame(String var1, String var2) {
@@ -109,7 +130,6 @@ public class ChatLobby extends ChatBase {
         if (var3 != null && !this.noGameMessagesChatbox.getState()) {
             this.method889(var3, super.textManager.getShared("Chat_Lobby_UserCreatedGame", var1, var2));
         }
-
     }
 
     public void userLeftJoinedGame(String var1, String var2) {
@@ -117,7 +137,6 @@ public class ChatLobby extends ChatBase {
         if (var3 != null && !this.noGameMessagesChatbox.getState()) {
             this.method889(var3, super.textManager.getShared("Chat_Lobby_UserJoinedGame", var1, var2));
         }
-
     }
 
     public void userLeftWatchingGame(String var1, String var2) {
@@ -125,7 +144,6 @@ public class ChatLobby extends ChatBase {
         if (var3 != null && !this.noGameMessagesChatbox.getState()) {
             this.method889(var3, super.textManager.getShared("Chat_Lobby_UserWathicngGame", var1, var2));
         }
-
     }
 
     public void usersLeftStartedGame(String var1, String var2, String var3) {
@@ -141,7 +159,6 @@ public class ChatLobby extends ChatBase {
 
             this.method890(var4, var5, var6);
         }
-
     }
 
     public void usersLeftStartedGame(String var1, String var2) {
@@ -169,7 +186,8 @@ public class ChatLobby extends ChatBase {
     }
 
     public boolean[] getCheckBoxStates() {
-        boolean[] var1 = new boolean[]{this.noJoinAndPartMessagesCheckbox.getState(), this.noGameMessagesChatbox.getState()};
+        boolean[] var1 =
+                new boolean[] {this.noJoinAndPartMessagesCheckbox.getState(), this.noGameMessagesChatbox.getState()};
         return var1;
     }
 
@@ -258,7 +276,8 @@ public class ChatLobby extends ChatBase {
     }
 
     private void createSettingsCheckBoxes() {
-        this.noJoinAndPartMessagesCheckbox = new ColorCheckbox(super.textManager.getShared("Chat_Lobby_NoJoinPartMessages"));
+        this.noJoinAndPartMessagesCheckbox =
+                new ColorCheckbox(super.textManager.getShared("Chat_Lobby_NoJoinPartMessages"));
         this.add(this.noJoinAndPartMessagesCheckbox);
         this.noGameMessagesChatbox = new ColorCheckbox(super.textManager.getShared("Chat_Lobby_NoGameMessages"));
         this.add(this.noGameMessagesChatbox);

@@ -1,11 +1,10 @@
 package org.moparforia.editor;
 
-import org.moparforia.editor.util.RectangleDragSelector;
-
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
+import javax.swing.*;
+import org.moparforia.editor.util.RectangleDragSelector;
 
 public class MapCanvas extends JPanel implements MouseListener, MouseMotionListener, MouseWheelListener {
 
@@ -48,11 +47,8 @@ public class MapCanvas extends JPanel implements MouseListener, MouseMotionListe
     }
 
     /**
-     * returns the following sprites in this format
-     * a[0][] = shapes
-     * a[1][] = elements
-     * a[2][] = specials
-     * a[3][] = balls
+     * returns the following sprites in this format a[0][] = shapes a[1][] = elements a[2][] =
+     * specials a[3][] = balls
      *
      * @return 2d array of all sprites
      */
@@ -97,7 +93,6 @@ public class MapCanvas extends JPanel implements MouseListener, MouseMotionListe
         } else {
             return false;
         }
-
     }
 
     public void toggleGrid() {
@@ -114,11 +109,11 @@ public class MapCanvas extends JPanel implements MouseListener, MouseMotionListe
         if (spriteManager != null && m != null) {
             for (int tileX = 0; tileX < 49; tileX++) {
                 for (int tileY = 0; tileY < 25; tileY++) {
-                    int[] tilePixels = spriteManager.getPixelsFromTileCode(m.getTile(tileX, tileY).getTileCode());
+                    int[] tilePixels = spriteManager.getPixelsFromTileCode(
+                            m.getTile(tileX, tileY).getTileCode());
                     int y = 0;
                     for (int pixel = 0; pixel < tilePixels.length; pixel++) {
-                        if (pixel % 15 == 0 && pixel != 0)
-                            y++;
+                        if (pixel % 15 == 0 && pixel != 0) y++;
                         buffer.setRGB(tileX * 15 + (pixel % 15), tileY * 15 + y, tilePixels[pixel]);
                     }
                 }
@@ -168,7 +163,7 @@ public class MapCanvas extends JPanel implements MouseListener, MouseMotionListe
     }
 
     public void mouseClicked(MouseEvent e) {
-        switch(editor.getDrawMode()) {
+        switch (editor.getDrawMode()) {
             case 0:
                 drawTile(e);
         }
@@ -176,25 +171,25 @@ public class MapCanvas extends JPanel implements MouseListener, MouseMotionListe
     }
 
     public void mouseDragged(MouseEvent e) {
-        switch(editor.getDrawMode()) {
+        switch (editor.getDrawMode()) {
             case 0:
                 drawTile(e);
             case 1:
-                rectangleDragSelector.refresh((int)Math.ceil(e.getX() / 15), (int)Math.ceil(e.getY() / 15));
+                rectangleDragSelector.refresh((int) Math.ceil(e.getX() / 15), (int) Math.ceil(e.getY() / 15));
         }
 
         repaint();
     }
 
     public void mousePressed(MouseEvent e) {
-        switch(editor.getDrawMode()) {
+        switch (editor.getDrawMode()) {
             case 1:
-            rectangleDragSelector.reset();
+                rectangleDragSelector.reset();
         }
     }
 
     public void mouseReleased(MouseEvent e) {
-        switch(editor.getDrawMode()) {
+        switch (editor.getDrawMode()) {
             case 0:
                 return;
             case 1:
@@ -203,15 +198,14 @@ public class MapCanvas extends JPanel implements MouseListener, MouseMotionListe
         repaint();
     }
 
-    public void mouseEntered(MouseEvent e) {
-    }
+    public void mouseEntered(MouseEvent e) {}
 
     public void mouseExited(MouseEvent e) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        // To change body of implemented methods use File | Settings | File Templates.
     }
 
     public void mouseMoved(MouseEvent e) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        // To change body of implemented methods use File | Settings | File Templates.
     }
 
     public void mouseWheelMoved(MouseWheelEvent e) {

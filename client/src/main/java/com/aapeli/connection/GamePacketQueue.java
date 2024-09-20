@@ -12,7 +12,6 @@ class GamePacketQueue implements Runnable {
     private boolean running;
     private Thread thread;
 
-
     protected GamePacketQueue(SocketConnection socketConnection, SocketConnectionListener socketConnectionListener) {
         this.socketConnection = socketConnection;
         this.socketConnectionListener = socketConnectionListener;

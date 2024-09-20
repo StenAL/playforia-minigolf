@@ -10,7 +10,6 @@ class GameQueue {
     private ConnCipher connCipher = new ConnCipher((int) (Math.random() * 19.0D));
     protected long sendSeqNum;
 
-
     protected GameQueue() {
         this.connCipher.initialise(ConnCipher.getRandomSeed());
         this.sendSeqNum = 0L;

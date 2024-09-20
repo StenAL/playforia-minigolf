@@ -10,7 +10,6 @@ import com.aapeli.client.TextManager;
 import com.aapeli.client.UrlLabel;
 import com.aapeli.colorgui.ColorButton;
 import com.aapeli.colorgui.RoundButton;
-
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
@@ -25,7 +24,8 @@ import java.awt.event.ComponentListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class ChatBase extends IPanel implements ComponentListener, UserListHandler, ActionListener, InputTextFieldListener {
+public abstract class ChatBase extends IPanel
+        implements ComponentListener, UserListHandler, ActionListener, InputTextFieldListener {
 
     public static final int CIDR_NONE = 0;
     public static final int CIDR_UNREG = 1;
@@ -56,15 +56,66 @@ public abstract class ChatBase extends IPanel implements ComponentListener, User
     private List<ChatListener> chatListeners;
     private Object synchronizedObject;
 
-    public ChatBase(Parameters parameters, TextManager textManager, ImageManager imageManager, BadWordFilter badWordFilter, boolean useSmallFont, boolean var6, int width, int height) {
-        this(parameters, textManager, imageManager, badWordFilter, true, true, useSmallFont, var6, false, width, height);
+    public ChatBase(
+            Parameters parameters,
+            TextManager textManager,
+            ImageManager imageManager,
+            BadWordFilter badWordFilter,
+            boolean useSmallFont,
+            boolean var6,
+            int width,
+            int height) {
+        this(
+                parameters,
+                textManager,
+                imageManager,
+                badWordFilter,
+                true,
+                true,
+                useSmallFont,
+                var6,
+                false,
+                width,
+                height);
     }
 
-    public ChatBase(Parameters parameters, TextManager textManager, ImageManager imageManager, BadWordFilter badWordFilter, boolean var5, boolean var6, boolean useSmallFont, boolean var8, int width, int height) {
-        this(parameters, textManager, imageManager, badWordFilter, var5, var6, useSmallFont, var8, false, width, height);
+    public ChatBase(
+            Parameters parameters,
+            TextManager textManager,
+            ImageManager imageManager,
+            BadWordFilter badWordFilter,
+            boolean var5,
+            boolean var6,
+            boolean useSmallFont,
+            boolean var8,
+            int width,
+            int height) {
+        this(
+                parameters,
+                textManager,
+                imageManager,
+                badWordFilter,
+                var5,
+                var6,
+                useSmallFont,
+                var8,
+                false,
+                width,
+                height);
     }
 
-    public ChatBase(Parameters params, TextManager textManager, ImageManager imageManager, BadWordFilter badWordFilter, boolean var5, boolean var6, boolean useSmallFont, boolean var8, boolean shouldNotWriteWelcomeMessage, int width, int height) {
+    public ChatBase(
+            Parameters params,
+            TextManager textManager,
+            ImageManager imageManager,
+            BadWordFilter badWordFilter,
+            boolean var5,
+            boolean var6,
+            boolean useSmallFont,
+            boolean var8,
+            boolean shouldNotWriteWelcomeMessage,
+            int width,
+            int height) {
         this.param = params;
         this.textManager = textManager;
         this.imageManager = imageManager;
@@ -83,18 +134,25 @@ public abstract class ChatBase extends IPanel implements ComponentListener, User
 
     public void update(Graphics g) {
         if (this.image != null) {
-            g.drawImage(this.image, 0, 0, this.width, this.height, this.anInt2351, this.anInt2352, this.anInt2351 + this.width, this.anInt2352 + this.height, this);
+            g.drawImage(
+                    this.image,
+                    0,
+                    0,
+                    this.width,
+                    this.height,
+                    this.anInt2351,
+                    this.anInt2352,
+                    this.anInt2351 + this.width,
+                    this.anInt2352 + this.height,
+                    this);
         } else {
             this.drawBackground(g);
         }
-
     }
 
-    public void componentShown(ComponentEvent var1) {
-    }
+    public void componentShown(ComponentEvent var1) {}
 
-    public void componentHidden(ComponentEvent var1) {
-    }
+    public void componentHidden(ComponentEvent var1) {}
 
     public void componentMoved(ComponentEvent var1) {
         if (this.image != null) {
@@ -103,7 +161,6 @@ public abstract class ChatBase extends IPanel implements ComponentListener, User
             int var4 = var2.y - this.anInt2354;
             this.setBackgroundImage(this.image, this.anInt2351 + var3, this.anInt2352 + var4);
         }
-
     }
 
     public void componentResized(ComponentEvent event) {
@@ -123,7 +180,6 @@ public abstract class ChatBase extends IPanel implements ComponentListener, User
         for (ChatListener chatListener : var3) {
             chatListener.localUserAdminCommand(var1, var2);
         }
-
     }
 
     public void adminCommand(String var1, String var2, String var3) {
@@ -132,14 +188,12 @@ public abstract class ChatBase extends IPanel implements ComponentListener, User
         for (ChatListener chatListener : var4) {
             chatListener.localUserAdminCommand(var1, var2, var3);
         }
-
     }
 
     public void actionPerformed(ActionEvent event) {
         if (event.getSource() == this.sayButton) {
             this.sendMessage();
         }
-
     }
 
     public void startedTyping() {
@@ -154,8 +208,23 @@ public abstract class ChatBase extends IPanel implements ComponentListener, User
         this.sendMessage();
     }
 
-    public static UrlLabel setInputByCIDR(int var0, Container var1, InputTextField var2, Component var3, UrlLabel var4, TextManager var5, Parameters var6) {
-        return getSignupMessage(var0, var1, var2, var3, var4, var5.getShared("Chat_NoGuestChatAndRegNote"), var5.getShared("Chat_NoUnconfirmedChatNote"), var6);
+    public static UrlLabel setInputByCIDR(
+            int var0,
+            Container var1,
+            InputTextField var2,
+            Component var3,
+            UrlLabel var4,
+            TextManager var5,
+            Parameters var6) {
+        return getSignupMessage(
+                var0,
+                var1,
+                var2,
+                var3,
+                var4,
+                var5.getShared("Chat_NoGuestChatAndRegNote"),
+                var5.getShared("Chat_NoUnconfirmedChatNote"),
+                var6);
     }
 
     public void setBackground(Color var1) {
@@ -178,7 +247,6 @@ public abstract class ChatBase extends IPanel implements ComponentListener, User
         if (this.signupMessage != null) {
             this.signupMessage.setForeground(var1);
         }
-
     }
 
     public void setBackgroundImage(Image var1, int var2, int var3) {
@@ -213,7 +281,6 @@ public abstract class ChatBase extends IPanel implements ComponentListener, User
             } else {
                 this.gui_globaloutput.clear();
             }
-
         }
     }
 
@@ -265,21 +332,18 @@ public abstract class ChatBase extends IPanel implements ComponentListener, User
         if (!this.isUserIgnored(var1)) {
             this.chatTextArea.addSay(var1, var2);
         }
-
     }
 
     public void userSay(int var1, String var2, String var3) {
         if (!this.isUserIgnored(var2)) {
             this.gui_globaloutput.method916(var1, var2, var3);
         }
-
     }
 
     public void userSayPrivately(String var1, String var2) {
         if (!this.isUserIgnored(var1)) {
             this.chatTextArea.addSayPrivately(var1, this.aString2355, var2);
         }
-
     }
 
     public void sheriffSay(String text) {
@@ -289,7 +353,6 @@ public abstract class ChatBase extends IPanel implements ComponentListener, User
             } else {
                 this.gui_globaloutput.method918(text);
             }
-
         }
     }
 
@@ -316,7 +379,11 @@ public abstract class ChatBase extends IPanel implements ComponentListener, User
             }
 
             if (var4.length() > 1) {
-                if ((var12.equals("ServerSay_SheriffGaveWarning") || var12.equals("ServerSay_SheriffMutedUser") || var12.equals("ServerSay_SheriffUnMutedUser")) && var3 != null && !this.userList.isUser(var3)) {
+                if ((var12.equals("ServerSay_SheriffGaveWarning")
+                                || var12.equals("ServerSay_SheriffMutedUser")
+                                || var12.equals("ServerSay_SheriffUnMutedUser"))
+                        && var3 != null
+                        && !this.userList.isUser(var3)) {
                     return;
                 }
 
@@ -338,7 +405,6 @@ public abstract class ChatBase extends IPanel implements ComponentListener, User
                 } else {
                     this.gui_globaloutput.method919(var1);
                 }
-
             }
         }
     }
@@ -351,7 +417,6 @@ public abstract class ChatBase extends IPanel implements ComponentListener, User
             } else {
                 this.gui_globaloutput.method921(message);
             }
-
         }
     }
 
@@ -463,7 +528,6 @@ public abstract class ChatBase extends IPanel implements ComponentListener, User
             } else {
                 this.gui_globaloutput.method917(var1.getLanguage(), var2);
             }
-
         }
     }
 
@@ -480,11 +544,18 @@ public abstract class ChatBase extends IPanel implements ComponentListener, User
                     this.gui_globaloutput.method917(var6, var3);
                 }
             }
-
         }
     }
 
-    private static UrlLabel getSignupMessage(int chatDisabledStatus, Container container, InputTextField inputTextField, Component sayButton, UrlLabel signupMessage, String registrationNeededText, String confirmationNeededText, Parameters parameters) {
+    private static UrlLabel getSignupMessage(
+            int chatDisabledStatus,
+            Container container,
+            InputTextField inputTextField,
+            Component sayButton,
+            UrlLabel signupMessage,
+            String registrationNeededText,
+            String confirmationNeededText,
+            Parameters parameters) {
         if (chatDisabledStatus == 0) {
             if (signupMessage != null) {
                 signupMessage.setVisible(false);
@@ -499,7 +570,11 @@ public abstract class ChatBase extends IPanel implements ComponentListener, User
                 Point inputFieldLocation = inputTextField.getLocation();
                 Point sayButtonLocation = sayButton.getLocation();
                 Dimension sayButtonSize = sayButton.getSize();
-                signupMessage.setBounds(inputFieldLocation.x, inputFieldLocation.y, sayButtonLocation.x + sayButtonSize.width - inputFieldLocation.x, sayButtonLocation.y + sayButtonSize.height - inputFieldLocation.y);
+                signupMessage.setBounds(
+                        inputFieldLocation.x,
+                        inputFieldLocation.y,
+                        sayButtonLocation.x + sayButtonSize.width - inputFieldLocation.x,
+                        sayButtonLocation.y + sayButtonSize.height - inputFieldLocation.y);
                 signupMessage.setBackground(container.getBackground());
                 signupMessage.setForeground(container.getForeground());
                 container.add(signupMessage);
@@ -521,9 +596,15 @@ public abstract class ChatBase extends IPanel implements ComponentListener, User
         }
     }
 
-    private void init(boolean var1, boolean var2, boolean useSmallFont, boolean var4, boolean shouldNotWriteWelcomeMessage) {
+    private void init(
+            boolean var1, boolean var2, boolean useSmallFont, boolean var4, boolean shouldNotWriteWelcomeMessage) {
         this.setLayout(null);
-        this.chatTextArea = new ChatTextArea(this.textManager, this.badWordFilter, 200, 100, useSmallFont ? ChatTextArea.SMALL_FONT : ChatTextArea.DEFAULT_FONT);
+        this.chatTextArea = new ChatTextArea(
+                this.textManager,
+                this.badWordFilter,
+                200,
+                100,
+                useSmallFont ? ChatTextArea.SMALL_FONT : ChatTextArea.DEFAULT_FONT);
         if (shouldDisplayChatInputHelp && !shouldNotWriteWelcomeMessage) {
             this.chatTextArea.addWelcomeMessage(this.textManager.getShared("Chat_Welcome"));
         }
@@ -594,7 +675,6 @@ public abstract class ChatBase extends IPanel implements ComponentListener, User
 
                             this.chatTextArea.addOwnSay(this.aString2355, message);
                         }
-
                     }
                 }
             }
@@ -618,6 +698,14 @@ public abstract class ChatBase extends IPanel implements ComponentListener, User
     }
 
     private void paintSignupMessage() {
-        this.signupMessage = getSignupMessage(this.chatDisabledStatus, this, this.inputTextField, this.sayButton, this.signupMessage, this.getRegisterationNeededText(), this.getConfirmationNeededText(), this.param);
+        this.signupMessage = getSignupMessage(
+                this.chatDisabledStatus,
+                this,
+                this.inputTextField,
+                this.sayButton,
+                this.signupMessage,
+                this.getRegisterationNeededText(),
+                this.getConfirmationNeededText(),
+                this.param);
     }
 }

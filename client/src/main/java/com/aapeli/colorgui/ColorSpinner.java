@@ -2,7 +2,6 @@ package com.aapeli.colorgui;
 
 import com.aapeli.client.IPanel;
 import com.aapeli.client.StringDraw;
-
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -35,7 +34,6 @@ public final class ColorSpinner extends IPanel implements MouseListener, MouseMo
     private Class92 aClass92_3323;
     private int anInt3324;
     private Object anObject3325;
-
 
     public ColorSpinner() {
         this.aBoolean3313 = this.aBoolean3314 = false;
@@ -73,7 +71,11 @@ public final class ColorSpinner extends IPanel implements MouseListener, MouseMo
                 this.aGraphics3320.drawLine(0, var4 - 1, var3 - 1, var4 - 1);
                 this.aGraphics3320.setColor(this.method844(var5, var6));
                 double var7 = 1.0D * (double) (var3 - var4 * 2) / (double) this.items.size();
-                this.aGraphics3320.drawLine((int) ((double) var4 + (double) this.anInt3311 * var7 + 0.5D), var4 - 2, (int) ((double) var4 + (double) (this.anInt3311 + 1) * var7 + 0.5D), var4 - 2);
+                this.aGraphics3320.drawLine(
+                        (int) ((double) var4 + (double) this.anInt3311 * var7 + 0.5D),
+                        var4 - 2,
+                        (int) ((double) var4 + (double) (this.anInt3311 + 1) * var7 + 0.5D),
+                        var4 - 2);
             }
 
             this.aGraphics3320.setColor(this.method842(var5, 24));
@@ -176,11 +178,9 @@ public final class ColorSpinner extends IPanel implements MouseListener, MouseMo
         this.aBoolean3314 = false;
     }
 
-    public void mouseClicked(MouseEvent var1) {
-    }
+    public void mouseClicked(MouseEvent var1) {}
 
-    public void mouseMoved(MouseEvent var1) {
-    }
+    public void mouseMoved(MouseEvent var1) {}
 
     public void mouseDragged(MouseEvent var1) {
         synchronized (this.anObject3325) {
@@ -199,14 +199,13 @@ public final class ColorSpinner extends IPanel implements MouseListener, MouseMo
                     this.repaint();
                     this.method845();
                 }
-
             }
         }
     }
 
     public Object[] getSelectedObjects() {
         String var1 = this.getSelectedItem();
-        return var1 == null ? null : new Object[]{var1};
+        return var1 == null ? null : new Object[] {var1};
     }
 
     public int addItem(String var1) {
@@ -313,10 +312,14 @@ public final class ColorSpinner extends IPanel implements MouseListener, MouseMo
         var1.fillRect(var2, var3, var4, var5);
         double var9 = (double) var2 + (double) var4 / 3.0D + 0.5D;
         double var11 = (double) var2 + (double) var4 * 2.0D / 3.0D - 0.5D;
-        int[] var13 = new int[]{(int) (var6 ? var11 : var9), (int) (var6 ? var11 : var9), (int) (var6 ? var9 : var11)};
-        int[] var14 = new int[]{(int) ((double) var3 + (double) var5 / 3.0D), (int) ((double) var3 + (double) var5 * 2.0D / 3.0D), (int) ((double) var3 + (double) var5 / 2.0D)};
-        int[] var15 = new int[]{var13[0] + (var6 ? 1 : -1), var13[1] + (var6 ? 1 : -1), var13[2] + (var6 ? -1 : 1)};
-        int[] var16 = new int[]{var14[0] - 1, var14[1] + 1, var14[2]};
+        int[] var13 = new int[] {(int) (var6 ? var11 : var9), (int) (var6 ? var11 : var9), (int) (var6 ? var9 : var11)};
+        int[] var14 = new int[] {
+            (int) ((double) var3 + (double) var5 / 3.0D),
+            (int) ((double) var3 + (double) var5 * 2.0D / 3.0D),
+            (int) ((double) var3 + (double) var5 / 2.0D)
+        };
+        int[] var15 = new int[] {var13[0] + (var6 ? 1 : -1), var13[1] + (var6 ? 1 : -1), var13[2] + (var6 ? -1 : 1)};
+        int[] var16 = new int[] {var14[0] - 1, var14[1] + 1, var14[2]};
         Color var17 = this.getForeground();
         var1.setColor(this.method844(var8, var17));
         var1.fillPolygon(var15, var16, 3);
@@ -381,7 +384,6 @@ public final class ColorSpinner extends IPanel implements MouseListener, MouseMo
                 } else {
                     this.aClass92_3323 = new Class92(this, this, this.anInt3324);
                 }
-
             }
         }
     }
@@ -395,5 +397,4 @@ public final class ColorSpinner extends IPanel implements MouseListener, MouseMo
             }
         }
     }
-
 }

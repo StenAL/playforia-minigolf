@@ -1,12 +1,5 @@
 package org.moparforia.shared.tracks.filesystem;
 
-import org.moparforia.shared.tracks.Track;
-import org.moparforia.shared.tracks.TracksLocation;
-import org.moparforia.shared.tracks.parsers.TrackParser;
-import org.moparforia.shared.tracks.parsers.VersionedTrackFileParser;
-import org.moparforia.shared.tracks.stats.TrackStats;
-import org.moparforia.shared.tracks.stats.StatsManager;
-
 import java.io.IOException;
 import java.nio.file.*;
 import java.util.ArrayList;
@@ -15,17 +8,22 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
+import org.moparforia.shared.tracks.Track;
+import org.moparforia.shared.tracks.TracksLocation;
+import org.moparforia.shared.tracks.parsers.TrackParser;
+import org.moparforia.shared.tracks.parsers.VersionedTrackFileParser;
+import org.moparforia.shared.tracks.stats.StatsManager;
+import org.moparforia.shared.tracks.stats.TrackStats;
 
 public class FileSystemStatsManager implements StatsManager {
     private static FileSystemStatsManager instance;
 
-    private final Logger logger =  Logger.getLogger(FileSystemStatsManager.class.getName());
+    private final Logger logger = Logger.getLogger(FileSystemStatsManager.class.getName());
     private final TrackParser parser = new VersionedTrackFileParser();
 
     private Map<Track, TrackStats> stats;
 
-    public FileSystemStatsManager() {
-    }
+    public FileSystemStatsManager() {}
 
     public static FileSystemStatsManager getInstance() {
         if (instance == null) {
@@ -47,10 +45,8 @@ public class FileSystemStatsManager implements StatsManager {
             logger.warning("Directory " + tracksLocation.path() + "/tracks was not found, ignoring.");
             return Collections.emptyMap();
         }
-        DirectoryStream<Path> directoryStream = Files.newDirectoryStream(
-                tracksPath,
-                entry -> entry.toString().endsWith(".track")
-        );
+        DirectoryStream<Path> directoryStream =
+                Files.newDirectoryStream(tracksPath, entry -> entry.toString().endsWith(".track"));
         for (Path filePath : directoryStream) {
             try {
                 tracks.add(parser.parseStats(filePath));
@@ -59,8 +55,7 @@ public class FileSystemStatsManager implements StatsManager {
                 logger.info(e.toString());
             }
         }
-        return tracks.stream()
-                .collect(Collectors.toMap(TrackStats::getTrack, stats -> stats));
+        return tracks.stream().collect(Collectors.toMap(TrackStats::getTrack, stats -> stats));
     }
 
     @Override

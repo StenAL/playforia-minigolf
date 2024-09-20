@@ -9,9 +9,9 @@ public class MapDecompressor {
         this.mapTiles = new int[49][25];
     }
 
-    public Map decompress(String mapData) throws Exception{
+    public Map decompress(String mapData) throws Exception {
         String expandData = expandMap(mapData);
-        System.out.println("input: "+mapData+"\nexpand:"+expandData);
+        System.out.println("input: " + mapData + "\nexpand:" + expandData);
         parseMap(expandData);
         Tile[][] tiles = convertCodesToTiles();
 
@@ -19,19 +19,19 @@ public class MapDecompressor {
     }
 
     public Tile[][] convertCodesToTiles() {
-              Tile[][] result = new Tile[49][25];
+        Tile[][] result = new Tile[49][25];
         for (int y = 0; y < 25; y++) {
-                   for (int x = 0; x < 49; x++) {
-                       int tileCode = mapTiles[x][y];
-                       int isNoSpecial = tileCode / 16777216;
-                       int shapeIndex = tileCode / 65536 % 256; // Becomes the SpecialIndex if isNoSpecial==2
-                       int foregroundElementIndex = tileCode / 256 % 256;
-                       int backgroundElementIndex = tileCode % 256;
-                       result[x][y] = new Tile(shapeIndex,foregroundElementIndex,backgroundElementIndex,isNoSpecial);
-                   }
-               }
+            for (int x = 0; x < 49; x++) {
+                int tileCode = mapTiles[x][y];
+                int isNoSpecial = tileCode / 16777216;
+                int shapeIndex = tileCode / 65536 % 256; // Becomes the SpecialIndex if isNoSpecial==2
+                int foregroundElementIndex = tileCode / 256 % 256;
+                int backgroundElementIndex = tileCode % 256;
+                result[x][y] = new Tile(shapeIndex, foregroundElementIndex, backgroundElementIndex, isNoSpecial);
+            }
+        }
 
-    return result;
+        return result;
     }
 
     private void parseMap(final String data) {
@@ -44,7 +44,7 @@ public class MapDecompressor {
 
                 int currentMapIndex = mapChars.indexOf(mapData.charAt(cursorIndex));
 
-                if (currentMapIndex <= 2) {  // if input= A,B or C
+                if (currentMapIndex <= 2) { // if input= A,B or C
                     int mapcursor_one_ahead;
                     int mapcursor_two_ahead;
                     int mapcursor_three_ahead;
@@ -61,42 +61,52 @@ public class MapDecompressor {
                         cursorIndex += 3;
                     }
 
-                    // (currentMapIndex << 24) + (mapcursor_one_ahead << 16) + (mapcursor_two_ahead << 8) + mapcursor_three_ahead;
-                    this.mapTiles[tileX][tileY] = currentMapIndex * 256 * 256 * 256 + mapcursor_one_ahead * 256 * 256 + mapcursor_two_ahead * 256 + mapcursor_three_ahead;
+                    // (currentMapIndex << 24) + (mapcursor_one_ahead << 16) + (mapcursor_two_ahead
+                    // << 8) + mapcursor_three_ahead;
+                    this.mapTiles[tileX][tileY] = currentMapIndex * 256 * 256 * 256
+                            + mapcursor_one_ahead * 256 * 256
+                            + mapcursor_two_ahead * 256
+                            + mapcursor_three_ahead;
                 } else {
 
-                    if (currentMapIndex == 3) {  // if input = D
-                        this.mapTiles[tileX][tileY] = this.mapTiles[tileX - 1][tileY]; // tile to west is same as current
+                    if (currentMapIndex == 3) { // if input = D
+                        this.mapTiles[tileX][tileY] =
+                                this.mapTiles[tileX - 1][tileY]; // tile to west is same as current
                     }
 
                     if (currentMapIndex == 4) { // if input = E;
-                        this.mapTiles[tileX][tileY] = this.mapTiles[tileX][tileY - 1]; // tile to the north is same as current
+                        this.mapTiles[tileX][tileY] =
+                                this.mapTiles[tileX][tileY - 1]; // tile to the north is same as current
                     }
 
                     if (currentMapIndex == 5) { // if input = F;
-                        this.mapTiles[tileX][tileY] = this.mapTiles[tileX - 1][tileY - 1]; // tile to the northwest is same as current
+                        this.mapTiles[tileX][tileY] =
+                                this.mapTiles[tileX - 1][tileY - 1]; // tile to the northwest is same as current
                     }
 
-                    if (currentMapIndex == 6) {  // if input = G;
-                        this.mapTiles[tileX][tileY] = this.mapTiles[tileX - 2][tileY]; // 2 tiles west is same as current (skip a tile to the left)
+                    if (currentMapIndex == 6) { // if input = G;
+                        this.mapTiles[tileX][tileY] =
+                                this.mapTiles[tileX - 2][tileY]; // 2 tiles west is same as current (skip a tile to
+                        // the left)
                     }
 
                     if (currentMapIndex == 7) { // if input = H
-                        this.mapTiles[tileX][tileY] = this.mapTiles[tileX][tileY - 2]; // 2 tiles north is same as current (skip the tile above)
+                        this.mapTiles[tileX][tileY] =
+                                this.mapTiles[tileX][tileY - 2]; // 2 tiles north is same as current (skip the
+                        // tile above)
                     }
 
                     if (currentMapIndex == 8) { // if input= I
-                        this.mapTiles[tileX][tileY] = this.mapTiles[tileX - 2][tileY - 2]; // 2 tiles northwest is same as current (skip the diagonal)
+                        this.mapTiles[tileX][tileY] =
+                                this.mapTiles[tileX - 2][tileY - 2]; // 2 tiles northwest is same as current (skip
+                        // the diagonal)
                     }
 
                     ++cursorIndex;
                 }
             }
         }
-
-
     }
-
 
     private static String expandMap(String mapString) {
         StringBuffer buffer = new StringBuffer(4900);
@@ -148,6 +158,4 @@ public class MapDecompressor {
             ++cursor;
         }
     }
-
-
 }

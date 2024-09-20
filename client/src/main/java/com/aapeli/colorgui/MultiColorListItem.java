@@ -15,9 +15,9 @@ public class MultiColorListItem {
     public static final int COLOR_GRAY = 7;
     public static final int COLOR_WHITE = 8;
     private static final Color[] colours = new Color[] {
-            new Color(0, 0, 0), new Color(240, 0, 0), new Color(0, 160, 0),
-            new Color(0, 0, 255), new Color(144, 144, 0), new Color(176, 0, 176),
-            new Color(0, 160, 176), new Color(112, 112, 112), new Color(255, 255, 255)
+        new Color(0, 0, 0), new Color(240, 0, 0), new Color(0, 160, 0),
+        new Color(0, 0, 255), new Color(144, 144, 0), new Color(176, 0, 176),
+        new Color(0, 160, 176), new Color(112, 112, 112), new Color(255, 255, 255)
     };
 
     private Color colour;
@@ -27,7 +27,6 @@ public class MultiColorListItem {
     private Image[] images;
     private Object data;
     private boolean selected;
-
 
     public MultiColorListItem(String[] strings) {
         this(colours[0], false, strings, null, false);

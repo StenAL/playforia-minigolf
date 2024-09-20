@@ -2,7 +2,6 @@ package com.aapeli.client;
 
 import com.aapeli.applet.AApplet;
 import com.aapeli.tools.Tools;
-
 import java.applet.Applet;
 import java.awt.Image;
 import java.util.ArrayList;
@@ -122,7 +121,6 @@ class ImageTracker implements Runnable {
             if (this.imageTable.remove(var1) == null) {
                 this.method1646(var1);
             }
-
         }
     }
 
@@ -146,18 +144,20 @@ class ImageTracker implements Runnable {
             }
         }
 
-        for (Image image: this.imageTable.values()) {
+        for (Image image : this.imageTable.values()) {
             try {
                 image.flush();
-            } catch (Exception e) {}
+            } catch (Exception e) {
+            }
         }
 
         this.imageTable.clear();
         this.imageTable = null;
-        for (ImageResource imageResource: this.imageResourceTable) {
+        for (ImageResource imageResource : this.imageResourceTable) {
             try {
                 imageResource.method1652();
-            } catch (Exception e) {}
+            } catch (Exception e) {
+            }
         }
 
         this.imageResourceTable.clear();
@@ -260,7 +260,8 @@ class ImageTracker implements Runnable {
         }
 
         if (this.aBoolean1397) {
-            System.out.println("ImageTracker: Loaded image \"" + imageAlias + "\", moving from 'notloaded' to 'loaded'");
+            System.out.println(
+                    "ImageTracker: Loaded image \"" + imageAlias + "\", moving from 'notloaded' to 'loaded'");
         }
 
         synchronized (this) {
@@ -289,6 +290,5 @@ class ImageTracker implements Runnable {
         if (var2 != null && !var2.method1651()) {
             this.imageResourceTable.add(var2);
         }
-
     }
 }

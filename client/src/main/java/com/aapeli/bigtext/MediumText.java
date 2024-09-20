@@ -7,7 +7,6 @@ public class MediumText extends BigText {
     private static int[] anIntArray3591;
     private static int[] anIntArray3592;
 
-
     protected static void method1559(int[] var0) {
         anIntArray3591 = new int[17900];
 
@@ -44,8 +43,14 @@ public class MediumText extends BigText {
         long var5 = var0[var2 * 1432 + var1 + 1];
         long var7 = var0[(var2 + 1) * 1432 + var1];
         long var9 = var0[(var2 + 1) * 1432 + var1 + 1];
-        long var11 = ((var3 & 4278190080L) >> 24) + ((var5 & 4278190080L) >> 24) + ((var7 & 4278190080L) >> 24) + ((var9 & 4278190080L) >> 24);
-        long var13 = ((var3 & 16711680L) >> 16) + ((var5 & 16711680L) >> 16) + ((var7 & 16711680L) >> 16) + ((var9 & 16711680L) >> 16);
+        long var11 = ((var3 & 4278190080L) >> 24)
+                + ((var5 & 4278190080L) >> 24)
+                + ((var7 & 4278190080L) >> 24)
+                + ((var9 & 4278190080L) >> 24);
+        long var13 = ((var3 & 16711680L) >> 16)
+                + ((var5 & 16711680L) >> 16)
+                + ((var7 & 16711680L) >> 16)
+                + ((var9 & 16711680L) >> 16);
         long var15 = ((var3 & 65280L) >> 8) + ((var5 & 65280L) >> 8) + ((var7 & 65280L) >> 8) + ((var9 & 65280L) >> 8);
         long var17 = (var3 & 255L) + (var5 & 255L) + (var7 & 255L) + (var9 & 255L);
         long var19 = (var11 + 2L) / 4L;

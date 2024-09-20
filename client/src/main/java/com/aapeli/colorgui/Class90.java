@@ -8,7 +8,6 @@ class Class90 implements Runnable {
     private boolean aBoolean1534;
     private final ColorButton aColorButton1535;
 
-
     protected Class90(ColorButton var1, ColorButton var2) {
         this.aColorButton1535 = var1;
         this.aColorButton1533 = var2;
@@ -25,7 +24,6 @@ class Class90 implements Runnable {
                 this.aColorButton1533.innerSetFlashState(var1);
             }
         } while (this.aBoolean1534);
-
     }
 
     protected void method1738() {

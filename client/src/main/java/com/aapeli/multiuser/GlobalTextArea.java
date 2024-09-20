@@ -4,7 +4,6 @@ import com.aapeli.client.IPanel;
 import com.aapeli.colorgui.TabBar;
 import com.aapeli.colorgui.TabBarItem;
 import com.aapeli.colorgui.TabBarListener;
-
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ComponentEvent;
@@ -20,7 +19,6 @@ final class GlobalTextArea extends IPanel implements ComponentListener, TabBarLi
     private int anInt2366;
     private TabBar aTabBar2367;
     private Object anObject2368;
-
 
     protected GlobalTextArea(ChatBase var1, ChatTextArea var2, int var3) {
         this.aChatBase2361 = var1;
@@ -38,14 +36,11 @@ final class GlobalTextArea extends IPanel implements ComponentListener, TabBarLi
         this.addComponentListener(this);
     }
 
-    public void componentShown(ComponentEvent var1) {
-    }
+    public void componentShown(ComponentEvent var1) {}
 
-    public void componentHidden(ComponentEvent var1) {
-    }
+    public void componentHidden(ComponentEvent var1) {}
 
-    public void componentMoved(ComponentEvent var1) {
-    }
+    public void componentMoved(ComponentEvent var1) {}
 
     public void componentResized(ComponentEvent var1) {
         Object var2 = this.anObject2368;
@@ -58,7 +53,6 @@ final class GlobalTextArea extends IPanel implements ComponentListener, TabBarLi
             } else {
                 this.aTabBar2367.setSize(this.anInt2363, this.anInt2364);
             }
-
         }
     }
 
@@ -100,7 +94,6 @@ final class GlobalTextArea extends IPanel implements ComponentListener, TabBarLi
         for (ChatTextArea chatTextArea : var2) {
             chatTextArea.addSheriffSay(var1);
         }
-
     }
 
     protected void method919(String var1) {
@@ -109,7 +102,6 @@ final class GlobalTextArea extends IPanel implements ComponentListener, TabBarLi
         for (ChatTextArea chatTextArea : var2) {
             chatTextArea.addServerSay(var1);
         }
-
     }
 
     protected void method920(String var1) {
@@ -118,7 +110,6 @@ final class GlobalTextArea extends IPanel implements ComponentListener, TabBarLi
         for (ChatTextArea chatTextArea : var2) {
             chatTextArea.addLocalizedServerSay(var1);
         }
-
     }
 
     protected void method921(String var1) {
@@ -127,7 +118,6 @@ final class GlobalTextArea extends IPanel implements ComponentListener, TabBarLi
         for (ChatTextArea chatTextArea : var2) {
             chatTextArea.addBroadcastMessage(var1);
         }
-
     }
 
     public void clear() {
@@ -136,7 +126,6 @@ final class GlobalTextArea extends IPanel implements ComponentListener, TabBarLi
         for (ChatTextArea chatTextArea : var1) {
             chatTextArea.clear();
         }
-
     }
 
     private ChatTextArea method922(int var1) {
@@ -164,8 +153,14 @@ final class GlobalTextArea extends IPanel implements ComponentListener, TabBarLi
             if (var3 != null) {
                 return (ChatTextArea) var3.getComponent();
             } else {
-                ChatTextArea var4 = (ChatTextArea) this.aTabBar2367.getTabBarItemByIndex(0).getComponent();
-                var4 = new ChatTextArea(var4.getTextManager(), var4.getBadWordFilter(), this.anInt2363, this.anInt2364 - 15, var4.getFont());
+                ChatTextArea var4 =
+                        (ChatTextArea) this.aTabBar2367.getTabBarItemByIndex(0).getComponent();
+                var4 = new ChatTextArea(
+                        var4.getTextManager(),
+                        var4.getBadWordFilter(),
+                        this.anInt2363,
+                        this.anInt2364 - 15,
+                        var4.getFont());
                 var4.setLocation(0, 15);
                 this.method923(var1, var4);
                 return var4;
@@ -175,7 +170,8 @@ final class GlobalTextArea extends IPanel implements ComponentListener, TabBarLi
 
     private void method923(int var1, ChatTextArea var2) {
         var2.setBorderStyle(0);
-        TabBarItem var3 = new TabBarItem(this.aTabBar2367, this.aLanguages2362.getFlag(var1), this.aLanguages2362.getName(var1), var2);
+        TabBarItem var3 = new TabBarItem(
+                this.aTabBar2367, this.aLanguages2362.getFlag(var1), this.aLanguages2362.getName(var1), var2);
         var3.setTabID(var1);
         var3.setComponentAutoSize(true);
         this.aTabBar2367.addTab(var3);
@@ -185,7 +181,7 @@ final class GlobalTextArea extends IPanel implements ComponentListener, TabBarLi
         Object var1 = this.anObject2368;
         synchronized (this.anObject2368) {
             if (this.aTabBar2367 == null) {
-                return new ChatTextArea[]{this.aChatTextArea2365};
+                return new ChatTextArea[] {this.aChatTextArea2365};
             } else {
                 TabBarItem[] var2 = this.aTabBar2367.getTabBarItems();
                 int var3 = var2.length;

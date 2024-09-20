@@ -1,16 +1,15 @@
 package org.moparforia.editor;
 
-import org.moparforia.shared.tracks.Track;
-import org.moparforia.shared.tracks.TrackCategory;
-
-import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
+import javax.swing.*;
+import javax.swing.border.Border;
+import org.moparforia.shared.tracks.Track;
+import org.moparforia.shared.tracks.TrackCategory;
 
 public class EditorPanel extends JPanel {
 
@@ -23,7 +22,6 @@ public class EditorPanel extends JPanel {
     Border borderGrey;
     Border borderBlack;
     Track currentTrack;
-
 
     public EditorPanel(MapCanvas canvas) {
         this.canvas = canvas;
@@ -150,7 +148,6 @@ public class EditorPanel extends JPanel {
         }
     };
 
-
     ActionListener shapeSelection = new ActionListener() {
         public void actionPerformed(ActionEvent e) {
             JButton source = (JButton) e.getSource();
@@ -170,7 +167,6 @@ public class EditorPanel extends JPanel {
             currentTile.setShapeIndex(currentShapeSelection);
             canvas.setSelectedTile(currentTile);
             System.out.println("new: " + currentTile);
-
         }
     };
 
@@ -193,8 +189,6 @@ public class EditorPanel extends JPanel {
             currentTile.setShapeIndex(currentSpecialSelection);
             canvas.setSelectedTile(currentTile);
             System.out.println("new: " + currentTile);
-
-
         }
     };
 
@@ -202,9 +196,10 @@ public class EditorPanel extends JPanel {
         public void actionPerformed(ActionEvent e) {
             try {
                 JFileChooser chooser = new JFileChooser(".");
-                chooser.showDialog(getThis(),"hurr");
+                chooser.showDialog(getThis(), "hurr");
                 File f = chooser.getSelectedFile();
-                //currentTrack = TrackStore.getTrack(f);//todo get rid of this (uses org.moparforia.server.track.TrackStore)!!
+                // currentTrack = TrackStore.getTrack(f);//todo get rid of this (uses
+                // org.moparforia.server.track.TrackStore)!!
                 currentTrack = TrackEditor.loadTrack(f.toPath());
                 Map m = new MapDecompressor().decompress(currentTrack.getMap());
                 canvas.setMap(m);
@@ -212,7 +207,6 @@ public class EditorPanel extends JPanel {
                 exp.printStackTrace();
                 System.err.println("PROBLEMO WITH LOADING MAP");
             }
-
         }
     };
 
@@ -222,9 +216,9 @@ public class EditorPanel extends JPanel {
 
     ActionListener generateMap = new ActionListener() {
         public void actionPerformed(ActionEvent e) {
-            if(currentTrack == null) {
+            if (currentTrack == null) {
                 String data = new MapCompressor().compress(canvas.getMap());
-                String name = JOptionPane.showInputDialog(getThis(),"WUTS THE NAME OF THIS TRACK?");
+                String name = JOptionPane.showInputDialog(getThis(), "WUTS THE NAME OF THIS TRACK?");
                 Track track = new Track(name, "fc", data, TrackCategory.UNKNOWN);
                 currentTrack = track;
             }
@@ -240,55 +234,46 @@ public class EditorPanel extends JPanel {
                 out.print(save);
             } catch (Exception ignored) {
             }
-
         }
     };
 
-
     public JButton getCurrentElementButton(boolean fireAction) {
         JButton button = elementButtons[currentElementSelection];
-        if (fireAction)
-            button.getActionListeners()[0].actionPerformed(new ActionEvent(button, 0, null));
+        if (fireAction) button.getActionListeners()[0].actionPerformed(new ActionEvent(button, 0, null));
         return button;
     }
 
     public JButton selectNextElementButton() {
         elementButtons[currentElementSelection].setBorder(borderGrey);
         currentElementSelection++;
-        if (currentElementSelection >= elementButtons.length)
-            currentElementSelection = 0;
+        if (currentElementSelection >= elementButtons.length) currentElementSelection = 0;
         return getCurrentElementButton(true);
     }
 
     public JButton selectPrevElementButton() {
         elementButtons[currentElementSelection].setBorder(borderGrey);
         currentElementSelection--;
-        if (currentElementSelection <= 0)
-            currentElementSelection = elementButtons.length - 1;
+        if (currentElementSelection <= 0) currentElementSelection = elementButtons.length - 1;
         return getCurrentElementButton(true);
     }
 
     public JButton getCurrentElement2Button(boolean fireAction) {
         JButton button = element2Buttons[currentElement2Selection];
-        if (fireAction)
-            button.getActionListeners()[0].actionPerformed(new ActionEvent(button, 0, null));
+        if (fireAction) button.getActionListeners()[0].actionPerformed(new ActionEvent(button, 0, null));
         return button;
     }
 
     public JButton selectNextElement2Button() {
         element2Buttons[currentElement2Selection].setBorder(borderGrey);
         currentElement2Selection++;
-        if (currentElement2Selection >= element2Buttons.length)
-            currentElement2Selection = 0;
+        if (currentElement2Selection >= element2Buttons.length) currentElement2Selection = 0;
         return getCurrentElement2Button(true);
     }
 
     public JButton selectPrevElement2Button() {
         element2Buttons[currentElement2Selection].setBorder(borderGrey);
         currentElement2Selection--;
-        if (currentElement2Selection <= 0)
-            currentElement2Selection = element2Buttons.length - 1;
+        if (currentElement2Selection <= 0) currentElement2Selection = element2Buttons.length - 1;
         return getCurrentElement2Button(true);
     }
-
 }

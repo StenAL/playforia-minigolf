@@ -1,9 +1,8 @@
 package org.moparforia.shared.tracks.filesystem.lineparser;
 
-import org.moparforia.shared.tracks.parsers.LineParser;
-
 import java.util.Collections;
 import java.util.Map;
+import org.moparforia.shared.tracks.parsers.LineParser;
 
 public class RatingsLineParser implements LineParser {
     @Override

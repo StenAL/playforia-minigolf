@@ -2,21 +2,17 @@ package org.moparforia.editor;
 
 public class Tile {
 
-    /**
-     * Sprite index of the shape mask.
-     */
+    /** Sprite index of the shape mask. */
     private int shapeIndex;
-    /**
-     * Sprite index of the foreground Element tile.
-     */
+
+    /** Sprite index of the foreground Element tile. */
     private int backgroundElementIndex;
-    /**
-     * Sprite index of the background Element tile (only used when two are layered I THINK)...
-     */
+
+    /** Sprite index of the background Element tile (only used when two are layered I THINK)... */
     private int foregroundElementIndex;
+
     /**
-     * Code for whether we're drawing a special sprite or just two elements together.
-     * 1=normal
+     * Code for whether we're drawing a special sprite or just two elements together. 1=normal
      * 2=special.
      */
     private int isSpecial;
@@ -57,17 +53,18 @@ public class Tile {
     }
 
     public boolean isHole() {
-        return isSpecial() && shapeIndex == 1 ;
+        return isSpecial() && shapeIndex == 1;
     }
 
     public boolean isPassable() {
-        return !(!isSpecial() && (backgroundElementIndex == 12 ||
-                backgroundElementIndex ==13 ||
-                (backgroundElementIndex >=16 && backgroundElementIndex <=18) ));
+        return !(!isSpecial()
+                && (backgroundElementIndex == 12
+                        || backgroundElementIndex == 13
+                        || (backgroundElementIndex >= 16 && backgroundElementIndex <= 18)));
     }
 
     public Tile clone() {
-        return new Tile(shapeIndex,backgroundElementIndex,foregroundElementIndex,isSpecial);
+        return new Tile(shapeIndex, backgroundElementIndex, foregroundElementIndex, isSpecial);
     }
 
     @Override
@@ -86,8 +83,17 @@ public class Tile {
 
     @Override
     public String toString() {
-        return "tilecode:" + getTileCode() + " shape:" + shapeIndex + " back:" + backgroundElementIndex + " " +
-                "fore:"+foregroundElementIndex+" special:"+isSpecial;
+        return "tilecode:"
+                + getTileCode()
+                + " shape:"
+                + shapeIndex
+                + " back:"
+                + backgroundElementIndex
+                + " "
+                + "fore:"
+                + foregroundElementIndex
+                + " special:"
+                + isSpecial;
     }
 
     public int getTileCode() {

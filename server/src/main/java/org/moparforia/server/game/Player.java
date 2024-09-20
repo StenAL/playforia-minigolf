@@ -21,7 +21,7 @@ public class Player {
     private String clan;
     private int accessLevel;
     private int ranking;
-    private boolean emailVerified;// todo or something like that maybe, find out
+    private boolean emailVerified; // todo or something like that maybe, find out
     private boolean registered;
     private boolean vip;
     private boolean sheriff;
@@ -208,21 +208,20 @@ public class Player {
     }
 
     public boolean equals(Object o) {
-        if (o == null || !(o instanceof Player))
-            return false;
+        if (o == null || !(o instanceof Player)) return false;
         Player p = (Player) o;
         return nick.equals(p.nick) && ranking == p.ranking && locale.equals(p.locale);
     }
 
     public String toString() {
-        String tmp = (registered ? "r" : "") + (vip ? "v" : "") + (sheriff ? "s" : "") + (notAcceptingChallenges ? "n" : "");
+        String tmp =
+                (registered ? "r" : "") + (vip ? "v" : "") + (sheriff ? "s" : "") + (notAcceptingChallenges ? "n" : "");
         return Tools.triangelize(
                 "3:" + (nick != null ? nick : ""),
                 tmp.equals("") ? "w" : tmp,
                 ranking,
                 locale != null ? locale : "",
                 profileUrl != null ? profileUrl : "",
-                avatarUrl != null ? avatarUrl : ""
-        );
+                avatarUrl != null ? avatarUrl : "");
     }
 }

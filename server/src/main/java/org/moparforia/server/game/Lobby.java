@@ -1,12 +1,11 @@
 package org.moparforia.server.game;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import org.moparforia.server.game.gametypes.golf.MultiGame;
 import org.moparforia.server.net.Packet;
 import org.moparforia.server.net.PacketType;
 import org.moparforia.shared.Tools;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 
 public class Lobby extends PlayerCollection {
 
@@ -31,12 +30,10 @@ public class Lobby extends PlayerCollection {
     }
 
     public boolean removePlayer(Player player, int partReason, String... gameName) {
-        if (!super.removePlayer(player))
-            return false;
+        if (!super.removePlayer(player)) return false;
 
         String cmd = Tools.tabularize("lobby", "part", player.getNick(), partReason);
-        if (partReason == PART_REASON_JOINED_MP && gameName != null && gameName.length == 1)
-            cmd += '\t' + gameName[0];
+        if (partReason == PART_REASON_JOINED_MP && gameName != null && gameName.length == 1) cmd += '\t' + gameName[0];
 
         writeAll(new Packet(PacketType.DATA, cmd));
 
@@ -50,23 +47,34 @@ public class Lobby extends PlayerCollection {
         if (player.getLobby() != null) {
             player.getLobby().removePlayer(player, PART_REASON_USERLEFT);
         }
-        player.getChannel().writeAndFlush(new Packet(PacketType.DATA, Tools.tabularize("status", "lobby", type + (player.isChatHidden() ? "h" : ""))));
+        player.getChannel()
+                .writeAndFlush(new Packet(
+                        PacketType.DATA,
+                        Tools.tabularize("status", "lobby", type + (player.isChatHidden() ? "h" : ""))));
         String[] otherPlayers = new String[playerCount()];
         int pointer = 0;
 
         for (Player p : getPlayers()) {
-            p.getChannel().writeAndFlush(new Packet(PacketType.DATA, Tools.tabularize(
-                    "lobby", joinType == JOIN_TYPE_NORMAL ? "join" : "joinfromgame", player.toString()//todo not sure if should be getNick or getGameString
-            )));
+            p.getChannel()
+                    .writeAndFlush(new Packet(
+                            PacketType.DATA,
+                            Tools.tabularize(
+                                    "lobby",
+                                    joinType == JOIN_TYPE_NORMAL ? "join" : "joinfromgame",
+                                    player.toString() // todo not sure if should be
+                                    // getNick or getGameString
+                                    )));
             otherPlayers[pointer++] = p.toString();
         }
         if (pointer != 0) {
-            player.getChannel().writeAndFlush(new Packet(PacketType.DATA, Tools.tabularize("lobby", "users", otherPlayers)));
+            player.getChannel()
+                    .writeAndFlush(new Packet(PacketType.DATA, Tools.tabularize("lobby", "users", otherPlayers)));
         } else {
             player.getChannel().writeAndFlush(new Packet(PacketType.DATA, Tools.tabularize("lobby", "users")));
         }
 
-        player.getChannel().writeAndFlush(new Packet(PacketType.DATA, Tools.tabularize("lobby", "ownjoin", player.toString())));
+        player.getChannel()
+                .writeAndFlush(new Packet(PacketType.DATA, Tools.tabularize("lobby", "ownjoin", player.toString())));
         if (getLobbyType() == LobbyType.MULTI) {
             sendGameList(player);
         }
@@ -85,7 +93,9 @@ public class Lobby extends PlayerCollection {
                 length++;
             }
         }
-        player.getChannel().writeAndFlush(new Packet(PacketType.DATA, Tools.tabularize("lobby", "gamelist", "full", length, buff.toString())));
+        player.getChannel()
+                .writeAndFlush(new Packet(
+                        PacketType.DATA, Tools.tabularize("lobby", "gamelist", "full", length, buff.toString())));
     }
 
     public Game getGame(int id) {
@@ -125,12 +135,11 @@ public class Lobby extends PlayerCollection {
      */
     public int totalPlayerCount() {
         int inGames = 0;
-        for(Game g: games.values()) {
+        for (Game g : games.values()) {
             inGames += g.playerCount();
         }
         return playerCount() + inGames;
     }
-
 
     @Override
     public boolean equals(Object obj) {

@@ -2,7 +2,6 @@ package com.aapeli.client;
 
 import com.aapeli.applet.AApplet;
 import com.aapeli.tools.Tools;
-
 import java.applet.Applet;
 import java.applet.AppletContext;
 import java.net.MalformedURLException;
@@ -12,7 +11,7 @@ import java.util.StringTokenizer;
 public final class Parameters {
 
     private static final String LOCALHOST = "127.0.0.1";
-    //private static final String aString1416 = "192.168.1.23";
+    // private static final String aString1416 = "192.168.1.23";
     private static final String ENGLISH_LANGUAGE = "en";
     private static final String PLAYFORIA_SITE_NAME = "playforia";
     private static final String PLAYFORIA_QUIT_PAGE = "http://www.playforia.com/";
@@ -57,7 +56,6 @@ public final class Parameters {
     private String aString1457;
     private boolean debug;
 
-
     public Parameters(Applet applet) {
         this(applet, false);
     }
@@ -79,13 +77,13 @@ public final class Parameters {
         if (key == null) {
             return false;
         }
-        return key.equalsIgnoreCase("true") ||
-               key.equalsIgnoreCase("t") ||
-               key.equalsIgnoreCase("yes") ||
-               key.equalsIgnoreCase("y") ||
-               key.equals("1") ||
-               key.equals("1.0") ||
-               key.equals("1,0");
+        return key.equalsIgnoreCase("true")
+                || key.equalsIgnoreCase("t")
+                || key.equalsIgnoreCase("yes")
+                || key.equalsIgnoreCase("y")
+                || key.equals("1")
+                || key.equals("1.0")
+                || key.equals("1,0");
     }
 
     public String getParameter(String key) {
@@ -234,7 +232,6 @@ public final class Parameters {
             this.anInt1455 = 1;
         } catch (Exception e) {
         }
-
     }
 
     public void showPlayerListWinners(boolean[] winners) {
@@ -273,7 +270,6 @@ public final class Parameters {
             this.anInt1455 = 2;
         } catch (Exception e) {
         }
-
     }
 
     public void removePlayerListWinners() {
@@ -290,7 +286,6 @@ public final class Parameters {
             this.anInt1455 = 0;
         } catch (Exception e) {
         }
-
     }
 
     public boolean showRegisterPage() {
@@ -716,7 +711,10 @@ public final class Parameters {
 
     private void showPlayerList(String[] nicks, boolean[] winners, String subgame) {
         if (this.debug) {
-            System.out.println("Parameters.showPlayerList(...): " + (nicks != null ? "nicks.length=" + nicks.length : "null") + ", " + (winners != null ? "winners.length=" + winners.length : "null"));
+            System.out.println("Parameters.showPlayerList(...): "
+                    + (nicks != null ? "nicks.length=" + nicks.length : "null")
+                    + ", "
+                    + (winners != null ? "winners.length=" + winners.length : "null"));
         }
 
         if (this.urlUserListPage != null) {
@@ -765,7 +763,6 @@ public final class Parameters {
 
                     this.showUrl(var9, this.urlTargetUserList);
                 }
-
             }
         }
     }

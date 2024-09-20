@@ -18,11 +18,10 @@ public class ClientDisconnectedEvent extends Event {
         Player player = channel.attr(Player.PLAYER_ATTRIBUTE_KEY).get();
         if (player != null) {
             if (player.getLobby() != null) {
-              player.getLobby().removePlayer(player, Lobby.PART_REASON_USERLEFT);
+                player.getLobby().removePlayer(player, Lobby.PART_REASON_USERLEFT);
             }
         }
         System.out.println("Client disconnected: " + channel);
         channel = null;
     }
-
 }

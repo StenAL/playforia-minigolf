@@ -9,7 +9,6 @@ import com.aapeli.connection.SocketConnection;
 import com.aapeli.tools.QuickTimer;
 import com.aapeli.tools.QuickTimerListener;
 import com.aapeli.tools.Tools;
-
 import java.applet.Applet;
 import java.awt.Color;
 import java.awt.Component;
@@ -96,11 +95,9 @@ public abstract class AApplet extends Applet implements Runnable, ActionListener
             Thread t = new Thread(this);
             t.start();
         }
-
     }
 
-    public void stop() {
-    }
+    public void stop() {}
 
     public void destroy() {
         this.destroyed = true;
@@ -184,43 +181,155 @@ public abstract class AApplet extends Applet implements Runnable, ActionListener
                     if (this.endState == END_ERROR_CONNECTION) {
                         byte textYOffset = -20;
                         this.appletGraphics.setFont(fontDialog15);
-                        StringDraw.drawOutlinedString(this.appletGraphics, outlineColor, this.textManager.getShared("Message_CE_ConnectionError"), 40,80 + textYOffset, -1);
+                        StringDraw.drawOutlinedString(
+                                this.appletGraphics,
+                                outlineColor,
+                                this.textManager.getShared("Message_CE_ConnectionError"),
+                                40,
+                                80 + textYOffset,
+                                -1);
                         this.appletGraphics.setFont(fontDialog12);
-                        StringDraw.drawOutlinedString(this.appletGraphics, outlineColor, this.textManager.getShared("Message_CE_PossibleReasons"), 40,125 + textYOffset, -1);
+                        StringDraw.drawOutlinedString(
+                                this.appletGraphics,
+                                outlineColor,
+                                this.textManager.getShared("Message_CE_PossibleReasons"),
+                                40,
+                                125 + textYOffset,
+                                -1);
                         if (!this.ready) {
                             this.appletGraphics.setFont(fontDialog12);
-                            StringDraw.drawOutlinedString(this.appletGraphics, outlineColor, "- " + this.textManager.getShared("Message_CE0_1_Short"), 40,160 + textYOffset, -1);
+                            StringDraw.drawOutlinedString(
+                                    this.appletGraphics,
+                                    outlineColor,
+                                    "- " + this.textManager.getShared("Message_CE0_1_Short"),
+                                    40,
+                                    160 + textYOffset,
+                                    -1);
                             this.appletGraphics.setFont(fontDialog11);
-                            StringDraw.drawOutlinedStringWithMaxWidth(this.appletGraphics, outlineColor, this.textManager.getShared("Message_CE0_1_Long", this.param.getServerIp(), "" + this.param.getServerPort()), 50, 180 + textYOffset, -1, this.appletWidth - 50 - 50);
+                            StringDraw.drawOutlinedStringWithMaxWidth(
+                                    this.appletGraphics,
+                                    outlineColor,
+                                    this.textManager.getShared(
+                                            "Message_CE0_1_Long",
+                                            this.param.getServerIp(),
+                                            "" + this.param.getServerPort()),
+                                    50,
+                                    180 + textYOffset,
+                                    -1,
+                                    this.appletWidth - 50 - 50);
                             this.appletGraphics.setFont(fontDialog12);
-                            StringDraw.drawOutlinedString(this.appletGraphics, outlineColor, "- " + this.textManager.getShared("Message_CE0_2_Short"), 40,245 + textYOffset, -1);
+                            StringDraw.drawOutlinedString(
+                                    this.appletGraphics,
+                                    outlineColor,
+                                    "- " + this.textManager.getShared("Message_CE0_2_Short"),
+                                    40,
+                                    245 + textYOffset,
+                                    -1);
                             this.appletGraphics.setFont(fontDialog11);
-                            StringDraw.drawOutlinedStringWithMaxWidth(this.appletGraphics, outlineColor, this.textManager.getShared("Message_CE0_2_Long"), 50,265 + textYOffset, -1, this.appletWidth - 50 - 50);
+                            StringDraw.drawOutlinedStringWithMaxWidth(
+                                    this.appletGraphics,
+                                    outlineColor,
+                                    this.textManager.getShared("Message_CE0_2_Long"),
+                                    50,
+                                    265 + textYOffset,
+                                    -1,
+                                    this.appletWidth - 50 - 50);
                             this.appletGraphics.setFont(fontDialog12);
-                            StringDraw.drawOutlinedString(this.appletGraphics, outlineColor, "- " + this.textManager.getShared("Message_CE0_3_Short"), 40,305 + textYOffset, -1);
+                            StringDraw.drawOutlinedString(
+                                    this.appletGraphics,
+                                    outlineColor,
+                                    "- " + this.textManager.getShared("Message_CE0_3_Short"),
+                                    40,
+                                    305 + textYOffset,
+                                    -1);
                             this.appletGraphics.setFont(fontDialog11);
-                            StringDraw.drawOutlinedStringWithMaxWidth(this.appletGraphics, outlineColor, this.textManager.getShared("Message_CE0_3_Long"), 50,325 + textYOffset, -1, this.appletWidth - 50 - 50);
+                            StringDraw.drawOutlinedStringWithMaxWidth(
+                                    this.appletGraphics,
+                                    outlineColor,
+                                    this.textManager.getShared("Message_CE0_3_Long"),
+                                    50,
+                                    325 + textYOffset,
+                                    -1,
+                                    this.appletWidth - 50 - 50);
                         } else {
                             this.appletGraphics.setFont(fontDialog12);
-                            StringDraw.drawOutlinedString(this.appletGraphics, outlineColor, "- " + this.textManager.getShared("Message_CE1_1_Short"), 40,160 + textYOffset, -1);
+                            StringDraw.drawOutlinedString(
+                                    this.appletGraphics,
+                                    outlineColor,
+                                    "- " + this.textManager.getShared("Message_CE1_1_Short"),
+                                    40,
+                                    160 + textYOffset,
+                                    -1);
                             this.appletGraphics.setFont(fontDialog11);
-                            StringDraw.drawOutlinedStringWithMaxWidth(this.appletGraphics, outlineColor, this.textManager.getShared("Message_CE1_1_Long"), 50,180 + textYOffset, -1, this.appletWidth - 50 - 50);
+                            StringDraw.drawOutlinedStringWithMaxWidth(
+                                    this.appletGraphics,
+                                    outlineColor,
+                                    this.textManager.getShared("Message_CE1_1_Long"),
+                                    50,
+                                    180 + textYOffset,
+                                    -1,
+                                    this.appletWidth - 50 - 50);
                             this.appletGraphics.setFont(fontDialog12);
-                            StringDraw.drawOutlinedString(this.appletGraphics, outlineColor, "- " + this.textManager.getShared("Message_CE1_2_Short"), 40,235 + textYOffset, -1);
+                            StringDraw.drawOutlinedString(
+                                    this.appletGraphics,
+                                    outlineColor,
+                                    "- " + this.textManager.getShared("Message_CE1_2_Short"),
+                                    40,
+                                    235 + textYOffset,
+                                    -1);
                             this.appletGraphics.setFont(fontDialog11);
-                            StringDraw.drawOutlinedStringWithMaxWidth(this.appletGraphics, outlineColor, this.textManager.getShared("Message_CE1_2_Long"), 50,255 + textYOffset, -1, this.appletWidth - 50 - 50);
+                            StringDraw.drawOutlinedStringWithMaxWidth(
+                                    this.appletGraphics,
+                                    outlineColor,
+                                    this.textManager.getShared("Message_CE1_2_Long"),
+                                    50,
+                                    255 + textYOffset,
+                                    -1,
+                                    this.appletWidth - 50 - 50);
                             this.appletGraphics.setFont(fontDialog12);
-                            StringDraw.drawOutlinedString(this.appletGraphics, outlineColor, "- " + this.textManager.getShared("Message_CE1_3_Short"), 40,305 + textYOffset, -1);
+                            StringDraw.drawOutlinedString(
+                                    this.appletGraphics,
+                                    outlineColor,
+                                    "- " + this.textManager.getShared("Message_CE1_3_Short"),
+                                    40,
+                                    305 + textYOffset,
+                                    -1);
                             this.appletGraphics.setFont(fontDialog11);
-                            StringDraw.drawOutlinedStringWithMaxWidth(this.appletGraphics, outlineColor, this.textManager.getShared("Message_CE1_3_Long"), 50,325 + textYOffset, -1, this.appletWidth - 50 - 50);
+                            StringDraw.drawOutlinedStringWithMaxWidth(
+                                    this.appletGraphics,
+                                    outlineColor,
+                                    this.textManager.getShared("Message_CE1_3_Long"),
+                                    50,
+                                    325 + textYOffset,
+                                    -1,
+                                    this.appletWidth - 50 - 50);
                         }
                     } else if (this.endState == END_THROWABLE) {
                         this.appletGraphics.setFont(fontDialog15);
-                        StringDraw.drawOutlinedString(this.appletGraphics, outlineColor, this.textManager.getShared("Message_PE_ProgramError"), 50,100, -1);
+                        StringDraw.drawOutlinedString(
+                                this.appletGraphics,
+                                outlineColor,
+                                this.textManager.getShared("Message_PE_ProgramError"),
+                                50,
+                                100,
+                                -1);
                         this.appletGraphics.setFont(fontDialog12);
-                        StringDraw.drawOutlinedStringWithMaxWidth(this.appletGraphics, outlineColor, this.textManager.getShared("Message_PE_GameClosed"), 50,150, -1, this.appletWidth - 70 - 50);
+                        StringDraw.drawOutlinedStringWithMaxWidth(
+                                this.appletGraphics,
+                                outlineColor,
+                                this.textManager.getShared("Message_PE_GameClosed"),
+                                50,
+                                150,
+                                -1,
+                                this.appletWidth - 70 - 50);
                         this.appletGraphics.setFont(fontDialog12b);
-                        StringDraw.drawOutlinedString(this.appletGraphics, outlineColor, this.textManager.getShared("Message_PE_ErrorDesc", this.aThrowable2553.toString()), 50, 235, -1);
+                        StringDraw.drawOutlinedString(
+                                this.appletGraphics,
+                                outlineColor,
+                                this.textManager.getShared("Message_PE_ErrorDesc", this.aThrowable2553.toString()),
+                                50,
+                                235,
+                                -1);
                     } else {
                         String endText = this.textManager.getShared("Message_WaitWhile");
                         String endTextHelp = null;
@@ -260,21 +369,60 @@ public abstract class AApplet extends Applet implements Runnable, ActionListener
 
                         this.appletGraphics.setFont(fontDialog15);
                         if (this.endTextLocation == TEXT_CENTER) {
-                            StringDraw.drawOutlinedString(this.appletGraphics, outlineColor, endText, this.appletWidth / 2, this.appletHeight / 2 - 10, 0);
+                            StringDraw.drawOutlinedString(
+                                    this.appletGraphics,
+                                    outlineColor,
+                                    endText,
+                                    this.appletWidth / 2,
+                                    this.appletHeight / 2 - 10,
+                                    0);
                         } else if (this.endTextLocation == TEXT_LOWERLEFT) {
-                            StringDraw.drawOutlinedString(this.appletGraphics, outlineColor, endText, this.appletWidth / 12, this.appletHeight - 120, -1);
+                            StringDraw.drawOutlinedString(
+                                    this.appletGraphics,
+                                    outlineColor,
+                                    endText,
+                                    this.appletWidth / 12,
+                                    this.appletHeight - 120,
+                                    -1);
                         } else if (this.endTextLocation == TEXT_LOWERMIDDLE) {
-                            StringDraw.drawOutlinedString(this.appletGraphics, outlineColor, endText, this.appletWidth / 2, this.appletHeight - 120, 0);
+                            StringDraw.drawOutlinedString(
+                                    this.appletGraphics,
+                                    outlineColor,
+                                    endText,
+                                    this.appletWidth / 2,
+                                    this.appletHeight - 120,
+                                    0);
                         }
 
                         if (endTextHelp != null) {
                             this.appletGraphics.setFont(fontDialog12);
                             if (this.endTextLocation == TEXT_CENTER) {
-                                StringDraw.drawOutlinedStringWithMaxWidth(this.appletGraphics, outlineColor, endTextHelp, this.appletWidth / 2, this.appletHeight / 2 + 30, 0, (int) ((double) this.appletWidth * 0.8D));
+                                StringDraw.drawOutlinedStringWithMaxWidth(
+                                        this.appletGraphics,
+                                        outlineColor,
+                                        endTextHelp,
+                                        this.appletWidth / 2,
+                                        this.appletHeight / 2 + 30,
+                                        0,
+                                        (int) ((double) this.appletWidth * 0.8D));
                             } else if (this.endTextLocation == TEXT_LOWERLEFT) {
-                                StringDraw.drawOutlinedStringWithMaxWidth(this.appletGraphics, outlineColor, endTextHelp, this.appletWidth / 12, this.appletHeight - 80, -1, (int) ((double) this.appletWidth * 0.6D));
+                                StringDraw.drawOutlinedStringWithMaxWidth(
+                                        this.appletGraphics,
+                                        outlineColor,
+                                        endTextHelp,
+                                        this.appletWidth / 12,
+                                        this.appletHeight - 80,
+                                        -1,
+                                        (int) ((double) this.appletWidth * 0.6D));
                             } else if (this.endTextLocation == TEXT_LOWERMIDDLE) {
-                                StringDraw.drawOutlinedStringWithMaxWidth(this.appletGraphics, outlineColor, endTextHelp, this.appletWidth / 2, this.appletHeight - 80, 0, (int) ((double) this.appletWidth * 0.5D));
+                                StringDraw.drawOutlinedStringWithMaxWidth(
+                                        this.appletGraphics,
+                                        outlineColor,
+                                        endTextHelp,
+                                        this.appletWidth / 2,
+                                        this.appletHeight - 80,
+                                        0,
+                                        (int) ((double) this.appletWidth * 0.5D));
                             }
                         }
                     }
@@ -372,7 +520,8 @@ public abstract class AApplet extends Applet implements Runnable, ActionListener
                     this.printSUD("Creating sound manager");
                 }
 
-                this.loadingPanel.setLoadingMessage(this.textManager.getShared("Loader_LoadingGfxSfx") + (adInfo != null ? adInfo : ""));
+                this.loadingPanel.setLoadingMessage(
+                        this.textManager.getShared("Loader_LoadingGfxSfx") + (adInfo != null ? adInfo : ""));
                 this.soundManager = new SoundManager(this, true, this.isDebug());
                 if (startupDebug) {
                     this.soundManager.enableSUD();
@@ -414,7 +563,8 @@ public abstract class AApplet extends Applet implements Runnable, ActionListener
                                 return;
                             }
 
-                            this.loadingPanel.setActualProgress(0.7D + this.imageManager.getImageLoadProgress() * 0.15D);
+                            this.loadingPanel.setActualProgress(
+                                    0.7D + this.imageManager.getImageLoadProgress() * 0.15D);
                         }
 
                         int time5 = (int) (System.currentTimeMillis() - startTime);
@@ -450,7 +600,8 @@ public abstract class AApplet extends Applet implements Runnable, ActionListener
                                     this.printSUD("Connecting to server...");
                                 }
 
-                                this.loadingPanel.setLoadingMessage(this.textManager.getShared("Message_Connecting") + (adInfo != null ? adInfo : ""));
+                                this.loadingPanel.setLoadingMessage(this.textManager.getShared("Message_Connecting")
+                                        + (adInfo != null ? adInfo : ""));
                                 this.loadingPanel.setActualProgress(1.0D);
                                 this.connectToServer();
                                 if (startupDebug) {
@@ -483,8 +634,11 @@ public abstract class AApplet extends Applet implements Runnable, ActionListener
                                         this.printSUD("...done");
                                     }
 
-                                    this.sendLoadTimes(readyTime, finishedTime, time1, time2, time3, time4, time5, time6);
-                                    this.writeMetadataLog1("clientconnect", "loadtime:i:" + readyTime + "^loadertime:i:" + finishedTime);
+                                    this.sendLoadTimes(
+                                            readyTime, finishedTime, time1, time2, time3, time4, time5, time6);
+                                    this.writeMetadataLog1(
+                                            "clientconnect",
+                                            "loadtime:i:" + readyTime + "^loadertime:i:" + finishedTime);
                                     this.loadingPanel.displayButtons();
                                     if (this.endState == 0 && !this.destroyed) {
                                         this.remove(this.loadingPanel);
@@ -497,7 +651,11 @@ public abstract class AApplet extends Applet implements Runnable, ActionListener
 
                                             this.contentPanel = new ContentPanel(this);
                                             if (this.backgroundImageKey != null) {
-                                                this.contentPanel.setBackground(this.imageManager, this.backgroundImageKey, this.backgroundXOffset, this.backgroundYOffset);
+                                                this.contentPanel.setBackground(
+                                                        this.imageManager,
+                                                        this.backgroundImageKey,
+                                                        this.backgroundXOffset,
+                                                        this.backgroundYOffset);
                                             }
 
                                             this.contentPanel.setVisible(false);
@@ -533,7 +691,6 @@ public abstract class AApplet extends Applet implements Runnable, ActionListener
                 e.printStackTrace();
             }
         }
-
     }
 
     public void qtFinished() {
@@ -605,14 +762,12 @@ public abstract class AApplet extends Applet implements Runnable, ActionListener
         if (this.endState == 0) {
             this.contentPanel.destroy();
         }
-
     }
 
     public void addToContent(Component component) {
         if (this.endState == 0) {
             this.contentPanel.add(component);
         }
-
     }
 
     public void contentReady() {
@@ -620,20 +775,16 @@ public abstract class AApplet extends Applet implements Runnable, ActionListener
             this.contentPanel.makeVisible();
             this.revalidate();
         }
-
     }
 
-    /**
-     * SUD == startup debug
-     */
+    /** SUD == startup debug */
     public void printSUD(String var1) {
         System.out.println("SUD(" + System.currentTimeMillis() + "): " + var1);
     }
 
     public abstract void initApplet(Parameters parameters);
 
-    public void textsLoadedNotify(TextManager var1) {
-    }
+    public void textsLoadedNotify(TextManager var1) {}
 
     public abstract void defineSounds(SoundManager soundManager);
 
@@ -641,8 +792,7 @@ public abstract class AApplet extends Applet implements Runnable, ActionListener
 
     public abstract void createImages();
 
-    public void defineSecImages(ImageManager imageManager, String var2) {
-    }
+    public void defineSecImages(ImageManager imageManager, String var2) {}
 
     public abstract void connectToServer();
 
@@ -669,7 +819,6 @@ public abstract class AApplet extends Applet implements Runnable, ActionListener
             if (!noRepaint) {
                 this.repaint();
             }
-
         }
     }
 
@@ -700,14 +849,12 @@ public abstract class AApplet extends Applet implements Runnable, ActionListener
         if (this.socketConnection != null) {
             this.socketConnection.writeMetadataLog(0, dataType, data);
         }
-
     }
 
     public void writeMetadataLog1(String dataType, String data) {
         if (this.socketConnection != null) {
             this.socketConnection.writeMetadataLog(1, dataType, data);
         }
-
     }
 
     private void removeLoadingPanel() {
@@ -718,10 +865,10 @@ public abstract class AApplet extends Applet implements Runnable, ActionListener
             var1 = null;
             this.loadingPanel = null;
         }
-
     }
 
-    private void sendLoadTimes(int readyTime, int finishedTime, int time1, int time2, int time3, int time4, int time5, int time6) {
+    private void sendLoadTimes(
+            int readyTime, int finishedTime, int time1, int time2, int time3, int time4, int time5, int time6) {
         if (this.isDebug()) {
             System.out.println("AApplet.sendLoadTimes(" + readyTime + "," + finishedTime + ")");
         }
@@ -760,7 +907,6 @@ public abstract class AApplet extends Applet implements Runnable, ActionListener
             this.getAppletContext().showDocument(url);
         } catch (Exception e) {
         }
-
     }
 
     private String getSystemProperty(String key) {
@@ -782,6 +928,5 @@ public abstract class AApplet extends Applet implements Runnable, ActionListener
         if (var1 != null) {
             var1.stopAll();
         }
-
     }
 }

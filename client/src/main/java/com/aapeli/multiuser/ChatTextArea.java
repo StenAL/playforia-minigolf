@@ -3,7 +3,6 @@ package com.aapeli.multiuser;
 import com.aapeli.client.BadWordFilter;
 import com.aapeli.client.TextManager;
 import com.aapeli.colorgui.ColorTextArea;
-
 import java.awt.Font;
 import java.util.Hashtable;
 
@@ -131,7 +130,10 @@ public class ChatTextArea extends ColorTextArea {
     private void method856(int var1, String var2, String var3, boolean var4) {
         var3 = this.method860(var3, var4);
         if (var3.length() > 4 && var3.toLowerCase().startsWith("/me ")) {
-            this.addText(this.method859(var2, var1), this.textManager.getShared("Chat_UserAction", var2, var3.substring(4)), var4);
+            this.addText(
+                    this.method859(var2, var1),
+                    this.textManager.getShared("Chat_UserAction", var2, var3.substring(4)),
+                    var4);
         } else {
             this.addText(this.method859(var2, var1), this.textManager.getShared("Chat_UserSay", var2, var3), var4);
         }
@@ -139,7 +141,8 @@ public class ChatTextArea extends ColorTextArea {
 
     private void method857(int var1, String var2, String var3, String var4, boolean var5) {
         var4 = this.method860(var4, var5);
-        this.addText(this.method859(var2, var1), this.textManager.getShared("Chat_UserSayPrivate", var2, var3, var4), var5);
+        this.addText(
+                this.method859(var2, var1), this.textManager.getShared("Chat_UserSayPrivate", var2, var3, var4), var5);
     }
 
     private int method858(int var1) {
@@ -163,7 +166,19 @@ public class ChatTextArea extends ColorTextArea {
         int var4 = var2.length;
 
         for (int var5 = 0; var5 < var4; ++var5) {
-            if (var2[var5] < 32 || var2[var5] == 127 || var2[var5] >= 128 && var2[var5] <= 159 || var2[var5] == 8232 || var2[var5] == 8233 || var2[var5] == '\ufff9' || var2[var5] == '\ufffa' || var2[var5] == '\ufffb' || var2[var5] == 8206 || var2[var5] == 8207 || var2[var5] == 8234 || var2[var5] == 8238 || var2[var5] == '\uf0da') {
+            if (var2[var5] < 32
+                    || var2[var5] == 127
+                    || var2[var5] >= 128 && var2[var5] <= 159
+                    || var2[var5] == 8232
+                    || var2[var5] == 8233
+                    || var2[var5] == '\ufff9'
+                    || var2[var5] == '\ufffa'
+                    || var2[var5] == '\ufffb'
+                    || var2[var5] == 8206
+                    || var2[var5] == 8207
+                    || var2[var5] == 8234
+                    || var2[var5] == 8238
+                    || var2[var5] == '\uf0da') {
                 var2[var5] = 32;
                 var3 = true;
             }

@@ -2,7 +2,6 @@ package com.aapeli.client;
 
 import com.aapeli.applet.AApplet;
 import com.aapeli.tools.Tools;
-
 import java.applet.Applet;
 import java.awt.Component;
 import java.awt.Image;
@@ -21,7 +20,6 @@ public final class ImageManager {
     private final boolean isDebug;
     private final ImageTracker imageTracker;
 
-
     public ImageManager(Applet applet) {
         this(applet, "src/main/resources/picture/", true);
     }
@@ -38,7 +36,8 @@ public final class ImageManager {
         this.applet = applet;
         this.isDebug = isDebug;
 
-        // TODO: Remove this code if it doesn't cause any problems in a few releases, I rewritten the functionality
+        // TODO: Remove this code if it doesn't cause any problems in a few releases, I rewritten
+        // the functionality
         this.validImageDir = true;
         if (imageDir != null && imageDir.length() > 0) {
             this.validImageDir = false;
@@ -65,7 +64,8 @@ public final class ImageManager {
             System.out.println("ImageManager.defineImage(\"" + imageAlias + "\",\"" + imageFileName + "\")");
         }
 
-        Image var3 = Toolkit.getDefaultToolkit().createImage(this.getClass().getResource("/picture/agolf/" +getAlias(imageFileName)));
+        Image var3 = Toolkit.getDefaultToolkit()
+                .createImage(this.getClass().getResource("/picture/agolf/" + getAlias(imageFileName)));
         this.imageTracker.registerImage(imageAlias, var3);
         return imageAlias;
     }
@@ -79,7 +79,8 @@ public final class ImageManager {
             System.out.println("ImageManager.defineSharedImage(\"" + imageAlias + "\",\"" + imageFileName + "\")");
         }
 
-        Image var3 = Toolkit.getDefaultToolkit().createImage(this.getClass().getResource("/picture/shared/" +getAlias(imageFileName)));
+        Image var3 = Toolkit.getDefaultToolkit()
+                .createImage(this.getClass().getResource("/picture/shared/" + getAlias(imageFileName)));
         this.imageTracker.method1624(imageAlias, var3);
         return imageAlias;
     }
@@ -167,8 +168,8 @@ public final class ImageManager {
                     } catch (Exception ex) {
                     }
                     var4 = Toolkit.getDefaultToolkit().createImage(url);
-                    //todo var4 = this.anApplet1354.getImage(var6, var1);
-                    //var4 = this.applet.getImage(var6, var1);
+                    // todo var4 = this.anApplet1354.getImage(var6, var1);
+                    // var4 = this.applet.getImage(var6, var1);
                     this.imageTracker.method1624(var3, var4);
                 }
             }
@@ -236,7 +237,15 @@ public final class ImageManager {
         int var6 = var4 / var2;
         int var7 = var5 / var3;
         if (this.isDebug && (var4 % var2 > 0 || var5 % var3 > 0)) {
-            System.out.println("ImageManager.separateImages(...," + var2 + "," + var3 + "): Warning! Source image can not be divided to " + var2 + "*" + var3 + " blocks");
+            System.out.println("ImageManager.separateImages(...,"
+                    + var2
+                    + ","
+                    + var3
+                    + "): Warning! Source image can not be divided to "
+                    + var2
+                    + "*"
+                    + var3
+                    + " blocks");
             Thread.dumpStack();
         }
 
@@ -305,11 +314,10 @@ public final class ImageManager {
         String var2 = var1.toString();
         synchronized (this) {
             if (!this.imageTracker.containsCImage(var2)) {
-                //todo Image var4 = this.applet.getImage(var1);
+                // todo Image var4 = this.applet.getImage(var1);
                 Image var4 = Toolkit.getDefaultToolkit().createImage(var1);
                 this.imageTracker.method1625(var2, var4);
             }
-
         }
     }
 

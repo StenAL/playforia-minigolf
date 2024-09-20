@@ -8,6 +8,5 @@ public class UsernameValidator {
     public static boolean isValidUsername(String username) {
         boolean invalid = INVALID_USERNAME_PATTERN.matcher(username).find();
         return !invalid;
-
     }
 }

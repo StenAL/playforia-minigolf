@@ -17,14 +17,15 @@ public class StringDraw {
     public static final int ALIGN_CENTER_LEFT_ALWAYS_VISIBLE = -2;
     public static final int ALIGN_CENTER_RIGHT_ALWAYS_VISIBLE = 2;
 
-
     public static int drawString(Graphics g, String text, int x, int y, int alignment) {
         return drawOutlinedString(g, null, text, x, y, alignment);
     }
 
     public static int drawOutlinedString(Graphics g, Color outlineColor, String text, int x, int y, int alignment) {
         int textWidth = getStringWidth(g, text);
-        if (alignment == ALIGN_CENTER || alignment == ALIGN_CENTER_LEFT_ALWAYS_VISIBLE || alignment == ALIGN_CENTER_RIGHT_ALWAYS_VISIBLE) {
+        if (alignment == ALIGN_CENTER
+                || alignment == ALIGN_CENTER_LEFT_ALWAYS_VISIBLE
+                || alignment == ALIGN_CENTER_RIGHT_ALWAYS_VISIBLE) {
             x -= textWidth / 2;
         }
 
@@ -67,7 +68,8 @@ public class StringDraw {
         return drawOutlinedStringWithMaxWidth(g, null, text, var2, var3, var4, var5);
     }
 
-    public static int[] drawOutlinedStringWithMaxWidth(Graphics g, Color outlineColor, String text, int x, int y, int alignment, int maxWidth) {
+    public static int[] drawOutlinedStringWithMaxWidth(
+            Graphics g, Color outlineColor, String text, int x, int y, int alignment, int maxWidth) {
         Font font = g.getFont();
         FontMetrics fontMetrics = g.getFontMetrics(font);
         List<String> lines = createLines(fontMetrics, text, maxWidth);
@@ -77,11 +79,11 @@ public class StringDraw {
             lineHeight += 2;
         }
 
-        int[] linesData = new int[]{lines.size(), 0, 0}; // 0 == number of lines, 1 == height, 2 == width
+        int[] linesData = new int[] {lines.size(), 0, 0}; // 0 == number of lines, 1 == height, 2 == width
         linesData[1] = linesData[0] * lineHeight;
         linesData[2] = 0;
 
-        for (String line: lines) {
+        for (String line : lines) {
             int lineWidth = drawOutlinedString(g, outlineColor, line, x, y, alignment);
             if (lineWidth > linesData[2]) {
                 linesData[2] = lineWidth;
@@ -162,7 +164,6 @@ public class StringDraw {
                 createLinesPrivate(lines, newText, fontMetrics, maximumWidth);
             }
         }
-
     }
 
     private static String splitAtSpace(String line) {

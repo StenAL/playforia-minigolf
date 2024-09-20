@@ -1,5 +1,7 @@
 package org.moparforia.server.net.packethandlers.golf;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import org.moparforia.server.Server;
 import org.moparforia.server.game.Lobby;
 import org.moparforia.server.game.Player;
@@ -8,9 +10,6 @@ import org.moparforia.server.net.Packet;
 import org.moparforia.server.net.PacketHandler;
 import org.moparforia.server.net.PacketType;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 public class LobbyMultiplayerHandler implements PacketHandler {
 
     public PacketType getType() {
@@ -18,12 +17,13 @@ public class LobbyMultiplayerHandler implements PacketHandler {
     }
 
     // lobby	cmpt	-	-	0	3	10	1	20	60	0	1	0	0
-    //lobby	    cmpt	-	-	0	2	10	1	20	60	0	1	0	0"
+    // lobby	    cmpt	-	-	0	2	10	1	20	60	0	1	0	0"
     // lobby   jmpt    543543
     // lobby   jmpt    542534 cock
 
     public Pattern getPattern() {
-        return Pattern.compile("lobby\\t(c|j)mpt\\t([a-zA-Z0-9 _`~!@#$%^&*()+={}:;<>,\\\\.\\[\\]\\'\\\"?\\/|\\-]+)(?:\\t)?([a-zA-Z0-9 _`~!@#$%^&*()+={}:;<>,\\\\.\\[\\]\\'\\\"?\\/|\\-]+)?(?:\\t)?(\\d+)?(?:\\t)?(\\d+)?(?:\\t)?(\\d+)?(?:\\t)?(\\d+)?(?:\\t)?(\\d+)?(?:\\t)?(\\d+)?(?:\\t)?(\\d+)?(?:\\t)?(\\d+)?(?:\\t)?(\\d+)?(?:\\t)?(\\d+)?");
+        return Pattern.compile(
+                "lobby\\t(c|j)mpt\\t([a-zA-Z0-9 _`~!@#$%^&*()+={}:;<>,\\\\.\\[\\]\\'\\\"?\\/|\\-]+)(?:\\t)?([a-zA-Z0-9 _`~!@#$%^&*()+={}:;<>,\\\\.\\[\\]\\'\\\"?\\/|\\-]+)?(?:\\t)?(\\d+)?(?:\\t)?(\\d+)?(?:\\t)?(\\d+)?(?:\\t)?(\\d+)?(?:\\t)?(\\d+)?(?:\\t)?(\\d+)?(?:\\t)?(\\d+)?(?:\\t)?(\\d+)?(?:\\t)?(\\d+)?(?:\\t)?(\\d+)?");
     }
 
     public boolean handle(Server server, Packet packet, Matcher message) {
@@ -45,8 +45,21 @@ public class LobbyMultiplayerHandler implements PacketHandler {
             int scoreSystem = Integer.parseInt(message.group(12));
             int weightEnd = Integer.parseInt(message.group(13));
 
-            new MultiGame(player, server.getNextGameId(), gameName, password, numberOfTracks, perms, trackType, maxStrokes, strokeTimeout,
-                    water, collision, scoreSystem, weightEnd, playerCount);
+            new MultiGame(
+                    player,
+                    server.getNextGameId(),
+                    gameName,
+                    password,
+                    numberOfTracks,
+                    perms,
+                    trackType,
+                    maxStrokes,
+                    strokeTimeout,
+                    water,
+                    collision,
+                    scoreSystem,
+                    weightEnd,
+                    playerCount);
 
         } else if (message.group(1).equals("j")) {
             int gameId = Integer.parseInt(message.group(2));

@@ -4,14 +4,13 @@ import agolf.GameApplet;
 import agolf.GameContainer;
 import com.aapeli.colorgui.Choicer;
 import com.aapeli.multiuser.User;
-import org.moparforia.client.Launcher;
-
 import java.awt.Graphics;
 import java.awt.Panel;
+import org.moparforia.client.Launcher;
 
 public class LobbyPanel extends Panel {
 
-    protected static final int[] gameTimeLimits = new int[]{10, 20, 30, 45, 60, 90, 120};
+    protected static final int[] gameTimeLimits = new int[] {10, 20, 30, 45, 60, 90, 120};
     private static final int numGameTimeLimits = gameTimeLimits.length;
     private GameContainer gameContainer;
     private int width;
@@ -26,7 +25,6 @@ public class LobbyPanel extends Panel {
     private LobbyControlPanel lobbyControlPanel;
     private LobbyTrackListAdminPanel lobbyTrackListAdminPanel;
     public static boolean aBoolean465;
-
 
     public LobbyPanel(GameContainer gameContainer, int width, int height) {
         this.gameContainer = gameContainer;
@@ -57,7 +55,8 @@ public class LobbyPanel extends Panel {
         this.removeAll();
         if (lobbyId == 1) {
             if (this.lobbySinglePlayerPanel == null) {
-                this.lobbySinglePlayerPanel = new LobbySinglePlayerPanel(this.gameContainer, this.width, this.height - 130);
+                this.lobbySinglePlayerPanel =
+                        new LobbySinglePlayerPanel(this.gameContainer, this.width, this.height - 130);
                 this.lobbySinglePlayerPanel.setLocation(0, 0);
             }
 
@@ -88,7 +87,8 @@ public class LobbyPanel extends Panel {
 
         if (lobbyId == 3) {
             if (this.lobbyMultiPlayerPanel == null) {
-                this.lobbyMultiPlayerPanel = new LobbyMultiPlayerPanel(this.gameContainer, this.width, this.height - 130);
+                this.lobbyMultiPlayerPanel =
+                        new LobbyMultiPlayerPanel(this.gameContainer, this.width, this.height - 130);
                 this.lobbyMultiPlayerPanel.setLocation(0, 0);
             }
 
@@ -103,7 +103,8 @@ public class LobbyPanel extends Panel {
 
         if (lobbyId == -1) {
             if (this.lobbyTrackListAdminPanel == null) {
-                this.lobbyTrackListAdminPanel = new LobbyTrackListAdminPanel(this.gameContainer, this.width, this.height, lobbyExtra == 1);
+                this.lobbyTrackListAdminPanel =
+                        new LobbyTrackListAdminPanel(this.gameContainer, this.width, this.height, lobbyExtra == 1);
                 this.lobbyTrackListAdminPanel.setLocation(0, 0);
             }
 
@@ -136,14 +137,12 @@ public class LobbyPanel extends Panel {
         if (this.activeLobby == -1) {
             this.lobbyTrackListAdminPanel.setRefreshTrackList();
         }
-
     }
 
     public void setJoinError(int var1) {
         if (this.lobbyMultiPlayerPanel != null) {
             this.lobbyMultiPlayerPanel.setJoinError(var1);
         }
-
     }
 
     public void requestTrackSetList() {
@@ -188,9 +187,7 @@ public class LobbyPanel extends Panel {
             dummy = true;
         }
 
-        if (dummy) {
-        }
-
+        if (dummy) {}
     }
 
     public void broadcastMessage(String message) {
@@ -205,7 +202,6 @@ public class LobbyPanel extends Panel {
         if (this.lobbyChatPanelMulti != null) {
             this.lobbyChatPanelMulti.broadcastMessage(message);
         }
-
     }
 
     protected void writeData(String var1) {
@@ -250,15 +246,15 @@ public class LobbyPanel extends Panel {
         }
 
         boolean b = this.gameContainer.gameApplet.getPlayerAccessLevel() == 2;
-        if (b && !Launcher.isUsingCustomServer()) {//todo <--
+        if (b && !Launcher.isUsingCustomServer()) { // todo <--
             c.addItem(this.gameContainer.textManager.getGame("LobbyReal_TrackTypes7") + " (A)");
             c.addItem("Only best (A)");
             c.addItem("Only pend (A)");
         }
 
-        //if(Launcher.isUsingCustomServer()) {
+        // if(Launcher.isUsingCustomServer()) {
         //    c.addItem("Only custom");
-        //}
+        // }
 
         c.select(1);
         c.setBounds(x, y, width, height);
@@ -336,7 +332,7 @@ public class LobbyPanel extends Panel {
     protected Choicer addChoicerTrackCategory(Panel container, int x, int y, int width, int height) {
         Choicer c = new Choicer();
         c.addItem("Official");
-        //c.addItem("Custom");
+        // c.addItem("Custom");
         c.select(0);
         c.setBounds(x, y, width, height);
         container.add(c);
@@ -344,7 +340,9 @@ public class LobbyPanel extends Panel {
     }
 
     protected String getTime(int var1) {
-        return var1 == 0 ? this.gameContainer.textManager.getGame("LobbyReal_TimeLimitNo") : this.gameContainer.textManager.getTime(var1);
+        return var1 == 0
+                ? this.gameContainer.textManager.getGame("LobbyReal_TimeLimitNo")
+                : this.gameContainer.textManager.getTime(var1);
     }
 
     protected void addMessage(String var1) {

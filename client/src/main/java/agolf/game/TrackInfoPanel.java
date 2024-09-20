@@ -4,7 +4,6 @@ import agolf.GameApplet;
 import agolf.GameContainer;
 import com.aapeli.client.StringDraw;
 import com.aapeli.colorgui.ColorButton;
-
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -19,11 +18,11 @@ class TrackInfoPanel extends Panel implements ActionListener {
     private static final Font fontDialog14 = new Font("Dialog", Font.PLAIN, 14);
     private static final Font fontSerif16 = new Font("Serif", Font.PLAIN, 16);
     private static final Font fontDialog11 = new Font("Dialog", Font.PLAIN, 11);
-    private static final Color[] voteColours = new Color[]{
-            new Color(192, 0, 0), new Color(255, 0, 0), new Color(255, 64, 0),
-            new Color(255, 128, 0), new Color(255, 192, 0), new Color(255, 255, 0),
-            new Color(192, 255, 0), new Color(128, 255, 0), new Color(64, 255, 0),
-            new Color(0, 255, 0), new Color(64, 255, 64)
+    private static final Color[] voteColours = new Color[] {
+        new Color(192, 0, 0), new Color(255, 0, 0), new Color(255, 64, 0),
+        new Color(255, 128, 0), new Color(255, 192, 0), new Color(255, 255, 0),
+        new Color(192, 255, 0), new Color(128, 255, 0), new Color(64, 255, 0),
+        new Color(0, 255, 0), new Color(64, 255, 64)
     };
 
     private GameContainer gameContainer;
@@ -57,7 +56,6 @@ class TrackInfoPanel extends Panel implements ActionListener {
     private Image image;
     private Graphics graphics;
     private boolean created;
-
 
     protected TrackInfoPanel(GameContainer gameContainer, int width, int height, boolean var4) {
         this.gameContainer = gameContainer;
@@ -101,14 +99,26 @@ class TrackInfoPanel extends Panel implements ActionListener {
             this.graphics.setColor(GameApplet.colourTextDarkGreen);
             int xMod = this.showLongAvgResult ? 20 : 0;
             if (this.currentTrack == -1) {
-                StringDraw.drawString(this.graphics, this.gameContainer.textManager.getGame("GameTrackInfo_NumberOfTracks", this.numTracks), this.width / 4 - xMod, 15, 0);
+                StringDraw.drawString(
+                        this.graphics,
+                        this.gameContainer.textManager.getGame("GameTrackInfo_NumberOfTracks", this.numTracks),
+                        this.width / 4 - xMod,
+                        15,
+                        0);
             } else {
-                StringDraw.drawString(this.graphics, this.gameContainer.textManager.getGame("GameTrackInfo_CurrentTrack", this.currentTrack + 1, this.numTracks), this.width / 4 - xMod, 15, 0);
+                StringDraw.drawString(
+                        this.graphics,
+                        this.gameContainer.textManager.getGame(
+                                "GameTrackInfo_CurrentTrack", this.currentTrack + 1, this.numTracks),
+                        this.width / 4 - xMod,
+                        15,
+                        0);
                 this.graphics.setColor(GameApplet.colourTextBlack);
 
                 Font font;
-                for (font = fontSerif16; this.getFontMetrics(font).stringWidth(this.trackName) / 2 > this.width / 4 - xMod; font = new Font(font.getName(), font.getStyle(), font.getSize() - 1)) {
-                }
+                for (font = fontSerif16;
+                        this.getFontMetrics(font).stringWidth(this.trackName) / 2 > this.width / 4 - xMod;
+                        font = new Font(font.getName(), font.getStyle(), font.getSize() - 1)) {}
 
                 this.graphics.setFont(font);
                 StringDraw.drawString(this.graphics, this.trackName, this.width / 4 - xMod, 35, 0);
@@ -119,12 +129,20 @@ class TrackInfoPanel extends Panel implements ActionListener {
                 this.graphics.setFont(fontDialog12);
                 this.graphics.setColor(GameApplet.colourTextBlack);
                 if (this.resultAverage > 0.0D) {
-                    StringDraw.drawString(this.graphics, this.gameContainer.textManager.getGame("GameTrackInfo_AverageResult" + keySuffix, this.gameContainer.textManager.getNumber(this.resultAverage, 1)), this.width * 3 / 4 - xMod, this.lastBestPlayerName == null ? 15 : 12, 0);
+                    StringDraw.drawString(
+                            this.graphics,
+                            this.gameContainer.textManager.getGame(
+                                    "GameTrackInfo_AverageResult" + keySuffix,
+                                    this.gameContainer.textManager.getNumber(this.resultAverage, 1)),
+                            this.width * 3 / 4 - xMod,
+                            this.lastBestPlayerName == null ? 15 : 12,
+                            0);
                 }
 
                 String resultBestText;
                 if (this.resultBestNumStrokes > 0) {
-                    resultBestText = this.gameContainer.textManager.getGame("GameTrackInfo_BestResult" + keySuffix, this.resultBestNumStrokes);
+                    resultBestText = this.gameContainer.textManager.getGame(
+                            "GameTrackInfo_BestResult" + keySuffix, this.resultBestNumStrokes);
                     String resultText = resultBestText + " ";
                     if (this.resultBestPercent > 0.0D) {
                         byte roundingPrecision = 0;
@@ -140,34 +158,74 @@ class TrackInfoPanel extends Panel implements ActionListener {
                             roundingPrecision = 3;
                         }
 
-                        resultText = resultText + this.gameContainer.textManager.getGame("GameTrackInfo_BestResultPercent" + keySuffix, this.gameContainer.textManager.getNumber(this.resultBestPercent, roundingPrecision));
+                        resultText = resultText
+                                + this.gameContainer.textManager.getGame(
+                                        "GameTrackInfo_BestResultPercent" + keySuffix,
+                                        this.gameContainer.textManager.getNumber(
+                                                this.resultBestPercent, roundingPrecision));
                     } else {
-                        resultText = resultText + this.gameContainer.textManager.getGame("GameTrackInfo_BestResultUnique" + keySuffix);
+                        resultText = resultText
+                                + this.gameContainer.textManager.getGame("GameTrackInfo_BestResultUnique" + keySuffix);
                     }
 
                     this.graphics.setColor(GameApplet.colourTextDarkGreen);
-                    int textWidth = StringDraw.drawString(this.graphics, resultText, this.width * 3 / 4 - xMod, this.lastBestPlayerName == null ? 35 : 29, 0);
+                    int textWidth = StringDraw.drawString(
+                            this.graphics,
+                            resultText,
+                            this.width * 3 / 4 - xMod,
+                            this.lastBestPlayerName == null ? 35 : 29,
+                            0);
                     this.graphics.setColor(GameApplet.colourTextBlack);
-                    this.graphics.drawString(resultBestText, this.width * 3 / 4 - xMod - textWidth / 2, this.lastBestPlayerName == null ? 35 : 29);
+                    this.graphics.drawString(
+                            resultBestText,
+                            this.width * 3 / 4 - xMod - textWidth / 2,
+                            this.lastBestPlayerName == null ? 35 : 29);
                     this.graphics.setClip(0, 0, this.width, this.height);
                     this.graphics.setFont(fontDialog11);
                     this.graphics.setColor(GameApplet.colourTextDarkGreen);
-                    resultBestText = this.firstBestPlayerName != null ? this.gameContainer.textManager.getGame("GameTrackInfo_BestResultFirstBy" + keySuffix, this.firstBestPlayerName, this.firstBestPlayerDate) : this.gameContainer.textManager.getGame("GameTrackInfo_BestResultFirstByUnknown" + keySuffix);
-                    StringDraw.drawString(this.graphics, resultBestText, this.width * 3 / 4 - xMod, this.lastBestPlayerName == null ? 55 : 45, 2);
+                    resultBestText = this.firstBestPlayerName != null
+                            ? this.gameContainer.textManager.getGame(
+                                    "GameTrackInfo_BestResultFirstBy" + keySuffix,
+                                    this.firstBestPlayerName,
+                                    this.firstBestPlayerDate)
+                            : this.gameContainer.textManager.getGame(
+                                    "GameTrackInfo_BestResultFirstByUnknown" + keySuffix);
+                    StringDraw.drawString(
+                            this.graphics,
+                            resultBestText,
+                            this.width * 3 / 4 - xMod,
+                            this.lastBestPlayerName == null ? 55 : 45,
+                            2);
                     if (this.lastBestPlayerName != null) {
-                        StringDraw.drawString(this.graphics, this.gameContainer.textManager.getGame("GameTrackInfo_BestResultLastBy" + keySuffix, this.lastBestPlayerName, this.lastBestPlayerDate), this.width * 3 / 4 - xMod, 60, 2);
+                        StringDraw.drawString(
+                                this.graphics,
+                                this.gameContainer.textManager.getGame(
+                                        "GameTrackInfo_BestResultLastBy" + keySuffix,
+                                        this.lastBestPlayerName,
+                                        this.lastBestPlayerDate),
+                                this.width * 3 / 4 - xMod,
+                                60,
+                                2);
                     }
 
                     this.graphics.setColor(GameApplet.colourTextBlack);
                 }
 
                 if (this.hasNotRatedTrack) {
-                    this.graphics.drawString(this.gameContainer.textManager.getGame("GameTrackInfo_GiveRating"), 10, this.height - 4);
+                    this.graphics.drawString(
+                            this.gameContainer.textManager.getGame("GameTrackInfo_GiveRating"), 10, this.height - 4);
                 }
 
                 if (!this.hasNotRatedTrack && !this.trackPending && this.trackAverageRating >= 0.0D) {
                     this.graphics.setFont(fontDialog12);
-                    StringDraw.drawString(this.graphics, this.gameContainer.textManager.getGame("GameTrackInfo_Rating", this.gameContainer.textManager.getNumber(this.trackAverageRating, 1)), this.width / 4 - xMod, this.height - 4, 0);
+                    StringDraw.drawString(
+                            this.graphics,
+                            this.gameContainer.textManager.getGame(
+                                    "GameTrackInfo_Rating",
+                                    this.gameContainer.textManager.getNumber(this.trackAverageRating, 1)),
+                            this.width / 4 - xMod,
+                            this.height - 4,
+                            0);
                 }
 
                 if (this.trackPending) {
@@ -197,12 +255,11 @@ class TrackInfoPanel extends Panel implements ActionListener {
                 }
             }
 
-            if(evtSource == buttonReject || evtSource == buttonAccept) {
+            if (evtSource == buttonReject || evtSource == buttonAccept) {
                 this.gameContainer.gamePanel.respondNewGame(this.currentTrack, evtSource == this.buttonAccept);
                 this.toggleAcceptRejectButtons(false);
                 this.repaint();
-            }
-            else if (evtSource == this.buttonBack) {
+            } else if (evtSource == this.buttonBack) {
                 this.gameContainer.gamePanel.backToPrivate(this.currentTrack);
                 this.setBackButtonVisible(false);
                 this.repaint();
@@ -221,7 +278,16 @@ class TrackInfoPanel extends Panel implements ActionListener {
         this.repaint();
     }
 
-    protected void parseTrackInfoStats(String trackAuthor, String trackName, int[] parStats, int[] someRatingStats, String firstBest, String lastBest, boolean trackTestMode1, boolean trackTestMode2, boolean var9) {
+    protected void parseTrackInfoStats(
+            String trackAuthor,
+            String trackName,
+            int[] parStats,
+            int[] someRatingStats,
+            String firstBest,
+            String lastBest,
+            boolean trackTestMode1,
+            boolean trackTestMode2,
+            boolean var9) {
         ++this.currentTrack;
         this.trackAuthor = trackAuthor;
         this.trackName = trackName;
@@ -258,10 +324,11 @@ class TrackInfoPanel extends Panel implements ActionListener {
                 this.trackRating += 10 * someRatingStats[10];
             }
 
-            this.trackAverageRating = (double) this.trackRating / (double) this.trackTotalRatings; // i think its average rating
+            this.trackAverageRating =
+                    (double) this.trackRating / (double) this.trackTotalRatings; // i think its average rating
         }
 
-        if (!this.gameContainer.synchronizedTrackTestMode.get()) {   // Toggles some buttons??!
+        if (!this.gameContainer.synchronizedTrackTestMode.get()) { // Toggles some buttons??!
             this.setHasNotRatedTrack(true);
         } else {
             this.toggleAcceptRejectButtons(trackTestMode1);
@@ -315,7 +382,7 @@ class TrackInfoPanel extends Panel implements ActionListener {
     }
 
     private String[] parseBestPlayerInformation(String data) {
-        String[] bestPlayerInformation = new String[]{null, null};
+        String[] bestPlayerInformation = new String[] {null, null};
         if (data != null) {
             int splitPosition = data.indexOf(',');
             bestPlayerInformation[0] = data.substring(0, splitPosition);

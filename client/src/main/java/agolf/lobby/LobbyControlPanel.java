@@ -4,7 +4,6 @@ import agolf.GameApplet;
 import agolf.GameContainer;
 import agolf.LobbySelectPanel;
 import com.aapeli.colorgui.ColorButton;
-
 import java.awt.Graphics;
 import java.awt.Panel;
 import java.awt.event.ActionEvent;
@@ -17,10 +16,9 @@ class LobbyControlPanel extends Panel implements ActionListener {
     private int height;
     private ColorButton buttonBack;
     private ColorButton buttonSingle;
-    //private ColorButton buttonDual;
+    // private ColorButton buttonDual;
     private ColorButton buttonMulti;
     private ColorButton buttonQuit;
-
 
     protected LobbyControlPanel(GameContainer gameContainer, int width, int height) {
         this.gameContainer = gameContainer;
@@ -55,10 +53,10 @@ class LobbyControlPanel extends Panel implements ActionListener {
             byte lobbyId = 0;
             if (evtSource == this.buttonSingle) {
                 lobbyId = 1;
-            /*
-            } else if (evtSource == this.buttonDual) {
-                lobbyId = 2;
-            */
+                /*
+                } else if (evtSource == this.buttonDual) {
+                    lobbyId = 2;
+                */
             } else if (evtSource == this.buttonMulti) {
                 lobbyId = 3;
             }
@@ -67,7 +65,6 @@ class LobbyControlPanel extends Panel implements ActionListener {
                 this.gameContainer.gameApplet.setGameState(0);
                 this.gameContainer.lobbyPanel.writeData(LobbySelectPanel.getLobbySelectMessage(lobbyId));
             }
-
         }
     }
 
@@ -77,7 +74,7 @@ class LobbyControlPanel extends Panel implements ActionListener {
             this.remove(this.buttonSingle);
         }
 
-//        this.remove(this.buttonDual);
+        //        this.remove(this.buttonDual);
         this.remove(this.buttonMulti);
         if (!this.gameContainer.disableSinglePlayer && state != 1) {
             this.add(this.buttonSingle);

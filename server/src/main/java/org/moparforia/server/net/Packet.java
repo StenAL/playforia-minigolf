@@ -61,12 +61,16 @@ public class Packet {
 
     @Override
     public String toString() {
-        return "Packet{" +
-                "channel=" + channel +
-                ", type=" + type +
-                ", count=" + count +
-                ", message='" + message.replace("\t", "\\t") + '\'' +
-                '}';
+        return "Packet{"
+                + "channel="
+                + channel
+                + ", type="
+                + type
+                + ", count="
+                + count
+                + ", message='"
+                + message.replace("\t", "\\t")
+                + '\''
+                + '}';
     }
-
 }

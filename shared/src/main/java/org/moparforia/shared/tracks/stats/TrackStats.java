@@ -1,11 +1,11 @@
 package org.moparforia.shared.tracks.stats;
 
+import java.time.LocalDate;
 import org.moparforia.shared.tracks.Track;
 
-import java.time.LocalDate;
-
 /**
- * Interface that represent all the statistics for specific track, class is interface so it supports lazy loading
+ * Interface that represent all the statistics for specific track, class is interface so it supports
+ * lazy loading
  */
 public interface TrackStats {
 
@@ -44,10 +44,10 @@ public interface TrackStats {
      */
     LocalDate getBestParTime();
 
-
     /**
-     *  Returns ratings of this track.
-     *  Index is representing the actual rating and the value is number of ratings of that value
+     * Returns ratings of this track. Index is representing the actual rating and the value is
+     * number of ratings of that value
+     *
      * @return Array of all the ratings of size 10
      */
     int[] getRatings();
@@ -64,12 +64,11 @@ public interface TrackStats {
 
     /**
      * Converts TrackStats into serializable string
+     *
      * @return Serialized string, separated by splitter
      */
     String serialize(String splitter);
 
-    /**
-     * Converts to format supported by Client
-     */
+    /** Converts to format supported by Client */
     String networkSerialize();
 }

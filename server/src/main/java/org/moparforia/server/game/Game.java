@@ -1,14 +1,13 @@
 package org.moparforia.server.game;
 
 import io.netty.channel.Channel;
+import java.util.ArrayList;
+import java.util.regex.Matcher;
 import org.moparforia.server.Server;
 import org.moparforia.server.game.gametypes.golf.MultiGame;
 import org.moparforia.server.net.Packet;
 import org.moparforia.server.net.PacketType;
 import org.moparforia.shared.Tools;
-
-import java.util.ArrayList;
-import java.util.regex.Matcher;
 
 public abstract class Game extends PlayerCollection {
 
@@ -61,10 +60,14 @@ public abstract class Game extends PlayerCollection {
     }
 
     public boolean removePlayer(Player player) {
-        if (!hasPlayer(player))
-            return false;
+        if (!hasPlayer(player)) return false;
 
-        writeExcluding(player, new Packet(PacketType.DATA, Tools.tabularize("game", "part", playersNumber.get(getPlayers().indexOf(player)), 4)));
+        writeExcluding(
+                player,
+                new Packet(
+                        PacketType.DATA,
+                        Tools.tabularize(
+                                "game", "part", playersNumber.get(getPlayers().indexOf(player)), 4)));
         playersNumber.remove((Integer) getPlayerId(player)); // be wary of this...
         super.removePlayer(player);
 
@@ -72,8 +75,7 @@ public abstract class Game extends PlayerCollection {
     }
 
     public boolean addPlayer(Player player) {
-        if (hasPlayer(player))
-            return false;
+        if (hasPlayer(player)) return false;
         if (player.getLobby() != null) {
             int reason = Lobby.PART_REASON_STARTED_SP;
             // dont like this bit but important to tell the client how we're leaving lobby.
@@ -97,20 +99,25 @@ public abstract class Game extends PlayerCollection {
     protected void sendJoinMessages(Player player) {
         sendGameInfo(player);
         sendPlayerNames(player);
-        writeExcluding(player, new Packet(PacketType.DATA, Tools.tabularize("game", "join", playerCount(), player.getNick(), player.getClan())));
-        player.getChannel().writeAndFlush(new Packet(PacketType.DATA, Tools.tabularize("game", "owninfo", numberIndex, player.getNick(), player.getClan())));
+        writeExcluding(
+                player,
+                new Packet(
+                        PacketType.DATA,
+                        Tools.tabularize("game", "join", playerCount(), player.getNick(), player.getClan())));
+        player.getChannel()
+                .writeAndFlush(new Packet(
+                        PacketType.DATA,
+                        Tools.tabularize("game", "owninfo", numberIndex, player.getNick(), player.getClan())));
     }
 
     protected void sendPlayerNames(Player player) {
         Channel c = player.getChannel();
         String playersData = Tools.tabularize("game", "players");
         for (Player p : getPlayers()) {
-            if (!p.equals(player))
-                playersData += Tools.tabularize("", getPlayerId(p), p.getNick(), p.getClan());
+            if (!p.equals(player)) playersData += Tools.tabularize("", getPlayerId(p), p.getNick(), p.getClan());
         }
         c.writeAndFlush(new Packet(PacketType.DATA, playersData));
     }
-
 
     protected int getFirstPlayer() {
         return playersNumber.get(0);
@@ -141,5 +148,4 @@ public abstract class Game extends PlayerCollection {
     public boolean isEmpty() {
         return getPlayers().size() == 0;
     }
-
 }

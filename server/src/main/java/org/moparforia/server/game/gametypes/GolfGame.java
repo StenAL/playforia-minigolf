@@ -1,6 +1,8 @@
 package org.moparforia.server.game.gametypes;
 
 import io.netty.channel.Channel;
+import java.util.List;
+import java.util.regex.Matcher;
 import org.moparforia.server.Server;
 import org.moparforia.server.game.Game;
 import org.moparforia.server.game.Lobby;
@@ -15,9 +17,6 @@ import org.moparforia.shared.tracks.filesystem.FileSystemStatsManager;
 import org.moparforia.shared.tracks.filesystem.FileSystemTrackManager;
 import org.moparforia.shared.tracks.stats.StatsManager;
 import org.moparforia.shared.tracks.stats.TrackStats;
-
-import java.util.List;
-import java.util.regex.Matcher;
 
 public abstract class GolfGame extends Game {
     protected static final TrackManager manager = FileSystemTrackManager.getInstance();
@@ -52,11 +51,26 @@ public abstract class GolfGame extends Game {
     protected int currentTrack = 0;
     protected int strokeCounter = 0;
     protected int strokesThisTrack = 0;
-    protected String playStatus; // string where each character represents one player status. t = finished, f = not finished, p = ?
+    protected String playStatus; // string where each character represents one player status. t = finished, f
 
-    public GolfGame(int gameId, LobbyType lobbyId, String name, String password, boolean passworded,
-                    int numberOfTracks, int perms, int tracksType, int maxStrokes, int strokeTimeout,
-                    int waterEvent, int collision, int trackScoring, int trackScoringEnd, int numPlayers) {
+    // = not finished, p = ?
+
+    public GolfGame(
+            int gameId,
+            LobbyType lobbyId,
+            String name,
+            String password,
+            boolean passworded,
+            int numberOfTracks,
+            int perms,
+            int tracksType,
+            int maxStrokes,
+            int strokeTimeout,
+            int waterEvent,
+            int collision,
+            int trackScoring,
+            int trackScoringEnd,
+            int numPlayers) {
         super(gameId, lobbyId, name, password, passworded);
         this.numberOfTracks = numberOfTracks;
         this.perms = perms;
@@ -71,16 +85,14 @@ public abstract class GolfGame extends Game {
         this.playerStrokesThisTrack = new int[numPlayers];
         this.playerStrokesTotal = new int[numPlayers];
         tracks = initTracks();
-
     }
-
 
     public abstract List<Track> initTracks();
 
     @Override
     public boolean handlePacket(Server server, Player player, Matcher message) {
         if (message.group(1).equals("beginstroke")) {
-            //beginstroke\t7sw8
+            // beginstroke\t7sw8
             String mouseCoords = message.group(2);
             beginStroke(player, mouseCoords);
 
@@ -88,11 +100,13 @@ public abstract class GolfGame extends Game {
             endStroke(player, message.group(3));
 
             // 999 dirty hack here due to regex borking itself, keep "voteski"
-        } else if (message.group(1).equals("voteskip") || message.group(1).equals("voteski")
-                || message.group(1).equals("skip") || message.group(1).equals("ski")) {
+        } else if (message.group(1).equals("voteskip")
+                || message.group(1).equals("voteski")
+                || message.group(1).equals("skip")
+                || message.group(1).equals("ski")) {
             voteSkip(player);
         } else if (message.group(1).contains("rate")) {
-            rateTrack(message.group(2));  //todo: fix the matcher bs, does not work properly here
+            rateTrack(message.group(2)); // todo: fix the matcher bs, does not work properly here
         } else if (message.group(1).equals("newgame")) {
             wantsNewGame(player);
         } else if (message.group(1).equals("back")) {
@@ -118,15 +132,16 @@ public abstract class GolfGame extends Game {
         tracks = initTracks();
     }
 
-
     public void startGame() {
         writeAll(new Packet(PacketType.DATA, Tools.tabularize("game", "start")));
         StringBuilder buff = new StringBuilder();
         buff.append("t".repeat(getPlayers().size()));
         playStatus = buff.toString().replace("t", "f");
-        TrackStats track =  statsManager.getStats(tracks.get(0));
+        TrackStats track = statsManager.getStats(tracks.get(0));
         writeAll(new Packet(PacketType.DATA, Tools.tabularize("game", "resetvoteskip")));
-        writeAll(new Packet(PacketType.DATA, Tools.tabularize("game", "starttrack", buff.toString(), gameId, track.networkSerialize())));
+        writeAll(new Packet(
+                PacketType.DATA,
+                Tools.tabularize("game", "starttrack", buff.toString(), gameId, track.networkSerialize())));
         writeAll(new Packet(PacketType.DATA, Tools.tabularize("game", "startturn", 0)));
     }
 
@@ -134,16 +149,30 @@ public abstract class GolfGame extends Game {
         statsManager.rate(getCurrentTrack(), Integer.parseInt(rating));
     }
 
-
     public void sendGameInfo(Player player) {
         Channel c = player.getChannel();
         c.writeAndFlush(new Packet(PacketType.DATA, Tools.tabularize("status", "game")));
-        c.writeAndFlush(new Packet(PacketType.DATA, Tools.tabularize("game", "gameinfo",
-                name, passworded ? "t" : "f", gameId, numPlayers, tracks.size(),
-                tracksType, maxStrokes, strokeTimeout, waterEvent, collision, trackScoring,
-                trackScoringEnd, "f")));
+        c.writeAndFlush(new Packet(
+                PacketType.DATA,
+                Tools.tabularize(
+                        "game",
+                        "gameinfo",
+                        name,
+                        passworded ? "t" : "f",
+                        gameId,
+                        numPlayers,
+                        tracks.size(),
+                        tracksType,
+                        maxStrokes,
+                        strokeTimeout,
+                        waterEvent,
+                        collision,
+                        trackScoring,
+                        trackScoringEnd,
+                        "f")));
         //     Conn.writeD(session, "game", "gameinfo", name, "t", gameId, playerCount,
-        //             numberOfTracks, trackType, maxStrokes, strokeTimeout, water, collision, scoreSystem, weightEnd, "f");
+        //             numberOfTracks, trackType, maxStrokes, strokeTimeout, water, collision,
+        // scoreSystem, weightEnd, "f");
     }
 
     public void endStroke(Player p, String playStatus) {
@@ -163,7 +192,7 @@ public abstract class GolfGame extends Game {
 
         confirmCount++; // only sends the command after everyone confirms end stroke.
         if (confirmCount == getPlayers().size()) {
-            playerStrokesThisTrack[ strokeCounter % getPlayers().size()] += 1;
+            playerStrokesThisTrack[strokeCounter % getPlayers().size()] += 1;
             confirmCount = 0;
             if (finished) {
                 nextTrack();
@@ -171,28 +200,22 @@ public abstract class GolfGame extends Game {
                 writeAll(new Packet(PacketType.DATA, Tools.tabularize("game", "startturn", getNextPlayer(playStatus))));
             }
         }
-
     }
 
     protected int getNextPlayer(String playStatus) {
         strokeCounter++;
         int player = strokeCounter % getPlayers().size();
-        if (playStatus.charAt(player) == 't') {  // if this player has already finihed
+        if (playStatus.charAt(player) == 't') { // if this player has already finihed
             getNextPlayer(playStatus);
         }
-
 
         return playersNumber.get(strokeCounter % getPlayers().size());
     }
 
-
     protected void updateStats() {
-        getPlayers().stream()
-                .filter(p -> !p.hasSkipped())
-                .forEach(player -> {
-                    statsManager.addScore(getCurrentTrack(), player.getNick(), playerStrokesThisTrack[getPlayerId(player)]);
-                });
-
+        getPlayers().stream().filter(p -> !p.hasSkipped()).forEach(player -> {
+            statsManager.addScore(getCurrentTrack(), player.getNick(), playerStrokesThisTrack[getPlayerId(player)]);
+        });
     }
 
     protected void nextTrack() {
@@ -212,7 +235,9 @@ public abstract class GolfGame extends Game {
             }
             playStatus = buff.toString().replace("t", "f");
             writeAll(new Packet(PacketType.DATA, Tools.tabularize("game", "resetvoteskip")));
-            writeAll(new Packet(PacketType.DATA, Tools.tabularize("game", "starttrack", buff.toString(), gameId, track.networkSerialize())));
+            writeAll(new Packet(
+                    PacketType.DATA,
+                    Tools.tabularize("game", "starttrack", buff.toString(), gameId, track.networkSerialize())));
             writeAll(new Packet(PacketType.DATA, Tools.tabularize("game", "startturn", getFirstPlayer())));
         } else {
             endGame();
@@ -222,7 +247,6 @@ public abstract class GolfGame extends Game {
     public int getFirstPlayer() {
         return (strokeCounter += currentTrack % playerCount());
     }
-
 
     public void voteSkip(Player p) {
         p.setSkipped(true);
@@ -246,22 +270,36 @@ public abstract class GolfGame extends Game {
             buff.append(playerStrokesThisTrack[id]).append("\t");
         }
         if (needsChange && playerCount() > 1 && numberOfSkippers < playerCount()) {
-            writeAll(new Packet(PacketType.DATA, Tools.tabularize("game", "changescore", currentTrack, buff.toString())));
+            writeAll(new Packet(
+                    PacketType.DATA, Tools.tabularize("game", "changescore", currentTrack, buff.toString())));
         }
 
         nextTrack();
     }
 
     public void beginStroke(Player p, String mouseCoords) {
-        //todo: anti cheat mechanisms!
-        writeExcluding(p, new Packet(PacketType.DATA, Tools.tabularize("game", "beginstroke", getPlayerId(p), mouseCoords)));
-
+        // todo: anti cheat mechanisms!
+        writeExcluding(
+                p, new Packet(PacketType.DATA, Tools.tabularize("game", "beginstroke", getPlayerId(p), mouseCoords)));
     }
 
     public String getGameString() {
-        return Tools.tabularize(gameId, name, passworded ? "t" : "f", perms,
-                numPlayers, -1, tracks.size(), tracksType, maxStrokes, strokeTimeout,
-                waterEvent, collision, trackScoring, trackScoringEnd, getPlayers().size());
+        return Tools.tabularize(
+                gameId,
+                name,
+                passworded ? "t" : "f",
+                perms,
+                numPlayers,
+                -1,
+                tracks.size(),
+                tracksType,
+                maxStrokes,
+                strokeTimeout,
+                waterEvent,
+                collision,
+                trackScoring,
+                trackScoringEnd,
+                getPlayers().size());
     }
 
     private Track getCurrentTrack() {

@@ -1,6 +1,5 @@
 package com.aapeli.multiuser;
 
-
 public interface ChatListener {
 
     void localUserSay(String var1);

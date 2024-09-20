@@ -9,7 +9,6 @@ import com.aapeli.colorgui.ColorButton;
 import com.aapeli.colorgui.ColorCheckbox;
 import com.aapeli.multiuser.ChallengeFloodProtection;
 import com.aapeli.multiuser.NoChallCheckbox;
-
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -52,12 +51,13 @@ class LobbyDualPlayerPanel extends IPanel implements ItemListener, ActionListene
     private ChallengeFloodProtection challengeFloodProtection;
     private Image image;
     private Graphics graphics;
-    //private Choicer choicerTrackCategory;
-    //private int trackCategory;
-    //private boolean isUsingCustomServer;
+
+    // private Choicer choicerTrackCategory;
+    // private int trackCategory;
+    // private boolean isUsingCustomServer;
 
     protected LobbyDualPlayerPanel(GameContainer gameContainer, int width, int height) {
-        //isUsingCustomServer = Launcher.isUsingCustomServer();
+        // isUsingCustomServer = Launcher.isUsingCustomServer();
         this.gameContainer = gameContainer;
         this.width = width;
         this.height = height;
@@ -80,63 +80,225 @@ class LobbyDualPlayerPanel extends IPanel implements ItemListener, ActionListene
         Color colourTextOutline = new Color(102, 204, 255);
         this.graphics.setColor(GameApplet.colourTextBlack);
         this.graphics.setFont(GameApplet.fontSerif26b);
-        StringDraw.drawString(this.graphics, this.gameContainer.textManager.getGame("LobbySelect_DualPlayer"), this.width / 2, 32, 0);
+        StringDraw.drawString(
+                this.graphics, this.gameContainer.textManager.getGame("LobbySelect_DualPlayer"), this.width / 2, 32, 0);
         this.graphics.setFont(GameApplet.fontSerif20);
-        StringDraw.drawOutlinedString(this.graphics, colourTextOutline, this.gameContainer.textManager.getGame("LobbyReal_ChallengeTitle"), this.width / 2 - 185, 40, 1);
+        StringDraw.drawOutlinedString(
+                this.graphics,
+                colourTextOutline,
+                this.gameContainer.textManager.getGame("LobbyReal_ChallengeTitle"),
+                this.width / 2 - 185,
+                40,
+                1);
         byte yPos = 73;
         byte yPos2 = 23;
         this.graphics.setFont(GameApplet.fontDialog12);
-        StringDraw.drawOutlinedString(this.graphics, colourTextOutline, this.gameContainer.textManager.getGame("LobbyReal_TrackCount"), this.width / 2 - 185, yPos, 1);
+        StringDraw.drawOutlinedString(
+                this.graphics,
+                colourTextOutline,
+                this.gameContainer.textManager.getGame("LobbyReal_TrackCount"),
+                this.width / 2 - 185,
+                yPos,
+                1);
         /*if(isUsingCustomServer) {
             StringDraw.drawOutlinedString(this.graphics, colourTextOutline, "Track category:", this.width / 2 - 185, yPos + yPos2, 1);
         }*/
-        StringDraw.drawOutlinedString(this.graphics, colourTextOutline, this.gameContainer.textManager.getGame("LobbyReal_TrackTypes"), this.width / 2 - 185, yPos + yPos2 * (/*isUsingCustomServer ? 2 :*/ 1), 1);
-        StringDraw.drawOutlinedString(this.graphics, colourTextOutline, this.gameContainer.textManager.getGame("LobbyReal_MaxStrokes"), this.width / 2 - 185, yPos + yPos2 * (/*isUsingCustomServer ? 3 :*/ 2), 1);
-        StringDraw.drawOutlinedString(this.graphics, colourTextOutline, this.gameContainer.textManager.getGame("LobbyReal_TimeLimit"), this.width / 2 - 185, yPos + yPos2 * (/*isUsingCustomServer ? 4 :*/ 3), 1);
-        StringDraw.drawOutlinedString(this.graphics, colourTextOutline, this.gameContainer.textManager.getGame("LobbyReal_WaterEvent"), this.width / 2 - 185, yPos + yPos2 * (/*isUsingCustomServer ? 5 :*/ 4), 1);
-        StringDraw.drawOutlinedString(this.graphics, colourTextOutline, this.gameContainer.textManager.getGame("LobbyReal_Collision"), this.width / 2 - 185, yPos + yPos2 * (/*isUsingCustomServer ? 6 :*/ 5), 1);
-        StringDraw.drawOutlinedString(this.graphics, colourTextOutline, this.gameContainer.textManager.getGame("LobbyReal_Scoring"), this.width / 2 - 185, yPos + yPos2 * (/*isUsingCustomServer ? 7 :*/ 6), 1);
-        StringDraw.drawOutlinedString(this.graphics, colourTextOutline, this.gameContainer.textManager.getGame("LobbyReal_ScoringEnd"), this.width / 2 - 185, yPos + yPos2 * (/*isUsingCustomServer ? 8 :*/ 7), 1);
+        StringDraw.drawOutlinedString(
+                this.graphics,
+                colourTextOutline,
+                this.gameContainer.textManager.getGame("LobbyReal_TrackTypes"),
+                this.width / 2 - 185,
+                yPos + yPos2 * (/*isUsingCustomServer ? 2 :*/ 1),
+                1);
+        StringDraw.drawOutlinedString(
+                this.graphics,
+                colourTextOutline,
+                this.gameContainer.textManager.getGame("LobbyReal_MaxStrokes"),
+                this.width / 2 - 185,
+                yPos + yPos2 * (/*isUsingCustomServer ? 3 :*/ 2),
+                1);
+        StringDraw.drawOutlinedString(
+                this.graphics,
+                colourTextOutline,
+                this.gameContainer.textManager.getGame("LobbyReal_TimeLimit"),
+                this.width / 2 - 185,
+                yPos + yPos2 * (/*isUsingCustomServer ? 4 :*/ 3),
+                1);
+        StringDraw.drawOutlinedString(
+                this.graphics,
+                colourTextOutline,
+                this.gameContainer.textManager.getGame("LobbyReal_WaterEvent"),
+                this.width / 2 - 185,
+                yPos + yPos2 * (/*isUsingCustomServer ? 5 :*/ 4),
+                1);
+        StringDraw.drawOutlinedString(
+                this.graphics,
+                colourTextOutline,
+                this.gameContainer.textManager.getGame("LobbyReal_Collision"),
+                this.width / 2 - 185,
+                yPos + yPos2 * (/*isUsingCustomServer ? 6 :*/ 5),
+                1);
+        StringDraw.drawOutlinedString(
+                this.graphics,
+                colourTextOutline,
+                this.gameContainer.textManager.getGame("LobbyReal_Scoring"),
+                this.width / 2 - 185,
+                yPos + yPos2 * (/*isUsingCustomServer ? 7 :*/ 6),
+                1);
+        StringDraw.drawOutlinedString(
+                this.graphics,
+                colourTextOutline,
+                this.gameContainer.textManager.getGame("LobbyReal_ScoringEnd"),
+                this.width / 2 - 185,
+                yPos + yPos2 * (/*isUsingCustomServer ? 8 :*/ 7),
+                1);
         synchronized (synchronizedObject) {
             if (this.currentState > 0) {
                 int xPos = this.width * 3 / 4 - 15;
                 this.graphics.setFont(GameApplet.fontDialog14b);
                 if (this.currentState == 1) {
-                    StringDraw.drawOutlinedString(this.graphics, colourTextOutline, this.gameContainer.textManager.getGame("LobbyReal_ChallengingTitle", this.opponentName), xPos, 55, 0);
+                    StringDraw.drawOutlinedString(
+                            this.graphics,
+                            colourTextOutline,
+                            this.gameContainer.textManager.getGame("LobbyReal_ChallengingTitle", this.opponentName),
+                            xPos,
+                            55,
+                            0);
                 }
 
                 if (this.currentState == 2) {
-                    StringDraw.drawOutlinedString(this.graphics, colourTextOutline, this.gameContainer.textManager.getGame("LobbyReal_ChallengedTitle", this.opponentName), xPos, 55, 0);
+                    StringDraw.drawOutlinedString(
+                            this.graphics,
+                            colourTextOutline,
+                            this.gameContainer.textManager.getGame("LobbyReal_ChallengedTitle", this.opponentName),
+                            xPos,
+                            55,
+                            0);
                 }
 
                 this.graphics.setFont(GameApplet.fontDialog12);
                 yPos = 83;
                 yPos2 = 17;
-                StringDraw.drawOutlinedString(this.graphics, colourTextOutline, this.gameContainer.textManager.getGame("LobbyReal_TrackCount"), xPos - 5, yPos, 1);
-                StringDraw.drawOutlinedString(this.graphics, colourTextOutline, String.valueOf(this.tracksNum), xPos, yPos, -1);
+                StringDraw.drawOutlinedString(
+                        this.graphics,
+                        colourTextOutline,
+                        this.gameContainer.textManager.getGame("LobbyReal_TrackCount"),
+                        xPos - 5,
+                        yPos,
+                        1);
+                StringDraw.drawOutlinedString(
+                        this.graphics, colourTextOutline, String.valueOf(this.tracksNum), xPos, yPos, -1);
                 /*if(isUsingCustomServer) {
                     StringDraw.drawOutlinedString(this.graphics, colourTextOutline, "Track category:", xPos - 5, yPos + yPos2, 1);
                     StringDraw.drawOutlinedString(this.graphics, colourTextOutline, this.gameContainer.textManager.getGame("LobbyReal_TrackTypes" + this.trackCategory), xPos, yPos + yPos2, -1);
                 }*/
-                StringDraw.drawOutlinedString(this.graphics, colourTextOutline, this.gameContainer.textManager.getGame("LobbyReal_TrackTypes"), xPos - 5, yPos + yPos2 * (/*isUsingCustomServer ? 2 :*/ 1), 1);
-                //todo check if challenger is an admin -> and shit (for the custom tracks only thing)
-                StringDraw.drawOutlinedString(this.graphics, colourTextOutline, this.gameContainer.textManager.getGame("LobbyReal_TrackTypes" + this.trackType), xPos, yPos + yPos2 * (/*isUsingCustomServer ? 2 :*/ 1), -1);
-                StringDraw.drawOutlinedString(this.graphics, colourTextOutline, this.gameContainer.textManager.getGame("LobbyReal_MaxStrokes"), xPos - 5, yPos + yPos2 * (/*isUsingCustomServer ? 3 :*/ 2), 1);
-                StringDraw.drawOutlinedString(this.graphics, colourTextOutline, this.maxStrokes == 0 ? this.gameContainer.textManager.getGame("LobbyReal_MaxStrokesUnlimited") : String.valueOf(this.maxStrokes), xPos, yPos + yPos2 * (/*isUsingCustomServer ? 3 :*/ 2), -1);
-                StringDraw.drawOutlinedString(this.graphics, colourTextOutline, this.gameContainer.textManager.getGame("LobbyReal_TimeLimit"), xPos - 5, yPos + yPos2 * (/*isUsingCustomServer ? 4 :*/ 3), 1);
-                StringDraw.drawOutlinedString(this.graphics, colourTextOutline, this.gameContainer.lobbyPanel.getTime(this.timeLimit), xPos, yPos + yPos2 * (/*isUsingCustomServer ? 4 :*/ 3), -1);
-                StringDraw.drawOutlinedString(this.graphics, colourTextOutline, this.gameContainer.textManager.getGame("LobbyReal_WaterEvent"), xPos - 5, yPos + yPos2 * (/*isUsingCustomServer ? 5 :*/ 4), 1);
-                StringDraw.drawOutlinedString(this.graphics, colourTextOutline, this.gameContainer.textManager.getGame("LobbyReal_WaterEvent" + (this.waterEvent + 1)), xPos, yPos + yPos2 * (/*isUsingCustomServer ? 5 :*/ 4), -1);
-                StringDraw.drawOutlinedString(this.graphics, colourTextOutline, this.gameContainer.textManager.getGame("LobbyReal_Collision"), xPos - 5, yPos + yPos2 * (/*isUsingCustomServer ? 6 :*/ 5), 1);
-                StringDraw.drawOutlinedString(this.graphics, colourTextOutline, this.gameContainer.textManager.getGame("LobbyReal_Collision" + (this.collision + 1)), xPos, yPos + yPos2 * (/*isUsingCustomServer ? 6 :*/ 5), -1);
-                StringDraw.drawOutlinedString(this.graphics, colourTextOutline, this.gameContainer.textManager.getGame("LobbyReal_Scoring"), xPos - 5, yPos + yPos2 * (/*isUsingCustomServer ? 7 :*/ 6), 1);
-                StringDraw.drawOutlinedString(this.graphics, colourTextOutline, this.gameContainer.textManager.getGame("LobbyReal_Scoring" + (this.scoring + 1)), xPos, yPos + yPos2 * (/*isUsingCustomServer ? 7 :*/ 6), -1);
-                StringDraw.drawOutlinedString(this.graphics, colourTextOutline, this.gameContainer.textManager.getGame("LobbyReal_ScoringEnd"), xPos - 5, yPos + yPos2 * (/*isUsingCustomServer ? 8 :*/ 7), 1);
-                StringDraw.drawOutlinedString(this.graphics, colourTextOutline, this.gameContainer.textManager.getGame("LobbyReal_ScoringEnd" + this.scoringEnd), xPos, yPos + yPos2 * (/*isUsingCustomServer ? 8 :*/ 7), -1);
+                StringDraw.drawOutlinedString(
+                        this.graphics,
+                        colourTextOutline,
+                        this.gameContainer.textManager.getGame("LobbyReal_TrackTypes"),
+                        xPos - 5,
+                        yPos + yPos2 * (/*isUsingCustomServer ? 2 :*/ 1),
+                        1);
+                // todo check if challenger is an admin -> and shit (for the custom tracks only
+                // thing)
+                StringDraw.drawOutlinedString(
+                        this.graphics,
+                        colourTextOutline,
+                        this.gameContainer.textManager.getGame("LobbyReal_TrackTypes" + this.trackType),
+                        xPos,
+                        yPos + yPos2 * (/*isUsingCustomServer ? 2 :*/ 1),
+                        -1);
+                StringDraw.drawOutlinedString(
+                        this.graphics,
+                        colourTextOutline,
+                        this.gameContainer.textManager.getGame("LobbyReal_MaxStrokes"),
+                        xPos - 5,
+                        yPos + yPos2 * (/*isUsingCustomServer ? 3 :*/ 2),
+                        1);
+                StringDraw.drawOutlinedString(
+                        this.graphics,
+                        colourTextOutline,
+                        this.maxStrokes == 0
+                                ? this.gameContainer.textManager.getGame("LobbyReal_MaxStrokesUnlimited")
+                                : String.valueOf(this.maxStrokes),
+                        xPos,
+                        yPos + yPos2 * (/*isUsingCustomServer ? 3 :*/ 2),
+                        -1);
+                StringDraw.drawOutlinedString(
+                        this.graphics,
+                        colourTextOutline,
+                        this.gameContainer.textManager.getGame("LobbyReal_TimeLimit"),
+                        xPos - 5,
+                        yPos + yPos2 * (/*isUsingCustomServer ? 4 :*/ 3),
+                        1);
+                StringDraw.drawOutlinedString(
+                        this.graphics,
+                        colourTextOutline,
+                        this.gameContainer.lobbyPanel.getTime(this.timeLimit),
+                        xPos,
+                        yPos + yPos2 * (/*isUsingCustomServer ? 4 :*/ 3),
+                        -1);
+                StringDraw.drawOutlinedString(
+                        this.graphics,
+                        colourTextOutline,
+                        this.gameContainer.textManager.getGame("LobbyReal_WaterEvent"),
+                        xPos - 5,
+                        yPos + yPos2 * (/*isUsingCustomServer ? 5 :*/ 4),
+                        1);
+                StringDraw.drawOutlinedString(
+                        this.graphics,
+                        colourTextOutline,
+                        this.gameContainer.textManager.getGame("LobbyReal_WaterEvent" + (this.waterEvent + 1)),
+                        xPos,
+                        yPos + yPos2 * (/*isUsingCustomServer ? 5 :*/ 4),
+                        -1);
+                StringDraw.drawOutlinedString(
+                        this.graphics,
+                        colourTextOutline,
+                        this.gameContainer.textManager.getGame("LobbyReal_Collision"),
+                        xPos - 5,
+                        yPos + yPos2 * (/*isUsingCustomServer ? 6 :*/ 5),
+                        1);
+                StringDraw.drawOutlinedString(
+                        this.graphics,
+                        colourTextOutline,
+                        this.gameContainer.textManager.getGame("LobbyReal_Collision" + (this.collision + 1)),
+                        xPos,
+                        yPos + yPos2 * (/*isUsingCustomServer ? 6 :*/ 5),
+                        -1);
+                StringDraw.drawOutlinedString(
+                        this.graphics,
+                        colourTextOutline,
+                        this.gameContainer.textManager.getGame("LobbyReal_Scoring"),
+                        xPos - 5,
+                        yPos + yPos2 * (/*isUsingCustomServer ? 7 :*/ 6),
+                        1);
+                StringDraw.drawOutlinedString(
+                        this.graphics,
+                        colourTextOutline,
+                        this.gameContainer.textManager.getGame("LobbyReal_Scoring" + (this.scoring + 1)),
+                        xPos,
+                        yPos + yPos2 * (/*isUsingCustomServer ? 7 :*/ 6),
+                        -1);
+                StringDraw.drawOutlinedString(
+                        this.graphics,
+                        colourTextOutline,
+                        this.gameContainer.textManager.getGame("LobbyReal_ScoringEnd"),
+                        xPos - 5,
+                        yPos + yPos2 * (/*isUsingCustomServer ? 8 :*/ 7),
+                        1);
+                StringDraw.drawOutlinedString(
+                        this.graphics,
+                        colourTextOutline,
+                        this.gameContainer.textManager.getGame("LobbyReal_ScoringEnd" + this.scoringEnd),
+                        xPos,
+                        yPos + yPos2 * (/*isUsingCustomServer ? 8 :*/ 7),
+                        -1);
             }
 
             if (this.extraText != null) {
-                StringDraw.drawOutlinedString(this.graphics, colourTextOutline, this.extraText, this.width * 3 / 4, this.height - 120, 0);
+                StringDraw.drawOutlinedString(
+                        this.graphics, colourTextOutline, this.extraText, this.width * 3 / 4, this.height - 120, 0);
             }
         }
 
@@ -173,7 +335,6 @@ class LobbyDualPlayerPanel extends IPanel implements ItemListener, ActionListene
                 this.gameContainer.lobbyPanel.writeData("nc\t" + (noChallenges ? 't' : 'f'));
                 this.gameContainer.lobbyPanel.getUser(null, noChallenges);
             }
-
         }
     }
 
@@ -195,7 +356,8 @@ class LobbyDualPlayerPanel extends IPanel implements ItemListener, ActionListene
                         }
 
                         if (!this.challengeFloodProtection.isOkToChallenge(challengeTarget)) {
-                            this.gameContainer.lobbyPanel.addMessage(this.gameContainer.textManager.getShared("Chat_MessageChallengeFlood"));
+                            this.gameContainer.lobbyPanel.addMessage(
+                                    this.gameContainer.textManager.getShared("Chat_MessageChallengeFlood"));
                             return;
                         }
 
@@ -212,7 +374,24 @@ class LobbyDualPlayerPanel extends IPanel implements ItemListener, ActionListene
                             this.trackCategory = this.choicerTrackCategory.getSelectedIndex();
                         }*/
                         this.update(1);
-                        this.gameContainer.lobbyPanel.writeData("challenge\t" + this.opponentName + "\t" + this.tracksNum + "\t" + this.trackType + "\t" + this.maxStrokes + "\t" + this.timeLimit + "\t" + this.waterEvent + "\t" + this.collision + "\t" + this.scoring + "\t" + this.scoringEnd /*+ (isUsingCustomServer ? ("\t" + this.trackCategory) : "")*/);
+                        this.gameContainer.lobbyPanel.writeData("challenge\t"
+                                + this.opponentName
+                                + "\t"
+                                + this.tracksNum
+                                + "\t"
+                                + this.trackType
+                                + "\t"
+                                + this.maxStrokes
+                                + "\t"
+                                + this.timeLimit
+                                + "\t"
+                                + this.waterEvent
+                                + "\t"
+                                + this.collision
+                                + "\t"
+                                + this.scoring
+                                + "\t"
+                                + this.scoringEnd /*+ (isUsingCustomServer ? ("\t" + this.trackCategory) : "")*/);
                         return;
                     }
                 }
@@ -232,7 +411,6 @@ class LobbyDualPlayerPanel extends IPanel implements ItemListener, ActionListene
                 if (evtSource == this.buttonRefuse) {
                     this.refuse();
                 }
-
             }
         }
     }
@@ -372,18 +550,27 @@ class LobbyDualPlayerPanel extends IPanel implements ItemListener, ActionListene
         /*if(isUsingCustomServer) {
             choicerTrackCategory = this.gameContainer.lobbyPanel.addChoicerTrackCategory(this, this.width / 2 - 170, 81, 150, 20);
         }*/
-        this.choicerTracksNum = this.gameContainer.lobbyPanel.addChoicerNumTracks(this, this.width / 2 - 170, 58, 50, 20);
-        this.choicerTrackTypes = this.gameContainer.lobbyPanel.addChoicerTrackTypes(this, this.width / 2 - 170, /*isUsingCustomServer ? 104 :*/ 81, 150, 20);
+        this.choicerTracksNum =
+                this.gameContainer.lobbyPanel.addChoicerNumTracks(this, this.width / 2 - 170, 58, 50, 20);
+        this.choicerTrackTypes = this.gameContainer.lobbyPanel.addChoicerTrackTypes(
+                this, this.width / 2 - 170, /*isUsingCustomServer ? 104 :*/ 81, 150, 20);
         this.choicerTrackTypes.addItemListener(this);
-        this.choicerMaxStrokes = this.gameContainer.lobbyPanel.addChoicerMaxStrokes(this, this.width / 2 - 170, /*isUsingCustomServer ? 127 :*/ 104, 100, 20);
-        this.choicerTimeLimit = this.gameContainer.lobbyPanel.addChoicerTimeLimit(this, this.width / 2 - 170, /*isUsingCustomServer ? 150 :*/ 127, 100, 20);
-        this.choicerWaterEvent = this.gameContainer.lobbyPanel.addChoicerWaterEvent(this, this.width / 2 - 170, /*isUsingCustomServer ? 173 :*/ 150, 150, 20);
-        this.choicerCollision = this.gameContainer.lobbyPanel.addChoicerCollision(this, this.width / 2 - 170, /*isUsingCustomServer ? 196 :*/ 173, 100, 20);
-        this.choicerScoring = this.gameContainer.lobbyPanel.addChoicerScoring(this, this.width / 2 - 170, /*isUsingCustomServer ? 219 :*/ 196, 150, 20);
-        this.choicerScoringEnd = this.gameContainer.lobbyPanel.addChoicerScoringEnd(this, this.width / 2 - 170, /*isUsingCustomServer ? 242 :*/ 219, 100, 20);
+        this.choicerMaxStrokes = this.gameContainer.lobbyPanel.addChoicerMaxStrokes(
+                this, this.width / 2 - 170, /*isUsingCustomServer ? 127 :*/ 104, 100, 20);
+        this.choicerTimeLimit = this.gameContainer.lobbyPanel.addChoicerTimeLimit(
+                this, this.width / 2 - 170, /*isUsingCustomServer ? 150 :*/ 127, 100, 20);
+        this.choicerWaterEvent = this.gameContainer.lobbyPanel.addChoicerWaterEvent(
+                this, this.width / 2 - 170, /*isUsingCustomServer ? 173 :*/ 150, 150, 20);
+        this.choicerCollision = this.gameContainer.lobbyPanel.addChoicerCollision(
+                this, this.width / 2 - 170, /*isUsingCustomServer ? 196 :*/ 173, 100, 20);
+        this.choicerScoring = this.gameContainer.lobbyPanel.addChoicerScoring(
+                this, this.width / 2 - 170, /*isUsingCustomServer ? 219 :*/ 196, 150, 20);
+        this.choicerScoringEnd = this.gameContainer.lobbyPanel.addChoicerScoringEnd(
+                this, this.width / 2 - 170, /*isUsingCustomServer ? 242 :*/ 219, 100, 20);
         this.buttonChallenge = new ColorButton(this.gameContainer.textManager.getGame("LobbyReal_Challenge"));
         this.buttonChallenge.setBackground(GameApplet.colourButtonGreen);
-        this.buttonChallenge.setBounds(this.width / 2 - 170, this.height - 15 - 25 + (/*isUsingCustomServer ? 10 :*/ 0), 100, 25);
+        this.buttonChallenge.setBounds(
+                this.width / 2 - 170, this.height - 15 - 25 + (/*isUsingCustomServer ? 10 :*/ 0), 100, 25);
         this.buttonChallenge.addActionListener(this);
         this.add(this.buttonChallenge);
         this.buttonCancel = new ColorButton(this.gameContainer.textManager.getGame("LobbyReal_Cancel"));
@@ -399,10 +586,12 @@ class LobbyDualPlayerPanel extends IPanel implements ItemListener, ActionListene
         this.buttonRefuse.setBounds(this.width * 3 / 4 + 10, this.height - 40 - 25, 100, 25);
         this.buttonRefuse.addActionListener(this);
         int var1 = this.width * 3 / 4 - this.width / 8 - 10;
-        this.checkboxBeep = new ColorCheckbox(this.gameContainer.textManager.getGame("LobbyReal_BeepOnChallenge"), true);
+        this.checkboxBeep =
+                new ColorCheckbox(this.gameContainer.textManager.getGame("LobbyReal_BeepOnChallenge"), true);
         this.checkboxBeep.setBounds(var1, this.height - 10 - 18 - 5 - 18, this.width / 4 + 20, 18);
         this.add(this.checkboxBeep);
-        this.checkboxNoChallenges = new NoChallCheckbox(this.gameContainer.textManager.getGame("LobbyReal_NoChallengesToMe"));
+        this.checkboxNoChallenges =
+                new NoChallCheckbox(this.gameContainer.textManager.getGame("LobbyReal_NoChallengesToMe"));
         this.checkboxNoChallenges.setBounds(var1, this.height - 10 - 18, this.width / 4 + 20, 18);
         this.checkboxNoChallenges.addItemListener(this);
         this.add(this.checkboxNoChallenges);

@@ -30,7 +30,6 @@ public class InputTextField extends TextField implements FocusListener, KeyListe
     private int inputTextLength;
     private List<InputTextFieldListener> listeners;
 
-
     public InputTextField(int var1) {
         this("", var1, false);
     }
@@ -135,12 +134,11 @@ public class InputTextField extends TextField implements FocusListener, KeyListe
     public void actionPerformed(ActionEvent evt) {
         if (evt.getSource() == this) {
             synchronized (this) {
-                for (InputTextFieldListener listener: this.listeners) {
+                for (InputTextFieldListener listener : this.listeners) {
                     listener.enterPressed();
                 }
             }
         }
-
     }
 
     public String getInputText() {
@@ -243,13 +241,13 @@ public class InputTextField extends TextField implements FocusListener, KeyListe
         }
 
         if (this.inputTextLength == 0 && textLen > 0) {
-            for (InputTextFieldListener listener: this.listeners) {
+            for (InputTextFieldListener listener : this.listeners) {
                 listener.startedTyping();
             }
         }
 
         if (this.inputTextLength > 0 && textLen == 0) {
-            for (InputTextFieldListener listener: this.listeners) {
+            for (InputTextFieldListener listener : this.listeners) {
                 listener.clearedField();
             }
         }
@@ -323,7 +321,6 @@ public class InputTextField extends TextField implements FocusListener, KeyListe
 
             this.method967(text, var4, 1, var2);
         }
-
     }
 
     private void method967(String var1, int var2, int var3, String var4) {
@@ -333,5 +330,4 @@ public class InputTextField extends TextField implements FocusListener, KeyListe
             this.setCaretPosition(var2 - var3 + var5);
         }
     }
-
 }

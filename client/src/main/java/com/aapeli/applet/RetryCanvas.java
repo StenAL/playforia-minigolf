@@ -71,7 +71,10 @@ class RetryCanvas extends Canvas implements MouseMotionListener, MouseListener {
         this.drawButton(this.graphics, this.canvasWidth, this.canvasHeight);
         this.graphics.setColor(textColor);
         this.graphics.setFont(dialog12);
-        this.graphics.drawString(this.message, this.canvasWidth / 2 - this.getFontMetrics(dialog12).stringWidth(this.message) / 2, this.canvasHeight / 2 + dialog12.getSize() * 3 / 8 + 1);
+        this.graphics.drawString(
+                this.message,
+                this.canvasWidth / 2 - this.getFontMetrics(dialog12).stringWidth(this.message) / 2,
+                this.canvasHeight / 2 + dialog12.getSize() * 3 / 8 + 1);
         graphics.drawImage(this.image, 0, 0, this);
     }
 
@@ -107,17 +110,13 @@ class RetryCanvas extends Canvas implements MouseMotionListener, MouseListener {
             ActionEvent action = new ActionEvent(this, 1001, this.message);
             this.listener.actionPerformed(action);
         }
-
     }
 
-    public void mouseClicked(MouseEvent e) {
-    }
+    public void mouseClicked(MouseEvent e) {}
 
-    public void mouseMoved(MouseEvent e) {
-    }
+    public void mouseMoved(MouseEvent e) {}
 
-    public void mouseDragged(MouseEvent e) {
-    }
+    public void mouseDragged(MouseEvent e) {}
 
     private Color translateColor(Color color, int offset) {
         int r = this.translateColor(color.getRed(), offset);
@@ -165,7 +164,6 @@ class RetryCanvas extends Canvas implements MouseMotionListener, MouseListener {
             graphics.setColor(new Color(r, g, b));
             graphics.drawLine(0, y, width - 1, y);
         }
-
     }
 
     private void drawButton(Graphics graphics, int width, int height) {
@@ -181,5 +179,4 @@ class RetryCanvas extends Canvas implements MouseMotionListener, MouseListener {
         graphics.drawLine(0, 0, width - 1, 0);
         graphics.drawLine(0, 0, 0, height - 1);
     }
-
 }

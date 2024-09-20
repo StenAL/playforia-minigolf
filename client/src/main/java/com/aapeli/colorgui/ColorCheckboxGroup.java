@@ -8,7 +8,7 @@ public final class ColorCheckboxGroup {
     private List<ColorCheckbox> checkboxes = new ArrayList<>();
 
     protected void addCheckbox(ColorCheckbox checkbox) {
-        synchronized(this.checkboxes) {
+        synchronized (this.checkboxes) {
             this.checkboxes.add(checkbox);
         }
     }
