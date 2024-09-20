@@ -48,12 +48,12 @@ public final class TextManager implements Runnable {
     public TextManager(Parameters parameters, boolean loadTextsInSeparateThread, boolean debug) {
         this(debug);
         this.parameters = parameters;
-        String language = parameters.getTranslationLang();
+        String language = parameters.getTranslationLocale();
         if (language != null) {
             this.language = language;
             this.useLanguageFiles = true;
         } else {
-            this.language = parameters.getLocale();
+            this.language = parameters.language();
             this.useLanguageFiles = false;
         }
 

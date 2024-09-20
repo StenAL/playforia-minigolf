@@ -52,11 +52,8 @@ public class Game {
 
             params.put("server", server + ":" + port);
 
-            // params.put("locale", "en");
-            // params.put("lang", en_US);
-
-            params.put("locale", lang.substring(0, 2)); // use first part of en_US, fi_FI or sv_SE
-            params.put("lang", lang);
+            params.put("language", lang.substring(0, 2)); // use first part of en_US, fi_FI or sv_SE
+            params.put("locale", lang);
             params.put("sitename", "playray");
             params.put("quitpage", "http://www.playforia.com/games/");
             params.put("regremindshowtime", "3,8,15,25,50,100,1000");
