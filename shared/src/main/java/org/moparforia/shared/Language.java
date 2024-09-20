@@ -3,7 +3,8 @@ package org.moparforia.shared;
 public enum Language {
     ENGLISH("en"),
     FINNISH("fi"),
-    SWEDISH("sv");
+    SWEDISH("sv"),
+    FRENCH("fr");
 
     private final String languageCode;
 

@@ -452,13 +452,13 @@ public abstract class ChatBase extends IPanel
         }
     }
 
-    public void setOutputToGlobal(int var1) {
+    public void setOutputToGlobal(int languageId) {
         Object var2 = this.synchronizedObject;
         synchronized (this.synchronizedObject) {
             if (this.gui_globaloutput == null) {
                 Point var3 = this.chatTextArea.getLocation();
                 this.remove(this.chatTextArea);
-                this.gui_globaloutput = new GlobalTextArea(this, this.chatTextArea, var1);
+                this.gui_globaloutput = new GlobalTextArea(this, this.chatTextArea, languageId);
                 this.gui_globaloutput.setLocation(var3.x, var3.y);
                 this.add(this.gui_globaloutput);
             }

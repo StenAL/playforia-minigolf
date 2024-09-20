@@ -36,8 +36,7 @@ class LobbyChatPanel extends ChatLobby implements GlobalChatListener {
             this.disableChatInput(2);
         }
 
-        this.setOutputToGlobal(Languages.getLanguageIdByString(
-                gameContainer.params.getChatLocale().toString()));
+        this.setOutputToGlobal(Languages.getLanguageId(gameContainer.params.getChatLocale()));
         this.addChatListener(this);
     }
 
