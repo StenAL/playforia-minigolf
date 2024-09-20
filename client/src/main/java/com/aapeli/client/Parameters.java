@@ -7,12 +7,13 @@ import java.applet.AppletContext;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.StringTokenizer;
+import org.moparforia.shared.Language;
+import org.moparforia.shared.Locale;
 
 public final class Parameters {
 
     private static final String LOCALHOST = "127.0.0.1";
     // private static final String aString1416 = "192.168.1.23";
-    private static final String ENGLISH_LANGUAGE = "en";
     private static final String PLAYFORIA_SITE_NAME = "playforia";
     private static final String PLAYFORIA_QUIT_PAGE = "http://www.playforia.com/";
     private static final String QUIT_TARGET = "_top";
@@ -21,9 +22,9 @@ public final class Parameters {
     private String codeBaseHost;
     private String documentBaseHost;
     private String serverIp;
-    private String language;
-    private String translationLocale;
-    private String chatLocale;
+    private Language language;
+    private Locale translationLocale;
+    private Locale chatLocale;
     private String siteName;
     private String username;
     private String sessionLocale;
@@ -112,11 +113,11 @@ public final class Parameters {
         return this.serverPort;
     }
 
-    public String language() {
+    public Language language() {
         return this.language;
     }
 
-    public String getTranslationLocale() {
+    public Locale getTranslationLocale() {
         return this.translationLocale;
     }
 
@@ -124,11 +125,11 @@ public final class Parameters {
         return this.username;
     }
 
-    public String getChatLocale() {
+    public Locale getChatLocale() {
         return this.chatLocale != null ? this.chatLocale : this.translationLocale;
     }
 
-    public String getLocale() {
+    public Locale getLocale() {
         return this.getChatLocale();
     }
 
@@ -514,26 +515,26 @@ public final class Parameters {
         }
     }
 
-    private String getParamLanguage() {
+    private Language getParamLanguage() {
         String language;
         try {
             language = this.getParameter("language");
             if (language != null) {
-                return language;
+                return Language.fromString(language);
             }
         } catch (Exception e) {
         }
 
         if (this.codeBaseHost.endsWith("aapeli.com")) {
-            return "fi";
+            return Language.FINNISH;
         } else if (this.codeBaseHost.endsWith("playray.com")) {
-            return ENGLISH_LANGUAGE;
+            return Language.ENGLISH;
         } else {
             if (this.codeBaseHost.endsWith(".playforia.com")) {
                 try {
                     language = this.codeBaseHost.substring(0, this.codeBaseHost.indexOf(46));
                     if (language.length() > 0 && !language.equals("www")) {
-                        return language;
+                        return Language.fromString(language);
                     }
                 } catch (Exception e) {
                 }
@@ -543,21 +544,21 @@ public final class Parameters {
                 try {
                     language = this.codeBaseHost.substring(this.codeBaseHost.lastIndexOf(46) + 1);
                     if (language.length() > 0) {
-                        return language;
+                        return Language.fromString(language);
                     }
                 } catch (Exception e) {
                 }
             }
 
-            return ENGLISH_LANGUAGE;
+            return Language.ENGLISH;
         }
     }
 
-    private String getParamLocale() {
+    private Locale getParamLocale() {
         try {
             String locale = this.getParameter("locale");
             if (locale != null) {
-                return locale;
+                return Locale.fromString(locale);
             }
 
         } catch (Exception e) {
@@ -566,16 +567,16 @@ public final class Parameters {
         return null;
     }
 
-    private String getParamChatLocale() {
+    private Locale getParamChatLocale() {
         try {
             String chatLocale = this.getParameter("chatlocale");
             if (chatLocale != null) {
-                return chatLocale;
+                return Locale.fromString(chatLocale);
             }
 
             chatLocale = this.getParameter("serverlocale");
             if (chatLocale != null) {
-                return chatLocale;
+                return Locale.fromString(chatLocale);
             }
         } catch (Exception e) {
         }
