@@ -59,7 +59,7 @@ public class Game {
 
             params.put("server", server + ":" + port);
 
-            params.put("language", locale.toString().substring(0, 2)); // use first part of en_US, fi_FI or sv_SE
+            params.put("language", locale.getLanguage().toString());
             params.put("locale", locale.toString());
             params.put("sitename", "playray");
             params.put("quitpage", "http://www.playforia.com/games/");
