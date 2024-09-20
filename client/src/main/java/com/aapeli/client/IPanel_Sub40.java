@@ -36,31 +36,31 @@ class IPanel_Sub40 extends IPanel implements ActionListener {
         this.setSharedBackground(var1.imageManager, "tf-background.gif", 0, 0);
     }
 
-    public void update(Graphics var1) {
-        this.drawBackground(var1);
-        var1.setFont(aFont3209);
+    public void update(Graphics g) {
+        this.drawBackground(g);
+        g.setFont(aFont3209);
         if (this.aHtmlText3214 == null) {
-            String var2 = null;
+            String text = null;
             if (this.anInt3212 == 0) {
                 if (this.anInt3213 == 1) {
-                    var2 = "WS_ScoreNotSaved";
+                    text = "WS_ScoreNotSaved";
                 } else if (this.anInt3213 == 2) {
-                    var2 = "WM_StatsNotSaved";
+                    text = "WM_StatsNotSaved";
                 }
             } else if (this.anInt3212 == 1) {
                 if (this.anInt3213 == 1) {
-                    var2 = "RS_PersonalRecord";
+                    text = "RS_PersonalRecord";
                 } else if (this.anInt3213 == 2) {
-                    var2 = "RM_FirstRanking";
+                    text = "RM_FirstRanking";
                 }
             }
 
-            var2 = this.anAApplet3210.textManager.getShared("GameFin_" + var2);
-            this.aHtmlText3214 = new HtmlText(var1, 410, var2);
+            text = this.anAApplet3210.textManager.getShared("GameFin_" + text);
+            this.aHtmlText3214 = new HtmlText(g, 410, text);
         }
 
-        var1.setColor(aColor3206);
-        this.aHtmlText3214.print(var1, 20, 45);
+        g.setColor(aColor3206);
+        this.aHtmlText3214.print(g, 20, 45);
     }
 
     public void actionPerformed(ActionEvent var1) {
