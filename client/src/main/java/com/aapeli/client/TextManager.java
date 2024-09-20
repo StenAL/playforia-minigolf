@@ -60,6 +60,11 @@ public final class TextManager implements Runnable {
         }
     }
 
+    public void setLocale(Locale locale, Applet applet) {
+        this.locale = locale;
+        this.loadTexts(applet);
+    }
+
     public String getGame(String key) {
         return this.getGame(key, (String[]) null);
     }
