@@ -1,0 +1,5 @@
+# This file keeps `git blame` clean.
+# See https://docs.github.com/en/repositories/working-with-files/using-files/viewing-a-file#ignore-commits-in-the-blame-view
+
+# Reformat the codebase with Spotless
+659cd6cef598275c025a5c0a17c574f79baa249d
