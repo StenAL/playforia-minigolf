@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.StringTokenizer;
+import org.moparforia.shared.Locale;
 
 public class UserList extends IPanel implements ComponentListener, ItemListener, ActionListener {
 
@@ -466,7 +467,13 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
             boolean isNotAcceptingChallenges = elevation.indexOf('n') >= 0;
             User user = new User(username, userIsLocal, isRegistered, isVip, isSheriff, rating);
             user.setIsNotAcceptingChallenges(isNotAcceptingChallenges);
-            int language = Languages.getLanguageIdByString(locale);
+
+            int language;
+            if (!locale.equals("-")) {
+                language = Languages.getLanguageId(Locale.fromString(locale));
+            } else {
+                language = Languages.LANGUAGE_UNKNOWN;
+            }
             user.setLanguage(language);
             user.setLanguageFlag(this.languages.getFlag(language));
             if (color >= 0) {

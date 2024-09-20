@@ -7,12 +7,13 @@ import java.applet.Applet;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Hashtable;
+import org.moparforia.shared.Locale;
 
 public final class TextManager implements Runnable {
 
     private Parameters parameters;
     private Thread textLoaderThread;
-    private String language;
+    private Locale locale;
     private Hashtable<String, LocalizationNode> gameTable;
     private Hashtable<String, LocalizationNode> sharedTable;
     private String errorMessage;
@@ -29,7 +30,7 @@ public final class TextManager implements Runnable {
     public TextManager(Parameters parameters, boolean loadTextsInSeparateThread, boolean debug) {
         this(debug);
         this.parameters = parameters;
-        this.language = parameters.getTranslationLocale().toString();
+        this.locale = parameters.getTranslationLocale();
 
         if (loadTextsInSeparateThread) {
             this.textLoaderThread = new Thread(this);
@@ -307,13 +308,13 @@ public final class TextManager implements Runnable {
             }
 
             this.parameters = null;
-            this.language = null;
+            this.locale = null;
             this.errorMessage = null;
         }
     }
 
-    protected String getLanguage() {
-        return this.language;
+    protected Locale getLocale() {
+        return this.locale;
     }
 
     private String getGame(String key, String[] arguments) {
@@ -525,17 +526,17 @@ public final class TextManager implements Runnable {
     }
 
     private void loadTexts(Applet applet) {
-        this.loadLanguageFiles(applet);
+        this.loadLocaleFiles(applet);
     }
 
-    private void loadLanguageFiles(Applet applet) {
+    private void loadLocaleFiles(Applet applet) {
         String codeBasePath = applet.getCodeBase().toString();
         if (codeBasePath.endsWith("/")) {
             codeBasePath = codeBasePath.substring(0, codeBasePath.length() - 1);
         }
 
         int slashLocation = codeBasePath.lastIndexOf('/');
-        String languageDirectoryPath = codeBasePath.substring(0, slashLocation + 1) + "l10n/" + this.language + "/";
+        String languageDirectoryPath = codeBasePath.substring(0, slashLocation + 1) + "l10n/" + this.locale + "/";
         String gameFilename = codeBasePath.substring(slashLocation + 1);
 
         this.gameTable = this.readTable(languageDirectoryPath + gameFilename + ".xml");
@@ -556,8 +557,7 @@ public final class TextManager implements Runnable {
             for (XmlUnit child : children) {
                 table.put(
                         child.getAttribute("key").toLowerCase(),
-                        new LocalizationNode(
-                                this, this.language, child, Tools.getBoolean(child.getAttribute("reverse"))));
+                        new LocalizationNode(this.locale, child, Tools.getBoolean(child.getAttribute("reverse"))));
             }
 
             return table;
