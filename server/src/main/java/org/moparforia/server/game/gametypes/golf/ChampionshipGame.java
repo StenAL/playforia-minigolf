@@ -1,22 +1,34 @@
 package org.moparforia.server.game.gametypes.golf;
 
-import org.moparforia.shared.tracks.Track;
+import java.util.List;
 import org.moparforia.server.game.Lobby;
 import org.moparforia.server.game.LobbyType;
 import org.moparforia.server.game.Player;
 import org.moparforia.server.game.gametypes.GolfGame;
+import org.moparforia.shared.tracks.Track;
 import org.moparforia.shared.tracks.filesystem.FileSystemTrackManager;
-
-import java.util.List;
 
 public class ChampionshipGame extends GolfGame {
 
     private int championshipId;
 
     public ChampionshipGame(Player p, int gameId, int championshipId) {
-        super(gameId, LobbyType.SINGLE, "derp", null, false, 10,
-                PERM_EVERYONE, 0, STROKES_UNLIMITED, STROKETIMEOUT_INFINITE,
-                WATER_START, COLLSION_YES, SCORING_STROKE, SCORING_WEIGHT_END_NONE, 1);
+        super(
+                gameId,
+                LobbyType.SINGLE,
+                "derp",
+                null,
+                false,
+                10,
+                PERM_EVERYONE,
+                0,
+                STROKES_UNLIMITED,
+                STROKETIMEOUT_INFINITE,
+                WATER_START,
+                COLLSION_YES,
+                SCORING_STROKE,
+                SCORING_WEIGHT_END_NONE,
+                1);
         this.championshipId = championshipId;
         tracks = initTracks();
 
@@ -25,7 +37,7 @@ public class ChampionshipGame extends GolfGame {
             lob.addGame(this);
             startGame();
         } else {
-            //todo: if adding da player failed init!!
+            // todo: if adding da player failed init!!
         }
     }
 

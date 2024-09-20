@@ -2,17 +2,72 @@ package com.aapeli.multiuser;
 
 import com.aapeli.client.ImageManager;
 import com.aapeli.client.TextManager;
-
 import java.awt.Image;
 
 public final class Languages {
 
     public static final int LANGUAGE_UNKNOWN = 0;
     public static final String[][] languageData = {
-            {"null", "-", }, {"bg", "null", }, {"de", "null", }, {"en", "null", }, {"es", "null", },
-            {"et", "ee", }, {"fi", "null", }, {"fr", "null", }, {"hu", "null", }, {"it", "null", },
-            {"lv", "null", }, {"nl", "null", }, {"no", "null", }, {"pl", "null", }, {"pt", "null", },
-            {"ro", "null", }, {"ru", "null", }, {"sv", "se", }, {"tr", "null", }, {"lt", "null", },
+        {
+            "null", "-",
+        },
+        {
+            "bg", "null",
+        },
+        {
+            "de", "null",
+        },
+        {
+            "en", "null",
+        },
+        {
+            "es", "null",
+        },
+        {
+            "et", "ee",
+        },
+        {
+            "fi", "null",
+        },
+        {
+            "fr", "null",
+        },
+        {
+            "hu", "null",
+        },
+        {
+            "it", "null",
+        },
+        {
+            "lv", "null",
+        },
+        {
+            "nl", "null",
+        },
+        {
+            "no", "null",
+        },
+        {
+            "pl", "null",
+        },
+        {
+            "pt", "null",
+        },
+        {
+            "ro", "null",
+        },
+        {
+            "ru", "null",
+        },
+        {
+            "sv", "se",
+        },
+        {
+            "tr", "null",
+        },
+        {
+            "lt", "null",
+        },
     };
     private TextManager textManager;
     private ImageManager imageManager;

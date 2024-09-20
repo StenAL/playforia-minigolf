@@ -17,7 +17,6 @@ public class IPanel extends Panel {
     private Object anObject648 = new Object();
     public static int anInt649;
 
-
     public void paint(Graphics graphics) {
         this.update(graphics);
     }
@@ -55,7 +54,6 @@ public class IPanel extends Panel {
                 this.aClass84_647 = new Class84(this, this, imageManager, imageKey, xOffset, yOffset, false);
             }
         }
-
     }
 
     public void setSharedBackground(ImageManager var1, String var2, int var3, int var4) {
@@ -80,7 +78,6 @@ public class IPanel extends Panel {
             var1.setColor(var2.getBackground());
             var1.fillRect(0, 0, var3.width, var3.height);
         }
-
     }
 
     public boolean drawBackgroundImage(Graphics graphics) {
@@ -92,7 +89,17 @@ public class IPanel extends Panel {
             int backgroundImageXOffset = (Integer) backgroundData[1];
             int backgroundImageYOffset = (Integer) backgroundData[2];
             Dimension size = this.getSize();
-            graphics.drawImage(backgroundImage, 0, 0, size.width, size.height, -backgroundImageXOffset, -backgroundImageYOffset, -backgroundImageXOffset + size.width, -backgroundImageYOffset + size.height, null);
+            graphics.drawImage(
+                    backgroundImage,
+                    0,
+                    0,
+                    size.width,
+                    size.height,
+                    -backgroundImageXOffset,
+                    -backgroundImageYOffset,
+                    -backgroundImageXOffset + size.width,
+                    -backgroundImageYOffset + size.height,
+                    null);
             return true;
         }
     }
@@ -110,14 +117,15 @@ public class IPanel extends Panel {
                         component.repaint();
                     }
                 }
-
             }
         }
     }
 
     public Object[] getBackgroundAndLocation(int var1, int var2) {
         if (this.backgroundImage != null) {
-            return new Object[]{this.backgroundImage, this.backgroundImageXOffset + var1, this.backgroundImageYOffset + var2};
+            return new Object[] {
+                this.backgroundImage, this.backgroundImageXOffset + var1, this.backgroundImageYOffset + var2
+            };
         } else {
             Container var3 = this.getParent();
             if (var3 == null) {

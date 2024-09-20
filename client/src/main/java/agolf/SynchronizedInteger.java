@@ -1,10 +1,8 @@
 package agolf;
 
-
 public class SynchronizedInteger {
 
     private long n;
-
 
     public SynchronizedInteger() {
         this(0);
@@ -20,7 +18,8 @@ public class SynchronizedInteger {
     }
 
     public synchronized void add(int i) {
-        this.set((this.n > 0L ? (int) ((2269700342778490L - this.n) / 31L) : (int) ((this.n + 110157223978885L) / 7L)) + i);
+        this.set((this.n > 0L ? (int) ((2269700342778490L - this.n) / 31L) : (int) ((this.n + 110157223978885L) / 7L))
+                + i);
     }
 
     public synchronized int get() {

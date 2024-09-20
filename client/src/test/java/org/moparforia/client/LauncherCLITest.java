@@ -1,17 +1,5 @@
 package org.moparforia.client;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.mockito.quality.Strictness;
-import picocli.CommandLine;
-
-import javax.swing.JFrame;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.mockito.Mockito.any;
@@ -27,8 +15,20 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.withSettings;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import javax.swing.JFrame;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.quality.Strictness;
+import picocli.CommandLine;
+
 /**
- * Tests that CLI parsing works as expected, it doesn't test the main method, but it tests the picocli annotations
+ * Tests that CLI parsing works as expected, it doesn't test the main method, but it tests the
+ * picocli annotations
  */
 @ExtendWith(MockitoExtension.class)
 class LauncherCLITest {
@@ -42,9 +42,8 @@ class LauncherCLITest {
     @BeforeEach
     void setUp() throws Exception {
         // Mock game
-        launcher = mock(Launcher.class, withSettings()
-                .strictness(Strictness.LENIENT)
-                .withoutAnnotations());
+        launcher = mock(
+                Launcher.class, withSettings().strictness(Strictness.LENIENT).withoutAnnotations());
 
         // Use real methods
         doCallRealMethod().when(launcher).call();
@@ -53,11 +52,12 @@ class LauncherCLITest {
 
         doReturn(mock(JFrame.class)).when(launcher).createFrame();
         doAnswer((invocaton) -> {
-            launcher.setPort(invocaton.getArgument(2));
-            launcher.setHostname(invocaton.getArgument(1));
-            return true;
-        }).when(launcher).showSettingDialog(any(JFrame.class), anyString(), anyInt());
-
+                    launcher.setPort(invocaton.getArgument(2));
+                    launcher.setHostname(invocaton.getArgument(1));
+                    return true;
+                })
+                .when(launcher)
+                .showSettingDialog(any(JFrame.class), anyString(), anyInt());
 
         cmd = new CommandLine(launcher).setCaseInsensitiveEnumValuesAllowed(true);
 
@@ -89,42 +89,50 @@ class LauncherCLITest {
     @Test
     void testValidLang() {
         assertEquals(0, cmd.execute("-l", "en_US"));
-        verify(launcher).launchGame(any(),
-                eq(Launcher.DEFAULT_SERVER),
-                eq(Launcher.DEFAULT_PORT),
-                eq(Launcher.Language.EN_US),
-                any(),
-                anyBoolean(),
-                anyBoolean());
+        verify(launcher)
+                .launchGame(
+                        any(),
+                        eq(Launcher.DEFAULT_SERVER),
+                        eq(Launcher.DEFAULT_PORT),
+                        eq(Launcher.Language.EN_US),
+                        any(),
+                        anyBoolean(),
+                        anyBoolean());
 
         assertEquals(0, cmd.execute("--lang=Fi_fI"));
-        verify(launcher).launchGame(any(),
-                eq(Launcher.DEFAULT_SERVER),
-                eq(Launcher.DEFAULT_PORT),
-                eq(Launcher.Language.FI_FI),
-                any(),
-                anyBoolean(),
-                anyBoolean());
+        verify(launcher)
+                .launchGame(
+                        any(),
+                        eq(Launcher.DEFAULT_SERVER),
+                        eq(Launcher.DEFAULT_PORT),
+                        eq(Launcher.Language.FI_FI),
+                        any(),
+                        anyBoolean(),
+                        anyBoolean());
     }
 
     @Test
     void testValidUsername() {
         assertEquals(0, cmd.execute("-u", "user"));
-        verify(launcher).launchGame(any(),
-                eq(Launcher.DEFAULT_SERVER),
-                eq(Launcher.DEFAULT_PORT),
-                any(),
-                eq("user"),
-                anyBoolean(),
-                anyBoolean());
+        verify(launcher)
+                .launchGame(
+                        any(),
+                        eq(Launcher.DEFAULT_SERVER),
+                        eq(Launcher.DEFAULT_PORT),
+                        any(),
+                        eq("user"),
+                        anyBoolean(),
+                        anyBoolean());
         assertEquals(0, cmd.execute("--username=user2"));
-        verify(launcher).launchGame(any(),
-                eq(Launcher.DEFAULT_SERVER),
-                eq(Launcher.DEFAULT_PORT),
-                any(),
-                eq("user2"),
-                anyBoolean(),
-                anyBoolean());
+        verify(launcher)
+                .launchGame(
+                        any(),
+                        eq(Launcher.DEFAULT_SERVER),
+                        eq(Launcher.DEFAULT_PORT),
+                        any(),
+                        eq("user2"),
+                        anyBoolean(),
+                        anyBoolean());
     }
 
     @Test
@@ -148,27 +156,35 @@ class LauncherCLITest {
     @Test
     void testOnlyPort() {
         assertEquals(0, cmd.execute("-p", "1111"));
-        verify(launcher).launchGame(any(), eq(Launcher.DEFAULT_SERVER), eq(1111), any(), any(), anyBoolean(), anyBoolean());
+        verify(launcher)
+                .launchGame(any(), eq(Launcher.DEFAULT_SERVER), eq(1111), any(), any(), anyBoolean(), anyBoolean());
     }
 
     @Test
     void testOnlyHostname() {
         assertEquals(0, cmd.execute("-ip", "127.127.127.127"));
-        verify(launcher).launchGame(any(), eq("127.127.127.127"), eq(Launcher.DEFAULT_PORT), any(), any(), anyBoolean(),
-                anyBoolean());
+        verify(launcher)
+                .launchGame(
+                        any(),
+                        eq("127.127.127.127"),
+                        eq(Launcher.DEFAULT_PORT),
+                        any(),
+                        any(),
+                        anyBoolean(),
+                        anyBoolean());
     }
 
     @Test
     void testDefaultValues() {
         assertEquals(0, cmd.execute());
-        verify(launcher).launchGame(
-                any(),
-                eq(Launcher.DEFAULT_SERVER),
-                eq(Launcher.DEFAULT_PORT),
-                eq(Launcher.Language.EN_US),
-                eq(null),
-                eq(false),
-                eq(false)
-        );
+        verify(launcher)
+                .launchGame(
+                        any(),
+                        eq(Launcher.DEFAULT_SERVER),
+                        eq(Launcher.DEFAULT_PORT),
+                        eq(Launcher.Language.EN_US),
+                        eq(null),
+                        eq(false),
+                        eq(false));
     }
 }

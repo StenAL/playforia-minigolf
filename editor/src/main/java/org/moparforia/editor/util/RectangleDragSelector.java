@@ -2,11 +2,7 @@ package org.moparforia.editor.util;
 
 import java.awt.*;
 
-/**
- * User: Johan
- * Date: 2013-07-31
- * Time: 11:23
- */
+/** User: Johan Date: 2013-07-31 Time: 11:23 */
 public class RectangleDragSelector {
 
     private int x1, x2, y1, y2;

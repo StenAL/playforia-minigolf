@@ -1,7 +1,6 @@
 package org.moparforia.shared.tracks;
 
 public enum TrackCategory {
-
     UNKNOWN("?", -1),
     ALL("-", 0),
     BASIC("basic", 1),
@@ -28,11 +27,8 @@ public enum TrackCategory {
     }
 
     public static TrackCategory getByTypeId(int id) {
-        for (TrackCategory type : TrackCategory.values())
-            if (type.getId() == id)
-                return type;
+        for (TrackCategory type : TrackCategory.values()) if (type.getId() == id) return type;
 
         return TrackCategory.UNKNOWN;
     }
-
 }

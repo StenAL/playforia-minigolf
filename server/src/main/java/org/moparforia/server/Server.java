@@ -15,16 +15,6 @@ import io.netty.handler.codec.DelimiterBasedFrameDecoder;
 import io.netty.handler.codec.Delimiters;
 import io.netty.handler.timeout.IdleStateHandler;
 import io.netty.util.concurrent.GlobalEventExecutor;
-import org.moparforia.server.event.Event;
-import org.moparforia.server.game.Lobby;
-import org.moparforia.server.game.LobbyType;
-import org.moparforia.server.game.Player;
-import org.moparforia.server.net.*;
-import org.moparforia.shared.tracks.TrackLoadException;
-import org.moparforia.shared.tracks.TracksLocation;
-import org.moparforia.shared.tracks.filesystem.FileSystemTrackManager;
-import org.moparforia.shared.tracks.filesystem.FileSystemStatsManager;
-
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.URI;
@@ -38,7 +28,15 @@ import java.util.HashMap;
 import java.util.Optional;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
-
+import org.moparforia.server.event.Event;
+import org.moparforia.server.game.Lobby;
+import org.moparforia.server.game.LobbyType;
+import org.moparforia.server.game.Player;
+import org.moparforia.server.net.*;
+import org.moparforia.shared.tracks.TrackLoadException;
+import org.moparforia.shared.tracks.TracksLocation;
+import org.moparforia.shared.tracks.filesystem.FileSystemStatsManager;
+import org.moparforia.shared.tracks.filesystem.FileSystemTrackManager;
 
 public class Server implements Runnable {
 
@@ -59,12 +57,11 @@ public class Server implements Runnable {
     private boolean running;
 
     private HashMap<LobbyType, Lobby> lobbies = new HashMap<>();
-    //private ArrayList<LobbyRef> lobbies = new ArrayList<LobbyRef>();
-    //private HashMap<Integer, Game> games = new HashMap<Integer, Game>();
+    // private ArrayList<LobbyRef> lobbies = new ArrayList<LobbyRef>();
+    // private HashMap<Integer, Game> games = new HashMap<Integer, Game>();
 
     private int playerIdCounter;
     private int gameIdCounter;
-
 
     public Server(String host, int port, boolean verbose, Optional<String> tracksDirectory) {
         this.host = host;
@@ -85,8 +82,7 @@ public class Server implements Runnable {
     }
 
     public Lobby getLobby(LobbyType id) {
-        if (lobbies.containsKey(id))
-            return lobbies.get(id);
+        if (lobbies.containsKey(id)) return lobbies.get(id);
         return null;
     }
 
@@ -138,7 +134,8 @@ public class Server implements Runnable {
     }
 
     /**
-     * This is the only method that should be called from another thread (ie, the ClientChannelHandler)
+     * This is the only method that should be called from another thread (ie, the
+     * ClientChannelHandler)
      */
     public void addEvent(Event evt) {
         try {
@@ -165,8 +162,7 @@ public class Server implements Runnable {
     }
 
     public void addPlayer(Player p) {
-        if (!players.containsValue(p))
-            players.put(p.getId(), p);
+        if (!players.containsValue(p)) players.put(p.getId(), p);
     }
 
     public void start() {
@@ -186,26 +182,26 @@ public class Server implements Runnable {
         EventLoopGroup bossGroup = new NioEventLoopGroup();
         EventLoopGroup workerGroup = new NioEventLoopGroup();
         ServerBootstrap bootstrap = new ServerBootstrap()
-            .group(bossGroup, workerGroup)
-            .channel(NioServerSocketChannel.class)
-            .childHandler(new ChannelInitializer<SocketChannel>() {
-                @Override
-                protected void initChannel(SocketChannel ch) {
-                    ch.attr(ClientState.CLIENT_STATE_ATTRIBUTE_KEY).set(new ClientState());
-                    ch.pipeline()
-                        .addLast(
-                            new DelimiterBasedFrameDecoder(2000, Delimiters.lineDelimiter()),
-                            new PacketDecoder(),
-                            new PacketEncoder(Server.this.verbose),
-                            new IdleStateHandler(2, 0, 0),
-                            new ClientChannelHandler(Server.this)
-                            );
-                        }
+                .group(bossGroup, workerGroup)
+                .channel(NioServerSocketChannel.class)
+                .childHandler(new ChannelInitializer<SocketChannel>() {
+                    @Override
+                    protected void initChannel(SocketChannel ch) {
+                        ch.attr(ClientState.CLIENT_STATE_ATTRIBUTE_KEY).set(new ClientState());
+                        ch.pipeline()
+                                .addLast(
+                                        new DelimiterBasedFrameDecoder(2000, Delimiters.lineDelimiter()),
+                                        new PacketDecoder(),
+                                        new PacketEncoder(Server.this.verbose),
+                                        new IdleStateHandler(2, 0, 0),
+                                        new ClientChannelHandler(Server.this));
+                    }
                 })
-            .childOption(ChannelOption.TCP_NODELAY, true)
-            .childOption(ChannelOption.SO_KEEPALIVE, true);
+                .childOption(ChannelOption.TCP_NODELAY, true)
+                .childOption(ChannelOption.SO_KEEPALIVE, true);
         try {
-            this.serverChannelFuture = bootstrap.bind(new InetSocketAddress(host, port)).sync();
+            this.serverChannelFuture =
+                    bootstrap.bind(new InetSocketAddress(host, port)).sync();
             this.running = true;
             new Thread(this).start();
         } catch (Exception ex) {
@@ -234,12 +230,10 @@ public class Server implements Runnable {
     }
 
     /**
-     * Determines where to look for tracks.
-     * In order of priority:
-     * 1. If user has specified a tracks directory CLI flags, search for it in the default FileSystem
-     * 2. Else, if running in a jar file, use bundled tracks
-     * 3. Else, if running in an IDE, use resources folder
-     * 4. Else, use default filesystem and look in default directory
+     * Determines where to look for tracks. In order of priority: 1. If user has specified a tracks
+     * directory CLI flags, search for it in the default FileSystem 2. Else, if running in a jar
+     * file, use bundled tracks 3. Else, if running in an IDE, use resources folder 4. Else, use
+     * default filesystem and look in default directory
      */
     private TracksLocation getTracksLocation() throws URISyntaxException, IOException {
         if (tracksDirectory.isPresent()) {

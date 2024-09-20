@@ -1,5 +1,12 @@
 package org.moparforia.server;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.*;
+
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -7,16 +14,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import picocli.CommandLine;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.*;
-
 /**
- * Tests that CLI parsing works as expected, it doesn't test the main method, but it tests the picocli annotations
+ * Tests that CLI parsing works as expected, it doesn't test the main method, but it tests the
+ * picocli annotations
  */
 @ExtendWith(MockitoExtension.class)
 class LauncherCLITest {
@@ -30,9 +30,7 @@ class LauncherCLITest {
     @BeforeEach
     void setUp() {
         // Mock Launcher instance
-        launcher = mock(Launcher.class, withSettings()
-                .lenient()
-                .withoutAnnotations());
+        launcher = mock(Launcher.class, withSettings().lenient().withoutAnnotations());
 
         doReturn(mock(Server.class)).when(launcher).getServer(anyString(), anyInt(), anyBoolean(), any());
         when(launcher.call()).thenCallRealMethod();
@@ -69,7 +67,8 @@ class LauncherCLITest {
         assertEquals(0, cmd.execute("-p=2222", "-ip=127.127.127.127", "-v", "-t=/some/path"));
         verify(launcher).getServer(eq("127.127.127.127"), eq(2222), eq(true), eq("/some/path"));
 
-        assertEquals(0, cmd.execute("--port=3333", "--hostname=126.126.126.126", "--verbose", "--tracks-dir=/some/path"));
+        assertEquals(
+                0, cmd.execute("--port=3333", "--hostname=126.126.126.126", "--verbose", "--tracks-dir=/some/path"));
         verify(launcher).getServer(eq("126.126.126.126"), eq(3333), eq(true), eq("/some/path"));
     }
 

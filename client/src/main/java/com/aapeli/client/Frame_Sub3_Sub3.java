@@ -8,7 +8,6 @@ class Frame_Sub3_Sub3 extends Frame_Sub3 {
     private Panel_Sub24 aPanel_Sub24_2891;
     private static final String aString2892 = "TellFriend_Title";
 
-
     protected Frame_Sub3_Sub3(TextManager var1, ImageManager var2, Class88 var3) {
         super(var1);
         this.aClass88_2890 = var3;
@@ -25,5 +24,4 @@ class Frame_Sub3_Sub3 extends Frame_Sub3 {
         this.aPanel_Sub24_2891 = null;
         this.aClass88_2890 = null;
     }
-
 }

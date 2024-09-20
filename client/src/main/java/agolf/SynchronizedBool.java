@@ -1,11 +1,9 @@
 package agolf;
 
-
 public class SynchronizedBool {
 
     private int anInt994;
     private boolean aBoolean995;
-
 
     public SynchronizedBool() {
         this(false);
@@ -37,6 +35,5 @@ public class SynchronizedBool {
         if (Math.random() < 0.5D) {
             this.anInt994 = -this.anInt994 - 1;
         }
-
     }
 }

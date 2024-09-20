@@ -7,6 +7,7 @@ import java.util.List;
 public class HtmlText {
 
     private List<HtmlLine> lines;
+
     public HtmlText(Graphics graphics, int var2, String text) {
         this.lines = this.createLines(graphics, var2, text);
     }
@@ -81,6 +82,5 @@ public class HtmlText {
         if (!var1.isEmpty()) {
             var2.add(var1);
         }
-
     }
 }

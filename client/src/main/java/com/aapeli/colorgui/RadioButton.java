@@ -11,7 +11,6 @@ public class RadioButton extends ColorButton {
     private boolean aBoolean4724;
     private boolean aBoolean4725;
 
-
     public RadioButton() {
         this(null, null);
     }
@@ -50,11 +49,9 @@ public class RadioButton extends ColorButton {
         if (this.setState(!this.aBoolean4723)) {
             this.processActionEvent();
         }
-
     }
 
-    public void mouseReleased(MouseEvent var1) {
-    }
+    public void mouseReleased(MouseEvent var1) {}
 
     public boolean setState(boolean var1) {
         if (this.aBoolean4723 == var1) {
@@ -130,7 +127,6 @@ public class RadioButton extends ColorButton {
                     var1.drawLine(0, 1, 0, var3 - 1);
                     var1.drawLine(var2 - 1, 1, var2 - 1, var3 - 1);
                 }
-
             }
         }
     }

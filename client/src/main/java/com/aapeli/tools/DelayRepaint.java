@@ -6,7 +6,6 @@ public class DelayRepaint implements QuickTimerListener {
 
     private Component component;
 
-
     public DelayRepaint(Component cmp) {
         this(cmp, 500);
     }

@@ -1,5 +1,8 @@
 package org.moparforia.server.net.packethandlers.golf;
 
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import org.moparforia.server.Server;
 import org.moparforia.server.game.Lobby;
 import org.moparforia.server.game.LobbyType;
@@ -11,10 +14,6 @@ import org.moparforia.shared.Tools;
 import org.moparforia.shared.tracks.TrackManager;
 import org.moparforia.shared.tracks.TrackSet;
 import org.moparforia.shared.tracks.filesystem.FileSystemTrackManager;
-
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class LobbyHandler implements PacketHandler {
     private static final TrackManager manager = FileSystemTrackManager.getInstance();
@@ -49,7 +48,8 @@ public class LobbyHandler implements PacketHandler {
             } else if (player.getLobby() == lobby) {
                 // todo: will this ever happen ?
             } else {
-                int reason = newLobbyType == LobbyType.MULTI ? Lobby.PART_REASON_JOINED_MP : Lobby.PART_REASON_SWITCHEDLOBBY;
+                int reason =
+                        newLobbyType == LobbyType.MULTI ? Lobby.PART_REASON_JOINED_MP : Lobby.PART_REASON_SWITCHEDLOBBY;
                 player.getLobby().removePlayer(player, reason);
             }
             lobby.addPlayer(player, Lobby.JOIN_TYPE_NORMAL);
@@ -61,7 +61,7 @@ public class LobbyHandler implements PacketHandler {
                 tracksInfo[i][0] = trackSet.getName();
                 tracksInfo[i][1] = String.valueOf(trackSet.getDifficulty().getId());
                 tracksInfo[i][2] = String.valueOf(trackSet.getTracks().size());
-                for (int j = 3; j < 11; j++) {//todo track records
+                for (int j = 3; j < 11; j++) { // todo track records
                     tracksInfo[i][j] = j % 2 == 0 ? "1" : "No one";
                 }
             }
@@ -69,8 +69,8 @@ public class LobbyHandler implements PacketHandler {
             for (int i = 0; i < tracksInfo.length; i++) {
                 cmd += Tools.tabularize(tracksInfo[i]) + (i == tracksInfo.length - 1 ? "" : '\t');
             }
-            packet.getChannel().writeAndFlush(new Packet(PacketType.DATA,
-                    Tools.tabularize("lobby", "tracksetlist", cmd)));
+            packet.getChannel()
+                    .writeAndFlush(new Packet(PacketType.DATA, Tools.tabularize("lobby", "tracksetlist", cmd)));
         }
         return true;
     }

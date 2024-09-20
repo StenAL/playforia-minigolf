@@ -1,7 +1,6 @@
 package agolf;
 
 import com.aapeli.multiuser.UsernameValidator;
-
 import java.awt.Button;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -52,17 +51,15 @@ class TrackTestLoginPanel extends Panel implements ActionListener, KeyListener {
     public void actionPerformed(ActionEvent evt) {
         String username = this.textFieldName.getText().trim();
         String password = this.textFieldPassword.getText().trim();
-        //String password = '';
+        // String password = '';
         this.gameApplet.trackTestLogin(username, password);
-
     }
 
-    public void keyPressed(KeyEvent evt) {
-    }
+    public void keyPressed(KeyEvent evt) {}
 
     private void create() {
         this.setLayout(null);
-        this.textFieldName = new TextField("");//("(name)");
+        this.textFieldName = new TextField(""); // ("(name)");
         this.textFieldName.setBounds(this.width / 2 - 75, this.height / 2 - 60, 150, 25);
         this.textFieldName.setBackground(Color.white);
         this.textFieldName.setForeground(Color.black);
@@ -70,12 +67,12 @@ class TrackTestLoginPanel extends Panel implements ActionListener, KeyListener {
         this.add(this.textFieldName);
         textFieldName.requestFocus();
 
-        this.textFieldPassword = new TextField("");//("(password)");
+        this.textFieldPassword = new TextField(""); // ("(password)");
         this.textFieldPassword.setBounds(this.width / 2 - 75, this.height / 2 - 10, 150, 25);
         this.textFieldPassword.setBackground(Color.white);
         this.textFieldPassword.setForeground(Color.black);
         textFieldPassword.setEchoChar('*');
-        //this.add(this.textFieldPassword); //Don't show this field
+        // this.add(this.textFieldPassword); //Don't show this field
 
         this.buttonOk = new Button("OK");
         this.buttonOk.setBounds(this.width / 2 - 75, this.height / 2 + 50, 75, 25);
@@ -90,7 +87,7 @@ class TrackTestLoginPanel extends Panel implements ActionListener, KeyListener {
         labelName = new Label("Nickname:");
         labelName.setBounds(width / 2 - 200, height / 2 - 60, 75, 25);
         add(labelName);
-        //No more labels needed
+        // No more labels needed
         // labelName2 = new Label("");
         // labelName2.setBounds(width / 2 + 80, height / 2 - 60, 75, 25);
         // labelName2.setForeground(Color.red);
@@ -104,11 +101,10 @@ class TrackTestLoginPanel extends Panel implements ActionListener, KeyListener {
         // add(labelPassword2);
     }
 
-    public void keyTyped(KeyEvent e) {
-    }
+    public void keyTyped(KeyEvent e) {}
 
     public void keyReleased(KeyEvent e) {
-        if(e.getKeyCode() == KeyEvent.VK_ENTER && buttonOk.isEnabled()) {
+        if (e.getKeyCode() == KeyEvent.VK_ENTER && buttonOk.isEnabled()) {
             actionPerformed(null);
             return;
         }

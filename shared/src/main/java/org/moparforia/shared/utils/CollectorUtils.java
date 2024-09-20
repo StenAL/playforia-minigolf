@@ -13,5 +13,4 @@ public class CollectorUtils {
             return collected.stream();
         });
     }
-
 }

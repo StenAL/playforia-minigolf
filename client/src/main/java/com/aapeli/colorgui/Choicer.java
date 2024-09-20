@@ -1,7 +1,6 @@
 package com.aapeli.colorgui;
 
 import com.aapeli.client.IPanel;
-
 import java.awt.Choice;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -21,7 +20,6 @@ public class Choicer extends IPanel implements ComponentListener, ItemListener, 
     private List<ItemListener> listeners;
     private Object synchronizationObject = new Object();
 
-
     public Choicer() {
         this.choice.setBackground(Color.white);
         this.choice.setForeground(Color.black);
@@ -33,14 +31,11 @@ public class Choicer extends IPanel implements ComponentListener, ItemListener, 
         this.addComponentListener(this);
     }
 
-    public void componentHidden(ComponentEvent e) {
-    }
+    public void componentHidden(ComponentEvent e) {}
 
-    public void componentShown(ComponentEvent e) {
-    }
+    public void componentShown(ComponentEvent e) {}
 
-    public void componentMoved(ComponentEvent e) {
-    }
+    public void componentMoved(ComponentEvent e) {}
 
     public void componentResized(ComponentEvent e) {
         Object synchronizationObject = this.synchronizationObject;
@@ -51,7 +46,6 @@ public class Choicer extends IPanel implements ComponentListener, ItemListener, 
             } else {
                 this.colorSpinner.setSize(size);
             }
-
         }
     }
 
@@ -59,7 +53,7 @@ public class Choicer extends IPanel implements ComponentListener, ItemListener, 
         synchronized (this.listeners) {
             if (!this.listeners.isEmpty()) {
                 e = new ItemEvent(this, e.getID(), e.getItem(), e.getStateChange());
-                for (ItemListener listener: this.listeners) {
+                for (ItemListener listener : this.listeners) {
                     listener.itemStateChanged(e);
                 }
             }
@@ -82,7 +76,6 @@ public class Choicer extends IPanel implements ComponentListener, ItemListener, 
             } else {
                 this.colorSpinner.setBackground(color);
             }
-
         }
     }
 
@@ -95,7 +88,6 @@ public class Choicer extends IPanel implements ComponentListener, ItemListener, 
             } else {
                 this.colorSpinner.setForeground(color);
             }
-
         }
     }
 
@@ -111,7 +103,6 @@ public class Choicer extends IPanel implements ComponentListener, ItemListener, 
             } else {
                 this.colorSpinner.addItem(text);
             }
-
         }
     }
 
@@ -123,7 +114,6 @@ public class Choicer extends IPanel implements ComponentListener, ItemListener, 
             } else {
                 this.colorSpinner.removeItem(i);
             }
-
         }
     }
 
@@ -153,7 +143,6 @@ public class Choicer extends IPanel implements ComponentListener, ItemListener, 
             } else {
                 this.colorSpinner.setSelectedIndex(i);
             }
-
         }
     }
 
@@ -216,6 +205,5 @@ public class Choicer extends IPanel implements ComponentListener, ItemListener, 
                 return;
             }
         }
-
     }
 }

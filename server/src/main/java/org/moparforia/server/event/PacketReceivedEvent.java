@@ -1,11 +1,10 @@
 package org.moparforia.server.event;
 
+import java.util.ArrayList;
+import java.util.regex.Matcher;
 import org.moparforia.server.Server;
 import org.moparforia.server.net.Packet;
 import org.moparforia.server.net.PacketHandler;
-
-import java.util.ArrayList;
-import java.util.regex.Matcher;
 
 public class PacketReceivedEvent extends Event {
 
@@ -26,7 +25,7 @@ public class PacketReceivedEvent extends Event {
     private static boolean processMessage(Server server, Packet packet) {
         // todo: smarter, should this method be on the server class ?
         ArrayList<PacketHandler> handlers = server.getPacketHandlers(packet.getType());
-        //todo packethandlers for each game type
+        // todo packethandlers for each game type
         boolean processed = false;
         if (handlers != null)
             for (PacketHandler ph : handlers) {
@@ -37,5 +36,4 @@ public class PacketReceivedEvent extends Event {
             }
         return processed;
     }
-
 }

@@ -1,7 +1,6 @@
 package com.aapeli.colorgui;
 
 import com.aapeli.client.IPanel;
-
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -41,7 +40,6 @@ public class RoundButton extends IPanel implements MouseMotionListener, MouseLis
     private Class95 aClass95_3400;
     private boolean aBoolean3401;
     private static final String aString3402 = "Dialog";
-
 
     public RoundButton() {
         this(null, null, null);
@@ -104,7 +102,8 @@ public class RoundButton extends IPanel implements MouseMotionListener, MouseLis
         }
 
         if (this.aString3387 != null) {
-            this.aGraphics3397.setColor(var5 ? this.aColor3384 : this.method873(this.aColor3384, this.aColor3383, 0.25D));
+            this.aGraphics3397.setColor(
+                    var5 ? this.aColor3384 : this.method873(this.aColor3384, this.aColor3383, 0.25D));
             Font var11 = this.method875(this.aFont3388, this.aString3387, var3 - 2);
             Font var7 = null;
             int var8 = var4 / 2 + var11.getSize() * 3 / 8 + 1;
@@ -117,10 +116,18 @@ public class RoundButton extends IPanel implements MouseMotionListener, MouseLis
             }
 
             this.aGraphics3397.setFont(var11);
-            this.drawText(this.aGraphics3397, this.aString3387, var3 / 2 - this.getFontMetrics(var11).stringWidth(this.aString3387) / 2, var8);
+            this.drawText(
+                    this.aGraphics3397,
+                    this.aString3387,
+                    var3 / 2 - this.getFontMetrics(var11).stringWidth(this.aString3387) / 2,
+                    var8);
             if (this.aString3389 != null) {
                 this.aGraphics3397.setFont(var7);
-                this.drawText(this.aGraphics3397, this.aString3389, var3 / 2 - this.getFontMetrics(var7).stringWidth(this.aString3389) / 2, var9);
+                this.drawText(
+                        this.aGraphics3397,
+                        this.aString3389,
+                        var3 / 2 - this.getFontMetrics(var7).stringWidth(this.aString3389) / 2,
+                        var9);
             }
         }
 
@@ -149,17 +156,13 @@ public class RoundButton extends IPanel implements MouseMotionListener, MouseLis
         if (var2) {
             this.processActionEvent();
         }
-
     }
 
-    public void mouseClicked(MouseEvent var1) {
-    }
+    public void mouseClicked(MouseEvent var1) {}
 
-    public void mouseMoved(MouseEvent var1) {
-    }
+    public void mouseMoved(MouseEvent var1) {}
 
-    public void mouseDragged(MouseEvent var1) {
-    }
+    public void mouseDragged(MouseEvent var1) {}
 
     public void setBackground(Color var1) {
         if (var1 == null) {
@@ -213,7 +216,11 @@ public class RoundButton extends IPanel implements MouseMotionListener, MouseLis
     }
 
     public Dimension getPreferredSize() {
-        return this.anImage3391 == null ? new Dimension(13 + this.getFontMetrics(this.aFont3388).stringWidth(this.aString3387) + 13, 5 + this.aFont3388.getSize() + 5) : new Dimension(this.anImage3391.getWidth(null), this.anImage3391.getHeight(null));
+        return this.anImage3391 == null
+                ? new Dimension(
+                        13 + this.getFontMetrics(this.aFont3388).stringWidth(this.aString3387) + 13,
+                        5 + this.aFont3388.getSize() + 5)
+                : new Dimension(this.anImage3391.getWidth(null), this.anImage3391.getHeight(null));
     }
 
     public void addActionListener(ActionListener var1) {
@@ -253,7 +260,6 @@ public class RoundButton extends IPanel implements MouseMotionListener, MouseLis
             this.aBoolean3401 = false;
             this.repaint();
         }
-
     }
 
     public void processActionEvent() {
@@ -329,7 +335,6 @@ public class RoundButton extends IPanel implements MouseMotionListener, MouseLis
                 }
             }
         }
-
     }
 
     private Color method872(Color var1, int var2, int var3) {
@@ -422,5 +427,4 @@ public class RoundButton extends IPanel implements MouseMotionListener, MouseLis
         this.aBoolean3401 = var1;
         this.repaint();
     }
-
 }

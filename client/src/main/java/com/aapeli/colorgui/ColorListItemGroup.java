@@ -8,7 +8,6 @@ public class ColorListItemGroup {
     private Image icon;
     private int sortValue;
 
-
     public ColorListItemGroup(String text, Image icon, int sortValue) {
         this.text = text;
         this.icon = icon;

@@ -2,8 +2,6 @@ package com.aapeli.connection;
 
 import com.aapeli.applet.AApplet;
 import com.aapeli.client.Parameters;
-import org.moparforia.client.Launcher;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -15,6 +13,7 @@ import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
+import org.moparforia.client.Launcher;
 
 public final class SocketConnection implements Runnable {
 
@@ -35,7 +34,7 @@ public final class SocketConnection implements Runnable {
 
     /* Other Constants */
     public static final int CIPHER_MAGIC_DEFAULT = 4;
-    
+
     private AApplet gameApplet;
     private Parameters params;
     private SocketConnectionListener socketConnectionListener;
@@ -57,16 +56,21 @@ public final class SocketConnection implements Runnable {
     private ConnCipher connCipher;
     private Thread thread;
 
-
-    public SocketConnection(AApplet gameApplet, SocketConnectionListener socketConnectionListener, String[] gameCipherCmds) {
+    public SocketConnection(
+            AApplet gameApplet, SocketConnectionListener socketConnectionListener, String[] gameCipherCmds) {
         this(gameApplet, gameApplet.param, socketConnectionListener, gameCipherCmds);
     }
 
-    public SocketConnection(Parameters params, SocketConnectionListener socketConnectionListener, String[] gameCipherCmds) {
+    public SocketConnection(
+            Parameters params, SocketConnectionListener socketConnectionListener, String[] gameCipherCmds) {
         this(null, params, socketConnectionListener, gameCipherCmds);
     }
 
-    private SocketConnection(AApplet gameApplet, Parameters params, SocketConnectionListener socketConnectionListener, String[] gameCipherCmds) {
+    private SocketConnection(
+            AApplet gameApplet,
+            Parameters params,
+            SocketConnectionListener socketConnectionListener,
+            String[] gameCipherCmds) {
         this.gameApplet = gameApplet;
         this.params = params;
         this.socketConnectionListener = socketConnectionListener;
@@ -75,8 +79,7 @@ public final class SocketConnection implements Runnable {
         }
 
         int connCipherMagic = CIPHER_MAGIC_DEFAULT;
-        if(Launcher.isUsingCustomServer())
-            gameCipherCmds = null;
+        if (Launcher.isUsingCustomServer()) gameCipherCmds = null;
         if (gameCipherCmds != null) {
             this.gameCipher = new GameCipher(gameCipherCmds);
             connCipherMagic = this.gameCipher.getConnCipherMagic();
@@ -149,8 +152,7 @@ public final class SocketConnection implements Runnable {
         if (this.state == STATE_OPENING) {
             throw new IllegalStateException("Connection not yet open");
         } else if (this.state != STATE_DISCONNECTED) {
-            if(Launcher.debug())
-                System.out.println("CLIENT> WRITE \"d " + gameQueue.sendSeqNum + " " + data + "\"");
+            if (Launcher.debug()) System.out.println("CLIENT> WRITE \"d " + gameQueue.sendSeqNum + " " + data + "\"");
             if (this.gameCipher != null) {
                 data = this.gameCipher.encrypt(data);
             }
@@ -218,7 +220,6 @@ public final class SocketConnection implements Runnable {
         if (this.state == STATE_CONNECTED) {
             this.handleConnection();
         }
-
     }
 
     private void handleConnection() {
@@ -226,7 +227,6 @@ public final class SocketConnection implements Runnable {
         if (this.state == STATE_CONNECTED) {
             this.checkConnActivity();
         }
-
     }
 
     private void handleGameQueue() {
@@ -234,7 +234,6 @@ public final class SocketConnection implements Runnable {
         if (this.state == STATE_CONNECTED) {
             this.processMetadataLogs();
         }
-
     }
 
     private void processGameQueueDisconnect() {
@@ -248,7 +247,6 @@ public final class SocketConnection implements Runnable {
                 this.disconnect();
             }
         } while (this.state == STATE_CONNECTED);
-
     }
 
     private void processMetadataLogs() {
@@ -291,7 +289,6 @@ public final class SocketConnection implements Runnable {
             this.state = STATE_DISCONNECTED;
             this.disconnectReason = DISCONNECT_REASON_NORETRY;
         }
-
     }
 
     private boolean writeLineC(String cmd) { // C: Command
@@ -308,10 +305,8 @@ public final class SocketConnection implements Runnable {
 
     private boolean writeLine(String line) {
         try {
-            if(!line.startsWith("d ") && Launcher.debug())
-                System.out.println("CLIENT> WRITE \"" + line + "\"");
-            if(!Launcher.isUsingCustomServer())
-                line = this.connCipher.encrypt(line);
+            if (!line.startsWith("d ") && Launcher.debug()) System.out.println("CLIENT> WRITE \"" + line + "\"");
+            if (!Launcher.isUsingCustomServer()) line = this.connCipher.encrypt(line);
             this.sockOut.write(line);
             this.sockOut.newLine();
             this.sockOut.flush();
@@ -328,13 +323,13 @@ public final class SocketConnection implements Runnable {
             char cmdtype = cmd.charAt(0);
             cmd = cmd.substring(2);
             int firstSpace;
-            if (cmdtype == 'h') {// not sure what
-                firstSpace = Integer.parseInt(cmd);// it's always 1... ALWAYS
+            if (cmdtype == 'h') { // not sure what
+                firstSpace = Integer.parseInt(cmd); // it's always 1... ALWAYS
                 if (firstSpace != 1) {
                     this.state = STATE_DISCONNECTED;
                     this.disconnectReason = DISCONNECT_REASON_VERSION;
                 }
-            } else if (cmdtype == 'c') {// connection related
+            } else if (cmdtype == 'c') { // connection related
                 if (cmd.startsWith("io ")) {
                     this.connCipher.initialise(Integer.parseInt(cmd.substring(3)));
                 } else if (cmd.startsWith("crt ")) {
@@ -361,10 +356,14 @@ public final class SocketConnection implements Runnable {
             } else if (cmdtype == 'p') {
                 if (cmd.startsWith("kickban ") && this.gameApplet != null) {
                     firstSpace = Integer.parseInt(cmd.substring(8));
-                    this.gameApplet.setEndState(firstSpace == 1 ? AApplet.END_ERROR_KICK_NOW
-                            : (firstSpace == 2 ? AApplet.END_ERROR_KICKBAN_NOW
-                            : (firstSpace == 3 ? AApplet.END_ERROR_BAN_INIT
-                            : AApplet.END_ERROR_TOOMANYIP_INIT)));
+                    this.gameApplet.setEndState(
+                            firstSpace == 1
+                                    ? AApplet.END_ERROR_KICK_NOW
+                                    : (firstSpace == 2
+                                            ? AApplet.END_ERROR_KICKBAN_NOW
+                                            : (firstSpace == 3
+                                                    ? AApplet.END_ERROR_BAN_INIT
+                                                    : AApplet.END_ERROR_TOOMANYIP_INIT)));
                 }
             } else if (cmdtype == 's') {
                 if (cmd.startsWith("json ")) {
@@ -384,14 +383,13 @@ public final class SocketConnection implements Runnable {
                             cmd = this.gameCipher.decrypt(cmd);
                         }
 
-                        if(Launcher.debug())
+                        if (Launcher.debug())
                             System.out.println("CLIENT> READ \"d " + numServerSentPaketz + " " + cmd + "\"");
                         this.gamePacketQueue.addGamePacket(cmd);
                         ++this.numReceivedGamePackets;
                     }
                 }
             }
-
         }
     }
 
@@ -399,10 +397,8 @@ public final class SocketConnection implements Runnable {
         try {
             String line = this.sockIn.readLine();
             if (line != null) {
-                if(!Launcher.isUsingCustomServer())
-                    line = this.connCipher.decrypt(line);
-                if(!line.startsWith("d ") && Launcher.debug())
-                    System.out.println("CLIENT> READ \"" + line + "\"");
+                if (!Launcher.isUsingCustomServer()) line = this.connCipher.decrypt(line);
+                if (!line.startsWith("d ") && Launcher.debug()) System.out.println("CLIENT> READ \"" + line + "\"");
                 return line;
             }
         } catch (InterruptedIOException ex) {
@@ -419,7 +415,6 @@ public final class SocketConnection implements Runnable {
         if (time > this.connActivityTime + 20000L) {
             this.disconnect();
         }
-
     }
 
     private void reconnect() {
@@ -474,6 +469,5 @@ public final class SocketConnection implements Runnable {
 
             this.socket = null;
         }
-
     }
 }

@@ -10,11 +10,10 @@ import com.aapeli.client.ImageManager;
 import com.aapeli.client.Parameters;
 import com.aapeli.client.SoundManager;
 import com.aapeli.client.TextManager;
-import org.moparforia.client.Launcher;
-
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
+import org.moparforia.client.Launcher;
 
 public class GameApplet extends AApplet {
 
@@ -40,7 +39,6 @@ public class GameApplet extends AApplet {
     private boolean aBoolean3773;
     private Image anImage3774;
     private boolean verbose = false;
-
 
     public void initApplet(Parameters parameters) {
         this.syncIsValidSite = new SynchronizedBool(this.isValidSite());
@@ -71,7 +69,7 @@ public class GameApplet extends AApplet {
         imageManager.defineImage("elements.gif");
         imageManager.defineImage("special.gif");
         imageManager.defineImage("balls.gif");
-        imageManager.defineSharedImage("ranking-icons.gif");// TODO
+        imageManager.defineSharedImage("ranking-icons.gif"); // TODO
         imageManager.defineSharedImage("language-flags.png"); // TODO
         imageManager.defineSharedImage("credit-background.jpg"); // TODO
         imageManager.defineSharedImage("bigtext.gif"); // TODO
@@ -82,7 +80,6 @@ public class GameApplet extends AApplet {
                 imageManager.defineImage("ad" + i, this.gameContainer.adverts[i]);
             }
         }
-
     }
 
     public void createImages() {
@@ -95,12 +92,11 @@ public class GameApplet extends AApplet {
         if (!this.gameContainer.connection.openSocketConnection()) {
             this.setEndState(END_ERROR_CONNECTION);
         }
-
     }
 
     public void appletReady() {
         this.gameContainer.autoPopup = new AutoPopups(this);
-        //this.setGameSettings(false, 0, false, true); // disabled Bad Word Filter!
+        // this.setGameSettings(false, 0, false, true); // disabled Bad Word Filter!
         this.setGameSettings(false, 0, true, true); // enabled Bad Word Filter!
         this.gameContainer.trackCollection = new TrackCollection();
         this.anImage3774 = this.createImage(735, 375);
@@ -128,7 +124,8 @@ public class GameApplet extends AApplet {
     }
 
     /**
-     * @param activePanel 0 == ?, 1 == login, 2 == lobby selection panel, 3 == in lobby, 4 == in game
+     * @param activePanel 0 == ?, 1 == login, 2 == lobby selection panel, 3 == in lobby, 4 == in
+     *     game
      * @param lobbyId game type, single player == 1, dual player == 2, multiplayer == 3
      */
     protected void setGameState(int activePanel, int lobbyId, int lobbyExtra) {
@@ -145,12 +142,14 @@ public class GameApplet extends AApplet {
                 } else {
                     this.aBoolean3773 = true;
                 }
-                //System.out.println(hasSession() + " " + gameContainer.synchronizedTrackTestMode.get());
+                // System.out.println(hasSession() + " " +
+                // gameContainer.synchronizedTrackTestMode.get());
 
                 if (Launcher.isUsingCustomServer()) {
                     String username = param.getUsername();
                     if (username == null) {
-                        TrackTestLoginPanel loginPanel = new TrackTestLoginPanel(this, super.appletWidth, super.appletHeight);
+                        TrackTestLoginPanel loginPanel =
+                                new TrackTestLoginPanel(this, super.appletWidth, super.appletHeight);
                         loginPanel.setLocation(0, 0);
                         this.addToContent(loginPanel);
                     } else {
@@ -170,7 +169,8 @@ public class GameApplet extends AApplet {
 
             if (activePanel == 2) {
                 if (this.gameContainer.lobbySelectionPanel == null) {
-                    this.gameContainer.lobbySelectionPanel = new LobbySelectPanel(this.gameContainer, super.appletWidth, super.appletHeight);
+                    this.gameContainer.lobbySelectionPanel =
+                            new LobbySelectPanel(this.gameContainer, super.appletWidth, super.appletHeight);
                     this.gameContainer.lobbySelectionPanel.setLocation(0, 0);
                 }
 
@@ -198,7 +198,8 @@ public class GameApplet extends AApplet {
             if (activePanel == 3) {
                 this.gameContainer.gamePanel = null;
                 if (this.gameContainer.lobbyPanel == null) {
-                    this.gameContainer.lobbyPanel = new LobbyPanel(this.gameContainer, super.appletWidth, super.appletHeight);
+                    this.gameContainer.lobbyPanel =
+                            new LobbyPanel(this.gameContainer, super.appletWidth, super.appletHeight);
                     this.gameContainer.lobbyPanel.setLocation(0, 0);
                 }
 
@@ -214,13 +215,14 @@ public class GameApplet extends AApplet {
             }
 
             if (activePanel == 4) {
-                this.gameContainer.gamePanel = new GamePanel(this.gameContainer, super.appletWidth, super.appletHeight, this.anImage3774);
+                this.gameContainer.gamePanel =
+                        new GamePanel(this.gameContainer, super.appletWidth, super.appletHeight, this.anImage3774);
                 this.gameContainer.gamePanel.setLocation(0, 0);
                 this.addToContent(this.gameContainer.gamePanel);
             }
 
             if (activePanel == 5) {
-                //super.param.showQuitPage();
+                // super.param.showQuitPage();
                 System.exit(0);
             } else {
                 this.contentReady();

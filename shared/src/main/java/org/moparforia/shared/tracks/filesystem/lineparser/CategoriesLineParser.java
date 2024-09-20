@@ -1,18 +1,16 @@
 package org.moparforia.shared.tracks.filesystem.lineparser;
 
-import org.moparforia.shared.tracks.TrackCategory;
-import org.moparforia.shared.tracks.parsers.LineParser;
-
 import java.util.*;
 import java.util.stream.Collectors;
+import org.moparforia.shared.tracks.TrackCategory;
+import org.moparforia.shared.tracks.parsers.LineParser;
 
 public class CategoriesLineParser implements LineParser {
 
     @Override
     public Map<String, Object> apply(String line) {
-        List<Integer> possibleValues = Arrays.stream(TrackCategory.values())
-                .map(TrackCategory::getId)
-                .collect(Collectors.toList());
+        List<Integer> possibleValues =
+                Arrays.stream(TrackCategory.values()).map(TrackCategory::getId).collect(Collectors.toList());
 
         String[] parts = line.split(",");
         Map<String, Object> map = new HashMap<>();

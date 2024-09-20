@@ -12,7 +12,6 @@ public class EncodedXmlReader {
     private String xmlURL;
     private boolean isDebug;
 
-
     public EncodedXmlReader(String fileURL) {
         this(fileURL, false);
     }
@@ -28,7 +27,8 @@ public class EncodedXmlReader {
             return XmlUnit.parseString(xmlData, true, true);
         } catch (Exception ex) {
             if (this.isDebug) {
-                System.out.println("EncodedXmlReader.readXmlUnit(): Failed to read or parse xml-file \"" + this.xmlURL + "\"");
+                System.out.println(
+                        "EncodedXmlReader.readXmlUnit(): Failed to read or parse xml-file \"" + this.xmlURL + "\"");
                 ex.printStackTrace();
             }
 
@@ -50,15 +50,13 @@ public class EncodedXmlReader {
         InputStream instream = url.openStream();
         */
 
-
         InputStream instream = this.getClass().getResourceAsStream(url.getFile());
-
 
         PushbackInputStream in = new PushbackInputStream(instream, 3);
         int char1 = in.read();
         int char2 = in.read();
         int char3 = in.read();
-        if (char1 == 239 && char2 == 187 && char3 == 191) {// ??? wtf //239=ï 187=» 191=¿
+        if (char1 == 239 && char2 == 187 && char3 == 191) { // ??? wtf //239=ï 187=» 191=¿
             encoding = "UTF-8";
         } else {
             in.unread(char3);

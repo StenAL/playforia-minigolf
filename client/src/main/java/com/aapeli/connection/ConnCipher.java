@@ -7,9 +7,8 @@ public class ConnCipher {
     private int[][] randomsAscii;
     private int[][] randomsOther;
 
-
     public ConnCipher(int magic) {
-        this.magic = magic;// :-)
+        this.magic = magic; // :-)
         this.seed = -1;
         this.randomsAscii = new int[2][125];
         this.randomsOther = new int[2][1920];
@@ -35,9 +34,9 @@ public class ConnCipher {
         ConnRandom random = new ConnRandom(newSeed);
 
         int rand;
-        for (int index = 1; index <= 125;) {
+        for (int index = 1; index <= 125; ) {
             rand = random.nextInt(1, 125);
-            while(this.randomsAscii[1][rand - 1] >= 0) {
+            while (this.randomsAscii[1][rand - 1] >= 0) {
                 rand = random.nextInt(1, 125);
             }
             this.randomsAscii[0][index - 1] = rand;
@@ -45,16 +44,15 @@ public class ConnCipher {
             index++;
         }
 
-        for (int index = 128; index <= 2047;) {
+        for (int index = 128; index <= 2047; ) {
             rand = random.nextInt(128, 2047);
-            while(this.randomsOther[1][rand - 128] >= 0) {
+            while (this.randomsOther[1][rand - 128] >= 0) {
                 rand = random.nextInt(128, 2047);
             }
             this.randomsOther[0][index - 128] = rand;
             this.randomsOther[1][rand - 128] = index;
             index++;
         }
-
     }
 
     protected void reset() {
@@ -70,27 +68,27 @@ public class ConnCipher {
             StringBuilder output = new StringBuilder(inputLength + 2);
             int firstRandom = (int) (1.0D + Math.random() * 125.0D);
             int lastRandom = (int) (1.0D + Math.random() * 125.0D);
-            int randMod = magicMod(firstRandom, 1, inputLength + 1);// kek
+            int randMod = magicMod(firstRandom, 1, inputLength + 1); // kek
             output.append((char) this.increment(firstRandom));
-            int seedling = this.seed % 99 - 49 + firstRandom - lastRandom;// lolol
+            int seedling = this.seed % 99 - 49 + firstRandom - lastRandom; // lolol
             for (int index = 0; index < inputLength; ++index) {
                 if (randMod == index + 1) {
                     output.append((char) this.increment(lastRandom));
                 }
 
                 int curChar = inputChars[index];
-                if (curChar >= 1 && curChar <= 127) {// ascii
+                if (curChar >= 1 && curChar <= 127) { // ascii
                     if (curChar != '\n' && curChar != '\r') {
                         curChar = this.decrement(curChar);
                         curChar = magicMod(curChar, seedling, 1, 125);
                         ++seedling;
                         curChar = this.randomsAscii[0][curChar - 1];
                         curChar = this.increment(curChar);
-                        if (curChar >= 14 && curChar <= 127) {// '\r' + 1
+                        if (curChar >= 14 && curChar <= 127) { // '\r' + 1
                             curChar = magicMod(curChar, this.magic - 9, 14, 127);
                         }
                     }
-                } else if (curChar >= 128 && curChar <= 2047) {// other
+                } else if (curChar >= 128 && curChar <= 2047) { // other
                     curChar = magicMod(curChar, seedling, 128, 2047);
                     seedling += 2;
                     curChar = this.randomsOther[0][curChar - 128];
@@ -127,9 +125,9 @@ public class ConnCipher {
                 }
 
                 int curChar = inputChars[index];
-                if (curChar >= 1 && curChar <= 127) {// ascii
+                if (curChar >= 1 && curChar <= 127) { // ascii
                     if (curChar != '\n' && curChar != '\r') {
-                        if (curChar >= 14 && curChar <= 127) {// '\r' + 1
+                        if (curChar >= 14 && curChar <= 127) { // '\r' + 1
                             curChar = magicMod(curChar, 9 - this.magic, 14, 127);
                         }
 
@@ -139,7 +137,7 @@ public class ConnCipher {
                         --seedling;
                         curChar = this.increment(curChar);
                     }
-                } else if (curChar >= 128 && curChar <= 2047) {// other
+                } else if (curChar >= 128 && curChar <= 2047) { // other
                     curChar = this.randomsOther[1][curChar - 128];
                     curChar = magicMod(curChar, seedling, 128, 2047);
                     seedling -= 2;
@@ -181,10 +179,10 @@ public class ConnCipher {
     }
 
     /*
-        >>> [ f(i, 1, len("HURR") + 1) for i in range(-5, 6) ]
-        [5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5]
-     */
-    private static int magicMod(int val, int min, int max) {// ( °͜ʖ °)
+       >>> [ f(i, 1, len("HURR") + 1) for i in range(-5, 6) ]
+       [5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5]
+    */
+    private static int magicMod(int val, int min, int max) { // ( °͜ʖ °)
         max -= min;
         val -= min;
         int modulus = max + 1;

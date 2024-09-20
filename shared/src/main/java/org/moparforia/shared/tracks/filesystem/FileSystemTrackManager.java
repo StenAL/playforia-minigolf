@@ -1,21 +1,20 @@
 package org.moparforia.shared.tracks.filesystem;
 
+import java.io.IOException;
+import java.nio.file.*;
+import java.util.*;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import org.moparforia.shared.Tools;
 import org.moparforia.shared.tracks.*;
 import org.moparforia.shared.tracks.parsers.TrackParser;
 import org.moparforia.shared.tracks.parsers.VersionedTrackFileParser;
 import org.moparforia.shared.utils.CollectorUtils;
 
-import java.io.IOException;
-import java.nio.file.*;
-import java.util.*;
-import java.util.logging.Logger;
-import java.util.stream.Collectors;
-
 public class FileSystemTrackManager implements TrackManager {
     private static FileSystemTrackManager instance;
     private static final TrackParser parser = new VersionedTrackFileParser();
-    private final Logger logger =  Logger.getLogger(FileSystemTrackManager.class.getName());
+    private final Logger logger = Logger.getLogger(FileSystemTrackManager.class.getName());
 
     private List<Track> tracks;
     private List<TrackSet> trackSets;
@@ -47,17 +46,12 @@ public class FileSystemTrackManager implements TrackManager {
         return hasLoaded;
     }
 
-
     public void save(Track track) {
         // No-op, this implementation is only read-only
     }
 
     public static String convertTrack(Track track) {
-        return Tools.tabularize(
-                "V 1",
-                "A " + track.getAuthor(),
-                "N " + track.getName(),
-                "T " + track.getMap());
+        return Tools.tabularize("V 1", "A " + track.getAuthor(), "N " + track.getName(), "T " + track.getMap());
     }
 
     private List<Track> loadTracks(TracksLocation tracksLocation) throws IOException {
@@ -68,8 +62,8 @@ public class FileSystemTrackManager implements TrackManager {
             logger.warning("Tracks directory (" + tracksLocation.path() + "/tracks) was not found, ignoring.");
             return Collections.emptyList();
         }
-        DirectoryStream<Path> directoryStream = Files.newDirectoryStream(tracksPath,
-                entry -> entry.toString().endsWith(".track"));
+        DirectoryStream<Path> directoryStream =
+                Files.newDirectoryStream(tracksPath, entry -> entry.toString().endsWith(".track"));
         for (Path filePath : directoryStream) {
             try {
                 tracks.add(parser.parseTrack(filePath));
@@ -85,12 +79,13 @@ public class FileSystemTrackManager implements TrackManager {
         List<TrackSet> trackSets = new ArrayList<>();
         Path sets = tracksLocation.fileSystem().getPath(tracksLocation.path(), "sets");
         if (!Files.exists(sets)) {
-            logger.warning("Can't load tracksets, directory " + tracksLocation.path() + "/sets does not exist, ignoring.");
+            logger.warning(
+                    "Can't load tracksets, directory " + tracksLocation.path() + "/sets does not exist, ignoring.");
             return trackSets;
         }
 
-        DirectoryStream<Path> directoryStream = Files.newDirectoryStream(sets,
-                entry -> entry.getFileName().toString().endsWith(".trackset"));
+        DirectoryStream<Path> directoryStream = Files.newDirectoryStream(
+                sets, entry -> entry.getFileName().toString().endsWith(".trackset"));
         for (Path filePath : directoryStream) {
             Scanner scanner = new Scanner(filePath);
             String setName = scanner.nextLine();
@@ -116,7 +111,11 @@ public class FileSystemTrackManager implements TrackManager {
             if (tracks.size() < trackNames.size()) {
                 List<String> found_tracks = tracks.stream().map(Track::getName).toList();
                 trackNames.removeAll(found_tracks);
-                logger.warning("TrackSet " + setName + " contains not existing tracks (" + Arrays.toString(trackNames.toArray()) + ")");
+                logger.warning("TrackSet "
+                        + setName
+                        + " contains not existing tracks ("
+                        + Arrays.toString(trackNames.toArray())
+                        + ")");
             }
             trackSets.add(new TrackSet(setName, trackSetDifficulty, tracks));
         }
@@ -124,18 +123,17 @@ public class FileSystemTrackManager implements TrackManager {
         return trackSets;
     }
 
-
     public List<Track> getRandomTracks(int limit, TrackCategory type) {
         if (limit < 1) {
             throw new IllegalArgumentException("Number of tracks must be at least 1");
         }
 
         return getTracks().stream()
-                .filter(track -> type == TrackCategory.ALL || track.getCategories().contains(type))
+                .filter(track ->
+                        type == TrackCategory.ALL || track.getCategories().contains(type))
                 .collect(CollectorUtils.toShuffledStream())
                 .limit(limit)
                 .collect(Collectors.toList());
-
     }
 
     @Override
@@ -145,8 +143,7 @@ public class FileSystemTrackManager implements TrackManager {
 
     @Override
     public TrackSet getTrackSet(String name) {
-        return getTrackSets()
-                .stream()
+        return getTrackSets().stream()
                 .filter(trackset -> trackset.getName().equals(name))
                 .findFirst()
                 .orElse(null);

@@ -1,10 +1,8 @@
 package agolf;
 
-
 public class Seed {
 
     private long rnd;
-
 
     public Seed(long init) {
         this.rnd = (init ^ 25214903917L) & (1L << 48) - 1L;

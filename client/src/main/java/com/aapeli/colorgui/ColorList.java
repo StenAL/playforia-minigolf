@@ -19,7 +19,8 @@ import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class ColorList extends Panel implements ComponentListener, AdjustmentListener, MouseListener, ItemSelectable {
+public final class ColorList extends Panel
+        implements ComponentListener, AdjustmentListener, MouseListener, ItemSelectable {
 
     public static final int SELECTABLE_NONE = 0;
     public static final int SELECTABLE_ONE = 1;
@@ -63,7 +64,6 @@ public final class ColorList extends Panel implements ComponentListener, Adjustm
     private int imageWidth;
     private int imageHeight;
     private List<ItemListener> listeners;
-
 
     public ColorList(int width, int height) {
         this(width, height, FontConstants.font, 0, 0);
@@ -128,7 +128,17 @@ public final class ColorList extends Panel implements ComponentListener, Adjustm
             this.imageGraphics.setColor(backgroundColor);
             this.imageGraphics.fillRect(0, 0, this.width, this.height);
         } else {
-            this.imageGraphics.drawImage(this.backgroundImage, 0, 0, this.width, this.height, this.backgroundImageoffsetX, this.backgroundImageOffsetY, this.backgroundImageoffsetX + this.width, this.backgroundImageOffsetY + this.height, this);
+            this.imageGraphics.drawImage(
+                    this.backgroundImage,
+                    0,
+                    0,
+                    this.width,
+                    this.height,
+                    this.backgroundImageoffsetX,
+                    this.backgroundImageOffsetY,
+                    this.backgroundImageoffsetX + this.width,
+                    this.backgroundImageOffsetY + this.height,
+                    this);
         }
 
         ColorListItemGroup currentGroup = null;
@@ -137,7 +147,17 @@ public final class ColorList extends Panel implements ComponentListener, Adjustm
             int y = 0;
             ColorListNode node;
             if (this.title != null) {
-                node = new ColorListNode(1, y, this.width - 2, this.rowHeight, this.iconWidth, this.backgroundImage != null, this.fontBold, this.titleColor, this.title, null);
+                node = new ColorListNode(
+                        1,
+                        y,
+                        this.width - 2,
+                        this.rowHeight,
+                        this.iconWidth,
+                        this.backgroundImage != null,
+                        this.fontBold,
+                        this.titleColor,
+                        this.title,
+                        null);
                 this.nodes.add(node);
                 node.draw(this.imageGraphics, this);
                 y += this.rowHeight;
@@ -156,7 +176,17 @@ public final class ColorList extends Panel implements ComponentListener, Adjustm
                     if (hasMultipleGroups) {
                         ColorListItemGroup group = item.getGroup();
                         if (group != currentGroup) {
-                            node = new ColorListNode(1, y, this.width - 2, this.rowHeight, this.iconWidth, this.backgroundImage != null, this.fontBold, Color.darkGray, group.getText(), group.getIcon());
+                            node = new ColorListNode(
+                                    1,
+                                    y,
+                                    this.width - 2,
+                                    this.rowHeight,
+                                    this.iconWidth,
+                                    this.backgroundImage != null,
+                                    this.fontBold,
+                                    Color.darkGray,
+                                    group.getText(),
+                                    group.getIcon());
                             this.nodes.add(node);
                             node.draw(this.imageGraphics, this);
                             currentGroup = group;
@@ -166,7 +196,16 @@ public final class ColorList extends Panel implements ComponentListener, Adjustm
                         }
                     }
 
-                    node = new ColorListNode(1, y, this.width - 2, this.rowHeight, this.iconWidth, this.backgroundImage != null, this.font, this.fontBold, item);
+                    node = new ColorListNode(
+                            1,
+                            y,
+                            this.width - 2,
+                            this.rowHeight,
+                            this.iconWidth,
+                            this.backgroundImage != null,
+                            this.font,
+                            this.fontBold,
+                            item);
                     this.nodes.add(node);
                     node.draw(this.imageGraphics, this);
                     y += this.rowHeight;
@@ -193,7 +232,7 @@ public final class ColorList extends Panel implements ComponentListener, Adjustm
     private boolean hasMultipleGroups() {
         ColorListItemGroup group = null;
 
-        for (ColorListItem colorListItem: this.items) {
+        for (ColorListItem colorListItem : this.items) {
             ColorListItemGroup group2 = colorListItem.getGroup();
             if (group2 != null) {
                 if (group != null && group2 != group) {
@@ -207,14 +246,11 @@ public final class ColorList extends Panel implements ComponentListener, Adjustm
         return false;
     }
 
-    public void componentShown(ComponentEvent e) {
-    }
+    public void componentShown(ComponentEvent e) {}
 
-    public void componentHidden(ComponentEvent e) {
-    }
+    public void componentHidden(ComponentEvent e) {}
 
-    public void componentMoved(ComponentEvent e) {
-    }
+    public void componentMoved(ComponentEvent e) {}
 
     public void componentResized(ComponentEvent e) {
         Dimension size = this.getSize();
@@ -284,17 +320,13 @@ public final class ColorList extends Panel implements ComponentListener, Adjustm
         }
     }
 
-    public void mouseReleased(MouseEvent e) {
-    }
+    public void mouseReleased(MouseEvent e) {}
 
-    public void mouseClicked(MouseEvent e) {
-    }
+    public void mouseClicked(MouseEvent e) {}
 
-    public void mouseEntered(MouseEvent e) {
-    }
+    public void mouseEntered(MouseEvent e) {}
 
-    public void mouseExited(MouseEvent e) {
-    }
+    public void mouseExited(MouseEvent e) {}
 
     public synchronized void addItemListener(ItemListener listener) {
         this.listeners.add(listener);
@@ -315,7 +347,6 @@ public final class ColorList extends Panel implements ComponentListener, Adjustm
         } else if (selectable == SELECTABLE_ONE && this.getSelectedItemCount() > 1) {
             this.removeAllSelections();
         }
-
     }
 
     public void setSorted(boolean sorted) {
@@ -394,7 +425,9 @@ public final class ColorList extends Panel implements ComponentListener, Adjustm
         this.items.add(position, item);
         int scrollbarValue = this.scrollbar.getValue();
         int scrollbarOffset = position < scrollbarValue ? 1 : 0;
-        if (scrollbarOffset == 0 && scrollbarValue > 0 && scrollbarValue + this.scrollbar.getVisibleAmount() == this.scrollbar.getMaximum()) {
+        if (scrollbarOffset == 0
+                && scrollbarValue > 0
+                && scrollbarValue + this.scrollbar.getVisibleAmount() == this.scrollbar.getMaximum()) {
             scrollbarOffset = 1;
         }
 
@@ -471,7 +504,7 @@ public final class ColorList extends Panel implements ComponentListener, Adjustm
     }
 
     public int[] getLastClickedMouseXY() {
-        return new int[]{this.lastMouseClickX, this.lastMouseClickY};
+        return new int[] {this.lastMouseClickX, this.lastMouseClickY};
     }
 
     private synchronized void configureScrollbar(boolean scrollToBottom, int offset) {
@@ -552,7 +585,9 @@ public final class ColorList extends Panel implements ComponentListener, Adjustm
         } else {
             int groupSortValue = this.getGroupSortValue(item);
             int groupPosition = this.getGroupStartPosition(groupSortValue, itemsCount);
-            return groupPosition == itemsCount ? itemsCount : this.getPositionFor(item, groupSortValue, groupPosition, itemsCount);
+            return groupPosition == itemsCount
+                    ? itemsCount
+                    : this.getPositionFor(item, groupSortValue, groupPosition, itemsCount);
         }
     }
 
@@ -662,10 +697,9 @@ public final class ColorList extends Panel implements ComponentListener, Adjustm
     private synchronized void itemPressed(ColorListItem item, int eventId, int newState) {
         if (this.listeners.size() != 0) {
             ItemEvent event = new ItemEvent(this, eventId, item, newState);
-            for (ItemListener itemListener: this.listeners) {
+            for (ItemListener itemListener : this.listeners) {
                 itemListener.itemStateChanged(event);
             }
         }
     }
-
 }

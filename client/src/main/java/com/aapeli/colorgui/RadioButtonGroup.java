@@ -1,7 +1,6 @@
 package com.aapeli.colorgui;
 
 import com.aapeli.client.IPanel;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +8,6 @@ public final class RadioButtonGroup {
 
     private List<IPanel> buttons;
     private boolean aBoolean1590;
-
 
     public RadioButtonGroup() {
         this(false);
@@ -42,7 +40,7 @@ public final class RadioButtonGroup {
     }
 
     private void method1759() {
-        for (IPanel var2: this.buttons) {
+        for (IPanel var2 : this.buttons) {
             if (var2 instanceof RadioButton) {
                 ((RadioButton) var2).realSetState(false);
             } else {

@@ -1,21 +1,35 @@
 package org.moparforia.server.net;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import org.moparforia.server.net.packethandlers.*;
 import org.moparforia.server.net.packethandlers.golf.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
 public class PacketHandlerFactory {
 
-    //todo packethandlers for each game type ( should be pretty much the same for golf and golf2 )
+    // todo packethandlers for each game type ( should be pretty much the same for golf and golf2 )
     public static final HashMap<PacketType, ArrayList<PacketHandler>> getPacketHandlers() {
-        PacketHandler[] handlers = new PacketHandler[]{new ChatHandler(), new GameHandler(),
-                new LanguageHandler(), new LobbyHandler(), new LobbySelectHandler(), new LoginHandler(),
-                new LoginTypeHandler(), new NewHandler(), new PongHandler(), new ReconnectHandler(),
-                new TlogHandler(), new TrackTestLoginHandler(), new VersionHandler(), new LobbyCreateSinglePlayerHandler(),
-                new LobbyMultiplayerHandler(), new LobbyDualplayerHandler(), new QuitHandler(), new ErrorDebugHandler(),
-                new EndHandler()};
+        PacketHandler[] handlers = new PacketHandler[] {
+            new ChatHandler(),
+            new GameHandler(),
+            new LanguageHandler(),
+            new LobbyHandler(),
+            new LobbySelectHandler(),
+            new LoginHandler(),
+            new LoginTypeHandler(),
+            new NewHandler(),
+            new PongHandler(),
+            new ReconnectHandler(),
+            new TlogHandler(),
+            new TrackTestLoginHandler(),
+            new VersionHandler(),
+            new LobbyCreateSinglePlayerHandler(),
+            new LobbyMultiplayerHandler(),
+            new LobbyDualplayerHandler(),
+            new QuitHandler(),
+            new ErrorDebugHandler(),
+            new EndHandler()
+        };
         ArrayList<PacketHandler> data = new ArrayList<>();
         ArrayList<PacketHandler> command = new ArrayList<>();
         ArrayList<PacketHandler> string = new ArrayList<>();

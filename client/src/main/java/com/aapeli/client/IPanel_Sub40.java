@@ -2,7 +2,6 @@ package com.aapeli.client;
 
 import com.aapeli.applet.AApplet;
 import com.aapeli.colorgui.RoundButton;
-
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -24,7 +23,6 @@ class IPanel_Sub40 extends IPanel implements ActionListener {
     private RoundButton aRoundButton3215;
     private RoundButton aRoundButton3216;
     private RoundButton aRoundButton3217;
-
 
     protected IPanel_Sub40(AApplet var1, Frame_Sub3_Sub1 var2, int var3, int var4) {
         this.anAApplet3210 = var1;
@@ -71,17 +69,19 @@ class IPanel_Sub40 extends IPanel implements ActionListener {
             this.anAApplet3210.setEndState(AApplet.END_QUIT_REGISTER);
             this.anAApplet3210.param.showRegisterPage();
         }
-
     }
 
     protected String method820() {
-        return this.anInt3212 == 0 ? this.anAApplet3210.textManager.getShared("GameFin_W_GameOver") : (this.anInt3212 == 1 ? this.anAApplet3210.textManager.getShared("GameFin_R_Congratulations") : "-");
+        return this.anInt3212 == 0
+                ? this.anAApplet3210.textManager.getShared("GameFin_W_GameOver")
+                : (this.anInt3212 == 1 ? this.anAApplet3210.textManager.getShared("GameFin_R_Congratulations") : "-");
     }
 
     private void method821() {
         this.setLayout(null);
         if (this.anInt3212 == 0) {
-            this.aRoundButton3215 = new RoundButton(this.anAApplet3210.textManager.getShared("GameFin_W_CreateAccount"));
+            this.aRoundButton3215 =
+                    new RoundButton(this.anAApplet3210.textManager.getShared("GameFin_W_CreateAccount"));
             this.aRoundButton3215.setBounds(210, 225, 220, 30);
             this.aRoundButton3215.setBackground(aColor3207);
             this.aRoundButton3215.addActionListener(this);
@@ -98,6 +98,5 @@ class IPanel_Sub40 extends IPanel implements ActionListener {
             this.aRoundButton3217.addActionListener(this);
             this.add(this.aRoundButton3217);
         }
-
     }
 }

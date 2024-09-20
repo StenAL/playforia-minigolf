@@ -1,7 +1,6 @@
 package com.aapeli.applet;
 
 import com.aapeli.client.StringDraw;
-
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -18,8 +17,8 @@ class AdCanvasText {
     private Font fontDialog;
     private int anInt1310;
 
-
-    private AdCanvasText(int var1, int var2, int var3, int var4, Color var5, Color var6, int size, boolean bold, String var9) {
+    private AdCanvasText(
+            int var1, int var2, int var3, int var4, Color var5, Color var6, int size, boolean bold, String var9) {
         this.anInt1303 = var1;
         this.anInt1304 = var2;
         this.anInt1305 = var4;
@@ -33,7 +32,6 @@ class AdCanvasText {
         } else if (var3 == 0) {
             this.anInt1310 = 0;
         }
-
     }
 
     protected static AdCanvasText method1547(String var0) {
@@ -60,11 +58,18 @@ class AdCanvasText {
         var1.setFont(this.fontDialog);
         var1.setColor(this.aColor1306);
         if (this.anInt1305 > 0) {
-            StringDraw.drawOutlinedStringWithMaxWidth(var1, this.aColor1307, this.aString1308, this.anInt1303, this.anInt1304, this.anInt1310, this.anInt1305);
+            StringDraw.drawOutlinedStringWithMaxWidth(
+                    var1,
+                    this.aColor1307,
+                    this.aString1308,
+                    this.anInt1303,
+                    this.anInt1304,
+                    this.anInt1310,
+                    this.anInt1305);
         } else {
-            StringDraw.drawOutlinedString(var1, this.aColor1307, this.aString1308, this.anInt1303, this.anInt1304, this.anInt1310);
+            StringDraw.drawOutlinedString(
+                    var1, this.aColor1307, this.aString1308, this.anInt1303, this.anInt1304, this.anInt1310);
         }
-
     }
 
     private static Color hex2Color(String hex, boolean noThrow) throws Exception {

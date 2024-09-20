@@ -4,7 +4,6 @@ import com.aapeli.client.Parameters;
 import com.aapeli.client.TextManager;
 import com.aapeli.colorgui.RoundButton;
 import com.aapeli.tools.Tools;
-
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -37,7 +36,6 @@ class LoadingPanel extends Panel implements Runnable, ActionListener {
     private RoundButton startGameButton;
     private RoundButton paymentOptionsButton;
     private int startGameClicked;
-
 
     protected LoadingPanel(AApplet applet) {
         this.gameApplet = applet;
@@ -154,7 +152,6 @@ class LoadingPanel extends Panel implements Runnable, ActionListener {
             this.gameApplet.setEndState(AApplet.END_QUIT_BUYCOINS);
             this.parameters.showCreditPurchasePage(false);
         }
-
     }
 
     protected void init(Parameters parameters, TextManager textManager) {
@@ -226,7 +223,8 @@ class LoadingPanel extends Panel implements Runnable, ActionListener {
                 this.startGameButton.addActionListener(this);
                 this.add(this.startGameButton);
                 if (this.parameters.isCreditPurchasePageAvailable()) {
-                    this.paymentOptionsButton = new RoundButton(this.textManager.getShared("Loader_Button_MorePaymentOptions"));
+                    this.paymentOptionsButton =
+                            new RoundButton(this.textManager.getShared("Loader_Button_MorePaymentOptions"));
                     this.paymentOptionsButton.setBounds(this.gameApplet.appletWidth / 2 - 15 - width, 10, width, 35);
                     this.paymentOptionsButton.setBackground(new Color(96, 96, 255));
                     this.paymentOptionsButton.setForeground(Color.black);
@@ -266,7 +264,8 @@ class LoadingPanel extends Panel implements Runnable, ActionListener {
         this.gameApplet = null;
     }
 
-    private void drawGradient(Graphics var1, Color color, int top, int bottom, int var5, int var6, int var7, int var8, boolean var9) {
+    private void drawGradient(
+            Graphics var1, Color color, int top, int bottom, int var5, int var6, int var7, int var8, boolean var9) {
         int red = color.getRed();
         int green = color.getGreen();
         int blue = color.getBlue();
@@ -305,10 +304,20 @@ class LoadingPanel extends Panel implements Runnable, ActionListener {
         } else {
             this.drawGradient2(var1, var5, var6, var7, var8, topRed, btmRed, topGreen, btmGreen, topBlue, btmBlue);
         }
-
     }
 
-    private void drawGradient(Graphics var1, int var2, int var3, int var4, int var5, int var6, int var7, int var8, int var9, int var10, int var11) {
+    private void drawGradient(
+            Graphics var1,
+            int var2,
+            int var3,
+            int var4,
+            int var5,
+            int var6,
+            int var7,
+            int var8,
+            int var9,
+            int var10,
+            int var11) {
         for (int var17 = var2; var17 < var3; ++var17) {
             double var12 = 1.0D * (double) (var17 - var2) / (double) (var3 - var2);
             int var14 = (int) ((double) var6 + (double) (var7 - var6) * var12);
@@ -317,10 +326,20 @@ class LoadingPanel extends Panel implements Runnable, ActionListener {
             var1.setColor(new Color(var14, var15, var16));
             var1.drawLine(var4, var17, var5 - 1, var17);
         }
-
     }
 
-    private void drawGradient2(Graphics var1, int var2, int var3, int var4, int var5, int var6, int var7, int var8, int var9, int var10, int var11) {
+    private void drawGradient2(
+            Graphics var1,
+            int var2,
+            int var3,
+            int var4,
+            int var5,
+            int var6,
+            int var7,
+            int var8,
+            int var9,
+            int var10,
+            int var11) {
         int var20 = -1;
 
         for (int var21 = var2; var21 < var3; ++var21) {
@@ -348,7 +367,6 @@ class LoadingPanel extends Panel implements Runnable, ActionListener {
                 }
             }
         }
-
     }
 
     private void drawLoadingMessage(Graphics g, Font font, String s) {

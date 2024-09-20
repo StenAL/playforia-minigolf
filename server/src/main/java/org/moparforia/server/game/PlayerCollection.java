@@ -1,8 +1,7 @@
 package org.moparforia.server.game;
 
-import org.moparforia.server.net.Packet;
-
 import java.util.ArrayList;
+import org.moparforia.server.net.Packet;
 
 public class PlayerCollection {
 

@@ -1,13 +1,12 @@
 package org.moparforia.server.net.packethandlers.golf;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import org.moparforia.server.Server;
 import org.moparforia.server.net.Packet;
 import org.moparforia.server.net.PacketHandler;
 import org.moparforia.server.net.PacketType;
 import org.moparforia.shared.Tools;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class LoginTypeHandler implements PacketHandler {
     @Override

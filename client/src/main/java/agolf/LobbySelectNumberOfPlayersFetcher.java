@@ -7,7 +7,6 @@ class LobbySelectNumberOfPlayersFetcher implements Runnable {
     private final LobbySelectPanel lobbySelectPanel;
     private boolean running;
 
-
     protected LobbySelectNumberOfPlayersFetcher(LobbySelectPanel lobbySelectPanel) {
         this.lobbySelectPanel = lobbySelectPanel;
         this.running = true;
@@ -26,7 +25,6 @@ class LobbySelectNumberOfPlayersFetcher implements Runnable {
                 sleepTime += 5000;
             }
         } while (this.running);
-
     }
 
     protected void stop() {

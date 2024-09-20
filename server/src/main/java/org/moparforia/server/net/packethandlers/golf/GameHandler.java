@@ -1,14 +1,13 @@
 package org.moparforia.server.net.packethandlers.golf;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import org.moparforia.server.Server;
 import org.moparforia.server.game.Game;
 import org.moparforia.server.game.Player;
 import org.moparforia.server.net.Packet;
 import org.moparforia.server.net.PacketHandler;
 import org.moparforia.server.net.PacketType;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class GameHandler implements PacketHandler {
     @Override
@@ -18,7 +17,8 @@ public class GameHandler implements PacketHandler {
 
     @Override
     public Pattern getPattern() {
-        // return Pattern.compile("game\\t(beginstroke|endstroke|voteskip|skip|newgame|back)(?:\\t([0-9a-z]{4}|[0-9]))?(?:\\t)?([ft]+)?");
+        // return
+        // Pattern.compile("game\\t(beginstroke|endstroke|voteskip|skip|newgame|back)(?:\\t([0-9a-z]{4}|[0-9]))?(?:\\t)?([ft]+)?");
         return Pattern.compile("game\\t(.+?)(?:\\t([0-9a-z]{4}|[0-9]))?(?:\\t)?([ftp]+)?");
     }
 
