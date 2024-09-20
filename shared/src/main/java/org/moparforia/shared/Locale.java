@@ -21,4 +21,13 @@ public enum Locale {
     public String toString() {
         return this.localeCode;
     }
+
+    public static Locale fromString(String code) {
+        for (Locale l : Locale.values()) {
+            if (l.localeCode.equalsIgnoreCase(code)) {
+                return l;
+            }
+        }
+        throw new IllegalArgumentException("No locale with code " + code + " found");
+    }
 }
