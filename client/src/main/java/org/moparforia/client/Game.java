@@ -14,10 +14,16 @@ public class Game {
     private static final int HEIGHT = 525;
 
     public Game(
-            JFrame frame, String server, int port, String lang, String username, boolean verbose, boolean norandom) {
+            JFrame frame,
+            String server,
+            int port,
+            Launcher.Locale locale,
+            String username,
+            boolean verbose,
+            boolean norandom) {
         Applet game = new AGolf();
 
-        game.setStub(new Stub(server, lang, username, port, verbose, norandom));
+        game.setStub(new Stub(server, locale, username, port, verbose, norandom));
         game.setSize(WIDTH, HEIGHT);
         game.init();
         game.start();
@@ -32,7 +38,8 @@ public class Game {
         private final Map<String, String> params;
         private String server;
 
-        public Stub(String server, String lang, String username, int port, boolean verbose, boolean norandom) {
+        public Stub(
+                String server, Launcher.Locale locale, String username, int port, boolean verbose, boolean norandom) {
             if (server.indexOf(':') == -1) { // is ipv4
                 this.server = server;
             } else { // is ipv6
@@ -52,8 +59,8 @@ public class Game {
 
             params.put("server", server + ":" + port);
 
-            params.put("language", lang.substring(0, 2)); // use first part of en_US, fi_FI or sv_SE
-            params.put("locale", lang);
+            params.put("language", locale.toString().substring(0, 2)); // use first part of en_US, fi_FI or sv_SE
+            params.put("locale", locale.toString());
             params.put("sitename", "playray");
             params.put("quitpage", "http://www.playforia.com/games/");
             params.put("regremindshowtime", "3,8,15,25,50,100,1000");

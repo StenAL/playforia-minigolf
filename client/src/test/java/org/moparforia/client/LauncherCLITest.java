@@ -94,7 +94,7 @@ class LauncherCLITest {
                         any(),
                         eq(Launcher.DEFAULT_SERVER),
                         eq(Launcher.DEFAULT_PORT),
-                        eq(Launcher.Language.EN_US),
+                        eq(Launcher.Locale.EN_US),
                         any(),
                         anyBoolean(),
                         anyBoolean());
@@ -105,7 +105,7 @@ class LauncherCLITest {
                         any(),
                         eq(Launcher.DEFAULT_SERVER),
                         eq(Launcher.DEFAULT_PORT),
-                        eq(Launcher.Language.FI_FI),
+                        eq(Launcher.Locale.FI_FI),
                         any(),
                         anyBoolean(),
                         anyBoolean());
@@ -182,7 +182,7 @@ class LauncherCLITest {
                         any(),
                         eq(Launcher.DEFAULT_SERVER),
                         eq(Launcher.DEFAULT_PORT),
-                        eq(Launcher.Language.EN_US),
+                        eq(Launcher.Locale.EN_US),
                         eq(null),
                         eq(false),
                         eq(false));

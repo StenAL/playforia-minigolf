@@ -45,7 +45,7 @@ public class Launcher implements Callable<Integer> {
             names = {"--lang", "-l"},
             description = "Sets language of the game, available values:\n ${COMPLETION-CANDIDATES}",
             defaultValue = "en_us")
-    private Language lang;
+    private Locale locale;
 
     @CommandLine.Option(
             names = {"--username", "-u"},
@@ -149,7 +149,7 @@ public class Launcher implements Callable<Integer> {
             }
         }
 
-        launchGame(frame, hostname, port, lang, username, verbose, norandom);
+        launchGame(frame, hostname, port, locale, username, verbose, norandom);
         return null;
     }
 
@@ -165,11 +165,11 @@ public class Launcher implements Callable<Integer> {
             JFrame frame,
             String hostname,
             int port,
-            Language lang,
+            Locale locale,
             String username,
             boolean verbose,
             boolean norandom) {
-        return new Game(frame, hostname, port, lang.toString(), username, verbose, norandom);
+        return new Game(frame, hostname, port, locale, username, verbose, norandom);
     }
 
     public Image loadIcon() throws IOException {
@@ -184,20 +184,20 @@ public class Launcher implements Callable<Integer> {
         this.port = port;
     }
 
-    enum Language {
+    public enum Locale {
         EN_US("en_US"),
         FI_FI("fi_FI"),
         SV_SE("sv_SE");
 
-        private final String custom_name;
+        private final String name;
 
-        Language(String name) {
-            this.custom_name = name;
+        Locale(String name) {
+            this.name = name;
         }
 
         @Override
         public String toString() {
-            return this.custom_name;
+            return this.name;
         }
     }
 }
