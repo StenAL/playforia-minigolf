@@ -68,8 +68,8 @@ final class GlobalTextArea extends IPanel implements ComponentListener, TabBarLi
             if (this.aTabBar2367 == null) {
                 return this.anInt2366;
             } else {
-                TabBarItem var2 = this.aTabBar2367.getTabBarItemByIndex(this.aTabBar2367.getSelectedIndex());
-                return var2.getTabID();
+                TabBarItem var2 = this.aTabBar2367.getTabBarItemByIndex(this.aTabBar2367.getSelectedTabIndex());
+                return var2.getTabId();
             }
         }
     }
@@ -149,7 +149,7 @@ final class GlobalTextArea extends IPanel implements ComponentListener, TabBarLi
                 this.aChatTextArea2365 = null;
             }
 
-            TabBarItem var3 = this.aTabBar2367.getTabBarItemByID(var1);
+            TabBarItem var3 = this.aTabBar2367.getTabBarItemById(var1);
             if (var3 != null) {
                 return (ChatTextArea) var3.getComponent();
             } else {
@@ -172,7 +172,7 @@ final class GlobalTextArea extends IPanel implements ComponentListener, TabBarLi
         var2.setBorderStyle(0);
         TabBarItem var3 = new TabBarItem(
                 this.aTabBar2367, this.aLanguages2362.getFlag(var1), this.aLanguages2362.getName(var1), var2);
-        var3.setTabID(var1);
+        var3.setTabId(var1);
         var3.setComponentAutoSize(true);
         this.aTabBar2367.addTab(var3);
     }
