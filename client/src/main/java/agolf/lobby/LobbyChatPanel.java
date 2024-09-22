@@ -3,11 +3,11 @@ package agolf.lobby;
 import agolf.GameApplet;
 import agolf.GameContainer;
 import com.aapeli.multiuser.ChatLobby;
-import com.aapeli.multiuser.GlobalChatListener;
 import com.aapeli.multiuser.Languages;
+import com.aapeli.multiuser.MultiLanguageChatListener;
 import com.aapeli.multiuser.User;
 
-class LobbyChatPanel extends ChatLobby implements GlobalChatListener {
+class LobbyChatPanel extends ChatLobby implements MultiLanguageChatListener {
 
     private static boolean aBoolean3712 = true;
     private static boolean aBoolean3713 = true;
@@ -36,7 +36,7 @@ class LobbyChatPanel extends ChatLobby implements GlobalChatListener {
             this.disableChatInput(2);
         }
 
-        this.setOutputToGlobal(Languages.getLanguageId(gameContainer.params.getChatLocale()));
+        this.addChatWithLanguage(Languages.getLanguageId(gameContainer.params.getChatLocale()));
         this.addChatListener(this);
     }
 
@@ -232,7 +232,7 @@ class LobbyChatPanel extends ChatLobby implements GlobalChatListener {
 
             System.arraycopy(args, 2, users, 0, i);
 
-            this.setFullUserList(users);
+            this.setUserList(users);
             return true;
         } else if (args[1].equals("ownjoin")) {
             this.localUserJoin(args[2]);
