@@ -4,9 +4,9 @@ public interface ChatListener {
 
     void localUserSay(String var1);
 
-    void localUserSayPrivately(String var1, String var2);
+    void localUserSayPrivately(String to, String message);
 
-    void localUserAdminCommand(String var1, String var2);
+    void localUserAdminCommand(String command, String parameter1);
 
-    void localUserAdminCommand(String var1, String var2, String var3);
+    void localUserAdminCommand(String command, String parameter1, String parameter2);
 }

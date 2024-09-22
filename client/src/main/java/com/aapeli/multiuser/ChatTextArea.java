@@ -2,6 +2,7 @@ package com.aapeli.multiuser;
 
 import com.aapeli.client.BadWordFilter;
 import com.aapeli.client.TextManager;
+import com.aapeli.colorgui.ColorListItem;
 import com.aapeli.colorgui.ColorTextArea;
 import java.awt.Font;
 import java.util.Hashtable;
@@ -12,69 +13,57 @@ public class ChatTextArea extends ColorTextArea {
     public static final Font SMALL_FONT = new Font("Dialog", Font.PLAIN, 11);
     private TextManager textManager;
     private BadWordFilter badWordFilter;
-    private Hashtable<String, Integer> aHashtable4730;
-
-    public ChatTextArea(TextManager textManager, int width, int height) {
-        this(textManager, null, width, height, null);
-    }
-
-    public ChatTextArea(TextManager textManager, int width, int height, Font font) {
-        this(textManager, null, width, height, font);
-    }
-
-    public ChatTextArea(TextManager textManager, BadWordFilter badWordFilter, int width, int height) {
-        this(textManager, badWordFilter, width, height, null);
-    }
+    private Hashtable<String, Integer> userColors;
 
     public ChatTextArea(TextManager textManager, BadWordFilter badWordFilter, int width, int height, Font font) {
         super(width, height, font != null ? font : DEFAULT_FONT);
         this.textManager = textManager;
         this.badWordFilter = badWordFilter;
-        this.aHashtable4730 = new Hashtable<>();
+        this.userColors = new Hashtable<>();
     }
 
-    public void addOwnSay(String var1, String var2) {
-        this.method856(3, var1, var2, true);
+    public void addOwnSay(String user, String message) {
+        this.addUserMessage(ColorListItem.COLOR_BLUE, user, message, true);
     }
 
-    public void addOwnSayPrivately(String var1, String var2, String var3) {
-        this.method857(3, var1, var2, var3, true);
+    public void addOwnSayPrivately(String from, String to, String message) {
+        this.addPrivateMessage(ColorListItem.COLOR_BLUE, from, to, message, true);
     }
 
-    public void addSay(String var1, String var2) {
-        this.method856(0, var1, var2, false);
+    public void addSay(String user, String message) {
+        this.addUserMessage(ColorListItem.COLOR_BLACK, user, message, false);
     }
 
-    public void addSayPrivately(String var1, String var2, String var3) {
-        this.method857(5, var1, var2, var3, false);
+    public void addSayPrivately(String from, String to, String message) {
+        this.addPrivateMessage(ColorListItem.COLOR_MAGENTA, from, to, message, false);
     }
 
-    public void addJoinMessage(String var1) {
-        this.addMessage(2, var1);
+    public void addJoinMessage(String message) {
+        this.addMessage(ColorListItem.COLOR_GREEN, message);
     }
 
-    public void addPartMessage(String var1) {
-        this.addMessage(1, var1);
+    public void addPartMessage(String message) {
+        this.addMessage(ColorListItem.COLOR_RED, message);
     }
 
-    public void addStartedGameMessage(String var1) {
-        this.addMessage(7, var1);
+    public void addStartedGameMessage(String message) {
+        this.addMessage(ColorListItem.COLOR_GRAY, message);
     }
 
     public void addSheriffSay(String text) {
-        this.addImportantLine(6, this.textManager.getShared("Chat_SheriffSay", text));
+        this.addImportantLine(ColorListItem.COLOR_CYAN, this.textManager.getShared("Chat_SheriffSay", text));
     }
 
     public void addServerSay(String text) {
-        this.addText(6, this.textManager.getShared("Chat_ServerSay", text));
+        this.addText(ColorListItem.COLOR_CYAN, this.textManager.getShared("Chat_ServerSay", text));
     }
 
     public void addLocalizedServerSay(String text) {
-        this.addText(6, text);
+        this.addText(ColorListItem.COLOR_CYAN, text);
     }
 
     public void addBroadcastMessage(String text) {
-        this.addImportantLine(6, this.textManager.getShared("Chat_ServerBroadcast", text));
+        this.addImportantLine(ColorListItem.COLOR_CYAN, this.textManager.getShared("Chat_ServerBroadcast", text));
     }
 
     public void addWelcomeMessage(String text) {
@@ -87,8 +76,8 @@ public class ChatTextArea extends ColorTextArea {
         this.addText(7, text);
     }
 
-    public void addMessage(String var1) {
-        this.addMessage(7, var1);
+    public void addMessage(String text) {
+        this.addMessage(ColorListItem.COLOR_GRAY, text);
     }
 
     public void addHighlightMessage(String var1) {
@@ -103,16 +92,16 @@ public class ChatTextArea extends ColorTextArea {
         this.addMessage(7, this.textManager.getShared("Chat_MessageFlood"));
     }
 
-    public void addPrivateMessageUserLeftMessage(String var1) {
-        this.addMessage(6, this.textManager.getShared("Chat_MessagePrivateMessageUserLeft", var1));
+    public void addPrivateMessageUserLeftMessage(String user) {
+        this.addMessage(6, this.textManager.getShared("Chat_MessagePrivateMessageUserLeft", user));
     }
 
-    public void setUserColor(String var1, int var2) {
-        this.aHashtable4730.put(var1, var2);
+    public void setUserColor(String user, int color) {
+        this.userColors.put(user, color);
     }
 
-    public void removeUserColor(String var1) {
-        this.aHashtable4730.remove(var1);
+    public void removeUserColor(String user) {
+        this.userColors.remove(user);
     }
 
     public TextManager getTextManager() {
@@ -123,89 +112,93 @@ public class ChatTextArea extends ColorTextArea {
         return this.badWordFilter;
     }
 
-    private void addMessage(int var1, String text) {
-        this.addText(this.method858(var1), this.textManager.getShared("Chat_Message", text));
+    private void addMessage(int color, String text) {
+        this.addText(this.normalizeColor(color), this.textManager.getShared("Chat_Message", text));
     }
 
-    private void method856(int var1, String var2, String var3, boolean var4) {
-        var3 = this.method860(var3, var4);
-        if (var3.length() > 4 && var3.toLowerCase().startsWith("/me ")) {
+    private void addUserMessage(int fallbackColor, String user, String message, boolean isLocalMessage) {
+        message = this.normalizeMessage(message, isLocalMessage);
+        if (message.length() > 4 && message.toLowerCase().startsWith("/me ")) {
             this.addText(
-                    this.method859(var2, var1),
-                    this.textManager.getShared("Chat_UserAction", var2, var3.substring(4)),
-                    var4);
+                    this.getUserColor(user, fallbackColor),
+                    this.textManager.getShared("Chat_UserAction", user, message.substring(4)),
+                    isLocalMessage);
         } else {
-            this.addText(this.method859(var2, var1), this.textManager.getShared("Chat_UserSay", var2, var3), var4);
+            this.addText(
+                    this.getUserColor(user, fallbackColor),
+                    this.textManager.getShared("Chat_UserSay", user, message),
+                    isLocalMessage);
         }
     }
 
-    private void method857(int var1, String var2, String var3, String var4, boolean var5) {
-        var4 = this.method860(var4, var5);
+    private void addPrivateMessage(int fallbackColor, String from, String to, String message, boolean isOwnMessage) {
+        message = this.normalizeMessage(message, isOwnMessage);
         this.addText(
-                this.method859(var2, var1), this.textManager.getShared("Chat_UserSayPrivate", var2, var3, var4), var5);
+                this.getUserColor(from, fallbackColor),
+                this.textManager.getShared("Chat_UserSayPrivate", from, to, message),
+                isOwnMessage);
     }
 
-    private int method858(int var1) {
-        return this.aHashtable4730.size() == 0 ? var1 : 7;
+    private int normalizeColor(int color) {
+        return this.userColors.size() == 0 ? color : ColorListItem.COLOR_GRAY;
     }
 
-    private int method859(String var1, int var2) {
-        Integer var3 = this.aHashtable4730.get(var1);
-        return var3 == null ? var2 : var3;
+    private int getUserColor(String user, int fallback) {
+        Integer color = this.userColors.get(user);
+        return color == null ? fallback : color;
     }
 
-    private String method860(String var1, boolean var2) {
-        var1 = this.method861(var1);
-        var1 = this.method862(var1, var2);
-        return var1;
+    private String normalizeMessage(String message, boolean isOwnMessage) {
+        message = this.normalize(message);
+        message = this.filter(message, isOwnMessage);
+        return message;
     }
 
-    private String method861(String var1) {
-        char[] var2 = var1.toCharArray();
-        boolean var3 = false;
-        int var4 = var2.length;
+    private String normalize(String message) {
+        char[] chars = message.toCharArray();
+        boolean modified = false;
 
-        for (int var5 = 0; var5 < var4; ++var5) {
-            if (var2[var5] < 32
-                    || var2[var5] == 127
-                    || var2[var5] >= 128 && var2[var5] <= 159
-                    || var2[var5] == 8232
-                    || var2[var5] == 8233
-                    || var2[var5] == '\ufff9'
-                    || var2[var5] == '\ufffa'
-                    || var2[var5] == '\ufffb'
-                    || var2[var5] == 8206
-                    || var2[var5] == 8207
-                    || var2[var5] == 8234
-                    || var2[var5] == 8238
-                    || var2[var5] == '\uf0da') {
-                var2[var5] = 32;
-                var3 = true;
+        for (int i = 0; i < chars.length; ++i) {
+            if (chars[i] < 32
+                    || chars[i] == 127
+                    || chars[i] >= 128 && chars[i] <= 159
+                    || chars[i] == 8232
+                    || chars[i] == 8233
+                    || chars[i] == '\ufff9'
+                    || chars[i] == '\ufffa'
+                    || chars[i] == '\ufffb'
+                    || chars[i] == 8206
+                    || chars[i] == 8207
+                    || chars[i] == 8234
+                    || chars[i] == 8238
+                    || chars[i] == '\uf0da') {
+                chars[i] = ' ';
+                modified = true;
             }
 
-            if (var2[var5] == '\uf0da') {
-                var2[var5] = 32;
-                var3 = true;
+            if (chars[i] == '\uf0da') {
+                chars[i] = ' ';
+                modified = true;
             }
 
-            if (var2[var5] == 304) {
-                var2[var5] = 73;
-                var3 = true;
+            if (chars[i] == 'İ') {
+                chars[i] = 'I';
+                modified = true;
             }
         }
 
-        if (var3) {
-            var1 = new String(var2);
+        if (modified) {
+            message = new String(chars);
         }
 
-        return var1;
+        return message;
     }
 
-    private String method862(String var1, boolean var2) {
-        if (this.badWordFilter != null && !var2) {
-            var1 = this.badWordFilter.filter(var1);
+    private String filter(String message, boolean isOwnMessage) {
+        if (this.badWordFilter != null && !isOwnMessage) {
+            message = this.badWordFilter.filter(message);
         }
 
-        return var1;
+        return message;
     }
 }
