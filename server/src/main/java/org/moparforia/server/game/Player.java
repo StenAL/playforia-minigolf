@@ -217,7 +217,6 @@ public class Player {
     public String toString() {
         String tmp =
                 (registered ? "r" : "") + (vip ? "v" : "") + (sheriff ? "s" : "") + (notAcceptingChallenges ? "n" : "");
-        System.out.println("locale: " + locale);
         return Tools.triangelize(
                 "3:" + (nick != null ? nick : ""),
                 tmp.equals("") ? "w" : tmp,
