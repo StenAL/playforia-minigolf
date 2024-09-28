@@ -1,9 +1,7 @@
 package com.aapeli.applet;
 
 import com.aapeli.client.IPanel;
-
 import java.awt.Dimension;
-
 
 class ContentPanel extends IPanel {
 
@@ -24,6 +22,5 @@ class ContentPanel extends IPanel {
         if (this.getComponentCount() > 0) {
             this.setVisible(true);
         }
-
     }
 }

@@ -1,7 +1,6 @@
 package com.aapeli.applet;
 
 import com.aapeli.client.Parameters;
-
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Cursor;
@@ -30,7 +29,6 @@ class AdCanvas extends Canvas implements MouseListener {
     private long aLong124;
     private boolean aBoolean125;
     private long aLong126;
-
 
     private AdCanvas(AApplet var1, URL var2, List<AdCanvasText> var3, URL var4, String var5, int var6) {
         this.gameApplet = var1;
@@ -76,24 +74,19 @@ class AdCanvas extends Canvas implements MouseListener {
                 var1.drawLine(0, 19, 19, 0);
             }
         }
-
     }
 
-    public void mouseEntered(MouseEvent var1) {
-    }
+    public void mouseEntered(MouseEvent var1) {}
 
-    public void mouseExited(MouseEvent var1) {
-    }
+    public void mouseExited(MouseEvent var1) {}
 
     public void mousePressed(MouseEvent var1) {
         this.gameApplet.getAppletContext().showDocument(this.anURL119, this.aString120);
     }
 
-    public void mouseReleased(MouseEvent var1) {
-    }
+    public void mouseReleased(MouseEvent var1) {}
 
-    public void mouseClicked(MouseEvent var1) {
-    }
+    public void mouseClicked(MouseEvent var1) {}
 
     protected static AdCanvas create(AApplet applet, Parameters parameters) {
         try {
@@ -130,7 +123,7 @@ class AdCanvas extends Canvas implements MouseListener {
     }
 
     protected void method212() {
-        this.anImage122 = Toolkit.getDefaultToolkit().createImage(anURL117);//this.gameApplet.getImage(this.anURL117);
+        this.anImage122 = Toolkit.getDefaultToolkit().createImage(anURL117); // this.gameApplet.getImage(this.anURL117);
     }
 
     protected boolean method213() {

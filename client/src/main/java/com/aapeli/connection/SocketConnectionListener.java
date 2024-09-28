@@ -1,9 +1,8 @@
 package com.aapeli.connection;
 
+public interface SocketConnectionListener {
 
-public interface ConnListener {
-
-    void dataReceived(String var1);
+    void dataReceived(String data);
 
     void connectionLost(int var1);
 

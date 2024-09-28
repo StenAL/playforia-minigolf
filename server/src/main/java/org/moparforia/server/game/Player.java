@@ -2,6 +2,7 @@ package org.moparforia.server.game;
 
 import io.netty.channel.Channel;
 import io.netty.util.AttributeKey;
+import org.moparforia.shared.Locale;
 import org.moparforia.shared.Tools;
 
 public class Player {
@@ -15,13 +16,13 @@ public class Player {
     private final int id;
 
     private String nick;
-    private String locale;
+    private Locale locale;
     private String profileUrl;
     private String avatarUrl;
     private String clan;
     private int accessLevel;
     private int ranking;
-    private boolean emailVerified;// todo or something like that maybe, find out
+    private boolean emailVerified; // todo or something like that maybe, find out
     private boolean registered;
     private boolean vip;
     private boolean sheriff;
@@ -36,32 +37,27 @@ public class Player {
     public Player(Channel channel, int id) {
         this.channel = channel;
         this.id = id;
-        ranking = 0;
+        this.ranking = 0;
         resetVals();
     }
 
-    /**
-     * USE WITH CARE!!11 LOL
-     *
-     * @see {java.lang.String}
-     */
     public void resetVals() {
-        nick = "-";
-        locale = "-";
-        profileUrl = "-";
-        avatarUrl = "-";
-        clan = "-";
-        accessLevel = ACCESSLEVEL_NORMAL;
-        ranking = 0;
-        emailVerified = false;
-        registered = false;
-        vip = false;
-        sheriff = accessLevel == ACCESSLEVEL_SHERIFF || accessLevel == ACCESSLEVEL_ADMIN;
-        notAcceptingChallenges = false;
-        isChatHidden = false;
-        hasSkipped = false;
-        lobby = null;
-        game = null;
+        this.nick = "-";
+        this.locale = null;
+        this.profileUrl = "-";
+        this.avatarUrl = "-";
+        this.clan = "-";
+        this.accessLevel = ACCESSLEVEL_NORMAL;
+        this.ranking = 0;
+        this.emailVerified = false;
+        this.registered = false;
+        this.vip = false;
+        this.sheriff = accessLevel == ACCESSLEVEL_SHERIFF || accessLevel == ACCESSLEVEL_ADMIN;
+        this.notAcceptingChallenges = false;
+        this.isChatHidden = false;
+        this.hasSkipped = false;
+        this.lobby = null;
+        this.game = null;
     }
 
     public Channel getChannel() {
@@ -88,11 +84,11 @@ public class Player {
         return nick;
     }
 
-    public String getLocale() {
+    public Locale getLocale() {
         return locale;
     }
 
-    public void setLocale(String locale) {
+    public void setLocale(Locale locale) {
         this.locale = locale;
     }
 
@@ -213,21 +209,20 @@ public class Player {
     }
 
     public boolean equals(Object o) {
-        if (o == null || !(o instanceof Player))
-            return false;
+        if (o == null || !(o instanceof Player)) return false;
         Player p = (Player) o;
-        return nick.equals(p.nick) && ranking == p.ranking && locale.equals(p.locale);
+        return nick.equals(p.nick) && ranking == p.ranking && locale == p.locale;
     }
 
     public String toString() {
-        String tmp = (registered ? "r" : "") + (vip ? "v" : "") + (sheriff ? "s" : "") + (notAcceptingChallenges ? "n" : "");
+        String tmp =
+                (registered ? "r" : "") + (vip ? "v" : "") + (sheriff ? "s" : "") + (notAcceptingChallenges ? "n" : "");
         return Tools.triangelize(
                 "3:" + (nick != null ? nick : ""),
                 tmp.equals("") ? "w" : tmp,
                 ranking,
-                locale != null ? locale : "",
+                locale != null ? locale : "-",
                 profileUrl != null ? profileUrl : "",
-                avatarUrl != null ? avatarUrl : ""
-        );
+                avatarUrl != null ? avatarUrl : "");
     }
 }

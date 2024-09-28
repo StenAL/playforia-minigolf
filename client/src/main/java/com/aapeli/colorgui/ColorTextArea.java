@@ -1,7 +1,6 @@
 package com.aapeli.colorgui;
 
 import com.aapeli.client.IPanel;
-
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -32,7 +31,17 @@ public class ColorTextArea extends IPanel implements ComponentListener, Adjustme
     public static final int BORDER_NONE = 0;
     public static final int BORDER_BEVELED = 1;
     public static final int BORDER_NONE_ROUNDCORNER = 2;
-    private static final Color[] colors = new Color[]{new Color(0, 0, 0), new Color(224, 0, 0), new Color(0, 160, 0), new Color(0, 0, 240), new Color(160, 128, 0), new Color(160, 0, 160), new Color(0, 144, 160), new Color(112, 112, 112), new Color(255, 255, 255)};
+    private static final Color[] colors = new Color[] {
+        new Color(0, 0, 0),
+        new Color(224, 0, 0),
+        new Color(0, 160, 0),
+        new Color(0, 0, 240),
+        new Color(160, 128, 0),
+        new Color(160, 0, 160),
+        new Color(0, 144, 160),
+        new Color(112, 112, 112),
+        new Color(255, 255, 255)
+    };
     private static final Color backgroundImageBorderColor = new Color(255, 255, 255);
     private static final Color borderLight = new Color(192, 192, 192);
     private static final Color borderDark = new Color(64, 64, 64);
@@ -111,7 +120,17 @@ public class ColorTextArea extends IPanel implements ComponentListener, Adjustme
             }
         } else {
             this.drawBackground(this.graphics);
-            this.graphics.drawImage(this.backgroundImage, 0, 0, this.width, this.height, this.backgroundOffsetX, this.backgroundOffsetY, this.backgroundOffsetX + this.width, this.backgroundOffsetY + this.height, this);
+            this.graphics.drawImage(
+                    this.backgroundImage,
+                    0,
+                    0,
+                    this.width,
+                    this.height,
+                    this.backgroundOffsetX,
+                    this.backgroundOffsetY,
+                    this.backgroundOffsetX + this.width,
+                    this.backgroundOffsetY + this.height,
+                    this);
         }
 
         synchronized (this.synchronizationObject) {
@@ -145,14 +164,11 @@ public class ColorTextArea extends IPanel implements ComponentListener, Adjustme
         g.drawImage(this.image, 0, 0, this);
     }
 
-    public void componentShown(ComponentEvent e) {
-    }
+    public void componentShown(ComponentEvent e) {}
 
-    public void componentHidden(ComponentEvent e) {
-    }
+    public void componentHidden(ComponentEvent e) {}
 
-    public void componentMoved(ComponentEvent e) {
-    }
+    public void componentMoved(ComponentEvent e) {}
 
     public void componentResized(ComponentEvent e) {
         Dimension size = this.getSize();
@@ -218,7 +234,14 @@ public class ColorTextArea extends IPanel implements ComponentListener, Adjustme
                         calendar.setTime(new Date(colorText.getCreated()));
                         int hour = calendar.get(Calendar.HOUR_OF_DAY);
                         int minute = calendar.get(Calendar.MINUTE);
-                        textWithTimestamps[i] = "[" + (hour < 10 ? "0" : "") + hour + ":" + (minute < 10 ? "0" : "") + minute + "] " + colorText.getText();
+                        textWithTimestamps[i] = "["
+                                + (hour < 10 ? "0" : "")
+                                + hour
+                                + ":"
+                                + (minute < 10 ? "0" : "")
+                                + minute
+                                + "] "
+                                + colorText.getText();
                     }
                 }
             }
@@ -351,7 +374,8 @@ public class ColorTextArea extends IPanel implements ComponentListener, Adjustme
                     this.hasScrollbar = true;
                 } else {
                     int currentScrollbarOffset = this.scrollbar.getValue();
-                    if (!scrollToBottom && currentScrollbarOffset + this.scrollWindowNumberOfLines < scrollbarPosition) {
+                    if (!scrollToBottom
+                            && currentScrollbarOffset + this.scrollWindowNumberOfLines < scrollbarPosition) {
                         newScrollbarOffset = currentScrollbarOffset;
                     }
                 }

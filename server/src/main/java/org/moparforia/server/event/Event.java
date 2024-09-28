@@ -9,5 +9,4 @@ public abstract class Event {
     }
 
     public abstract void process(Server server);
-
 }

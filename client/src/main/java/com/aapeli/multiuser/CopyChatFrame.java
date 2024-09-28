@@ -1,7 +1,6 @@
 package com.aapeli.multiuser;
 
 import com.aapeli.colorgui.ColorTextArea;
-
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -18,15 +17,11 @@ class CopyChatFrame extends Frame implements ComponentListener, WindowListener {
 
     private TextArea textArea;
 
+    public void componentHidden(ComponentEvent e) {}
 
-    public void componentHidden(ComponentEvent e) {
-    }
+    public void componentShown(ComponentEvent e) {}
 
-    public void componentShown(ComponentEvent e) {
-    }
-
-    public void componentMoved(ComponentEvent e) {
-    }
+    public void componentMoved(ComponentEvent e) {}
 
     public void componentResized(ComponentEvent e) {
         Dimension d = this.getSize();
@@ -34,27 +29,21 @@ class CopyChatFrame extends Frame implements ComponentListener, WindowListener {
         this.textArea.setBounds(i.left, i.top, d.width - i.left - i.right, d.height - i.top - i.bottom);
     }
 
-    public void windowOpened(WindowEvent e) {
-    }
+    public void windowOpened(WindowEvent e) {}
 
-    public void windowClosed(WindowEvent e) {
-    }
+    public void windowClosed(WindowEvent e) {}
 
     public void windowClosing(WindowEvent e) {
         this.dispose();
     }
 
-    public void windowActivated(WindowEvent e) {
-    }
+    public void windowActivated(WindowEvent e) {}
 
-    public void windowDeactivated(WindowEvent e) {
-    }
+    public void windowDeactivated(WindowEvent e) {}
 
-    public void windowIconified(WindowEvent e) {
-    }
+    public void windowIconified(WindowEvent e) {}
 
-    public void windowDeiconified(WindowEvent e) {
-    }
+    public void windowDeiconified(WindowEvent e) {}
 
     protected void create(Component parent, ColorTextArea colorTextArea) {
         this.setTitle("Sheriff: Copy of chat");
@@ -102,5 +91,4 @@ class CopyChatFrame extends Frame implements ComponentListener, WindowListener {
 
         return sb.toString();
     }
-
 }

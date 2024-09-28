@@ -4,14 +4,6 @@
 
 package org.moparforia.editor;
 
-import org.moparforia.shared.tracks.Track;
-import org.moparforia.shared.tracks.TrackCategory;
-import org.moparforia.shared.tracks.filesystem.FileSystemTrackManager;
-import org.moparforia.shared.tracks.parsers.VersionedTrackFileParser;
-
-import javax.swing.*;
-import javax.swing.border.TitledBorder;
-import javax.swing.filechooser.FileFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -20,6 +12,13 @@ import java.awt.event.MouseListener;
 import java.io.*;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import javax.swing.*;
+import javax.swing.border.TitledBorder;
+import javax.swing.filechooser.FileFilter;
+import org.moparforia.shared.tracks.Track;
+import org.moparforia.shared.tracks.TrackCategory;
+import org.moparforia.shared.tracks.filesystem.FileSystemTrackManager;
+import org.moparforia.shared.tracks.parsers.VersionedTrackFileParser;
 
 /**
  * @author Johan Ljungberg
@@ -109,7 +108,6 @@ public class TrackEditor extends JFrame implements IEditor {
                             newTile.setShapeIndex(index);
                             break;
                         case 1:
-
                             if (SwingUtilities.isLeftMouseButton(e)) {
                                 newTile.setBackground(index);
                                 backSelection.setIcon(icon);
@@ -132,25 +130,28 @@ public class TrackEditor extends JFrame implements IEditor {
 
                 @Override
                 public void mousePressed(MouseEvent e) {
-                    //To change body of implemented methods use File | Settings | File Templates.
+                    // To change body of implemented methods use File | Settings | File
+                    // Templates.
                 }
 
                 @Override
                 public void mouseReleased(MouseEvent e) {
-                    //To change body of implemented methods use File | Settings | File Templates.
+                    // To change body of implemented methods use File | Settings | File
+                    // Templates.
                 }
 
                 @Override
                 public void mouseEntered(MouseEvent e) {
-                    //To change body of implemented methods use File | Settings | File Templates.
+                    // To change body of implemented methods use File | Settings | File
+                    // Templates.
                 }
 
                 @Override
                 public void mouseExited(MouseEvent e) {
-                    //To change body of implemented methods use File | Settings | File Templates.
+                    // To change body of implemented methods use File | Settings | File
+                    // Templates.
                 }
             });
-
 
             panel.add(button);
         }
@@ -208,8 +209,11 @@ public class TrackEditor extends JFrame implements IEditor {
                 Map m = new MapDecompressor().decompress(currentTrack.getMap());
                 TrackCategory category = TrackCategory.UNKNOWN;
                 if (!currentTrack.getCategories().isEmpty()) {
-                    // Oneliner to get one random category from loaded set, editor cannot work wiht multiple categories yet
-                    category = currentTrack.getCategories().stream().reduce((t, u) -> t).orElse(TrackCategory.UNKNOWN);
+                    // Oneliner to get one random category from loaded set, editor cannot work wiht
+                    // multiple categories yet
+                    category = currentTrack.getCategories().stream()
+                            .reduce((t, u) -> t)
+                            .orElse(TrackCategory.UNKNOWN);
                 }
                 mapCanvas.updateProperties(currentTrack.getName(), category.getId());
                 mapCanvas.setMap(m);
@@ -223,12 +227,20 @@ public class TrackEditor extends JFrame implements IEditor {
     private void menuSaveActionPerformed(ActionEvent e) {
 
         if (!isValidTrack(mapCanvas.getMap())) {
-            JOptionPane.showMessageDialog(this, "The current track is impassable, please ensure there is a starting position, finishing hole and a valid path between.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(
+                    this,
+                    "The current track is impassable, please ensure there is a starting position, finishing hole and a valid path between.",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
             return;
         }
 
         if (mapCanvas.getTrackName().equals("") || mapCanvas.getTrackCategory() == 0) {
-            JOptionPane.showMessageDialog(this, "You need to specify a Track Name and/or Category before saving!", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(
+                    this,
+                    "You need to specify a Track Name and/or Category before saving!",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
             new TrackPropertiesDialog(this).setVisible(true);
             menuSaveActionPerformed(e);
             return;
@@ -288,10 +300,10 @@ public class TrackEditor extends JFrame implements IEditor {
         if (!containsHole || (startX.isEmpty() && startY.isEmpty())) {
             return false; // if there is no hole or starting positions, ITS NOT VALID!
         }
-        for(int i = 0; i < startX.size(); i++) {
-            System.out.println(startX.get(i)+" "+startY.get(i));
-        boolean[][] visited = new boolean[tiles.length][tiles[0].length];
-            if(!traverseTrack(m, visited, startX.get(i), startY.get(i))) {
+        for (int i = 0; i < startX.size(); i++) {
+            System.out.println(startX.get(i) + " " + startY.get(i));
+            boolean[][] visited = new boolean[tiles.length][tiles[0].length];
+            if (!traverseTrack(m, visited, startX.get(i), startY.get(i))) {
                 return false; // if any starting positions don't work, then bye bye.
             }
         }
@@ -359,20 +371,19 @@ public class TrackEditor extends JFrame implements IEditor {
         toggleCircle = new JToggleButton();
         toggleFill = new JToggleButton();
 
-
-        //======== this ========
+        // ======== this ========
         setTitle("Playforia Minigolf Track Editor (BETA)");
         Container contentPane = getContentPane();
         contentPane.setLayout(new BorderLayout());
 
-        //======== menuBar ========
+        // ======== menuBar ========
         {
 
-            //======== menuFile ========
+            // ======== menuFile ========
             {
                 menuFile.setText("File");
 
-                //---- menuNew ----
+                // ---- menuNew ----
                 menuNew.setText("New");
                 menuNew.addActionListener(new ActionListener() {
                     @Override
@@ -383,7 +394,7 @@ public class TrackEditor extends JFrame implements IEditor {
                 menuFile.add(menuNew);
                 menuFile.addSeparator();
 
-                //---- menuOpen ----
+                // ---- menuOpen ----
                 menuOpen.setText("Open");
                 menuOpen.addActionListener(new ActionListener() {
                     @Override
@@ -393,7 +404,7 @@ public class TrackEditor extends JFrame implements IEditor {
                 });
                 menuFile.add(menuOpen);
 
-                //---- menuSave ----
+                // ---- menuSave ----
                 menuSave.setText("Save");
                 menuSave.addActionListener(new ActionListener() {
                     @Override
@@ -404,7 +415,7 @@ public class TrackEditor extends JFrame implements IEditor {
                 menuFile.add(menuSave);
                 menuFile.addSeparator();
 
-                //---- menuQuit ----
+                // ---- menuQuit ----
                 menuQuit.setText("Quit");
                 menuQuit.addActionListener(new ActionListener() {
                     @Override
@@ -416,11 +427,11 @@ public class TrackEditor extends JFrame implements IEditor {
             }
             menuBar.add(menuFile);
 
-            //======== menuTrack ========
+            // ======== menuTrack ========
             {
                 menuTrack.setText("Track");
 
-                //---- menuPreferences ----
+                // ---- menuPreferences ----
                 menuPreferences.setText("Preferences");
                 menuPreferences.addActionListener(new ActionListener() {
                     @Override
@@ -432,11 +443,11 @@ public class TrackEditor extends JFrame implements IEditor {
             }
             menuBar.add(menuTrack);
 
-            //======== menuView ========
+            // ======== menuView ========
             {
                 menuView.setText("View");
 
-                //---- menuGrid ----
+                // ---- menuGrid ----
                 menuGrid.setText("Grid");
                 menuGrid.setSelected(true);
                 menuGrid.addActionListener(new ActionListener() {
@@ -451,7 +462,7 @@ public class TrackEditor extends JFrame implements IEditor {
         }
         setJMenuBar(menuBar);
 
-        //======== trackCanvas ========
+        // ======== trackCanvas ========
         {
             trackCanvas.setPreferredSize(new Dimension(735, 375));
             trackCanvas.setLayout(null);
@@ -468,38 +479,37 @@ public class TrackEditor extends JFrame implements IEditor {
                 preferredSize.height += insets.bottom;
                 trackCanvas.setMinimumSize(preferredSize);
                 trackCanvas.setPreferredSize(preferredSize);
-
             }
         }
         contentPane.add(trackCanvas, BorderLayout.CENTER);
 
-        //======== canvasPanel ========
+        // ======== canvasPanel ========
         {
             canvasPanel.setBorder(new TitledBorder("Palette"));
             canvasPanel.setLayout(new BorderLayout());
         }
         contentPane.add(canvasPanel, BorderLayout.SOUTH);
 
-        //======== maskPanel ========
+        // ======== maskPanel ========
         {
             maskPanel.setFloatable(false);
             maskPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 1));
             maskPanel.setPreferredSize(new Dimension(16, 80));
 
-            //---- togglePencil ----
+            // ---- togglePencil ----
             togglePencil.setIcon(new ImageIcon(getClass().getResource("/pencil_icon&16.png")));
             maskPanel.add(togglePencil);
 
-            //---- toggleRectangle ----
+            // ---- toggleRectangle ----
             toggleRectangle.setIcon(new ImageIcon(getClass().getResource("/playback_stop_icon&16.png")));
             maskPanel.add(toggleRectangle);
 
-            //---- toggleCircle ----
+            // ---- toggleCircle ----
             toggleCircle.setIcon(new ImageIcon(getClass().getResource("/playback_rec_icon&16.png")));
             toggleCircle.setEnabled(false);
             maskPanel.add(toggleCircle);
 
-            //---- toggleFill ----
+            // ---- toggleFill ----
             toggleFill.setIcon(new ImageIcon(getClass().getResource("/fill_icon&16.png")));
             toggleFill.setEnabled(false);
             maskPanel.add(toggleFill, BorderLayout.NORTH);

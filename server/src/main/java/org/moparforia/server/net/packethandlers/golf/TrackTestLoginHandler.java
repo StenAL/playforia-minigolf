@@ -1,15 +1,13 @@
 package org.moparforia.server.net.packethandlers.golf;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import org.moparforia.server.Server;
-//import org.moparforia.server.db.Database;
 import org.moparforia.server.game.Player;
 import org.moparforia.server.net.Packet;
 import org.moparforia.server.net.PacketHandler;
 import org.moparforia.server.net.PacketType;
 import org.moparforia.shared.Tools;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class TrackTestLoginHandler implements PacketHandler {
     Pattern namePattern;
@@ -33,12 +31,12 @@ public class TrackTestLoginHandler implements PacketHandler {
         String username = message.group(1);
         username = username.trim();
         if (namePattern.matcher(username).find()) {
-            return false;//todo disconnect client
+            return false; // todo disconnect client
         }
         String password = message.group(2);
-        //todo load player from db?
+        // todo load player from db?
 
-        boolean anonym = true; //!Database.getInstance().authenticateUser(username,password);
+        boolean anonym = true; // !Database.getInstance().authenticateUser(username,password);
         if (anonym) {
             if (username.length() == 0) {
                 username = "~anonym-" + (int) (Math.random() * 10000);
@@ -50,7 +48,10 @@ public class TrackTestLoginHandler implements PacketHandler {
         player.setNick(username);
         player.setEmailVerified(true);
         player.setRegistered(true);
-        packet.getChannel().writeAndFlush(new Packet(PacketType.DATA, Tools.tabularize("basicinfo", player.isEmailVerified(), player.getAccessLevel(), "t", "f")));
+        packet.getChannel()
+                .writeAndFlush(new Packet(
+                        PacketType.DATA,
+                        Tools.tabularize("basicinfo", player.isEmailVerified(), player.getAccessLevel(), "t", "f")));
         packet.getChannel().writeAndFlush(new Packet(PacketType.DATA, Tools.tabularize("status", "lobbyselect", 300)));
         return true;
     }

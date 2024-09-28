@@ -1,7 +1,6 @@
 package com.aapeli.colorgui;
 
 import com.aapeli.client.StringDraw;
-
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -23,11 +22,17 @@ class ColorListNode {
     private Image icon;
     private boolean hasIcon;
 
-
-    /**
-     * Node for items (e.g. players)
-     */
-    protected ColorListNode(int x, int y, int width, int height, int iconWidth, boolean hasBackgroundImage, Font font, Font fontBold, ColorListItem item) {
+    /** Node for items (e.g. players) */
+    protected ColorListNode(
+            int x,
+            int y,
+            int width,
+            int height,
+            int iconWidth,
+            boolean hasBackgroundImage,
+            Font font,
+            Font fontBold,
+            ColorListItem item) {
         this.x = x;
         this.y = y;
         this.width = width;
@@ -40,10 +45,18 @@ class ColorListNode {
         this.hasIcon = false;
     }
 
-    /**
-     * Node for groups (e.g. languages)
-     */
-    protected ColorListNode(int x, int y, int width, int height, int iconWidth, boolean hasBackgroundImage, Font font, Color color, String text, Image icon) {
+    /** Node for groups (e.g. languages) */
+    protected ColorListNode(
+            int x,
+            int y,
+            int width,
+            int height,
+            int iconWidth,
+            boolean hasBackgroundImage,
+            Font font,
+            Color color,
+            String text,
+            Image icon) {
         this.x = x;
         this.y = y;
         this.width = width;
@@ -81,7 +94,14 @@ class ColorListNode {
             color = this.getForegroundColor(color);
         }
 
-        this.drawText(g, colorList, this.item.getIcon(), color, this.item.isBold() ? this.fontBold : this.font, this.item.getText(), this.item.getIconAfterText());
+        this.drawText(
+                g,
+                colorList,
+                this.item.getIcon(),
+                color,
+                this.item.isBold() ? this.fontBold : this.font,
+                this.item.getText(),
+                this.item.getIconAfterText());
     }
 
     private void drawGroup(Graphics g, ColorList colorList) {
@@ -93,7 +113,8 @@ class ColorListNode {
         this.drawText(g, colorList, this.icon, this.color, this.font, this.text, null);
     }
 
-    private void drawText(Graphics g, ColorList colorList, Image icon, Color color, Font font, String text, Image iconAfterText) {
+    private void drawText(
+            Graphics g, ColorList colorList, Image icon, Color color, Font font, String text, Image iconAfterText) {
         int x = 4;
         if (icon != null) {
             g.drawImage(icon, x, this.y + this.height / 2 - icon.getHeight(colorList) / 2, colorList);
@@ -108,7 +129,6 @@ class ColorListNode {
             x += 4;
             g.drawImage(iconAfterText, x, this.y + this.height / 2 - iconAfterText.getHeight(colorList) / 2, colorList);
         }
-
     }
 
     private Color getForegroundColor(Color backgroundColor) {

@@ -1,107 +1,114 @@
 package agolf;
 
 import com.aapeli.applet.AApplet;
-import com.aapeli.connection.ConnListener;
-import com.aapeli.connection.Connection;
+import com.aapeli.connection.SocketConnection;
+import com.aapeli.connection.SocketConnectionListener;
 import com.aapeli.tools.Tools;
 
-public class Conn implements ConnListener {
+public class GolfConnection implements SocketConnectionListener {
 
     private static final String[] cipherCmds = new String[] {
-            "status\t",
-            "basicinfo\t",
-            "numberofusers\t",
-            "users\t",
-            "ownjoin\t",
-            "joinfromgame\t",
-            "say\t",
-            "logintype\t",
-            "login",
-            "lobbyselect\t",
-            "select\t",
-            "back",
-            "challenge\t",
-            "cancel\t",
-            "accept\t",
-            "cfail\t",
-            "nouser",
-            "nochall",
-            "cother",
-            "cbyother",
-            "refuse",
-            "afail",
-            "gsn\t",
-            "lobby\tnc\t",
-            "lobby\t",
-            "lobby",
-            "tracksetlist\t",
-            "tracksetlist",
-            "gamelist\t",
-            "full\t",
-            "add\t",
-            "change\t",
-            "remove\t",
-            "gameinfo\t",
-            "players",
-            "owninfo\t",
-            "game\tstarttrack\t",
-            "game\tstartturn\t",
-            "game\tstart",
-            "game\tbeginstroke\t",
-            "game\tendstroke\t",
-            "game\tresetvoteskip",
-            "game\t",
-            "game",
-            "quit",
-            "join\t",
-            "part\t",
-            "cspt\t",
-            "qmpt",
-            "cspc\t",
-            "jmpt\t",
-            "tracklist\t",
-            "Tiikoni",
-            "Leonardo",
-            "Ennaji",
-            "Hoeg",
-            "Darwin",
-            "Dante",
-            "ConTrick",
-            "Dewlor",
-            "Scope",
-            "SuperGenuis",
-            "Zwan",
-            "\tT !\t",
-            "\tcr\t",
-            "rnop",
-            "nop\t",
-            "error"
+        "status\t",
+        "basicinfo\t",
+        "numberofusers\t",
+        "users\t",
+        "ownjoin\t",
+        "joinfromgame\t",
+        "say\t",
+        "logintype\t",
+        "login",
+        "lobbyselect\t",
+        "select\t",
+        "back",
+        "challenge\t",
+        "cancel\t",
+        "accept\t",
+        "cfail\t",
+        "nouser",
+        "nochall",
+        "cother",
+        "cbyother",
+        "refuse",
+        "afail",
+        "gsn\t",
+        "lobby\tnc\t",
+        "lobby\t",
+        "lobby",
+        "tracksetlist\t",
+        "tracksetlist",
+        "gamelist\t",
+        "full\t",
+        "add\t",
+        "change\t",
+        "remove\t",
+        "gameinfo\t",
+        "players",
+        "owninfo\t",
+        "game\tstarttrack\t",
+        "game\tstartturn\t",
+        "game\tstart",
+        "game\tbeginstroke\t",
+        "game\tendstroke\t",
+        "game\tresetvoteskip",
+        "game\t",
+        "game",
+        "quit",
+        "join\t",
+        "part\t",
+        "cspt\t",
+        "qmpt",
+        "cspc\t",
+        "jmpt\t",
+        "tracklist\t",
+        "Tiikoni",
+        "Leonardo",
+        "Ennaji",
+        "Hoeg",
+        "Darwin",
+        "Dante",
+        "ConTrick",
+        "Dewlor",
+        "Scope",
+        "SuperGenuis",
+        "Zwan",
+        "\tT !\t",
+        "\tcr\t",
+        "rnop",
+        "nop\t",
+        "error"
     };
     private GameContainer gameContainer;
-    private Connection connection;
-    private String aString2372;
-    private String aString2373;
+    private SocketConnection socketConnection;
+    private String lastPacketSent;
+    private String lastPacketReceived;
 
-
-    protected Conn(GameContainer var1) {
+    protected GolfConnection(GameContainer var1) {
         this.gameContainer = var1;
-        this.aString2372 = this.aString2373 = null;
+        this.lastPacketSent = this.lastPacketReceived = null;
     }
 
-    public void dataReceived(String var1) {
+    public void dataReceived(String packet) {
         try {
-            this.handlePacket(var1);
-            this.aString2373 = var1;
-        } catch (Exception var4) {
-            Exception var2 = var4;
+            this.handlePacket(packet);
+            this.lastPacketReceived = packet;
+        } catch (Exception e) {
 
             try {
-                this.writeData("error-debug\t" + this.gameContainer.gameApplet.method32() + "\t" + var2.toString().trim().replace('\n', '\\') + "\t" + var1.replace('\t', '\\') + "\t" + this.aString2373.replace('\t', '\\') + "\t" + this.aString2372.replace('\t', '\\'));
-            } catch (Exception var3) {
+                this.writeData("error-debug\t"
+                        + this.gameContainer.gameApplet.getActivePanel()
+                        + "\t"
+                        + e.toString().trim().replace('\n', '\\')
+                        + "\t"
+                        + packet.replace('\t', '\\')
+                        + "\t"
+                        + this.lastPacketReceived.replace('\t', '\\')
+                        + "\t"
+                        + this.lastPacketSent.replace('\t', '\\'));
+            } catch (Exception ex) {
             }
 
-            this.gameContainer.gameApplet.setEndState(var4);
-            this.connection.closeConnection();
+            this.gameContainer.gameApplet.setEndState(e);
+            this.socketConnection.closeConnection();
         }
     }
 
@@ -116,15 +123,13 @@ public class Conn implements ConnListener {
         }
     }
 
-    public void notifyConnectionDown() {
-    }
+    public void notifyConnectionDown() {}
 
-    public void notifyConnectionUp() {
-    }
+    public void notifyConnectionUp() {}
 
-    protected boolean method1158() {
-        this.connection = new Connection(this.gameContainer.gameApplet, this, cipherCmds);
-        return this.connection.openConnection();
+    protected boolean openSocketConnection() {
+        this.socketConnection = new SocketConnection(this.gameContainer.gameApplet, this, cipherCmds);
+        return this.socketConnection.openConnection();
     }
 
     protected void sendVersion() {
@@ -133,13 +138,13 @@ public class Conn implements ConnListener {
     }
 
     public void writeData(String var1) {
-        this.aString2372 = var1;
-        this.connection.writeData(var1);
+        this.lastPacketSent = var1;
+        this.socketConnection.writeData(var1);
     }
 
     protected void disconnect() {
-        if (this.connection != null) {
-            this.connection.closeConnection();
+        if (this.socketConnection != null) {
+            this.socketConnection.closeConnection();
         }
     }
 
@@ -152,17 +157,21 @@ public class Conn implements ConnListener {
                 this.gameContainer.gameApplet.setEndState(AApplet.END_ERROR_SERVERFULL);
             }
 
-            this.connection.closeConnection();
+            this.socketConnection.closeConnection();
         } else if (args[0].equals("versok")) {
-            this.writeData("language\t" + this.gameContainer.params.getChatLang());
+            this.writeData("language\t" + this.gameContainer.params.getChatLocale());
             String var4 = this.gameContainer.params.getSessionLocale();
             if (var4 != null) {
                 this.writeData("sessionlocale\t" + var4);
             }
 
-            this.writeData("logintype\t" + (this.gameContainer.synchronizedTrackTestMode.get() ? "ttm" : (this.gameContainer.gameApplet.hasSession() ? "reg" : "nr")));
+            this.writeData("logintype\t"
+                    + (this.gameContainer.synchronizedTrackTestMode.get()
+                            ? "ttm"
+                            : (this.gameContainer.gameApplet.hasSession() ? "reg" : "nr")));
         } else if (args[0].equals("basicinfo")) {
-            this.gameContainer.gameApplet.setGameSettings(args[1].equals("t"), Integer.parseInt(args[2]), args[3].equals("t"), args[4].equals("t"));
+            this.gameContainer.gameApplet.setGameSettings(
+                    args[1].equals("t"), Integer.parseInt(args[2]), args[3].equals("t"), args[4].equals("t"));
         } else if (args[0].equals("broadcast")) {
             if (this.gameContainer.lobbyPanel != null) {
                 this.gameContainer.lobbyPanel.broadcastMessage(args[1]);
@@ -172,8 +181,7 @@ public class Conn implements ConnListener {
                 this.gameContainer.gamePanel.broadcastMessage(args[1]);
             }
 
-        }
-        else if (args[0].equals("status")) {
+        } else if (args[0].equals("status")) {
             if (args[1].equals("login")) {
                 if (args.length == 2) {
                     this.gameContainer.gameApplet.setGameState(1);
@@ -233,7 +241,8 @@ public class Conn implements ConnListener {
                 }
 
                 this.gameContainer.gameApplet.setGameState(3, 1, args[2].equals("1") ? 1 : -1);
-                //enables tracklistadmin this.aGameContainer_2370.gameApplet.setGameState(3, -1, 1);
+                // enables tracklistadmin this.aGameContainer_2370.gameApplet.setGameState(3, -1,
+                // 1);
                 return;
             }
 
@@ -247,8 +256,7 @@ public class Conn implements ConnListener {
             this.gameContainer.lobbySelectionPanel.handlePacket(args);
         } else if (args[0].equals("lobby")) {
             this.gameContainer.lobbyPanel.handlePacket(args);
-        }
-        else if (args[0].equals("game")) {
+        } else if (args[0].equals("game")) {
             this.gameContainer.gamePanel.handlePacket(args);
         }
     }

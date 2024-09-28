@@ -5,7 +5,6 @@ import com.aapeli.colorgui.Choicer;
 import com.aapeli.colorgui.ColorButton;
 import com.aapeli.colorgui.ColorCheckbox;
 import com.aapeli.tools.Tools;
-
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Panel;
@@ -18,7 +17,7 @@ import java.awt.event.MouseListener;
 
 public class LobbySelectPanel extends Panel implements ActionListener, MouseListener, ItemListener {
 
-    private static final int[] lobbyJoinDelays = new int[]{1000};
+    private static final int[] lobbyJoinDelays = new int[] {1000};
     private static long[] lobbyJoinAvailableTimestamps;
     private static boolean playHidden;
     private GameContainer gameContainer;
@@ -36,7 +35,6 @@ public class LobbySelectPanel extends Panel implements ActionListener, MouseList
     private Choicer audioChoicer;
     private int[] lobbyNumPlayers;
     private LobbySelectNumberOfPlayersFetcher lobbySelectNumberOfPlayersFetcher;
-
 
     protected LobbySelectPanel(GameContainer gameContainer, int width, int height) {
         this.gameContainer = gameContainer;
@@ -64,11 +62,14 @@ public class LobbySelectPanel extends Panel implements ActionListener, MouseList
         g.setColor(Color.black);
         g.setFont(GameApplet.fontSerif26b);
         if (!this.gameContainer.disableSinglePlayer) {
-            StringDraw.drawString(g, this.gameContainer.textManager.getGame("LobbySelect_SinglePlayer"), this.width / 6, 70, 0);
+            StringDraw.drawString(
+                    g, this.gameContainer.textManager.getGame("LobbySelect_SinglePlayer"), this.width / 6, 70, 0);
         }
 
-        StringDraw.drawString(g, this.gameContainer.textManager.getGame("LobbySelect_DualPlayer"), this.width * 3 / 6, 70, 0);
-        StringDraw.drawString(g, this.gameContainer.textManager.getGame("LobbySelect_MultiPlayer"), this.width * 5 / 6, 70, 0);
+        StringDraw.drawString(
+                g, this.gameContainer.textManager.getGame("LobbySelect_DualPlayer"), this.width * 3 / 6, 70, 0);
+        StringDraw.drawString(
+                g, this.gameContainer.textManager.getGame("LobbySelect_MultiPlayer"), this.width * 5 / 6, 70, 0);
         g.setFont(GameApplet.fontDialog12);
         if (!this.gameContainer.disableSinglePlayer) {
             this.drawNumPlayers(g, this.width / 6, this.lobbyNumPlayers[0]);
@@ -78,11 +79,9 @@ public class LobbySelectPanel extends Panel implements ActionListener, MouseList
         this.drawNumPlayers(g, this.width * 5 / 6, this.lobbyNumPlayers[2]);
     }
 
-    public void mouseEntered(MouseEvent evt) {
-    }
+    public void mouseEntered(MouseEvent evt) {}
 
-    public void mouseExited(MouseEvent evt) {
-    }
+    public void mouseExited(MouseEvent evt) {}
 
     public void mousePressed(MouseEvent evt) {
         if (evt.getY() < 390) {
@@ -102,14 +101,11 @@ public class LobbySelectPanel extends Panel implements ActionListener, MouseList
                 this.selectLobby(3);
             }
         }
-
     }
 
-    public void mouseReleased(MouseEvent var1) {
-    }
+    public void mouseReleased(MouseEvent var1) {}
 
-    public void mouseClicked(MouseEvent var1) {
-    }
+    public void mouseClicked(MouseEvent var1) {}
 
     public void actionPerformed(ActionEvent evt) {
         playHidden = this.checkboxPlayHidden.getState();
@@ -117,10 +113,10 @@ public class LobbySelectPanel extends Panel implements ActionListener, MouseList
         if (!this.gameContainer.disableSinglePlayer && evtSource == this.buttonSingle) {
             this.selectLobby(1);
 
-        /*}
-         else if (evtSource == this.buttonDual) {
-            this.selectLobby(2);
-        */
+            /*}
+             else if (evtSource == this.buttonDual) {
+                this.selectLobby(2);
+            */
         } else if (evtSource == this.buttonMulti) {
             this.selectLobby(3);
         } else if (evtSource == this.buttonSingleQuick) {
@@ -133,7 +129,6 @@ public class LobbySelectPanel extends Panel implements ActionListener, MouseList
             if (evtSource == this.buttonQuit) {
                 this.gameContainer.gameApplet.quit(null);
             }
-
         }
     }
 
@@ -194,7 +189,6 @@ public class LobbySelectPanel extends Panel implements ActionListener, MouseList
             this.lobbySelectNumberOfPlayersFetcher.stop();
             this.lobbySelectNumberOfPlayersFetcher = null;
         }
-
     }
 
     protected void handlePacket(String[] args) {
@@ -205,7 +199,6 @@ public class LobbySelectPanel extends Panel implements ActionListener, MouseList
 
             this.repaint();
         }
-
     }
 
     protected void writeData(String var1) {
@@ -230,10 +223,11 @@ public class LobbySelectPanel extends Panel implements ActionListener, MouseList
             this.add(this.buttonSingleQuick);
         }
 
-        //this.buttonDual = new ColorButton(this.gameContainer.textManager.getGame("LobbySelect_DualPlayer"));
+        // this.buttonDual = new
+        // ColorButton(this.gameContainer.textManager.getGame("LobbySelect_DualPlayer"));
         this.buttonDual = new ColorButton("Coming soon...");
         this.buttonDual.setBounds(this.width * 3 / 6 - 75, this.height - 150, 150, 25);
-        //this.buttonDual.addActionListener(this);
+        // this.buttonDual.addActionListener(this);
         this.add(this.buttonDual);
 
         this.buttonMulti = new ColorButton(this.gameContainer.textManager.getGame("LobbySelect_MultiPlayer"));
@@ -249,10 +243,14 @@ public class LobbySelectPanel extends Panel implements ActionListener, MouseList
 
         String graphicsOptionText = this.gameContainer.textManager.getGame("LobbySelect_Gfx");
         this.choicerGraphics = new Choicer();
-        this.choicerGraphics.addItem(graphicsOptionText + " " + this.gameContainer.textManager.getGame("LobbySelect_Gfx0"));
-        this.choicerGraphics.addItem(graphicsOptionText + " " + this.gameContainer.textManager.getGame("LobbySelect_Gfx1"));
-        this.choicerGraphics.addItem(graphicsOptionText + " " + this.gameContainer.textManager.getGame("LobbySelect_Gfx2"));
-        this.choicerGraphics.addItem(graphicsOptionText + " " + this.gameContainer.textManager.getGame("LobbySelect_Gfx3"));
+        this.choicerGraphics.addItem(
+                graphicsOptionText + " " + this.gameContainer.textManager.getGame("LobbySelect_Gfx0"));
+        this.choicerGraphics.addItem(
+                graphicsOptionText + " " + this.gameContainer.textManager.getGame("LobbySelect_Gfx1"));
+        this.choicerGraphics.addItem(
+                graphicsOptionText + " " + this.gameContainer.textManager.getGame("LobbySelect_Gfx2"));
+        this.choicerGraphics.addItem(
+                graphicsOptionText + " " + this.gameContainer.textManager.getGame("LobbySelect_Gfx3"));
         this.choicerGraphics.select(this.gameContainer.graphicsQualityIndex);
         this.choicerGraphics.setBounds(this.width / 3 - 100, this.height - 10 - 50, 200, 20);
         this.choicerGraphics.addItemListener(this);
@@ -289,12 +287,12 @@ public class LobbySelectPanel extends Panel implements ActionListener, MouseList
             if (numPlayers >= this.lobbyMaxPlayers && this.gameContainer.gameApplet.getPlayerAccessLevel() == 0) {
                 StringDraw.drawString(g, this.gameContainer.textManager.getGame("LobbySelect_Full"), x, 130, 0);
             }
-
         }
     }
 
     private boolean selectLobby(int lobbyId) {
-        if (this.lobbyNumPlayers[lobbyId - 1] >= this.lobbyMaxPlayers && this.gameContainer.gameApplet.getPlayerAccessLevel() == 0) {
+        if (this.lobbyNumPlayers[lobbyId - 1] >= this.lobbyMaxPlayers
+                && this.gameContainer.gameApplet.getPlayerAccessLevel() == 0) {
             return false;
         } else {
             this.gameContainer.gameApplet.setGameState(0);

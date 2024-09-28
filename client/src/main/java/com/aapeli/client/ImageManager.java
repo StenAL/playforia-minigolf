@@ -2,7 +2,6 @@ package com.aapeli.client;
 
 import com.aapeli.applet.AApplet;
 import com.aapeli.tools.Tools;
-
 import java.applet.Applet;
 import java.awt.Component;
 import java.awt.Image;
@@ -21,7 +20,6 @@ public final class ImageManager {
     private final boolean isDebug;
     private final ImageTracker imageTracker;
 
-
     public ImageManager(Applet applet) {
         this(applet, "src/main/resources/picture/", true);
     }
@@ -38,7 +36,8 @@ public final class ImageManager {
         this.applet = applet;
         this.isDebug = isDebug;
 
-        // TODO: Remove this code if it doesn't cause any problems in a few releases, I rewritten the functionality
+        // TODO: Remove this code if it doesn't cause any problems in a few releases, I rewritten
+        // the functionality
         this.validImageDir = true;
         if (imageDir != null && imageDir.length() > 0) {
             this.validImageDir = false;
@@ -65,7 +64,8 @@ public final class ImageManager {
             System.out.println("ImageManager.defineImage(\"" + imageAlias + "\",\"" + imageFileName + "\")");
         }
 
-        Image var3 = Toolkit.getDefaultToolkit().createImage(this.getClass().getResource("/picture/agolf/" +getAlias(imageFileName)));
+        Image var3 = Toolkit.getDefaultToolkit()
+                .createImage(this.getClass().getResource("/picture/agolf/" + getAlias(imageFileName)));
         this.imageTracker.registerImage(imageAlias, var3);
         return imageAlias;
     }
@@ -79,7 +79,8 @@ public final class ImageManager {
             System.out.println("ImageManager.defineSharedImage(\"" + imageAlias + "\",\"" + imageFileName + "\")");
         }
 
-        Image var3 = Toolkit.getDefaultToolkit().createImage(this.getClass().getResource("/picture/shared/" +getAlias(imageFileName)));
+        Image var3 = Toolkit.getDefaultToolkit()
+                .createImage(this.getClass().getResource("/picture/shared/" + getAlias(imageFileName)));
         this.imageTracker.method1624(imageAlias, var3);
         return imageAlias;
     }
@@ -89,7 +90,7 @@ public final class ImageManager {
     }
 
     public void startLoadingImages() {
-        this.imageTracker.method1626();
+        this.imageTracker.loadImages();
     }
 
     public boolean isLoadingFinished() {
@@ -126,16 +127,16 @@ public final class ImageManager {
         return this.imageTracker.getNImage(this.getAlias(var1));
     }
 
-    public boolean isDefined(String var1) {
-        return this.imageTracker.containsNImage(this.getAlias(var1));
+    public boolean isDefined(String imageAlias) {
+        return this.imageTracker.containsNImage(this.getAlias(imageAlias));
     }
 
     public Image getIfAvailable(String var1) {
         return this.imageTracker.getNImageFromTable(this.getAlias(var1));
     }
 
-    public Image getEvenNotLoaded(String var1) {
-        return this.imageTracker.method1629(this.getAlias(var1));
+    public Image getEvenNotLoaded(String imageAlias) {
+        return this.imageTracker.getImage(this.getAlias(imageAlias));
     }
 
     public Image getShared(String var1) {
@@ -167,8 +168,8 @@ public final class ImageManager {
                     } catch (Exception ex) {
                     }
                     var4 = Toolkit.getDefaultToolkit().createImage(url);
-                    //todo var4 = this.anApplet1354.getImage(var6, var1);
-                    //var4 = this.applet.getImage(var6, var1);
+                    // todo var4 = this.anApplet1354.getImage(var6, var1);
+                    // var4 = this.applet.getImage(var6, var1);
                     this.imageTracker.method1624(var3, var4);
                 }
             }
@@ -222,42 +223,51 @@ public final class ImageManager {
         return var5;
     }
 
-    public Image[] separateImages(Image var1, int var2) {
-        return this.separateImages(var1, var2, 1)[0];
+    public Image[] separateImages(Image image, int length) {
+        return this.separateImages(image, length, 1)[0];
     }
 
-    public Image[][] separateImages(Image var1, int var2, int var3) {
+    public Image[][] separateImages(Image image, int length, int rows) {
         if (this.isDebug) {
-            System.out.println("ImageManager.separateImages(...," + var2 + "," + var3 + ")");
+            System.out.println("ImageManager.separateImages(...," + length + "," + rows + ")");
         }
 
-        int var4 = this.getWidth(var1);
-        int var5 = this.getHeight(var1);
-        int var6 = var4 / var2;
-        int var7 = var5 / var3;
-        if (this.isDebug && (var4 % var2 > 0 || var5 % var3 > 0)) {
-            System.out.println("ImageManager.separateImages(...," + var2 + "," + var3 + "): Warning! Source image can not be divided to " + var2 + "*" + var3 + " blocks");
+        int width = this.getWidth(image);
+        int height = this.getHeight(image);
+        int aspectRatio = width / length;
+        int rowHeight = height / rows;
+        if (this.isDebug && (width % length > 0 || height % rows > 0)) {
+            System.out.println("ImageManager.separateImages(...,"
+                    + length
+                    + ","
+                    + rows
+                    + "): Warning! Source image can not be divided to "
+                    + length
+                    + "*"
+                    + rows
+                    + " blocks");
             Thread.dumpStack();
         }
 
-        int[] var8 = this.getPixels(var1, var4, var5);
-        Image[][] var10 = new Image[var3][var2];
+        int[] pixels = this.getPixels(image, width, height);
+        Image[][] images = new Image[rows][length];
 
-        for (int var11 = 0; var11 < var3; ++var11) {
-            for (int var12 = 0; var12 < var2; ++var12) {
-                int[] var9 = new int[var6 * var7];
+        for (int row = 0; row < rows; ++row) {
+            for (int col = 0; col < length; ++col) {
+                int[] var9 = new int[aspectRatio * rowHeight];
 
-                for (int var13 = 0; var13 < var7; ++var13) {
-                    for (int var14 = 0; var14 < var6; ++var14) {
-                        var9[var13 * var6 + var14] = var8[var11 * var4 * var7 + var13 * var4 + var12 * var6 + var14];
+                for (int var13 = 0; var13 < rowHeight; ++var13) {
+                    for (int var14 = 0; var14 < aspectRatio; ++var14) {
+                        var9[var13 * aspectRatio + var14] =
+                                pixels[row * width * rowHeight + var13 * width + col * aspectRatio + var14];
                     }
                 }
 
-                var10[var11][var12] = this.createImage(var9, var6, var7);
+                images[row][col] = this.createImage(var9, aspectRatio, rowHeight);
             }
         }
 
-        return var10;
+        return images;
     }
 
     public Image getAlphaMultipliedImage(Image var1, double var2) {
@@ -305,11 +315,10 @@ public final class ImageManager {
         String var2 = var1.toString();
         synchronized (this) {
             if (!this.imageTracker.containsCImage(var2)) {
-                //todo Image var4 = this.applet.getImage(var1);
+                // todo Image var4 = this.applet.getImage(var1);
                 Image var4 = Toolkit.getDefaultToolkit().createImage(var1);
                 this.imageTracker.method1625(var2, var4);
             }
-
         }
     }
 

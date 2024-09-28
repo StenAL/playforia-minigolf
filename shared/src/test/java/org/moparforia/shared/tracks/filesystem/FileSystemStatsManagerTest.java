@@ -1,5 +1,13 @@
 package org.moparforia.shared.tracks.filesystem;
 
+import static java.lang.Double.NaN;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
@@ -9,16 +17,6 @@ import org.moparforia.shared.tracks.TracksLocation;
 import org.moparforia.shared.tracks.stats.TrackStats;
 import org.moparforia.shared.tracks.util.FileSystemExtension;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.nio.file.FileSystem;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-
-import static java.lang.Double.NaN;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 class FileSystemStatsManagerTest {
     private final double PRECISION = 0.001d;
 
@@ -27,8 +25,8 @@ class FileSystemStatsManagerTest {
 
     FileSystemStatsManager statsManager;
 
-    Track single = new Track("4 da Crew", "Aither", "Data",
-            new HashSet<>(Arrays.asList(TrackCategory.MODERN, TrackCategory.BASIC)));
+    Track single = new Track(
+            "4 da Crew", "Aither", "Data", new HashSet<>(Arrays.asList(TrackCategory.MODERN, TrackCategory.BASIC)));
     Track empty_stats = new Track("SprtTrack", "Sprt", "Data", Collections.singleton(TrackCategory.MODERN));
 
     @BeforeEach
@@ -47,7 +45,7 @@ class FileSystemStatsManagerTest {
         assertEquals(537, stats.getTotalAttempts());
         assertEquals(11734, stats.getTotalStrokes());
         assertEquals(4, stats.getBestPar());
-        assertEquals(0.039 , stats.getPercentageOfBestPar(), PRECISION);
+        assertEquals(0.039, stats.getPercentageOfBestPar(), PRECISION);
         assertEquals(7.752, stats.getAverageRating(), PRECISION);
     }
 
@@ -62,8 +60,7 @@ class FileSystemStatsManagerTest {
         assertEquals(0, stats.getTotalAttempts());
         assertEquals(0, stats.getTotalStrokes());
         assertEquals(-1, stats.getBestPar());
-        assertEquals(NaN , stats.getPercentageOfBestPar(), PRECISION);
+        assertEquals(NaN, stats.getPercentageOfBestPar(), PRECISION);
         assertEquals(NaN, stats.getAverageRating(), PRECISION);
-
     }
 }

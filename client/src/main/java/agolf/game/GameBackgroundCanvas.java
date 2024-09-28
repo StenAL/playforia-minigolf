@@ -2,7 +2,6 @@ package agolf.game;
 
 import agolf.GameApplet;
 import agolf.GameContainer;
-
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -14,9 +13,9 @@ public class GameBackgroundCanvas extends Canvas {
     protected static final Color aColor75 = new Color(240, 240, 255);
     private static final String mapChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
     private static final String defaultTrackSettings = "fttt14";
-    public static final int[] anIntArray78 = new int[]{3, 5, 8, 49};
-    public static final int[] anIntArray79 = new int[]{2, 3, 5, 25};
-    public static final String[] aStringArray80 = new String[]{"small", "medium", "large", "full"};
+    public static final int[] anIntArray78 = new int[] {3, 5, 8, 49};
+    public static final int[] anIntArray79 = new int[] {2, 3, 5, 25};
+    public static final String[] aStringArray80 = new String[] {"small", "medium", "large", "full"};
     public static final int trackAdvertSize = aStringArray80.length;
     protected GameContainer gameContainer;
     private Image backgroundImg;
@@ -48,7 +47,6 @@ public class GameBackgroundCanvas extends Canvas {
         for (int var3 = 0; var3 < trackAdvertSize; ++var3) {
             this.anIntArrayArray97[var3][0] = this.anIntArrayArray97[var3][1] = -1;
         }
-
     }
 
     public void addNotify() {
@@ -70,18 +68,18 @@ public class GameBackgroundCanvas extends Canvas {
     }
 
     protected String[] generateTrackInformation() {
-        return new String[]{this.trackAuthor, this.trackName, this.trackFirstBest, this.trackLastBest};
+        return new String[] {this.trackAuthor, this.trackName, this.trackFirstBest, this.trackLastBest};
     }
 
     protected int[][] generateTrackStatistics() {
-        return new int[][]{this.trackStats, this.trackRatings};
+        return new int[][] {this.trackStats, this.trackRatings};
     }
 
-    //this useless func is called when we get start packet
-    //iniatilize variables
-    //draws map as grass
-    //this.gameCanvas.createMap(16777216);
-    //16777216 == grass
+    // this useless func is called when we get start packet
+    // iniatilize variables
+    // draws map as grass
+    // this.gameCanvas.createMap(16777216);
+    // 16777216 == grass
     protected void createMap(int var1) {
         if (this.image == null) {
             this.image = this.createImage(735, 375);
@@ -92,9 +90,9 @@ public class GameBackgroundCanvas extends Canvas {
             this.graphics = this.image.getGraphics();
         }
 
-        Image var2 = this.gameContainer.imageManager.createImage(this.gameContainer.spriteManager.getPixelsFromTileCode(var1), 15, 15);
+        Image var2 = this.gameContainer.imageManager.createImage(
+                this.gameContainer.spriteManager.getPixelsFromTileCode(var1), 15, 15);
         this.graphics.setColor(aColor75);
-
 
         for (int y = 0; y < 25; ++y) {
             for (int x = 0; x < 49; ++x) {
@@ -107,7 +105,6 @@ public class GameBackgroundCanvas extends Canvas {
                 }
             }
         }
-
 
         this.repaint();
     }
@@ -125,7 +122,9 @@ public class GameBackgroundCanvas extends Canvas {
         if (this.gameContainer.graphicsQualityIndex >= 2) {
             for (int var4 = 0; var4 < 15; ++var4) {
                 for (int var5 = 0; var5 < 15; ++var5) {
-                    for (int var6 = 1; var6 <= 7 && var1 * 15 + var5 - var6 > 0 && var2 * 15 + var4 - var6 > 0; ++var6) {
+                    for (int var6 = 1;
+                            var6 <= 7 && var1 * 15 + var5 - var6 > 0 && var2 * 15 + var4 - var6 > 0;
+                            ++var6) {
                         if (this.castsShadow(var1 * 15 + var5 - var6, var2 * 15 + var4 - var6)) {
                             this.shiftPixel(imageData, var5, var4, -8, 15);
                         }
@@ -148,7 +147,7 @@ public class GameBackgroundCanvas extends Canvas {
         int foreground = this.trackTiles[tileX][tileY] % 256;
         int pixel = Integer.MIN_VALUE;
 
-        if (special == 1 && (background == 19 || foreground == 19)) {  // IF HAX BLOCK
+        if (special == 1 && (background == 19 || foreground == 19)) { // IF HAX BLOCK
             this.aBooleanArray98[0] = true;
         } else if (special == 2 && shape == 2) {
             this.aBooleanArray98[1] = true;
@@ -165,30 +164,32 @@ public class GameBackgroundCanvas extends Canvas {
                 } else if (special == 2) {
                     shape += 24;
                     pixel = mask[x][y] == 1 ? background : shape;
-                    //24 StartPosition
+                    // 24 StartPosition
                     if (shape == 24) {
                         pixel = background;
                     }
-                    //26 Fake Hole
+                    // 26 Fake Hole
                     if (shape == 26) {
                         pixel = background;
                     }
-                    //Teleport Exits
+                    // Teleport Exits
                     if (shape == 33 || shape == 35 || shape == 37 || shape == 39) {
                         pixel = background;
                     }
 
-                    //Bricks
+                    // Bricks
                     if (shape >= 40 && shape <= 43) {
                         pixel = shape;
                     }
 
-                    //magnet
+                    // magnet
                     if (shape == 44) {
-                        pixel = background != 12 && background != 13 && background != 14 && background != 15 ? shape : background;
+                        pixel = background != 12 && background != 13 && background != 14 && background != 15
+                                ? shape
+                                : background;
                     }
 
-                    //magnet repel
+                    // magnet repel
                     if (shape == 45) {
                         pixel = background;
                     }
@@ -199,8 +200,6 @@ public class GameBackgroundCanvas extends Canvas {
                 this.collisionMap[tileX * 15 + x][tileY * 15 + y] = (byte) pixel;
             }
         }
-
-
     }
 
     protected String getTrackComment() {
@@ -225,26 +224,26 @@ public class GameBackgroundCanvas extends Canvas {
 
         StringTokenizer tokenizer = new StringTokenizer(map, "\n");
         int requiredLinesParsed = 0;
-        while(tokenizer.hasMoreTokens()) {
+        while (tokenizer.hasMoreTokens()) {
             String line = tokenizer.nextToken();
-            if(line.startsWith("V ") && Integer.parseInt(line.substring(2)) == 1) {
+            if (line.startsWith("V ") && Integer.parseInt(line.substring(2)) == 1) {
                 requiredLinesParsed++;
-            } else if(line.startsWith("A ")) {
+            } else if (line.startsWith("A ")) {
                 requiredLinesParsed++;
                 this.trackAuthor = line.substring(2).trim();
-            } else if(line.startsWith("N ")) {
+            } else if (line.startsWith("N ")) {
                 requiredLinesParsed++;
                 this.trackName = line.substring(2).trim();
-            } else if(line.startsWith("C ")) {
+            } else if (line.startsWith("C ")) {
                 this.trackComment = line.substring(2).trim();
-            } else if(line.startsWith("S ")) {
+            } else if (line.startsWith("S ")) {
                 this.trackSettings = line.substring(2).trim();
-                if(trackSettings.length() != 6) {
+                if (trackSettings.length() != 6) {
                     return false;
                 }
-            } else if(line.startsWith("I ")) {
+            } else if (line.startsWith("I ")) {
                 StringTokenizer subtknzr = new StringTokenizer(line.substring(2), ",");
-                if(subtknzr.countTokens() != 4) {
+                if (subtknzr.countTokens() != 4) {
                     return false;
                 }
                 /*
@@ -254,23 +253,23 @@ public class GameBackgroundCanvas extends Canvas {
                  * 3 = num of players who got best num of strokes
                  */
                 this.trackStats = new int[4];
-                for(int i = 0; i < 4; i++) {
+                for (int i = 0; i < 4; i++) {
                     this.trackStats[i] = Integer.parseInt(subtknzr.nextToken());
                 }
-            } else if(line.startsWith("B ")) {
+            } else if (line.startsWith("B ")) {
                 this.trackFirstBest = line.substring(2);
-            } else if(line.startsWith("L ")) {
+            } else if (line.startsWith("L ")) {
                 this.trackLastBest = line.substring(2);
-            } else if(line.startsWith("R ")) {
+            } else if (line.startsWith("R ")) {
                 StringTokenizer subTokenizer = new StringTokenizer(line.substring(2), ",");
-                if(subTokenizer.countTokens() != 11) {
+                if (subTokenizer.countTokens() != 11) {
                     return false;
                 }
                 this.trackRatings = new int[11];
-                for(int i = 0; i < 11; i++) {
+                for (int i = 0; i < 11; i++) {
                     this.trackRatings[i] = Integer.parseInt(subTokenizer.nextToken());
                 }
-            } else if(line.startsWith("T ")) {
+            } else if (line.startsWith("T ")) {
                 requiredLinesParsed++;
                 /*
                  *
@@ -294,7 +293,7 @@ public class GameBackgroundCanvas extends Canvas {
 
                         int currentMapIndex = mapChars.indexOf(mapData.charAt(cursorIndex));
 
-                        if (currentMapIndex <= 2) {  // if input= A,B or C
+                        if (currentMapIndex <= 2) { // if input= A,B or C
                             int mapcursor_one_ahead;
                             int mapcursor_two_ahead;
                             int mapcursor_three_ahead;
@@ -311,31 +310,45 @@ public class GameBackgroundCanvas extends Canvas {
                                 cursorIndex += 3;
                             }
 
-                            // (currentMapIndex << 24) + (mapcursor_one_ahead << 16) + (mapcursor_two_ahead << 8) + mapcursor_three_ahead;
-                            this.trackTiles[tileX][tileY] = currentMapIndex * 256 * 256 * 256 + mapcursor_one_ahead * 256 * 256 + mapcursor_two_ahead * 256 + mapcursor_three_ahead;
+                            // (currentMapIndex << 24) + (mapcursor_one_ahead << 16) +
+                            // (mapcursor_two_ahead << 8) + mapcursor_three_ahead;
+                            this.trackTiles[tileX][tileY] = currentMapIndex * 256 * 256 * 256
+                                    + mapcursor_one_ahead * 256 * 256
+                                    + mapcursor_two_ahead * 256
+                                    + mapcursor_three_ahead;
                         } else {
-                            if (currentMapIndex == 3) {  // if input = D
-                                this.trackTiles[tileX][tileY] = this.trackTiles[tileX - 1][tileY]; // tile to west is same as current
+                            if (currentMapIndex == 3) { // if input = D
+                                this.trackTiles[tileX][tileY] =
+                                        this.trackTiles[tileX - 1][tileY]; // tile to west is same as current
                             }
 
                             if (currentMapIndex == 4) { // if input = E;
-                                this.trackTiles[tileX][tileY] = this.trackTiles[tileX][tileY - 1]; // tile to the north is same as current
+                                this.trackTiles[tileX][tileY] =
+                                        this.trackTiles[tileX][tileY - 1]; // tile to the north is same as current
                             }
 
                             if (currentMapIndex == 5) { // if input = F;
-                                this.trackTiles[tileX][tileY] = this.trackTiles[tileX - 1][tileY - 1]; // tile to the northwest is same as current
+                                this.trackTiles[tileX][tileY] =
+                                        this.trackTiles[tileX - 1][tileY - 1]; // tile to the northwest is same as
+                                // current
                             }
 
-                            if (currentMapIndex == 6) {  // if input = G;
-                                this.trackTiles[tileX][tileY] = this.trackTiles[tileX - 2][tileY]; // 2 tiles west is same as current (skip a tile to the left)
+                            if (currentMapIndex == 6) { // if input = G;
+                                this.trackTiles[tileX][tileY] =
+                                        this.trackTiles[tileX - 2][tileY]; // 2 tiles west is same as current (skip a
+                                // tile to the left)
                             }
 
                             if (currentMapIndex == 7) { // if input = H
-                                this.trackTiles[tileX][tileY] = this.trackTiles[tileX][tileY - 2]; // 2 tiles north is same as current (skip the tile above)
+                                this.trackTiles[tileX][tileY] =
+                                        this.trackTiles[tileX][tileY - 2]; // 2 tiles north is same as current
+                                // (skip the tile above)
                             }
 
                             if (currentMapIndex == 8) { // if input= I
-                                this.trackTiles[tileX][tileY] = this.trackTiles[tileX - 2][tileY - 2]; // 2 tiles northwest is same as current (skip the diagonal)
+                                this.trackTiles[tileX][tileY] =
+                                        this.trackTiles[tileX - 2][tileY - 2]; // 2 tiles northwest is same as
+                                // current (skip the diagonal)
                             }
 
                             ++cursorIndex;
@@ -360,13 +373,15 @@ public class GameBackgroundCanvas extends Canvas {
 
                     for (int var13 = 0; var13 < var12; ++var13) {
                         var14 = mapChars.indexOf(mapData.charAt(var13 * 5));
-                        this.anIntArrayArray97[var14][0] = Integer.parseInt(mapData.substring(var13 * 5 + 1, var13 * 5 + 3));
-                        this.anIntArrayArray97[var14][1] = Integer.parseInt(mapData.substring(var13 * 5 + 3, var13 * 5 + 5));
+                        this.anIntArrayArray97[var14][0] =
+                                Integer.parseInt(mapData.substring(var13 * 5 + 1, var13 * 5 + 3));
+                        this.anIntArrayArray97[var14][1] =
+                                Integer.parseInt(mapData.substring(var13 * 5 + 3, var13 * 5 + 5));
                     }
                 }
             }
         }
-        if(requiredLinesParsed != 4) {
+        if (requiredLinesParsed != 4) {
             return false;
         }
 
@@ -446,14 +461,14 @@ public class GameBackgroundCanvas extends Canvas {
                 this.collisionMap(x, y);
             }
         }
-
     }
 
     private void drawMap() {
         int[] mapPixels = new int[275625];
         int[] currentTileImageData = null;
         int oldTile = -1;
-        boolean trackTestMode = this.gameContainer.synchronizedTrackTestMode.get(); //controls when to draw starting positions
+        boolean trackTestMode =
+                this.gameContainer.synchronizedTrackTestMode.get(); // controls when to draw starting positions
 
         int currentTile;
         int yPixels;
@@ -461,7 +476,6 @@ public class GameBackgroundCanvas extends Canvas {
         int var13;
         for (int tileY = 0; tileY < 25; ++tileY) {
             for (int tileX = 0; tileX < 49; ++tileX) {
-
 
                 if (this.trackTiles[tileX][tileY] != oldTile) {
                     currentTile = this.trackTiles[tileX][tileY];
@@ -472,30 +486,35 @@ public class GameBackgroundCanvas extends Canvas {
                     int background = currentTile / 256 % 256;
 
                     if (specialStatus == 2) {
-                      //16777216 == blank tile with grass
-                      //34144256 == teleport blue exit with grass
-                      //34078720 == teleport start with grass
+                        // 16777216 == blank tile with grass
+                        // 34144256 == teleport blue exit with grass
+                        // 34078720 == teleport start with grass
 
+                        // 0:false => mines invisible  0:true => mines visible
 
-                      //0:false => mines invisible  0:true => mines visible
-
-                        if (!this.trackSpecialSettings[0] && (currentTileSpecialId == 28 || currentTileSpecialId == 30)) {
+                        if (!this.trackSpecialSettings[0]
+                                && (currentTileSpecialId == 28 || currentTileSpecialId == 30)) {
                             currentTile = 16777216 + background * 256;
                         }
 
-                      //1:false => magnets invisible  1:true => magnets visible
+                        // 1:false => magnets invisible  1:true => magnets visible
 
-                        if (!this.trackSpecialSettings[1] && (currentTileSpecialId == 44 || currentTileSpecialId == 45)) {
+                        if (!this.trackSpecialSettings[1]
+                                && (currentTileSpecialId == 44 || currentTileSpecialId == 45)) {
                             currentTile = 16777216 + background * 256;
                         }
 
-                      //2:false => teleport colorless  2:true => normal colors
+                        // 2:false => teleport colorless  2:true => normal colors
                         if (!this.trackSpecialSettings[2]) {
-                            if (currentTileSpecialId == 34 || currentTileSpecialId == 36 || currentTileSpecialId == 38) {
+                            if (currentTileSpecialId == 34
+                                    || currentTileSpecialId == 36
+                                    || currentTileSpecialId == 38) {
                                 currentTile = 34078720 + background * 256;
                             }
 
-                            if (currentTileSpecialId == 35 || currentTileSpecialId == 37 || currentTileSpecialId == 39) {
+                            if (currentTileSpecialId == 35
+                                    || currentTileSpecialId == 37
+                                    || currentTileSpecialId == 39) {
                                 currentTile = 34144256 + background * 256;
                             }
                         }
@@ -505,27 +524,27 @@ public class GameBackgroundCanvas extends Canvas {
 
                     oldTile = this.trackTiles[tileX][tileY];
 
-                    //draws debug points on starting positions
+                    // draws debug points on starting positions
                     if (trackTestMode && specialStatus == 2) {
                         yPixels = -1;
-                        //Starting Point common
+                        // Starting Point common
                         if (currentTileSpecialId == 24) {
                             yPixels = 16777215;
                         }
 
-                        //Start blue
+                        // Start blue
                         if (currentTileSpecialId == 48) {
                             yPixels = 11579647;
                         }
-                        //Start red
+                        // Start red
                         if (currentTileSpecialId == 49) {
                             yPixels = 16752800;
                         }
-                        //Start yellow
+                        // Start yellow
                         if (currentTileSpecialId == 50) {
                             yPixels = 16777088;
                         }
-                        //Start green
+                        // Start green
                         if (currentTileSpecialId == 51) {
                             yPixels = 9502608;
                         }
@@ -540,10 +559,10 @@ public class GameBackgroundCanvas extends Canvas {
                     }
                 }
 
-
                 for (currentTile = 0; currentTile < 15; ++currentTile) {
                     for (yPixels = 0; yPixels < 15; ++yPixels) {
-                        mapPixels[(tileY * 15 + currentTile) * 735 + tileX * 15 + yPixels] = currentTileImageData[currentTile * 15 + yPixels];
+                        mapPixels[(tileY * 15 + currentTile) * 735 + tileX * 15 + yPixels] =
+                                currentTileImageData[currentTile * 15 + yPixels];
                     }
                 }
             }
@@ -557,60 +576,66 @@ public class GameBackgroundCanvas extends Canvas {
                     for (xPixels = 0; xPixels < 735; ++xPixels) {
                         boolean var25;
                         boolean var27;
-                        //creates light and dark spot for solids
-                        //top and left side is brighter
-                        //bottom and right side is darker
+                        // creates light and dark spot for solids
+                        // top and left side is brighter
+                        // bottom and right side is darker
                         if (this.castsShadow(xPixels, yPixels)) {
                             var25 = this.castsShadow(xPixels - 1, yPixels - 1);
                             var27 = this.castsShadow(xPixels + 1, yPixels + 1);
-                            if (!var25 && var27 && !this.castsShadow(xPixels, yPixels - 1) && !this.castsShadow(xPixels - 1, yPixels)) {
+                            if (!var25
+                                    && var27
+                                    && !this.castsShadow(xPixels, yPixels - 1)
+                                    && !this.castsShadow(xPixels - 1, yPixels)) {
                                 this.shiftPixel(mapPixels, xPixels, yPixels, 128, 735);
                             } else {
                                 if (!var25 && var27) {
-                                  //shift pixels towards 255/white
+                                    // shift pixels towards 255/white
                                     this.shiftPixel(mapPixels, xPixels, yPixels, 24, 735);
                                 }
 
                                 if (!var27 && var25) {
-                                  //shift pixels towards 0/black
+                                    // shift pixels towards 0/black
                                     this.shiftPixel(mapPixels, xPixels, yPixels, -24, 735);
                                 }
                             }
 
-                            //draws shadow
+                            // draws shadow
                             if (this.gameContainer.graphicsQualityIndex >= 2) {
                                 for (var13 = 1; var13 <= 7 && xPixels + var13 < 735 && yPixels + var13 < 375; ++var13) {
-                                    if (!this.castsShadow(xPixels + var13, yPixels + var13)) { //dont draw shadow on blocks
+                                    if (!this.castsShadow(
+                                            xPixels + var13, yPixels + var13)) { // dont draw shadow on blocks
                                         var14 = xPixels + var13;
                                         var15 = yPixels + var13;
-                                        //shift pixels towards black to create shadow
+                                        // shift pixels towards black to create shadow
                                         this.shiftPixel(mapPixels, var14, var15, -8, 735);
                                     }
                                 }
                             }
                         }
 
-
-                        //creates light and dark spots to teleport starts
+                        // creates light and dark spots to teleport starts
                         if (this.isTeleportStart(xPixels, yPixels)) {
                             var25 = this.isTeleportStart(xPixels - 1, yPixels - 1);
                             var27 = this.isTeleportStart(xPixels + 1, yPixels + 1);
-                            if (!var25 && var27 && !this.isTeleportStart(xPixels, yPixels - 1) && !this.isTeleportStart(xPixels - 1, yPixels)) {
+                            if (!var25
+                                    && var27
+                                    && !this.isTeleportStart(xPixels, yPixels - 1)
+                                    && !this.isTeleportStart(xPixels - 1, yPixels)) {
                                 this.shiftPixel(mapPixels, xPixels, yPixels, 16, 735);
                             } else {
                                 if (!var25 && var27) {
-                                  //shift pixels towards 255/white
+                                    // shift pixels towards 255/white
                                     this.shiftPixel(mapPixels, xPixels, yPixels, 16, 735);
                                 }
 
                                 if (!var27 && var25) {
-                                  //shift pixels towards 0/black
+                                    // shift pixels towards 0/black
                                     this.shiftPixel(mapPixels, xPixels, yPixels, -16, 735);
                                 }
                             }
                         }
 
-                        //creates grain effect on tiles
+                        // creates grain effect on tiles
                         if (this.gameContainer.graphicsQualityIndex >= 2) {
                             var13 = (int) (Math.random() * 11.0D) - 5;
                             this.shiftPixel(mapPixels, xPixels, yPixels, var13, 735);
@@ -623,7 +648,9 @@ public class GameBackgroundCanvas extends Canvas {
             currentTile = -1;
 
             for (yPixels = trackAdvertSize - 2; yPixels >= 0 && currentTile == -1; --yPixels) {
-                if (this.anIntArrayArray97[yPixels][0] >= 0 && this.anIntArrayArray97[yPixels][1] >= 0 && var26[yPixels] != null) {
+                if (this.anIntArrayArray97[yPixels][0] >= 0
+                        && this.anIntArrayArray97[yPixels][1] >= 0
+                        && var26[yPixels] != null) {
                     currentTile = yPixels;
                 }
             }
@@ -649,8 +676,12 @@ public class GameBackgroundCanvas extends Canvas {
 
                 for (int var22 = var15; var22 < var15 + var19; ++var22) {
                     for (int var23 = var14; var23 < var14 + var18; ++var23) {
-                        if (currentTile < 3 || currentTile == 3 && this.collisionMap[var23][var22] >= 0 && this.collisionMap[var23][var22] <= 15) {
-                            mapPixels[var22 * 735 + var23] = this.method129(mapPixels[var22 * 735 + var23], var26[currentTile][var21 * var18 + var20], var16);
+                        if (currentTile < 3
+                                || currentTile == 3
+                                        && this.collisionMap[var23][var22] >= 0
+                                        && this.collisionMap[var23][var22] <= 15) {
+                            mapPixels[var22 * 735 + var23] = this.method129(
+                                    mapPixels[var22 * 735 + var23], var26[currentTile][var21 * var18 + var20], var16);
                         }
 
                         ++var20;
@@ -667,16 +698,26 @@ public class GameBackgroundCanvas extends Canvas {
     }
 
     private boolean castsShadow(int x, int y) {
-      //trackSpecialSettings[3]
-      //3:false => illusion walls shadowless  3:true => illusion walls shadows
-        return x >= 0 && x < 735 && y >= 0 && y < 375 ? this.collisionMap[x][y] >= 16 && this.collisionMap[x][y] <= 23 && (this.trackSpecialSettings[3] || !this.trackSpecialSettings[3] && this.collisionMap[x][y] != 19) : false;
+        // trackSpecialSettings[3]
+        // 3:false => illusion walls shadowless  3:true => illusion walls shadows
+        return x >= 0 && x < 735 && y >= 0 && y < 375
+                ? this.collisionMap[x][y] >= 16
+                        && this.collisionMap[x][y] <= 23
+                        && (this.trackSpecialSettings[3]
+                                || !this.trackSpecialSettings[3] && this.collisionMap[x][y] != 19)
+                : false;
     }
 
     private boolean isTeleportStart(int x, int y) {
-        return x >= 0 && x < 735 && y >= 0 && y < 375 ? this.collisionMap[x][y] == 32 || this.collisionMap[x][y] == 34 || this.collisionMap[x][y] == 36 || this.collisionMap[x][y] == 38 : false;
+        return x >= 0 && x < 735 && y >= 0 && y < 375
+                ? this.collisionMap[x][y] == 32
+                        || this.collisionMap[x][y] == 34
+                        || this.collisionMap[x][y] == 36
+                        || this.collisionMap[x][y] == 38
+                : false;
     }
 
-    //adds offset to r,b,g channels of pixels[x][y] then clamps the value to valid range
+    // adds offset to r,b,g channels of pixels[x][y] then clamps the value to valid range
     private void shiftPixel(int[] pixels, int x, int y, int offset, int width) {
         int pixel = pixels[y * width + x] & 16777215;
         int red = pixel / 65536 % 256;

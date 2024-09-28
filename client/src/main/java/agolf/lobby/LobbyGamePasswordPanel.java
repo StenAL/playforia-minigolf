@@ -3,7 +3,6 @@ package agolf.lobby;
 import agolf.GameApplet;
 import agolf.GameContainer;
 import com.aapeli.colorgui.ColorButton;
-
 import java.awt.Graphics;
 import java.awt.Panel;
 import java.awt.TextField;
@@ -22,8 +21,8 @@ class LobbyGamePasswordPanel extends Panel implements KeyListener, ActionListene
     private ColorButton buttonCancel;
     private boolean emptyField;
 
-
-    protected LobbyGamePasswordPanel(GameContainer gameContainer, LobbyMultiPlayerPanel lobbyMultiPlayerPanel, int gameId) {
+    protected LobbyGamePasswordPanel(
+            GameContainer gameContainer, LobbyMultiPlayerPanel lobbyMultiPlayerPanel, int gameId) {
         this.gameContainer = gameContainer;
         this.lobbyMultiPlayerPanel = lobbyMultiPlayerPanel;
         this.gameId = gameId;
@@ -58,14 +57,11 @@ class LobbyGamePasswordPanel extends Panel implements KeyListener, ActionListene
                 this.joinGame();
             }
         }
-
     }
 
-    public void keyReleased(KeyEvent var1) {
-    }
+    public void keyReleased(KeyEvent var1) {}
 
-    public void keyTyped(KeyEvent var1) {
-    }
+    public void keyTyped(KeyEvent var1) {}
 
     public void actionPerformed(ActionEvent evt) {
         Object evtSource = evt.getSource();
@@ -76,7 +72,6 @@ class LobbyGamePasswordPanel extends Panel implements KeyListener, ActionListene
         if (evtSource == this.buttonCancel) {
             this.lobbyMultiPlayerPanel.joinMultiPlayerGame(this.gameId, null);
         }
-
     }
 
     private void create() {

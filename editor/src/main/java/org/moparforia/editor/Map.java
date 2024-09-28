@@ -1,12 +1,8 @@
 package org.moparforia.editor;
 
-/**
- * Map derp
- */
 public class Map {
 
     public Tile[][] tiles = new Tile[49][25];
-
 
     public Map(Tile[][] init) throws Exception {
         boolean valid = true;
@@ -65,14 +61,12 @@ public class Map {
         return tiles;
     }
 
-
     public void printMap() {
         for (int y = 0; y < tiles[0].length; y++) {
             for (int x = 0; x < tiles.length; x++) {
-                System.out.print(Integer.toString(tiles[x][y].getTileCode(),16) + " | ");
+                System.out.print(Integer.toString(tiles[x][y].getTileCode(), 16) + " | ");
             }
             System.out.println();
         }
     }
-
 }

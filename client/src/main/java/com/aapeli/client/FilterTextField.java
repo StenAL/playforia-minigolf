@@ -7,7 +7,6 @@ public class FilterTextField extends InputTextField {
     private BadWordFilter aBadWordFilter3528;
     private BadWordFilter aBadWordFilter3529;
 
-
     public FilterTextField(TextManager var1, String var2, int var3) {
         this(var1, var2, var3, false);
     }
@@ -18,7 +17,6 @@ public class FilterTextField extends InputTextField {
         if (var4) {
             this.aBadWordFilter3529 = new BadWordFilter(var1, false, "#");
         }
-
     }
 
     public void focusLost(FocusEvent var1) {

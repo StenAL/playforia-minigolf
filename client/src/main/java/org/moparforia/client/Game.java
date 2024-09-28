@@ -1,24 +1,24 @@
 package org.moparforia.client;
 
 import agolf.AGolf;
-
-import javax.swing.JFrame;
 import java.applet.Applet;
 import java.applet.AppletContext;
 import java.applet.AppletStub;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+import javax.swing.JFrame;
+import org.moparforia.shared.Locale;
 
 public class Game {
     private static final int WIDTH = 735;
     private static final int HEIGHT = 525;
 
-    public Game(JFrame frame, String server, int port, String lang, String username, boolean verbose, boolean norandom) {
+    public Game(
+            JFrame frame, String server, int port, Locale locale, String username, boolean verbose, boolean norandom) {
         Applet game = new AGolf();
 
-
-        game.setStub(new Stub(server, lang, username, port, verbose, norandom));
+        game.setStub(new Stub(server, locale, username, port, verbose, norandom));
         game.setSize(WIDTH, HEIGHT);
         game.init();
         game.start();
@@ -33,7 +33,7 @@ public class Game {
         private final Map<String, String> params;
         private String server;
 
-        public Stub(String server, String lang, String username, int port, boolean verbose, boolean norandom) {
+        public Stub(String server, Locale locale, String username, int port, boolean verbose, boolean norandom) {
             if (server.indexOf(':') == -1) { // is ipv4
                 this.server = server;
             } else { // is ipv6
@@ -41,7 +41,9 @@ public class Game {
             }
             params = new HashMap<>();
             params.put("initmessage", "Loading game...");
-            params.put("ld_page", "javascript:Playray.Notify.delegate({ jvm: { version: '%v', vendor: '%w', t1: '%r', t2: '%f' } })");
+            params.put(
+                    "ld_page",
+                    "javascript:Playray.Notify.delegate({ jvm: { version: '%v', vendor: '%w', t1: '%r', t2: '%f' } })");
             params.put("image", "/appletloader_playforia.gif");
             /*if(serverBox.isSelected()) {
                 params.put("server", "149.255.111.161" + ":" + g.port);
@@ -51,11 +53,8 @@ public class Game {
 
             params.put("server", server + ":" + port);
 
-            //params.put("locale", "en");
-            //params.put("lang", en_US);
-
-            params.put("locale", lang.substring(0, 2)); //use first part of en_US, fi_FI or sv_SE
-            params.put("lang", lang);
+            params.put("language", locale.getLanguage().toString());
+            params.put("locale", locale.toString());
             params.put("sitename", "playray");
             params.put("quitpage", "http://www.playforia.com/games/");
             params.put("regremindshowtime", "3,8,15,25,50,100,1000");
@@ -75,10 +74,10 @@ public class Game {
             params.put("norandom", Boolean.toString(norandom));
             params.put("username", username);
 
-            //if(serverBox.isSelected())
-            //params.put("tracktestmode", "true");
-            //params.put("session", "7vkBHjUIcQKg-J,c2bXzYdy,lJd");
-            //params.put("sessionlang", "en");
+            // if(serverBox.isSelected())
+            // params.put("tracktestmode", "true");
+            // params.put("session", "7vkBHjUIcQKg-J,c2bXzYdy,lJd");
+            // params.put("sessionlang", "en");
         }
 
         public boolean isActive() {
@@ -99,8 +98,7 @@ public class Game {
         }
 
         public String getParameter(String name) {
-            if (!params.containsKey(name))
-                return "";
+            if (!params.containsKey(name)) return "";
             return params.get(name);
         }
 
@@ -108,8 +106,6 @@ public class Game {
             return null;
         }
 
-
-        public void appletResize(int width, int height) {
-        }
+        public void appletResize(int width, int height) {}
     }
 }

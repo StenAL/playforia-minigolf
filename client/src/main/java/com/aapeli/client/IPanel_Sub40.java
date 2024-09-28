@@ -2,7 +2,6 @@ package com.aapeli.client;
 
 import com.aapeli.applet.AApplet;
 import com.aapeli.colorgui.RoundButton;
-
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -25,7 +24,6 @@ class IPanel_Sub40 extends IPanel implements ActionListener {
     private RoundButton aRoundButton3216;
     private RoundButton aRoundButton3217;
 
-
     protected IPanel_Sub40(AApplet var1, Frame_Sub3_Sub1 var2, int var3, int var4) {
         this.anAApplet3210 = var1;
         this.aFrame_Sub3_Sub1_3211 = var2;
@@ -38,31 +36,31 @@ class IPanel_Sub40 extends IPanel implements ActionListener {
         this.setSharedBackground(var1.imageManager, "tf-background.gif", 0, 0);
     }
 
-    public void update(Graphics var1) {
-        this.drawBackground(var1);
-        var1.setFont(aFont3209);
+    public void update(Graphics g) {
+        this.drawBackground(g);
+        g.setFont(aFont3209);
         if (this.aHtmlText3214 == null) {
-            String var2 = null;
+            String text = null;
             if (this.anInt3212 == 0) {
                 if (this.anInt3213 == 1) {
-                    var2 = "WS_ScoreNotSaved";
+                    text = "WS_ScoreNotSaved";
                 } else if (this.anInt3213 == 2) {
-                    var2 = "WM_StatsNotSaved";
+                    text = "WM_StatsNotSaved";
                 }
             } else if (this.anInt3212 == 1) {
                 if (this.anInt3213 == 1) {
-                    var2 = "RS_PersonalRecord";
+                    text = "RS_PersonalRecord";
                 } else if (this.anInt3213 == 2) {
-                    var2 = "RM_FirstRanking";
+                    text = "RM_FirstRanking";
                 }
             }
 
-            var2 = this.anAApplet3210.textManager.getShared("GameFin_" + var2);
-            this.aHtmlText3214 = new HtmlText(var1, 410, var2);
+            text = this.anAApplet3210.textManager.getShared("GameFin_" + text);
+            this.aHtmlText3214 = new HtmlText(g, 410, text);
         }
 
-        var1.setColor(aColor3206);
-        this.aHtmlText3214.print(var1, 20, 45);
+        g.setColor(aColor3206);
+        this.aHtmlText3214.print(g, 20, 45);
     }
 
     public void actionPerformed(ActionEvent var1) {
@@ -71,17 +69,19 @@ class IPanel_Sub40 extends IPanel implements ActionListener {
             this.anAApplet3210.setEndState(AApplet.END_QUIT_REGISTER);
             this.anAApplet3210.param.showRegisterPage();
         }
-
     }
 
     protected String method820() {
-        return this.anInt3212 == 0 ? this.anAApplet3210.textManager.getShared("GameFin_W_GameOver") : (this.anInt3212 == 1 ? this.anAApplet3210.textManager.getShared("GameFin_R_Congratulations") : "-");
+        return this.anInt3212 == 0
+                ? this.anAApplet3210.textManager.getShared("GameFin_W_GameOver")
+                : (this.anInt3212 == 1 ? this.anAApplet3210.textManager.getShared("GameFin_R_Congratulations") : "-");
     }
 
     private void method821() {
         this.setLayout(null);
         if (this.anInt3212 == 0) {
-            this.aRoundButton3215 = new RoundButton(this.anAApplet3210.textManager.getShared("GameFin_W_CreateAccount"));
+            this.aRoundButton3215 =
+                    new RoundButton(this.anAApplet3210.textManager.getShared("GameFin_W_CreateAccount"));
             this.aRoundButton3215.setBounds(210, 225, 220, 30);
             this.aRoundButton3215.setBackground(aColor3207);
             this.aRoundButton3215.addActionListener(this);
@@ -98,6 +98,5 @@ class IPanel_Sub40 extends IPanel implements ActionListener {
             this.aRoundButton3217.addActionListener(this);
             this.add(this.aRoundButton3217);
         }
-
     }
 }

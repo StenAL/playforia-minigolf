@@ -1,8 +1,6 @@
 package org.moparforia.server.net;
 
-
 import io.netty.util.AttributeKey;
-
 
 public final class ClientState {
 

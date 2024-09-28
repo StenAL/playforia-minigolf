@@ -6,7 +6,6 @@ import com.aapeli.client.StringDraw;
 import com.aapeli.colorgui.ColorButton;
 import com.aapeli.colorgui.MultiColorList;
 import com.aapeli.colorgui.MultiColorListItem;
-
 import java.awt.Checkbox;
 import java.awt.Graphics;
 import java.awt.Panel;
@@ -31,7 +30,6 @@ class LobbyTrackListAdminPanel extends Panel implements ActionListener, ItemList
     private Checkbox checkboxSafeMode;
     private ColorButton buttonQuit;
 
-
     protected LobbyTrackListAdminPanel(GameContainer gameContainer, int width, int height, boolean enableSafeMode) {
         this.gameContainer = gameContainer;
         this.width = width;
@@ -55,8 +53,10 @@ class LobbyTrackListAdminPanel extends Panel implements ActionListener, ItemList
             var1.fillRect(0, 0, this.width, this.height);
             var1.setFont(GameApplet.fontDialog12);
             var1.setColor(GameApplet.colourTextBlack);
-            StringDraw.drawString(var1, "Tracks: " + this.trackList.getItemCount(), this.width / 2 - 100 - 10 + 60, 405, 0);
-            StringDraw.drawString(var1, "Selected: " + this.trackList.getSelectedItemCount(), this.width / 2 - 100 - 10 + 60, 425, 0);
+            StringDraw.drawString(
+                    var1, "Tracks: " + this.trackList.getItemCount(), this.width / 2 - 100 - 10 + 60, 405, 0);
+            StringDraw.drawString(
+                    var1, "Selected: " + this.trackList.getSelectedItemCount(), this.width / 2 - 100 - 10 + 60, 425, 0);
         }
     }
 
@@ -128,8 +128,7 @@ class LobbyTrackListAdminPanel extends Panel implements ActionListener, ItemList
             this.createTrackList(trackList, true);
             this.repaint();
             return true;
-        }
-        else if (args[1].equals("tracklist")) {
+        } else if (args[1].equals("tracklist")) {
             len = args.length - 2;
             trackList = new String[len / 2][2];
 
@@ -149,7 +148,6 @@ class LobbyTrackListAdminPanel extends Panel implements ActionListener, ItemList
             this.refreshTrackList();
             refreshTrackList = false;
         }
-
     }
 
     private void create(boolean enableSafeMode) {
@@ -158,8 +156,9 @@ class LobbyTrackListAdminPanel extends Panel implements ActionListener, ItemList
         this.buttonRefresh.setBackground(GameApplet.colourButtonBlue);
         this.buttonRefresh.addActionListener(this);
         this.add(this.buttonRefresh);
-        String[] checkboxTitles = new String[]{"Private", "Pending", "Public", "Trackset"};
-        boolean[] checkboxValues = new boolean[]{!enableSafeMode, enableSafeMode ? true : true, !enableSafeMode, !enableSafeMode};
+        String[] checkboxTitles = new String[] {"Private", "Pending", "Public", "Trackset"};
+        boolean[] checkboxValues =
+                new boolean[] {!enableSafeMode, enableSafeMode ? true : true, !enableSafeMode, !enableSafeMode};
         this.checkboxTracks = new Checkbox[4];
 
         for (int index = 0; index < 4; ++index) {
@@ -222,7 +221,6 @@ class LobbyTrackListAdminPanel extends Panel implements ActionListener, ItemList
             });*/
             this.gameContainer.lobbyPanel.writeData("tracklist\t" + params);
         }
-
     }
 
     private void createTrackList(String[][] tracksInfo, boolean isAdmin) {
@@ -231,11 +229,11 @@ class LobbyTrackListAdminPanel extends Panel implements ActionListener, ItemList
             String[] listTitles;
             int[] var4;
             if (isAdmin) {
-                listTitles = new String[]{"Status", "Author", "Track", "Rating"};
-                var4 = new int[]{0, 0, 0, 5};
+                listTitles = new String[] {"Status", "Author", "Track", "Rating"};
+                var4 = new int[] {0, 0, 0, 5};
                 this.trackList = new MultiColorList(listTitles, var4, 2, 450, 250);
             } else {
-                listTitles = new String[]{"Status", "Track"};
+                listTitles = new String[] {"Status", "Track"};
                 var4 = new int[2];
                 this.trackList = new MultiColorList(listTitles, var4, 1, 450, 250);
             }
@@ -273,18 +271,18 @@ class LobbyTrackListAdminPanel extends Panel implements ActionListener, ItemList
                 tracksInfo[index][0] = "TrackSet";
             }
 
-            //Status", "Author", "Track", "Rating
+            // Status", "Author", "Track", "Rating
 
             MultiColorListItem listItem;
             if (isAdmin) {
-                listItem = new MultiColorListItem(colour, tracksInfo[index], tracksInfo[index][1] + ":" + tracksInfo[index][2]);
+                listItem = new MultiColorListItem(
+                        colour, tracksInfo[index], tracksInfo[index][1] + ":" + tracksInfo[index][2]);
             } else {
                 listItem = new MultiColorListItem(colour, tracksInfo[index], tracksInfo[index][1]);
             }
 
             this.trackList.addItem(listItem);
         }
-
     }
 
     private String[] randomize(String[] array) {

@@ -8,7 +8,6 @@ class Class78 {
     private Frame_Sub3_Sub1 frame;
     private boolean aBoolean1365;
 
-
     protected Class78(AApplet var1) {
         this.anAApplet1363 = var1;
         this.aBoolean1365 = false;
@@ -65,7 +64,6 @@ class Class78 {
             }
         } catch (Exception var2) {
         }
-
     }
 
     protected void method1603() {

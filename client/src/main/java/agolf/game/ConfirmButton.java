@@ -32,7 +32,6 @@ class ConfirmButton extends Canvas implements MouseMotionListener, MouseListener
     private boolean mouseDown;
     private ActionListener actionListener;
 
-
     protected ConfirmButton(String text, String confirmText) {
         this.setFont(fontDialog12);
         this.setBackground(colourWhite);
@@ -97,14 +96,11 @@ class ConfirmButton extends Canvas implements MouseMotionListener, MouseListener
         }
     }
 
-    public void mouseClicked(MouseEvent evt) {
-    }
+    public void mouseClicked(MouseEvent evt) {}
 
-    public void mouseMoved(MouseEvent evt) {
-    }
+    public void mouseMoved(MouseEvent evt) {}
 
-    public void mouseDragged(MouseEvent evt) {
-    }
+    public void mouseDragged(MouseEvent evt) {}
 
     public void setFont(Font font) {
         this.font = font;
@@ -141,7 +137,6 @@ class ConfirmButton extends Canvas implements MouseMotionListener, MouseListener
         if (this.actionListener != null) {
             this.actionListener.actionPerformed(new ActionEvent(this, 1001, this.text));
         }
-
     }
 
     private Color saturate(Color colour, int by) {
@@ -174,5 +169,4 @@ class ConfirmButton extends Canvas implements MouseMotionListener, MouseListener
 
         return new Color(red, green, blue);
     }
-
 }

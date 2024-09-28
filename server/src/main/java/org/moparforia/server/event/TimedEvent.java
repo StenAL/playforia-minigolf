@@ -17,5 +17,4 @@ public abstract class TimedEvent extends Event {
 
     @Override
     public abstract void process(Server server);
-
 }

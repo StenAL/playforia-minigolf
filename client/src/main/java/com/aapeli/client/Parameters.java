@@ -2,18 +2,18 @@ package com.aapeli.client;
 
 import com.aapeli.applet.AApplet;
 import com.aapeli.tools.Tools;
-
 import java.applet.Applet;
 import java.applet.AppletContext;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.StringTokenizer;
+import org.moparforia.shared.Language;
+import org.moparforia.shared.Locale;
 
 public final class Parameters {
 
     private static final String LOCALHOST = "127.0.0.1";
-    //private static final String aString1416 = "192.168.1.23";
-    private static final String ENGLISH_LANGUAGE = "en";
+    // private static final String aString1416 = "192.168.1.23";
     private static final String PLAYFORIA_SITE_NAME = "playforia";
     private static final String PLAYFORIA_QUIT_PAGE = "http://www.playforia.com/";
     private static final String QUIT_TARGET = "_top";
@@ -22,9 +22,9 @@ public final class Parameters {
     private String codeBaseHost;
     private String documentBaseHost;
     private String serverIp;
-    private String locale;
-    private String translationLanguage;
-    private String chatLang;
+    private Language language;
+    private Locale translationLocale;
+    private Locale chatLocale;
     private String siteName;
     private String username;
     private String sessionLocale;
@@ -57,7 +57,6 @@ public final class Parameters {
     private String aString1457;
     private boolean debug;
 
-
     public Parameters(Applet applet) {
         this(applet, false);
     }
@@ -79,13 +78,13 @@ public final class Parameters {
         if (key == null) {
             return false;
         }
-        return key.equalsIgnoreCase("true") ||
-               key.equalsIgnoreCase("t") ||
-               key.equalsIgnoreCase("yes") ||
-               key.equalsIgnoreCase("y") ||
-               key.equals("1") ||
-               key.equals("1.0") ||
-               key.equals("1,0");
+        return key.equalsIgnoreCase("true")
+                || key.equalsIgnoreCase("t")
+                || key.equalsIgnoreCase("yes")
+                || key.equalsIgnoreCase("y")
+                || key.equals("1")
+                || key.equals("1.0")
+                || key.equals("1,0");
     }
 
     public String getParameter(String key) {
@@ -114,24 +113,24 @@ public final class Parameters {
         return this.serverPort;
     }
 
-    public String getLocale() {
-        return this.locale;
+    public Language language() {
+        return this.language;
     }
 
-    public String getTranslationLang() {
-        return this.translationLanguage;
+    public Locale getTranslationLocale() {
+        return this.translationLocale;
     }
 
     public String getUsername() {
         return this.username;
     }
 
-    public String getChatLang() {
-        return this.chatLang != null ? this.chatLang : this.translationLanguage;
+    public Locale getChatLocale() {
+        return this.chatLocale != null ? this.chatLocale : this.translationLocale;
     }
 
-    public String getLang() {
-        return this.getChatLang();
+    public Locale getLocale() {
+        return this.getChatLocale();
     }
 
     public String getSiteName() {
@@ -234,7 +233,6 @@ public final class Parameters {
             this.anInt1455 = 1;
         } catch (Exception e) {
         }
-
     }
 
     public void showPlayerListWinners(boolean[] winners) {
@@ -273,7 +271,6 @@ public final class Parameters {
             this.anInt1455 = 2;
         } catch (Exception e) {
         }
-
     }
 
     public void removePlayerListWinners() {
@@ -290,7 +287,6 @@ public final class Parameters {
             this.anInt1455 = 0;
         } catch (Exception e) {
         }
-
     }
 
     public boolean showRegisterPage() {
@@ -397,9 +393,9 @@ public final class Parameters {
 
     public void destroy() {
         this.serverIp = null;
-        this.locale = null;
-        this.translationLanguage = null;
-        this.chatLang = null;
+        this.language = null;
+        this.translationLocale = null;
+        this.chatLocale = null;
         this.siteName = null;
         this.sessionLocale = null;
         this.session = null;
@@ -454,9 +450,9 @@ public final class Parameters {
     private void init() {
         this.serverIp = this.getParamServer();
         this.serverPort = this.getParamPort();
-        this.locale = this.getParamLocale();
-        this.translationLanguage = this.getParamLanguage();
-        this.chatLang = this.getParamChatLanguage();
+        this.language = this.getParamLanguage();
+        this.translationLocale = this.getParamLocale();
+        this.chatLocale = this.getParamChatLocale();
         this.siteName = this.getParamSiteName();
         this.sessionLocale = this.getParameter("sessionlocale");
         this.session = this.getParameter("session");
@@ -519,26 +515,26 @@ public final class Parameters {
         }
     }
 
-    private String getParamLocale() {
-        String locale;
+    private Language getParamLanguage() {
+        String language;
         try {
-            locale = this.getParameter("locale");
-            if (locale != null) {
-                return locale;
+            language = this.getParameter("language");
+            if (language != null) {
+                return Language.fromString(language);
             }
         } catch (Exception e) {
         }
 
         if (this.codeBaseHost.endsWith("aapeli.com")) {
-            return "fi";
+            return Language.FINNISH;
         } else if (this.codeBaseHost.endsWith("playray.com")) {
-            return ENGLISH_LANGUAGE;
+            return Language.ENGLISH;
         } else {
             if (this.codeBaseHost.endsWith(".playforia.com")) {
                 try {
-                    locale = this.codeBaseHost.substring(0, this.codeBaseHost.indexOf(46));
-                    if (locale.length() > 0 && !locale.equals("www")) {
-                        return locale;
+                    language = this.codeBaseHost.substring(0, this.codeBaseHost.indexOf(46));
+                    if (language.length() > 0 && !language.equals("www")) {
+                        return Language.fromString(language);
                     }
                 } catch (Exception e) {
                 }
@@ -546,45 +542,41 @@ public final class Parameters {
 
             if (this.codeBaseHost.contains("playray")) {
                 try {
-                    locale = this.codeBaseHost.substring(this.codeBaseHost.lastIndexOf(46) + 1);
-                    if (locale.length() > 0) {
-                        return locale;
+                    language = this.codeBaseHost.substring(this.codeBaseHost.lastIndexOf(46) + 1);
+                    if (language.length() > 0) {
+                        return Language.fromString(language);
                     }
                 } catch (Exception e) {
                 }
             }
 
-            return ENGLISH_LANGUAGE;
+            return Language.ENGLISH;
         }
     }
 
-    private String getParamLanguage() {
+    private Locale getParamLocale() {
         try {
-            String language = this.getParameter("lang");
-            if (language != null) {
-                return language;
+            String locale = this.getParameter("locale");
+            if (locale != null) {
+                return Locale.fromString(locale);
             }
 
-            language = this.getParameter("language");
-            if (language != null) {
-                return language;
-            }
         } catch (Exception e) {
         }
 
         return null;
     }
 
-    private String getParamChatLanguage() {
+    private Locale getParamChatLocale() {
         try {
-            String chatLanguage = this.getParameter("chatlang");
-            if (chatLanguage != null) {
-                return chatLanguage;
+            String chatLocale = this.getParameter("chatlocale");
+            if (chatLocale != null) {
+                return Locale.fromString(chatLocale);
             }
 
-            chatLanguage = this.getParameter("serverlang");
-            if (chatLanguage != null) {
-                return chatLanguage;
+            chatLocale = this.getParameter("serverlocale");
+            if (chatLocale != null) {
+                return Locale.fromString(chatLocale);
             }
         } catch (Exception e) {
         }
@@ -716,7 +708,10 @@ public final class Parameters {
 
     private void showPlayerList(String[] nicks, boolean[] winners, String subgame) {
         if (this.debug) {
-            System.out.println("Parameters.showPlayerList(...): " + (nicks != null ? "nicks.length=" + nicks.length : "null") + ", " + (winners != null ? "winners.length=" + winners.length : "null"));
+            System.out.println("Parameters.showPlayerList(...): "
+                    + (nicks != null ? "nicks.length=" + nicks.length : "null")
+                    + ", "
+                    + (winners != null ? "winners.length=" + winners.length : "null"));
         }
 
         if (this.urlUserListPage != null) {
@@ -765,7 +760,6 @@ public final class Parameters {
 
                     this.showUrl(var9, this.urlTargetUserList);
                 }
-
             }
         }
     }

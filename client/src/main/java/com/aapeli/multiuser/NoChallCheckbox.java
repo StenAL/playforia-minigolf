@@ -1,13 +1,11 @@
 package com.aapeli.multiuser;
 
 import com.aapeli.colorgui.ColorCheckbox;
-
 import java.awt.event.MouseEvent;
 
 public class NoChallCheckbox extends ColorCheckbox {
 
     private long[] aLongArray4727;
-
 
     public NoChallCheckbox(String var1) {
         this(var1, false);
@@ -15,7 +13,7 @@ public class NoChallCheckbox extends ColorCheckbox {
 
     public NoChallCheckbox(String var1, boolean var2) {
         super(var1, var2);
-        this.aLongArray4727 = new long[]{0L, 0L, 0L, 0L};
+        this.aLongArray4727 = new long[] {0L, 0L, 0L, 0L};
     }
 
     public void mouseReleased(MouseEvent var1) {

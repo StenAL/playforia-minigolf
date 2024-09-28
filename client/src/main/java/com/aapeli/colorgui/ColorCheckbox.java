@@ -1,7 +1,6 @@
 package com.aapeli.colorgui;
 
 import com.aapeli.client.IPanel;
-
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -42,7 +41,6 @@ public class ColorCheckbox extends IPanel implements ItemSelectable, MouseListen
     private int anInt3308;
     private int anInt3309;
 
-
     public ColorCheckbox() {
         this(null, false);
     }
@@ -81,12 +79,23 @@ public class ColorCheckbox extends IPanel implements ItemSelectable, MouseListen
         }
 
         if (this.anImage3297 != null) {
-            this.aGraphics3307.drawImage(this.anImage3297, 0, 0, var3, var4, this.anInt3298, this.anInt3299, this.anInt3298 + var3, this.anInt3299 + var4, this);
+            this.aGraphics3307.drawImage(
+                    this.anImage3297,
+                    0,
+                    0,
+                    var3,
+                    var4,
+                    this.anInt3298,
+                    this.anInt3299,
+                    this.anInt3298 + var3,
+                    this.anInt3299 + var4,
+                    this);
         } else {
             this.drawBackground(this.aGraphics3307);
         }
 
-        Font var5 = this.aString3300 != null ? this.method837(this.aFont3291, this.aString3300, var3 - (var4 + 4)) : null;
+        Font var5 =
+                this.aString3300 != null ? this.method837(this.aFont3291, this.aString3300, var3 - (var4 + 4)) : null;
         int var6 = 0;
         int var7;
         if (this.anInt3301 == 0 || this.anInt3301 == 1) {
@@ -100,7 +109,15 @@ public class ColorCheckbox extends IPanel implements ItemSelectable, MouseListen
 
         var7 = var4 - 4;
         if (this.aColorCheckboxGroup3304 == null) {
-            this.method840(this.aGraphics3307, var6 + 2, 2, var7, var7, this.method839(this.aColor3293), this.method839(this.aColor3295), this.method839(this.aColor3296));
+            this.method840(
+                    this.aGraphics3307,
+                    var6 + 2,
+                    2,
+                    var7,
+                    var7,
+                    this.method839(this.aColor3293),
+                    this.method839(this.aColor3295),
+                    this.method839(this.aColor3296));
         } else {
             this.aGraphics3307.setColor(this.method839(this.aColor3293));
             this.aGraphics3307.fillRect(var6 + 3, 3, var7 - 2, var7 - 2);
@@ -124,11 +141,16 @@ public class ColorCheckbox extends IPanel implements ItemSelectable, MouseListen
                 int var9 = var8 - 1;
                 int var10 = var7 - var8 - 2;
                 this.aGraphics3307.drawLine(var6 + 4 + var8, 4 + var7 - 2, var6 + 4 + var8 - var9, 4 + var7 - 2 - var9);
-                this.aGraphics3307.drawLine(var6 + 4 + var8, 4 + var7 - 2 - 1, var6 + 4 + var8 - var9, 4 + var7 - 2 - var9 - 1);
-                this.aGraphics3307.drawLine(var6 + 4 + var8, 4 + var7 - 2 - 2, var6 + 4 + var8 - var9, 4 + var7 - 2 - var9 - 2);
-                this.aGraphics3307.drawLine(var6 + 4 + var8, 4 + var7 - 2, var6 + 4 + var8 + var10, 4 + var7 - 2 - var10);
-                this.aGraphics3307.drawLine(var6 + 4 + var8, 4 + var7 - 2 - 1, var6 + 4 + var8 + var10, 4 + var7 - 2 - var10 - 1);
-                this.aGraphics3307.drawLine(var6 + 4 + var8, 4 + var7 - 2 - 2, var6 + 4 + var8 + var10, 4 + var7 - 2 - var10 - 2);
+                this.aGraphics3307.drawLine(
+                        var6 + 4 + var8, 4 + var7 - 2 - 1, var6 + 4 + var8 - var9, 4 + var7 - 2 - var9 - 1);
+                this.aGraphics3307.drawLine(
+                        var6 + 4 + var8, 4 + var7 - 2 - 2, var6 + 4 + var8 - var9, 4 + var7 - 2 - var9 - 2);
+                this.aGraphics3307.drawLine(
+                        var6 + 4 + var8, 4 + var7 - 2, var6 + 4 + var8 + var10, 4 + var7 - 2 - var10);
+                this.aGraphics3307.drawLine(
+                        var6 + 4 + var8, 4 + var7 - 2 - 1, var6 + 4 + var8 + var10, 4 + var7 - 2 - var10 - 1);
+                this.aGraphics3307.drawLine(
+                        var6 + 4 + var8, 4 + var7 - 2 - 2, var6 + 4 + var8 + var10, 4 + var7 - 2 - var10 - 2);
             } else {
                 var7 -= 6;
                 this.aGraphics3307.fillRect(var6 + 6, 5, var7 - 2, var7);
@@ -145,17 +167,13 @@ public class ColorCheckbox extends IPanel implements ItemSelectable, MouseListen
         var1.drawImage(this.anImage3306, 0, 0, this);
     }
 
-    public void mouseEntered(MouseEvent var1) {
-    }
+    public void mouseEntered(MouseEvent var1) {}
 
-    public void mouseExited(MouseEvent var1) {
-    }
+    public void mouseExited(MouseEvent var1) {}
 
-    public void mousePressed(MouseEvent var1) {
-    }
+    public void mousePressed(MouseEvent var1) {}
 
-    public void mouseClicked(MouseEvent var1) {
-    }
+    public void mouseClicked(MouseEvent var1) {}
 
     public void mouseReleased(MouseEvent var1) {
         boolean var2 = !this.aBoolean3302;
@@ -181,7 +199,7 @@ public class ColorCheckbox extends IPanel implements ItemSelectable, MouseListen
         if (!this.aBoolean3302) {
             return null;
         } else {
-            Object[] var1 = new Object[]{this};
+            Object[] var1 = new Object[] {this};
             return var1;
         }
     }
@@ -284,7 +302,10 @@ public class ColorCheckbox extends IPanel implements ItemSelectable, MouseListen
     }
 
     private Color method835(Color var1, int var2) {
-        return new Color(this.method836(var1.getRed(), var2), this.method836(var1.getGreen(), var2), this.method836(var1.getBlue(), var2));
+        return new Color(
+                this.method836(var1.getRed(), var2),
+                this.method836(var1.getGreen(), var2),
+                this.method836(var1.getBlue(), var2));
     }
 
     private int method836(int var1, int var2) {
@@ -364,7 +385,5 @@ public class ColorCheckbox extends IPanel implements ItemSelectable, MouseListen
             var1.drawLine(var2, var3, var2 + var4 - 2, var3);
             var1.drawLine(var2, var3, var2, var3 + var5 - 1);
         }
-
     }
-
 }

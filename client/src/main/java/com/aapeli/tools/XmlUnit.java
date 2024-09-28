@@ -14,7 +14,6 @@ public class XmlUnit {
     private List<XmlUnit> children;
     private Hashtable<String, String> attributes;
 
-
     private XmlUnit(String var1) {
         this.name = var1;
         this.value = null;
@@ -25,7 +24,8 @@ public class XmlUnit {
     public static XmlUnit parseString(String declarationTag, boolean var1, boolean var2) throws Exception {
         declarationTag = declarationTag.trim();
         if (declarationTag.startsWith("<?xml")) {
-            declarationTag = declarationTag.substring(declarationTag.indexOf('>') + 1).trim();
+            declarationTag =
+                    declarationTag.substring(declarationTag.indexOf('>') + 1).trim();
         }
 
         return method1876(declarationTag, var2);
@@ -192,7 +192,11 @@ public class XmlUnit {
                     }
 
                     if (!tagStart.getName().equals(tagEnd.toString())) {
-                        throw new Exception("End tag name (" + tagEnd + ") is different than start tag (" + tagStart.getName() + ")");
+                        throw new Exception("End tag name ("
+                                + tagEnd
+                                + ") is different than start tag ("
+                                + tagStart.getName()
+                                + ")");
                     }
 
                     var11 = true;

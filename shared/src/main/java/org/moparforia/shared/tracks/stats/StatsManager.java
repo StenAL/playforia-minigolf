@@ -20,8 +20,8 @@ public interface StatsManager {
     /**
      * Add score to the player for that tracks
      *
-     * @param player    Name of the player that scored par
-     * @param par       Par
+     * @param player Name of the player that scored par
+     * @param par Par
      */
     void addScore(Track track, String player, int par);
 
