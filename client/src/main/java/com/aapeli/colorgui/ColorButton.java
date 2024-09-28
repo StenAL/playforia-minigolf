@@ -19,555 +19,565 @@ public class ColorButton extends IPanel implements MouseMotionListener, MouseLis
     public static final int BORDER_NONE = 0;
     public static final int BORDER_NORMAL = 1;
     public static final int BORDER_THICK = 2;
-    private static final Color aColor3253 = new Color(192, 192, 192);
-    private Color aColor3254;
-    private Color aColor3255;
-    private Color aColor3256;
-    private Color aColor3257;
-    private Color aColor3258;
-    private Color aColor3259;
-    private Image anImage3260;
-    private Image anImage3261;
-    private Image anImage3262;
-    private Image anImage3263;
-    private Image anImage3264;
-    private int anInt3265;
-    private int anInt3266;
-    private int anInt3267;
-    private int anInt3268;
-    private int anInt3269;
-    private int anInt3270;
-    private boolean aBoolean3271;
-    private String aString3272;
-    private String aString3273;
-    private Font aFont3274;
-    private Font aFont3275;
-    private boolean aBoolean3276;
-    private boolean aBoolean3277;
-    private boolean aBoolean3278;
-    private int anInt3279;
+    private static final Color DEFAULT_BACKGROUND_COLOR = new Color(192, 192, 192);
+    private Color backgroundColor;
+    private Color foregroundColor;
+    private Color highlightedBackgroundColor;
+    private Color highlightedBorderColorDefault;
+    private Color borderColorDefault;
+    private Color borderColor;
+    private Image backgroundImage;
+    private Image highlightedBackgroundImage;
+    private Image foregroundImage;
+    private Image highlightedForegroundImage;
+    private Image iconImage;
+    private int backgroundImageOffsetX;
+    private int backgroundImageOffsetY;
+    private int foregroundImageOffsetX;
+    private int foregroundImageOffsetY;
+    private int iconImageWidth;
+    private int iconImageHeight;
+    private boolean backgroundImageNoOffsets;
+    private String label;
+    private String secondaryLabel;
+    private Font font;
+    private Font secondaryFont;
+    private boolean backgroundGradient;
+    private boolean mouseHoveredOver;
+    private boolean mousePressed;
+    private int borderStyle;
     private List<ActionListener> listeners;
-    private Image anImage3281;
-    private Graphics aGraphics3282;
-    private int anInt3283;
-    private int anInt3284;
-    private Class90 aClass90_3285;
-    private boolean aBoolean3286;
+    private Image image;
+    private Graphics graphics;
+    private int width;
+    private int height;
+    private BlinkingButtonThread blinkingThread;
+    private boolean blinkState;
     public static boolean aBoolean3287;
 
     public ColorButton() {
         this(null);
     }
 
-    public ColorButton(String var1) {
-        this.setBackground(aColor3253);
+    public ColorButton(String label) {
+        this.setBackground(DEFAULT_BACKGROUND_COLOR);
         this.setForeground(FontConstants.black);
         this.setFont(FontConstants.font);
-        this.setLabel(var1);
+        this.setLabel(label);
         this.setSecondaryFont(new Font("Dialog", Font.PLAIN, 11));
         this.setSecondaryLabel(null);
-        this.aBoolean3276 = true;
-        this.aBoolean3277 = this.aBoolean3278 = false;
-        this.anInt3279 = 1;
+        this.backgroundGradient = true;
+        this.mouseHoveredOver = false;
+        this.mousePressed = false;
+        this.borderStyle = BORDER_NORMAL;
         this.listeners = new ArrayList<>();
-        this.aClass90_3285 = null;
-        this.aBoolean3286 = false;
+        this.blinkingThread = null;
+        this.blinkState = false;
         this.addMouseMotionListener(this);
         this.addMouseListener(this);
     }
 
     public void addNotify() {
         super.addNotify();
-        this.aBoolean3277 = this.aBoolean3278 = false;
+        this.mouseHoveredOver = false;
+        this.mousePressed = false;
         this.repaint();
     }
 
-    public void update(Graphics var1) {
-        Dimension var2 = this.getSize();
-        int var3 = var2.width;
-        int var4 = var2.height;
-        if (this.anImage3281 == null || var3 != this.anInt3283 || var4 != this.anInt3284) {
-            this.anImage3281 = this.createBuffer(var3, var4);
-            this.aGraphics3282 = this.anImage3281.getGraphics();
-            this.graphicsCreated(this.aGraphics3282);
-            this.anInt3283 = var3;
-            this.anInt3284 = var4;
+    public void update(Graphics g) {
+        Dimension buttonSize = this.getSize();
+        int width = buttonSize.width;
+        int height = buttonSize.height;
+        if (this.image == null || width != this.width || height != this.height) {
+            this.image = this.createBuffer(width, height);
+            this.graphics = this.image.getGraphics();
+            this.graphicsCreated(this.graphics);
+            this.width = width;
+            this.height = height;
         }
 
-        this.drawBackground(this.aGraphics3282);
-        this.baseBackgroundDrawn(this.aGraphics3282);
-        boolean var5 = this.isHighlighted();
-        if (this.anImage3260 != null && this.anImage3261 != null) {
-            Image var17 = var5 ? this.anImage3261 : this.anImage3260;
-            if (!this.aBoolean3271) {
-                this.aGraphics3282.drawImage(
-                        var17,
+        this.drawBackground(this.graphics);
+        this.baseBackgroundDrawn(this.graphics);
+        boolean highlighted = this.isHighlighted();
+        if (this.backgroundImage != null && this.highlightedBackgroundImage != null) {
+            Image backgroundImage = highlighted ? this.highlightedBackgroundImage : this.backgroundImage;
+            if (!this.backgroundImageNoOffsets) {
+                this.graphics.drawImage(
+                        backgroundImage,
                         0,
                         0,
-                        var3,
-                        var4,
-                        this.anInt3265,
-                        this.anInt3266,
-                        this.anInt3265 + var3,
-                        this.anInt3266 + var4,
+                        width,
+                        height,
+                        this.backgroundImageOffsetX,
+                        this.backgroundImageOffsetY,
+                        this.backgroundImageOffsetX + width,
+                        this.backgroundImageOffsetY + height,
                         this);
             } else {
-                this.aGraphics3282.drawImage(var17, 0, 0, var3, var4, this);
+                this.graphics.drawImage(backgroundImage, 0, 0, width, height, this);
             }
         } else {
-            Color var6 = var5 ? this.aColor3256 : this.aColor3254;
-            if (this.aBoolean3276) {
-                this.method827(this.aGraphics3282, var6, var3, var4);
+            Color color = highlighted ? this.highlightedBackgroundColor : this.backgroundColor;
+            if (this.backgroundGradient) {
+                this.drawGradient(this.graphics, color, width, height);
             } else {
-                this.aGraphics3282.setColor(var6);
-                this.clearBackground(this.aGraphics3282, var3, var4);
+                this.graphics.setColor(color);
+                this.clearBackground(this.graphics, width, height);
             }
         }
 
-        if (this.aColor3259 != null) {
-            this.aGraphics3282.setColor(this.aColor3259);
+        if (this.borderColor != null) {
+            this.graphics.setColor(this.borderColor);
         }
 
-        this.drawBorder(this.aGraphics3282, var3, var4);
-        if (this.anImage3262 != null) {
-            this.aGraphics3282.drawImage(
-                    this.isNormalState() ? this.anImage3262 : this.anImage3263,
-                    this.anInt3267 > 0 ? var3 / 2 - this.anInt3267 / 2 : 0,
-                    this.anInt3268 > 0 ? var4 / 2 - this.anInt3268 / 2 : 0,
+        this.drawBorder(this.graphics, width, height);
+        if (this.foregroundImage != null) {
+            this.graphics.drawImage(
+                    this.isNormalState() ? this.foregroundImage : this.highlightedForegroundImage,
+                    this.foregroundImageOffsetX > 0 ? width / 2 - this.foregroundImageOffsetX / 2 : 0,
+                    this.foregroundImageOffsetY > 0 ? height / 2 - this.foregroundImageOffsetY / 2 : 0,
                     this);
         }
 
-        int var16 = var3 / 2;
-        int var7 = 0;
-        int var8;
-        int var9;
-        if (this.anImage3264 != null) {
-            var8 = (var4 - this.anInt3270) / 2;
-            var9 = this.drawIcon(this.aGraphics3282, this.anImage3264, var8);
-            var16 = var3 / 2 + var8 + this.anInt3269 / 2 - 1;
-            var7 = var9 + this.anInt3269 + 1;
+        int labelWidth = width / 2;
+        int iconImageWidthNeeded = 0;
+        int size;
+        int x;
+        if (this.iconImage != null) {
+            size = (height - this.iconImageHeight) / 2;
+            x = this.drawIcon(this.graphics, this.iconImage, size);
+            labelWidth = width / 2 + size + this.iconImageWidth / 2 - 1;
+            iconImageWidthNeeded = x + this.iconImageWidth + 1;
         }
 
-        if (this.aString3272 != null) {
-            this.aGraphics3282.setColor(this.aColor3255);
-            if (this.aString3273 == null) {
-                Font var18 = this.method830(this.method829(this.aFont3274), this.aString3272, var3 - 2);
-                this.aGraphics3282.setFont(var18);
-                var9 = var16 - this.getFontMetrics(var18).stringWidth(this.aString3272) / 2;
-                if (var9 < var7) {
-                    var9 = var7;
+        if (this.label != null) {
+            this.graphics.setColor(this.foregroundColor);
+            if (this.secondaryLabel == null) {
+                Font sizeAdjustedFont = this.getSizeAdjustedFont(this.getFont(this.font), this.label, width - 2);
+                this.graphics.setFont(sizeAdjustedFont);
+                x = labelWidth - this.getFontMetrics(sizeAdjustedFont).stringWidth(this.label) / 2;
+                if (x < iconImageWidthNeeded) {
+                    x = iconImageWidthNeeded;
                 }
 
-                this.aGraphics3282.drawString(this.aString3272, var9, var4 / 2 + var18.getSize() * 3 / 8 + 1);
+                this.graphics.drawString(this.label, x, height / 2 + sizeAdjustedFont.getSize() * 3 / 8 + 1);
             } else {
-                var8 = this.aFont3274.getSize();
-                var9 = this.aFont3275.getSize();
-                if (var9 > var8) {
-                    var8 = var9;
+                size = this.font.getSize();
+                x = this.secondaryFont.getSize();
+                if (x > size) {
+                    size = x;
                 }
 
-                String var10 = this.aString3272 + "  ";
-                String var11 = "  " + this.aString3273;
-                Font var12 = this.method830(this.method829(this.aFont3274), var10 + var11, var3 - 2);
-                Font var13 = this.method830(this.method829(this.aFont3275), var10 + var11, var3 - 2);
-                int var14 = this.getFontMetrics(var12).stringWidth(var10);
-                int var15 = this.getFontMetrics(var13).stringWidth(var11);
-                this.aGraphics3282.setFont(var12);
-                this.aGraphics3282.drawString(var10, var16 - (var14 + var15) / 2, var4 / 2 + var8 * 3 / 8 + 1);
-                this.aGraphics3282.setFont(var13);
-                this.aGraphics3282.drawString(var11, var16 - (var14 + var15) / 2 + var14, var4 / 2 + var8 * 3 / 8 + 1);
+                String label = this.label + "  ";
+                String secondaryLabel = "  " + this.secondaryLabel;
+                Font sizeAdjustedFont =
+                        this.getSizeAdjustedFont(this.getFont(this.font), label + secondaryLabel, width - 2);
+                Font sizeAdjustedSecondaryFont =
+                        this.getSizeAdjustedFont(this.getFont(this.secondaryFont), label + secondaryLabel, width - 2);
+                int labelTextWidth = this.getFontMetrics(sizeAdjustedFont).stringWidth(label);
+                int secondaryLabelTextWidth =
+                        this.getFontMetrics(sizeAdjustedSecondaryFont).stringWidth(secondaryLabel);
+                this.graphics.setFont(sizeAdjustedFont);
+                this.graphics.drawString(
+                        label,
+                        labelWidth - (labelTextWidth + secondaryLabelTextWidth) / 2,
+                        height / 2 + size * 3 / 8 + 1);
+                this.graphics.setFont(sizeAdjustedSecondaryFont);
+                this.graphics.drawString(
+                        secondaryLabel,
+                        labelWidth - (labelTextWidth + secondaryLabelTextWidth) / 2 + labelTextWidth,
+                        height / 2 + size * 3 / 8 + 1);
             }
         }
 
-        var1.drawImage(this.anImage3281, 0, 0, this);
+        g.drawImage(this.image, 0, 0, this);
     }
 
-    public void mouseEntered(MouseEvent var1) {
-        this.aBoolean3277 = true;
+    public void mouseEntered(MouseEvent e) {
+        this.mouseHoveredOver = true;
         this.repaint();
     }
 
-    public void mouseExited(MouseEvent var1) {
-        this.aBoolean3277 = this.aBoolean3278 = false;
+    public void mouseExited(MouseEvent e) {
+        this.mouseHoveredOver = false;
+        this.mousePressed = false;
         this.repaint();
     }
 
-    public void mousePressed(MouseEvent var1) {
-        this.aBoolean3278 = true;
+    public void mousePressed(MouseEvent e) {
+        this.mousePressed = true;
         this.repaint();
     }
 
-    public void mouseReleased(MouseEvent var1) {
-        boolean var2 = this.aBoolean3278;
-        this.aBoolean3278 = false;
+    public void mouseReleased(MouseEvent e) {
+        boolean mousePressed = this.mousePressed;
+        this.mousePressed = false;
         this.repaint();
-        if (var2) {
+        if (mousePressed) {
             this.processActionEvent();
         }
     }
 
-    public void mouseClicked(MouseEvent var1) {}
+    public void mouseClicked(MouseEvent e) {}
 
-    public void mouseMoved(MouseEvent var1) {}
+    public void mouseMoved(MouseEvent e) {}
 
-    public void mouseDragged(MouseEvent var1) {}
+    public void mouseDragged(MouseEvent e) {}
 
-    public void setBackground(Color var1) {
-        if (var1 == null) {
-            var1 = aColor3253;
+    public void setBackground(Color background) {
+        if (background == null) {
+            background = DEFAULT_BACKGROUND_COLOR;
         }
 
-        super.setBackground(var1);
-        this.aColor3254 = var1;
-        this.aColor3256 = this.method826(var1, 32);
-        this.aColor3257 = this.method826(var1, 48);
-        this.aColor3258 = this.method826(var1, -48);
+        super.setBackground(background);
+        this.backgroundColor = background;
+        this.highlightedBackgroundColor = this.translateColor(background, 32);
+        this.highlightedBorderColorDefault = this.translateColor(background, 48);
+        this.borderColorDefault = this.translateColor(background, -48);
         this.repaint();
     }
 
-    public void setBackgroundFade(boolean var1) {
-        this.aBoolean3276 = var1;
+    public void setBackgroundGradient(boolean gradient) {
+        this.backgroundGradient = gradient;
     }
 
-    public void setForeground(Color var1) {
-        if (var1 == null) {
-            var1 = FontConstants.black;
+    public void setForeground(Color foreground) {
+        if (foreground == null) {
+            foreground = FontConstants.black;
         }
 
-        this.aColor3255 = var1;
+        this.foregroundColor = foreground;
         this.repaint();
     }
 
-    public void setBackgroundImage(Image var1) {
-        this.setBackgroundImage(var1, var1, 0, 0);
+    public void setBackgroundImage(Image image) {
+        this.setBackgroundImage(image, image, 0, 0);
     }
 
-    public void setBackgroundImage(Image var1, Image var2) {
-        this.setBackgroundImage(var1, var2, 0, 0);
+    public void setBackgroundImage(Image backgroundImage, Image highlightedBackgroundImage) {
+        this.setBackgroundImage(backgroundImage, highlightedBackgroundImage, 0, 0);
     }
 
-    public void setBackgroundImage(Image var1, int var2, int var3) {
-        this.setBackgroundImage(var1, var1, var2, var3);
+    public void setBackgroundImage(Image image, int offsetX, int offsetY) {
+        this.setBackgroundImage(image, image, offsetX, offsetY);
     }
 
-    public void setBackgroundImage(Image var1, Image var2, int var3, int var4) {
-        this.anImage3260 = var1;
-        this.anImage3261 = var2;
-        this.anInt3265 = var3;
-        this.anInt3266 = var4;
-        this.aBoolean3271 = false;
+    public void setBackgroundImage(Image backgroundImage, Image highlightedBackgroundImage, int offsetX, int offsetY) {
+        this.backgroundImage = backgroundImage;
+        this.highlightedBackgroundImage = highlightedBackgroundImage;
+        this.backgroundImageOffsetX = offsetX;
+        this.backgroundImageOffsetY = offsetY;
+        this.backgroundImageNoOffsets = false;
         this.repaint();
     }
 
-    public void setFittedBackgroundImage(Image var1, Image var2) {
-        this.anImage3260 = var1;
-        this.anImage3261 = var2;
-        this.aBoolean3271 = true;
+    public void setFittedBackgroundImage(Image backgroundImage, Image highlightedBackgroundImage) {
+        this.backgroundImage = backgroundImage;
+        this.highlightedBackgroundImage = highlightedBackgroundImage;
+        this.backgroundImageNoOffsets = true;
         this.repaint();
     }
 
-    public void setForegroundImage(Image var1) {
-        this.setForegroundImage(var1, var1, 0, 0);
+    public void setForegroundImage(Image image) {
+        this.setForegroundImage(image, image, 0, 0);
     }
 
-    public void setForegroundImage(Image var1, Image var2) {
-        this.setForegroundImage(var1, var2, 0, 0);
+    public void setForegroundImage(Image foregroundImage, Image highlightedForegroundImage) {
+        this.setForegroundImage(foregroundImage, highlightedForegroundImage, 0, 0);
     }
 
-    public void setForegroundImage(Image var1, int var2, int var3) {
-        this.setForegroundImage(var1, var1, var2, var3);
+    public void setForegroundImage(Image foregroundImage, int offsetX, int offsetY) {
+        this.setForegroundImage(foregroundImage, foregroundImage, offsetX, offsetY);
     }
 
-    public void setForegroundImage(Image var1, Image var2, int var3, int var4) {
-        this.anImage3262 = var1;
-        this.anImage3263 = var2;
-        this.anInt3267 = var3;
-        this.anInt3268 = var4;
+    public void setForegroundImage(Image foregroundImage, Image highlightedForegroundImage, int offsetX, int offsetY) {
+        this.foregroundImage = foregroundImage;
+        this.highlightedForegroundImage = highlightedForegroundImage;
+        this.foregroundImageOffsetX = offsetX;
+        this.foregroundImageOffsetY = offsetY;
         this.repaint();
     }
 
-    public void setIconImage(Image var1) {
-        if (var1 != null) {
-            this.setIconImage(var1, var1.getWidth(null), var1.getHeight(null));
+    public void setIconImage(Image image) {
+        if (image != null) {
+            this.setIconImage(image, image.getWidth(null), image.getHeight(null));
         } else {
             this.setIconImage(null, -1, -1);
         }
     }
 
-    public void setIconImage(Image var1, int var2, int var3) {
-        this.anImage3264 = var1;
-        this.anInt3269 = var2;
-        this.anInt3270 = var3;
+    public void setIconImage(Image image, int width, int height) {
+        this.iconImage = image;
+        this.iconImageWidth = width;
+        this.iconImageHeight = height;
         this.repaint();
     }
 
-    public void setFont(Font var1) {
-        this.aFont3274 = var1;
+    public void setFont(Font font) {
+        this.font = font;
         this.repaint();
     }
 
-    public void setLabel(String var1) {
-        this.aString3272 = var1;
+    public void setLabel(String label) {
+        this.label = label;
         this.repaint();
     }
 
     public String getLabel() {
-        return this.aString3272;
+        return this.label;
     }
 
-    public void setSecondaryFont(Font var1) {
-        this.aFont3275 = var1;
+    public void setSecondaryFont(Font secondaryFont) {
+        this.secondaryFont = secondaryFont;
         this.repaint();
     }
 
-    public void setSecondaryLabel(String var1) {
-        if (var1 != this.aString3273) {
-            this.aString3273 = var1;
+    public void setSecondaryLabel(String secondaryLabel) {
+        if (secondaryLabel != this.secondaryLabel) {
+            this.secondaryLabel = secondaryLabel;
             this.repaint();
         }
     }
 
     public String getSecondaryLabel() {
-        return this.aString3273;
+        return this.secondaryLabel;
     }
 
-    public void setBorder(int var1) {
-        this.anInt3279 = var1;
+    public void setBorder(int borderStyle) {
+        this.borderStyle = borderStyle;
     }
 
     public int getBorder() {
-        return this.anInt3279;
+        return this.borderStyle;
     }
 
-    public void setBorderColor(Color var1) {
-        this.aColor3259 = var1;
+    public void setBorderColor(Color color) {
+        this.borderColor = color;
         this.repaint();
     }
 
     public void click() {
-        this.aBoolean3278 = true;
+        this.mousePressed = true;
         this.mouseReleased(null);
     }
 
     public Dimension getPreferredSize() {
         return new Dimension(
-                13 + this.getFontMetrics(this.aFont3274).stringWidth(this.aString3272) + 13,
-                5 + this.aFont3274.getSize() + 5);
+                13 + this.getFontMetrics(this.font).stringWidth(this.label) + 13, 5 + this.font.getSize() + 5);
     }
 
-    public void addActionListener(ActionListener var1) {
+    public void addActionListener(ActionListener listener) {
         synchronized (this.listeners) {
-            this.listeners.add(var1);
+            this.listeners.add(listener);
         }
     }
 
-    public void removeActionListener(ActionListener var1) {
+    public void removeActionListener(ActionListener listener) {
         synchronized (this.listeners) {
-            this.listeners.remove(var1);
+            this.listeners.remove(listener);
         }
     }
 
-    public void setFlashing(boolean var1) {
-        if (var1) {
-            if (this.aClass90_3285 != null) {
+    public void setBlinking(boolean blinking) {
+        if (blinking) {
+            if (this.blinkingThread != null) {
                 return;
             }
 
-            this.aClass90_3285 = new Class90(this, this);
-            Thread var2 = new Thread(this.aClass90_3285);
-            var2.setDaemon(true);
-            var2.start();
+            this.blinkingThread = new BlinkingButtonThread(this, this);
+            Thread thread = new Thread(this.blinkingThread);
+            thread.setDaemon(true);
+            thread.start();
         } else {
-            if (this.aClass90_3285 == null) {
+            if (this.blinkingThread == null) {
                 return;
             }
 
-            this.aClass90_3285.method1738();
-            this.aClass90_3285 = null;
-            this.aBoolean3286 = false;
+            this.blinkingThread.disable();
+            this.blinkingThread = null;
+            this.blinkState = false;
             this.repaint();
         }
     }
 
-    public Image createBuffer(int var1, int var2) {
-        return this.createImage(var1, var2);
+    public Image createBuffer(int width, int height) {
+        return this.createImage(width, height);
     }
 
-    public void graphicsCreated(Graphics var1) {}
+    public void graphicsCreated(Graphics e) {}
 
-    public void baseBackgroundDrawn(Graphics var1) {}
+    public void baseBackgroundDrawn(Graphics e) {}
 
     public boolean isNormalState() {
-        return !this.aBoolean3278;
+        return !this.mousePressed;
     }
 
     public void processActionEvent() {
         synchronized (this.listeners) {
             if (this.listeners.size() != 0) {
-                ActionEvent var2 = new ActionEvent(this, 1001, this.aString3272);
+                ActionEvent event = new ActionEvent(this, 1001, this.label);
                 for (ActionListener listener : listeners) {
-                    listener.actionPerformed(var2);
+                    listener.actionPerformed(event);
                 }
             }
         }
     }
 
     public boolean isHighlighted() {
-        boolean var1 = this.aBoolean3277;
-        if (this.aClass90_3285 != null && this.aBoolean3286) {
-            var1 = !var1;
+        boolean highlighted = this.mouseHoveredOver;
+        if (this.blinkingThread != null && this.blinkState) {
+            highlighted = !highlighted;
         }
 
-        return var1;
+        return highlighted;
     }
 
     public boolean isBolded() {
         return false;
     }
 
-    public void clearBackground(Graphics var1, int var2, int var3) {
-        var1.fillRect(0, 0, var2, var3);
+    public void clearBackground(Graphics g, int width, int height) {
+        g.fillRect(0, 0, width, height);
     }
 
-    public void drawBorder(Graphics var1, int var2, int var3) {
-        if (this.anInt3279 != 0) {
-            boolean var4 = this.isNormalState();
-            boolean var5 = this.anInt3279 == 1;
-            if (this.aColor3259 == null) {
-                var1.setColor(var4 ? this.aColor3258 : this.aColor3257);
+    public void drawBorder(Graphics g, int width, int height) {
+        if (this.borderStyle != BORDER_NONE) {
+            boolean isNormalState = this.isNormalState();
+            boolean normalBorders = this.borderStyle == BORDER_NORMAL;
+            if (this.borderColor == null) {
+                g.setColor(isNormalState ? this.borderColorDefault : this.highlightedBorderColorDefault);
             }
 
-            if (var5) {
-                var1.drawRect(0, 0, var2 - 1, var3 - 1);
+            if (normalBorders) {
+                g.drawRect(0, 0, width - 1, height - 1);
             } else {
-                var1.drawRect(0, 0, var2 - 1, var3 - 1);
-                var1.drawRect(1, 1, var2 - 3, var3 - 3);
+                g.drawRect(0, 0, width - 1, height - 1);
+                g.drawRect(1, 1, width - 3, height - 3);
             }
 
-            if (this.aColor3259 == null) {
-                var1.setColor(var4 ? this.aColor3257 : this.aColor3258);
+            if (this.borderColor == null) {
+                g.setColor(isNormalState ? this.highlightedBorderColorDefault : this.borderColorDefault);
             }
 
-            if (var5) {
-                var1.drawLine(0, 0, var2 - 1, 0);
-                var1.drawLine(0, 0, 0, var3 - 1);
+            if (normalBorders) {
+                g.drawLine(0, 0, width - 1, 0);
+                g.drawLine(0, 0, 0, height - 1);
             } else {
-                var1.drawLine(0, 0, var2 - 2, 0);
-                var1.drawLine(0, 1, var2 - 3, 1);
-                var1.drawLine(0, 0, 0, var3 - 1);
-                var1.drawLine(1, 0, 1, var3 - 2);
+                g.drawLine(0, 0, width - 2, 0);
+                g.drawLine(0, 1, width - 3, 1);
+                g.drawLine(0, 0, 0, height - 1);
+                g.drawLine(1, 0, 1, height - 2);
             }
         }
     }
 
-    public int drawIcon(Graphics var1, Image var2, int var3) {
-        var1.drawImage(var2, var3, var3, this);
-        return var3;
+    public int drawIcon(Graphics g, Image image, int size) {
+        g.drawImage(image, size, size, this);
+        return size;
     }
 
     public Color[] getLightAndDarkBorderColors() {
-        return new Color[] {this.aColor3257, this.aColor3258};
+        return new Color[] {this.highlightedBorderColorDefault, this.borderColorDefault};
     }
 
-    private Color method826(Color var1, int var2) {
-        int var3 = var1.getRed() + var2;
-        int var4 = var1.getGreen() + var2;
-        int var5 = var1.getBlue() + var2;
-        if (var3 < 0) {
-            var3 = 0;
-        } else if (var3 > 255) {
-            var3 = 255;
+    private Color translateColor(Color color, int offset) {
+        int r = color.getRed() + offset;
+        int g = color.getGreen() + offset;
+        int b = color.getBlue() + offset;
+        if (r < 0) {
+            r = 0;
+        } else if (r > 255) {
+            r = 255;
         }
 
-        if (var4 < 0) {
-            var4 = 0;
-        } else if (var4 > 255) {
-            var4 = 255;
+        if (g < 0) {
+            g = 0;
+        } else if (g > 255) {
+            g = 255;
         }
 
-        if (var5 < 0) {
-            var5 = 0;
-        } else if (var5 > 255) {
-            var5 = 255;
+        if (b < 0) {
+            b = 0;
+        } else if (b > 255) {
+            b = 255;
         }
 
-        return new Color(var3, var4, var5);
+        return new Color(r, g, b);
     }
 
-    private void method827(Graphics var1, Color var2, int var3, int var4) {
-        byte var5 = 0;
-        if (this.anInt3279 != 0) {
-            var5 = 1;
+    private void drawGradient(Graphics graphics, Color color, int width, int height) {
+        byte borderSize = 0;
+        if (this.borderStyle != BORDER_NONE) {
+            borderSize = 1;
         }
 
-        int var6 = var2.getRed();
-        int var7 = var2.getGreen();
-        int var8 = var2.getBlue();
-        int var9 = var6;
-        int var10 = var7;
-        int var11 = var8;
+        int originalR = color.getRed();
+        int originalG = color.getGreen();
+        int originalB = color.getBlue();
+        int r = originalR;
+        int g = originalG;
+        int b = originalB;
 
-        int var12;
-        for (var12 = var4 / 2; var12 >= var5; --var12) {
-            var1.setColor(new Color(var9, var10, var11));
-            var1.drawLine(var5, var12, var3 - 1 - var5, var12);
-            var9 = this.method828(var9, 3);
-            var10 = this.method828(var10, 3);
-            var11 = this.method828(var11, 3);
+        for (int i = height / 2; i >= borderSize; --i) {
+            graphics.setColor(new Color(r, g, b));
+            graphics.drawLine(borderSize, i, width - 1 - borderSize, i);
+            r = this.translateColorChannel(r, 3);
+            g = this.translateColorChannel(g, 3);
+            b = this.translateColorChannel(b, 3);
         }
 
-        var9 = var6;
-        var10 = var7;
-        var11 = var8;
+        r = originalR;
+        g = originalG;
+        b = originalB;
 
-        for (var12 = var4 / 2 + 1; var12 < var4 - var5; ++var12) {
-            var9 = this.method828(var9, -3);
-            var10 = this.method828(var10, -3);
-            var11 = this.method828(var11, -3);
-            var1.setColor(new Color(var9, var10, var11));
-            var1.drawLine(var5, var12, var3 - 1 - var5, var12);
+        for (int i = height / 2 + 1; i < height - borderSize; ++i) {
+            r = this.translateColorChannel(r, -3);
+            g = this.translateColorChannel(g, -3);
+            b = this.translateColorChannel(b, -3);
+            graphics.setColor(new Color(r, g, b));
+            graphics.drawLine(borderSize, i, width - 1 - borderSize, i);
         }
     }
 
-    private int method828(int var1, int var2) {
-        var1 += var2;
-        if (var1 < 0) {
-            var1 = 0;
-        } else if (var1 > 255) {
-            var1 = 255;
+    private int translateColorChannel(int original, int offset) {
+        original += offset;
+        if (original < 0) {
+            original = 0;
+        } else if (original > 255) {
+            original = 255;
         }
 
-        return var1;
+        return original;
     }
 
-    private Font method829(Font var1) {
-        return this.isBolded() ? new Font(var1.getName(), Font.BOLD, var1.getSize()) : var1;
+    private Font getFont(Font font) {
+        return this.isBolded() ? new Font(font.getName(), Font.BOLD, font.getSize()) : font;
     }
 
-    private Font method830(Font var1, String var2, int var3) {
-        int var4 = this.getFontMetrics(var1).stringWidth(var2);
-        if (var4 <= var3) {
-            return var1;
+    private Font getSizeAdjustedFont(Font font, String text, int width) {
+        int stringWidth = this.getFontMetrics(font).stringWidth(text);
+        if (stringWidth <= width) {
+            return font;
         } else {
-            int var7 = var1.getSize();
+            int fontSize = font.getSize();
 
             do {
-                Font var5 = var1;
-                int var6 = var4;
-                --var7;
-                var1 = new Font(var1.getName(), var1.getStyle(), var7);
-                var4 = this.getFontMetrics(var1).stringWidth(var2);
-                if (var4 >= var6) {
-                    return var5;
+                Font newFont = font;
+                int newWidth = stringWidth;
+                --fontSize;
+                font = new Font(font.getName(), font.getStyle(), fontSize);
+                stringWidth = this.getFontMetrics(font).stringWidth(text);
+                if (stringWidth >= newWidth) {
+                    return newFont;
                 }
-            } while (var4 > var3 && var7 > 9);
+            } while (stringWidth > width && fontSize > 9);
 
-            return var1;
+            return font;
         }
     }
 
-    public void innerSetFlashState(boolean var1) {
-        this.aBoolean3286 = var1;
+    public void setBlinkState(boolean state) {
+        this.blinkState = state;
         this.repaint();
     }
 }
