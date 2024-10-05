@@ -73,7 +73,6 @@ public class GameApplet extends AApplet {
         imageManager.defineSharedImage("ranking-icons.gif"); // TODO
         imageManager.defineSharedImage("language-flags.png"); // TODO
         imageManager.defineSharedImage("credit-background.jpg"); // TODO
-        imageManager.defineSharedImage("bigtext.gif"); // TODO
         imageManager.defineSharedImage("tf-background.gif"); // TODO
 
         for (int i = 0; i < GameBackgroundCanvas.trackAdvertSize; ++i) {
