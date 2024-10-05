@@ -49,6 +49,11 @@ public class GameApplet extends AApplet {
         this.aBoolean3773 = false;
     }
 
+    @Override
+    public String getAppletInfo() {
+        return "-= AGolf =-\nCopyright (c) 2002-2012 Playforia (www.playforia.info)\nProgramming: Pasi Laaksonen\nGraphics: Janne Matilainen";
+    }
+
     public void textsLoadedNotify(TextManager textManager) {
         this.gameContainer.textManager = textManager;
     }

@@ -1,6 +1,6 @@
 package org.moparforia.client;
 
-import agolf.AGolf;
+import agolf.GameApplet;
 import java.applet.Applet;
 import java.applet.AppletContext;
 import java.applet.AppletStub;
@@ -16,7 +16,7 @@ public class Game {
 
     public Game(
             JFrame frame, String server, int port, Locale locale, String username, boolean verbose, boolean norandom) {
-        Applet game = new AGolf();
+        Applet game = new GameApplet();
 
         game.setStub(new Stub(server, locale, username, port, verbose, norandom));
         game.setSize(WIDTH, HEIGHT);
