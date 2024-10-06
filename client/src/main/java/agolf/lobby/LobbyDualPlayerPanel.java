@@ -63,7 +63,7 @@ class LobbyDualPlayerPanel extends IPanel implements ItemListener, ActionListene
         this.height = height;
         this.setSize(width, height);
         this.synchronizedObject = new Object();
-        this.setBackground(gameContainer.imageManager.getImage("bg-lobby-dual"));
+        this.setBackground(gameContainer.imageManager.getGameImage("bg-lobby-dual"));
         this.create();
         this.challengeFloodProtection = new ChallengeFloodProtection();
     }

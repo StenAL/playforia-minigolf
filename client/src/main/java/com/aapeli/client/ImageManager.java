@@ -18,7 +18,7 @@ public final class ImageManager {
     private Hashtable<String, String> imageAliases;
     private boolean validImageDir;
     private final boolean isDebug;
-    private final ImageTracker imageTracker;
+    private final ImageLoaderThread imageLoaderThread;
 
     public ImageManager(Applet applet) {
         this(applet, "src/main/resources/picture/", true);
@@ -44,7 +44,7 @@ public final class ImageManager {
         }
 
         this.imageAliases = new Hashtable<>();
-        this.imageTracker = new ImageTracker(applet, isDebug);
+        this.imageLoaderThread = new ImageLoaderThread(applet, isDebug);
     }
 
     public void setImageAliases(String[][] imageAliases) {
@@ -55,102 +55,102 @@ public final class ImageManager {
         }
     }
 
-    public String defineImage(String var1) {
-        return this.defineImage(this.removeExtension(var1), var1);
+    public String defineGameImage(String fileName) {
+        return this.defineGameImage(this.removeExtension(fileName), fileName);
     }
 
-    public String defineImage(String imageAlias, String imageFileName) {
+    public String defineGameImage(String name, String imageFileName) {
         if (this.isDebug) {
-            System.out.println("ImageManager.defineImage(\"" + imageAlias + "\",\"" + imageFileName + "\")");
+            System.out.println("ImageManager.defineGameImage(\"" + name + "\",\"" + imageFileName + "\")");
         }
 
-        Image var3 = Toolkit.getDefaultToolkit()
+        Image image = Toolkit.getDefaultToolkit()
                 .createImage(this.getClass().getResource("/picture/agolf/" + getAlias(imageFileName)));
-        this.imageTracker.registerImage(imageAlias, var3);
-        return imageAlias;
+        this.imageLoaderThread.registerGameImage(name, image);
+        return name;
     }
 
-    public String defineSharedImage(String var1) {
-        return defineSharedImage(removeExtension(var1), var1);
+    public String defineSharedImage(String fileName) {
+        return defineSharedImage(removeExtension(fileName), fileName);
     }
 
-    public String defineSharedImage(String imageAlias, String imageFileName) {
+    public String defineSharedImage(String name, String imageFileName) {
         if (this.isDebug) {
-            System.out.println("ImageManager.defineSharedImage(\"" + imageAlias + "\",\"" + imageFileName + "\")");
+            System.out.println("ImageManager.defineSharedImage(\"" + name + "\",\"" + imageFileName + "\")");
         }
 
-        Image var3 = Toolkit.getDefaultToolkit()
+        Image image = Toolkit.getDefaultToolkit()
                 .createImage(this.getClass().getResource("/picture/shared/" + getAlias(imageFileName)));
-        this.imageTracker.method1624(imageAlias, var3);
-        return imageAlias;
+        this.imageLoaderThread.registerSharedImage(name, image);
+        return name;
     }
 
-    public void unDefineImage(String var1) {
-        this.imageTracker.method1636(var1);
+    public void unloadGameImage(String name) {
+        this.imageLoaderThread.unloadGameImage(name);
     }
 
     public void startLoadingImages() {
-        this.imageTracker.loadImages();
+        this.imageLoaderThread.startLoaderThread();
     }
 
     public boolean isLoadingFinished() {
-        return this.imageTracker.numberOfImages() == 0;
+        return this.imageLoaderThread.getLoadQueueSize() == 0;
     }
 
     public int getPercentOfImagesLoaded() {
-        if (this.imageTracker.numberOfImages() == 0) {
+        if (this.imageLoaderThread.getLoadQueueSize() == 0) {
             return 100;
         } else {
-            int var1 = (int) (100.0D * this.getImageLoadProgress() + 0.5D);
-            if (var1 == 0 && this.imageTracker.method1638() > 0) {
-                var1 = 1;
-            } else if (var1 == 100) {
-                var1 = 99;
+            int p = (int) (100.0D * this.getImageLoadProgress() + 0.5D);
+            if (p == 0 && this.imageLoaderThread.getNumberOfLoadedImages() > 0) {
+                p = 1;
+            } else if (p == 100) {
+                p = 99;
             }
 
-            return var1;
+            return p;
         }
     }
 
     public double getImageLoadProgress() {
-        int var1 = this.imageTracker.numberOfImages();
-        if (var1 == 0) {
+        int queueSize = this.imageLoaderThread.getLoadQueueSize();
+        if (queueSize == 0) {
             return 1.0D;
         } else {
-            int var2 = this.imageTracker.method1638();
-            int var3 = var2 + var1;
-            return 1.0D * (double) var2 / (double) var3;
+            int loadedImages = this.imageLoaderThread.getNumberOfLoadedImages();
+            int total = loadedImages + queueSize;
+            return (double) loadedImages / (double) total;
         }
     }
 
-    public Image getImage(String var1) {
-        return this.imageTracker.getNImage(this.getAlias(var1));
+    public Image getGameImage(String name) {
+        return this.imageLoaderThread.getGameImage(this.getAlias(name));
     }
 
-    public boolean isDefined(String imageAlias) {
-        return this.imageTracker.containsNImage(this.getAlias(imageAlias));
+    public boolean isGameImageDefined(String name) {
+        return this.imageLoaderThread.containsGameImage(this.getAlias(name));
     }
 
-    public Image getIfAvailable(String var1) {
-        return this.imageTracker.getNImageFromTable(this.getAlias(var1));
+    public Image getGameImageIfLoaded(String name) {
+        return this.imageLoaderThread.getGameImageIfLoaded(this.getAlias(name));
     }
 
-    public Image getEvenNotLoaded(String imageAlias) {
-        return this.imageTracker.getImage(this.getAlias(imageAlias));
+    public Image getGameImageNonblocking(String name) {
+        return this.imageLoaderThread.getGameImageNonblocking(this.getAlias(name));
     }
 
-    public Image getShared(String var1) {
-        return this.getShared(var1, false);
+    public Image getShared(String name) {
+        return this.getShared(name, false);
     }
 
-    public Image getShared(String var1, boolean var2) {
-        String var3 = this.removeExtension(var1);
-        Image var4 = this.imageTracker.method1631(var3);
-        if (var4 != null) {
-            return var4;
+    public Image getShared(String name, boolean nonblocking) {
+        String extensionlessName = this.removeExtension(name);
+        Image image = this.imageLoaderThread.getSharedImageIfLoaded(extensionlessName);
+        if (image != null) {
+            return image;
         } else {
             synchronized (this) {
-                if (!this.imageTracker.containsSImage(var3)) {
+                if (!this.imageLoaderThread.containsSharedImage(extensionlessName)) {
                     URL codebaseURL = this.applet.getCodeBase();
 
                     try {
@@ -159,68 +159,66 @@ public final class ImageManager {
                         } else {
                             codebaseURL = new URL(codebaseURL, "../Shared/picture/");
                         }
-                    } catch (MalformedURLException var9) {
+                    } catch (MalformedURLException e) {
                     }
 
                     URL url = codebaseURL;
                     try {
-                        url = new URL(codebaseURL, var1);
+                        url = new URL(codebaseURL, name);
                     } catch (Exception ex) {
                     }
-                    var4 = Toolkit.getDefaultToolkit().createImage(url);
-                    // todo var4 = this.anApplet1354.getImage(var6, var1);
-                    // var4 = this.applet.getImage(var6, var1);
-                    this.imageTracker.method1624(var3, var4);
+                    image = Toolkit.getDefaultToolkit().createImage(url);
+                    this.imageLoaderThread.registerSharedImage(extensionlessName, image);
                 }
             }
-            return var2 ? null : this.imageTracker.method1630(var3);
+            return nonblocking ? null : this.imageLoaderThread.getSharedImage(extensionlessName);
         }
     }
 
-    public int getWidth(Image var1) {
-        return var1.getWidth(this.applet);
+    public int getWidth(Image image) {
+        return image.getWidth(this.applet);
     }
 
-    public int getHeight(Image var1) {
-        return var1.getHeight(this.applet);
+    public int getHeight(Image image) {
+        return image.getHeight(this.applet);
     }
 
-    public int[] getPixels(Image var1) {
-        return this.getPixels(var1, 0, 0, this.getWidth(var1), this.getHeight(var1));
+    public int[] getPixels(Image image) {
+        return this.getPixels(image, 0, 0, this.getWidth(image), this.getHeight(image));
     }
 
-    public int[] getPixels(Image var1, int var2, int var3) {
-        return this.getPixels(var1, 0, 0, var2, var3);
+    public int[] getPixels(Image image, int width, int height) {
+        return this.getPixels(image, 0, 0, width, height);
     }
 
-    public int[] getPixels(Image var1, int var2, int var3, int var4, int var5) {
-        int[] var6 = new int[var4 * var5];
-        PixelGrabber var7 = new PixelGrabber(var1, var2, var3, var4, var5, var6, 0, var4);
+    public int[] getPixels(Image image, int x, int y, int width, int height) {
+        int[] pixels = new int[width * height];
+        PixelGrabber pixelGrabber = new PixelGrabber(image, x, y, width, height, pixels, 0, width);
 
         try {
-            var7.grabPixels();
-        } catch (InterruptedException var9) {
+            pixelGrabber.grabPixels();
+        } catch (InterruptedException e) {
         }
 
-        return var6;
+        return pixels;
     }
 
-    public Image createImage(int[] var1, int var2, int var3) {
-        return this.createImage(var1, var2, var3, null);
+    public Image createImage(int[] pixels, int width, int height) {
+        return this.createImage(pixels, width, height, null);
     }
 
-    public Image createImage(int[] var1, int var2, int var3, Component var4) {
-        if (var4 == null) {
-            var4 = this.applet;
+    public Image createImage(int[] pixels, int width, int height, Component parent) {
+        if (parent == null) {
+            parent = this.applet;
         }
 
-        Image var5 = var4.createImage(new MemoryImageSource(var2, var3, var1, 0, var2));
+        Image image = parent.createImage(new MemoryImageSource(width, height, pixels, 0, width));
 
-        while (!var4.prepareImage(var5, var4)) {
+        while (!parent.prepareImage(image, parent)) {
             Tools.sleep(20L);
         }
 
-        return var5;
+        return image;
     }
 
     public Image[] separateImages(Image image, int length) {
@@ -234,8 +232,8 @@ public final class ImageManager {
 
         int width = this.getWidth(image);
         int height = this.getHeight(image);
-        int aspectRatio = width / length;
-        int rowHeight = height / rows;
+        int imageWidth = width / length;
+        int imageHeight = height / rows;
         if (this.isDebug && (width % length > 0 || height % rows > 0)) {
             System.out.println("ImageManager.separateImages(...,"
                     + length
@@ -249,55 +247,55 @@ public final class ImageManager {
             Thread.dumpStack();
         }
 
-        int[] pixels = this.getPixels(image, width, height);
+        int[] allPixels = this.getPixels(image, width, height);
         Image[][] images = new Image[rows][length];
 
         for (int row = 0; row < rows; ++row) {
             for (int col = 0; col < length; ++col) {
-                int[] var9 = new int[aspectRatio * rowHeight];
+                int[] pixels = new int[imageWidth * imageHeight];
 
-                for (int var13 = 0; var13 < rowHeight; ++var13) {
-                    for (int var14 = 0; var14 < aspectRatio; ++var14) {
-                        var9[var13 * aspectRatio + var14] =
-                                pixels[row * width * rowHeight + var13 * width + col * aspectRatio + var14];
+                for (int y = 0; y < imageHeight; ++y) {
+                    for (int x = 0; x < imageWidth; ++x) {
+                        pixels[y * imageWidth + x] =
+                                allPixels[row * width * imageHeight + y * width + col * imageWidth + x];
                     }
                 }
 
-                images[row][col] = this.createImage(var9, aspectRatio, rowHeight);
+                images[row][col] = this.createImage(pixels, imageWidth, imageHeight);
             }
         }
 
         return images;
     }
 
-    public Image getAlphaMultipliedImage(Image var1, double var2) {
-        int var4 = this.getWidth(var1);
-        int var5 = this.getHeight(var1);
-        int[] var6 = this.getPixels(var1, var4, var5);
-        return this.createImage(this.multiplyAlpha(var6, var2), var4, var5);
+    public Image getAlphaMultipliedImage(Image image, double opacity) {
+        int width = this.getWidth(image);
+        int height = this.getHeight(image);
+        int[] pixels = this.getPixels(image, width, height);
+        return this.createImage(this.multiplyAlpha(pixels, opacity), width, height);
     }
 
-    public int[] multiplyAlpha(int[] var1, double var2) {
-        int var4 = var1.length;
-        int[] var5 = new int[var4];
+    public int[] multiplyAlpha(int[] pixels, double opacity) {
+        int length = pixels.length;
+        int[] newPixels = new int[length];
 
-        for (int var8 = 0; var8 < var4; ++var8) {
-            long var6 = ((long) var1[var8] & 4278190080L) >> 24;
-            var6 = (long) ((double) var6 * var2);
-            if (var6 < 0L) {
-                var6 = 0L;
-            } else if (var6 > 255L) {
-                var6 = 255L;
+        for (int i = 0; i < length; ++i) {
+            long alpha = ((long) pixels[i] & 4278190080L) >> 24;
+            alpha = (long) ((double) alpha * opacity);
+            if (alpha < 0L) {
+                alpha = 0L;
+            } else if (alpha > 255L) {
+                alpha = 255L;
             }
 
-            var5[var8] = (int) ((var6 << 24) + ((long) var1[var8] & 16777215L));
+            newPixels[i] = (int) ((alpha << 24) + ((long) pixels[i] & 16777215L));
         }
 
-        return var5;
+        return newPixels;
     }
 
     public void destroy() {
-        this.imageTracker.removeAllImageResources();
+        this.imageLoaderThread.destroy();
         this.imageAliases.clear();
         this.imageAliases = null;
         this.applet = null;
@@ -307,30 +305,29 @@ public final class ImageManager {
         return this.applet;
     }
 
-    public void enableSUD(AApplet var1) {
-        this.imageTracker.method1640(var1);
+    public void enableSUD(AApplet applet) {
+        this.imageLoaderThread.setStartupDebugApplet(applet);
     }
 
-    protected void method1594(URL var1) {
-        String var2 = var1.toString();
+    protected void registerRemoteImage(URL url) {
+        String stringUrl = url.toString();
         synchronized (this) {
-            if (!this.imageTracker.containsCImage(var2)) {
-                // todo Image var4 = this.applet.getImage(var1);
-                Image var4 = Toolkit.getDefaultToolkit().createImage(var1);
-                this.imageTracker.method1625(var2, var4);
+            if (!this.imageLoaderThread.containsRemoteImage(stringUrl)) {
+                Image var4 = Toolkit.getDefaultToolkit().createImage(url);
+                this.imageLoaderThread.registerRemoteImage(stringUrl, var4);
             }
         }
     }
 
-    protected Image method1595(String var1) {
-        return this.imageTracker.method1632(var1);
+    protected Image getRemoteImageIfLoaded(String name) {
+        return this.imageLoaderThread.getRemoteImageIfLoaded(name);
     }
 
     private String removeExtension(String fileName) {
         return fileName.substring(0, fileName.lastIndexOf('.'));
     }
 
-    private String getAlias(String var1) {
-        return this.imageAliases.getOrDefault(var1, var1);
+    private String getAlias(String image) {
+        return this.imageAliases.getOrDefault(image, image);
     }
 }

@@ -41,7 +41,7 @@ public class IPanel extends Panel {
     }
 
     public void setBackground(ImageManager imageManager, String imageKey, int xOffset, int yOffset) {
-        Image image = imageManager.getIfAvailable(imageKey);
+        Image image = imageManager.getGameImageIfLoaded(imageKey);
         if (image != null) {
             this.setBackground(image, xOffset, yOffset);
         } else {

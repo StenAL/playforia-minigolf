@@ -169,7 +169,7 @@ public abstract class AApplet extends Applet implements Runnable, ActionListener
                 this.appletGraphics.setColor(backgroundColor);
                 this.appletGraphics.fillRect(0, 0, this.appletWidth, this.appletHeight);
                 if (this.imageManager != null && this.backgroundImageKey != null) {
-                    Image image = this.imageManager.getIfAvailable(this.backgroundImageKey);
+                    Image image = this.imageManager.getGameImageIfLoaded(this.backgroundImageKey);
                     if (image != null) {
                         this.appletGraphics.drawImage(image, this.backgroundXOffset, this.backgroundYOffset, this);
                     }

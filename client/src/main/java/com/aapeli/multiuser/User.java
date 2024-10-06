@@ -173,11 +173,11 @@ public final class User {
     }
 
     protected void loadAvatar(String imageAlias, ImageManager imageManager, ColorList playersList) {
-        if (!imageManager.isDefined(imageAlias)) {
-            imageManager.defineImage(imageAlias, imageAlias);
+        if (!imageManager.isGameImageDefined(imageAlias)) {
+            imageManager.defineGameImage(imageAlias, imageAlias);
         }
 
-        this.colorListItem.setIcon(imageManager.getEvenNotLoaded(imageAlias));
+        this.colorListItem.setIcon(imageManager.getGameImageNonblocking(imageAlias));
         playersList.repaint();
     }
 
