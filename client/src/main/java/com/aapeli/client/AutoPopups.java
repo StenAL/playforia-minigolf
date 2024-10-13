@@ -5,15 +5,15 @@ import com.aapeli.colorgui.ColorButton;
 
 public class AutoPopups {
 
-    private Class78 aClass78_1327;
-    private Class88 aClass88_1328;
+    private SignUpHandler signUpHandler;
+    private TellFriendHandler tellFriendHandler;
     private long aLong1330;
     private static final String aString1331 = "facebook";
 
     public AutoPopups(AApplet var1) {
         if (!var1.param.getSiteName().equalsIgnoreCase("facebook")) {
-            this.aClass78_1327 = new Class78(var1);
-            this.aClass88_1328 = new Class88(var1.param, var1.textManager, var1.imageManager);
+            this.signUpHandler = new SignUpHandler(var1);
+            this.tellFriendHandler = new TellFriendHandler(var1.param, var1.textManager, var1.imageManager);
         }
 
         this.aLong1330 = 0L;
@@ -21,20 +21,20 @@ public class AutoPopups {
 
     public AutoPopups(Parameters var1, TextManager var2, ImageManager var3) {
         if (!var1.getSiteName().equalsIgnoreCase("facebook")) {
-            this.aClass88_1328 = new Class88(var1, var2, var3);
+            this.tellFriendHandler = new TellFriendHandler(var1, var2, var3);
         }
     }
 
     public ColorButton getTellFriendButton() {
-        return this.aClass88_1328 != null ? this.aClass88_1328.method1699() : null;
+        return this.tellFriendHandler != null ? this.tellFriendHandler.method1699() : null;
     }
 
     public void gameFinished(boolean var1) {
         synchronized (this) {
             if (this.method1561()) {
-                if (this.aClass78_1327 != null && this.aClass78_1327.method1599(var1)) {
+                if (this.signUpHandler != null && this.signUpHandler.method1599(var1)) {
                     this.method1562();
-                } else if (this.aClass88_1328 != null && this.aClass88_1328.method1700()) {
+                } else if (this.tellFriendHandler != null && this.tellFriendHandler.method1700()) {
                     this.method1562();
                 }
             }
@@ -44,7 +44,7 @@ public class AutoPopups {
     public void personalRecord() {
         synchronized (this) {
             if (this.method1561()) {
-                if (this.aClass78_1327 != null && this.aClass78_1327.method1600()) {
+                if (this.signUpHandler != null && this.signUpHandler.method1600()) {
                     this.method1562();
                 }
             }
@@ -54,7 +54,7 @@ public class AutoPopups {
     public void rankingChanged(int var1, int var2) {
         synchronized (this) {
             if (this.method1561()) {
-                if (this.aClass78_1327 != null && this.aClass78_1327.method1601(var1, var2)) {
+                if (this.signUpHandler != null && this.signUpHandler.method1601(var1, var2)) {
                     this.method1562();
                 }
             }
@@ -63,12 +63,12 @@ public class AutoPopups {
 
     public void close() {
         synchronized (this) {
-            if (this.aClass78_1327 != null) {
-                this.aClass78_1327.method1602();
+            if (this.signUpHandler != null) {
+                this.signUpHandler.method1602();
             }
 
-            if (this.aClass88_1328 != null) {
-                this.aClass88_1328.method1701();
+            if (this.tellFriendHandler != null) {
+                this.tellFriendHandler.method1701();
             }
         }
     }

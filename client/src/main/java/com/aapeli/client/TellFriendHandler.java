@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 import java.net.URL;
 import java.security.MessageDigest;
 
-class Class88 implements ActionListener {
+class TellFriendHandler implements ActionListener {
 
     private static final Color aColor1499 = new Color(64, 160, 255);
     private Parameters aParameters1500;
@@ -18,9 +18,9 @@ class Class88 implements ActionListener {
     private String aString1505;
     private int anInt1506;
     private int anInt1507;
-    private Frame_Sub3_Sub3 aFrame_Sub3_Sub3_1508;
+    private TellFriendWindow tellFriendWindow;
 
-    protected Class88(Parameters var1, TextManager var2, ImageManager var3) {
+    protected TellFriendHandler(Parameters var1, TextManager var2, ImageManager var3) {
         this.aParameters1500 = var1;
         this.aTextManager1501 = var2;
         this.anImageManager1502 = var3;
@@ -43,10 +43,10 @@ class Class88 implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent var1) {
-        if (this.aFrame_Sub3_Sub3_1508 == null) {
+        if (this.tellFriendWindow == null) {
             this.method1704();
         } else {
-            this.aFrame_Sub3_Sub3_1508.toFront();
+            this.tellFriendWindow.toFront();
         }
     }
 
@@ -89,8 +89,8 @@ class Class88 implements ActionListener {
 
     protected void method1701() {
         try {
-            if (this.aFrame_Sub3_Sub3_1508 != null) {
-                this.aFrame_Sub3_Sub3_1508.close();
+            if (this.tellFriendWindow != null) {
+                this.tellFriendWindow.close();
             }
         } catch (Exception var2) {
         }
@@ -132,12 +132,12 @@ class Class88 implements ActionListener {
     }
 
     protected void method1703() {
-        this.aFrame_Sub3_Sub3_1508 = null;
+        this.tellFriendWindow = null;
     }
 
     private void method1704() {
-        this.aFrame_Sub3_Sub3_1508 = new Frame_Sub3_Sub3(this.aTextManager1501, this.anImageManager1502, this);
-        this.aFrame_Sub3_Sub3_1508.method241(this.aParameters1500.getApplet());
+        this.tellFriendWindow = new TellFriendWindow(this.aTextManager1501, this.anImageManager1502, this);
+        this.tellFriendWindow.method241(this.aParameters1500.getApplet());
         this.anInt1506 = 2;
     }
 

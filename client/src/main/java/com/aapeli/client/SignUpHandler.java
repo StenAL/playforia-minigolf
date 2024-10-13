@@ -2,13 +2,13 @@ package com.aapeli.client;
 
 import com.aapeli.applet.AApplet;
 
-class Class78 {
+class SignUpHandler {
 
     private AApplet anAApplet1363;
-    private Frame_Sub3_Sub1 frame;
+    private SignUpWindow frame;
     private boolean aBoolean1365;
 
-    protected Class78(AApplet var1) {
+    protected SignUpHandler(AApplet var1) {
         this.anAApplet1363 = var1;
         this.aBoolean1365 = false;
     }
@@ -28,7 +28,7 @@ class Class78 {
             } else if (this.anAApplet1363.param.getSession() == null) {
                 return false;
             } else {
-                this.frame = new Frame_Sub3_Sub1(this.anAApplet1363, this, 1, 1);
+                this.frame = new SignUpWindow(this.anAApplet1363, this, 1, 1);
                 this.frame.method239(this.anAApplet1363);
                 this.aBoolean1365 = true;
                 return true;
@@ -45,7 +45,7 @@ class Class78 {
             } else if (this.anAApplet1363.param.getSession() == null) {
                 return false;
             } else if (var1 <= 0 && var2 != 0) {
-                this.frame = new Frame_Sub3_Sub1(this.anAApplet1363, this, 1, 2);
+                this.frame = new SignUpWindow(this.anAApplet1363, this, 1, 2);
                 this.frame.method239(this.anAApplet1363);
                 this.aBoolean1365 = true;
                 return true;
