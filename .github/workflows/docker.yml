@@ -6,7 +6,7 @@ on:
     branches:
       - master
 
-name: Test build
+name: Build Docker Image
 
 jobs:
   build:
