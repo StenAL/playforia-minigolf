@@ -13,7 +13,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
-class Panel_Sub24 extends Panel implements ActionListener, FocusListener {
+class TellFriendPanel extends Panel implements ActionListener, FocusListener {
 
     protected static final Color aColor616 = new Color(240, 240, 240);
     private static final Color aColor617 = Color.black;
@@ -29,8 +29,8 @@ class Panel_Sub24 extends Panel implements ActionListener, FocusListener {
     private static final Font aFont627 = new Font("Dialog", Font.PLAIN, 16);
     private TextManager aTextManager628;
     private ImageManager anImageManager629;
-    private Class88 aClass88_630;
-    private Frame_Sub3_Sub3 aFrame_Sub3_Sub3_631;
+    private TellFriendHandler tellFriendHandler;
+    private TellFriendWindow tellFriendWindow;
     private InputTextField[] anInputTextFieldArray632;
     private ColorButton[] aColorButtonArray633;
     private ColorButton aColorButton634;
@@ -43,11 +43,11 @@ class Panel_Sub24 extends Panel implements ActionListener, FocusListener {
     private Image anImage641;
     private Graphics aGraphics642;
 
-    protected Panel_Sub24(TextManager var1, ImageManager var2, Class88 var3, Frame_Sub3_Sub3 var4) {
+    protected TellFriendPanel(TextManager var1, ImageManager var2, TellFriendHandler var3, TellFriendWindow var4) {
         this.aTextManager628 = var1;
         this.anImageManager629 = var2;
-        this.aClass88_630 = var3;
-        this.aFrame_Sub3_Sub3_631 = var4;
+        this.tellFriendHandler = var3;
+        this.tellFriendWindow = var4;
         this.setSize(500, 265);
         this.setBackground(aColor616);
         this.method480();
@@ -203,7 +203,7 @@ class Panel_Sub24 extends Panel implements ActionListener, FocusListener {
                 }
 
                 if (var4 > 0) {
-                    if (this.aClass88_630.method1702(var6, var8, 79, 108, 97)) {
+                    if (this.tellFriendHandler.method1702(var6, var8, 79, 108, 97)) {
                         this.anInt638 = 1;
                     } else {
                         this.anInt638 = -1;
@@ -219,7 +219,7 @@ class Panel_Sub24 extends Panel implements ActionListener, FocusListener {
 
             } else {
                 if (var2 == this.aColorButton637) {
-                    this.aFrame_Sub3_Sub3_631.close();
+                    this.tellFriendWindow.close();
                 }
             }
         }

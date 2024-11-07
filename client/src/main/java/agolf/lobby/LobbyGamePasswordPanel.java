@@ -42,7 +42,7 @@ class LobbyGamePasswordPanel extends Panel implements KeyListener, ActionListene
     }
 
     public synchronized void update(Graphics g) {
-        g.drawImage(this.gameContainer.imageManager.getImage("bg-lobby-password"), 0, 0, this);
+        g.drawImage(this.gameContainer.imageManager.getGameImage("bg-lobby-password"), 0, 0, this);
     }
 
     public void keyPressed(KeyEvent evt) {

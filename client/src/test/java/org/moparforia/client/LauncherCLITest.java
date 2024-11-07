@@ -24,6 +24,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.quality.Strictness;
+import org.moparforia.shared.Locale;
 import picocli.CommandLine;
 
 /**
@@ -94,7 +95,7 @@ class LauncherCLITest {
                         any(),
                         eq(Launcher.DEFAULT_SERVER),
                         eq(Launcher.DEFAULT_PORT),
-                        eq(Launcher.Language.EN_US),
+                        eq(Locale.EN_US),
                         any(),
                         anyBoolean(),
                         anyBoolean());
@@ -105,7 +106,7 @@ class LauncherCLITest {
                         any(),
                         eq(Launcher.DEFAULT_SERVER),
                         eq(Launcher.DEFAULT_PORT),
-                        eq(Launcher.Language.FI_FI),
+                        eq(Locale.FI_FI),
                         any(),
                         anyBoolean(),
                         anyBoolean());
@@ -182,7 +183,7 @@ class LauncherCLITest {
                         any(),
                         eq(Launcher.DEFAULT_SERVER),
                         eq(Launcher.DEFAULT_PORT),
-                        eq(Launcher.Language.EN_US),
+                        eq(Locale.EN_US),
                         eq(null),
                         eq(false),
                         eq(false));

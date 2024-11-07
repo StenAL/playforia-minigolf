@@ -3,6 +3,7 @@ package com.aapeli.multiuser;
 import com.aapeli.client.ImageManager;
 import com.aapeli.client.TextManager;
 import java.awt.Image;
+import org.moparforia.shared.Locale;
 
 public final class Languages {
 
@@ -78,23 +79,18 @@ public final class Languages {
         this.imageManager = imageManager;
     }
 
-    public static int getLanguageIdByString(String locale) {
+    public static int getLanguageId(Locale locale) {
         if (locale == null) {
             return LANGUAGE_UNKNOWN;
         } else {
-            int i = locale.indexOf('_');
-            if (i > 0) {
-                locale = locale.substring(0, i);
-            }
-
-            locale = locale.toLowerCase();
+            String language = locale.getLanguage().toString();
 
             for (int j = 1; j < languageData.length; ++j) {
-                if (locale.equals(languageData[j][0])) {
+                if (language.equals(languageData[j][0])) {
                     return j;
                 }
 
-                if (languageData[j][1] != null && locale.equals(languageData[j][1])) {
+                if (languageData[j][1] != null && language.equals(languageData[j][1])) {
                     return j;
                 }
             }

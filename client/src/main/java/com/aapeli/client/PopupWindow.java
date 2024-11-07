@@ -11,14 +11,14 @@ import java.awt.Point;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
-abstract class Frame_Sub3 extends Frame implements WindowListener {
+abstract class PopupWindow extends Frame implements WindowListener {
 
     protected TextManager aTextManager187;
     private int anInt188;
     private int anInt189;
     private Color aColor190;
 
-    protected Frame_Sub3(TextManager var1) {
+    protected PopupWindow(TextManager var1) {
         this.aTextManager187 = var1;
         this.anInt188 = this.anInt189 = 0;
     }
@@ -68,7 +68,7 @@ abstract class Frame_Sub3 extends Frame implements WindowListener {
         Point var6 = var1.getLocationOnScreen();
         Dimension var7 = var1.getSize();
         this.setLocation(var6.x + var7.width / 2 - this.anInt188 / 2, var6.y + var7.height / 2 - this.anInt189 / 2);
-        this.setBackground(Panel_Sub24.aColor616);
+        this.setBackground(TellFriendPanel.aColor616);
         this.setLayout(null);
         var3.setLocation(var4.left, var4.top);
         this.add(var3);

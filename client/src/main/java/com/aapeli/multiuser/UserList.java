@@ -9,6 +9,7 @@ import com.aapeli.colorgui.ColorListItem;
 import com.aapeli.colorgui.ColorListItemGroup;
 import com.aapeli.colorgui.ColorTextArea;
 import com.aapeli.tools.Tools;
+import java.applet.Applet;
 import java.awt.CheckboxMenuItem;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -30,6 +31,8 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.StringTokenizer;
+import javax.swing.*;
+import org.moparforia.shared.Locale;
 
 public class UserList extends IPanel implements ComponentListener, ItemListener, ActionListener {
 
@@ -45,6 +48,7 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
     private UserListHandler userListHandler;
     private TextManager textManager;
     private ImageManager imageManager;
+    private Applet applet;
     private int width;
     private int height;
     private Image[] rankingIcons;
@@ -91,16 +95,18 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
     private Hashtable<Integer, ColorListItemGroup> languageGroups;
 
     public UserList(
+            Applet applet,
             UserListHandler handler,
             TextManager textManager,
             ImageManager imageManager,
             boolean showRankingIcons,
             boolean addSendPrivately,
             boolean addIgnoreUser) {
-        this(handler, textManager, imageManager, showRankingIcons, addSendPrivately, addIgnoreUser, 100, 200);
+        this(applet, handler, textManager, imageManager, showRankingIcons, addSendPrivately, addIgnoreUser, 100, 200);
     }
 
     public UserList(
+            Applet applet,
             UserListHandler handler,
             TextManager textManager,
             ImageManager imageManager,
@@ -109,6 +115,7 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
             boolean addIgnoreUser,
             int width,
             int height) {
+        this.applet = applet;
         this.userListHandler = handler;
         this.textManager = textManager;
         this.imageManager = imageManager;
@@ -307,7 +314,8 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
             } else if (source == this.sheriffCopyChatMenuItem) {
                 CopyChatFrame copyChatFrame = new CopyChatFrame();
                 copyChatFrame.create(
-                        this.imageManager.getApplet(), this.chat != null ? this.chat.chatTextArea : this.chatOutput);
+                        SwingUtilities.getWindowAncestor(this),
+                        this.chat != null ? this.chat.chatTextArea : this.chatOutput);
             } else if (source == this.adminGetUserInfoMenuItem) {
                 this.userListHandler.adminCommand("info", this.selectedUser.getNick());
             } else if (source == this.adminUnmuteUserMenuItem) {
@@ -466,7 +474,13 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
             boolean isNotAcceptingChallenges = elevation.indexOf('n') >= 0;
             User user = new User(username, userIsLocal, isRegistered, isVip, isSheriff, rating);
             user.setIsNotAcceptingChallenges(isNotAcceptingChallenges);
-            int language = Languages.getLanguageIdByString(locale);
+
+            int language;
+            if (!locale.equals("-")) {
+                language = Languages.getLanguageId(Locale.fromString(locale));
+            } else {
+                language = Languages.LANGUAGE_UNKNOWN;
+            }
             user.setLanguage(language);
             user.setLanguageFlag(this.languages.getFlag(language));
             if (color >= 0) {
@@ -771,7 +785,7 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
         }
 
         this.staffActionFrame = new StaffActionFrame(this.textManager, this.userListHandler, actionType, targetNick);
-        this.staffActionFrame.show(this.imageManager.getApplet(), this.adminStatus > 0);
+        this.staffActionFrame.show(SwingUtilities.getWindowAncestor(this), this.adminStatus > 0);
     }
 
     private Color getUserColor(User user) {
@@ -894,7 +908,7 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
                     target = "_blank";
                 }
 
-                this.imageManager.getApplet().getAppletContext().showDocument(new URL(profilePage), target);
+                this.applet.getAppletContext().showDocument(new URL(profilePage), target);
             } catch (Exception e) {
             }
 

@@ -14,6 +14,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
 import org.moparforia.client.Launcher;
+import org.moparforia.shared.Locale;
 
 public class GameApplet extends AApplet {
 
@@ -48,6 +49,11 @@ public class GameApplet extends AApplet {
         this.aBoolean3773 = false;
     }
 
+    @Override
+    public String getAppletInfo() {
+        return "-= AGolf =-\nCopyright (c) 2002-2012 Playforia (www.playforia.info)\nProgramming: Pasi Laaksonen\nGraphics: Janne Matilainen";
+    }
+
     public void textsLoadedNotify(TextManager textManager) {
         this.gameContainer.textManager = textManager;
     }
@@ -58,26 +64,25 @@ public class GameApplet extends AApplet {
 
     public void defineImages(ImageManager imageManager, String var2) {
         this.gameContainer.imageManager = imageManager;
-        imageManager.defineImage("bg-lobbyselect.gif");
-        imageManager.defineImage("bg-lobby-single.gif");
-        imageManager.defineImage("bg-lobby-single-fade.jpg");
-        imageManager.defineImage("bg-lobby-dual.gif");
-        imageManager.defineImage("bg-lobby-multi.gif");
-        imageManager.defineImage("bg-lobby-multi-fade.jpg");
-        imageManager.defineImage("bg-lobby-password.gif");
-        imageManager.defineImage("shapes.gif");
-        imageManager.defineImage("elements.gif");
-        imageManager.defineImage("special.gif");
-        imageManager.defineImage("balls.gif");
-        imageManager.defineSharedImage("ranking-icons.gif"); // TODO
-        imageManager.defineSharedImage("language-flags.png"); // TODO
-        imageManager.defineSharedImage("credit-background.jpg"); // TODO
-        imageManager.defineSharedImage("bigtext.gif"); // TODO
-        imageManager.defineSharedImage("tf-background.gif"); // TODO
+        imageManager.defineGameImage("bg-lobbyselect.gif");
+        imageManager.defineGameImage("bg-lobby-single.gif");
+        imageManager.defineGameImage("bg-lobby-single-fade.jpg");
+        imageManager.defineGameImage("bg-lobby-dual.gif");
+        imageManager.defineGameImage("bg-lobby-multi.gif");
+        imageManager.defineGameImage("bg-lobby-multi-fade.jpg");
+        imageManager.defineGameImage("bg-lobby-password.gif");
+        imageManager.defineGameImage("shapes.gif");
+        imageManager.defineGameImage("elements.gif");
+        imageManager.defineGameImage("special.gif");
+        imageManager.defineGameImage("balls.gif");
+        imageManager.defineSharedImage("ranking-icons.gif");
+        imageManager.defineSharedImage("language-flags.png");
+        imageManager.defineSharedImage("credit-background.jpg");
+        imageManager.defineSharedImage("tf-background.gif");
 
         for (int i = 0; i < GameBackgroundCanvas.trackAdvertSize; ++i) {
             if (this.gameContainer.adverts[i] != null) {
-                imageManager.defineImage("ad" + i, this.gameContainer.adverts[i]);
+                imageManager.defineGameImage("ad" + i, this.gameContainer.adverts[i]);
             }
         }
     }
@@ -210,7 +215,7 @@ public class GameApplet extends AApplet {
                     }
                 }
 
-                this.gameContainer.lobbyPanel.method395();
+                this.gameContainer.lobbyPanel.init();
                 this.addToContent(this.gameContainer.lobbyPanel);
             }
 
@@ -230,9 +235,10 @@ public class GameApplet extends AApplet {
         }
     }
 
-    protected void setGameSettings(boolean emailUnconfirmed, int var2, boolean useBadWordFilter, boolean var4) {
+    protected void setGameSettings(
+            boolean emailUnconfirmed, int playerElevationLevel, boolean useBadWordFilter, boolean var4) {
         this.syncUnknownBool = new SynchronizedBool(emailUnconfirmed);
-        this.syncPlayerAccessLevel = new SynchronizedInteger(var2);
+        this.syncPlayerAccessLevel = new SynchronizedInteger(playerElevationLevel);
         this.gameContainer.badWordFilter = useBadWordFilter ? new BadWordFilter(super.textManager) : null;
         this.disableGuestChat = var4;
     }
@@ -240,6 +246,12 @@ public class GameApplet extends AApplet {
     protected void trackTestLogin(String username, String password) {
         this.setGameState(0);
         this.gameContainer.connection.writeData("ttlogin\t" + username + "\t" + password);
+    }
+
+    protected void trackTestLogin(String username, String password, Locale locale) {
+        this.textManager.setLocale(locale);
+        this.gameContainer.connection.writeData("language\t" + locale);
+        this.trackTestLogin(username, password);
     }
 
     public boolean isEmailVerified() {
