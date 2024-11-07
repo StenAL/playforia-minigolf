@@ -13,11 +13,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      - name: Generate changelog
-        id: changelog
-        uses: metcalfc/changelog-generator@v4.3.1
-        with:
-          myToken: ${{ secrets.GITHUB_TOKEN }}
       - name: Set up JDK 21
         uses: actions/setup-java@v4
         with:
@@ -36,69 +31,18 @@ jobs:
       - name: Build with Maven
         run: mvn -B package --file pom.xml
       - name: Get Maven version
-        run: echo "::set-env name=VERSION::$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)"
-        env:
-          ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
+        run: echo "VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
       - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+        uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
-          body: |
-            Changes in this Release:
-            ${{ steps.changelog.outputs.changelog }}
+          name: Release ${{ github.ref }}
           draft: true
           prerelease: false
-      - name: Upload Server Jar
-        id: upload-server-jar
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }} 
-          asset_path: server/target/server-${{ env.VERSION }}.jar
-          asset_name: server-${{ env.VERSION }}.jar
-          asset_content_type: application/jar
-      - name: Upload Editor Jar
-        id: upload-editor-jar
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }} 
-          asset_path: editor/target/editor-${{ env.VERSION }}.jar
-          asset_name: editor-${{ env.VERSION }}.jar
-          asset_content_type: application/jar
-      - name: Upload Client Jar
-        id: upload-client-jar
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }} 
-          asset_path: client/target/client-${{ env.VERSION }}.jar
-          asset_name: client-${{ env.VERSION }}.jar
-          asset_content_type: application/jar
-      - name: Upload Client exe
-        id: upload-client-exe
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: client/target/client-${{ env.VERSION }}.exe
-          asset_name: client-${{ env.VERSION }}.exe
-          asset_content_type: application/exe
-      - name: Upload Client dmg
-        id: upload-client-dmg
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: client/target/client-${{ env.VERSION }}.dmg
-          asset_name: client-${{ env.VERSION }}.dmg
-          asset_content_type: application/octet-stream
+          fail_on_unmatched_files: true
+          generate_release_notes: true
+          files: |
+            server/target/server-${{ env.VERSION }}.jar
+            editor/target/editor-${{ env.VERSION }}.jar
+            client/target/client-${{ env.VERSION }}.jar
+            client/target/client-${{ env.VERSION }}.exe
+            client/target/client-${{ env.VERSION }}.dmg
