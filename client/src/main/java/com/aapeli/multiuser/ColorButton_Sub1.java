@@ -1,14 +1,12 @@
 package com.aapeli.multiuser;
 
 import com.aapeli.colorgui.ColorButton;
-
 import java.awt.Color;
 import java.awt.Graphics;
 
 class ColorButton_Sub1 extends ColorButton {
 
     private boolean aBoolean4726 = false;
-
 
     protected ColorButton_Sub1(String var1) {
         super(var1);
@@ -36,7 +34,6 @@ class ColorButton_Sub1 extends ColorButton {
             var1.drawLine(var2 - 1, var3 - 1, 1, var3 - 1);
             var1.drawLine(var2 - 1, var3 - 1, var2 - 1, 1);
         }
-
     }
 
     public void setPixelRoundedUpperCorners() {

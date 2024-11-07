@@ -2,7 +2,6 @@ package agolf;
 
 import agolf.game.GameBackgroundCanvas;
 import com.aapeli.client.ImageManager;
-
 import java.awt.Image;
 
 public class SpriteManager {
@@ -15,7 +14,6 @@ public class SpriteManager {
     private int[][][] pixelshapeMasks;
     private int[][][] specialPixelMasks;
     private int[][] anIntArrayArray968;
-
 
     protected SpriteManager(ImageManager var1) {
         this.imageManager = var1;
@@ -36,7 +34,10 @@ public class SpriteManager {
                 Image var3 = this.imageManager.getIfAvailable(var2);
                 if (var3 != null) {
                     this.imageManager.unDefineImage(var2);
-                    this.anIntArrayArray968[var1] = this.imageManager.getPixels(var3, GameBackgroundCanvas.anIntArray78[var1] * 15, GameBackgroundCanvas.anIntArray79[var1] * 15);
+                    this.anIntArrayArray968[var1] = this.imageManager.getPixels(
+                            var3,
+                            GameBackgroundCanvas.anIntArray78[var1] * 15,
+                            GameBackgroundCanvas.anIntArray79[var1] * 15);
                 }
             } catch (Exception var4) {
                 this.anIntArrayArray968[var1] = null;
@@ -44,12 +45,11 @@ public class SpriteManager {
                 this.anIntArrayArray968[var1] = null;
             }
         }
-
     }
 
     /**
-     * MOTHER FUCKING IMPORTANT. Converts the tile code into an array of pixels
-     * (presumably 15*15 as a 1-d array)
+     * MOTHER FUCKING IMPORTANT. Converts the tile code into an array of pixels (presumably 15*15 as
+     * a 1-d array)
      *
      * @param tileCode The Map Tile code to get pixels of.
      * @return An linear array of the tiles pixels init br0
@@ -79,12 +79,16 @@ public class SpriteManager {
              */
 
             // first check if we're combining 2 elements, then element+special.
-            return isNoSpecial == 1 ? this.combineElementAndElement(shapeIndex, foregroundElementIndex, backgroundElementIndex) : (isNoSpecial == 2 ? this.combineElementAndSpecial(shapeIndex, foregroundElementIndex) : null);
+            return isNoSpecial == 1
+                    ? this.combineElementAndElement(shapeIndex, foregroundElementIndex, backgroundElementIndex)
+                    : (isNoSpecial == 2 ? this.combineElementAndSpecial(shapeIndex, foregroundElementIndex) : null);
         }
     }
 
     public int[][] getPixelMask(int isSpecial, int shapeOrSpecialIndex) {
-        return isSpecial == 1 ? this.getShapePixelMask(shapeOrSpecialIndex) : (isSpecial == 2 ? this.getSpecialPixels(shapeOrSpecialIndex) : null);
+        return isSpecial == 1
+                ? this.getShapePixelMask(shapeOrSpecialIndex)
+                : (isSpecial == 2 ? this.getSpecialPixels(shapeOrSpecialIndex) : null);
     }
 
     public Image[] getBalls() {
@@ -95,7 +99,8 @@ public class SpriteManager {
         return this.anIntArrayArray968;
     }
 
-    private Image[] parseSpriteSheet(String spriteSheetName, int spriteCount, int spritesPerRow, int spriteWidth, int spriteHeight) {
+    private Image[] parseSpriteSheet(
+            String spriteSheetName, int spriteCount, int spritesPerRow, int spriteWidth, int spriteHeight) {
         Image spriteSheet = this.imageManager.getImage(spriteSheetName);
         this.imageManager.unDefineImage(spriteSheetName);
         int sheetWidth = this.imageManager.getWidth(spriteSheet);
@@ -112,7 +117,12 @@ public class SpriteManager {
 
             for (int var15 = 0; var15 < spriteHeight; ++var15) {
                 for (int var16 = 0; var16 < spriteWidth; ++var16) {
-                    var14[var15 * spriteWidth + var16] = var9[(var12 * spriteHeight + var12 + 1 + var15) * sheetWidth + var13 * spriteWidth + var13 + 1 + var16];
+                    var14[var15 * spriteWidth + var16] = var9[
+                            (var12 * spriteHeight + var12 + 1 + var15) * sheetWidth
+                                    + var13 * spriteWidth
+                                    + var13
+                                    + 1
+                                    + var16];
                 }
             }
 

@@ -6,7 +6,6 @@ import agolf.SynchronizedBool;
 import com.aapeli.client.Parameters;
 import com.aapeli.client.StringDraw;
 import com.aapeli.tools.Tools;
-
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Font;
@@ -22,7 +21,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.StringTokenizer;
 
-public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseMotionListener, MouseListener, KeyListener {
+public class GameCanvas extends GameBackgroundCanvas
+        implements Runnable, MouseMotionListener, MouseListener, KeyListener {
 
     private static final double magicOffset = Math.sqrt(2.0D) / 2.0D;
     private static final int diagOffset = (int) (6.0D * magicOffset + 0.5D);
@@ -57,13 +57,14 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
     private double[] speedX;
     private double[] speedY;
     private boolean[] aBooleanArray2830;
-    private SynchronizedBool[] onHoleSync; //not sure
+    private SynchronizedBool[] onHoleSync; // not sure
     private boolean isLocalPlayer;
-    private int playerNamesDisplayMode; // 0 == Hide names, 1 == Show initials, 2 == Show names, 3 == Name + clan
+    private int playerNamesDisplayMode; // 0 == Hide names, 1 == Show initials, 2 == Show names, 3 ==
+    // Name + clan
     private boolean[] aBooleanArray2834;
     private String aString2835;
     private Seed rngSeed;
-    private static int[] anIntArray2837 = new int[]{Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE};
+    private static int[] anIntArray2837 = new int[] {Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE};
     private static int anInt2838 = 2;
     private int anInt2839;
     private Image anImage2840;
@@ -73,7 +74,7 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
     private boolean norandom;
 
     // aimbot stuff
-    final private boolean allowCheating = false;
+    private final boolean allowCheating = false;
     private double hackedX = 0;
     private double hackedY = 0;
     private boolean isCheating = false;
@@ -143,11 +144,15 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
             }
 
             this.graphics.setColor(whiteColour);
-            this.drawPlayer(this.graphics, this.currentPlayerID, this.onHoleSync[this.currentPlayerID].get() ? 2.1666666666666665D : 0.0D);
+            this.drawPlayer(
+                    this.graphics,
+                    this.currentPlayerID,
+                    this.onHoleSync[this.currentPlayerID].get() ? 2.1666666666666665D : 0.0D);
         }
 
         if (isCheating) {
-            graphics.fillRect((int) (hackedX - 5), (int) (hackedY - 5), 10, 10); // afaik the coords are the centre of ball
+            graphics.fillRect(
+                    (int) (hackedX - 5), (int) (hackedY - 5), 10, 10); // afaik the coords are the centre of ball
         }
 
         g.drawImage(this.anImage2840, 0, 0, this);
@@ -225,11 +230,11 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
                     if (this.aBooleanArray2830[i] && !this.onHoleSync[i].get()) {
                         for (int j = 0; j < 10; ++j) {
 
-                            //this moves player
+                            // this moves player
                             this.playerX[i] += this.speedX[i] * 0.1D;
                             this.playerY[i] += this.speedY[i] * 0.1D;
 
-                            //check if player is going off the map
+                            // check if player is going off the map
                             if (this.playerX[i] < 6.6D) {
                                 this.playerX[i] = 6.6D;
                             }
@@ -246,17 +251,24 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
                                 this.playerY[i] = 367.9D;
                             }
 
-                            //checks player vs player collision
+                            // checks player vs player collision
                             int anotherPlayer;
                             if (this.collisionMode == 1 && !onHole[i] && !onLiquidOrSwamp[i]) {
                                 for (anotherPlayer = 0; anotherPlayer < this.playerCount; ++anotherPlayer) {
-                                    if (i != anotherPlayer && this.aBooleanArray2830[anotherPlayer] && !this.onHoleSync[anotherPlayer].get() && !onHole[anotherPlayer] && !onLiquidOrSwamp[anotherPlayer] && this.handlePlayerCollisions(i, anotherPlayer)) {
-                                      //collision is calculated in another function this just makes it less effective
+                                    if (i != anotherPlayer
+                                            && this.aBooleanArray2830[anotherPlayer]
+                                            && !this.onHoleSync[anotherPlayer].get()
+                                            && !onHole[anotherPlayer]
+                                            && !onLiquidOrSwamp[anotherPlayer]
+                                            && this.handlePlayerCollisions(i, anotherPlayer)) {
+                                        // collision is calculated in another function this just
+                                        // makes it less effective
                                         this.speedX[i] *= 0.75D;
                                         this.speedY[i] *= 0.75D;
                                         this.speedX[anotherPlayer] *= 0.75D;
                                         this.speedY[anotherPlayer] *= 0.75D;
-                                        var24 = 0; //players moved so we reset this to make sure they move
+                                        var24 = 0; // players moved so we reset this to make sure
+                                        // they move
                                     }
                                 }
                             }
@@ -281,12 +293,19 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
                             }
 
                             int teleCounter = 0;
-                            //32 Blue Teleport Start
-                            //34 Red Teleport Start
-                            //36 Yellow Teleport Start
-                            //38 Green Teleport Start
+                            // 32 Blue Teleport Start
+                            // 34 Red Teleport Start
+                            // 36 Yellow Teleport Start
+                            // 38 Green Teleport Start
                             for (int teleportId = 32; teleportId <= 38; teleportId += 2) {
-                                if (top == teleportId || topright == teleportId || right == teleportId || bottomright == teleportId || bottom == teleportId || bottomleft == teleportId || left == teleportId || topleft == teleportId) {
+                                if (top == teleportId
+                                        || topright == teleportId
+                                        || right == teleportId
+                                        || bottomright == teleportId
+                                        || bottom == teleportId
+                                        || bottomleft == teleportId
+                                        || left == teleportId
+                                        || topleft == teleportId) {
                                     ++teleCounter;
                                     if (!teleported[i]) {
                                         this.handleTeleport((teleportId - 32) / 2, i, x, y);
@@ -298,13 +317,26 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
                             if (teleCounter == 0) {
                                 teleported[i] = false;
                             }
-                            //28 Mine
-                            //30 Big Mine
+                            // 28 Mine
+                            // 30 Big Mine
                             if (center == 28 || center == 30) {
                                 this.handleMines(center == 30, i, x, y, ballGraphic, canvas);
                             }
 
-                            this.handleWallCollision(i, top, topright, right, bottomright, bottom, bottomleft, left, topleft, x, y, ballGraphic, canvas);
+                            this.handleWallCollision(
+                                    i,
+                                    top,
+                                    topright,
+                                    right,
+                                    bottomright,
+                                    bottom,
+                                    bottomleft,
+                                    left,
+                                    topleft,
+                                    x,
+                                    y,
+                                    ballGraphic,
+                                    canvas);
                         }
 
                         boolean isDownhill = this.handleDownhill(i, center);
@@ -315,8 +347,12 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
 
                         shouldSpinAroundHole = false;
                         double holeSpeed;
-                        //25 hole
-                        if (center == 25 || super.collisionMap[x][y - 1] == 25 || super.collisionMap[x + 1][y] == 25 || super.collisionMap[x][y + 1] == 25 || super.collisionMap[x - 1][y] == 25) {
+                        // 25 hole
+                        if (center == 25
+                                || super.collisionMap[x][y - 1] == 25
+                                || super.collisionMap[x + 1][y] == 25
+                                || super.collisionMap[x][y + 1] == 25
+                                || super.collisionMap[x - 1][y] == 25) {
                             holeSpeed = center == 25 ? 1.0D : 0.5D;
                             shouldSpinAroundHole = true;
                             int holeCounter = 0;
@@ -388,7 +424,12 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
                             spinningStuckCounter[i] = 0;
                         }
 
-                        if (!isDownhill && !isAffectedByMagnet && !shouldSpinAroundHole && !onHole[i] && !onLiquidOrSwamp[i] && !onLiquid) {
+                        if (!isDownhill
+                                && !isAffectedByMagnet
+                                && !shouldSpinAroundHole
+                                && !onHole[i]
+                                && !onLiquidOrSwamp[i]
+                                && !onLiquid) {
                             tempCoord2X[i] = this.playerX[i];
                             tempCoord2Y[i] = this.playerY[i];
                         }
@@ -434,7 +475,12 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
                             magnetStuckCounter[i] = 0;
                         }
 
-                        if (speed < 0.075D && !isDownhill && !isAffectedByMagnet && !shouldSpinAroundHole && !onHole[i] && !onLiquidOrSwamp[i]) {
+                        if (speed < 0.075D
+                                && !isDownhill
+                                && !isAffectedByMagnet
+                                && !shouldSpinAroundHole
+                                && !onHole[i]
+                                && !onLiquidOrSwamp[i]) {
                             this.speedX[i] = this.speedY[i] = 0.0D;
                             if (center != 12 && center != 14 && center != 13 && center != 15) {
                                 ++var24;
@@ -446,22 +492,22 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
                         if (onHole[i] || onLiquidOrSwamp[i]) {
                             var10[i] += 0.1D;
                             if (onHole[i] && var10[i] > 2.1666666666666665D || onLiquidOrSwamp[i] && var10[i] > 6.0D) {
-                              //25 hole
+                                // 25 hole
                                 if (center == 25) {
                                     this.onHoleSync[i].set(true);
                                     if (this.isLocalPlayer && this.playerCount > 1) {
                                         super.gameContainer.gamePanel.hideSkipButton();
                                     }
                                 } else {
-                                  //water 12
-                                  //water swamp 14
+                                    // water 12
+                                    // water swamp 14
                                     if (center == 12 || center == 14) {
                                         this.playerX[i] = this.onShoreSetting == 0 ? tempCoordX[i] : tempCoord2X[i];
                                         this.playerY[i] = this.onShoreSetting == 0 ? tempCoordY[i] : tempCoord2Y[i];
                                     }
 
-                                    //13 acid
-                                    //15 acid swamp
+                                    // 13 acid
+                                    // 15 acid swamp
                                     if (center == 13 || center == 15) {
                                         this.resetPosition(i, false);
                                     }
@@ -519,8 +565,8 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
                 }
             }
 
-            time = System.currentTimeMillis() - time; //time to render
-            long var58 = (long) (6 * this.anInt2839) - time;//fps cap ?
+            time = System.currentTimeMillis() - time; // time to render
+            long var58 = (long) (6 * this.anInt2839) - time; // fps cap ?
             if (var23) {
                 if (var22) {
                     var58 = 0L;
@@ -563,13 +609,11 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
             }
         }
 
-
         this.repaint();
     }
 
     @Override
-    public void mouseDragged(MouseEvent var1) {
-    }
+    public void mouseDragged(MouseEvent var1) {}
 
     @Override
     public void mouseEntered(MouseEvent var1) {
@@ -595,7 +639,7 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
                 this.mouseY = y;
                 double subtractionX = this.playerX[this.currentPlayerID] - (double) x;
                 double subtractionY = this.playerY[this.currentPlayerID] - (double) y;
-                //checks if mouse is on own ball
+                // checks if mouse is on own ball
                 if (Math.sqrt(subtractionX * subtractionX + subtractionY * subtractionY) >= 6.5D) {
                     this.removeMouseMotionListener(this);
                     this.removeMouseListener(this);
@@ -603,11 +647,10 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
                     this.setCursor(cursorDefault);
                     if (super.gameContainer.gamePanel.tryStroke(false)) {
                         super.gameContainer.gamePanel.setBeginStroke(this.currentPlayerID, x, y, this.shootingMode);
-                        //this.doHackedStroke(this.currentPlayerID, true, x, y, this.keyCountMod4);
+                        // this.doHackedStroke(this.currentPlayerID, true, x, y, this.keyCountMod4);
                         this.doStroke(this.currentPlayerID, true, x, y, this.shootingMode);
                     }
                 }
-
             }
         }
     }
@@ -617,12 +660,10 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
         if (this.gameState == 1) {
             var1.consume();
         }
-
     }
 
     @Override
-    public void mouseClicked(MouseEvent var1) {
-    }
+    public void mouseClicked(MouseEvent var1) {}
 
     @Override
     public synchronized void keyPressed(KeyEvent var1) {
@@ -646,12 +687,10 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
     }
 
     @Override
-    public void keyReleased(KeyEvent var1) {
-    }
+    public void keyReleased(KeyEvent var1) {}
 
     @Override
-    public void keyTyped(KeyEvent var1) {
-    }
+    public void keyTyped(KeyEvent var1) {}
 
     protected void init(int playerCount, int waterMode, int collisionMode) {
         this.playerCount = playerCount;
@@ -700,7 +739,6 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
                 if (var11 > -1) {
                     gameId = Integer.parseInt(currentCommand.substring(0, var11));
                     this.aString2835 = currentCommand.substring(var11 + 1);
-
                 }
             }
         }
@@ -725,45 +763,45 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
                     int tile = super.trackTiles[x][y] / 65536 % 256 + 24;
                     double screenX = (double) (x * 15) + 7.5D;
                     double screenY = (double) (y * 15) + 7.5D;
-                    //24 Start Position Common
+                    // 24 Start Position Common
                     if (tile == 24) {
-                        double[] startPosition = new double[]{screenX, screenY};
+                        double[] startPosition = new double[] {screenX, screenY};
                         startPositions.add(startPosition);
                     }
-                    //48 Start Position Blue
-                    //49 Start Position Red
-                    //50 Start Positiono Yellow
-                    //51 Start Position Green
+                    // 48 Start Position Blue
+                    // 49 Start Position Red
+                    // 50 Start Positiono Yellow
+                    // 51 Start Position Green
                     if (tile >= 48 && tile <= 51) {
                         this.resetPositionX[tile - 48] = screenX;
                         this.resetPositionY[tile - 48] = screenY;
                     }
 
                     int teleportIndex;
-                    //33 Teleport Exit Blue
-                    //35 Teleport Exit Red
-                    //37 Teleport Exit Yellow
-                    //39 Teleport Exit Green
+                    // 33 Teleport Exit Blue
+                    // 35 Teleport Exit Red
+                    // 37 Teleport Exit Yellow
+                    // 39 Teleport Exit Green
                     if (tile == 33 || tile == 35 || tile == 37 || tile == 39) {
                         teleportIndex = (tile - 33) / 2;
-                        double[] teleporter = new double[]{screenX, screenY};
+                        double[] teleporter = new double[] {screenX, screenY};
                         this.teleportExists[teleportIndex].add(teleporter);
                     }
 
-                    //33 Teleport Start Blue
-                    //35 Teleport Start Red
-                    //37 Teleport Start Yellow
-                    //39 Teleport Start Green
+                    // 33 Teleport Start Blue
+                    // 35 Teleport Start Red
+                    // 37 Teleport Start Yellow
+                    // 39 Teleport Start Green
                     if (tile == 32 || tile == 34 || tile == 36 || tile == 38) {
                         teleportIndex = (tile - 32) / 2;
-                        double[] teleporter = new double[]{screenX, screenY};
+                        double[] teleporter = new double[] {screenX, screenY};
                         this.teleportStarts[teleportIndex].add(teleporter);
                     }
 
-                    //44 magnet attract
-                    //45 magnet repel
+                    // 44 magnet attract
+                    // 45 magnet repel
                     if (tile == 44 || tile == 45) {
-                        int[] magnet = new int[]{(int) (screenX + 0.5D), (int) (screenY + 0.5D), tile};
+                        int[] magnet = new int[] {(int) (screenX + 0.5D), (int) (screenY + 0.5D), tile};
                         magnets.add(magnet);
                     }
                 }
@@ -785,7 +823,7 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
         } else {
             this.magnetMap = new short[147][75][2];
 
-            //magnet map is 5times smaller than real one
+            // magnet map is 5times smaller than real one
             for (int magnetLoopY = 2; magnetLoopY < 375; magnetLoopY += 5) {
                 for (int magnetLoopX = 2; magnetLoopX < 735; magnetLoopX += 5) {
                     double forceTempY = 0.0D;
@@ -802,7 +840,7 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
                             force = 127.0D - force;
                             forceTemp2X = (forceTemp2X < 0.0D ? -1.0D : 1.0D) * force * var35;
                             forcetemp2Y = (forcetemp2Y < 0.0D ? -1.0D : 1.0D) * force * (1.0D - var35);
-                            //45 Magnet Repel
+                            // 45 Magnet Repel
                             if (magnet[2] == 45) {
                                 forceTemp2X = -forceTemp2X;
                                 forcetemp2Y = -forcetemp2Y;
@@ -815,7 +853,7 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
 
                     int forceX = (int) forceTempX;
                     int forceY = (int) forceTempY;
-                    //clamp value to what short can hold
+                    // clamp value to what short can hold
                     if (forceX < -0x7ff) {
                         forceX = -0x7ff;
                     }
@@ -985,8 +1023,9 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
         boolean temp_aBoolean2832 = this.isLocalPlayer;
         boolean temp_aBoolean2843 = this.aBoolean2843;
         Seed temp_aSeed_2836 = rngSeed.clone();
-       // int temp_anInt2816 = super.gameContainer.gamePanel.isValidPlayerID(playerId) ? playerId : -1;
-       int temp_anInt2816 = playerId;
+        // int temp_anInt2816 = super.gameContainer.gamePanel.isValidPlayerID(playerId) ? playerId :
+        // -1;
+        int temp_anInt2816 = playerId;
 
         double[] var6 = getStrokePower(playerId, mouseX, mouseY);
         temp_aDoubleArray2828[playerId] = var6[0];
@@ -1009,21 +1048,44 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
             temp_aDoubleArray2829[playerId] = var7;
         }
 
-        var7 = Math.sqrt(temp_aDoubleArray2828[playerId] * temp_aDoubleArray2828[playerId] + temp_aDoubleArray2829[playerId] * temp_aDoubleArray2829[playerId]);
+        var7 = Math.sqrt(temp_aDoubleArray2828[playerId] * temp_aDoubleArray2828[playerId]
+                + temp_aDoubleArray2829[playerId] * temp_aDoubleArray2829[playerId]);
         double var9 = var7 / 6.5D;
         var9 *= var9;
         temp_aDoubleArray2828[playerId] += var9 * ((double) (temp_aSeed_2836.next() % 50001) / 100000.0D - 0.25D);
         temp_aDoubleArray2829[playerId] += var9 * ((double) (temp_aSeed_2836.next() % 50001) / 100000.0D - 0.25D);
         temp_aBoolean2832 = isLocalPlayer;
-        //this.gameState = 2;
+        // this.gameState = 2;
         temp_aBoolean2843 = false;
 
-
-        HackedShot hs = new HackedShot(playerCount, onShoreSetting, collisionMode, currentPlayerID, temp_anInt2816,
-                startPositionX, startPositionY, bounciness, somethingSpeedThing, resetPositionX, resetPositionY,
-                teleportStarts, teleportExists, magnetMap, playerX, playerY, temp_aDoubleArray2828,
-                temp_aDoubleArray2829, aBooleanArray2830, onHoleSync, temp_aBoolean2832, aBooleanArray2834,
-                temp_aSeed_2836, anInt2839, temp_aBoolean2843, super.collisionMap, super.trackTiles);
+        HackedShot hs = new HackedShot(
+                playerCount,
+                onShoreSetting,
+                collisionMode,
+                currentPlayerID,
+                temp_anInt2816,
+                startPositionX,
+                startPositionY,
+                bounciness,
+                somethingSpeedThing,
+                resetPositionX,
+                resetPositionY,
+                teleportStarts,
+                teleportExists,
+                magnetMap,
+                playerX,
+                playerY,
+                temp_aDoubleArray2828,
+                temp_aDoubleArray2829,
+                aBooleanArray2830,
+                onHoleSync,
+                temp_aBoolean2832,
+                aBooleanArray2834,
+                temp_aSeed_2836,
+                anInt2839,
+                temp_aBoolean2843,
+                super.collisionMap,
+                super.trackTiles);
         Thread hack = new Thread(hs);
         hack.start();
         try {
@@ -1037,7 +1099,6 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
         hs = null;
         hack = null;
     }
-
 
     private void resetPosition(int playerId, boolean gameStart) {
         if (this.resetPositionX[playerId] >= 0.0D && this.resetPositionX[playerId] >= 0.0D) {
@@ -1070,7 +1131,9 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
         }
 
         double var12 = var10 / sqrtXY;
-        double[] power = new double[]{((double) mouseX - this.playerX[playerId]) * var12, ((double) mouseY - this.playerY[playerId]) * var12};
+        double[] power = new double[] {
+            ((double) mouseX - this.playerX[playerId]) * var12, ((double) mouseY - this.playerY[playerId]) * var12
+        };
         return power;
     }
 
@@ -1169,18 +1232,68 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
     }
 
     private double getFriction(int var1) {
-        return var1 != 0 && (var1 < 4 || var1 > 11) && var1 != 19 && var1 != 47 ? (var1 == 1 ? 0.92D : (var1 == 2 ? 0.8D : (var1 != 3 && var1 != 32 && var1 != 34 && var1 != 36 && var1 != 38 ? (var1 != 12 && var1 != 13 ? (var1 != 14 && var1 != 15 ? (var1 >= 20 && var1 <= 23 ? 0.995D : (var1 == 25 ? 0.96D : (var1 != 28 && var1 != 30 ? (var1 != 29 && var1 != 31 ? (var1 == 44 ? 0.9D : 1.0D) : 0.9D) : 1.0D))) : 0.95D) : 0.0D) : 0.9975D))) : 0.9935D;
+        return var1 != 0 && (var1 < 4 || var1 > 11) && var1 != 19 && var1 != 47
+                ? (var1 == 1
+                        ? 0.92D
+                        : (var1 == 2
+                                ? 0.8D
+                                : (var1 != 3 && var1 != 32 && var1 != 34 && var1 != 36 && var1 != 38
+                                        ? (var1 != 12 && var1 != 13
+                                                ? (var1 != 14 && var1 != 15
+                                                        ? (var1 >= 20 && var1 <= 23
+                                                                ? 0.995D
+                                                                : (var1 == 25
+                                                                        ? 0.96D
+                                                                        : (var1 != 28 && var1 != 30
+                                                                                ? (var1 != 29 && var1 != 31
+                                                                                        ? (var1 == 44 ? 0.9D : 1.0D)
+                                                                                        : 0.9D)
+                                                                                : 1.0D)))
+                                                        : 0.95D)
+                                                : 0.0D)
+                                        : 0.9975D)))
+                : 0.9935D;
     }
 
-    private void handleWallCollision(int playerId, int top, int topright, int right, int bottomright, int bottom, int bottomleft, int left, int topleft, int x, int y, Graphics ball, Graphics canvas) {
+    private void handleWallCollision(
+            int playerId,
+            int top,
+            int topright,
+            int right,
+            int bottomright,
+            int bottom,
+            int bottomleft,
+            int left,
+            int topleft,
+            int x,
+            int y,
+            Graphics ball,
+            Graphics canvas) {
         boolean topCollide = top >= 16 && top <= 23 && top != 19 || top == 27 || top >= 40 && top <= 43 || top == 46;
-        boolean toprightCollide = topright >= 16 && topright <= 23 && topright != 19 || topright == 27 || topright >= 40 && topright <= 43 || topright == 46;
-        boolean rightCollide = right >= 16 && right <= 23 && right != 19 || right == 27 || right >= 40 && right <= 43 || right == 46;
-        boolean var17 = bottomright >= 16 && bottomright <= 23 && bottomright != 19 || bottomright == 27 || bottomright >= 40 && bottomright <= 43 || bottomright == 46;
-        boolean bottomCollide = bottom >= 16 && bottom <= 23 && bottom != 19 || bottom == 27 || bottom >= 40 && bottom <= 43 || bottom == 46;
-        boolean bottomleftCollide = bottomleft >= 16 && bottomleft <= 23 && bottomleft != 19 || bottomleft == 27 || bottomleft >= 40 && bottomleft <= 43 || bottomleft == 46;
-        boolean leftcollide = left >= 16 && left <= 23 && left != 19 || left == 27 || left >= 40 && left <= 43 || left == 46;
-        boolean topleftCollide = topleft >= 16 && topleft <= 23 && topleft != 19 || topleft == 27 || topleft >= 40 && topleft <= 43 || topleft == 46;
+        boolean toprightCollide = topright >= 16 && topright <= 23 && topright != 19
+                || topright == 27
+                || topright >= 40 && topright <= 43
+                || topright == 46;
+        boolean rightCollide =
+                right >= 16 && right <= 23 && right != 19 || right == 27 || right >= 40 && right <= 43 || right == 46;
+        boolean var17 = bottomright >= 16 && bottomright <= 23 && bottomright != 19
+                || bottomright == 27
+                || bottomright >= 40 && bottomright <= 43
+                || bottomright == 46;
+        boolean bottomCollide = bottom >= 16 && bottom <= 23 && bottom != 19
+                || bottom == 27
+                || bottom >= 40 && bottom <= 43
+                || bottom == 46;
+        boolean bottomleftCollide = bottomleft >= 16 && bottomleft <= 23 && bottomleft != 19
+                || bottomleft == 27
+                || bottomleft >= 40 && bottomleft <= 43
+                || bottomleft == 46;
+        boolean leftcollide =
+                left >= 16 && left <= 23 && left != 19 || left == 27 || left >= 40 && left <= 43 || left == 46;
+        boolean topleftCollide = topleft >= 16 && topleft <= 23 && topleft != 19
+                || topleft == 27
+                || topleft >= 40 && topleft <= 43
+                || topleft == 46;
         if (topCollide && top == 20) {
             topCollide = false;
         }
@@ -1261,22 +1374,42 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
             topCollide = false;
         }
 
-        if (topCollide && toprightCollide && rightCollide && (top < 20 || top > 23) && (topright < 20 || topright > 23) && (right < 20 || right > 23)) {
+        if (topCollide
+                && toprightCollide
+                && rightCollide
+                && (top < 20 || top > 23)
+                && (topright < 20 || topright > 23)
+                && (right < 20 || right > 23)) {
             rightCollide = false;
             topCollide = false;
         }
 
-        if (rightCollide && var17 && bottomCollide && (right < 20 || right > 23) && (bottomright < 20 || bottomright > 23) && (bottom < 20 || bottom > 23)) {
+        if (rightCollide
+                && var17
+                && bottomCollide
+                && (right < 20 || right > 23)
+                && (bottomright < 20 || bottomright > 23)
+                && (bottom < 20 || bottom > 23)) {
             bottomCollide = false;
             rightCollide = false;
         }
 
-        if (bottomCollide && bottomleftCollide && leftcollide && (bottom < 20 || bottom > 23) && (bottomleft < 20 || bottomleft > 23) && (left < 20 || left > 23)) {
+        if (bottomCollide
+                && bottomleftCollide
+                && leftcollide
+                && (bottom < 20 || bottom > 23)
+                && (bottomleft < 20 || bottomleft > 23)
+                && (left < 20 || left > 23)) {
             leftcollide = false;
             bottomCollide = false;
         }
 
-        if (leftcollide && topleftCollide && topCollide && (left < 20 || left > 23) && (topleft < 20 || topleft > 23) && (top < 20 || top > 23)) {
+        if (leftcollide
+                && topleftCollide
+                && topCollide
+                && (left < 20 || left > 23)
+                && (topleft < 20 || topleft > 23)
+                && (top < 20 || top > 23)) {
             topCollide = false;
             leftcollide = false;
         }
@@ -1284,29 +1417,61 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
         double speedEffect;
         if (!topCollide && !rightCollide && !bottomCollide && !leftcollide) {
             double temp;
-            if (toprightCollide && (this.speedX[playerId] > 0.0D && this.speedY[playerId] < 0.0D || this.speedX[playerId] < 0.0D && this.speedY[playerId] < 0.0D && -this.speedY[playerId] > -this.speedX[playerId] || this.speedX[playerId] > 0.0D && this.speedY[playerId] > 0.0D && this.speedX[playerId] > this.speedY[playerId])) {
-                speedEffect = this.getSpeedEffect(topright, playerId, x + diagOffset, y - diagOffset, ball, canvas, 1, -1);
+            if (toprightCollide
+                    && (this.speedX[playerId] > 0.0D && this.speedY[playerId] < 0.0D
+                            || this.speedX[playerId] < 0.0D
+                                    && this.speedY[playerId] < 0.0D
+                                    && -this.speedY[playerId] > -this.speedX[playerId]
+                            || this.speedX[playerId] > 0.0D
+                                    && this.speedY[playerId] > 0.0D
+                                    && this.speedX[playerId] > this.speedY[playerId])) {
+                speedEffect =
+                        this.getSpeedEffect(topright, playerId, x + diagOffset, y - diagOffset, ball, canvas, 1, -1);
                 temp = this.speedX[playerId];
                 this.speedX[playerId] = this.speedY[playerId] * speedEffect;
                 this.speedY[playerId] = temp * speedEffect;
             }
 
-            if (var17 && (this.speedX[playerId] > 0.0D && this.speedY[playerId] > 0.0D || this.speedX[playerId] > 0.0D && this.speedY[playerId] < 0.0D && this.speedX[playerId] > -this.speedY[playerId] || this.speedX[playerId] < 0.0D && this.speedY[playerId] > 0.0D && this.speedY[playerId] > -this.speedX[playerId])) {
-                speedEffect = this.getSpeedEffect(bottomright, playerId, x + diagOffset, y + diagOffset, ball, canvas, 1, 1);
+            if (var17
+                    && (this.speedX[playerId] > 0.0D && this.speedY[playerId] > 0.0D
+                            || this.speedX[playerId] > 0.0D
+                                    && this.speedY[playerId] < 0.0D
+                                    && this.speedX[playerId] > -this.speedY[playerId]
+                            || this.speedX[playerId] < 0.0D
+                                    && this.speedY[playerId] > 0.0D
+                                    && this.speedY[playerId] > -this.speedX[playerId])) {
+                speedEffect =
+                        this.getSpeedEffect(bottomright, playerId, x + diagOffset, y + diagOffset, ball, canvas, 1, 1);
                 temp = this.speedX[playerId];
                 this.speedX[playerId] = -this.speedY[playerId] * speedEffect;
                 this.speedY[playerId] = -temp * speedEffect;
             }
 
-            if (bottomleftCollide && (this.speedX[playerId] < 0.0D && this.speedY[playerId] > 0.0D || this.speedX[playerId] > 0.0D && this.speedY[playerId] > 0.0D && this.speedY[playerId] > this.speedX[playerId] || this.speedX[playerId] < 0.0D && this.speedY[playerId] < 0.0D && -this.speedX[playerId] > -this.speedY[playerId])) {
-                speedEffect = this.getSpeedEffect(bottomleft, playerId, x - diagOffset, y + diagOffset, ball, canvas, -1, 1);
+            if (bottomleftCollide
+                    && (this.speedX[playerId] < 0.0D && this.speedY[playerId] > 0.0D
+                            || this.speedX[playerId] > 0.0D
+                                    && this.speedY[playerId] > 0.0D
+                                    && this.speedY[playerId] > this.speedX[playerId]
+                            || this.speedX[playerId] < 0.0D
+                                    && this.speedY[playerId] < 0.0D
+                                    && -this.speedX[playerId] > -this.speedY[playerId])) {
+                speedEffect =
+                        this.getSpeedEffect(bottomleft, playerId, x - diagOffset, y + diagOffset, ball, canvas, -1, 1);
                 temp = this.speedX[playerId];
                 this.speedX[playerId] = this.speedY[playerId] * speedEffect;
                 this.speedY[playerId] = temp * speedEffect;
             }
 
-            if (topleftCollide && (this.speedX[playerId] < 0.0D && this.speedY[playerId] < 0.0D || this.speedX[playerId] < 0.0D && this.speedY[playerId] > 0.0D && -this.speedX[playerId] > this.speedY[playerId] || this.speedX[playerId] > 0.0D && this.speedY[playerId] < 0.0D && -this.speedY[playerId] > this.speedX[playerId])) {
-                speedEffect = this.getSpeedEffect(topleft, playerId, x - diagOffset, y - diagOffset, ball, canvas, -1, -1);
+            if (topleftCollide
+                    && (this.speedX[playerId] < 0.0D && this.speedY[playerId] < 0.0D
+                            || this.speedX[playerId] < 0.0D
+                                    && this.speedY[playerId] > 0.0D
+                                    && -this.speedX[playerId] > this.speedY[playerId]
+                            || this.speedX[playerId] > 0.0D
+                                    && this.speedY[playerId] < 0.0D
+                                    && -this.speedY[playerId] > this.speedX[playerId])) {
+                speedEffect =
+                        this.getSpeedEffect(topleft, playerId, x - diagOffset, y - diagOffset, ball, canvas, -1, -1);
                 temp = this.speedX[playerId];
                 this.speedX[playerId] = -this.speedY[playerId] * speedEffect;
                 this.speedY[playerId] = -temp * speedEffect;
@@ -1336,37 +1501,38 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
                 return;
             }
         }
-
     }
 
-    private double getSpeedEffect(int tileId, int playerId, int x, int y, Graphics ball, Graphics canvas, int offsetX, int offsetY) {
-        //16 Block
+    private double getSpeedEffect(
+            int tileId, int playerId, int x, int y, Graphics ball, Graphics canvas, int offsetX, int offsetY) {
+        // 16 Block
         if (tileId == 16) {
             return 0.81D;
-        //17 Sticky Block
+            // 17 Sticky Block
         } else if (tileId == 17) {
             return 0.05D;
-        //18 Bouncy Block
+            // 18 Bouncy Block
         } else if (tileId == 18) {
             if (this.bounciness <= 0.0D) {
                 return 0.84D;
             } else {
                 this.bounciness -= 0.01D;
-                double speed = Math.sqrt(this.speedX[playerId] * this.speedX[playerId] + this.speedY[playerId] * this.speedY[playerId]);
+                double speed = Math.sqrt(
+                        this.speedX[playerId] * this.speedX[playerId] + this.speedY[playerId] * this.speedY[playerId]);
                 return this.bounciness * 6.5D / speed;
             }
-        //20 Oneway North
-        //21 Oneway East
-        //22 Oneway South
-        //23 Oneway West
+            // 20 Oneway North
+            // 21 Oneway East
+            // 22 Oneway South
+            // 23 Oneway West
         } else if (tileId != 20 && tileId != 21 && tileId != 22 && tileId != 23) {
-          //27 Moveable Block
-          //46 Sunkable Moveable Block
+            // 27 Moveable Block
+            // 46 Sunkable Moveable Block
             if (tileId != 27 && tileId != 46) {
-              //40 Full Breakable Block
-              //41 Three Quater Breakable Block
-              //42 Half Breakable Block
-              //43 Quater Breakable Block
+                // 40 Full Breakable Block
+                // 41 Three Quater Breakable Block
+                // 42 Half Breakable Block
+                // 43 Quater Breakable Block
                 if (tileId != 40 && tileId != 41 && tileId != 42 && tileId != 43) {
                     return 1.0D;
                 } else {
@@ -1398,12 +1564,13 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
             if (startLen >= 2) {
                 int var14 = 0;
 
-                //?????
+                // ?????
                 do {
                     i = startLen - 1;
                     random = this.rngSeed.next() % (i + 1);
                     teleportPos = this.teleportStarts[teleportId].get(random);
-                    if (Math.abs(teleportPos[0] - (double) x) >= 15.0D || Math.abs(teleportPos[1] - (double) y) >= 15.0D) {
+                    if (Math.abs(teleportPos[0] - (double) x) >= 15.0D
+                            || Math.abs(teleportPos[1] - (double) y) >= 15.0D) {
                         this.playerX[playerId] = teleportPos[0];
                         this.playerY[playerId] = teleportPos[1];
                         return;
@@ -1436,34 +1603,42 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
             random = this.rngSeed.next() % (var12 + 1);
         }
 
-        //finally move player to exit position
+        // finally move player to exit position
         teleportPos = this.teleportExists[var13].get(random);
         this.playerX[playerId] = teleportPos[0];
         this.playerY[playerId] = teleportPos[1];
     }
 
-    private void handleMines(boolean isBigMine, int playerId, int screenX, int screenY, Graphics var5, Graphics canvas) {
+    private void handleMines(
+            boolean isBigMine, int playerId, int screenX, int screenY, Graphics var5, Graphics canvas) {
         int mapX = screenX / 15;
         int mapY = screenY / 15;
         int special = super.trackTiles[mapX][mapY] / 16777216;
         int shape = super.trackTiles[mapX][mapY] / 65536 % 256 + 24;
         int foreground = super.trackTiles[mapX][mapY] / 256 % 256;
         int background = super.trackTiles[mapX][mapY] % 256;
-        //28 Mine
-        //30 Big Mine
+        // 28 Mine
+        // 30 Big Mine
         if (special == 2 && (shape == 28 || shape == 30)) {
             ++shape;
-            super.trackTiles[mapX][mapY] = special * 256 * 256 * 256 + (shape - 24) * 256 * 256 + foreground * 256 + background;
+            super.trackTiles[mapX][mapY] =
+                    special * 256 * 256 * 256 + (shape - 24) * 256 * 256 + foreground * 256 + background;
             this.drawTile(mapX, mapY, var5, canvas);
 
-            //Big Mine will dig a hole around mine
+            // Big Mine will dig a hole around mine
             if (isBigMine) {
-                int[] downhills = new int[]{17039367, 16779264, 17104905, 16778752, -1, 16779776, 17235973, 16778240, 17170443};
+                int[] downhills =
+                        new int[] {17039367, 16779264, 17104905, 16778752, -1, 16779776, 17235973, 16778240, 17170443};
                 int tileIndex = 0;
 
                 for (int y = mapY - 1; y <= mapY + 1; ++y) {
                     for (int x = mapX - 1; x <= mapX + 1; ++x) {
-                        if (x >= 0 && x < 49 && y >= 0 && y < 25 && (y != mapY || x != mapX) && super.trackTiles[x][y] == 16777216) {
+                        if (x >= 0
+                                && x < 49
+                                && y >= 0
+                                && y < 25
+                                && (y != mapY || x != mapX)
+                                && super.trackTiles[x][y] == 16777216) {
                             super.trackTiles[x][y] = downhills[tileIndex];
                             this.drawTile(x, y, var5, canvas);
                         }
@@ -1478,7 +1653,8 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
                 do {
                     this.speedX[playerId] = (double) (-65 + this.rngSeed.next() % 131) / 10.0D;
                     this.speedY[playerId] = (double) (-65 + this.rngSeed.next() % 131) / 10.0D;
-                    speed = Math.sqrt(this.speedX[playerId] * this.speedX[playerId] + this.speedY[playerId] * this.speedY[playerId]);
+                    speed = Math.sqrt(this.speedX[playerId] * this.speedX[playerId]
+                            + this.speedY[playerId] * this.speedY[playerId]);
                 } while (speed < 5.2D);
             } while (speed > 6.5D);
 
@@ -1486,37 +1662,39 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
                 this.speedX[playerId] *= 0.8D;
                 this.speedY[playerId] *= 0.8D;
             }
-
         }
     }
 
-    private boolean handleMovableBlock(int screenX, int screenY, Graphics var3, Graphics canvas, int offsetX, int offsetY, boolean nonSunkable) {
+    private boolean handleMovableBlock(
+            int screenX, int screenY, Graphics var3, Graphics canvas, int offsetX, int offsetY, boolean nonSunkable) {
         int mapX = screenX / 15;
         int mapY = screenY / 15;
         int special = super.trackTiles[mapX][mapY] / 16777216;
         int shape = super.trackTiles[mapX][mapY] / 65536 % 256 + 24;
         int background = super.trackTiles[mapX][mapY] / 256 % 256;
         if (special == 2 && (shape == 27 || shape == 46)) {
-          //where we want to move the block
+            // where we want to move the block
             int x1 = mapX + offsetX;
             int y1 = mapY + offsetY;
             int canMove = this.canMovableBlockMove(x1, y1);
             if (canMove == -1) {
                 return false;
             } else {
-              //16777216 == special:1 shape:0 fg:0 bg:0
+                // 16777216 == special:1 shape:0 fg:0 bg:0
                 super.trackTiles[mapX][mapY] = 16777216 + background * 256;
                 this.drawTile(mapX, mapY, var3, canvas);
                 // [x,y,background id]
-                int[] tileWithCoords = this.calculateMovableBlockEndPosition(mapX, mapY, x1, y1, background, canMove, var3, canvas, nonSunkable, 0);
-                //12 Water
-                //13 Acid
+                int[] tileWithCoords = this.calculateMovableBlockEndPosition(
+                        mapX, mapY, x1, y1, background, canMove, var3, canvas, nonSunkable, 0);
+                // 12 Water
+                // 13 Acid
                 if (!nonSunkable && (tileWithCoords[2] == 12 || tileWithCoords[2] == 13)) {
-                  //Sunked Movable Block with old background
+                    // Sunked Movable Block with old background
                     super.trackTiles[tileWithCoords[0]][tileWithCoords[1]] = 35061760 + tileWithCoords[2] * 256;
                 } else {
-                  //Movable Block with old background
-                    super.trackTiles[tileWithCoords[0]][tileWithCoords[1]] = 33554432 + ((nonSunkable ? 27 : 46) - 24) * 256 * 256 + tileWithCoords[2] * 256;
+                    // Movable Block with old background
+                    super.trackTiles[tileWithCoords[0]][tileWithCoords[1]] =
+                            33554432 + ((nonSunkable ? 27 : 46) - 24) * 256 * 256 + tileWithCoords[2] * 256;
                 }
 
                 this.drawTile(tileWithCoords[0], tileWithCoords[1], var3, canvas);
@@ -1534,7 +1712,10 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
             int background = super.trackTiles[x][y] / 256 % 256;
             if (special == 1 && shape == 0 && background <= 15) {
                 for (int i = 0; i < this.playerCount; ++i) {
-                    if (this.playerX[i] > (double) (x * 15) && this.playerX[i] < (double) (x * 15 + 15 - 1) && this.playerY[i] > (double) (y * 15) && this.playerY[i] < (double) (y * 15 + 15 - 1)) {
+                    if (this.playerX[i] > (double) (x * 15)
+                            && this.playerX[i] < (double) (x * 15 + 15 - 1)
+                            && this.playerY[i] > (double) (y * 15)
+                            && this.playerY[i] < (double) (y * 15 + 15 - 1)) {
                         return -1;
                     }
                 }
@@ -1548,33 +1729,44 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
         }
     }
 
-    private int[] calculateMovableBlockEndPosition(int x, int y, int x1, int y1, int background, int background1, Graphics var7, Graphics var8, boolean var9, int i) {
-        int[] xytile = new int[]{x1, y1, background1};
+    private int[] calculateMovableBlockEndPosition(
+            int x,
+            int y,
+            int x1,
+            int y1,
+            int background,
+            int background1,
+            Graphics var7,
+            Graphics var8,
+            boolean var9,
+            int i) {
+        int[] xytile = new int[] {x1, y1, background1};
         if (!var9 && background1 >= 4 && background1 <= 11 && i < 1078) {
             x = x1;
             y = y1;
             background = background1;
-            //Downhill North
+            // Downhill North
             if (background1 == 4 || background1 == 5 || background1 == 11) {
                 --y1;
             }
-            //Downhill South
+            // Downhill South
             if (background1 == 8 || background1 == 7 || background1 == 9) {
                 ++y1;
             }
 
-            //Downhill East
+            // Downhill East
             if (background1 == 5 || background1 == 6 || background1 == 7) {
                 ++x1;
             }
-            //Downhill West
+            // Downhill West
             if (background1 == 9 || background1 == 10 || background1 == 11) {
                 --x1;
             }
 
             background1 = this.canMovableBlockMove(x1, y1);
             if (background1 >= 0) {
-                xytile = this.calculateMovableBlockEndPosition(x, y, x1, y1, background, background1, var7, var8, var9, i + 1);
+                xytile = this.calculateMovableBlockEndPosition(
+                        x, y, x1, y1, background, background1, var7, var8, var9, i + 1);
             }
         }
 
@@ -1591,7 +1783,8 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
         if (special == 2 && shape >= 40 && shape <= 43) {
             ++shape;
             if (shape <= 43) {
-                super.trackTiles[mapX][mapY] = special * 256 * 256 * 256 + (shape - 24) * 256 * 256 + background * 256 + foreground;
+                super.trackTiles[mapX][mapY] =
+                        special * 256 * 256 * 256 + (shape - 24) * 256 * 256 + background * 256 + foreground;
             } else {
                 super.trackTiles[mapX][mapY] = 16777216 + background * 256 + background;
             }
@@ -1624,7 +1817,10 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
 
         if (var3 == 0.0D) {
             g.drawImage(this.ballSprites[playerid + ballSpriteOffset], x, y, this);
-            if (this.playerNamesDisplayMode > 0 && this.aBooleanArray2834[playerid] && this.gameState != 2 && this.playerCount > 1) {
+            if (this.playerNamesDisplayMode > 0
+                    && this.aBooleanArray2834[playerid]
+                    && this.gameState != 2
+                    && this.playerCount > 1) {
                 String[] playerName = super.gameContainer.gamePanel.getPlayerName(playerid);
                 if (this.playerNamesDisplayMode == 1) {
                     StringDraw.drawString(g, playerName[0].substring(0, 1), x + 6, y + 13 - 3, 0);
@@ -1656,7 +1852,6 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
         } else {
             g.drawImage(this.ballSprites[playerid + ballSpriteOffset], x, y, x + var7, y + var7, 0, 0, 13, 13, this);
         }
-
     }
 
     private void method162(boolean var1) {
@@ -1665,9 +1860,8 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
         this.setCursor(cursorCrosshair);
         this.addKeyListener(this);
         if (var1) {
-            //this.requestFocus();//todo this is annoying as fuck
+            // this.requestFocus();//todo this is annoying as fuck
         }
-
     }
 
     private void drawDashedLine(Graphics var1, int var2, int var3, int var4, int var5) {
@@ -1686,7 +1880,6 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
             var9 += var13 * 2.0D;
             var11 += var15 * 2.0D;
         }
-
     }
 
     private void method164(int var1) {
@@ -1713,5 +1906,4 @@ public class GameCanvas extends GameBackgroundCanvas implements Runnable, MouseM
         anIntArray2837[2] = var1;
         anInt2838 = this.anInt2839;
     }
-
 }

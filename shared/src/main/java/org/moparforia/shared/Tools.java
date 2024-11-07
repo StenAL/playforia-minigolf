@@ -3,8 +3,7 @@ package org.moparforia.shared;
 public class Tools {
 
     private static String toString(Object o) {
-        if (o instanceof Boolean)
-            return (Boolean) o ? "t" : "f";
+        if (o instanceof Boolean) return (Boolean) o ? "t" : "f";
         return o.toString();
     }
 
@@ -23,16 +22,15 @@ public class Tools {
         return s;
     }
 
-    public static String tabularize(Object... args) {// lololol
+    public static String tabularize(Object... args) { // lololol
         return izer("\t", args);
-
     }
 
-    public static String triangelize(Object... args) {// hhhehehe
+    public static String triangelize(Object... args) { // hhhehehe
         return izer("^", args);
     }
 
-    public static String commaize(Object... args) {// hhhehehe
+    public static String commaize(Object... args) { // hhhehehe
         return izer(",", args);
     }
 }

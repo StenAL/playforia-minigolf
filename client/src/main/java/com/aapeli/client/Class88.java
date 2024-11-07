@@ -1,7 +1,6 @@
 package com.aapeli.client;
 
 import com.aapeli.colorgui.ColorButton;
-
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -41,7 +40,6 @@ class Class88 implements ActionListener {
         if (this.aString1504 == null || this.aString1505 == null) {
             this.anInt1506 = 0;
         }
-
     }
 
     public void actionPerformed(ActionEvent var1) {
@@ -50,7 +48,6 @@ class Class88 implements ActionListener {
         } else {
             this.aFrame_Sub3_Sub3_1508.toFront();
         }
-
     }
 
     protected ColorButton method1699() {
@@ -97,7 +94,6 @@ class Class88 implements ActionListener {
             }
         } catch (Exception var2) {
         }
-
     }
 
     protected boolean method1702(String[] var1, String var2, int var3, int var4, int var5) {

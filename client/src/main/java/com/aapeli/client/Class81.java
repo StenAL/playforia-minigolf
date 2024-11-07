@@ -83,15 +83,15 @@ class Class81 {
     }
 
     private boolean method1614(String var1) {
-        return this.method1617(new String[]{"<" + var1 + ">"});
+        return this.method1617(new String[] {"<" + var1 + ">"});
     }
 
     private boolean method1615(String var1, String var2) {
-        return this.method1617(new String[]{"<" + var1 + ">", "<" + var2 + ">"});
+        return this.method1617(new String[] {"<" + var1 + ">", "<" + var2 + ">"});
     }
 
     private boolean method1616(String var1, String var2, String var3) {
-        return this.method1617(new String[]{"<" + var1 + ">", "<" + var2 + ">", "<" + var3 + ">"});
+        return this.method1617(new String[] {"<" + var1 + ">", "<" + var2 + ">", "<" + var3 + ">"});
     }
 
     private boolean method1617(String[] var1) {

@@ -20,7 +20,7 @@ public class UrlLabel extends IPanel implements MouseListener {
     public static final int ALIGN_RIGHT = 1;
     public static final int TARGET_SAME = 0;
     public static final int TARGET_NEW = 1;
-    private static final String[] urlTargets = new String[]{"_top", "_blank"};
+    private static final String[] urlTargets = new String[] {"_top", "_blank"};
     private static final Cursor defaultCursor = new Cursor(Cursor.DEFAULT_CURSOR);
     private static final Cursor handCursor = new Cursor(Cursor.HAND_CURSOR);
     private static final Font fontDialog11 = new Font("Dialog", Font.PLAIN, 11);
@@ -42,7 +42,6 @@ public class UrlLabel extends IPanel implements MouseListener {
     private int backgroundImageOffsetY;
     private String urlTarget;
     private static final String aString3247 = "Dialog";
-
 
     public UrlLabel(Applet applet) {
         this(applet, fontDialog11, null, null);
@@ -74,7 +73,17 @@ public class UrlLabel extends IPanel implements MouseListener {
         int width = size.width;
         int height = size.height;
         if (this.backgroundImage != null) {
-            graphics.drawImage(this.backgroundImage, 0, 0, width, height, this.backgroundImageOffsetX, this.backgroundImageOffsetY, this.backgroundImageOffsetX + width, this.backgroundImageOffsetY + height, this);
+            graphics.drawImage(
+                    this.backgroundImage,
+                    0,
+                    0,
+                    width,
+                    height,
+                    this.backgroundImageOffsetX,
+                    this.backgroundImageOffsetY,
+                    this.backgroundImageOffsetX + width,
+                    this.backgroundImageOffsetY + height,
+                    this);
         } else if (!this.drawBackgroundImage(graphics)) {
             graphics.setColor(this.backgroundColor != null ? this.backgroundColor : this.getBackground());
             graphics.fillRect(0, 0, width, height);
@@ -107,25 +116,20 @@ public class UrlLabel extends IPanel implements MouseListener {
                 graphics.setColor(this.foregroundMainColor);
                 graphics.drawString(this.suffix, x + this.prefixWidth + this.linkTextWidth, y);
             }
-
         }
     }
 
-    public void mouseEntered(MouseEvent var1) {
-    }
+    public void mouseEntered(MouseEvent var1) {}
 
-    public void mouseExited(MouseEvent var1) {
-    }
+    public void mouseExited(MouseEvent var1) {}
 
-    public void mousePressed(MouseEvent var1) {
-    }
+    public void mousePressed(MouseEvent var1) {}
 
     public void mouseReleased(MouseEvent var1) {
         this.applet.getAppletContext().showDocument(this.url, this.urlTarget);
     }
 
-    public void mouseClicked(MouseEvent var1) {
-    }
+    public void mouseClicked(MouseEvent var1) {}
 
     public void setText(String text, String url) {
         if (text == null) {

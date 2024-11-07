@@ -6,7 +6,6 @@ import com.aapeli.client.InputTextField;
 import com.aapeli.colorgui.ColorButton;
 import com.aapeli.multiuser.ChatBase;
 import com.aapeli.multiuser.ChatTextArea;
-
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Panel;
@@ -17,7 +16,7 @@ import java.awt.event.KeyListener;
 
 class ChatPanel extends Panel implements KeyListener, ActionListener {
 
-    private static final int[] anIntArray330 = new int[]{3, 1, 4, 2};
+    private static final int[] anIntArray330 = new int[] {3, 1, 4, 2};
     private GameContainer gameContainer;
     private int width;
     private int height;
@@ -26,7 +25,6 @@ class ChatPanel extends Panel implements KeyListener, ActionListener {
     private ColorButton buttonSay;
     private int gameExtra;
     private boolean created;
-
 
     protected ChatPanel(GameContainer gameContainer, int width, int height, int gameExtra) {
         this.gameContainer = gameContainer;
@@ -60,21 +58,17 @@ class ChatPanel extends Panel implements KeyListener, ActionListener {
         if (evt.getSource() == this.textFieldMessage && evt.getKeyCode() == 10) {
             this.sendMessage();
         }
-
     }
 
-    public void keyReleased(KeyEvent evt) {
-    }
+    public void keyReleased(KeyEvent evt) {}
 
-    public void keyTyped(KeyEvent evt) {
-    }
+    public void keyTyped(KeyEvent evt) {}
 
     public void actionPerformed(ActionEvent evt) {
         if (this.gameExtra >= 2) {
             if (evt.getSource() == this.buttonSay) {
                 this.sendMessage();
             }
-
         }
     }
 
@@ -92,7 +86,7 @@ class ChatPanel extends Panel implements KeyListener, ActionListener {
         }
     }
 
-    protected void addSay(int unused, String name, String message, boolean isLocalPlayer) {// /me action
+    protected void addSay(int unused, String name, String message, boolean isLocalPlayer) { // /me action
         if (this.gameExtra >= 2) {
             if (isLocalPlayer) {
                 this.textAreaChat.addOwnSay(name, message);
@@ -145,7 +139,6 @@ class ChatPanel extends Panel implements KeyListener, ActionListener {
                     this.textAreaChat.addPlainMessage("- Illusion holes");
                 }
             }
-
         }
     }
 
@@ -159,9 +152,15 @@ class ChatPanel extends Panel implements KeyListener, ActionListener {
 
     private void create() {
         this.setLayout(null);
-        this.textAreaChat = new ChatTextArea(this.gameContainer.textManager, this.gameContainer.badWordFilter, this.width, this.height - 22, new Font("Dialog", Font.PLAIN, 11));
+        this.textAreaChat = new ChatTextArea(
+                this.gameContainer.textManager,
+                this.gameContainer.badWordFilter,
+                this.width,
+                this.height - 22,
+                new Font("Dialog", Font.PLAIN, 11));
         this.textAreaChat.setLocation(0, 0);
-        this.textFieldMessage = new InputTextField(this.gameContainer.textManager.getGame("GameChat_TypeHere"), 200, true);
+        this.textFieldMessage =
+                new InputTextField(this.gameContainer.textManager.getGame("GameChat_TypeHere"), 200, true);
         this.textFieldMessage.setBounds(0, this.height - 20, this.width - 70, 20);
         this.buttonSay = new ColorButton(this.gameContainer.textManager.getGame("GameChat_Say"));
         this.buttonSay.setBounds(this.width - 69, this.height - 20, 69, 20);
@@ -189,10 +188,16 @@ class ChatPanel extends Panel implements KeyListener, ActionListener {
             }
 
             if (var1 != ChatBase.CIDR_NONE) {
-                ChatBase.setInputByCIDR(var1, this, this.textFieldMessage, this.buttonSay, null, this.gameContainer.textManager, this.gameContainer.params);
+                ChatBase.setInputByCIDR(
+                        var1,
+                        this,
+                        this.textFieldMessage,
+                        this.buttonSay,
+                        null,
+                        this.gameContainer.textManager,
+                        this.gameContainer.params);
             }
         }
-
     }
 
     private void sendMessage() {

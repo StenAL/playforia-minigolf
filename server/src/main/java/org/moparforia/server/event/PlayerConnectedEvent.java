@@ -17,5 +17,4 @@ public class PlayerConnectedEvent extends Event {
         System.out.println("Player connected: " + id + ", reconnecting:" + reconnecting);
         // todo: is this event even needed
     }
-
 }

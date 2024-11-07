@@ -1,6 +1,7 @@
 package org.moparforia.server;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -11,9 +12,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.Test;
 
 public class ServerTest {
 
@@ -25,7 +24,7 @@ public class ServerTest {
 
     @Test
     void testSinglePlayerFlow() throws IOException, InterruptedException {
-        Server server = new Server("127.0.0.1", 4243, false,Optional.empty());
+        Server server = new Server("127.0.0.1", 4243, false, Optional.empty());
         server.start();
 
         Socket socket = new Socket("127.0.0.1", 4243);
@@ -80,7 +79,9 @@ public class ServerTest {
         assertEquals("d 6 lobby\townjoin\t3:" + nickname + "^r^0^-^-^-", lobbyOwnjoin);
         this.sendMessage(writer, "d 4 lobby\ttracksetlist");
         String tracksetlist = reader.readLine();
-        assertEquals(tracksetlist, "d 7 lobby\ttracksetlist\tBirchwood\t1\t9\tNo one\t1\tNo one\t1\tNo one\t1\tNo one\t1\tOak Park\t1\t18\tNo one\t1\tNo one\t1\tNo one\t1\tNo one\t1\tOne by One\t2\t18\tNo one\t1\tNo one\t1\tNo one\t1\tNo one\t1\tScary Set\t3\t9\tNo one\t1\tNo one\t1\tNo one\t1\tNo one\t1\tSpruce Corpse\t2\t9\tNo one\t1\tNo one\t1\tNo one\t1\tNo one\t1\tThe First\t2\t18\tNo one\t1\tNo one\t1\tNo one\t1\tNo one\t1\tTorment Fields\t3\t18\tNo one\t1\tNo one\t1\tNo one\t1\tNo one\t1");
+        assertEquals(
+                tracksetlist,
+                "d 7 lobby\ttracksetlist\tBirchwood\t1\t9\tNo one\t1\tNo one\t1\tNo one\t1\tNo one\t1\tOak Park\t1\t18\tNo one\t1\tNo one\t1\tNo one\t1\tNo one\t1\tOne by One\t2\t18\tNo one\t1\tNo one\t1\tNo one\t1\tNo one\t1\tScary Set\t3\t9\tNo one\t1\tNo one\t1\tNo one\t1\tNo one\t1\tSpruce Corpse\t2\t9\tNo one\t1\tNo one\t1\tNo one\t1\tNo one\t1\tThe First\t2\t18\tNo one\t1\tNo one\t1\tNo one\t1\tNo one\t1\tTorment Fields\t3\t18\tNo one\t1\tNo one\t1\tNo one\t1\tNo one\t1");
 
         // start championship game
         this.sendMessage(writer, "d 5 lobby\tcspc\t6");
@@ -98,7 +99,9 @@ public class ServerTest {
         assertEquals("d 11 game\towninfo\t0\t" + nickname + "\t-", ownInfo);
         assertEquals("d 12 game\tstart", gameStart);
         assertEquals("d 13 game\tresetvoteskip", resetVoteSkip);
-        assertTrue(startTrack.matches("d 14 game\tstarttrack\tt\t0\tV 1\tA Leonardo\tN Revocations\tT BAMM21DBAQQ7DBAMM18DBAQQDB3ADDBAQQ6DEDDBAQQ7DB3A11DBHAQBGAQB3ABAQQ4DB3ADDBHAMEDEB3A10DEDDB3A3DBHAQBGAQB3AEE14DBAGABAIADDBAKAE3DEDEE10DEDDE6DEE6DBAQQE6DEEDDEE3DEDEE10DEDDE4DBIAHBAIAEE6DEE6DEEDDEE3DEDEE10DEDDE4DBAGA3EDBGMABHMAEDDEE6DEEDDEE3DEDEE10DEDDE4D4EDBHAMBGAMEDDEE6DEEDDEE3DEDEE10DEDDE4D4E6DEE6DEEDDEE3DEDEE9DBGLABAEADDBHFAE3DBAQQ3E6DEE6DEEDDEE3DEDEE9DBAKAGDDBAGAE3D4E6DEEDBAQQ6DEG7DBAMMEDBEAQBFAQE5DEEDDEE3D4E6DEE5DEDDEE7DEEDBHAQBAQQDE4DEEDDEE3DEBAGADE6DEE5DEG9D3EDDEBGAQE4DEEDDEE3DEDDE6DEE5DEE9DEBAQQE9DEEDDEE5DEE6DEE5DBGAQE9D3E9DEEDDEE5DEE4DBAQQDDE16D3E5DBAQQ4DEDDBAQQ7DE4DEBAGADE5DBEAQBAQQDDBGAQEDDBGMABAMMDDEBFAQE4DEBAMM3DEDDBAMA7DE4DEBAEAGE5DBAQQBGAQH4DBGMABAMM3DEDFE3DEE3DEDDE7DE4D4E5DEG5DBHAMEBGAMB3ABAQQEDDFEDDEEBIMAB3A17D4E5DEE6DBSAMGDEE3DFEDEEB3A18DBAGA3E5DEE9DEEBIQAB3A4DEEBLMAE17D4EDDBQAMEDEE9DEEB3ACBAE3DEE3DEDDBAMA7DE4D4EDBEAMBAMMBFAM3E7DCAA3EBLQAF4DEE3DEDDE7DEDBEAQBFAQ5EBEAMBAMMDBEMA3E9DEE11DEDDBAQQ15DBAMMDDBEMAB3ADE11DBAMM10DE4DBAMM32D,Ads:C0204\tI 308939,4480252,4,2203\tB d2b,\\d+\tR 633,173,118,129,125,546,495,461,467,556,4472"));
+        assertTrue(
+                startTrack.matches(
+                        "d 14 game\tstarttrack\tt\t0\tV 1\tA Leonardo\tN Revocations\tT BAMM21DBAQQ7DBAMM18DBAQQDB3ADDBAQQ6DEDDBAQQ7DB3A11DBHAQBGAQB3ABAQQ4DB3ADDBHAMEDEB3A10DEDDB3A3DBHAQBGAQB3AEE14DBAGABAIADDBAKAE3DEDEE10DEDDE6DEE6DBAQQE6DEEDDEE3DEDEE10DEDDE4DBIAHBAIAEE6DEE6DEEDDEE3DEDEE10DEDDE4DBAGA3EDBGMABHMAEDDEE6DEEDDEE3DEDEE10DEDDE4D4EDBHAMBGAMEDDEE6DEEDDEE3DEDEE10DEDDE4D4E6DEE6DEEDDEE3DEDEE9DBGLABAEADDBHFAE3DBAQQ3E6DEE6DEEDDEE3DEDEE9DBAKAGDDBAGAE3D4E6DEEDBAQQ6DEG7DBAMMEDBEAQBFAQE5DEEDDEE3D4E6DEE5DEDDEE7DEEDBHAQBAQQDE4DEEDDEE3DEBAGADE6DEE5DEG9D3EDDEBGAQE4DEEDDEE3DEDDE6DEE5DEE9DEBAQQE9DEEDDEE5DEE6DEE5DBGAQE9D3E9DEEDDEE5DEE4DBAQQDDE16D3E5DBAQQ4DEDDBAQQ7DE4DEBAGADE5DBEAQBAQQDDBGAQEDDBGMABAMMDDEBFAQE4DEBAMM3DEDDBAMA7DE4DEBAEAGE5DBAQQBGAQH4DBGMABAMM3DEDFE3DEE3DEDDE7DE4D4E5DEG5DBHAMEBGAMB3ABAQQEDDFEDDEEBIMAB3A17D4E5DEE6DBSAMGDEE3DFEDEEB3A18DBAGA3E5DEE9DEEBIQAB3A4DEEBLMAE17D4EDDBQAMEDEE9DEEB3ACBAE3DEE3DEDDBAMA7DE4D4EDBEAMBAMMBFAM3E7DCAA3EBLQAF4DEE3DEDDE7DEDBEAQBFAQ5EBEAMBAMMDBEMA3E9DEE11DEDDBAQQ15DBAMMDDBEMAB3ADE11DBAMM10DE4DBAMM32D,Ads:C0204\tI 308939,4480252,4,2203\tB d2b,\\d+\tR 633,173,118,129,125,546,495,461,467,556,4472"));
         assertEquals("d 15 game\tstartturn\t0", startTurn);
 
         // leave game

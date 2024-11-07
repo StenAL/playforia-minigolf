@@ -6,7 +6,6 @@ public class TrackCollection {
 
     private Hashtable<String, String> tracks = new Hashtable<>();
 
-
     public void addTrack(String author, String name, String data) {
         String key = author + "\t" + name;
         this.tracks.put(key, data);

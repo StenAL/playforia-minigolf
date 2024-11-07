@@ -14,7 +14,17 @@ public class ColorListItem {
     public static final int COLOR_CYAN = 6;
     public static final int COLOR_GRAY = 7;
     public static final int COLOR_WHITE = 8;
-    private static final Color[] colors = new Color[]{new Color(0, 0, 0), new Color(240, 0, 0), new Color(0, 160, 0), new Color(0, 0, 255), new Color(144, 144, 0), new Color(176, 0, 176), new Color(0, 160, 176), new Color(112, 112, 112), new Color(255, 255, 255)};
+    private static final Color[] colors = new Color[] {
+        new Color(0, 0, 0),
+        new Color(240, 0, 0),
+        new Color(0, 160, 0),
+        new Color(0, 0, 255),
+        new Color(144, 144, 0),
+        new Color(176, 0, 176),
+        new Color(0, 160, 176),
+        new Color(112, 112, 112),
+        new Color(255, 255, 255)
+    };
     private Image icon;
     private Color color;
     private boolean bold;
@@ -26,7 +36,6 @@ public class ColorListItem {
     private boolean sortOverride;
     private ColorListItemGroup group;
     private ColorList colorList;
-
 
     public ColorListItem(String text) {
         this(null, 0, false, text, null, false);
@@ -150,5 +159,4 @@ public class ColorListItem {
     public ColorList getColorListReference() {
         return this.colorList;
     }
-
 }

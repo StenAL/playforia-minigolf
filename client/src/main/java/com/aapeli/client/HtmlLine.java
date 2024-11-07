@@ -14,7 +14,6 @@ class HtmlLine {
     private int height;
     private final HtmlText aHtmlText1371;
 
-
     protected HtmlLine(HtmlText htmlText, Graphics graphics, int var3, boolean var4) {
         this.aHtmlText1371 = htmlText;
         this.anInt1366 = var3;
@@ -49,7 +48,6 @@ class HtmlLine {
             if (fontSize > this.height) {
                 this.height = fontSize;
             }
-
         }
     }
 
@@ -78,6 +76,5 @@ class HtmlLine {
             HtmlWord word = this.words.get(wordsLength);
             word.draw(graphics, x, y);
         }
-
     }
 }

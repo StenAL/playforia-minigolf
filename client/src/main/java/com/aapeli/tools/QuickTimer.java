@@ -10,7 +10,6 @@ public class QuickTimer implements Runnable {
     private boolean stopped;
     private static final String aString1730 = "QuickTimer.start() called after QuickTimer.stopAll() was called";
 
-
     public QuickTimer(int var1) {
         this(var1, null, false);
     }
@@ -30,7 +29,6 @@ public class QuickTimer implements Runnable {
         if (var3) {
             this.start();
         }
-
     }
 
     public QuickTimer(QuickTimerListener var1, int var2) {
@@ -40,12 +38,11 @@ public class QuickTimer implements Runnable {
     public void run() {
         Tools.sleep(this.anInt1727);
         if (!this.stopped) {
-            for (QuickTimerListener var2: this.listeners) {
+            for (QuickTimerListener var2 : this.listeners) {
                 if (var2 != null) {
                     var2.qtFinished();
                 }
             }
-
         }
     }
 
@@ -74,5 +71,4 @@ public class QuickTimer implements Runnable {
     public void stopAll() {
         this.stopped = true;
     }
-
 }

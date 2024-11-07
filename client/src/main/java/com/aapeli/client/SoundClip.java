@@ -13,7 +13,6 @@ class SoundClip {
     private AudioClip audioClip;
     private boolean defined;
 
-
     protected SoundClip(Applet applet, URL dir, String file, boolean debug) {
         this.applet = applet;
         this.dir = dir;
@@ -33,7 +32,7 @@ class SoundClip {
                 System.out.println("SoundClip.defineClip(): 'dir'=\"" + this.dir + "\", 'file'=\"" + this.file + "\"");
             }
 
-            //todo this.audioClip = this.applet.getAudioClip(this.dir, this.file);
+            // todo this.audioClip = this.applet.getAudioClip(this.dir, this.file);
             URL url = dir;
             try {
                 url = new URL(dir, file);

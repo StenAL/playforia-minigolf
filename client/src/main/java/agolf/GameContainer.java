@@ -11,7 +11,7 @@ import com.aapeli.client.SoundManager;
 import com.aapeli.client.TextManager;
 import com.aapeli.tools.Tools;
 
-public class GameContainer {// some kind of a container for everything
+public class GameContainer { // some kind of a container for everything
 
     public GameApplet gameApplet;
     public Parameters params;
@@ -33,7 +33,6 @@ public class GameContainer {// some kind of a container for everything
     public GamePanel gamePanel;
     public int graphicsQualityIndex;
 
-
     public GameContainer(GameApplet gameApplet, Parameters params) {
         this.gameApplet = gameApplet;
         this.params = params;
@@ -50,7 +49,6 @@ public class GameContainer {// some kind of a container for everything
         if (this.connection != null) {
             this.connection.disconnect();
         }
-
     }
 
     private void init() {

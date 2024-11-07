@@ -1,7 +1,6 @@
 package com.aapeli.colorgui;
 
 import com.aapeli.client.IPanel;
-
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -41,7 +40,6 @@ public class TabBar extends IPanel implements ComponentListener, ActionListener 
     private List<TabBarListener> listeners;
     private Object anObject3425 = new Object();
 
-
     public TabBar(int var1, int var2) {
         this.anInt3408 = var1;
         this.anInt3409 = var2;
@@ -77,7 +75,17 @@ public class TabBar extends IPanel implements ComponentListener, ActionListener 
         } else if (this.anInt3416 == 0 && this.anInt3417 == 0) {
             var1.drawImage(this.anImage3415, 0, 0, this);
         } else {
-            var1.drawImage(this.anImage3415, 0, 0, this.anInt3408, this.anInt3409, this.anInt3416, this.anInt3417, this.anInt3416 + this.anInt3408, this.anInt3417 + this.anInt3409, this);
+            var1.drawImage(
+                    this.anImage3415,
+                    0,
+                    0,
+                    this.anInt3408,
+                    this.anInt3409,
+                    this.anInt3416,
+                    this.anInt3417,
+                    this.anInt3416 + this.anInt3408,
+                    this.anInt3417 + this.anInt3409,
+                    this);
         }
 
         if (this.anInt3422 != 0) {
@@ -89,17 +97,13 @@ public class TabBar extends IPanel implements ComponentListener, ActionListener 
                 var1.drawRect(0, this.anInt3423 - 1, this.anInt3408 - 1, this.anInt3409 - this.anInt3423);
             }
         }
-
     }
 
-    public void componentShown(ComponentEvent var1) {
-    }
+    public void componentShown(ComponentEvent var1) {}
 
-    public void componentHidden(ComponentEvent var1) {
-    }
+    public void componentHidden(ComponentEvent var1) {}
 
-    public void componentMoved(ComponentEvent var1) {
-    }
+    public void componentMoved(ComponentEvent var1) {}
 
     public void componentResized(ComponentEvent var1) {
         Dimension var2 = this.getSize();
@@ -145,7 +149,6 @@ public class TabBar extends IPanel implements ComponentListener, ActionListener 
             for (int var3 = 0; var3 < this.anInt3420; ++var3) {
                 this.method880(var3).setFont(var1);
             }
-
         }
     }
 
@@ -157,7 +160,6 @@ public class TabBar extends IPanel implements ComponentListener, ActionListener 
             for (int var3 = 0; var3 < this.anInt3420; ++var3) {
                 this.method880(var3).setBackground(var1);
             }
-
         }
     }
 
@@ -169,7 +171,6 @@ public class TabBar extends IPanel implements ComponentListener, ActionListener 
             for (int var3 = 0; var3 < this.anInt3420; ++var3) {
                 this.method880(var3).setForeground(var1);
             }
-
         }
     }
 
@@ -187,7 +188,6 @@ public class TabBar extends IPanel implements ComponentListener, ActionListener 
             for (int var3 = 0; var3 < this.anInt3420; ++var3) {
                 this.method880(var3).setBorder(var1);
             }
-
         }
     }
 
@@ -361,7 +361,6 @@ public class TabBar extends IPanel implements ComponentListener, ActionListener 
                 var9.setSize(this.anInt3408 - var6 - var6, this.anInt3409 - this.anInt3423 - var6);
             }
         }
-
     }
 
     private int method878(ActionEvent var1) {
@@ -390,5 +389,4 @@ public class TabBar extends IPanel implements ComponentListener, ActionListener 
     private RadioButton method880(int var1) {
         return this.getTabBarItemByIndex(var1).getButton();
     }
-
 }

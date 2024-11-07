@@ -1,7 +1,6 @@
 package com.aapeli.colorgui;
 
 import com.aapeli.client.StringDraw;
-
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
@@ -20,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MultiColorList extends Panel implements AdjustmentListener, MouseListener, ItemSelectable {
-//todo refactor
+    // todo refactor
     public static final int SELECTABLE_NONE = 0;
     public static final int SELECTABLE_ONE = 1;
     public static final int SELECTABLE_MULTI = 2;
@@ -116,7 +115,17 @@ public class MultiColorList extends Panel implements AdjustmentListener, MouseLi
             this.aGraphics712.setColor(this.aColor691);
             this.aGraphics712.fillRect(0, 0, this.anInt700, this.anInt701);
         } else {
-            this.aGraphics712.drawImage(this.anImage688, 0, 0, this.anInt700, this.anInt701, this.anInt689, this.anInt690, this.anInt689 + this.anInt700, this.anInt690 + this.anInt701, this);
+            this.aGraphics712.drawImage(
+                    this.anImage688,
+                    0,
+                    0,
+                    this.anInt700,
+                    this.anInt701,
+                    this.anInt689,
+                    this.anInt690,
+                    this.anInt689 + this.anInt700,
+                    this.anInt690 + this.anInt701,
+                    this);
         }
 
         this.anIntArray704 = null;
@@ -141,7 +150,13 @@ public class MultiColorList extends Panel implements AdjustmentListener, MouseLi
 
             if (this.aString694 != null) {
                 this.aGraphics712.setFont(FontConstants.font);
-                StringDraw.drawStringWithMaxWidth(this.aGraphics712, this.aString694, this.anInt700 / 2, this.anInt701 / 2, 0, this.anInt700 * 9 / 10);
+                StringDraw.drawStringWithMaxWidth(
+                        this.aGraphics712,
+                        this.aString694,
+                        this.anInt700 / 2,
+                        this.anInt701 / 2,
+                        0,
+                        this.anInt700 * 9 / 10);
             }
         } else {
             Color[] var16 = new Color[this.anInt703 + 1];
@@ -184,7 +199,11 @@ public class MultiColorList extends Panel implements AdjustmentListener, MouseLi
 
                 for (int var14 = 0; var14 < this.anInt698; ++var14) {
                     if (var9[var13][var14] != null) {
-                        this.aGraphics712.drawImage(var9[var13][var14], 3 + this.anIntArray704[var14] + 1, var15 - var3 + (8 - var9[var13][var14].getHeight(null) / 2) + 1, this);
+                        this.aGraphics712.drawImage(
+                                var9[var13][var14],
+                                3 + this.anIntArray704[var14] + 1,
+                                var15 - var3 + (8 - var9[var13][var14].getHeight(null) / 2) + 1,
+                                this);
                     } else if (var8[var13][var14] != null) {
                         this.aGraphics712.drawString(var8[var13][var14], 3 + this.anIntArray704[var14], var15);
                     }
@@ -279,7 +298,7 @@ public class MultiColorList extends Panel implements AdjustmentListener, MouseLi
                     this.method962(var5, var8, var9);
                     this.repaint();
 
-                    if(isDoubleClick && listListener != null) {
+                    if (isDoubleClick && listListener != null) {
                         listListener.mouseDoubleClicked(var5);
                     }
                 }
@@ -287,17 +306,13 @@ public class MultiColorList extends Panel implements AdjustmentListener, MouseLi
         }
     }
 
-    public void mouseReleased(MouseEvent var1) {
-    }
+    public void mouseReleased(MouseEvent var1) {}
 
-    public void mouseClicked(MouseEvent var1) {
-    }
+    public void mouseClicked(MouseEvent var1) {}
 
-    public void mouseEntered(MouseEvent var1) {
-    }
+    public void mouseEntered(MouseEvent var1) {}
 
-    public void mouseExited(MouseEvent var1) {
-    }
+    public void mouseExited(MouseEvent var1) {}
 
     public void adjustmentValueChanged(AdjustmentEvent var1) {
         this.repaint();
@@ -322,7 +337,6 @@ public class MultiColorList extends Panel implements AdjustmentListener, MouseLi
         } else if (var1 == 1 && this.getSelectedItemCount() > 1) {
             this.unselectAll();
         }
-
     }
 
     public void setBackgroundImage(Image var1, int var2, int var3) {
@@ -379,7 +393,8 @@ public class MultiColorList extends Panel implements AdjustmentListener, MouseLi
         if (this.anInt698 == 0) {
             this.anInt698 = var2;
         } else if (var2 != this.anInt698) {
-            System.out.println("Error: MultiColorList.addItem(...): ccount = " + var2 + " != " + this.anInt698 + " = noc");
+            System.out.println(
+                    "Error: MultiColorList.addItem(...): ccount = " + var2 + " != " + this.anInt698 + " = noc");
             return;
         }
 
@@ -440,7 +455,6 @@ public class MultiColorList extends Panel implements AdjustmentListener, MouseLi
             this.method955(var3);
             this.repaint();
         }
-
     }
 
     public synchronized void removeAllItems() {
@@ -499,7 +513,7 @@ public class MultiColorList extends Panel implements AdjustmentListener, MouseLi
     }
 
     public int[] getLastClickedMouseXY() {
-        int[] var1 = new int[]{this.anInt707, this.anInt708};
+        int[] var1 = new int[] {this.anInt707, this.anInt708};
         return var1;
     }
 
@@ -513,7 +527,6 @@ public class MultiColorList extends Panel implements AdjustmentListener, MouseLi
         if (var2 == this.anInt699) {
             this.reSort();
         }
-
     }
 
     private synchronized void method955(int var1) {
@@ -714,7 +727,7 @@ public class MultiColorList extends Panel implements AdjustmentListener, MouseLi
     private synchronized void method962(MultiColorListItem var1, int var2, int var3) {
         if (this.listeners.size() != 0) {
             ItemEvent var4 = new ItemEvent(this, var2, var1, var3);
-            for (ItemListener listener: this.listeners) {
+            for (ItemListener listener : this.listeners) {
                 listener.itemStateChanged(var4);
             }
         }

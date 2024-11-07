@@ -8,7 +8,6 @@ class Class95 implements Runnable {
     private boolean aBoolean1578;
     private final RoundButton aRoundButton1579;
 
-
     protected Class95(RoundButton var1, RoundButton var2) {
         this.aRoundButton1579 = var1;
         this.aRoundButton1577 = var2;
@@ -25,7 +24,6 @@ class Class95 implements Runnable {
                 this.aRoundButton1577.innerSetFlashState(var1);
             }
         } while (this.aBoolean1578);
-
     }
 
     protected void method1755() {

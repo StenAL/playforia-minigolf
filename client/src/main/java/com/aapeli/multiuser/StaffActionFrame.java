@@ -5,7 +5,6 @@ import com.aapeli.client.StringDraw;
 import com.aapeli.client.TextManager;
 import com.aapeli.colorgui.ColorButton;
 import com.aapeli.colorgui.ColorCheckbox;
-
 import java.awt.Choice;
 import java.awt.Color;
 import java.awt.Component;
@@ -29,9 +28,10 @@ class StaffActionFrame extends Frame implements WindowListener, ItemListener, Ke
     private static final Color colourBackground = new Color(224, 224, 224);
     private static final Color colourBackground2 = new Color(208, 208, 208);
     private static final Color colourText = new Color(0, 0, 0);
-    private static final String[] banPresetOptions = {"Presets...", "1 hour", "2 hours", "3 hours", "6 hours",
-            "12 hours", "1 day", "2 days", "4 days", "~1 week"};
-    private static final int[] banPresetTimes = new int[]{0, 60, 120, 180, 360, 720, 1440, 2880, 5760, 9999};
+    private static final String[] banPresetOptions = {
+        "Presets...", "1 hour", "2 hours", "3 hours", "6 hours", "12 hours", "1 day", "2 days", "4 days", "~1 week"
+    };
+    private static final int[] banPresetTimes = new int[] {0, 60, 120, 180, 360, 720, 1440, 2880, 5760, 9999};
     private static final int banPresetTimesCount = banPresetOptions.length;
     private int width;
     private int height;
@@ -50,8 +50,8 @@ class StaffActionFrame extends Frame implements WindowListener, ItemListener, Ke
     private ColorButton btnAction;
     private ColorButton btnCancel;
 
-
-    protected StaffActionFrame(TextManager textManager, UserListHandler userListHandler, int actionType, String targetNick) {
+    protected StaffActionFrame(
+            TextManager textManager, UserListHandler userListHandler, int actionType, String targetNick) {
         this.textManager = textManager;
         this.userListHandler = userListHandler;
         this.actionType = actionType;
@@ -80,36 +80,41 @@ class StaffActionFrame extends Frame implements WindowListener, ItemListener, Ke
 
         g.setColor(colourText);
         if (this.actionType == 3) {
-            StringDraw.drawStringWithMaxWidth(g, "Mute target user so none of his messages are visible to others. Muted user is not notified about this, therefore user may think that other people still see his messages. Mute will stay until user leave this gameserver and returns.", this.insets.left + 10, 100, -1, this.width - this.insets.right - 10 - this.insets.left - 10);
+            StringDraw.drawStringWithMaxWidth(
+                    g,
+                    "Mute target user so none of his messages are visible to others. Muted user is not notified about this, therefore user may think that other people still see his messages. Mute will stay until user leave this gameserver and returns.",
+                    this.insets.left + 10,
+                    100,
+                    -1,
+                    this.width - this.insets.right - 10 - this.insets.left - 10);
         }
 
         if (this.actionType == 4) {
-            StringDraw.drawStringWithMaxWidth(g, "(Message is displayed to all users after chat is cleared. To avoid any confusion, it's highly recommended that some message is provided.)", this.insets.left + 10, 135, -1, this.width - this.insets.right - 10 - this.insets.left - 10);
+            StringDraw.drawStringWithMaxWidth(
+                    g,
+                    "(Message is displayed to all users after chat is cleared. To avoid any confusion, it's highly recommended that some message is provided.)",
+                    this.insets.left + 10,
+                    135,
+                    -1,
+                    this.width - this.insets.right - 10 - this.insets.left - 10);
         }
-
     }
 
-    public void windowOpened(WindowEvent evt) {
-    }
+    public void windowOpened(WindowEvent evt) {}
 
-    public void windowClosed(WindowEvent evt) {
-    }
+    public void windowClosed(WindowEvent evt) {}
 
     public void windowClosing(WindowEvent evt) {
         this.destroy();
     }
 
-    public void windowActivated(WindowEvent evt) {
-    }
+    public void windowActivated(WindowEvent evt) {}
 
-    public void windowDeactivated(WindowEvent evt) {
-    }
+    public void windowDeactivated(WindowEvent evt) {}
 
-    public void windowIconified(WindowEvent evt) {
-    }
+    public void windowIconified(WindowEvent evt) {}
 
-    public void windowDeiconified(WindowEvent evt) {
-    }
+    public void windowDeiconified(WindowEvent evt) {}
 
     public void itemStateChanged(ItemEvent evt) {
         Object evtSource = evt.getSource();
@@ -139,21 +144,17 @@ class StaffActionFrame extends Frame implements WindowListener, ItemListener, Ke
                 this.cboxBan.setState(true);
             }
         }
-
     }
 
     public void keyPressed(KeyEvent evt) {
         if (evt.getSource() == this.textFieldMessage && evt.getKeyCode() == KeyEvent.VK_ENTER) {
             this.sendAction();
         }
-
     }
 
-    public void keyReleased(KeyEvent evt) {
-    }
+    public void keyReleased(KeyEvent evt) {}
 
-    public void keyTyped(KeyEvent evt) {
-    }
+    public void keyTyped(KeyEvent evt) {}
 
     public void actionPerformed(ActionEvent evt) {
         Object source = evt.getSource();
@@ -164,7 +165,6 @@ class StaffActionFrame extends Frame implements WindowListener, ItemListener, Ke
         if (source == this.btnCancel) {
             this.destroy();
         }
-
     }
 
     protected void show(Component parent, boolean isAdmin) {
@@ -190,7 +190,9 @@ class StaffActionFrame extends Frame implements WindowListener, ItemListener, Ke
         this.setResizable(false);
         Point parentLocation = parent.getLocationOnScreen();
         Dimension parentSize = parent.getSize();
-        this.setLocation(parentLocation.x + parentSize.width / 2 - this.width / 2, parentLocation.y + parentSize.height / 2 - this.height / 2);
+        this.setLocation(
+                parentLocation.x + parentSize.width / 2 - this.width / 2,
+                parentLocation.y + parentSize.height / 2 - this.height / 2);
         this.configureColors(this, true);
         this.setLayout(null);
         String actionLabel = null;
@@ -229,7 +231,8 @@ class StaffActionFrame extends Frame implements WindowListener, ItemListener, Ke
                 this.choiceBanPresets.addItem(banPresetOptions[i]);
             }
 
-            this.choiceBanPresets.setBounds(this.width - this.insets.right - 15 - 100, this.insets.top + 10 + 25 + 20, 100, 20);
+            this.choiceBanPresets.setBounds(
+                    this.width - this.insets.right - 15 - 100, this.insets.top + 10 + 25 + 20, 100, 20);
             this.choiceBanPresets.setBackground(Color.white);
             this.choiceBanPresets.setForeground(Color.black);
             this.choiceBanPresets.select(0);
@@ -262,7 +265,8 @@ class StaffActionFrame extends Frame implements WindowListener, ItemListener, Ke
             this.choiceDefaultMessages.addItem("Bad nickname");
             this.choiceDefaultMessages.addItem("Sex messages");
             this.choiceDefaultMessages.addItem("Cursing/Flooding");
-            this.choiceDefaultMessages.setBounds(this.insets.left + 10 + 80 + 5 + 140 + 5, this.insets.top + 10 + 25 + 20 + 25 + 5, 170, 23);
+            this.choiceDefaultMessages.setBounds(
+                    this.insets.left + 10 + 80 + 5 + 140 + 5, this.insets.top + 10 + 25 + 20 + 25 + 5, 170, 23);
             this.choiceDefaultMessages.setBackground(Color.white);
             this.choiceDefaultMessages.setForeground(Color.black);
             this.choiceDefaultMessages.select(0);
@@ -325,7 +329,9 @@ class StaffActionFrame extends Frame implements WindowListener, ItemListener, Ke
 
             return this.textManager.getShared("SDM_BadNick" + (isRegistered ? "Reg" : "Worm"));
         } else {
-            return messageIndex == 2 ? this.textManager.getShared("SDM_SexMessages") : (messageIndex == 3 ? this.textManager.getShared("SDM_BadMessages") : null);
+            return messageIndex == 2
+                    ? this.textManager.getShared("SDM_SexMessages")
+                    : (messageIndex == 3 ? this.textManager.getShared("SDM_BadMessages") : null);
         }
     }
 
@@ -355,7 +361,8 @@ class StaffActionFrame extends Frame implements WindowListener, ItemListener, Ke
             targetNick = this.textFieldNickname.getInputText(false);
             String message = this.textFieldMessage.getInputText(false);
             if (targetNick.length() > 0 && message.length() > 0) {
-                this.userListHandler.adminCommand("message" + (this.cboxAddIP.getState() ? "ip" : ""), targetNick, message);
+                this.userListHandler.adminCommand(
+                        "message" + (this.cboxAddIP.getState() ? "ip" : ""), targetNick, message);
             }
         } else if (this.actionType == 3) {
             targetNick = this.textFieldNickname.getInputText(false);

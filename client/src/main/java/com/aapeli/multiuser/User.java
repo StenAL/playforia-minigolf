@@ -3,7 +3,6 @@ package com.aapeli.multiuser;
 import com.aapeli.client.ImageManager;
 import com.aapeli.colorgui.ColorList;
 import com.aapeli.colorgui.ColorListItem;
-
 import java.awt.Image;
 
 public final class User {
@@ -23,7 +22,6 @@ public final class User {
     private ColorListItem colorListItem;
     private String profilePage;
     public static boolean aBoolean1684;
-
 
     public User(String nick, boolean isLocal, boolean isRegistered, boolean isVip, boolean isSheriff) {
         this(nick, isLocal, isRegistered, isVip, isSheriff, -1);
@@ -104,7 +102,6 @@ public final class User {
         if (colorList != null) {
             colorList.repaint();
         }
-
     }
 
     public Image getAfterNickIcon() {

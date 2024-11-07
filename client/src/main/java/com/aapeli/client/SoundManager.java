@@ -1,7 +1,6 @@
 package com.aapeli.client;
 
 import com.aapeli.applet.AApplet;
-
 import java.applet.AudioClip;
 import java.net.URL;
 import java.util.Hashtable;
@@ -11,14 +10,14 @@ public final class SoundManager implements Runnable {
     private static final String[] methodLookup = {"stop", "play", "loop"};
     private AApplet applet;
     private URL sharedSoundDir;
-    private final boolean loadSoundClipsOnRegister; // if false, users must call startLoading() to bulk load all registered sound clips
+    private final boolean loadSoundClipsOnRegister; // if false, users must call startLoading() to bulk load all
+    // registered sound clips
     private final boolean debug;
     private boolean startupDebug;
     private Hashtable<Integer, SoundClip> clientSounds;
     private Hashtable<String, SoundClip> sharedSounds;
     private boolean clipLoaderThreadRunning;
     public int audioChoicerIndex;
-
 
     public SoundManager(AApplet applet) {
         this(applet, true, false);
@@ -42,7 +41,6 @@ public final class SoundManager implements Runnable {
         if (loadClipsOnRegister) {
             this.loadAllSoundClips();
         }
-
     }
 
     @Override
@@ -54,14 +52,14 @@ public final class SoundManager implements Runnable {
         boolean anySoundClipsNotDefined;
         do {
             anySoundClipsNotDefined = false;
-            for (SoundClip soundClip: this.clientSounds.values()) {
+            for (SoundClip soundClip : this.clientSounds.values()) {
                 if (!soundClip.isDefined()) {
                     soundClip.defineClip();
                     anySoundClipsNotDefined = true;
                 }
             }
 
-            for (SoundClip soundClip: this.sharedSounds.values()) {
+            for (SoundClip soundClip : this.sharedSounds.values()) {
                 if (!soundClip.isDefined()) {
                     soundClip.defineClip();
                     anySoundClipsNotDefined = true;
@@ -73,7 +71,6 @@ public final class SoundManager implements Runnable {
         if (this.debug) {
             System.out.println("SoundManager.run(): Thread finished");
         }
-
     }
 
     public void defineSharedSoundClip(String filename) {
@@ -96,7 +93,6 @@ public final class SoundManager implements Runnable {
         if (this.loadSoundClipsOnRegister) {
             this.loadAllSoundClips();
         }
-
     }
 
     public void startLoading() {
@@ -251,10 +247,15 @@ public final class SoundManager implements Runnable {
                         audioClip.loop();
                     }
                 } else if (this.debug) {
-                    System.out.println("SoundManager." + methodLookup[methodIndex] + "(\"" + clipName + "\"): AudioClip not ready!");
+                    System.out.println("SoundManager."
+                            + methodLookup[methodIndex]
+                            + "(\""
+                            + clipName
+                            + "\"): AudioClip not ready!");
                 }
             } else if (this.debug) {
-                System.out.println("SoundManager." + methodLookup[methodIndex] + "(\"" + clipName + "\"): SoundClip not found!");
+                System.out.println(
+                        "SoundManager." + methodLookup[methodIndex] + "(\"" + clipName + "\"): SoundClip not found!");
                 Thread.dumpStack();
             }
         } catch (Exception var5) {
@@ -262,6 +263,5 @@ public final class SoundManager implements Runnable {
         } catch (Error var6) {
             System.out.println("SoundManager: Unexpected error \"" + var6 + "\" when playing \"" + clipName + "\"");
         }
-
     }
 }

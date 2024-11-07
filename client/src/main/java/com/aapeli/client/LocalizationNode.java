@@ -11,7 +11,6 @@ class LocalizationNode {
     private String zero;
     private final TextManager textManager;
 
-
     protected LocalizationNode(TextManager textManager, String language, XmlUnit unit, boolean reversed) {
         this.textManager = textManager;
         this.language = language.substring(0, 2).toLowerCase();
@@ -23,7 +22,6 @@ class LocalizationNode {
             this.plural = Tools.reverse(this.plural);
             this.zero = Tools.reverse(this.zero);
         }
-
     }
 
     protected String getLocalization(int quantity) {
@@ -41,5 +39,4 @@ class LocalizationNode {
 
         return this.singular;
     }
-
 }

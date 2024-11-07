@@ -1,6 +1,5 @@
 package com.aapeli.multiuser;
 
-
 public interface UserListHandler {
 
     void openPlayerCard(String var1);

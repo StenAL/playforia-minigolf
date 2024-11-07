@@ -1,11 +1,5 @@
 package org.moparforia.shared.tracks.parsers;
 
-import org.moparforia.shared.tracks.Track;
-import org.moparforia.shared.tracks.TrackCategory;
-import org.moparforia.shared.tracks.filesystem.FileSystemTrackStats;
-import org.moparforia.shared.tracks.filesystem.lineparser.*;
-import org.moparforia.shared.tracks.stats.TrackStats;
-
 import java.io.IOException;
 import java.nio.file.Path;
 import java.time.LocalDate;
@@ -13,22 +7,22 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import org.moparforia.shared.tracks.Track;
+import org.moparforia.shared.tracks.TrackCategory;
+import org.moparforia.shared.tracks.filesystem.FileSystemTrackStats;
+import org.moparforia.shared.tracks.filesystem.lineparser.*;
+import org.moparforia.shared.tracks.stats.TrackStats;
 
 /**
- * Class for parsing Track V2 file which has this format.
- * It differs from V1 file format in that it include list of categories
- * There is intentional code duplication from TrackFileParser because I want to make them independent of each other as
- * TrackFileParser is deprecated
+ * Class for parsing Track V2 file which has this format. It differs from V1 file format in that it
+ * include list of categories There is intentional code duplication from TrackFileParser because I
+ * want to make them independent of each other as TrackFileParser is deprecated
  *
- * V >=2
- * A {AUTHOR OF TRACK}
- * N {NAME OF TRACK}
- * T data
- * C {CategoryId}, {CategoryId}, ...
- * I {NUMBER OF PLAYERS TO COMPLETE},{NUMBER OF STROKES},{BEST NUMBER OF STROKES},{NUMBER OF PEOPLE THAT GOT BEST STROKE}
- * B {FIRST BEST PAR PLAYER},{UNIX TIMESTAMP OF FIRST BEST PAR}000
- * L {LAST BEST PAR PLAYER},{UNIX TIMESTAMP OF LAST BEST PAR}000
- * R {RATING: 0},{RATING: 1},{RATING: 2},{RATING: 3},{RATING: 4},{RATING: 5},{RATING: 6},{RATING: 7},{RATING: 8},{RATING: 9},{RATING: 10}
+ * <p>V >=2 A {AUTHOR OF TRACK} N {NAME OF TRACK} T data C {CategoryId}, {CategoryId}, ... I {NUMBER
+ * OF PLAYERS TO COMPLETE},{NUMBER OF STROKES},{BEST NUMBER OF STROKES},{NUMBER OF PEOPLE THAT GOT
+ * BEST STROKE} B {FIRST BEST PAR PLAYER},{UNIX TIMESTAMP OF FIRST BEST PAR}000 L {LAST BEST PAR
+ * PLAYER},{UNIX TIMESTAMP OF LAST BEST PAR}000 R {RATING: 0},{RATING: 1},{RATING: 2},{RATING:
+ * 3},{RATING: 4},{RATING: 5},{RATING: 6},{RATING: 7},{RATING: 8},{RATING: 9},{RATING: 10}
  */
 public class VersionedTrackFileParser extends GenericTrackParser implements TrackParser {
     public static final int DEFAULT_ALLOWED_FILE_VERSION = 2;
@@ -36,8 +30,7 @@ public class VersionedTrackFileParser extends GenericTrackParser implements Trac
     protected static final Map<Character, LineParser> STATS_PARSERS;
 
     // Initialize parser with all LineParsers
-    static
-    {
+    static {
         HashMap<Character, LineParser> tmp_map = new HashMap<>();
         tmp_map.put('V', new SingleArgumentLineParser<>("version", Integer::parseInt));
         tmp_map.put('A', new SimpleLineParser("author"));
@@ -48,8 +41,8 @@ public class VersionedTrackFileParser extends GenericTrackParser implements Trac
         tmp_map.put('R', new RatingsLineParser());
         tmp_map.put('I', new ScoreInfoLineParser());
         tmp_map.put('B', new BestTimeLineParser("bestTime", "bestPlayer"));
-//      Uncomment if you want to also parse lastTime and lastPlayer
-//      tmp_map.put("L", new BestTimeLineParser("lastTime", "lastPlayer"));
+        //      Uncomment if you want to also parse lastTime and lastPlayer
+        //      tmp_map.put("L", new BestTimeLineParser("lastTime", "lastPlayer"));
         STATS_PARSERS = Collections.unmodifiableMap(tmp_map);
     }
 
@@ -67,7 +60,12 @@ public class VersionedTrackFileParser extends GenericTrackParser implements Trac
         Map<String, Object> parsed = parse(BASE_PARSERS, path);
         int version = (int) parsed.getOrDefault("version", 0);
         if (version < allowed_version) {
-            throw new InvalidTrackVersion("Track in file " + path + " has unsupported version " + version + ", while this parser requires " + allowed_version);
+            throw new InvalidTrackVersion("Track in file "
+                    + path
+                    + " has unsupported version "
+                    + version
+                    + ", while this parser requires "
+                    + allowed_version);
         }
         return constructTrack(parsed);
     }
@@ -85,7 +83,12 @@ public class VersionedTrackFileParser extends GenericTrackParser implements Trac
         Map<String, Object> parsed = parse(STATS_PARSERS, path);
         int version = (int) parsed.getOrDefault("version", 0);
         if (version < allowed_version) {
-            throw new InvalidTrackVersion("Track in file " + path + " has unsupported version " + version + ", while this parser requires " + allowed_version);
+            throw new InvalidTrackVersion("Track in file "
+                    + path
+                    + " has unsupported version "
+                    + version
+                    + ", while this parser requires "
+                    + allowed_version);
         }
         Track track = constructTrack(parsed);
         int[] ratings = (int[]) parsed.getOrDefault("ratings", new int[10]);
@@ -101,7 +104,6 @@ public class VersionedTrackFileParser extends GenericTrackParser implements Trac
         double bestParPercentage = (double) numberOfBestPar / attempts;
 
         return new FileSystemTrackStats(
-                attempts, strokes, bestPar, bestParPercentage, numberOfBestPar, bestPlayer, bestTime, ratings, track
-        );
+                attempts, strokes, bestPar, bestParPercentage, numberOfBestPar, bestPlayer, bestTime, ratings, track);
     }
 }

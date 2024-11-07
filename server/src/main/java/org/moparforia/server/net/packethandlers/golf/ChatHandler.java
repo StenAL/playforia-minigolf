@@ -1,5 +1,7 @@
 package org.moparforia.server.net.packethandlers.golf;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import org.moparforia.server.Server;
 import org.moparforia.server.game.Game;
 import org.moparforia.server.game.Player;
@@ -8,9 +10,6 @@ import org.moparforia.server.net.Packet;
 import org.moparforia.server.net.PacketHandler;
 import org.moparforia.server.net.PacketType;
 import org.moparforia.shared.Tools;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class ChatHandler implements PacketHandler {
     @Override
@@ -39,19 +38,33 @@ public class ChatHandler implements PacketHandler {
             for (Player otherPlayer : destination.getPlayers()) {
                 if (player != otherPlayer) {
                     if (message.group(1).equals("game")) {
-                        otherPlayer.getChannel().writeAndFlush(new Packet(PacketType.DATA,
-                                Tools.tabularize("game", "say", ((Game) destination).getPlayerId(player), message.group(3))));
+                        otherPlayer
+                                .getChannel()
+                                .writeAndFlush(new Packet(
+                                        PacketType.DATA,
+                                        Tools.tabularize(
+                                                "game",
+                                                "say",
+                                                ((Game) destination).getPlayerId(player),
+                                                message.group(3))));
                     } else {
-                        otherPlayer.getChannel().writeAndFlush(new Packet(PacketType.DATA,
-                                Tools.tabularize("lobby", "say", message.group(3), player.getNick(), message.group(4))));
+                        otherPlayer
+                                .getChannel()
+                                .writeAndFlush(new Packet(
+                                        PacketType.DATA,
+                                        Tools.tabularize(
+                                                "lobby", "say", message.group(3), player.getNick(), message.group(4))));
                     }
                 }
             }
         } else if (message.group(2).equals("sayp")) {
             for (Player otherPlayer : destination.getPlayers()) {
                 if (otherPlayer.getNick().equals(message.group(3))) {
-                    otherPlayer.getChannel().writeAndFlush(new Packet(PacketType.DATA,
-                            Tools.tabularize(message.group(1), "sayp", player.getNick(), message.group(4))));
+                    otherPlayer
+                            .getChannel()
+                            .writeAndFlush(new Packet(
+                                    PacketType.DATA,
+                                    Tools.tabularize(message.group(1), "sayp", player.getNick(), message.group(4))));
                     break;
                 }
             }

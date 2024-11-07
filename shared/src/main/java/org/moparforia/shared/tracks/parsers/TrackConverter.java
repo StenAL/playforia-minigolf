@@ -1,9 +1,5 @@
 package org.moparforia.shared.tracks.parsers;
 
-import org.moparforia.shared.tracks.Track;
-import org.moparforia.shared.tracks.TrackCategory;
-import org.moparforia.shared.tracks.stats.TrackStats;
-
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.nio.file.DirectoryStream;
@@ -12,9 +8,12 @@ import java.nio.file.Path;
 import java.util.*;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
+import org.moparforia.shared.tracks.Track;
+import org.moparforia.shared.tracks.TrackCategory;
+import org.moparforia.shared.tracks.stats.TrackStats;
 
 public class TrackConverter {
-    private static final Logger logger =  Logger.getLogger(TrackConverter.class.getName());
+    private static final Logger logger = Logger.getLogger(TrackConverter.class.getName());
 
     public static List<TrackStats> loadOldTracks(Path path) throws IOException {
         List<TrackStats> tracks = new ArrayList<>();
@@ -28,14 +27,13 @@ public class TrackConverter {
                 continue;
             }
             TrackFileParser parser = new TrackFileParser(type);
-            DirectoryStream<Path> directoryStream = Files.newDirectoryStream(tracksPath,
-                    entry -> entry.toString().endsWith(".track"));
+            DirectoryStream<Path> directoryStream = Files.newDirectoryStream(
+                    tracksPath, entry -> entry.toString().endsWith(".track"));
             for (Path filePath : directoryStream) {
                 tracks.add(parser.parseStats(filePath));
             }
         }
         return tracks;
-
     }
 
     public static void convertTracks(Path rootDir) throws IOException {
@@ -62,11 +60,12 @@ public class TrackConverter {
             }
             counter++;
         }
-        logger.info("Converted " + counter + " tracks, ignored " + ignored +" tracks");
+        logger.info("Converted " + counter + " tracks, ignored " + ignored + " tracks");
     }
 
     /**
      * Consolidates categories of duplicate tracks
+     *
      * @param allStats List of all TrackStats
      * @return Consolidated collection of TrackStats
      */
@@ -78,8 +77,8 @@ public class TrackConverter {
         return allStats.stream()
                 .filter(stat -> distinct.containsKey(stat.getTrack().getName()))
                 .collect(
-                        Collectors.toMap(stats -> stats.getTrack().getName(), stats -> stats, (first, second) -> first)
-                ).values();
+                        Collectors.toMap(stats -> stats.getTrack().getName(), stats -> stats, (first, second) -> first))
+                .values();
     }
 
     private static Track combineTracks(Track one, Track two) {

@@ -7,7 +7,6 @@ class TimerThread implements Runnable {
     private final PlayerInfoPanel playerInfoPanel;
     private boolean running;
 
-
     protected TimerThread(PlayerInfoPanel playerInfoPanel) {
         this.playerInfoPanel = playerInfoPanel;
         this.running = true;
@@ -23,7 +22,6 @@ class TimerThread implements Runnable {
                 this.running = this.playerInfoPanel.run();
             }
         } while (this.running);
-
     }
 
     protected void stopRunning() {

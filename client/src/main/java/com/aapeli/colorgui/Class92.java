@@ -9,7 +9,6 @@ class Class92 implements Runnable {
     private boolean aBoolean1551;
     private final ColorSpinner aColorSpinner1552;
 
-
     protected Class92(ColorSpinner var1, ColorSpinner var2, int var3) {
         this.aColorSpinner1552 = var1;
         this.aColorSpinner1549 = var2;
@@ -25,7 +24,6 @@ class Class92 implements Runnable {
         if (this.aBoolean1551) {
             this.aColorSpinner1549.method846();
         }
-
     }
 
     protected void method1746() {

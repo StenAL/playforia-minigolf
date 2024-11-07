@@ -4,14 +4,12 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.util.Calendar;
-import java.util.List;
 import java.util.StringTokenizer;
 
 public class Tools {
 
     private static long aLong1731 = -1L;
     private static long aLong1732 = -1L;
-
 
     public static boolean sleep(long var0) {
         if (var0 <= 0L) {
@@ -72,7 +70,12 @@ public class Tools {
                     sb.append('^');
                 } else {
                     if (c != 'd') {
-                        System.out.println("Program error: Tools.changeFromSaveable(\"" + s + "\"), " + "unexpected character '" + c + "' after '$'");
+                        System.out.println("Program error: Tools.changeFromSaveable(\""
+                                + s
+                                + "\"), "
+                                + "unexpected character '"
+                                + c
+                                + "' after '$'");
                         return null;
                     }
 

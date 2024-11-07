@@ -1,8 +1,10 @@
 package org.moparforia.server.game;
 
 public enum GameType {
-
-    GOLF(35), GOLF2(14), CANNONS(24), POOL(41);//, DRAW(16)
+    GOLF(35),
+    GOLF2(14),
+    CANNONS(24),
+    POOL(41); // , DRAW(16)
 
     private final int version;
 

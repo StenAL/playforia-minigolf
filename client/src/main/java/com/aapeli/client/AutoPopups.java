@@ -10,7 +10,6 @@ public class AutoPopups {
     private long aLong1330;
     private static final String aString1331 = "facebook";
 
-
     public AutoPopups(AApplet var1) {
         if (!var1.param.getSiteName().equalsIgnoreCase("facebook")) {
             this.aClass78_1327 = new Class78(var1);
@@ -24,7 +23,6 @@ public class AutoPopups {
         if (!var1.getSiteName().equalsIgnoreCase("facebook")) {
             this.aClass88_1328 = new Class88(var1, var2, var3);
         }
-
     }
 
     public ColorButton getTellFriendButton() {
@@ -49,7 +47,6 @@ public class AutoPopups {
                 if (this.aClass78_1327 != null && this.aClass78_1327.method1600()) {
                     this.method1562();
                 }
-
             }
         }
     }
@@ -60,7 +57,6 @@ public class AutoPopups {
                 if (this.aClass78_1327 != null && this.aClass78_1327.method1601(var1, var2)) {
                     this.method1562();
                 }
-
             }
         }
     }
@@ -74,7 +70,6 @@ public class AutoPopups {
             if (this.aClass88_1328 != null) {
                 this.aClass88_1328.method1701();
             }
-
         }
     }
 
@@ -85,5 +80,4 @@ public class AutoPopups {
     private void method1562() {
         this.aLong1330 = System.currentTimeMillis();
     }
-
 }

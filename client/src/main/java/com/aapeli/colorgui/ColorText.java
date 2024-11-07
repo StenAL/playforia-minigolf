@@ -9,7 +9,6 @@ class ColorText {
     private String text;
     private boolean bold;
 
-
     public ColorText(Color color, String text, boolean bold) {
         this.created = System.currentTimeMillis();
         this.color = color;

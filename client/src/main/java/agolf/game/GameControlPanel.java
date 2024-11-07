@@ -4,7 +4,6 @@ import agolf.GameApplet;
 import agolf.GameContainer;
 import com.aapeli.colorgui.Choicer;
 import com.aapeli.colorgui.ColorButton;
-
 import java.awt.Checkbox;
 import java.awt.Graphics;
 import java.awt.Panel;
@@ -26,7 +25,6 @@ class GameControlPanel extends Panel implements ActionListener, ItemListener {
     private Choicer playerNamesDisplayModeChoicer;
     private Checkbox checkboxMaxFps;
     private boolean skipButtonVisible;
-
 
     protected GameControlPanel(GameContainer var1, PlayerInfoPanel var2, int var3, int var4) {
         this.gameContainer = var1;
@@ -80,9 +78,9 @@ class GameControlPanel extends Panel implements ActionListener, ItemListener {
 
     public void itemStateChanged(ItemEvent event) {
         if (event.getSource() == this.playerNamesDisplayModeChoicer) {
-            this.gameContainer.gamePanel.setPlayerNamesDisplayMode(this.playerNamesDisplayModeChoicer.getSelectedIndex());
+            this.gameContainer.gamePanel.setPlayerNamesDisplayMode(
+                    this.playerNamesDisplayModeChoicer.getSelectedIndex());
         }
-
     }
 
     protected void setPlayerCount(int var1) {
@@ -130,7 +128,8 @@ class GameControlPanel extends Panel implements ActionListener, ItemListener {
                 this.playerNamesDisplayModeChoicer = new Choicer();
 
                 for (int option = 0; option < 4; ++option) {
-                    this.playerNamesDisplayModeChoicer.addItem(this.gameContainer.textManager.getGame("GameControl_Names" + option));
+                    this.playerNamesDisplayModeChoicer.addItem(
+                            this.gameContainer.textManager.getGame("GameControl_Names" + option));
                 }
 
                 this.playerNamesDisplayModeChoicer.select(this.playerCount <= 2 ? 0 : 3);

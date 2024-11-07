@@ -13,7 +13,6 @@ class Class84 implements Runnable {
     private boolean aBoolean1414;
     private final IPanel anIPanel1415;
 
-
     protected Class84(IPanel var1, IPanel var2, ImageManager var3, String var4, int var5, int var6, boolean var7) {
         this.anIPanel1415 = var1;
         this.anIPanel1408 = var2;
@@ -39,7 +38,6 @@ class Class84 implements Runnable {
         if (this.aBoolean1414) {
             this.anIPanel1408.setBackground(var1, this.anInt1411, this.anInt1412);
         }
-
     }
 
     protected void method1653() {

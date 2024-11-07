@@ -1,9 +1,11 @@
 package org.moparforia.client;
 
 import com.aapeli.multiuser.UsernameValidator;
-import org.moparforia.shared.ManifestVersionProvider;
-import picocli.CommandLine;
-
+import java.awt.GridLayout;
+import java.awt.Image;
+import java.io.IOException;
+import java.text.ParseException;
+import java.util.concurrent.Callable;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -13,48 +15,51 @@ import javax.swing.JPasswordField;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
-import java.awt.GridLayout;
-import java.awt.Image;
-import java.io.IOException;
-import java.text.ParseException;
-import java.util.concurrent.Callable;
-
+import org.moparforia.shared.ManifestVersionProvider;
+import picocli.CommandLine;
 
 @CommandLine.Command(
         description = "Starts Minigolf Client",
         name = "client",
         mixinStandardHelpOptions = true,
-        versionProvider = ManifestVersionProvider.class
-)
+        versionProvider = ManifestVersionProvider.class)
 public class Launcher implements Callable<Integer> {
 
     public static final String DEFAULT_SERVER = "127.0.0.1";
     public static final int DEFAULT_PORT = 4242;
 
     // CLI options
-    @CommandLine.Option(names = {"--hostname", "-ip"},
+    @CommandLine.Option(
+            names = {"--hostname", "-ip"},
             description = "Sets server hostname",
             defaultValue = "")
     private String hostname;
 
-    @CommandLine.Option(names = {"--port", "-p"},
+    @CommandLine.Option(
+            names = {"--port", "-p"},
             description = "Sets server port",
             defaultValue = "0")
     private int port;
 
-    @CommandLine.Option(names = {"--lang", "-l"},
+    @CommandLine.Option(
+            names = {"--lang", "-l"},
             description = "Sets language of the game, available values:\n ${COMPLETION-CANDIDATES}",
             defaultValue = "en_us")
     private Language lang;
 
-    @CommandLine.Option(names = {"--username", "-u"},
+    @CommandLine.Option(
+            names = {"--username", "-u"},
             description = "Sets the username to use when connecting to the server")
     private String username;
 
-    @CommandLine.Option(names = {"--verbose", "-v"}, description = "Set if you want verbose information")
+    @CommandLine.Option(
+            names = {"--verbose", "-v"},
+            description = "Set if you want verbose information")
     private static boolean verbose = false;
 
-    @CommandLine.Option(names = {"--norandom", "-n"}, description = "Set if you want to disable randomization for shots")
+    @CommandLine.Option(
+            names = {"--norandom", "-n"},
+            description = "Set if you want to disable randomization for shots")
     private static boolean norandom = false;
 
     public static boolean debug() {
@@ -62,14 +67,12 @@ public class Launcher implements Callable<Integer> {
     }
 
     public static boolean isUsingCustomServer() {
-        return true;//instance.serverBox.isSelected();
+        return true; // instance.serverBox.isSelected();
     }
 
     public static void main(String... args) {
         Launcher launcher = new Launcher();
-        new CommandLine(launcher)
-                .setCaseInsensitiveEnumValuesAllowed(true)
-                .execute(args);
+        new CommandLine(launcher).setCaseInsensitiveEnumValuesAllowed(true).execute(args);
     }
 
     public boolean showSettingDialog(JFrame frame, String server, int port) throws ParseException {
@@ -83,8 +86,8 @@ public class Launcher implements Callable<Integer> {
         pane.add(serverField);
 
         JSpinner portSpinner = new JSpinner();
-        portSpinner.setModel(new SpinnerNumberModel(port,1, Integer.MAX_VALUE,1));
-        JSpinner.NumberEditor editor = new JSpinner.NumberEditor(portSpinner,"#");
+        portSpinner.setModel(new SpinnerNumberModel(port, 1, Integer.MAX_VALUE, 1));
+        JSpinner.NumberEditor editor = new JSpinner.NumberEditor(portSpinner, "#");
         // Align spinner values to the left
         editor.getTextField().setHorizontalAlignment(JTextField.LEFT);
         portSpinner.setEditor(editor);
@@ -102,6 +105,7 @@ public class Launcher implements Callable<Integer> {
             return false;
         }
     }
+
     private String[] login(JFrame frame) {
         JPanel pane = new JPanel();
         pane.setLayout(new GridLayout(2, 2));
@@ -119,15 +123,14 @@ public class Launcher implements Callable<Integer> {
         if (option == JOptionPane.OK_OPTION) {
             String user = userField.getText();
             String pass = new String(passField.getPassword());
-            return new String[]{user, pass};
+            return new String[] {user, pass};
         } else {
-            return new String[]{null, null};
+            return new String[] {null, null};
         }
-
     }
 
     @Override
-    public Integer call() throws Exception{
+    public Integer call() throws Exception {
         JFrame frame = createFrame();
         if (hostname.isEmpty() || port == 0) {
             // Determine which of these was actually false
@@ -158,7 +161,14 @@ public class Launcher implements Callable<Integer> {
         return frame;
     }
 
-    public Game launchGame(JFrame frame, String hostname, int port, Language lang, String username, boolean verbose, boolean norandom) {
+    public Game launchGame(
+            JFrame frame,
+            String hostname,
+            int port,
+            Language lang,
+            String username,
+            boolean verbose,
+            boolean norandom) {
         return new Game(frame, hostname, port, lang.toString(), username, verbose, norandom);
     }
 

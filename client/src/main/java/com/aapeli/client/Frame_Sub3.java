@@ -18,7 +18,6 @@ abstract class Frame_Sub3 extends Frame implements WindowListener {
     private int anInt189;
     private Color aColor190;
 
-
     protected Frame_Sub3(TextManager var1) {
         this.aTextManager187 = var1;
         this.anInt188 = this.anInt189 = 0;
@@ -38,30 +37,23 @@ abstract class Frame_Sub3 extends Frame implements WindowListener {
             var1.setColor(this.aColor190);
             var1.fillRect(0, 0, this.anInt188, this.anInt189);
         }
-
     }
 
-    public void windowOpened(WindowEvent var1) {
-    }
+    public void windowOpened(WindowEvent var1) {}
 
-    public void windowClosed(WindowEvent var1) {
-    }
+    public void windowClosed(WindowEvent var1) {}
 
     public void windowClosing(WindowEvent var1) {
         this.close();
     }
 
-    public void windowActivated(WindowEvent var1) {
-    }
+    public void windowActivated(WindowEvent var1) {}
 
-    public void windowDeactivated(WindowEvent var1) {
-    }
+    public void windowDeactivated(WindowEvent var1) {}
 
-    public void windowIconified(WindowEvent var1) {
-    }
+    public void windowIconified(WindowEvent var1) {}
 
-    public void windowDeiconified(WindowEvent var1) {
-    }
+    public void windowDeiconified(WindowEvent var1) {}
 
     protected void method238(Component var1, String var2, Panel var3) {
         this.setTitle(var2);

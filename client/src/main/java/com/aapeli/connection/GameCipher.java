@@ -1,10 +1,8 @@
 package com.aapeli.connection;
 
-
 public class GameCipher {
 
     private String[] cmds;
-
 
     public GameCipher(String[] cmds) {
         this.cmds = this.sortCmds(cmds);
@@ -25,7 +23,7 @@ public class GameCipher {
         return cmdsLengthMod;
     }
 
-    public String encrypt(String input) {// encrypt values found in this.cmds
+    public String encrypt(String input) { // encrypt values found in this.cmds
         char flagChar = this.findUnusedFlagChar(input);
         if (flagChar == 0) {
             return " " + input;
@@ -37,7 +35,10 @@ public class GameCipher {
 
                 while ((lastIndex = input.indexOf(this.cmds[cmdIndex], lastIndex)) >= 0) {
                     if (!this.containsChar(input, lastIndex, flagChar)) {
-                        input = input.substring(0, lastIndex) + flagChar + (char) (' ' + cmdIndex) + input.substring(lastIndex + this.cmds[cmdIndex].length());
+                        input = input.substring(0, lastIndex)
+                                + flagChar
+                                + (char) (' ' + cmdIndex)
+                                + input.substring(lastIndex + this.cmds[cmdIndex].length());
                         lastIndex += 2;
                     } else {
                         ++lastIndex;
@@ -58,7 +59,9 @@ public class GameCipher {
         } else {
             int charIndex;
             while ((charIndex = input.indexOf(firstChar)) >= 0) {
-                input = input.substring(0, charIndex) + this.cmds[input.charAt(charIndex + 1) - 32] + input.substring(charIndex + 2);
+                input = input.substring(0, charIndex)
+                        + this.cmds[input.charAt(charIndex + 1) - 32]
+                        + input.substring(charIndex + 2);
             }
 
             return input;
@@ -109,7 +112,7 @@ public class GameCipher {
     }
 
     private boolean containsChar(String input, int pos, char c) {
-        //return pos == 0 ? false : input.charAt(pos - 1) == c;
+        // return pos == 0 ? false : input.charAt(pos - 1) == c;
         return pos != 0 && input.charAt(pos - 1) == c;
     }
 }

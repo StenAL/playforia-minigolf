@@ -4,12 +4,11 @@
 
 package org.moparforia.editor;
 
-import org.moparforia.shared.tracks.TrackCategory;
-
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.border.*;
+import org.moparforia.shared.tracks.TrackCategory;
 
 /**
  * @author Johan Ljungberg
@@ -27,16 +26,18 @@ public class TrackPropertiesDialog extends JDialog {
     }
 
     private void loadValues() {
-        textTrackName.setText(((TrackEditor)getOwner()).getMapCanvas().getTrackName());
+        textTrackName.setText(((TrackEditor) getOwner()).getMapCanvas().getTrackName());
         comboTrackCategory.setSelectedIndex(TrackCategory.BASIC.getId());
     }
 
     private void okButtonActionPerformed(ActionEvent e) {
-        if(textTrackName.getText().equals("")) {
+        if (textTrackName.getText().equals("")) {
             JOptionPane.showMessageDialog(this, "Track name cannot be empty!", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        ((TrackEditor)getOwner()).getMapCanvas().updateProperties(textTrackName.getText(), comboTrackCategory.getSelectedIndex() + 1);
+        ((TrackEditor) getOwner())
+                .getMapCanvas()
+                .updateProperties(textTrackName.getText(), comboTrackCategory.getSelectedIndex() + 1);
         this.dispose();
     }
 
@@ -58,7 +59,7 @@ public class TrackPropertiesDialog extends JDialog {
         okButton = new JButton();
         cancelButton = new JButton();
 
-        //======== this ========
+        // ======== this ========
         setTitle("Track Properties");
         setAlwaysOnTop(true);
         setResizable(false);
@@ -67,62 +68,55 @@ public class TrackPropertiesDialog extends JDialog {
         Container contentPane = getContentPane();
         contentPane.setLayout(new BorderLayout());
 
-        //======== dialogPane ========
+        // ======== dialogPane ========
         {
             dialogPane.setBorder(new EmptyBorder(12, 12, 12, 12));
             dialogPane.setLayout(new BorderLayout());
 
-            //======== contentPanel ========
+            // ======== contentPanel ========
             {
                 contentPanel.setLayout(new GridLayout(0, 1));
 
-                //======== panel2 ========
+                // ======== panel2 ========
                 {
                     panel2.setLayout(new FlowLayout());
 
-                    //---- label3 ----
+                    // ---- label3 ----
                     label3.setText("Track Name:");
                     panel2.add(label3);
 
-                    //---- textTrackName ----
+                    // ---- textTrackName ----
                     textTrackName.setPreferredSize(new Dimension(200, 20));
                     panel2.add(textTrackName);
                 }
                 contentPanel.add(panel2);
 
-                //======== panel1 ========
+                // ======== panel1 ========
                 {
                     panel1.setLayout(new FlowLayout());
 
-                    //---- label2 ----
+                    // ---- label2 ----
                     label2.setText("Track Category");
                     panel1.add(label2);
 
-                    //---- comboTrackCategory ----
+                    // ---- comboTrackCategory ----
                     comboTrackCategory.setPreferredSize(new Dimension(200, 20));
-                    comboTrackCategory.setModel(new DefaultComboBoxModel<>(new String[] {
-                        "Basic",
-                        "Traditional",
-                        "Modern",
-                        "Hole In One",
-                        "Short",
-                        "Long",
-                        "Custom"
-                    }));
+                    comboTrackCategory.setModel(new DefaultComboBoxModel<>(
+                            new String[] {"Basic", "Traditional", "Modern", "Hole In One", "Short", "Long", "Custom"}));
                     panel1.add(comboTrackCategory);
                 }
                 contentPanel.add(panel1);
             }
             dialogPane.add(contentPanel, BorderLayout.CENTER);
 
-            //======== buttonBar ========
+            // ======== buttonBar ========
             {
                 buttonBar.setBorder(new EmptyBorder(12, 0, 0, 0));
                 buttonBar.setLayout(new GridBagLayout());
-                ((GridBagLayout)buttonBar.getLayout()).columnWidths = new int[] {0, 85, 80};
-                ((GridBagLayout)buttonBar.getLayout()).columnWeights = new double[] {1.0, 0.0, 0.0};
+                ((GridBagLayout) buttonBar.getLayout()).columnWidths = new int[] {0, 85, 80};
+                ((GridBagLayout) buttonBar.getLayout()).columnWeights = new double[] {1.0, 0.0, 0.0};
 
-                //---- okButton ----
+                // ---- okButton ----
                 okButton.setText("OK");
                 okButton.addActionListener(new ActionListener() {
                     @Override
@@ -130,11 +124,22 @@ public class TrackPropertiesDialog extends JDialog {
                         okButtonActionPerformed(e);
                     }
                 });
-                buttonBar.add(okButton, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
-                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                    new Insets(0, 0, 0, 5), 0, 0));
+                buttonBar.add(
+                        okButton,
+                        new GridBagConstraints(
+                                1,
+                                0,
+                                1,
+                                1,
+                                0.0,
+                                0.0,
+                                GridBagConstraints.CENTER,
+                                GridBagConstraints.BOTH,
+                                new Insets(0, 0, 0, 5),
+                                0,
+                                0));
 
-                //---- cancelButton ----
+                // ---- cancelButton ----
                 cancelButton.setText("Cancel");
                 cancelButton.addActionListener(new ActionListener() {
                     @Override
@@ -142,9 +147,20 @@ public class TrackPropertiesDialog extends JDialog {
                         cancelButtonActionPerformed(e);
                     }
                 });
-                buttonBar.add(cancelButton, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0,
-                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                    new Insets(0, 0, 0, 0), 0, 0));
+                buttonBar.add(
+                        cancelButton,
+                        new GridBagConstraints(
+                                2,
+                                0,
+                                1,
+                                1,
+                                0.0,
+                                0.0,
+                                GridBagConstraints.CENTER,
+                                GridBagConstraints.BOTH,
+                                new Insets(0, 0, 0, 0),
+                                0,
+                                0));
             }
             dialogPane.add(buttonBar, BorderLayout.SOUTH);
         }

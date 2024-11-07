@@ -10,7 +10,6 @@ public final class TabBarItem {
     private int anInt1593;
     private boolean aBoolean1594;
 
-
     public TabBarItem(TabBar var1, String var2, Component var3) {
         this(var1, null, var2, var3);
     }

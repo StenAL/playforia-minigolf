@@ -1,7 +1,6 @@
 package com.aapeli.colorgui;
 
 import com.aapeli.client.IPanel;
-
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -101,7 +100,17 @@ public class ColorButton extends IPanel implements MouseMotionListener, MouseLis
         if (this.anImage3260 != null && this.anImage3261 != null) {
             Image var17 = var5 ? this.anImage3261 : this.anImage3260;
             if (!this.aBoolean3271) {
-                this.aGraphics3282.drawImage(var17, 0, 0, var3, var4, this.anInt3265, this.anInt3266, this.anInt3265 + var3, this.anInt3266 + var4, this);
+                this.aGraphics3282.drawImage(
+                        var17,
+                        0,
+                        0,
+                        var3,
+                        var4,
+                        this.anInt3265,
+                        this.anInt3266,
+                        this.anInt3265 + var3,
+                        this.anInt3266 + var4,
+                        this);
             } else {
                 this.aGraphics3282.drawImage(var17, 0, 0, var3, var4, this);
             }
@@ -121,7 +130,11 @@ public class ColorButton extends IPanel implements MouseMotionListener, MouseLis
 
         this.drawBorder(this.aGraphics3282, var3, var4);
         if (this.anImage3262 != null) {
-            this.aGraphics3282.drawImage(this.isNormalState() ? this.anImage3262 : this.anImage3263, this.anInt3267 > 0 ? var3 / 2 - this.anInt3267 / 2 : 0, this.anInt3268 > 0 ? var4 / 2 - this.anInt3268 / 2 : 0, this);
+            this.aGraphics3282.drawImage(
+                    this.isNormalState() ? this.anImage3262 : this.anImage3263,
+                    this.anInt3267 > 0 ? var3 / 2 - this.anInt3267 / 2 : 0,
+                    this.anInt3268 > 0 ? var4 / 2 - this.anInt3268 / 2 : 0,
+                    this);
         }
 
         int var16 = var3 / 2;
@@ -191,17 +204,13 @@ public class ColorButton extends IPanel implements MouseMotionListener, MouseLis
         if (var2) {
             this.processActionEvent();
         }
-
     }
 
-    public void mouseClicked(MouseEvent var1) {
-    }
+    public void mouseClicked(MouseEvent var1) {}
 
-    public void mouseMoved(MouseEvent var1) {
-    }
+    public void mouseMoved(MouseEvent var1) {}
 
-    public void mouseDragged(MouseEvent var1) {
-    }
+    public void mouseDragged(MouseEvent var1) {}
 
     public void setBackground(Color var1) {
         if (var1 == null) {
@@ -283,7 +292,6 @@ public class ColorButton extends IPanel implements MouseMotionListener, MouseLis
         } else {
             this.setIconImage(null, -1, -1);
         }
-
     }
 
     public void setIconImage(Image var1, int var2, int var3) {
@@ -342,7 +350,9 @@ public class ColorButton extends IPanel implements MouseMotionListener, MouseLis
     }
 
     public Dimension getPreferredSize() {
-        return new Dimension(13 + this.getFontMetrics(this.aFont3274).stringWidth(this.aString3272) + 13, 5 + this.aFont3274.getSize() + 5);
+        return new Dimension(
+                13 + this.getFontMetrics(this.aFont3274).stringWidth(this.aString3272) + 13,
+                5 + this.aFont3274.getSize() + 5);
     }
 
     public void addActionListener(ActionListener var1) {
@@ -377,18 +387,15 @@ public class ColorButton extends IPanel implements MouseMotionListener, MouseLis
             this.aBoolean3286 = false;
             this.repaint();
         }
-
     }
 
     public Image createBuffer(int var1, int var2) {
         return this.createImage(var1, var2);
     }
 
-    public void graphicsCreated(Graphics var1) {
-    }
+    public void graphicsCreated(Graphics var1) {}
 
-    public void baseBackgroundDrawn(Graphics var1) {
-    }
+    public void baseBackgroundDrawn(Graphics var1) {}
 
     public boolean isNormalState() {
         return !this.aBoolean3278;
@@ -450,7 +457,6 @@ public class ColorButton extends IPanel implements MouseMotionListener, MouseLis
                 var1.drawLine(0, 0, 0, var3 - 1);
                 var1.drawLine(1, 0, 1, var3 - 2);
             }
-
         }
     }
 
@@ -460,7 +466,7 @@ public class ColorButton extends IPanel implements MouseMotionListener, MouseLis
     }
 
     public Color[] getLightAndDarkBorderColors() {
-        return new Color[]{this.aColor3257, this.aColor3258};
+        return new Color[] {this.aColor3257, this.aColor3258};
     }
 
     private Color method826(Color var1, int var2) {
@@ -521,7 +527,6 @@ public class ColorButton extends IPanel implements MouseMotionListener, MouseLis
             var1.setColor(new Color(var9, var10, var11));
             var1.drawLine(var5, var12, var3 - 1 - var5, var12);
         }
-
     }
 
     private int method828(int var1, int var2) {

@@ -1,13 +1,11 @@
 package com.aapeli.multiuser;
 
-
 public class ChallengeFloodProtection {
 
-    private static final int[] anIntArray1655 = new int[]{1500, 4750, 14500, 30000};
+    private static final int[] anIntArray1655 = new int[] {1500, 4750, 14500, 30000};
     private static final int anInt1656 = anIntArray1655.length;
     private String[] aStringArray1657;
     private long[] aLongArray1658;
-
 
     public ChallengeFloodProtection() {
         this.aStringArray1657 = new String[anInt1656];
@@ -17,7 +15,6 @@ public class ChallengeFloodProtection {
             this.aStringArray1657[var1] = null;
             this.aLongArray1658[var1] = 0L;
         }
-
     }
 
     public boolean isOkToChallenge(String var1) {
@@ -25,7 +22,9 @@ public class ChallengeFloodProtection {
         synchronized (this) {
             int var5;
             for (var5 = 0; var5 < anInt1656; ++var5) {
-                if (this.aStringArray1657[var5] != null && this.aStringArray1657[var5].equals(var1) && var2 < this.aLongArray1658[var5] + (long) anIntArray1655[var5]) {
+                if (this.aStringArray1657[var5] != null
+                        && this.aStringArray1657[var5].equals(var1)
+                        && var2 < this.aLongArray1658[var5] + (long) anIntArray1655[var5]) {
                     return false;
                 }
             }
@@ -40,5 +39,4 @@ public class ChallengeFloodProtection {
             return true;
         }
     }
-
 }

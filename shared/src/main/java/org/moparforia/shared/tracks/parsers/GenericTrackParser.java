@@ -10,12 +10,7 @@ import java.util.stream.Collectors;
 /**
  * Class for parsing files in format of
  *
- * <Character> <String>
- * <Character> <String>
- * ...
- * e.g.
- * V 1
- * T tzetete
+ * <p><Character> <String> <Character> <String> ... e.g. V 1 T tzetete
  */
 public class GenericTrackParser {
 
@@ -23,10 +18,7 @@ public class GenericTrackParser {
         return Files.lines(path)
                 .map(line -> parseLine(parser, line))
                 .flatMap(m -> m.entrySet().stream())
-                .collect(Collectors.toMap(
-                        Map.Entry::getKey,
-                        Map.Entry::getValue)
-                );
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 
     private Map<String, Object> parseLine(Map<Character, LineParser> parsers, String line) {
@@ -36,6 +28,4 @@ public class GenericTrackParser {
         }
         return Collections.emptyMap();
     }
-
-
 }
