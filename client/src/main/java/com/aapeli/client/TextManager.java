@@ -4,38 +4,20 @@ import com.aapeli.tools.EncodedXmlReader;
 import com.aapeli.tools.Tools;
 import com.aapeli.tools.XmlUnit;
 import java.applet.Applet;
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Hashtable;
+import org.moparforia.shared.Locale;
 
 public final class TextManager implements Runnable {
 
     private Parameters parameters;
     private Thread textLoaderThread;
-    private String language;
-    private Hashtable gameTable;
-    private Hashtable sharedTable;
+    private Locale locale;
+    private Hashtable<String, LocalizationNode> gameTable;
+    private Hashtable<String, LocalizationNode> sharedTable;
     private String errorMessage;
-    private boolean useLanguageFiles; // true == use language xml files, false == use locale .loc files
     private boolean debug;
-
-    public TextManager(Applet applet, String var2) {
-        this(applet, var2, false);
-    }
-
-    public TextManager(Applet applet, String var2, boolean debug) {
-        this(debug);
-        this.language = var2;
-        this.useLanguageFiles = false;
-        this.loadTexts(applet);
-    }
 
     public TextManager(Parameters parameters) {
         this(parameters, false, false);
@@ -48,14 +30,7 @@ public final class TextManager implements Runnable {
     public TextManager(Parameters parameters, boolean loadTextsInSeparateThread, boolean debug) {
         this(debug);
         this.parameters = parameters;
-        String language = parameters.getTranslationLang();
-        if (language != null) {
-            this.language = language;
-            this.useLanguageFiles = true;
-        } else {
-            this.language = parameters.getLocale();
-            this.useLanguageFiles = false;
-        }
+        this.locale = parameters.getTranslationLocale();
 
         if (loadTextsInSeparateThread) {
             this.textLoaderThread = new Thread(this);
@@ -67,8 +42,8 @@ public final class TextManager implements Runnable {
 
     private TextManager(boolean debug) {
         this.debug = debug;
-        this.gameTable = new Hashtable();
-        this.sharedTable = new Hashtable();
+        this.gameTable = new Hashtable<>();
+        this.sharedTable = new Hashtable<>();
         this.errorMessage = null;
         this.textLoaderThread = null;
     }
@@ -83,6 +58,11 @@ public final class TextManager implements Runnable {
         if (this.debug) {
             System.out.println("TextManager.run(): Finished loading texts");
         }
+    }
+
+    public void setLocale(Locale locale, Applet applet) {
+        this.locale = locale;
+        this.loadTexts(applet);
     }
 
     public String getGame(String key) {
@@ -333,13 +313,13 @@ public final class TextManager implements Runnable {
             }
 
             this.parameters = null;
-            this.language = null;
+            this.locale = null;
             this.errorMessage = null;
         }
     }
 
-    protected String getLanguage() {
-        return this.language;
+    protected Locale getLocale() {
+        return this.locale;
     }
 
     private String getGame(String key, String[] arguments) {
@@ -540,168 +520,36 @@ public final class TextManager implements Runnable {
 
     protected String getText(String key, int quantity) {
         key = key.toLowerCase();
-        if (this.useLanguageFiles) {
-            LocalizationNode localizationNode = (LocalizationNode) this.gameTable.get(key);
-            return localizationNode == null ? null : localizationNode.getLocalization(quantity);
-        } else {
-            return (String) this.gameTable.get(key);
-        }
+        LocalizationNode localizationNode = this.gameTable.get(key);
+        return localizationNode == null ? null : localizationNode.getLocalization(quantity);
     }
 
     protected String getSharedString(String key, int quantity) {
         key = key.toLowerCase();
-        if (this.useLanguageFiles) {
-            LocalizationNode localizationNode = (LocalizationNode) this.sharedTable.get(key);
-            return localizationNode == null ? null : localizationNode.getLocalization(quantity);
-        } else {
-            return (String) this.sharedTable.get(key);
-        }
+        LocalizationNode localizationNode = this.sharedTable.get(key);
+        return localizationNode == null ? null : localizationNode.getLocalization(quantity);
     }
 
     private void loadTexts(Applet applet) {
-        if (this.useLanguageFiles) {
-            this.loadLanguageFiles(applet);
-        } else {
-            this.loadLocaleFiles(applet);
-        }
+        this.loadLocaleFiles(applet);
     }
 
     private void loadLocaleFiles(Applet applet) {
-        URL codeBase = applet.getCodeBase();
-        this.gameTable = this.loadLocalizationTable(codeBase);
-
-        try {
-            if (FileUtil.isFileUrl(codeBase)) {
-                codeBase = new URL(codeBase, FileUtil.RESOURCE_DIR);
-            } else {
-                codeBase = new URL(codeBase, "../Shared/");
-            }
-        } catch (MalformedURLException e) {
+        String codeBasePath = applet.getCodeBase().toString();
+        if (codeBasePath.endsWith("/")) {
+            codeBasePath = codeBasePath.substring(0, codeBasePath.length() - 1);
         }
 
-        this.sharedTable = this.loadLocalizationTable(codeBase);
-    }
+        int slashLocation = codeBasePath.lastIndexOf('/');
+        String languageDirectoryPath = codeBasePath.substring(0, slashLocation + 1) + "l10n/" + this.locale + "/";
+        String gameFilename = codeBasePath.substring(slashLocation + 1);
 
-    private Hashtable<String, String> loadLocalizationTable(URL baseUrl) {
-        Hashtable<String, String> localizationTable = new Hashtable<>();
-        BufferedReader reader = null;
-        String languageFileName = this.language + ".loc";
-
-        try {
-            URL localeUrl = new URL(baseUrl, "locale/");
-            localeUrl = new URL(localeUrl, languageFileName);
-            InputStream inputStream = localeUrl.openStream();
-
-            InputStreamReader inputStreamReader;
-            try {
-                inputStreamReader = new InputStreamReader(inputStream, "Cp1252");
-            } catch (UnsupportedEncodingException e) {
-                inputStreamReader = new InputStreamReader(inputStream);
-            }
-
-            reader = new BufferedReader(inputStreamReader);
-
-            String line;
-            while ((line = reader.readLine()) != null) {
-                line = line.trim();
-                if (line.length() > 0 && line.charAt(0) != '#') {
-                    int equalSignLocation = line.indexOf('=');
-                    if (equalSignLocation <= 0) {
-                        if (this.debug) {
-                            System.out.println(
-                                    "Missing '='-character in \"" + this.language + "\"-locale file: \"" + line + "\"");
-                            Thread.dumpStack();
-                        }
-                    } else {
-                        String key = line.substring(0, equalSignLocation).trim();
-                        if (key.length() == 0) {
-                            if (this.debug) {
-                                System.out.println(
-                                        "Empty key in \"" + this.language + "\"-locale file: \"" + line + "\"");
-                                Thread.dumpStack();
-                            }
-                        } else {
-                            localizationTable.put(
-                                    key.toLowerCase(),
-                                    line.substring(equalSignLocation + 1).trim());
-                        }
-                    }
-                }
-            }
-        } catch (FileNotFoundException e) {
-            if (this.debug) {
-                System.out.println("Missing localization file \"" + languageFileName + "\"");
-            }
-
-            this.errorMessage = "Texts for '" + this.language + "' not available";
-            localizationTable = null;
-        } catch (Exception e) {
-            if (this.debug) {
-                e.printStackTrace();
-            }
-
-            this.errorMessage = e.toString();
-            localizationTable = null;
-        }
-
-        try {
-            reader.close();
-        } catch (Exception e) {
-        }
-
-        return localizationTable;
-    }
-
-    private void loadLanguageFiles(Applet applet) {
-        URL codeBase = applet.getCodeBase();
-        String var5 = null;
-        int slashLocation = this.language.indexOf('/');
-        if (slashLocation > 0) {
-            var5 = this.language.substring(slashLocation + 1);
-            this.language = this.language.substring(0, slashLocation);
-        }
-
-        String languageDirectory;
-        String gameFilename;
-        String var7;
-        int var8;
-        if (FileUtil.isFileUrl(codeBase)) {
-            var7 = codeBase.toString();
-            var8 = var7.indexOf(':', var7.indexOf(':') + 1) + 2;
-            int var9 = var7.indexOf('/', var8);
-
-            try {
-                URL var10 = new URL(codeBase, FileUtil.LANGUAGE_DIR);
-                var10 = new URL(var10, this.language + "/");
-                languageDirectory = var10.toExternalForm();
-            } catch (MalformedURLException e) {
-                languageDirectory = "file:" + FileUtil.LANGUAGE_DIR + this.language + "/";
-            }
-
-            gameFilename = var7.substring(var8, var9);
-        } else {
-            var7 = codeBase.toString();
-            var8 = var7.length();
-            if (var7.charAt(var8 - 1) == '/') {
-                var7 = var7.substring(0, var8 - 1);
-                --var8;
-            }
-
-            int slashLocation2 = var7.lastIndexOf('/');
-            languageDirectory = var7.substring(0, slashLocation2 + 1) + "l10n/" + this.language + "/";
-            gameFilename = var7.substring(slashLocation2 + 1);
-        }
-
-        if (var5 != null) {
-            gameFilename = var5;
-        }
-
-        this.gameTable = this.readTable(languageDirectory + gameFilename + ".xml");
-        this.sharedTable = this.readTable(languageDirectory + "Shared.xml");
+        this.gameTable = this.readTable(languageDirectoryPath + gameFilename + ".xml");
+        this.sharedTable = this.readTable(languageDirectoryPath + "Shared.xml");
     }
 
     private Hashtable<String, LocalizationNode> readTable(String fileUrl) {
-        EncodedXmlReader reader = new EncodedXmlReader(fileUrl, /*this.aBoolean1519*/ true);
+        EncodedXmlReader reader = new EncodedXmlReader(fileUrl, true);
         XmlUnit unit = reader.readXmlUnit();
         if (unit == null) {
             System.out.println("Failed to read localization file '" + fileUrl + "'");
@@ -714,8 +562,7 @@ public final class TextManager implements Runnable {
             for (XmlUnit child : children) {
                 table.put(
                         child.getAttribute("key").toLowerCase(),
-                        new LocalizationNode(
-                                this, this.language, child, Tools.getBoolean(child.getAttribute("reverse"))));
+                        new LocalizationNode(this.locale, child, Tools.getBoolean(child.getAttribute("reverse"))));
             }
 
             return table;

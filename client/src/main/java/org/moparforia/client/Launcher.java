@@ -15,6 +15,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
+import org.moparforia.shared.Locale;
 import org.moparforia.shared.ManifestVersionProvider;
 import picocli.CommandLine;
 
@@ -45,7 +46,7 @@ public class Launcher implements Callable<Integer> {
             names = {"--lang", "-l"},
             description = "Sets language of the game, available values:\n ${COMPLETION-CANDIDATES}",
             defaultValue = "en_us")
-    private Language lang;
+    private Locale locale;
 
     @CommandLine.Option(
             names = {"--username", "-u"},
@@ -149,7 +150,7 @@ public class Launcher implements Callable<Integer> {
             }
         }
 
-        launchGame(frame, hostname, port, lang, username, verbose, norandom);
+        launchGame(frame, hostname, port, locale, username, verbose, norandom);
         return null;
     }
 
@@ -165,11 +166,11 @@ public class Launcher implements Callable<Integer> {
             JFrame frame,
             String hostname,
             int port,
-            Language lang,
+            Locale locale,
             String username,
             boolean verbose,
             boolean norandom) {
-        return new Game(frame, hostname, port, lang.toString(), username, verbose, norandom);
+        return new Game(frame, hostname, port, locale, username, verbose, norandom);
     }
 
     public Image loadIcon() throws IOException {
@@ -182,22 +183,5 @@ public class Launcher implements Callable<Integer> {
 
     public void setPort(int port) {
         this.port = port;
-    }
-
-    enum Language {
-        EN_US("en_US"),
-        FI_FI("fi_FI"),
-        SV_SE("sv_SE");
-
-        private final String custom_name;
-
-        Language(String name) {
-            this.custom_name = name;
-        }
-
-        @Override
-        public String toString() {
-            return this.custom_name;
-        }
     }
 }

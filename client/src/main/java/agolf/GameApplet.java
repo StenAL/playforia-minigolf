@@ -14,6 +14,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
 import org.moparforia.client.Launcher;
+import org.moparforia.shared.Locale;
 
 public class GameApplet extends AApplet {
 
@@ -240,6 +241,12 @@ public class GameApplet extends AApplet {
     protected void trackTestLogin(String username, String password) {
         this.setGameState(0);
         this.gameContainer.connection.writeData("ttlogin\t" + username + "\t" + password);
+    }
+
+    protected void trackTestLogin(String username, String password, Locale locale) {
+        this.textManager.setLocale(locale, this);
+        this.gameContainer.connection.writeData("language\t" + locale);
+        this.trackTestLogin(username, password);
     }
 
     public boolean isEmailVerified() {
