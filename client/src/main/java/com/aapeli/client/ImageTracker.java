@@ -68,7 +68,7 @@ class ImageTracker implements Runnable {
         }
     }
 
-    protected synchronized void method1626() {
+    protected synchronized void loadImages() {
         if (this.aThread1401 == null) {
             if (!this.imageResourceTable.isEmpty()) {
                 if (!this.aBoolean1402) {
@@ -87,8 +87,8 @@ class ImageTracker implements Runnable {
         return this.getImageFromTable("N\t" + key);
     }
 
-    protected Image method1629(String var1) {
-        return this.getImage("N\t" + var1, true);
+    protected Image getImage(String imageAlias) {
+        return this.getImage("N\t" + imageAlias, true);
     }
 
     protected Image method1630(String var1) {
@@ -103,8 +103,8 @@ class ImageTracker implements Runnable {
         return this.getImageFromTable("C\t" + var1);
     }
 
-    protected boolean containsNImage(String var1) {
-        return this.containsResource("N\t" + var1);
+    protected boolean containsNImage(String imageAlias) {
+        return this.containsResource("N\t" + imageAlias);
     }
 
     protected boolean containsSImage(String var1) {
@@ -169,31 +169,31 @@ class ImageTracker implements Runnable {
         this.anAApplet1400 = var1;
     }
 
-    private Image getImage(String var1, boolean var2) {
-        Image var3;
-        ImageResource var4;
+    private Image getImage(String imageAlias, boolean getEvenIfNotLoaded) {
+        Image image;
+        ImageResource imageResource;
         synchronized (this) {
-            var3 = this.getImageFromTable(var1);
-            if (var3 != null) {
-                return var3;
+            image = this.getImageFromTable(imageAlias);
+            if (image != null) {
+                return image;
             }
 
-            var4 = this.getImageResource(var1);
-            if (var4 == null) {
+            imageResource = this.getImageResource(imageAlias);
+            if (imageResource == null) {
                 return null;
             }
         }
 
-        this.method1626();
-        if (var2) {
-            return var4.method1649();
+        this.loadImages();
+        if (getEvenIfNotLoaded) {
+            return imageResource.getImage();
         } else {
             do {
                 Tools.sleep(100L);
-                var3 = this.imageTable.get(var1);
-            } while (var3 == null);
+                image = this.imageTable.get(imageAlias);
+            } while (image == null);
 
-            return var3;
+            return image;
         }
     }
 
@@ -202,7 +202,7 @@ class ImageTracker implements Runnable {
         if (image != null) {
             return image;
         } else {
-            this.method1626();
+            this.loadImages();
             return null;
         }
     }
@@ -232,7 +232,7 @@ class ImageTracker implements Runnable {
         }
 
         String imageAlias = var1.method1648();
-        Image imageToLoad = var1.method1649();
+        Image imageToLoad = var1.getImage();
         var1.method1650();
         if (this.anAApplet1400 != null) {
             this.anAApplet1400.printSUD("ImageTracker: Start loading image \"" + imageAlias + "\"");

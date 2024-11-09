@@ -124,13 +124,13 @@ public class LobbyPanel extends Panel {
         this.setVisible(true);
     }
 
-    public void method395() {
+    public void init() {
         if (this.activeLobby == 1) {
             this.lobbySinglePlayerPanel.requestTrackSetList();
         }
 
         if (this.activeLobby == 2) {
-            this.lobbyDualPlayerPanel.update(0);
+            this.lobbyDualPlayerPanel.setState(0);
             this.lobbyDualPlayerPanel.allowChallenges();
         }
 

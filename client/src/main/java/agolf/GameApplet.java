@@ -210,7 +210,7 @@ public class GameApplet extends AApplet {
                     }
                 }
 
-                this.gameContainer.lobbyPanel.method395();
+                this.gameContainer.lobbyPanel.init();
                 this.addToContent(this.gameContainer.lobbyPanel);
             }
 
@@ -230,11 +230,12 @@ public class GameApplet extends AApplet {
         }
     }
 
-    protected void setGameSettings(boolean emailUnconfirmed, int var2, boolean useBadWordFilter, boolean var4) {
+    protected void setGameSettings(
+            boolean emailUnconfirmed, int playerElevationLevel, boolean useBadWordFilter, boolean disableGuestChat) {
         this.syncUnknownBool = new SynchronizedBool(emailUnconfirmed);
-        this.syncPlayerAccessLevel = new SynchronizedInteger(var2);
+        this.syncPlayerAccessLevel = new SynchronizedInteger(playerElevationLevel);
         this.gameContainer.badWordFilter = useBadWordFilter ? new BadWordFilter(super.textManager) : null;
-        this.disableGuestChat = var4;
+        this.disableGuestChat = disableGuestChat;
     }
 
     protected void trackTestLogin(String username, String password) {
