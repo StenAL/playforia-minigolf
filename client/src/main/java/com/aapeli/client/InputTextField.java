@@ -20,40 +20,41 @@ public class InputTextField extends TextField implements FocusListener, KeyListe
     private String inputText;
     private boolean showDefaultText;
     private boolean hasFocus;
-    private int anInt722;
-    private boolean aBoolean723;
+    private int replacedCharacterAtEnd;
+    private boolean shouldReplaceNextChar;
     private boolean enabled;
     private List<String> userInput;
-    private int userInputzCount;
-    private int anInt727;
+    private int userInputCount;
+    private int selectedPastInputIndex;
     private String finalInput;
     private int inputTextLength;
     private List<InputTextFieldListener> listeners;
 
-    public InputTextField(int var1) {
-        this("", var1, false);
+    public InputTextField(int maxLength) {
+        this("", maxLength, false);
     }
 
-    public InputTextField(String var1, int var2) {
-        this(var1, var2, false);
+    public InputTextField(String defaultText, int maxLength) {
+        this(defaultText, maxLength, false);
     }
 
-    public InputTextField(int var1, boolean var2) {
-        this("", var1, var2);
+    public InputTextField(int maxLength, boolean enabled) {
+        this("", maxLength, enabled);
     }
 
-    public InputTextField(String defaultText, int maxLen, boolean enabled) {
-        this.maxLength = maxLen;
+    public InputTextField(String defaultText, int maxLength, boolean enabled) {
+        this.maxLength = maxLength;
         this.setText(defaultText);
         this.inputText = "";
         this.showDefaultText = defaultText.length() > 0;
         this.hasFocus = false;
-        this.anInt722 = 0;
-        this.aBoolean723 = false;
+        this.replacedCharacterAtEnd = 0;
+        this.shouldReplaceNextChar = false;
         this.enabled = enabled;
         if (enabled) {
             this.userInput = new ArrayList<>();
-            this.userInputzCount = this.anInt727 = 0;
+            this.userInputCount = 0;
+            this.selectedPastInputIndex = 0;
         }
 
         this.setBackground(colourBackground);
@@ -66,7 +67,7 @@ public class InputTextField extends TextField implements FocusListener, KeyListe
         this.listeners = new ArrayList<>();
     }
 
-    public void focusGained(FocusEvent var1) {
+    public void focusGained(FocusEvent e) {
         if (this.showDefaultText) {
             this.clearDefaultText();
         }
@@ -74,11 +75,11 @@ public class InputTextField extends TextField implements FocusListener, KeyListe
         this.hasFocus = true;
     }
 
-    public void focusLost(FocusEvent var1) {
+    public void focusLost(FocusEvent e) {
         this.hasFocus = false;
     }
 
-    public void keyPressed(KeyEvent var1) {
+    public void keyPressed(KeyEvent e) {
         this.keyInput();
     }
 
@@ -86,39 +87,39 @@ public class InputTextField extends TextField implements FocusListener, KeyListe
         this.keyInput();
         if (this.enabled) {
             int keyCode = evt.getKeyCode();
-            if (keyCode == 38 || keyCode == 40) {
+            if (keyCode == KeyEvent.VK_UP || keyCode == KeyEvent.VK_DOWN) {
                 synchronized (this.userInput) {
-                    if (this.userInputzCount == 0) {
+                    if (this.userInputCount == 0) {
                         return;
                     }
 
-                    if (keyCode == 38) {
-                        if (this.anInt727 == 0) {
+                    if (keyCode == KeyEvent.VK_UP) {
+                        if (this.selectedPastInputIndex == 0) {
                             return;
                         }
 
-                        if (this.anInt727 == this.userInputzCount) {
+                        if (this.selectedPastInputIndex == this.userInputCount) {
                             this.finalInput = this.getText();
                         }
 
-                        --this.anInt727;
+                        --this.selectedPastInputIndex;
                     } else {
-                        if (this.anInt727 == this.userInputzCount) {
+                        if (this.selectedPastInputIndex == this.userInputCount) {
                             return;
                         }
 
-                        ++this.anInt727;
+                        ++this.selectedPastInputIndex;
                     }
 
-                    String var4;
-                    if (this.anInt727 < this.userInputzCount) {
-                        var4 = this.userInput.get(this.anInt727);
+                    String text;
+                    if (this.selectedPastInputIndex < this.userInputCount) {
+                        text = this.userInput.get(this.selectedPastInputIndex);
                     } else {
-                        var4 = this.finalInput;
+                        text = this.finalInput;
                     }
 
-                    this.setText(var4);
-                    this.setCaretPosition(var4.length());
+                    this.setText(text);
+                    this.setCaretPosition(text.length());
                     return;
                 }
             }
@@ -153,12 +154,12 @@ public class InputTextField extends TextField implements FocusListener, KeyListe
                 return "";
             }
 
-            if (this.aBoolean723) {
-                if (this.anInt722 == -1) {
-                    this.method967(this.getText(), this.getCaretPosition(), 0, "~");
+            if (this.shouldReplaceNextChar) {
+                if (this.replacedCharacterAtEnd == -1) {
+                    this.replaceInputText(this.getText(), this.getCaretPosition(), 0, "~");
                 }
 
-                this.aBoolean723 = false;
+                this.shouldReplaceNextChar = false;
             }
 
             userInput = this.getText().trim();
@@ -173,14 +174,14 @@ public class InputTextField extends TextField implements FocusListener, KeyListe
 
         if (this.enabled) {
             synchronized (this.userInput) {
-                if (this.userInputzCount >= 50) {
-                    this.userInput.remove(0);
-                    --this.userInputzCount;
+                if (this.userInputCount >= 50) {
+                    this.userInput.removeFirst();
+                    --this.userInputCount;
                 }
 
                 this.userInput.add(userInput);
-                ++this.userInputzCount;
-                this.anInt727 = this.userInputzCount;
+                ++this.userInputCount;
+                this.selectedPastInputIndex = this.userInputCount;
             }
         }
 
@@ -202,8 +203,8 @@ public class InputTextField extends TextField implements FocusListener, KeyListe
         return this.hasFocus;
     }
 
-    public void setTextMaximumLength(int var1) {
-        this.maxLength = var1;
+    public void setTextMaximumLength(int limit) {
+        this.maxLength = limit;
     }
 
     public boolean isTyping() {
@@ -256,78 +257,78 @@ public class InputTextField extends TextField implements FocusListener, KeyListe
     }
 
     private synchronized void method965(KeyEvent evt) {
-        if (this.anInt722 != 1) {
+        if (this.replacedCharacterAtEnd != 1) {
             int keyCode = evt.getKeyCode();
             if (keyCode < 16 || keyCode > 18) {
                 char chr = evt.getKeyChar();
                 if (chr >= ' ' && chr <= 255) {
-                    if (this.aBoolean723) {
-                        this.method966(chr);
-                        this.aBoolean723 = false;
+                    if (this.shouldReplaceNextChar) {
+                        this.replaceChar(chr);
+                        this.shouldReplaceNextChar = false;
                     } else {
-                        this.aBoolean723 = chr == '~';
+                        this.shouldReplaceNextChar = chr == '~';
                     }
 
                 } else {
-                    this.aBoolean723 = false;
+                    this.shouldReplaceNextChar = false;
                 }
             }
         }
     }
 
-    private void method966(char chr) {
-        String var2;
+    private void replaceChar(char chr) {
+        String replacement;
         if (chr == ' ') {
-            var2 = "~";
+            replacement = "~";
         } else if (chr == 'N') {
-            var2 = "Ñ";
+            replacement = "Ñ";
         } else if (chr == 'A') {
-            var2 = "Ã";
+            replacement = "Ã";
         } else if (chr == 'O') {
-            var2 = "Õ";
+            replacement = "Õ";
         } else if (chr == 'n') {
-            var2 = "ñ";
+            replacement = "ñ";
         } else if (chr == 'a') {
-            var2 = "ã";
+            replacement = "ã";
         } else if (chr == 'o') {
-            var2 = "õ";
+            replacement = "õ";
         } else if (chr == '~') {
-            var2 = "~~";
+            replacement = "~~";
         } else {
-            var2 = "~" + chr;
+            replacement = "~" + chr;
         }
 
         String text = this.getText();
-        int var4 = this.getCaretPosition();
-        if (this.anInt722 == 0) {
-            if (text.substring(0, var4).endsWith(var2)) {
-                this.anInt722 = 1;
+        int caretPosition = this.getCaretPosition();
+        if (this.replacedCharacterAtEnd == 0) {
+            if (text.substring(0, caretPosition).endsWith(replacement)) {
+                this.replacedCharacterAtEnd = 1;
                 return;
             }
 
-            this.anInt722 = -1;
+            this.replacedCharacterAtEnd = -1;
         }
 
         if (chr == '~') {
-            this.method967(text, var4, 0, var2);
-        } else if (var4 > 0) {
-            if (var4 == 0) {
+            this.replaceInputText(text, caretPosition, 0, replacement);
+        } else if (caretPosition > 0) {
+            if (caretPosition == 0) {
                 return;
             }
 
-            if (chr != text.charAt(var4 - 1)) {
+            if (chr != text.charAt(caretPosition - 1)) {
                 return;
             }
 
-            this.method967(text, var4, 1, var2);
+            this.replaceInputText(text, caretPosition, 1, replacement);
         }
     }
 
-    private void method967(String var1, int var2, int var3, String var4) {
-        int var5 = var4.length();
-        if (var1.length() - var3 + var5 <= this.maxLength) {
-            this.setText(var1.substring(0, var2 - var3) + var4 + var1.substring(var2));
-            this.setCaretPosition(var2 - var3 + var5);
+    private void replaceInputText(String text, int currentPosition, int var3, String replacement) {
+        int replacementLength = replacement.length();
+        if (text.length() - var3 + replacementLength <= this.maxLength) {
+            this.setText(text.substring(0, currentPosition - var3) + replacement + text.substring(currentPosition));
+            this.setCaretPosition(currentPosition - var3 + replacementLength);
         }
     }
 }
