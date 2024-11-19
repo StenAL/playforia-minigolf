@@ -40,7 +40,7 @@ public class RadioButton extends ColorButton {
         var2.method1756(this);
         this.aBoolean4723 = var3;
         this.aBoolean4724 = false;
-        this.setBackgroundFade(false);
+        this.setBackgroundGradient(false);
         this.setBorder(2);
         this.aBoolean4725 = true;
     }

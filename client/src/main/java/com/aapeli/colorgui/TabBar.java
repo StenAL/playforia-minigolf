@@ -16,48 +16,48 @@ import java.util.List;
 
 public class TabBar extends IPanel implements ComponentListener, ActionListener {
 
-    private static final Color aColor3403 = Color.lightGray;
-    private static final Color aColor3404 = Color.black;
-    private static final Color aColor3405 = Color.blue;
-    private static final Color aColor3406 = Color.white;
-    private static final Font aFont3407 = FontConstants.font;
-    private int anInt3408;
-    private int anInt3409;
-    private Color aColor3410;
-    private Color aColor3411;
-    private Color aColor3412;
-    private Color aColor3413;
-    private Font aFont3414;
-    private Image anImage3415;
-    private int anInt3416;
-    private int anInt3417;
-    private RadioButtonGroup aRadioButtonGroup3418;
+    private static final Color DEFAULT_BACKGROUND_COLOR = Color.lightGray;
+    private static final Color DEFAULT_BORDER_COLOR = Color.black;
+    private static final Color DEFAULT_BUTTON_BACKGROUND_COLOR = Color.blue;
+    private static final Color DEFAULT_BUTTON_FOREGROUND_COLOR = Color.white;
+    private static final Font DEFAULT_FONT = FontConstants.font;
+    private int width;
+    private int height;
+    private Color backgroundColor;
+    private Color buttonBorderColor;
+    private Color buttonBackgroundColor;
+    private Color buttonForegroundColor;
+    private Font buttonFont;
+    private Image backgroundImage;
+    private int backgroundImageOffsetX;
+    private int backgroundImageOffsetY;
+    private RadioButtonGroup buttonGroup;
     private List<TabBarItem> items;
-    private int anInt3420;
-    private int anInt3421;
-    private int anInt3422;
-    private int anInt3423;
+    private int itemsCount;
+    private int selectedTabIndex;
+    private int borderStyle;
+    private int preferredHeight;
     private List<TabBarListener> listeners;
-    private Object anObject3425 = new Object();
+    private Object lock = new Object();
 
-    public TabBar(int var1, int var2) {
-        this.anInt3408 = var1;
-        this.anInt3409 = var2;
-        this.setSize(var1, var2);
-        this.setBackground(aColor3403);
-        this.setBorderColor(aColor3404);
-        this.setButtonFont(aFont3407);
-        this.setButtonBackground(aColor3405);
-        this.setButtonForeground(aColor3406);
-        this.anInt3422 = 2;
-        this.aRadioButtonGroup3418 = new RadioButtonGroup();
+    public TabBar(int width, int height) {
+        this.width = width;
+        this.height = height;
+        this.setSize(width, height);
+        this.setBackground(DEFAULT_BACKGROUND_COLOR);
+        this.setBorderColor(DEFAULT_BORDER_COLOR);
+        this.setButtonFont(DEFAULT_FONT);
+        this.setButtonBackground(DEFAULT_BUTTON_BACKGROUND_COLOR);
+        this.setButtonForeground(DEFAULT_BUTTON_FOREGROUND_COLOR);
+        this.borderStyle = 2;
+        this.buttonGroup = new RadioButtonGroup();
         this.items = new ArrayList<>();
-        this.anInt3420 = 0;
-        this.anInt3421 = -1;
+        this.itemsCount = 0;
+        this.selectedTabIndex = -1;
         this.addComponentListener(this);
         this.listeners = new ArrayList<>();
         this.setLayout(null);
-        this.anInt3423 = 0;
+        this.preferredHeight = 0;
     }
 
     public void addNotify() {
@@ -65,169 +65,152 @@ public class TabBar extends IPanel implements ComponentListener, ActionListener 
         this.repaint();
     }
 
-    public void paint(Graphics var1) {
-        this.update(var1);
+    public void paint(Graphics g) {
+        this.update(g);
     }
 
-    public void update(Graphics var1) {
-        if (this.anImage3415 == null) {
-            this.drawBackground(var1);
-        } else if (this.anInt3416 == 0 && this.anInt3417 == 0) {
-            var1.drawImage(this.anImage3415, 0, 0, this);
+    public void update(Graphics g) {
+        if (this.backgroundImage == null) {
+            this.drawBackground(g);
+        } else if (this.backgroundImageOffsetX == 0 && this.backgroundImageOffsetY == 0) {
+            g.drawImage(this.backgroundImage, 0, 0, this);
         } else {
-            var1.drawImage(
-                    this.anImage3415,
+            g.drawImage(
+                    this.backgroundImage,
                     0,
                     0,
-                    this.anInt3408,
-                    this.anInt3409,
-                    this.anInt3416,
-                    this.anInt3417,
-                    this.anInt3416 + this.anInt3408,
-                    this.anInt3417 + this.anInt3409,
+                    this.width,
+                    this.height,
+                    this.backgroundImageOffsetX,
+                    this.backgroundImageOffsetY,
+                    this.backgroundImageOffsetX + this.width,
+                    this.backgroundImageOffsetY + this.height,
                     this);
         }
 
-        if (this.anInt3422 != 0) {
-            var1.setColor(this.aColor3411);
-            if (this.anInt3422 == 2) {
-                var1.drawRect(0, this.anInt3423 - 2, this.anInt3408 - 1, this.anInt3409 - this.anInt3423 + 1);
-                var1.drawRect(1, this.anInt3423 - 1, this.anInt3408 - 3, this.anInt3409 - this.anInt3423 - 1);
+        if (this.borderStyle != 0) {
+            g.setColor(this.buttonBorderColor);
+            if (this.borderStyle == 2) {
+                g.drawRect(0, this.preferredHeight - 2, this.width - 1, this.height - this.preferredHeight + 1);
+                g.drawRect(1, this.preferredHeight - 1, this.width - 3, this.height - this.preferredHeight - 1);
             } else {
-                var1.drawRect(0, this.anInt3423 - 1, this.anInt3408 - 1, this.anInt3409 - this.anInt3423);
+                g.drawRect(0, this.preferredHeight - 1, this.width - 1, this.height - this.preferredHeight);
             }
         }
     }
 
-    public void componentShown(ComponentEvent var1) {}
+    public void componentShown(ComponentEvent e) {}
 
-    public void componentHidden(ComponentEvent var1) {}
+    public void componentHidden(ComponentEvent e) {}
 
-    public void componentMoved(ComponentEvent var1) {}
+    public void componentMoved(ComponentEvent e) {}
 
-    public void componentResized(ComponentEvent var1) {
-        Dimension var2 = this.getSize();
-        this.anInt3408 = var2.width;
-        this.anInt3409 = var2.height;
-        this.method877();
+    public void componentResized(ComponentEvent e) {
+        Dimension size = this.getSize();
+        this.width = size.width;
+        this.height = size.height;
+        this.relayout();
         this.repaint();
     }
 
-    public void actionPerformed(ActionEvent var1) {
-        Object var2 = this.anObject3425;
-        synchronized (this.anObject3425) {
-            int var3 = this.method878(var1);
-            this.setSelectedIndex(var3);
-            this.method879(this.anInt3421);
+    public void actionPerformed(ActionEvent event) {
+        synchronized (this.lock) {
+            int id = this.getTabIndex(event);
+            this.setSelectedIndex(id);
+            this.notifySelectedTabChanged(this.selectedTabIndex);
         }
     }
 
-    public void setBorderColor(Color var1) {
-        Object var2 = this.anObject3425;
-        synchronized (this.anObject3425) {
-            this.aColor3411 = var1;
-            int var3 = 0;
-
-            while (true) {
-                if (var3 >= this.anInt3420) {
-                    break;
-                }
-
-                this.method880(var3).setBorderColor(var1);
-                ++var3;
+    public void setBorderColor(Color borderColor) {
+        synchronized (this.lock) {
+            this.buttonBorderColor = borderColor;
+            for (int i = 0; i < this.itemsCount; ++i) {
+                this.getButtonByIndex(i).setBorderColor(borderColor);
             }
         }
 
         this.repaint();
     }
 
-    public void setButtonFont(Font var1) {
-        Object var2 = this.anObject3425;
-        synchronized (this.anObject3425) {
-            this.aFont3414 = var1;
+    public void setButtonFont(Font font) {
+        synchronized (this.lock) {
+            this.buttonFont = font;
 
-            for (int var3 = 0; var3 < this.anInt3420; ++var3) {
-                this.method880(var3).setFont(var1);
+            for (int i = 0; i < this.itemsCount; ++i) {
+                this.getButtonByIndex(i).setFont(font);
             }
         }
     }
 
-    public void setButtonBackground(Color var1) {
-        Object var2 = this.anObject3425;
-        synchronized (this.anObject3425) {
-            this.aColor3412 = var1;
+    public void setButtonBackground(Color background) {
+        synchronized (this.lock) {
+            this.buttonBackgroundColor = background;
 
-            for (int var3 = 0; var3 < this.anInt3420; ++var3) {
-                this.method880(var3).setBackground(var1);
+            for (int i = 0; i < this.itemsCount; ++i) {
+                this.getButtonByIndex(i).setBackground(background);
             }
         }
     }
 
-    public void setButtonForeground(Color var1) {
-        Object var2 = this.anObject3425;
-        synchronized (this.anObject3425) {
-            this.aColor3413 = var1;
+    public void setButtonForeground(Color foreground) {
+        synchronized (this.lock) {
+            this.buttonForegroundColor = foreground;
 
-            for (int var3 = 0; var3 < this.anInt3420; ++var3) {
-                this.method880(var3).setForeground(var1);
+            for (int i = 0; i < this.itemsCount; ++i) {
+                this.getButtonByIndex(i).setForeground(foreground);
             }
         }
     }
 
-    public void setBackground(Color var1) {
-        this.aColor3410 = var1;
-        super.setBackground(this.aColor3410);
+    public void setBackground(Color background) {
+        this.backgroundColor = background;
+        super.setBackground(this.backgroundColor);
         this.repaint();
     }
 
-    public void setBorder(int var1) {
-        Object var2 = this.anObject3425;
-        synchronized (this.anObject3425) {
-            this.anInt3422 = var1;
+    public void setBorder(int border) {
+        synchronized (this.lock) {
+            this.borderStyle = border;
 
-            for (int var3 = 0; var3 < this.anInt3420; ++var3) {
-                this.method880(var3).setBorder(var1);
+            for (int i = 0; i < this.itemsCount; ++i) {
+                this.getButtonByIndex(i).setBorder(border);
             }
         }
     }
 
-    public void addTab(String var1, Component var2) {
-        Object var3 = this.anObject3425;
-        synchronized (this.anObject3425) {
-            this.addTab(new TabBarItem(this, var1, var2));
+    public void addTab(String text, Component component) {
+        synchronized (this.lock) {
+            this.addTab(new TabBarItem(this, text, component));
         }
     }
 
-    public void addTab(TabBarItem var1) {
-        Object var2 = this.anObject3425;
-        synchronized (this.anObject3425) {
-            this.items.add(var1);
-            ++this.anInt3420;
-            this.method877();
-            RadioButton var3 = var1.getButton();
-            this.add(var3);
-            if (this.anInt3420 == 1) {
-                var3.setState(true);
-                this.add(var1.getComponent());
-                this.anInt3421 = 0;
+    public void addTab(TabBarItem item) {
+        synchronized (this.lock) {
+            this.items.add(item);
+            ++this.itemsCount;
+            this.relayout();
+            RadioButton button = item.getButton();
+            this.add(button);
+            if (this.itemsCount == 1) {
+                button.setState(true);
+                this.add(item.getComponent());
+                this.selectedTabIndex = 0;
             }
         }
 
         this.repaint();
     }
 
-    public TabBarItem getTabBarItemByIndex(int var1) {
-        TabBarItem var2 = this.items.get(var1);
-        return var2;
+    public TabBarItem getTabBarItemByIndex(int i) {
+        return this.items.get(i);
     }
 
-    public TabBarItem getTabBarItemByID(int var1) {
-        Object var2 = this.anObject3425;
-        synchronized (this.anObject3425) {
-            for (int var3 = 0; var3 < this.anInt3420; ++var3) {
-                TabBarItem var4 = this.getTabBarItemByIndex(var3);
-                if (var4.getTabID() == var1) {
-                    return var4;
+    public TabBarItem getTabBarItemById(int id) {
+        synchronized (this.lock) {
+            for (int i = 0; i < this.itemsCount; ++i) {
+                TabBarItem item = this.getTabBarItemByIndex(i);
+                if (item.getTabId() == id) {
+                    return item;
                 }
             }
 
@@ -236,25 +219,23 @@ public class TabBar extends IPanel implements ComponentListener, ActionListener 
     }
 
     public TabBarItem[] getTabBarItems() {
-        Object var1 = this.anObject3425;
-        synchronized (this.anObject3425) {
-            TabBarItem[] var2 = new TabBarItem[this.anInt3420];
-            var2 = this.items.toArray(var2);
-            return var2;
+        synchronized (this.lock) {
+            TabBarItem[] items = new TabBarItem[this.itemsCount];
+            items = this.items.toArray(items);
+            return items;
         }
     }
 
-    public void setTabTitle(int var1, String var2) {
-        this.method880(var1).setLabel(var2);
-        this.method877();
+    public void setTabTitle(int id, String text) {
+        this.getButtonByIndex(id).setLabel(text);
+        this.relayout();
     }
 
-    public int getSelectedIndex() {
-        Object var1 = this.anObject3425;
-        synchronized (this.anObject3425) {
-            for (int var2 = 0; var2 < this.anInt3420; ++var2) {
-                if (this.method880(var2).getState()) {
-                    return var2;
+    public int getSelectedTabIndex() {
+        synchronized (this.lock) {
+            for (int i = 0; i < this.itemsCount; ++i) {
+                if (this.getButtonByIndex(i).getState()) {
+                    return i;
                 }
             }
 
@@ -262,131 +243,129 @@ public class TabBar extends IPanel implements ComponentListener, ActionListener 
         }
     }
 
-    public void setSelectedIndex(int var1) {
-        Object var2 = this.anObject3425;
-        synchronized (this.anObject3425) {
-            if (var1 != this.anInt3421) {
-                TabBarItem var3 = this.getTabBarItemByIndex(var1);
-                TabBarItem var4 = this.getTabBarItemByIndex(this.anInt3421);
-                var3.getButton().setState(true);
-                this.remove(var4.getComponent());
-                this.add(var3.getComponent());
-                this.anInt3421 = var1;
+    public void setSelectedIndex(int index) {
+        synchronized (this.lock) {
+            if (index != this.selectedTabIndex) {
+                TabBarItem newSelectedTab = this.getTabBarItemByIndex(index);
+                TabBarItem previousSelectedTab = this.getTabBarItemByIndex(this.selectedTabIndex);
+                newSelectedTab.getButton().setState(true);
+                this.remove(previousSelectedTab.getComponent());
+                this.add(newSelectedTab.getComponent());
+                this.selectedTabIndex = index;
             }
         }
     }
 
-    public void setBackgroundImage(Image var1) {
-        this.setBackgroundImage(var1, 0, 0);
+    public void setBackgroundImage(Image image) {
+        this.setBackgroundImage(image, 0, 0);
     }
 
-    public void setBackgroundImage(Image var1, int var2, int var3) {
-        this.anImage3415 = var1;
-        this.anInt3416 = var2;
-        this.anInt3417 = var3;
+    public void setBackgroundImage(Image image, int backgroundImageOffsetX, int backgroundImageOffsetY) {
+        this.backgroundImage = image;
+        this.backgroundImageOffsetX = backgroundImageOffsetX;
+        this.backgroundImageOffsetY = backgroundImageOffsetY;
         this.repaint();
     }
 
     public void addTabBarListener(TabBarListener listener) {
-        synchronized (this.anObject3425) {
+        synchronized (this.lock) {
             this.listeners.add(listener);
         }
     }
 
     public void removeTabBarListener(TabBarListener listener) {
-        synchronized (this.anObject3425) {
+        synchronized (this.lock) {
             this.listeners.remove(listener);
         }
     }
 
-    protected RadioButton method876(Image var1, String var2) {
-        RadioButton var3 = new RadioButton(var2, this.aRadioButtonGroup3418, false);
-        var3.setIconImage(var1);
-        var3.setFont(this.aFont3414);
-        var3.setBackground(this.aColor3412);
-        var3.setForeground(this.aColor3413);
-        var3.setBorderColor(this.aColor3411);
-        var3.setBorder(this.anInt3422);
-        var3.addActionListener(this);
-        return var3;
+    protected RadioButton registerItem(Image icon, String text) {
+        RadioButton button = new RadioButton(text, this.buttonGroup, false);
+        button.setIconImage(icon);
+        button.setFont(this.buttonFont);
+        button.setBackground(this.buttonBackgroundColor);
+        button.setForeground(this.buttonForegroundColor);
+        button.setBorderColor(this.buttonBorderColor);
+        button.setBorder(this.borderStyle);
+        button.addActionListener(this);
+        return button;
     }
 
-    private void method877() {
-        int var1 = 0;
+    private void relayout() {
+        int preferredWidth = 0;
 
-        for (int var2 = 0; var2 < this.anInt3420; ++var2) {
-            RadioButton var3 = this.method880(var2);
-            var1 += 2 + var3.getPreferredSize().width + 2;
+        for (int i = 0; i < this.itemsCount; ++i) {
+            RadioButton button = this.getButtonByIndex(i);
+            preferredWidth += 2 + button.getPreferredSize().width + 2;
         }
 
-        double var10 = 1.0D * (double) this.anInt3408 / (double) var1;
-        if (var10 > 1.2D) {
-            var10 = 1.2D;
+        double widthToPreferredWidth = (double) this.width / (double) preferredWidth;
+        if (widthToPreferredWidth > 1.2D) {
+            widthToPreferredWidth = 1.2D;
         }
 
-        int var4 = 0;
+        int maxHeight = 0;
 
-        int var5;
-        int var6;
-        for (var5 = 0; var5 < this.anInt3420; ++var5) {
-            var6 = this.getTabBarItemByIndex(var5).getComponent().getSize().height;
-            if (var6 > var4) {
-                var4 = var6;
+        int y;
+        for (int i = 0; i < this.itemsCount; ++i) {
+            y = this.getTabBarItemByIndex(i).getComponent().getSize().height;
+            if (y > maxHeight) {
+                maxHeight = y;
             }
         }
 
-        this.anInt3423 = this.anInt3409 - 1 - 1 - var4;
-        if (this.anInt3423 < 15) {
-            this.anInt3423 = 15;
-        } else if (this.anInt3423 > 30) {
-            this.anInt3423 = 30;
+        this.preferredHeight = this.height - 1 - 1 - maxHeight;
+        if (this.preferredHeight < 15) {
+            this.preferredHeight = 15;
+        } else if (this.preferredHeight > 30) {
+            this.preferredHeight = 30;
         }
 
-        var5 = 2;
+        int x = 2;
 
-        for (var6 = 0; var6 < this.anInt3420; ++var6) {
-            RadioButton var7 = this.method880(var6);
-            int var8 = (int) ((double) var7.getPreferredSize().width * var10 + 0.5D);
-            var7.setBounds(var5, 0, var8, this.anInt3423);
-            var5 += var8 + 2;
+        for (int i = 0; i < this.itemsCount; ++i) {
+            RadioButton button = this.getButtonByIndex(i);
+            int width = (int) ((double) button.getPreferredSize().width * widthToPreferredWidth + 0.5D);
+            button.setBounds(x, 0, width, this.preferredHeight);
+            x += width + 2;
         }
 
-        var6 = this.anInt3422 == 0 ? 0 : (this.anInt3422 == 1 ? 1 : 2);
+        int borderWidth = this.borderStyle == 0 ? 0 : (this.borderStyle == 1 ? 1 : 2);
 
-        for (int var11 = 0; var11 < this.anInt3420; ++var11) {
-            TabBarItem var12 = this.getTabBarItemByIndex(var11);
-            Component var9 = var12.getComponent();
-            var9.setLocation(var6, this.anInt3423);
-            if (var12.isComponentAutoSize()) {
-                var9.setSize(this.anInt3408 - var6 - var6, this.anInt3409 - this.anInt3423 - var6);
+        for (int i = 0; i < this.itemsCount; ++i) {
+            TabBarItem item = this.getTabBarItemByIndex(i);
+            Component component = item.getComponent();
+            component.setLocation(borderWidth, this.preferredHeight);
+            if (item.isComponentAutoSize()) {
+                component.setSize(
+                        this.width - borderWidth - borderWidth, this.height - this.preferredHeight - borderWidth);
             }
         }
     }
 
-    private int method878(ActionEvent var1) {
-        Object var2 = var1.getSource();
+    private int getTabIndex(ActionEvent event) {
+        Object source = event.getSource();
 
-        for (int var3 = 0; var3 < this.anInt3420; ++var3) {
-            if (var2 == this.method880(var3)) {
-                return var3;
+        for (int i = 0; i < this.itemsCount; ++i) {
+            if (source == this.getButtonByIndex(i)) {
+                return i;
             }
         }
 
         return -1;
     }
 
-    private void method879(int var1) {
-        Object var2 = this.anObject3425;
-        synchronized (this.anObject3425) {
+    private void notifySelectedTabChanged(int tabIndex) {
+        synchronized (this.lock) {
             if (this.listeners.size() != 0) {
                 for (TabBarListener tabBarListener : listeners) {
-                    tabBarListener.selectedTabChanged(var1);
+                    tabBarListener.selectedTabChanged(tabIndex);
                 }
             }
         }
     }
 
-    private RadioButton method880(int var1) {
-        return this.getTabBarItemByIndex(var1).getButton();
+    private RadioButton getButtonByIndex(int i) {
+        return this.getTabBarItemByIndex(i).getButton();
     }
 }

@@ -23,17 +23,17 @@ public class FloodProtection {
         }
     }
 
-    public boolean isOkToSay(String var1) {
+    public boolean isOkToSay(String message) {
         long var2 = System.currentTimeMillis();
-        var1 = this.method1813(var1);
+        message = this.method1813(message);
         synchronized (this) {
             int var7;
             for (var7 = 0; var7 < anInt1660; ++var7) {
                 double var4 = (double) anIntArray1659[var7] * this.aDouble1661;
-                if (var1 != null
+                if (message != null
                         && this.aStringArray1662[var7] != null
-                        && (this.aStringArray1662[var7].startsWith(var1)
-                                || var1.startsWith(this.aStringArray1662[var7]))) {
+                        && (this.aStringArray1662[var7].startsWith(message)
+                                || message.startsWith(this.aStringArray1662[var7]))) {
                     var4 *= 2.0D;
                 }
 
@@ -47,7 +47,7 @@ public class FloodProtection {
                 this.aLongArray1663[var7] = this.aLongArray1663[var7 - 1];
             }
 
-            this.aStringArray1662[0] = var1;
+            this.aStringArray1662[0] = message;
             this.aLongArray1663[0] = var2;
             return true;
         }

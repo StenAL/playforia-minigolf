@@ -2,5 +2,5 @@ package com.aapeli.colorgui;
 
 public interface TabBarListener {
 
-    void selectedTabChanged(int var1);
+    void selectedTabChanged(int tabIndex);
 }
