@@ -32,13 +32,13 @@ public class RoundRadioButton extends RoundButton {
         this.aBoolean4735 = false;
     }
 
-    public void mousePressed(MouseEvent var1) {
+    public void mousePressed(MouseEvent e) {
         if (this.setState(!this.aBoolean4733)) {
             this.processActionEvent();
         }
     }
 
-    public void mouseReleased(MouseEvent var1) {}
+    public void mouseReleased(MouseEvent e) {}
 
     public boolean setState(boolean var1) {
         if (this.aBoolean4733 == var1) {
