@@ -42,13 +42,13 @@ public class HtmlText {
     }
 
     private List<HtmlLine> createLines(Graphics g, int var2, String text) {
-        Class81 var4 = new Class81(this, text, g);
+        HtmlParser parser = new HtmlParser(this, text, g);
         List<HtmlLine> lines = new ArrayList<>();
         boolean var6 = false;
         HtmlLine line = new HtmlLine(this, g, var2, var6);
 
         String word;
-        while ((word = var4.method1611()) != null) {
+        while ((word = parser.getNextWord()) != null) {
             if (word.equals("<br>")) {
                 lines.add(line);
                 line = new HtmlLine(this, g, var2, var6);
