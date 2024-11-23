@@ -30,7 +30,7 @@ class Class84 implements Runnable {
     public void run() {
         Image var1;
         if (!this.aBoolean1413) {
-            var1 = this.anImageManager1409.getImage(this.aString1410);
+            var1 = this.anImageManager1409.getGameImage(this.aString1410);
         } else {
             var1 = this.anImageManager1409.getShared(this.aString1410);
         }
