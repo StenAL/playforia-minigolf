@@ -13,7 +13,7 @@ public class IPanel extends Panel {
     private Image backgroundImage;
     private int backgroundImageXOffset;
     private int backgroundImageYOffset;
-    private Class84 aClass84_647;
+    private BackgroundLoaderThread backgroundLoaderThread;
     private Object anObject648 = new Object();
     public static int anInt649;
 
@@ -41,17 +41,18 @@ public class IPanel extends Panel {
     }
 
     public void setBackground(ImageManager imageManager, String imageKey, int xOffset, int yOffset) {
-        Image image = imageManager.getIfAvailable(imageKey);
+        Image image = imageManager.getGameImageIfLoaded(imageKey);
         if (image != null) {
             this.setBackground(image, xOffset, yOffset);
         } else {
             Object var6 = this.anObject648;
             synchronized (this.anObject648) {
-                if (this.aClass84_647 != null) {
-                    this.aClass84_647.method1653();
+                if (this.backgroundLoaderThread != null) {
+                    this.backgroundLoaderThread.stop();
                 }
 
-                this.aClass84_647 = new Class84(this, this, imageManager, imageKey, xOffset, yOffset, false);
+                this.backgroundLoaderThread =
+                        new BackgroundLoaderThread(this, this, imageManager, imageKey, xOffset, yOffset, false);
             }
         }
     }
@@ -59,11 +60,11 @@ public class IPanel extends Panel {
     public void setSharedBackground(ImageManager var1, String var2, int var3, int var4) {
         Object var5 = this.anObject648;
         synchronized (this.anObject648) {
-            if (this.aClass84_647 != null) {
-                this.aClass84_647.method1653();
+            if (this.backgroundLoaderThread != null) {
+                this.backgroundLoaderThread.stop();
             }
 
-            this.aClass84_647 = new Class84(this, this, var1, var2, var3, var4, true);
+            this.backgroundLoaderThread = new BackgroundLoaderThread(this, this, var1, var2, var3, var4, true);
         }
     }
 

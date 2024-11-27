@@ -18,201 +18,202 @@ import java.util.List;
 
 public final class ColorSpinner extends IPanel implements MouseListener, MouseMotionListener, ItemSelectable {
 
-    private List<String> items = new ArrayList<>();
-    private int anInt3311 = -1;
-    private int anInt3312 = 0;
-    private boolean aBoolean3313;
-    private boolean aBoolean3314;
-    private boolean aBoolean3315;
-    private Font aFont3316;
-    private int anInt3317;
-    private List<ItemListener> listeners;
-    private Image anImage3319;
-    private Graphics aGraphics3320;
-    private int anInt3321;
-    private int anInt3322;
-    private Class92 aClass92_3323;
-    private int anInt3324;
-    private Object anObject3325;
+    private final List<String> items = new ArrayList<>();
+    private int selectedIndex = -1;
+    private int mouseClickMode = 0; // -1 == left control, +1 == right control
+    private boolean mouseHoveredOver;
+    private boolean mouseIsBeingDraggedOverValues;
+    private boolean useNonDefaultFont;
+    private Font font;
+    private int fontSize;
+    private final List<ItemListener> listeners;
+    private Image image;
+    private Graphics graphics;
+    private int width;
+    private int height;
+    private ColorSpinnerStateChangeDebounceThread debouceThread;
+    private int stateChangeNotificationDelay;
+    private final Object lock;
 
     public ColorSpinner() {
-        this.aBoolean3313 = this.aBoolean3314 = false;
-        this.aBoolean3315 = false;
-        this.aFont3316 = null;
-        this.anInt3317 = -1;
-        this.aClass92_3323 = null;
-        this.anInt3324 = 0;
-        this.anObject3325 = new Object();
+        this.mouseHoveredOver = this.mouseIsBeingDraggedOverValues = false;
+        this.useNonDefaultFont = false;
+        this.font = null;
+        this.fontSize = -1;
+        this.debouceThread = null;
+        this.stateChangeNotificationDelay = 0;
+        this.lock = new Object();
         this.listeners = new ArrayList<>();
         this.addMouseListener(this);
         this.addMouseMotionListener(this);
-        this.anInt3321 = this.anInt3322 = -1;
+        this.width = this.height = -1;
     }
 
-    public void update(Graphics var1) {
-        Dimension var2 = this.getSize();
-        int var3 = var2.width;
-        int var4 = var2.height;
-        if (var3 > 0 && var4 > 0) {
-            if (this.anImage3319 == null || var3 != this.anInt3321 || var4 != this.anInt3322) {
-                this.anImage3319 = this.createImage(var3, var4);
-                this.aGraphics3320 = this.anImage3319.getGraphics();
-                this.anInt3321 = var3;
-                this.anInt3322 = var4;
+    public void update(Graphics g) {
+        Dimension size = this.getSize();
+        int width = size.width;
+        int height = size.height;
+        if (width > 0 && height > 0) {
+            if (this.image == null || width != this.width || height != this.height) {
+                this.image = this.createImage(width, height);
+                this.graphics = this.image.getGraphics();
+                this.width = width;
+                this.height = height;
             }
 
-            this.drawBackground(this.aGraphics3320);
-            Color var5 = this.getBackground();
-            this.aGraphics3320.setColor(var5);
-            this.aGraphics3320.fillRect(0, 0, var3, var4);
-            Color var6 = this.getForeground();
-            if (this.aBoolean3313) {
-                this.aGraphics3320.setColor(var5);
-                this.aGraphics3320.drawLine(0, var4 - 1, var3 - 1, var4 - 1);
-                this.aGraphics3320.setColor(this.method844(var5, var6));
-                double var7 = 1.0D * (double) (var3 - var4 * 2) / (double) this.items.size();
-                this.aGraphics3320.drawLine(
-                        (int) ((double) var4 + (double) this.anInt3311 * var7 + 0.5D),
-                        var4 - 2,
-                        (int) ((double) var4 + (double) (this.anInt3311 + 1) * var7 + 0.5D),
-                        var4 - 2);
+            this.drawBackground(this.graphics);
+            Color backgroundColor = this.getBackground();
+            this.graphics.setColor(backgroundColor);
+            this.graphics.fillRect(0, 0, width, height);
+            Color foregroundColor = this.getForeground();
+            if (this.mouseHoveredOver) {
+                this.graphics.setColor(backgroundColor);
+                this.graphics.drawLine(0, height - 1, width - 1, height - 1);
+                this.graphics.setColor(this.getBlendedColor(backgroundColor, foregroundColor));
+                double highlightedItemWidth = (double) (width - height * 2) / (double) this.items.size();
+                this.graphics.drawLine(
+                        (int) ((double) height + (double) this.selectedIndex * highlightedItemWidth + 0.5D),
+                        height - 2,
+                        (int) ((double) height + (double) (this.selectedIndex + 1) * highlightedItemWidth + 0.5D),
+                        height - 2);
             }
 
-            this.aGraphics3320.setColor(this.method842(var5, 24));
-            this.aGraphics3320.drawLine(0, 0, var3 - 1, 0);
-            this.aGraphics3320.setColor(this.method842(var5, -36));
-            this.aGraphics3320.drawLine(0, var4 - 1, var3 - 1, var4 - 1);
-            this.method841(this.aGraphics3320, 0, 0, var4, var4, true, this.anInt3312 == -1);
-            this.method841(this.aGraphics3320, var3 - var4, 0, var4, var4, false, this.anInt3312 == 1);
-            this.aGraphics3320.setColor(var6);
-            String var9 = this.getSelectedItem();
-            if (var9 != null) {
-                Font var8 = this.getFont();
-                this.aGraphics3320.setFont(var8);
-                StringDraw.drawString(this.aGraphics3320, var9, var3 / 2, var4 / 2 + var8.getSize() * 3 / 8 + 1, 0);
+            this.graphics.setColor(this.translateColor(backgroundColor, 24));
+            this.graphics.drawLine(0, 0, width - 1, 0);
+            this.graphics.setColor(this.translateColor(backgroundColor, -36));
+            this.graphics.drawLine(0, height - 1, width - 1, height - 1);
+            this.drawControlButtons(this.graphics, 0, 0, height, height, true, this.mouseClickMode == -1);
+            this.drawControlButtons(this.graphics, width - height, 0, height, height, false, this.mouseClickMode == 1);
+            this.graphics.setColor(foregroundColor);
+            String selectedItemText = this.getSelectedItem();
+            if (selectedItemText != null) {
+                Font font = this.getFont();
+                this.graphics.setFont(font);
+                StringDraw.drawString(
+                        this.graphics, selectedItemText, width / 2, height / 2 + font.getSize() * 3 / 8 + 1, 0);
             }
 
-            var1.drawImage(this.anImage3319, 0, 0, this);
+            g.drawImage(this.image, 0, 0, this);
         }
     }
 
-    public void setFont(Font var1) {
-        this.aBoolean3315 = true;
-        super.setFont(var1);
+    public void setFont(Font font) {
+        this.useNonDefaultFont = true;
+        super.setFont(font);
         this.repaint();
     }
 
     public Font getFont() {
-        if (this.aBoolean3315) {
+        if (this.useNonDefaultFont) {
             return super.getFont();
         } else {
-            int var1 = this.getSize().height - 9;
-            if (var1 < 9) {
-                var1 = 9;
+            int fontSize = this.getSize().height - 9;
+            if (fontSize < 9) {
+                fontSize = 9;
             }
 
-            if (this.aFont3316 == null || var1 != this.anInt3317) {
-                this.aFont3316 = new Font("Dialog", Font.PLAIN, var1);
-                this.anInt3317 = var1;
+            if (this.font == null || fontSize != this.fontSize) {
+                this.font = new Font("Dialog", Font.PLAIN, fontSize);
+                this.fontSize = fontSize;
             }
 
-            return this.aFont3316;
+            return this.font;
         }
     }
 
-    public void mouseEntered(MouseEvent var1) {
-        this.aBoolean3313 = true;
+    public void mouseEntered(MouseEvent e) {
+        this.mouseHoveredOver = true;
         this.repaint();
     }
 
-    public void mouseExited(MouseEvent var1) {
-        this.aBoolean3313 = false;
-        this.anInt3312 = 0;
+    public void mouseExited(MouseEvent e) {
+        this.mouseHoveredOver = false;
+        this.mouseClickMode = 0;
         this.repaint();
     }
 
-    public void mousePressed(MouseEvent var1) {
-        synchronized (this.anObject3325) {
-            Dimension var3 = this.getSize();
-            int var4 = var3.width;
-            int var5 = var3.height;
-            int var6 = var1.getX();
-            int var7 = this.items.size();
-            if (var6 < var5) {
-                --this.anInt3311;
-                if (this.anInt3311 < 0) {
-                    this.anInt3311 = var7 - 1;
+    public void mousePressed(MouseEvent e) {
+        synchronized (this.lock) {
+            Dimension size = this.getSize();
+            int width = size.width;
+            int arrowButtonWidth = size.height;
+            int x = e.getX();
+            int itemsCount = this.items.size();
+            if (x < arrowButtonWidth) {
+                --this.selectedIndex;
+                if (this.selectedIndex < 0) {
+                    this.selectedIndex = itemsCount - 1;
                 }
 
-                this.anInt3312 = -1;
-                this.aBoolean3314 = false;
-            } else if (var6 >= var4 - var5) {
-                ++this.anInt3311;
-                if (this.anInt3311 >= var7) {
-                    this.anInt3311 = 0;
+                this.mouseClickMode = -1;
+                this.mouseIsBeingDraggedOverValues = false;
+            } else if (x >= width - arrowButtonWidth) {
+                ++this.selectedIndex;
+                if (this.selectedIndex >= itemsCount) {
+                    this.selectedIndex = 0;
                 }
 
-                this.anInt3312 = 1;
-                this.aBoolean3314 = false;
+                this.mouseClickMode = 1;
+                this.mouseIsBeingDraggedOverValues = false;
             } else {
-                int var8 = (var6 - var5) * var7 / (var4 - var5 * 2);
-                this.aBoolean3314 = true;
-                if (var8 == this.anInt3311) {
+                int index = (x - arrowButtonWidth) * itemsCount / (width - arrowButtonWidth * 2);
+                this.mouseIsBeingDraggedOverValues = true;
+                if (index == this.selectedIndex) {
                     return;
                 }
 
-                this.anInt3311 = var8;
+                this.selectedIndex = index;
             }
         }
 
         this.repaint();
-        this.method845();
+        this.notifyListenersWithDelay();
     }
 
-    public void mouseReleased(MouseEvent var1) {
-        if (this.anInt3312 != 0) {
-            this.anInt3312 = 0;
+    public void mouseReleased(MouseEvent e) {
+        if (this.mouseClickMode != 0) {
+            this.mouseClickMode = 0;
             this.repaint();
         }
 
-        this.aBoolean3314 = false;
+        this.mouseIsBeingDraggedOverValues = false;
     }
 
-    public void mouseClicked(MouseEvent var1) {}
+    public void mouseClicked(MouseEvent e) {}
 
-    public void mouseMoved(MouseEvent var1) {}
+    public void mouseMoved(MouseEvent e) {}
 
-    public void mouseDragged(MouseEvent var1) {
-        synchronized (this.anObject3325) {
-            if (this.aBoolean3314) {
-                Dimension var3 = this.getSize();
-                int var4 = this.items.size();
-                int var5 = (var1.getX() - var3.height) * var4 / (var3.width - var3.height * 2);
-                if (var5 < 0) {
-                    var5 = 0;
-                } else if (var5 >= var4) {
-                    var5 = var4 - 1;
+    public void mouseDragged(MouseEvent e) {
+        synchronized (this.lock) {
+            if (this.mouseIsBeingDraggedOverValues) {
+                Dimension size = this.getSize();
+                int itemsCount = this.items.size();
+                int index = (e.getX() - size.height) * itemsCount / (size.width - size.height * 2);
+                if (index < 0) {
+                    index = 0;
+                } else if (index >= itemsCount) {
+                    index = itemsCount - 1;
                 }
 
-                if (var5 != this.anInt3311) {
-                    this.anInt3311 = var5;
+                if (index != this.selectedIndex) {
+                    this.selectedIndex = index;
                     this.repaint();
-                    this.method845();
+                    this.notifyListenersWithDelay();
                 }
             }
         }
     }
 
     public Object[] getSelectedObjects() {
-        String var1 = this.getSelectedItem();
-        return var1 == null ? null : new Object[] {var1};
+        String selectedItem = this.getSelectedItem();
+        return selectedItem == null ? null : new Object[] {selectedItem};
     }
 
-    public int addItem(String var1) {
+    public int addItem(String item) {
         synchronized (this.items) {
-            this.items.add(var1);
-            if (this.anInt3311 == -1) {
-                this.anInt3311 = 0;
+            this.items.add(item);
+            if (this.selectedIndex == -1) {
+                this.selectedIndex = 0;
                 this.repaint();
             }
 
@@ -220,26 +221,26 @@ public final class ColorSpinner extends IPanel implements MouseListener, MouseMo
         }
     }
 
-    public String getItem(int var1) {
+    public String getItem(int i) {
         synchronized (this.items) {
-            return this.items.get(var1);
+            return this.items.get(i);
         }
     }
 
-    public String removeItem(int var1) {
+    public String removeItem(int i) {
         synchronized (this.items) {
-            String var3 = this.items.get(var1);
-            this.items.remove(var1);
-            if (this.anInt3311 >= var1) {
-                --this.anInt3311;
-                if (this.anInt3311 == -1 && !this.items.isEmpty()) {
-                    this.anInt3311 = 0;
+            String item = this.items.get(i);
+            this.items.remove(i);
+            if (this.selectedIndex >= i) {
+                --this.selectedIndex;
+                if (this.selectedIndex == -1 && !this.items.isEmpty()) {
+                    this.selectedIndex = 0;
                 }
 
                 this.repaint();
             }
 
-            return var3;
+            return item;
         }
     }
 
@@ -247,7 +248,7 @@ public final class ColorSpinner extends IPanel implements MouseListener, MouseMo
         synchronized (this.items) {
             if (!this.items.isEmpty()) {
                 this.items.clear();
-                this.anInt3311 = -1;
+                this.selectedIndex = -1;
                 this.repaint();
                 return true;
             } else {
@@ -256,11 +257,11 @@ public final class ColorSpinner extends IPanel implements MouseListener, MouseMo
         }
     }
 
-    public boolean setSelectedIndex(int var1) {
+    public boolean setSelectedIndex(int i) {
         synchronized (this.items) {
-            if (var1 >= 0 && var1 < this.items.size()) {
-                if (var1 != this.anInt3311) {
-                    this.anInt3311 = var1;
+            if (i >= 0 && i < this.items.size()) {
+                if (i != this.selectedIndex) {
+                    this.selectedIndex = i;
                     this.repaint();
                     return true;
                 } else {
@@ -273,12 +274,12 @@ public final class ColorSpinner extends IPanel implements MouseListener, MouseMo
     }
 
     public int getSelectedIndex() {
-        return this.anInt3311;
+        return this.selectedIndex;
     }
 
     public String getSelectedItem() {
         synchronized (this.items) {
-            return this.anInt3311 == -1 ? null : this.getItem(this.anInt3311);
+            return this.selectedIndex == -1 ? null : this.getItem(this.selectedIndex);
         }
     }
 
@@ -286,114 +287,124 @@ public final class ColorSpinner extends IPanel implements MouseListener, MouseMo
         return this.items.size();
     }
 
-    public void addItemListener(ItemListener var1) {
+    public void addItemListener(ItemListener listener) {
         synchronized (this.listeners) {
-            this.listeners.add(var1);
+            this.listeners.add(listener);
         }
     }
 
-    public void removeItemListener(ItemListener var1) {
+    public void removeItemListener(ItemListener listener) {
         synchronized (this.listeners) {
-            this.listeners.remove(var1);
+            this.listeners.remove(listener);
         }
     }
 
-    public void setItemEventProcessDelay(int var1) {
-        if (var1 < 0) {
+    public void setItemEventProcessDelay(int stateChangeNotificationDelay) {
+        if (stateChangeNotificationDelay < 0) {
             throw new IllegalArgumentException();
         } else {
-            this.anInt3324 = var1;
+            this.stateChangeNotificationDelay = stateChangeNotificationDelay;
         }
     }
 
-    private void method841(Graphics var1, int var2, int var3, int var4, int var5, boolean var6, boolean var7) {
-        Color var8 = this.method842(this.getBackground(), -32);
-        var1.setColor(var8);
-        var1.fillRect(var2, var3, var4, var5);
-        double var9 = (double) var2 + (double) var4 / 3.0D + 0.5D;
-        double var11 = (double) var2 + (double) var4 * 2.0D / 3.0D - 0.5D;
-        int[] var13 = new int[] {(int) (var6 ? var11 : var9), (int) (var6 ? var11 : var9), (int) (var6 ? var9 : var11)};
-        int[] var14 = new int[] {
-            (int) ((double) var3 + (double) var5 / 3.0D),
-            (int) ((double) var3 + (double) var5 * 2.0D / 3.0D),
-            (int) ((double) var3 + (double) var5 / 2.0D)
+    private void drawControlButtons(
+            Graphics g, int x, int y, int width, int height, boolean arrowFacingLeft, boolean mouseClickedOver) {
+        Color backgroundColor = this.translateColor(this.getBackground(), -32);
+        g.setColor(backgroundColor);
+        g.fillRect(x, y, width, height);
+        double arrowStartX = (double) x + (double) width / 3.0D + 0.5D;
+        double arrowEndX = (double) x + (double) width * 2.0D / 3.0D - 0.5D;
+        int[] arrowXCoords = new int[] {
+            (int) (arrowFacingLeft ? arrowEndX : arrowStartX),
+            (int) (arrowFacingLeft ? arrowEndX : arrowStartX),
+            (int) (arrowFacingLeft ? arrowStartX : arrowEndX)
         };
-        int[] var15 = new int[] {var13[0] + (var6 ? 1 : -1), var13[1] + (var6 ? 1 : -1), var13[2] + (var6 ? -1 : 1)};
-        int[] var16 = new int[] {var14[0] - 1, var14[1] + 1, var14[2]};
-        Color var17 = this.getForeground();
-        var1.setColor(this.method844(var8, var17));
-        var1.fillPolygon(var15, var16, 3);
-        var1.setColor(var17);
-        var1.fillPolygon(var13, var14, 3);
-        Color var18 = this.method842(var8, 24);
-        Color var19 = this.method842(var8, -36);
-        var1.setColor(var7 ? var19 : var18);
-        var1.drawRect(var2, var3, var4 - 1, var5 - 1);
-        var1.drawRect(var2 + 1, var3 + 1, var4 - 3, var5 - 3);
-        var1.setColor(var7 ? var18 : var19);
-        var1.drawLine(var2 + 1, var3 + var5 - 1, var2 + var4 - 1, var3 + var5 - 1);
-        var1.drawLine(var2 + 2, var3 + var5 - 2, var2 + var4 - 1, var3 + var5 - 2);
-        var1.drawLine(var2 + var4 - 1, var3, var2 + var4 - 1, var3 + var5 - 1);
-        var1.drawLine(var2 + var4 - 2, var3 + 1, var2 + var4 - 2, var3 + var5 - 1);
+        int[] arrowYCoords = new int[] {
+            (int) ((double) y + (double) height / 3.0D),
+            (int) ((double) y + (double) height * 2.0D / 3.0D),
+            (int) ((double) y + (double) height / 2.0D)
+        };
+        int[] arrowXBorder = new int[] {
+            arrowXCoords[0] + (arrowFacingLeft ? 1 : -1),
+            arrowXCoords[1] + (arrowFacingLeft ? 1 : -1),
+            arrowXCoords[2] + (arrowFacingLeft ? -1 : 1)
+        };
+        int[] arrowYBorder = new int[] {arrowYCoords[0] - 1, arrowYCoords[1] + 1, arrowYCoords[2]};
+        Color foregroundColor = this.getForeground();
+        g.setColor(this.getBlendedColor(backgroundColor, foregroundColor));
+        g.fillPolygon(arrowXBorder, arrowYBorder, 3);
+        g.setColor(foregroundColor);
+        g.fillPolygon(arrowXCoords, arrowYCoords, 3);
+        Color borderColor1 = this.translateColor(backgroundColor, 24);
+        Color borderColor2 = this.translateColor(backgroundColor, -36);
+        g.setColor(mouseClickedOver ? borderColor2 : borderColor1);
+        g.drawRect(x, y, width - 1, height - 1);
+        g.drawRect(x + 1, y + 1, width - 3, height - 3);
+        g.setColor(mouseClickedOver ? borderColor1 : borderColor2);
+        g.drawLine(x + 1, y + height - 1, x + width - 1, y + height - 1);
+        g.drawLine(x + 2, y + height - 2, x + width - 1, y + height - 2);
+        g.drawLine(x + width - 1, y, x + width - 1, y + height - 1);
+        g.drawLine(x + width - 2, y + 1, x + width - 2, y + height - 1);
     }
 
-    private Color method842(Color var1, int var2) {
-        int var3 = var1.getRed();
-        int var4 = var1.getGreen();
-        int var5 = var1.getBlue();
-        if (var3 == 0 && var4 == 0 && var5 == 0 && var2 < 0) {
+    private Color translateColor(Color color, int offset) {
+        int r = color.getRed();
+        int g = color.getGreen();
+        int b = color.getBlue();
+        if (r == 0 && g == 0 && b == 0 && offset < 0) {
             return new Color(16, 16, 16);
-        } else if (var3 == 255 && var4 == 255 && var5 == 255 && var2 > 0) {
+        } else if (r == 255 && g == 255 && b == 255 && offset > 0) {
             return new Color(240, 240, 240);
         } else {
-            var3 = this.method843(var3, var2);
-            var4 = this.method843(var4, var2);
-            var5 = this.method843(var5, var2);
-            return new Color(var3, var4, var5);
+            r = this.translateColorChannel(r, offset);
+            g = this.translateColorChannel(g, offset);
+            b = this.translateColorChannel(b, offset);
+            return new Color(r, g, b);
         }
     }
 
-    private int method843(int var1, int var2) {
-        var1 += var2;
-        if (var1 < 0) {
-            var1 = 0;
-        } else if (var1 > 255) {
-            var1 = 255;
+    private int translateColorChannel(int original, int offset) {
+        original += offset;
+        if (original < 0) {
+            original = 0;
+        } else if (original > 255) {
+            original = 255;
         }
 
-        return var1;
+        return original;
     }
 
-    private Color method844(Color var1, Color var2) {
-        int var3 = (var1.getRed() * 2 + var2.getRed()) / 3;
-        int var4 = (var1.getGreen() * 2 + var2.getGreen()) / 3;
-        int var5 = (var1.getBlue() * 2 + var2.getBlue()) / 3;
-        return new Color(var3, var4, var5);
+    private Color getBlendedColor(Color color1, Color color2) {
+        int r = (color1.getRed() * 2 + color2.getRed()) / 3;
+        int g = (color1.getGreen() * 2 + color2.getGreen()) / 3;
+        int b = (color1.getBlue() * 2 + color2.getBlue()) / 3;
+        return new Color(r, g, b);
     }
 
-    private void method845() {
+    private void notifyListenersWithDelay() {
         synchronized (this.listeners) {
             if (!this.listeners.isEmpty()) {
-                if (this.aClass92_3323 != null) {
-                    this.aClass92_3323.method1746();
-                    this.aClass92_3323 = null;
+                if (this.debouceThread != null) {
+                    this.debouceThread.stop();
+                    this.debouceThread = null;
                 }
 
-                if (this.anInt3324 == 0) {
-                    this.method846();
+                if (this.stateChangeNotificationDelay == 0) {
+                    this.notifyListeners();
                 } else {
-                    this.aClass92_3323 = new Class92(this, this, this.anInt3324);
+                    this.debouceThread =
+                            new ColorSpinnerStateChangeDebounceThread(this, this.stateChangeNotificationDelay);
                 }
             }
         }
     }
 
-    protected void method846() {
-        String var1 = this.getSelectedItem();
-        if (var1 != null) {
-            ItemEvent var2 = new ItemEvent(this, 701, var1, ItemEvent.SELECTED);
+    void notifyListeners() {
+        String selectedItem = this.getSelectedItem();
+        if (selectedItem != null) {
+            ItemEvent event = new ItemEvent(this, 701, selectedItem, ItemEvent.SELECTED);
             for (ItemListener listener : listeners) {
-                listener.itemStateChanged(var2);
+                listener.itemStateChanged(event);
             }
         }
     }

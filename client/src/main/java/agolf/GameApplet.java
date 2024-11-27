@@ -49,6 +49,11 @@ public class GameApplet extends AApplet {
         this.aBoolean3773 = false;
     }
 
+    @Override
+    public String getAppletInfo() {
+        return "-= AGolf =-\nCopyright (c) 2002-2012 Playforia (www.playforia.info)\nProgramming: Pasi Laaksonen\nGraphics: Janne Matilainen";
+    }
+
     public void textsLoadedNotify(TextManager textManager) {
         this.gameContainer.textManager = textManager;
     }
@@ -59,25 +64,25 @@ public class GameApplet extends AApplet {
 
     public void defineImages(ImageManager imageManager, String var2) {
         this.gameContainer.imageManager = imageManager;
-        imageManager.defineImage("bg-lobbyselect.gif");
-        imageManager.defineImage("bg-lobby-single.gif");
-        imageManager.defineImage("bg-lobby-single-fade.jpg");
-        imageManager.defineImage("bg-lobby-dual.gif");
-        imageManager.defineImage("bg-lobby-multi.gif");
-        imageManager.defineImage("bg-lobby-multi-fade.jpg");
-        imageManager.defineImage("bg-lobby-password.gif");
-        imageManager.defineImage("shapes.gif");
-        imageManager.defineImage("elements.gif");
-        imageManager.defineImage("special.gif");
-        imageManager.defineImage("balls.gif");
-        imageManager.defineSharedImage("ranking-icons.gif"); // TODO
-        imageManager.defineSharedImage("language-flags.png"); // TODO
-        imageManager.defineSharedImage("credit-background.jpg"); // TODO
-        imageManager.defineSharedImage("tf-background.gif"); // TODO
+        imageManager.defineGameImage("bg-lobbyselect.gif");
+        imageManager.defineGameImage("bg-lobby-single.gif");
+        imageManager.defineGameImage("bg-lobby-single-fade.jpg");
+        imageManager.defineGameImage("bg-lobby-dual.gif");
+        imageManager.defineGameImage("bg-lobby-multi.gif");
+        imageManager.defineGameImage("bg-lobby-multi-fade.jpg");
+        imageManager.defineGameImage("bg-lobby-password.gif");
+        imageManager.defineGameImage("shapes.gif");
+        imageManager.defineGameImage("elements.gif");
+        imageManager.defineGameImage("special.gif");
+        imageManager.defineGameImage("balls.gif");
+        imageManager.defineSharedImage("ranking-icons.gif");
+        imageManager.defineSharedImage("language-flags.png");
+        imageManager.defineSharedImage("credit-background.jpg");
+        imageManager.defineSharedImage("tf-background.gif");
 
         for (int i = 0; i < GameBackgroundCanvas.trackAdvertSize; ++i) {
             if (this.gameContainer.adverts[i] != null) {
-                imageManager.defineImage("ad" + i, this.gameContainer.adverts[i]);
+                imageManager.defineGameImage("ad" + i, this.gameContainer.adverts[i]);
             }
         }
     }

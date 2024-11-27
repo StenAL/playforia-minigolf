@@ -58,7 +58,7 @@ public class LobbySelectPanel extends Panel implements ActionListener, MouseList
     }
 
     public void update(Graphics g) {
-        g.drawImage(this.gameContainer.imageManager.getImage("bg-lobbyselect"), 0, 0, this);
+        g.drawImage(this.gameContainer.imageManager.getGameImage("bg-lobbyselect"), 0, 0, this);
         g.setColor(Color.black);
         g.setFont(GameApplet.fontSerif26b);
         if (!this.gameContainer.disableSinglePlayer) {
