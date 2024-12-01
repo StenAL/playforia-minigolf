@@ -56,8 +56,8 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
     private ColorList playersList;
     private ColorCheckbox sendPrivatelyCheckbox;
     private ColorCheckbox ignoreUserCheckbox;
-    private ColorButton_Sub1 sortByRankingButton;
-    private ColorButton_Sub1 sortByNicknameButton;
+    private RoundedUpperCornersButton sortByRankingButton;
+    private RoundedUpperCornersButton sortByNicknameButton;
     private Image backgroundImage;
     private Image playersListBackgroundImage;
     private int backgroundImageOffsetX;
@@ -682,11 +682,11 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
 
     public void usePixelRoundedButtonsAndCheckBoxes() {
         if (this.sortByRankingButton != null) {
-            this.sortByRankingButton.setPixelRoundedUpperCorners();
+            this.sortByRankingButton.setRoundedUpperCorners();
         }
 
         if (this.sortByNicknameButton != null) {
-            this.sortByNicknameButton.setPixelRoundedUpperCorners();
+            this.sortByNicknameButton.setRoundedUpperCorners();
         }
 
         if (this.sendPrivatelyCheckbox != null) {
@@ -801,13 +801,15 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
     private void init(boolean addSendPrivately, boolean addIgnoreUser) {
         this.setLayout(null);
         if (this.rankingsShown) {
-            this.sortByRankingButton = new ColorButton_Sub1(this.textManager.getShared("UserList_SortByRanking"));
+            this.sortByRankingButton =
+                    new RoundedUpperCornersButton(this.textManager.getShared("UserList_SortByRanking"));
             this.sortByRankingButton.setBounds(0, 0, 17, 11);
             this.sortByRankingButton.setFont(sortingButtonsFont);
             this.sortByRankingButton.setBackground(columnHeaderDefaultColor);
             this.sortByRankingButton.addActionListener(this);
             this.add(this.sortByRankingButton);
-            this.sortByNicknameButton = new ColorButton_Sub1(this.textManager.getShared("UserList_SortByNick"));
+            this.sortByNicknameButton =
+                    new RoundedUpperCornersButton(this.textManager.getShared("UserList_SortByNick"));
             this.sortByNicknameButton.setBounds(17, 0, this.width - 17, 11);
             this.sortByNicknameButton.setFont(sortingButtonsFont);
             this.sortByNicknameButton.setBackground(columnHeaderSortedColor);
