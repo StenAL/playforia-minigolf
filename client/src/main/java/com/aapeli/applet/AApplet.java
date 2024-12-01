@@ -522,7 +522,7 @@ public abstract class AApplet extends Applet implements Runnable, ActionListener
 
                 this.loadingPanel.setLoadingMessage(
                         this.textManager.getShared("Loader_LoadingGfxSfx") + (adInfo != null ? adInfo : ""));
-                this.soundManager = new SoundManager(this, true, this.isDebug());
+                this.soundManager = new SoundManager(true, this.isDebug());
                 if (startupDebug) {
                     this.soundManager.enableSUD();
                 }
