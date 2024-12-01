@@ -6,19 +6,10 @@ import javax.sound.sampled.Clip;
 public final class SoundManager implements Runnable {
     private static final String[] methodLookup = {"stop", "play", "loop"};
     private final boolean debug;
-    private boolean startupDebug;
     private Hashtable<Integer, SoundClip> clientSounds;
     private Hashtable<String, SoundClip> sharedSounds;
     private boolean clipLoaderThreadRunning;
     public int audioChoicerIndex;
-
-    public SoundManager() {
-        this(true, false);
-    }
-
-    public SoundManager(boolean debug) {
-        this(true, debug);
-    }
 
     public SoundManager(boolean shouldLoadClips, boolean debug) {
         this.debug = debug;
@@ -149,10 +140,6 @@ public final class SoundManager implements Runnable {
         this.sharedSounds = null;
         this.clientSounds.clear();
         this.clientSounds = null;
-    }
-
-    public void enableSUD() {
-        this.startupDebug = true;
     }
 
     protected boolean isDebug() {

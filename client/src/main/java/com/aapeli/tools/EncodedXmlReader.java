@@ -19,7 +19,7 @@ public class EncodedXmlReader {
     public XmlUnit readXmlUnit() {
         try {
             String xmlData = this.readFile();
-            return XmlUnit.parseString(xmlData, true, true);
+            return XmlUnit.parseString(xmlData, true);
         } catch (Exception ex) {
             if (this.isDebug) {
                 System.out.println("EncodedXmlReader.readXmlUnit(): Failed to read or parse xml-file \""

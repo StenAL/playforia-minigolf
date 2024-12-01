@@ -11,7 +11,6 @@ public class HackedShot implements Runnable {
     private static final double aDouble2798 = Math.sqrt(2.0D) / 2.0D;
     private static final int anInt2799 = (int) (6.0D * aDouble2798 + 0.5D);
     private static int[] anIntArray2837 = new int[] {Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE};
-    private static int anInt2838 = 2;
 
     private int anInt2809;
     private int anInt2810;
@@ -1135,6 +1134,5 @@ public class HackedShot implements Runnable {
         }
 
         anIntArray2837[2] = var1;
-        anInt2838 = this.anInt2839;
     }
 }

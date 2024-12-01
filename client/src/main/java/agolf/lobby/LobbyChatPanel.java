@@ -59,249 +59,265 @@ class LobbyChatPanel extends ChatLobby implements MultiLanguageChatListener {
     }
 
     protected boolean handlePacket(String[] args) {
-        if (args[1].equals("numberofusers")) {
-            if ((this.lobbyId != 1 || aBoolean3712)
-                    && (this.lobbyId != 2 || aBoolean3713)
-                    && (this.lobbyId != 3 || aBoolean3714)) {
+        switch (args[1]) {
+            case "numberofusers" -> {
+                if ((this.lobbyId != 1 || aBoolean3712)
+                        && (this.lobbyId != 2 || aBoolean3713)
+                        && (this.lobbyId != 3 || aBoolean3714)) {
+                    if (this.lobbyId == 1) {
+                        aBoolean3712 = false; // ??
+                    }
+
+                    if (this.lobbyId == 2) {
+                        aBoolean3713 = false; // ??
+                    }
+
+                    if (this.lobbyId == 3) {
+                        aBoolean3714 = false; // ??
+                    }
+                } else {
+                    super.chatTextArea.clear();
+                    super.userList.removeAllUsers();
+                }
+
+                int numSingleLobby = Integer.parseInt(args[2]);
+                int numSingleGames = Integer.parseInt(args[3]);
+                int numDualLobby = Integer.parseInt(args[4]);
+                int numDualGames = Integer.parseInt(args[5]);
+                int numMultiLobby = Integer.parseInt(args[6]);
+                int numMultiGames = Integer.parseInt(args[7]);
+                int singleLobbyUsers = numSingleLobby + numSingleGames;
+                int dualLobbyUsers = numDualLobby + numDualGames;
+                int multiLobbyUsers = numMultiLobby + numMultiGames;
+                int lobbyUsers = -1;
+                int ingameUsers = -1;
                 if (this.lobbyId == 1) {
-                    aBoolean3712 = false; // ??
+                    lobbyUsers = numSingleLobby + numSingleGames;
+                    ingameUsers = numSingleGames;
                 }
 
                 if (this.lobbyId == 2) {
-                    aBoolean3713 = false; // ??
+                    lobbyUsers = numDualLobby + numDualGames;
+                    ingameUsers = numDualGames;
                 }
 
                 if (this.lobbyId == 3) {
-                    aBoolean3714 = false; // ??
-                }
-            } else {
-                super.chatTextArea.clear();
-                super.userList.removeAllUsers();
-            }
-
-            int numSingleLobby = Integer.parseInt(args[2]);
-            int numSingleGames = Integer.parseInt(args[3]);
-            int numDualLobby = Integer.parseInt(args[4]);
-            int numDualGames = Integer.parseInt(args[5]);
-            int numMultiLobby = Integer.parseInt(args[6]);
-            int numMultiGames = Integer.parseInt(args[7]);
-            int singleLobbyUsers = numSingleLobby + numSingleGames;
-            int dualLobbyUsers = numDualLobby + numDualGames;
-            int multiLobbyUsers = numMultiLobby + numMultiGames;
-            int lobbyUsers = -1;
-            int ingameUsers = -1;
-            if (this.lobbyId == 1) {
-                lobbyUsers = numSingleLobby + numSingleGames;
-                ingameUsers = numSingleGames;
-            }
-
-            if (this.lobbyId == 2) {
-                lobbyUsers = numDualLobby + numDualGames;
-                ingameUsers = numDualGames;
-            }
-
-            if (this.lobbyId == 3) {
-                lobbyUsers = numMultiLobby + numMultiGames;
-                ingameUsers = numMultiGames;
-            }
-
-            String message = null;
-            if (lobbyUsers == 0 && ingameUsers == 0) {
-                message = this.gameContainer.textManager.getGame("LobbyChat_UsersInThisLobby00");
-            }
-
-            if (lobbyUsers == 1 && ingameUsers == 0) {
-                message = this.gameContainer.textManager.getGame("LobbyChat_UsersInThisLobby10");
-            }
-
-            if (lobbyUsers == 1 && ingameUsers == 1) {
-                message = this.gameContainer.textManager.getGame("LobbyChat_UsersInThisLobby11");
-            }
-
-            if (lobbyUsers >= 2 && ingameUsers == 0) {
-                message = this.gameContainer.textManager.getGame("LobbyChat_UsersInThisLobbyX0", lobbyUsers);
-            }
-
-            if (lobbyUsers >= 2 && ingameUsers == 1) {
-                message = this.gameContainer.textManager.getGame("LobbyChat_UsersInThisLobbyX1", lobbyUsers);
-            }
-
-            if (lobbyUsers >= 2 && ingameUsers >= 2) {
-                message =
-                        this.gameContainer.textManager.getGame("LobbyChat_UsersInThisLobbyXX", lobbyUsers, ingameUsers);
-            }
-
-            super.chatTextArea.addPlainMessage(message);
-            message = null;
-            if (this.lobbyId == 1 && (dualLobbyUsers >= 1 || multiLobbyUsers >= 1)) {
-                message = "(";
-                if (dualLobbyUsers == 1) {
-                    message = message + this.gameContainer.textManager.getGame("LobbyChat_UsersInDualPlayerLobby1");
+                    lobbyUsers = numMultiLobby + numMultiGames;
+                    ingameUsers = numMultiGames;
                 }
 
-                if (dualLobbyUsers >= 2) {
-                    message = message
-                            + this.gameContainer.textManager.getGame(
-                                    "LobbyChat_UsersInDualPlayerLobbyX", dualLobbyUsers);
+                String message = null;
+                if (lobbyUsers == 0 && ingameUsers == 0) {
+                    message = this.gameContainer.textManager.getGame("LobbyChat_UsersInThisLobby00");
                 }
 
-                if (dualLobbyUsers >= 1 && multiLobbyUsers >= 1) {
-                    message = message + ", ";
+                if (lobbyUsers == 1 && ingameUsers == 0) {
+                    message = this.gameContainer.textManager.getGame("LobbyChat_UsersInThisLobby10");
                 }
 
-                if (multiLobbyUsers == 1) {
-                    message = message + this.gameContainer.textManager.getGame("LobbyChat_UsersInMultiPlayerLobby1");
+                if (lobbyUsers == 1 && ingameUsers == 1) {
+                    message = this.gameContainer.textManager.getGame("LobbyChat_UsersInThisLobby11");
                 }
 
-                if (multiLobbyUsers >= 2) {
-                    message = message
-                            + this.gameContainer.textManager.getGame(
-                                    "LobbyChat_UsersInMultiPlayerLobbyX", multiLobbyUsers);
+                if (lobbyUsers >= 2 && ingameUsers == 0) {
+                    message = this.gameContainer.textManager.getGame("LobbyChat_UsersInThisLobbyX0", lobbyUsers);
                 }
 
-                message = message + ")";
-            }
-
-            if (this.lobbyId == 2 && (singleLobbyUsers >= 1 || multiLobbyUsers >= 1)) {
-                message = "(";
-                if (singleLobbyUsers == 1) {
-                    message = message + this.gameContainer.textManager.getGame("LobbyChat_UsersInSinglePlayerLobby1");
+                if (lobbyUsers >= 2 && ingameUsers == 1) {
+                    message = this.gameContainer.textManager.getGame("LobbyChat_UsersInThisLobbyX1", lobbyUsers);
                 }
 
-                if (singleLobbyUsers >= 2) {
-                    message = message
-                            + this.gameContainer.textManager.getGame(
-                                    "LobbyChat_UsersInSinglePlayerLobbyX", singleLobbyUsers);
+                if (lobbyUsers >= 2 && ingameUsers >= 2) {
+                    message = this.gameContainer.textManager.getGame(
+                            "LobbyChat_UsersInThisLobbyXX", lobbyUsers, ingameUsers);
                 }
 
-                if (singleLobbyUsers >= 1 && multiLobbyUsers >= 1) {
-                    message = message + ", ";
-                }
-
-                if (multiLobbyUsers == 1) {
-                    message = message + this.gameContainer.textManager.getGame("LobbyChat_UsersInMultiPlayerLobby1");
-                }
-
-                if (multiLobbyUsers >= 2) {
-                    message = message
-                            + this.gameContainer.textManager.getGame(
-                                    "LobbyChat_UsersInMultiPlayerLobbyX", multiLobbyUsers);
-                }
-
-                message = message + ")";
-            }
-
-            if (this.lobbyId == 3 && (singleLobbyUsers >= 1 || dualLobbyUsers >= 1)) {
-                message = "(";
-                if (singleLobbyUsers == 1) {
-                    message = message + this.gameContainer.textManager.getGame("LobbyChat_UsersInSinglePlayerLobby1");
-                }
-
-                if (singleLobbyUsers >= 2) {
-                    message = message
-                            + this.gameContainer.textManager.getGame(
-                                    "LobbyChat_UsersInSinglePlayerLobbyX", singleLobbyUsers);
-                }
-
-                if (singleLobbyUsers >= 1 && dualLobbyUsers >= 1) {
-                    message = message + ", ";
-                }
-
-                if (dualLobbyUsers == 1) {
-                    message = message + this.gameContainer.textManager.getGame("LobbyChat_UsersInDualPlayerLobby1");
-                }
-
-                if (dualLobbyUsers >= 2) {
-                    message = message
-                            + this.gameContainer.textManager.getGame(
-                                    "LobbyChat_UsersInDualPlayerLobbyX", dualLobbyUsers);
-                }
-
-                message = message + ")";
-            }
-
-            if (message != null) {
                 super.chatTextArea.addPlainMessage(message);
-            }
-
-            super.chatTextArea.addText();
-            return true;
-        } else if (args[1].equals("users")) {
-            int i = args.length - 2;
-            String[] users = new String[i];
-
-            System.arraycopy(args, 2, users, 0, i);
-
-            this.setUserList(users);
-            return true;
-        } else if (args[1].equals("ownjoin")) {
-            this.localUserJoin(args[2]);
-            return true;
-        } else if (args[1].equals("join") || args[1].equals("joinfromgame")) {
-            String userData = this.userJoin(args[2]);
-            if (!this.isNoJoinPartMessages()) {
-                super.chatTextArea.addJoinMessage(this.gameContainer.textManager.getGame(
-                        "LobbyChat_User" + (args[1].equals("join") ? "Joined" : "ReturnedFromGame"), userData));
-            }
-
-            return true;
-        } else if (args[1].equals("part")) {
-            this.userLeft(args[2]);
-            int reason = Integer.parseInt(args[3]);
-            if (reason == 1 && this.lobbyId == 1) {
-                if (!this.isNoGameMessages()) {
-                    super.chatTextArea.addMessage(
-                            this.gameContainer.textManager.getGame("LobbyChat_UserStartedSp", args[2]));
-                }
-
-                return true;
-            } else if (reason == 2 || reason == 3) {
-                if (!this.isNoGameMessages()) {
-                    String[] reasons = new String[] {null, null, "CreatedMp", "JoinedMp"};
-                    String var5;
-                    if (args.length == 4) {
-                        var5 = this.gameContainer.textManager.getGame("LobbyChat_User" + reasons[reason], args[2]);
-                    } else {
-                        var5 = this.gameContainer.textManager.getGame(
-                                "LobbyChat_User" + reasons[reason], args[2], args[4]);
+                message = null;
+                if (this.lobbyId == 1 && (dualLobbyUsers >= 1 || multiLobbyUsers >= 1)) {
+                    message = "(";
+                    if (dualLobbyUsers == 1) {
+                        message = message + this.gameContainer.textManager.getGame("LobbyChat_UsersInDualPlayerLobby1");
                     }
 
-                    super.chatTextArea.addMessage(var5);
+                    if (dualLobbyUsers >= 2) {
+                        message = message
+                                + this.gameContainer.textManager.getGame(
+                                        "LobbyChat_UsersInDualPlayerLobbyX", dualLobbyUsers);
+                    }
+
+                    if (dualLobbyUsers >= 1 && multiLobbyUsers >= 1) {
+                        message = message + ", ";
+                    }
+
+                    if (multiLobbyUsers == 1) {
+                        message =
+                                message + this.gameContainer.textManager.getGame("LobbyChat_UsersInMultiPlayerLobby1");
+                    }
+
+                    if (multiLobbyUsers >= 2) {
+                        message = message
+                                + this.gameContainer.textManager.getGame(
+                                        "LobbyChat_UsersInMultiPlayerLobbyX", multiLobbyUsers);
+                    }
+
+                    message = message + ")";
                 }
 
+                if (this.lobbyId == 2 && (singleLobbyUsers >= 1 || multiLobbyUsers >= 1)) {
+                    message = "(";
+                    if (singleLobbyUsers == 1) {
+                        message =
+                                message + this.gameContainer.textManager.getGame("LobbyChat_UsersInSinglePlayerLobby1");
+                    }
+
+                    if (singleLobbyUsers >= 2) {
+                        message = message
+                                + this.gameContainer.textManager.getGame(
+                                        "LobbyChat_UsersInSinglePlayerLobbyX", singleLobbyUsers);
+                    }
+
+                    if (singleLobbyUsers >= 1 && multiLobbyUsers >= 1) {
+                        message = message + ", ";
+                    }
+
+                    if (multiLobbyUsers == 1) {
+                        message =
+                                message + this.gameContainer.textManager.getGame("LobbyChat_UsersInMultiPlayerLobby1");
+                    }
+
+                    if (multiLobbyUsers >= 2) {
+                        message = message
+                                + this.gameContainer.textManager.getGame(
+                                        "LobbyChat_UsersInMultiPlayerLobbyX", multiLobbyUsers);
+                    }
+
+                    message = message + ")";
+                }
+
+                if (this.lobbyId == 3 && (singleLobbyUsers >= 1 || dualLobbyUsers >= 1)) {
+                    message = "(";
+                    if (singleLobbyUsers == 1) {
+                        message =
+                                message + this.gameContainer.textManager.getGame("LobbyChat_UsersInSinglePlayerLobby1");
+                    }
+
+                    if (singleLobbyUsers >= 2) {
+                        message = message
+                                + this.gameContainer.textManager.getGame(
+                                        "LobbyChat_UsersInSinglePlayerLobbyX", singleLobbyUsers);
+                    }
+
+                    if (singleLobbyUsers >= 1 && dualLobbyUsers >= 1) {
+                        message = message + ", ";
+                    }
+
+                    if (dualLobbyUsers == 1) {
+                        message = message + this.gameContainer.textManager.getGame("LobbyChat_UsersInDualPlayerLobby1");
+                    }
+
+                    if (dualLobbyUsers >= 2) {
+                        message = message
+                                + this.gameContainer.textManager.getGame(
+                                        "LobbyChat_UsersInDualPlayerLobbyX", dualLobbyUsers);
+                    }
+
+                    message = message + ")";
+                }
+
+                if (message != null) {
+                    super.chatTextArea.addPlainMessage(message);
+                }
+
+                super.chatTextArea.addText();
                 return true;
-            } else if (reason >= 4) {
+            }
+            case "users" -> {
+                int i = args.length - 2;
+                String[] users = new String[i];
+
+                System.arraycopy(args, 2, users, 0, i);
+
+                this.setUserList(users);
+                return true;
+            }
+            case "ownjoin" -> {
+                this.localUserJoin(args[2]);
+                return true;
+            }
+            case "join", "joinfromgame" -> {
+                String userData = this.userJoin(args[2]);
                 if (!this.isNoJoinPartMessages()) {
-                    super.chatTextArea.addPartMessage(this.gameContainer.textManager.getGame(
-                            "LobbyChat_UserLeft" + (reason == 5 ? "ConnectionProblem" : ""), args[2]));
+                    super.chatTextArea.addJoinMessage(this.gameContainer.textManager.getGame(
+                            "LobbyChat_User" + (args[1].equals("join") ? "Joined" : "ReturnedFromGame"), userData));
                 }
 
                 return true;
-            } else {
+            }
+            case "part" -> {
+                this.userLeft(args[2]);
+                int reason = Integer.parseInt(args[3]);
+                if (reason == 1 && this.lobbyId == 1) {
+                    if (!this.isNoGameMessages()) {
+                        super.chatTextArea.addMessage(
+                                this.gameContainer.textManager.getGame("LobbyChat_UserStartedSp", args[2]));
+                    }
+
+                    return true;
+                } else if (reason == 2 || reason == 3) {
+                    if (!this.isNoGameMessages()) {
+                        String[] reasons = new String[] {null, null, "CreatedMp", "JoinedMp"};
+                        String var5;
+                        if (args.length == 4) {
+                            var5 = this.gameContainer.textManager.getGame("LobbyChat_User" + reasons[reason], args[2]);
+                        } else {
+                            var5 = this.gameContainer.textManager.getGame(
+                                    "LobbyChat_User" + reasons[reason], args[2], args[4]);
+                        }
+
+                        super.chatTextArea.addMessage(var5);
+                    }
+
+                    return true;
+                } else if (reason >= 4) {
+                    if (!this.isNoJoinPartMessages()) {
+                        super.chatTextArea.addPartMessage(this.gameContainer.textManager.getGame(
+                                "LobbyChat_UserLeft" + (reason == 5 ? "ConnectionProblem" : ""), args[2]));
+                    }
+
+                    return true;
+                } else {
+                    return true;
+                }
+            }
+            case "gsn" -> {
+                if (!this.isNoGameMessages()) {
+                    super.chatTextArea.addMessage(
+                            this.gameContainer.textManager.getGame("LobbyChat_UsersStartedDp", args[2], args[3]));
+                }
+
                 return true;
             }
-        } else if (args[1].equals("gsn")) {
-            if (!this.isNoGameMessages()) {
-                super.chatTextArea.addMessage(
-                        this.gameContainer.textManager.getGame("LobbyChat_UsersStartedDp", args[2], args[3]));
+            case "say" -> {
+                this.userSay(Integer.parseInt(args[2]), args[3], args[4]);
+                return true;
             }
-
-            return true;
-        } else if (args[1].equals("say")) {
-            this.userSay(Integer.parseInt(args[2]), args[3], args[4]);
-            return true;
-        } else if (args[1].equals("sayp")) {
-            this.userSayPrivately(args[2], args[3]);
-            return true;
-        } else if (args[1].equals("sheriffsay")) {
-            this.sheriffSay(args[2]);
-            return true;
-        } else if (args[1].equals("serversay")) {
-            this.serverSay(args[2]);
-            return true;
-        } else if (args[1].equals("nc")) {
-            this.getUser(args[2], args[3].equals("t"));
-            return true;
+            case "sayp" -> {
+                this.userSayPrivately(args[2], args[3]);
+                return true;
+            }
+            case "sheriffsay" -> {
+                this.sheriffSay(args[2]);
+                return true;
+            }
+            case "serversay" -> {
+                this.serverSay(args[2]);
+                return true;
+            }
+            case "nc" -> {
+                this.getUser(args[2], args[3].equals("t"));
+                return true;
+            }
         }
         return false;
     }

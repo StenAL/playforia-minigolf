@@ -61,11 +61,6 @@ public final class SocketConnection implements Runnable {
         this(gameApplet, gameApplet.param, socketConnectionListener, gameCipherCmds);
     }
 
-    public SocketConnection(
-            Parameters params, SocketConnectionListener socketConnectionListener, String[] gameCipherCmds) {
-        this(null, params, socketConnectionListener, gameCipherCmds);
-    }
-
     private SocketConnection(
             AApplet gameApplet,
             Parameters params,
@@ -180,10 +175,6 @@ public final class SocketConnection implements Runnable {
             this.state = STATE_DISCONNECTED;
             this.thread.interrupt();
         }
-    }
-
-    public String getLocalIP() {
-        return null;
     }
 
     protected void handleCrash() { // TODO
@@ -341,8 +332,7 @@ public final class SocketConnection implements Runnable {
                         this.writeLineC("old " + this.clientId);
                     }
                 } else if (cmd.startsWith("id ")) { // connected
-                    long id = Long.parseLong(cmd.substring(3));
-                    this.clientId = id;
+                    this.clientId = Long.parseLong(cmd.substring(3));
                     this.state = STATE_CONNECTED;
                 } else if (cmd.equals("rcok")) { // reconnect ok
                     this.state = STATE_CONNECTED;

@@ -21,7 +21,6 @@ public final class User {
     private boolean isNotAcceptingChallenges;
     private ColorListItem colorListItem;
     private String profilePage;
-    public static boolean aBoolean1684;
 
     public User(String nick, boolean isLocal, boolean isRegistered, boolean isVip, boolean isSheriff) {
         this(nick, isLocal, isRegistered, isVip, isSheriff, -1);

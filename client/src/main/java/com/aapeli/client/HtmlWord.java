@@ -9,10 +9,8 @@ class HtmlWord {
     private Font font;
     private int start;
     private int length;
-    private final HtmlLine htmlLine;
 
-    protected HtmlWord(HtmlLine htmlLine, String word, Font font, int start, int length) {
-        this.htmlLine = htmlLine;
+    protected HtmlWord(String word, Font font, int start, int length) {
         this.word = word;
         this.font = font;
         this.start = start;

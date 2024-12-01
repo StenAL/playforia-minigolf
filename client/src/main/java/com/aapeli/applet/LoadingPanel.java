@@ -319,7 +319,7 @@ class LoadingPanel extends Panel implements Runnable, ActionListener {
             int var10,
             int var11) {
         for (int var17 = var2; var17 < var3; ++var17) {
-            double var12 = 1.0D * (double) (var17 - var2) / (double) (var3 - var2);
+            double var12 = (double) (var17 - var2) / (double) (var3 - var2);
             int var14 = (int) ((double) var6 + (double) (var7 - var6) * var12);
             int var15 = (int) ((double) var8 + (double) (var9 - var8) * var12);
             int var16 = (int) ((double) var10 + (double) (var11 - var10) * var12);
@@ -343,7 +343,7 @@ class LoadingPanel extends Panel implements Runnable, ActionListener {
         int var20 = -1;
 
         for (int var21 = var2; var21 < var3; ++var21) {
-            double var12 = 1.0D * (double) (var21 - var2) / (double) (var3 - var2);
+            double var12 = (double) (var21 - var2) / (double) (var3 - var2);
 
             for (int var22 = var4; var22 < var5; ++var22) {
                 double var14;

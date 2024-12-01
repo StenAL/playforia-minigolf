@@ -8,7 +8,6 @@ public class AutoPopups {
     private SignUpHandler signUpHandler;
     private TellFriendHandler tellFriendHandler;
     private long aLong1330;
-    private static final String aString1331 = "facebook";
 
     public AutoPopups(AApplet var1) {
         if (!var1.param.getSiteName().equalsIgnoreCase("facebook")) {

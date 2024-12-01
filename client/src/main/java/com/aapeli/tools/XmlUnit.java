@@ -21,7 +21,7 @@ public class XmlUnit {
         this.attributes = new Hashtable<>();
     }
 
-    public static XmlUnit parseString(String declarationTag, boolean var1, boolean var2) throws Exception {
+    public static XmlUnit parseString(String declarationTag, boolean var2) throws Exception {
         declarationTag = declarationTag.trim();
         if (declarationTag.startsWith("<?xml")) {
             declarationTag =
@@ -191,7 +191,7 @@ public class XmlUnit {
                         throw new Exception("Empty end tag name");
                     }
 
-                    if (!tagStart.getName().equals(tagEnd.toString())) {
+                    if (!tagStart.getName().contentEquals(tagEnd)) {
                         throw new Exception("End tag name ("
                                 + tagEnd
                                 + ") is different than start tag ("

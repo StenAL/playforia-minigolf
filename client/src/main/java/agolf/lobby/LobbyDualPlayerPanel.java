@@ -416,94 +416,100 @@ class LobbyDualPlayerPanel extends IPanel implements ItemListener, ActionListene
     }
 
     protected boolean handlePacket(String[] args) {
-        if (args[1].equals("challenge")) {
-            synchronized (synchronizedObject) {
-                if (this.currentState == 1) {
-                    this.gameContainer.lobbyPanel.writeData("cfail\t" + args[2] + "\tcother");
-                    return true;
+        switch (args[1]) {
+            case "challenge" -> {
+                synchronized (synchronizedObject) {
+                    if (this.currentState == 1) {
+                        this.gameContainer.lobbyPanel.writeData("cfail\t" + args[2] + "\tcother");
+                        return true;
+                    }
+                    if (currentState == 2) {
+                        this.gameContainer.lobbyPanel.writeData("cfail\t" + args[2] + "\tnochall");
+                        return true;
+                    }
+                    if (checkboxNoChallenges.getState() || gameContainer.lobbyPanel.isUserIgnored(args[2])) {
+                        this.gameContainer.lobbyPanel.writeData("cfail\t" + args[2] + "\tcbyother");
+                        return true;
+                    }
+                    this.opponentName = args[2];
+                    this.tracksNum = Integer.parseInt(args[3]);
+                    this.trackType = Integer.parseInt(args[4]);
+                    this.maxStrokes = Integer.parseInt(args[5]);
+                    this.timeLimit = Integer.parseInt(args[6]);
+                    this.waterEvent = Integer.parseInt(args[7]);
+                    this.collision = Integer.parseInt(args[8]);
+                    this.scoring = Integer.parseInt(args[9]);
+                    this.scoringEnd = Integer.parseInt(args[10]);
+                    /*if(isUsingCustomServer) {
+                        this.trackCategory = Integer.parseInt(args[11]);
+                    }*/
+                    this.setState(2);
                 }
-                if (currentState == 2) {
-                    this.gameContainer.lobbyPanel.writeData("cfail\t" + args[2] + "\tnochall");
-                    return true;
-                }
-                if (checkboxNoChallenges.getState() || gameContainer.lobbyPanel.isUserIgnored(args[2])) {
-                    this.gameContainer.lobbyPanel.writeData("cfail\t" + args[2] + "\tcbyother");
-                    return true;
-                }
-                this.opponentName = args[2];
-                this.tracksNum = Integer.parseInt(args[3]);
-                this.trackType = Integer.parseInt(args[4]);
-                this.maxStrokes = Integer.parseInt(args[5]);
-                this.timeLimit = Integer.parseInt(args[6]);
-                this.waterEvent = Integer.parseInt(args[7]);
-                this.collision = Integer.parseInt(args[8]);
-                this.scoring = Integer.parseInt(args[9]);
-                this.scoringEnd = Integer.parseInt(args[10]);
-                /*if(isUsingCustomServer) {
-                    this.trackCategory = Integer.parseInt(args[11]);
-                }*/
-                this.setState(2);
-            }
 
-            if (this.checkboxBeep.getState()) {
-                this.gameContainer.soundManager.playChallenge();
-            }
-
-            return true;
-        } else if (args[1].equals("cancel")) {
-            synchronized (synchronizedObject) {
-                if (this.currentState == 2) {
-                    this.setState(0);
-                    return true;
+                if (this.checkboxBeep.getState()) {
+                    this.gameContainer.soundManager.playChallenge();
                 }
 
                 return true;
             }
-        } else if (args[1].equals("cfail")) {
-            synchronized (synchronizedObject) {
-                if (this.currentState != 1) {
+            case "cancel" -> {
+                synchronized (synchronizedObject) {
+                    if (this.currentState == 2) {
+                        this.setState(0);
+                        return true;
+                    }
+
                     return true;
                 }
-
-                this.setState(0);
             }
+            case "cfail" -> {
+                synchronized (synchronizedObject) {
+                    if (this.currentState != 1) {
+                        return true;
+                    }
 
-            if (args[2].equals("nouser")) {
-                this.extraText = this.gameContainer.textManager.getGame("LobbyReal_NoChallengedUser");
-            }
-
-            if (args[2].equals("nochall")) {
-                this.extraText = this.gameContainer.textManager.getGame("LobbyReal_NoChallenges");
-            }
-
-            if (args[2].equals("cother")) {
-                this.extraText = this.gameContainer.textManager.getGame("LobbyReal_ChallengingOther");
-            }
-
-            if (args[2].equals("cbyother")) {
-                this.extraText = this.gameContainer.textManager.getGame("LobbyReal_ChallengedByOther");
-            }
-
-            if (args[2].equals("refuse")) {
-                this.extraText = this.gameContainer.textManager.getGame("LobbyReal_ChallengeRefused");
-            }
-
-            this.repaint();
-            return true;
-        } else if (args[1].equals("afail")) {
-            synchronized (synchronizedObject) {
-                if (this.currentState != -1) {
-                    return true;
+                    this.setState(0);
                 }
 
-                this.setState(0);
-            }
+                if (args[2].equals("nouser")) {
+                    this.extraText = this.gameContainer.textManager.getGame("LobbyReal_NoChallengedUser");
+                }
 
-            this.extraText = this.gameContainer.textManager.getGame("LobbyReal_ChallengedLeft");
-            this.repaint();
-            return true;
-        } else {
-            return false;
+                if (args[2].equals("nochall")) {
+                    this.extraText = this.gameContainer.textManager.getGame("LobbyReal_NoChallenges");
+                }
+
+                if (args[2].equals("cother")) {
+                    this.extraText = this.gameContainer.textManager.getGame("LobbyReal_ChallengingOther");
+                }
+
+                if (args[2].equals("cbyother")) {
+                    this.extraText = this.gameContainer.textManager.getGame("LobbyReal_ChallengedByOther");
+                }
+
+                if (args[2].equals("refuse")) {
+                    this.extraText = this.gameContainer.textManager.getGame("LobbyReal_ChallengeRefused");
+                }
+
+                this.repaint();
+                return true;
+            }
+            case "afail" -> {
+                synchronized (synchronizedObject) {
+                    if (this.currentState != -1) {
+                        return true;
+                    }
+
+                    this.setState(0);
+                }
+
+                this.extraText = this.gameContainer.textManager.getGame("LobbyReal_ChallengedLeft");
+                this.repaint();
+                return true;
+            }
+            default -> {
+                return false;
+            }
         }
     }
 

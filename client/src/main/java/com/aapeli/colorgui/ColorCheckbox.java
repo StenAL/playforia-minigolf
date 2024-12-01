@@ -199,8 +199,7 @@ public class ColorCheckbox extends IPanel implements ItemSelectable, MouseListen
         if (!this.aBoolean3302) {
             return null;
         } else {
-            Object[] var1 = new Object[] {this};
-            return var1;
+            return new Object[] {this};
         }
     }
 

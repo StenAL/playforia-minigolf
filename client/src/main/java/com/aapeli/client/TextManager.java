@@ -232,8 +232,7 @@ public final class TextManager implements Runnable {
 
     public String getCurrentDateAndClock(boolean var1) {
         long var2 = System.currentTimeMillis();
-        String var4 = this.getDate(var2, var1) + " " + this.getClock(var2, var1);
-        return var4;
+        return this.getDate(var2, var1) + " " + this.getClock(var2, var1);
     }
 
     public String getDateWithTodayYesterday(long timestamp) {

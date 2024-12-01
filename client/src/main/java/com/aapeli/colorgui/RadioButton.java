@@ -11,10 +11,6 @@ public class RadioButton extends ColorButton {
     private boolean aBoolean4724;
     private boolean aBoolean4725;
 
-    public RadioButton() {
-        this(null, null);
-    }
-
     public RadioButton(RadioButtonGroup var1) {
         this(null, var1);
     }
