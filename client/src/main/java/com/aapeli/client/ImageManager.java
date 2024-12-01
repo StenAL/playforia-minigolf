@@ -1,9 +1,6 @@
 package com.aapeli.client;
 
-import com.aapeli.tools.Tools;
-import java.applet.Applet;
-import java.awt.Component;
-import java.awt.Image;
+import java.awt.*;
 import java.awt.image.MemoryImageSource;
 import java.awt.image.PixelGrabber;
 import java.io.IOException;
@@ -11,15 +8,12 @@ import java.util.Hashtable;
 import javax.imageio.ImageIO;
 
 public final class ImageManager {
-
-    private Applet applet;
     private Hashtable<String, String> imageAliases;
     private final boolean isDebug;
     private Hashtable<String, Image> gameImages;
     private Hashtable<String, Image> sharedImages;
 
-    public ImageManager(Applet applet, boolean isDebug) {
-        this.applet = applet;
+    public ImageManager(boolean isDebug) {
         this.isDebug = isDebug;
         this.gameImages = new Hashtable<>();
         this.sharedImages = new Hashtable<>();
@@ -94,11 +88,11 @@ public final class ImageManager {
     }
 
     public int getWidth(Image image) {
-        return image.getWidth(this.applet);
+        return image.getWidth(null);
     }
 
     public int getHeight(Image image) {
-        return image.getHeight(this.applet);
+        return image.getHeight(null);
     }
 
     public int[] getPixels(Image image, int width, int height) {
@@ -118,21 +112,7 @@ public final class ImageManager {
     }
 
     public Image createImage(int[] pixels, int width, int height) {
-        return this.createImage(pixels, width, height, null);
-    }
-
-    public Image createImage(int[] pixels, int width, int height, Component parent) {
-        if (parent == null) {
-            parent = this.applet;
-        }
-
-        Image image = parent.createImage(new MemoryImageSource(width, height, pixels, 0, width));
-
-        while (!parent.prepareImage(image, parent)) {
-            Tools.sleep(20L);
-        }
-
-        return image;
+        return Toolkit.getDefaultToolkit().createImage(new MemoryImageSource(width, height, pixels, 0, width));
     }
 
     public Image[] separateImages(Image image, int length) {
@@ -185,11 +165,6 @@ public final class ImageManager {
     public void destroy() {
         this.imageAliases.clear();
         this.imageAliases = null;
-        this.applet = null;
-    }
-
-    public Applet getApplet() {
-        return this.applet;
     }
 
     private String removeExtension(String fileName) {

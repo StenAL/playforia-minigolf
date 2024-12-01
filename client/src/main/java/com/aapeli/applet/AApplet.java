@@ -543,7 +543,7 @@ public abstract class AApplet extends Applet implements Runnable, ActionListener
                         this.printSUD("Creating image manager");
                     }
 
-                    this.imageManager = new ImageManager(this, this.isDebug());
+                    this.imageManager = new ImageManager(this.isDebug());
 
                     this.imageManager.setImageAliases(this.param.getImageAliases());
                     this.loadingPanel.addProgress(0.05D);
