@@ -169,7 +169,7 @@ public abstract class AApplet extends Applet implements Runnable, ActionListener
                 this.appletGraphics.setColor(backgroundColor);
                 this.appletGraphics.fillRect(0, 0, this.appletWidth, this.appletHeight);
                 if (this.imageManager != null && this.backgroundImageKey != null) {
-                    Image image = this.imageManager.getGameImageIfLoaded(this.backgroundImageKey);
+                    Image image = this.imageManager.getGameImage(this.backgroundImageKey);
                     if (image != null) {
                         this.appletGraphics.drawImage(image, this.backgroundXOffset, this.backgroundYOffset, this);
                     }
@@ -544,28 +544,16 @@ public abstract class AApplet extends Applet implements Runnable, ActionListener
                     }
 
                     this.imageManager = new ImageManager(this, this.isDebug());
-                    if (startupDebug) {
-                        this.imageManager.enableSUD(this);
-                    }
 
                     this.imageManager.setImageAliases(this.param.getImageAliases());
                     this.loadingPanel.addProgress(0.05D);
                     this.defineImages(this.imageManager, this.param.getSiteName());
                     if (!this.destroyed) {
-                        this.imageManager.startLoadingImages();
                         if (startupDebug) {
                             this.printSUD("Loading images...");
                         }
 
-                        while (!this.imageManager.isLoadingFinished()) {
-                            Tools.sleep(50L);
-                            if (this.destroyed) {
-                                return;
-                            }
-
-                            this.loadingPanel.setActualProgress(
-                                    0.7D + this.imageManager.getImageLoadProgress() * 0.15D);
-                        }
+                        this.loadingPanel.setActualProgress(0.7D + this.imageManager.getImageLoadProgress() * 0.15D);
 
                         int time5 = (int) (System.currentTimeMillis() - startTime);
                         if (startupDebug) {
@@ -588,7 +576,6 @@ public abstract class AApplet extends Applet implements Runnable, ActionListener
 
                         this.defineSecImages(this.imageManager, this.param.getSiteName());
                         if (!this.destroyed) {
-                            this.imageManager.startLoadingImages();
                             this.soundManager.startLoading();
                             if (System.currentTimeMillis() < startTime + 7000L) {
                                 this.loadingPanel.method468(2.0D);
