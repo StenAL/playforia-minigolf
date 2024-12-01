@@ -249,7 +249,7 @@ public class GameApplet extends AApplet {
     }
 
     protected void trackTestLogin(String username, String password, Locale locale) {
-        this.textManager.setLocale(locale, this);
+        this.textManager.setLocale(locale);
         this.gameContainer.connection.writeData("language\t" + locale);
         this.trackTestLogin(username, password);
     }
