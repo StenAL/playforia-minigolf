@@ -8,7 +8,6 @@ import java.util.Hashtable;
 import javax.imageio.ImageIO;
 
 public final class ImageManager {
-    private Hashtable<String, String> imageAliases;
     private final boolean isDebug;
     private Hashtable<String, Image> gameImages;
     private Hashtable<String, Image> sharedImages;
@@ -17,15 +16,6 @@ public final class ImageManager {
         this.isDebug = isDebug;
         this.gameImages = new Hashtable<>();
         this.sharedImages = new Hashtable<>();
-        this.imageAliases = new Hashtable<>();
-    }
-
-    public void setImageAliases(String[][] imageAliases) {
-        if (imageAliases != null) {
-            for (String[] aliases : imageAliases) {
-                this.imageAliases.put(aliases[0], aliases[1]);
-            }
-        }
     }
 
     public String defineGameImage(String fileName) {
@@ -38,7 +28,7 @@ public final class ImageManager {
         }
 
         try {
-            Image image = ImageIO.read(this.getClass().getResource("/picture/agolf/" + getAlias(imageFileName)));
+            Image image = ImageIO.read(this.getClass().getResource("/picture/agolf/" + imageFileName));
             this.gameImages.put(name, image);
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -57,7 +47,7 @@ public final class ImageManager {
         }
 
         try {
-            Image image = ImageIO.read(this.getClass().getResource("/picture/shared/" + getAlias(imageFileName)));
+            Image image = ImageIO.read(this.getClass().getResource("/picture/shared/" + imageFileName));
             this.sharedImages.put(name, image);
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -75,11 +65,11 @@ public final class ImageManager {
     }
 
     public Image getGameImage(String name) {
-        return this.gameImages.get(this.getAlias(name));
+        return this.gameImages.get(name);
     }
 
     public boolean isGameImageDefined(String name) {
-        return this.gameImages.contains(this.getAlias(name));
+        return this.gameImages.contains(name);
     }
 
     public Image getShared(String name) {
@@ -162,16 +152,9 @@ public final class ImageManager {
         return images;
     }
 
-    public void destroy() {
-        this.imageAliases.clear();
-        this.imageAliases = null;
-    }
+    public void destroy() {}
 
     private String removeExtension(String fileName) {
         return fileName.substring(0, fileName.lastIndexOf('.'));
-    }
-
-    private String getAlias(String image) {
-        return this.imageAliases.getOrDefault(image, image);
     }
 }

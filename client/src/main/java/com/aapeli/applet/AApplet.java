@@ -545,9 +545,8 @@ public abstract class AApplet extends Applet implements Runnable, ActionListener
 
                     this.imageManager = new ImageManager(this.isDebug());
 
-                    this.imageManager.setImageAliases(this.param.getImageAliases());
                     this.loadingPanel.addProgress(0.05D);
-                    this.defineImages(this.imageManager, this.param.getSiteName());
+                    this.defineImages(this.imageManager);
                     if (!this.destroyed) {
                         if (startupDebug) {
                             this.printSUD("Loading images...");
@@ -775,7 +774,7 @@ public abstract class AApplet extends Applet implements Runnable, ActionListener
 
     public abstract void defineSounds(SoundManager soundManager);
 
-    public abstract void defineImages(ImageManager var1, String var2);
+    public abstract void defineImages(ImageManager imageManager);
 
     public abstract void createImages();
 

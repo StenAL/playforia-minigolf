@@ -21,7 +21,7 @@ public final class TextManager implements Runnable {
     public TextManager(Parameters parameters, boolean loadTextsInSeparateThread, boolean debug) {
         this(debug);
         this.parameters = parameters;
-        this.locale = parameters.getTranslationLocale();
+        this.locale = parameters.getLocale();
 
         if (loadTextsInSeparateThread) {
             this.textLoaderThread = new Thread(this);
