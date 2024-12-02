@@ -9,9 +9,9 @@ import com.aapeli.colorgui.ColorListItem;
 import com.aapeli.colorgui.ColorListItemGroup;
 import com.aapeli.colorgui.ColorTextArea;
 import com.aapeli.tools.Tools;
-import java.applet.Applet;
 import java.awt.CheckboxMenuItem;
 import java.awt.Color;
+import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -26,7 +26,7 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.net.URL;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
@@ -48,7 +48,6 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
     private UserListHandler userListHandler;
     private TextManager textManager;
     private ImageManager imageManager;
-    private Applet applet;
     private int width;
     private int height;
     private Image[] rankingIcons;
@@ -95,33 +94,18 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
     private Hashtable<Integer, ColorListItemGroup> languageGroups;
 
     public UserList(
-            Applet applet,
             UserListHandler handler,
             TextManager textManager,
             ImageManager imageManager,
             boolean showRankingIcons,
             boolean addSendPrivately,
             boolean addIgnoreUser) {
-        this(applet, handler, textManager, imageManager, showRankingIcons, addSendPrivately, addIgnoreUser, 100, 200);
-    }
-
-    public UserList(
-            Applet applet,
-            UserListHandler handler,
-            TextManager textManager,
-            ImageManager imageManager,
-            boolean showRankingIcons,
-            boolean addSendPrivately,
-            boolean addIgnoreUser,
-            int width,
-            int height) {
-        this.applet = applet;
         this.userListHandler = handler;
         this.textManager = textManager;
         this.imageManager = imageManager;
-        this.width = width;
-        this.height = height;
-        this.setSize(width, height);
+        this.width = 100;
+        this.height = 200;
+        this.setSize(100, 200);
         this.rankingsShown = showRankingIcons;
         this.init(addSendPrivately, addIgnoreUser);
         this.setBackground(backgroundColor);
@@ -905,12 +889,7 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
             return false;
         } else {
             try {
-                String target = this.textManager.getParameters().getParameter("guestinfotarget");
-                if (target == null) {
-                    target = "_blank";
-                }
-
-                this.applet.getAppletContext().showDocument(new URL(profilePage), target);
+                Desktop.getDesktop().browse(new URI(profilePage));
             } catch (Exception e) {
             }
 

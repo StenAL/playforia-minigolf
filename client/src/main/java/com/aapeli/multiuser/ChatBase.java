@@ -602,7 +602,6 @@ public abstract class ChatBase extends IPanel
         this.add(sayButton);
         this.sayButton = sayButton;
         this.userList = new UserList(
-                this.parameters.getApplet(),
                 this,
                 this.textManager,
                 this.imageManager,
