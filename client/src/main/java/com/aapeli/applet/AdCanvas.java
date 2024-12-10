@@ -4,12 +4,15 @@ import com.aapeli.client.Parameters;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Cursor;
+import java.awt.Desktop;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.IOException;
+import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +24,7 @@ class AdCanvas extends Canvas implements MouseListener {
     private LoadingPanel loadingPanel;
     private URL anURL117;
     private List<AdCanvasText> texts;
-    private URL anURL119;
+    private URI uri;
     private String aString120;
     private int anInt121;
     private Image anImage122;
@@ -30,11 +33,11 @@ class AdCanvas extends Canvas implements MouseListener {
     private boolean aBoolean125;
     private long aLong126;
 
-    private AdCanvas(AApplet var1, URL var2, List<AdCanvasText> var3, URL var4, String var5, int var6) {
+    private AdCanvas(AApplet var1, URL var2, List<AdCanvasText> var3, URI var4, String var5, int var6) {
         this.gameApplet = var1;
         this.anURL117 = var2;
         this.texts = var3;
-        this.anURL119 = var4;
+        this.uri = var4;
         this.aString120 = var5;
         this.anInt121 = var6;
         this.aLong124 = 0L;
@@ -79,7 +82,10 @@ class AdCanvas extends Canvas implements MouseListener {
     public void mouseExited(MouseEvent var1) {}
 
     public void mousePressed(MouseEvent var1) {
-        this.gameApplet.getAppletContext().showDocument(this.anURL119, this.aString120);
+        try {
+            Desktop.getDesktop().browse(this.uri);
+        } catch (IOException e) {
+        }
     }
 
     public void mouseReleased(MouseEvent var1) {}
@@ -89,7 +95,7 @@ class AdCanvas extends Canvas implements MouseListener {
     protected static AdCanvas create(AApplet applet, Parameters parameters) {
         try {
             String var2 = parameters.getParameter("ad_image");
-            URL var3 = new URL(applet.getCodeBase(), var2);
+            URL var3 = new URL(new URL(parameters.getServerIp()), var2);
             List<AdCanvasText> var4 = new ArrayList<>();
 
             String var6;
@@ -101,7 +107,7 @@ class AdCanvas extends Canvas implements MouseListener {
             }
 
             String var14 = parameters.getParameter("ad_page");
-            URL var8 = var14 != null ? new URL(var14) : null;
+            URI uri = var14 != null ? new URI(var14) : null;
             String var9 = parameters.getParameter("ad_target");
             if (var9 == null) {
                 var9 = linkTarget;
@@ -113,7 +119,7 @@ class AdCanvas extends Canvas implements MouseListener {
                 var10 = Integer.parseInt(var11);
             }
 
-            return new AdCanvas(applet, var3, var4, var8, var9, var10);
+            return new AdCanvas(applet, var3, var4, uri, var9, var10);
         } catch (Exception var13) {
             return null;
         }
@@ -141,7 +147,7 @@ class AdCanvas extends Canvas implements MouseListener {
                 this.setSize(20, 20);
             }
 
-            if (this.anURL119 != null) {
+            if (this.uri != null) {
                 this.addMouseListener(this);
                 this.setCursor(new Cursor(Cursor.HAND_CURSOR));
             }
@@ -168,7 +174,7 @@ class AdCanvas extends Canvas implements MouseListener {
     }
 
     protected boolean method216() {
-        if (this.anURL119 == null) {
+        if (this.uri == null) {
             return false;
         } else {
             String var1 = this.aString120.toLowerCase();
@@ -184,7 +190,8 @@ class AdCanvas extends Canvas implements MouseListener {
             this.anImage122 = null;
         }
 
-        this.anURL117 = this.anURL119 = null;
+        this.anURL117 = null;
+        this.uri = null;
         this.aString120 = null;
         this.loadingPanel = null;
         this.gameApplet = null;
