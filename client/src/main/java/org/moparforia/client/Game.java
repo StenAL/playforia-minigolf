@@ -2,7 +2,6 @@ package org.moparforia.client;
 
 import agolf.GameApplet;
 import com.aapeli.client.Parameters;
-import java.applet.Applet;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.JFrame;
@@ -15,7 +14,7 @@ public class Game {
     public Game(
             JFrame frame, String server, int port, Locale locale, String username, boolean verbose, boolean norandom) {
         Parameters parameters = getParameters(server, locale, username, port, verbose, norandom);
-        Applet game = new GameApplet(parameters);
+        GameApplet game = new GameApplet(parameters);
 
         game.setSize(WIDTH, HEIGHT);
         game.init();
