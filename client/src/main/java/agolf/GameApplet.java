@@ -41,6 +41,10 @@ public class GameApplet extends AApplet {
     private Image anImage3774;
     private boolean verbose = false;
 
+    public GameApplet(Parameters parameters) {
+        super(parameters);
+    }
+
     public void initApplet(Parameters parameters) {
         this.syncIsValidSite = new SynchronizedBool(this.isValidSite());
         this.setBackground(colourGameBackground);

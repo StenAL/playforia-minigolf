@@ -1,6 +1,7 @@
 package org.moparforia.client;
 
 import agolf.GameApplet;
+import com.aapeli.client.Parameters;
 import java.applet.Applet;
 import java.applet.AppletContext;
 import java.applet.AppletStub;
@@ -16,9 +17,10 @@ public class Game {
 
     public Game(
             JFrame frame, String server, int port, Locale locale, String username, boolean verbose, boolean norandom) {
-        Applet game = new GameApplet();
+        Parameters parameters = getParameters(server, locale, username, port, verbose, norandom);
+        Applet game = new GameApplet(parameters);
 
-        game.setStub(new Stub(server, locale, username, port, verbose, norandom));
+        game.setStub(new Stub());
         game.setSize(WIDTH, HEIGHT);
         game.init();
         game.start();
@@ -29,28 +31,36 @@ public class Game {
         frame.setVisible(true);
     }
 
-    static class Stub implements AppletStub {
-        private final Map<String, String> params;
-
-        public Stub(String server, Locale locale, String username, int port, boolean verbose, boolean norandom) {
-            params = new HashMap<>();
-            params.put("initmessage", "Loading game...");
-            params.put(
-                    "ld_page",
-                    "javascript:Playray.Notify.delegate({ jvm: { version: '%v', vendor: '%w', t1: '%r', t2: '%f' } })");
-            params.put("server", server + ":" + port);
-            params.put("locale", locale.toString());
-            params.put("sitename", "playray");
-            params.put("registerpage", "http://www.playforia.com/account/create/");
-            params.put("creditpage", "http://www.playforia.com/shop/buy/");
-            params.put("userinfopage", "http://www.playforia.com/community/user/");
-            params.put("userinfotarget", "_blank");
-            params.put("userlistpage", "javascript:Playray.GameFaceGallery('%n','#99FF99','agolf','%s')");
-            params.put("json", "Playray.Notify.delegate(%o)");
-            params.put("verbose", Boolean.toString(verbose));
-            params.put("norandom", Boolean.toString(norandom));
-            params.put("username", username);
+    private Parameters getParameters(
+            String server, Locale locale, String username, int port, boolean verbose, boolean norandom) {
+        Map<String, String> params = new HashMap<>();
+        if (server.indexOf(':') == -1) { // is ipv4
+            params.put("server", server);
+        } else { // is ipv6
+            params.put("server", "[" + server + "]");
         }
+        params = new HashMap<>();
+        params.put("initmessage", "Loading game...");
+        params.put(
+                "ld_page",
+                "javascript:Playray.Notify.delegate({ jvm: { version: '%v', vendor: '%w', t1: '%r', t2: '%f' } })");
+        params.put("server", server + ":" + port);
+        params.put("locale", locale.toString());
+        params.put("sitename", "playray");
+        params.put("registerpage", "http://www.playforia.com/account/create/");
+        params.put("creditpage", "http://www.playforia.com/shop/buy/");
+        params.put("userinfopage", "http://www.playforia.com/community/user/");
+        params.put("userinfotarget", "_blank");
+        params.put("userlistpage", "javascript:Playray.GameFaceGallery('%n','#99FF99','agolf','%s')");
+        params.put("json", "Playray.Notify.delegate(%o)");
+        params.put("verbose", Boolean.toString(verbose));
+        params.put("norandom", Boolean.toString(norandom));
+        params.put("username", username);
+        return new Parameters(params);
+    }
+
+    static class Stub implements AppletStub {
+        public Stub() {}
 
         public boolean isActive() {
             return true;
@@ -65,8 +75,7 @@ public class Game {
         }
 
         public String getParameter(String name) {
-            if (!params.containsKey(name)) return "";
-            return params.get(name);
+            return null;
         }
 
         public AppletContext getAppletContext() {
