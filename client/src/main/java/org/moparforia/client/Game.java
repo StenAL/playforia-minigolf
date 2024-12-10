@@ -31,14 +31,8 @@ public class Game {
 
     static class Stub implements AppletStub {
         private final Map<String, String> params;
-        private String server;
 
         public Stub(String server, Locale locale, String username, int port, boolean verbose, boolean norandom) {
-            if (server.indexOf(':') == -1) { // is ipv4
-                this.server = server;
-            } else { // is ipv6
-                this.server = "[" + server + "]";
-            }
             params = new HashMap<>();
             params.put("initmessage", "Loading game...");
             params.put(
@@ -63,16 +57,11 @@ public class Game {
         }
 
         public URL getDocumentBase() {
-            try {
-                return new URL("http://" + this.server + "/AGolf/");
-            } catch (Exception ex) {
-                System.err.println("getdocumentbase exc eption");
-                return null;
-            }
+            return null;
         }
 
         public URL getCodeBase() {
-            return getDocumentBase();
+            return null;
         }
 
         public String getParameter(String name) {

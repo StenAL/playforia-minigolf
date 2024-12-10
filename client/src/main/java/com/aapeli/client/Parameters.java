@@ -15,8 +15,6 @@ public final class Parameters {
     private static final String PLAYFORIA_QUIT_PAGE = "http://www.playforia.com/";
     private static final String QUIT_TARGET = "_top";
     private Applet applet;
-    private String codeBaseHost;
-    private String documentBaseHost;
     private String serverIp;
     private Locale locale;
     private String siteName;
@@ -40,8 +38,6 @@ public final class Parameters {
 
     public Parameters(Applet applet, boolean debug) {
         this.applet = applet;
-        this.codeBaseHost = applet.getCodeBase().getHost().toLowerCase();
-        this.documentBaseHost = applet.getDocumentBase().getHost().toLowerCase();
         this.anInt1455 = 0;
         this.debug = debug;
         this.init();
@@ -290,8 +286,6 @@ public final class Parameters {
         this.uriCreditPage = null;
         this.aStringArray1456 = null;
         this.aString1457 = null;
-        this.documentBaseHost = null;
-        this.codeBaseHost = null;
     }
 
     protected boolean getTellFriend() {
@@ -337,7 +331,7 @@ public final class Parameters {
             int portIndex = server.lastIndexOf(':');
             return server.substring(0, portIndex);
         } catch (Exception e) {
-            return this.codeBaseHost.length() > 0 ? this.codeBaseHost : LOCALHOST;
+            return LOCALHOST;
         }
     }
 
@@ -369,20 +363,9 @@ public final class Parameters {
     }
 
     private String getParamSiteName() {
-        try {
-            String siteName = this.getParameter("sitename");
-            if (siteName != null) {
-                return siteName;
-            }
-        } catch (Exception e) {
-        }
-
-        if (this.documentBaseHost.contains("aapeli.")) {
-            return "aapeli";
-        } else if (this.documentBaseHost.contains("playforia.")) {
-            return PLAYFORIA_SITE_NAME;
-        } else if (this.documentBaseHost.contains("playray.")) {
-            return "playray";
+        String siteName = this.getParameter("sitename");
+        if (siteName != null) {
+            return siteName;
         }
         return PLAYFORIA_SITE_NAME;
     }
