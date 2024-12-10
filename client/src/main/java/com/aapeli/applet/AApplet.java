@@ -73,7 +73,7 @@ public abstract class AApplet extends Applet implements Runnable, ActionListener
     public AApplet(Parameters parameters) {
         super();
         this.param = parameters;
-        parameters.setApplet(this);
+        parameters.setRootComponent(this);
     }
 
     public void init() {
