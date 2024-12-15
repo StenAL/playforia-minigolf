@@ -1,6 +1,6 @@
 package agolf;
 
-import com.aapeli.applet.AApplet;
+import com.aapeli.applet.AbstractGameFrame;
 import com.aapeli.connection.SocketConnection;
 import com.aapeli.connection.SocketConnectionListener;
 import com.aapeli.tools.Tools;
@@ -115,11 +115,11 @@ public class GolfConnection implements SocketConnectionListener {
     public void connectionLost(int var1) {
         if (var1 != 2 && var1 != 3) {
             if (var1 == 4) {
-                this.gameContainer.gameApplet.setEndState(AApplet.END_ERROR_VERSION);
+                this.gameContainer.gameApplet.setEndState(AbstractGameFrame.END_ERROR_VERSION);
             }
 
         } else {
-            this.gameContainer.gameApplet.setEndState(AApplet.END_ERROR_CONNECTION);
+            this.gameContainer.gameApplet.setEndState(AbstractGameFrame.END_ERROR_CONNECTION);
         }
     }
 
@@ -153,9 +153,9 @@ public class GolfConnection implements SocketConnectionListener {
         switch (args[0]) {
             case "error" -> {
                 if (args[1].equals("vernotok")) {
-                    this.gameContainer.gameApplet.setEndState(AApplet.END_ERROR_VERSION);
+                    this.gameContainer.gameApplet.setEndState(AbstractGameFrame.END_ERROR_VERSION);
                 } else if (args[1].equals("serverfull")) {
-                    this.gameContainer.gameApplet.setEndState(AApplet.END_ERROR_SERVERFULL);
+                    this.gameContainer.gameApplet.setEndState(AbstractGameFrame.END_ERROR_SERVERFULL);
                 }
 
                 this.socketConnection.closeConnection();
