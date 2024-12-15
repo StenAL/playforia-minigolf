@@ -151,7 +151,7 @@ public class Launcher implements Callable<Integer> {
             }
         }
 
-        launchGame(frame, hostname, port, locale, username, verbose, norandom);
+        launchGame(hostname, port, locale, username, verbose, norandom);
         return null;
     }
 
@@ -164,14 +164,8 @@ public class Launcher implements Callable<Integer> {
     }
 
     public GameApplet launchGame(
-            JFrame frame,
-            String hostname,
-            int port,
-            Locale locale,
-            String username,
-            boolean verbose,
-            boolean norandom) {
-        return new GameApplet(frame, hostname, port, locale, username, verbose, norandom);
+            String hostname, int port, Locale locale, String username, boolean verbose, boolean norandom) {
+        return new GameApplet(hostname, port, locale, username, verbose, norandom);
     }
 
     public Image loadIcon() throws IOException {

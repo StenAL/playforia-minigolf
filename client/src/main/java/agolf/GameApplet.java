@@ -13,7 +13,6 @@ import com.aapeli.client.TextManager;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
-import javax.swing.JFrame;
 import org.moparforia.client.Launcher;
 import org.moparforia.shared.Locale;
 
@@ -42,9 +41,8 @@ public class GameApplet extends AApplet {
     private Image anImage3774;
     private boolean verbose = false;
 
-    public GameApplet(
-            JFrame frame, String server, int port, Locale locale, String username, boolean verbose, boolean norandom) {
-        super(frame, server, port, locale, username, verbose, norandom);
+    public GameApplet(String server, int port, Locale locale, String username, boolean verbose, boolean norandom) {
+        super(server, port, locale, username, verbose, norandom);
     }
 
     public void initApplet(Parameters parameters) {
