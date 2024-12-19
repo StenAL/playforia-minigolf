@@ -1,8 +1,8 @@
 package agolf;
 
-import com.aapeli.applet.AbstractGameFrame;
 import com.aapeli.connection.SocketConnection;
 import com.aapeli.connection.SocketConnectionListener;
+import com.aapeli.frame.AbstractGameFrame;
 import com.aapeli.tools.Tools;
 
 public class GolfConnection implements SocketConnectionListener {

@@ -1,4 +1,4 @@
-package com.aapeli.applet;
+package com.aapeli.frame;
 
 import com.aapeli.client.StringDraw;
 import java.awt.Color;

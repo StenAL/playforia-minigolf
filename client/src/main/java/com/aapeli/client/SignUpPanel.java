@@ -1,7 +1,7 @@
 package com.aapeli.client;
 
-import com.aapeli.applet.AbstractGameFrame;
 import com.aapeli.colorgui.RoundButton;
+import com.aapeli.frame.AbstractGameFrame;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
