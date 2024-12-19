@@ -9,7 +9,7 @@ import java.awt.Dimension;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 
-final class MultiLanguageChatContainer extends IPanel implements ComponentListener, TabBarListener {
+public final class MultiLanguageChatContainer extends IPanel implements ComponentListener, TabBarListener {
 
     private ChatBase chatBase;
     private Languages languages;

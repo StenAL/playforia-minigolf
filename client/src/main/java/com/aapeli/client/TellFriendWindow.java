@@ -6,7 +6,6 @@ class TellFriendWindow extends PopupWindow {
 
     private TellFriendHandler tellFriendHandler;
     private TellFriendPanel tellFriendPanel;
-    private static final String aString2892 = "TellFriend_Title";
 
     protected TellFriendWindow(TextManager var1, ImageManager var2, TellFriendHandler var3) {
         super(var1);

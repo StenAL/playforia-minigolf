@@ -13,7 +13,7 @@ import com.aapeli.tools.Tools;
 
 public class GameContainer { // some kind of a container for everything
 
-    public GameApplet gameApplet;
+    public GolfGameFrame golfGameFrame;
     public Parameters params;
     public TextManager textManager;
     public SoundManager soundManager;
@@ -33,8 +33,8 @@ public class GameContainer { // some kind of a container for everything
     public GamePanel gamePanel;
     public int graphicsQualityIndex;
 
-    public GameContainer(GameApplet gameApplet, Parameters params) {
-        this.gameApplet = gameApplet;
+    public GameContainer(GolfGameFrame golfGameFrame, Parameters params) {
+        this.golfGameFrame = golfGameFrame;
         this.params = params;
         this.graphicsQualityIndex = 3;
         this.synchronizedTrackTestMode = new SynchronizedBool();

@@ -6,10 +6,8 @@ class BlinkingButtonThread implements Runnable {
 
     private ColorButton button;
     private boolean enabled;
-    private final ColorButton _button;
 
-    protected BlinkingButtonThread(ColorButton _button, ColorButton button) {
-        this._button = _button;
+    protected BlinkingButtonThread(ColorButton button) {
         this.button = button;
         this.enabled = true;
     }

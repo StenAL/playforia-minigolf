@@ -42,30 +42,35 @@ public class HtmlText {
     }
 
     private List<HtmlLine> createLines(Graphics g, int var2, String text) {
-        HtmlParser parser = new HtmlParser(this, text, g);
+        HtmlParser parser = new HtmlParser(text, g);
         List<HtmlLine> lines = new ArrayList<>();
         boolean var6 = false;
-        HtmlLine line = new HtmlLine(this, g, var2, var6);
+        HtmlLine line = new HtmlLine(g, var2, var6);
 
         String word;
         while ((word = parser.getNextWord()) != null) {
-            if (word.equals("<br>")) {
-                lines.add(line);
-                line = new HtmlLine(this, g, var2, var6);
-            } else if (word.equals("<center>")) {
-                var6 = true;
-                line = this.method1590(line, lines, g, var2, var6);
-            } else if (word.equals("</center>")) {
-                var6 = false;
-                line = this.method1590(line, lines, g, var2, var6);
-            } else {
-                int var9 = g.getFontMetrics().stringWidth(word);
-                if (!line.method1604(var9)) {
+            switch (word) {
+                case "<br>" -> {
                     lines.add(line);
-                    line = new HtmlLine(this, g, var2, var6);
+                    line = new HtmlLine(g, var2, var6);
                 }
+                case "<center>" -> {
+                    var6 = true;
+                    line = this.method1590(line, lines, g, var2, var6);
+                }
+                case "</center>" -> {
+                    var6 = false;
+                    line = this.method1590(line, lines, g, var2, var6);
+                }
+                default -> {
+                    int var9 = g.getFontMetrics().stringWidth(word);
+                    if (!line.method1604(var9)) {
+                        lines.add(line);
+                        line = new HtmlLine(g, var2, var6);
+                    }
 
-                line.addWord(word, g.getFont(), var9);
+                    line.addWord(word, g.getFont(), var9);
+                }
             }
         }
 
@@ -75,7 +80,7 @@ public class HtmlText {
 
     private HtmlLine method1590(HtmlLine var1, List<HtmlLine> var2, Graphics var3, int var4, boolean var5) {
         this.method1591(var1, var2);
-        return new HtmlLine(this, var3, var4, var5);
+        return new HtmlLine(var3, var4, var5);
     }
 
     private void method1591(HtmlLine var1, List<HtmlLine> var2) {

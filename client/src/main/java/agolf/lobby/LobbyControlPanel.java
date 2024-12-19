@@ -1,7 +1,7 @@
 package agolf.lobby;
 
-import agolf.GameApplet;
 import agolf.GameContainer;
+import agolf.GolfGameFrame;
 import agolf.LobbySelectPanel;
 import com.aapeli.colorgui.ColorButton;
 import java.awt.Graphics;
@@ -38,14 +38,14 @@ class LobbyControlPanel extends Panel implements ActionListener {
     }
 
     public void update(Graphics graphics) {
-        graphics.setColor(GameApplet.colourGameBackground);
+        graphics.setColor(GolfGameFrame.colourGameBackground);
         graphics.fillRect(0, 0, this.width, this.height);
     }
 
     public void actionPerformed(ActionEvent evt) {
         Object evtSource = evt.getSource();
         if (evtSource == this.buttonBack) {
-            this.gameContainer.gameApplet.setGameState(0);
+            this.gameContainer.golfGameFrame.setGameState(0);
             this.gameContainer.lobbyPanel.writeData("back");
         } else if (evtSource == this.buttonQuit) {
             this.gameContainer.lobbyPanel.quitLobby();
@@ -62,7 +62,7 @@ class LobbyControlPanel extends Panel implements ActionListener {
             }
 
             if (lobbyId > 0) {
-                this.gameContainer.gameApplet.setGameState(0);
+                this.gameContainer.golfGameFrame.setGameState(0);
                 this.gameContainer.lobbyPanel.writeData(LobbySelectPanel.getLobbySelectMessage(lobbyId));
             }
         }
@@ -96,7 +96,7 @@ class LobbyControlPanel extends Panel implements ActionListener {
     private void create() {
         this.setLayout(null);
         this.buttonBack = new ColorButton(this.gameContainer.textManager.getGame("LobbyControl_Main"));
-        this.buttonBack.setBackground(GameApplet.colourButtonYellow);
+        this.buttonBack.setBackground(GolfGameFrame.colourButtonYellow);
         this.buttonBack.setBounds(0, 0, this.width, 20);
         this.buttonBack.addActionListener(this);
         this.add(this.buttonBack);
@@ -116,7 +116,7 @@ class LobbyControlPanel extends Panel implements ActionListener {
         this.buttonMulti.setBounds(0, 77, this.width, 20);
         this.buttonMulti.addActionListener(this);
         this.buttonQuit = new ColorButton(this.gameContainer.textManager.getGame("LobbyControl_Quit"));
-        this.buttonQuit.setBackground(GameApplet.colourButtonRed);
+        this.buttonQuit.setBackground(GolfGameFrame.colourButtonRed);
         this.buttonQuit.setBounds(0, this.height - 20, this.width, 20);
         this.buttonQuit.addActionListener(this);
         this.add(this.buttonQuit);

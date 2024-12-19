@@ -1,16 +1,15 @@
 package com.aapeli.client;
 
-import com.aapeli.applet.AApplet;
 import com.aapeli.colorgui.ColorButton;
+import com.aapeli.frame.AbstractGameFrame;
 
 public class AutoPopups {
 
     private SignUpHandler signUpHandler;
     private TellFriendHandler tellFriendHandler;
     private long aLong1330;
-    private static final String aString1331 = "facebook";
 
-    public AutoPopups(AApplet var1) {
+    public AutoPopups(AbstractGameFrame var1) {
         if (!var1.param.getSiteName().equalsIgnoreCase("facebook")) {
             this.signUpHandler = new SignUpHandler(var1);
             this.tellFriendHandler = new TellFriendHandler(var1.param, var1.textManager, var1.imageManager);

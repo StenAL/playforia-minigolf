@@ -1,7 +1,7 @@
 package agolf.game;
 
-import agolf.GameApplet;
 import agolf.GameContainer;
+import agolf.GolfGameFrame;
 import com.aapeli.colorgui.Choicer;
 import com.aapeli.colorgui.ColorButton;
 import java.awt.Checkbox;
@@ -46,7 +46,7 @@ class GameControlPanel extends Panel implements ActionListener, ItemListener {
     }
 
     public void update(Graphics var1) {
-        var1.setColor(GameApplet.colourGameBackground);
+        var1.setColor(GolfGameFrame.colourGameBackground);
         var1.fillRect(0, 0, this.anInt342, this.anInt343);
     }
 
@@ -106,21 +106,21 @@ class GameControlPanel extends Panel implements ActionListener, ItemListener {
         if (state == 2) {
             this.buttonNewGame = new ColorButton(this.gameContainer.textManager.getGame("GameControl_New"));
             this.buttonNewGame.setBounds(0, this.anInt343 - 55, this.anInt342, 25);
-            this.buttonNewGame.setBackground(GameApplet.colourButtonGreen);
-            this.buttonNewGame.setForeground(GameApplet.colourTextBlack);
+            this.buttonNewGame.setBackground(GolfGameFrame.colourButtonGreen);
+            this.buttonNewGame.setForeground(GolfGameFrame.colourTextBlack);
             this.buttonNewGame.addActionListener(this);
             this.add(this.buttonNewGame);
         } else {
             this.buttonSkip = new ColorButton(this.gameContainer.textManager.getGame("GameControl_Skip"));
             this.buttonSkip.setBounds(0, this.anInt343 - 55, this.anInt342, 25);
-            this.buttonSkip.setBackground(GameApplet.colourButtonBlue);
-            this.buttonSkip.setForeground(GameApplet.colourTextBlack);
+            this.buttonSkip.setBackground(GolfGameFrame.colourButtonBlue);
+            this.buttonSkip.setForeground(GolfGameFrame.colourTextBlack);
             this.buttonSkip.addActionListener(this);
             if (this.gameContainer.synchronizedTrackTestMode.get()) {
                 this.checkboxMaxFps = new Checkbox("Max FPS", false);
                 this.checkboxMaxFps.setBounds(0, this.anInt343 - 80, this.anInt342, 20);
-                this.checkboxMaxFps.setBackground(GameApplet.colourGameBackground);
-                this.checkboxMaxFps.setForeground(GameApplet.colourTextBlack);
+                this.checkboxMaxFps.setBackground(GolfGameFrame.colourGameBackground);
+                this.checkboxMaxFps.setForeground(GolfGameFrame.colourTextBlack);
                 this.add(this.checkboxMaxFps);
             }
 
@@ -141,8 +141,8 @@ class GameControlPanel extends Panel implements ActionListener, ItemListener {
 
         this.buttonBack = new ColorButton(this.gameContainer.textManager.getGame("GameControl_Back"));
         this.buttonBack.setBounds(0, this.anInt343 - 25, this.anInt342, 25);
-        this.buttonBack.setBackground(GameApplet.colourButtonYellow);
-        this.buttonBack.setForeground(GameApplet.colourTextBlack);
+        this.buttonBack.setBackground(GolfGameFrame.colourButtonYellow);
+        this.buttonBack.setForeground(GolfGameFrame.colourTextBlack);
         this.buttonBack.addActionListener(this);
         this.add(this.buttonBack);
         this.setVisible(true);

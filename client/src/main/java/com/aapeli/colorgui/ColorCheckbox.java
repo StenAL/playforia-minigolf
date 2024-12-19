@@ -19,167 +19,189 @@ public class ColorCheckbox extends IPanel implements ItemSelectable, MouseListen
     public static final int ALIGN_LEFT = -1;
     public static final int ALIGN_CENTER = 0;
     public static final int ALIGN_RIGHT = 1;
-    private static final Color aColor3289 = new Color(248, 248, 248);
-    private static final Color aColor3290 = Color.black;
-    private Font aFont3291;
-    private Color aColor3292;
-    private Color aColor3293;
-    private Color aColor3294;
-    private Color aColor3295;
-    private Color aColor3296;
-    private Image anImage3297;
-    private int anInt3298;
-    private int anInt3299;
-    private String aString3300;
-    private int anInt3301;
-    private boolean aBoolean3302;
-    private boolean aBoolean3303;
-    private ColorCheckboxGroup aColorCheckboxGroup3304;
+    private static final Color DEFAULT_BORDER_COLOR = new Color(248, 248, 248);
+    private static final Color CHECKMARK_COLOR = Color.black;
+    private Font font;
+    private Color foregroundColor;
+    private Color borderColor;
+    private Color checkmarkColor;
+    private Color borderColorLight;
+    private Color borderColorDark;
+    private Image backgroundImage;
+    private int backgroundImageOffsetX;
+    private int backgroundImageOffsetY;
+    private String text;
+    private int alignment;
+    private boolean checked;
+    private boolean pixelRoundedCorners;
+    private ColorCheckboxGroup checkboxGroup;
     private List<ItemListener> listeners;
-    private Image anImage3306;
-    private Graphics aGraphics3307;
-    private int anInt3308;
-    private int anInt3309;
+    private Image image;
+    private Graphics graphics;
+    private int width;
+    private int height;
 
-    public ColorCheckbox() {
-        this(null, false);
+    public ColorCheckbox(String text) {
+        this(text, false);
     }
 
-    public ColorCheckbox(boolean var1) {
-        this(null, var1);
-    }
-
-    public ColorCheckbox(String var1) {
-        this(var1, false);
-    }
-
-    public ColorCheckbox(String var1, boolean var2) {
-        this.aString3300 = var1;
-        this.aBoolean3302 = var2;
+    public ColorCheckbox(String text, boolean checked) {
+        this.text = text;
+        this.checked = checked;
         this.listeners = new ArrayList<>();
-        this.anInt3301 = -1;
-        this.aBoolean3303 = false;
+        this.alignment = -1;
+        this.pixelRoundedCorners = false;
         this.setFont(FontConstants.font);
         this.setForeground(FontConstants.black);
-        this.setBoxBackground(aColor3289);
-        this.setBoxForeground(aColor3290);
+        this.setBorderColor(DEFAULT_BORDER_COLOR);
+        this.setCheckmarkColor(CHECKMARK_COLOR);
         this.addMouseListener(this);
-        this.aColorCheckboxGroup3304 = null;
+        this.checkboxGroup = null;
     }
 
-    public void update(Graphics var1) {
-        Dimension var2 = this.getSize();
-        int var3 = var2.width;
-        int var4 = var2.height;
-        if (this.anImage3306 == null || var3 != this.anInt3308 || var4 != this.anInt3309) {
-            this.anImage3306 = this.createBuffer(var3, var4);
-            this.aGraphics3307 = this.getGraphics(this.anImage3306);
-            this.anInt3308 = var3;
-            this.anInt3309 = var4;
+    public void update(Graphics g) {
+        Dimension size = this.getSize();
+        int totalWidth = size.width;
+        int totalHeight = size.height;
+        if (this.image == null || totalWidth != this.width || totalHeight != this.height) {
+            this.image = this.createBuffer(totalWidth, totalHeight);
+            this.graphics = this.getGraphics(this.image);
+            this.width = totalWidth;
+            this.height = totalHeight;
         }
 
-        if (this.anImage3297 != null) {
-            this.aGraphics3307.drawImage(
-                    this.anImage3297,
+        if (this.backgroundImage != null) {
+            this.graphics.drawImage(
+                    this.backgroundImage,
                     0,
                     0,
-                    var3,
-                    var4,
-                    this.anInt3298,
-                    this.anInt3299,
-                    this.anInt3298 + var3,
-                    this.anInt3299 + var4,
+                    totalWidth,
+                    totalHeight,
+                    this.backgroundImageOffsetX,
+                    this.backgroundImageOffsetY,
+                    this.backgroundImageOffsetX + totalWidth,
+                    this.backgroundImageOffsetY + totalHeight,
                     this);
         } else {
-            this.drawBackground(this.aGraphics3307);
+            this.drawBackground(this.graphics);
         }
 
-        Font var5 =
-                this.aString3300 != null ? this.method837(this.aFont3291, this.aString3300, var3 - (var4 + 4)) : null;
-        int var6 = 0;
-        int var7;
-        if (this.anInt3301 == 0 || this.anInt3301 == 1) {
-            var7 = var4 + 4 + (var5 != null ? this.getFontMetrics(var5).stringWidth(this.aString3300) : 0);
-            if (this.anInt3301 == 0) {
-                var6 = var3 / 2 - var7 / 2;
+        Font sizeAdjustedFont = this.text != null
+                ? this.getSizeAdjustedFont(this.font, this.text, totalWidth - (totalHeight + 4))
+                : null;
+        int x = 0;
+        int width;
+        if (this.alignment == ALIGN_CENTER || this.alignment == ALIGN_RIGHT) {
+            width = totalHeight
+                    + 4
+                    + (sizeAdjustedFont != null
+                            ? this.getFontMetrics(sizeAdjustedFont).stringWidth(this.text)
+                            : 0);
+            if (this.alignment == 0) {
+                x = totalWidth / 2 - width / 2;
             } else {
-                var6 = var3 - 2 - var7;
+                x = totalWidth - 2 - width;
             }
         }
 
-        var7 = var4 - 4;
-        if (this.aColorCheckboxGroup3304 == null) {
-            this.method840(
-                    this.aGraphics3307,
-                    var6 + 2,
+        width = totalHeight - 4;
+        if (this.checkboxGroup == null) {
+            this.drawBorders(
+                    this.graphics,
+                    x + 2,
                     2,
-                    var7,
-                    var7,
-                    this.method839(this.aColor3293),
-                    this.method839(this.aColor3295),
-                    this.method839(this.aColor3296));
+                    width,
+                    width,
+                    this.adjustColorForDisabled(this.borderColor),
+                    this.adjustColorForDisabled(this.borderColorLight),
+                    this.adjustColorForDisabled(this.borderColorDark));
         } else {
-            this.aGraphics3307.setColor(this.method839(this.aColor3293));
-            this.aGraphics3307.fillRect(var6 + 3, 3, var7 - 2, var7 - 2);
-            this.aGraphics3307.setColor(this.method839(this.aColor3295));
-            this.aGraphics3307.drawLine(var6 + 3, var7 + 1, var6 + var7, var7 + 1);
-            this.aGraphics3307.drawLine(var6 + var7 + 1, 3, var6 + var7 + 1, var7);
-            this.aGraphics3307.fillRect(var6 + var7, 3, 1, 1);
-            this.aGraphics3307.fillRect(var6 + var7, var7, 1, 1);
-            this.aGraphics3307.setColor(this.method839(this.aColor3296));
-            this.aGraphics3307.drawLine(var6 + 3, 2, var6 + var7, 2);
-            this.aGraphics3307.drawLine(var6 + 2, 3, var6 + 2, var7);
-            this.aGraphics3307.fillRect(var6 + 3, 3, 1, 1);
-            this.aGraphics3307.fillRect(var6 + 3, var7, 1, 1);
+            this.graphics.setColor(this.adjustColorForDisabled(this.borderColor));
+            this.graphics.fillRect(x + 3, 3, width - 2, width - 2);
+            this.graphics.setColor(this.adjustColorForDisabled(this.borderColorLight));
+            this.graphics.drawLine(x + 3, width + 1, x + width, width + 1);
+            this.graphics.drawLine(x + width + 1, 3, x + width + 1, width);
+            this.graphics.fillRect(x + width, 3, 1, 1);
+            this.graphics.fillRect(x + width, width, 1, 1);
+            this.graphics.setColor(this.adjustColorForDisabled(this.borderColorDark));
+            this.graphics.drawLine(x + 3, 2, x + width, 2);
+            this.graphics.drawLine(x + 2, 3, x + 2, width);
+            this.graphics.fillRect(x + 3, 3, 1, 1);
+            this.graphics.fillRect(x + 3, width, 1, 1);
         }
 
-        if (this.aBoolean3302) {
-            this.aGraphics3307.setColor(this.method839(this.aColor3294));
-            if (this.aColorCheckboxGroup3304 == null) {
-                var7 -= 4;
-                int var8 = var7 / 3;
-                int var9 = var8 - 1;
-                int var10 = var7 - var8 - 2;
-                this.aGraphics3307.drawLine(var6 + 4 + var8, 4 + var7 - 2, var6 + 4 + var8 - var9, 4 + var7 - 2 - var9);
-                this.aGraphics3307.drawLine(
-                        var6 + 4 + var8, 4 + var7 - 2 - 1, var6 + 4 + var8 - var9, 4 + var7 - 2 - var9 - 1);
-                this.aGraphics3307.drawLine(
-                        var6 + 4 + var8, 4 + var7 - 2 - 2, var6 + 4 + var8 - var9, 4 + var7 - 2 - var9 - 2);
-                this.aGraphics3307.drawLine(
-                        var6 + 4 + var8, 4 + var7 - 2, var6 + 4 + var8 + var10, 4 + var7 - 2 - var10);
-                this.aGraphics3307.drawLine(
-                        var6 + 4 + var8, 4 + var7 - 2 - 1, var6 + 4 + var8 + var10, 4 + var7 - 2 - var10 - 1);
-                this.aGraphics3307.drawLine(
-                        var6 + 4 + var8, 4 + var7 - 2 - 2, var6 + 4 + var8 + var10, 4 + var7 - 2 - var10 - 2);
+        if (this.checked) {
+            this.graphics.setColor(this.adjustColorForDisabled(this.checkmarkColor));
+            if (this.checkboxGroup == null) {
+                width -= 4;
+                int checkmarkStartX = width / 3;
+                int checkmarkHeight = checkmarkStartX - 1;
+                int checkmarkEndX = width - checkmarkStartX - 2;
+                this.graphics.drawLine(
+                        x + 4 + checkmarkStartX,
+                        4 + width - 2,
+                        x + 4 + checkmarkStartX - checkmarkHeight,
+                        4 + width - 2 - checkmarkHeight);
+
+                this.graphics.drawLine(
+                        x + 4 + checkmarkStartX,
+                        4 + width - 2 - 1,
+                        x + 4 + checkmarkStartX - checkmarkHeight,
+                        4 + width - 2 - checkmarkHeight - 1);
+
+                this.graphics.drawLine(
+                        x + 4 + checkmarkStartX,
+                        4 + width - 2 - 2,
+                        x + 4 + checkmarkStartX - checkmarkHeight,
+                        4 + width - 2 - checkmarkHeight - 2);
+                this.graphics.drawLine(
+                        x + 4 + checkmarkStartX,
+                        4 + width - 2,
+                        x + 4 + checkmarkStartX + checkmarkEndX,
+                        4 + width - 2 - checkmarkEndX);
+                this.graphics.drawLine(
+                        x + 4 + checkmarkStartX,
+                        4 + width - 2 - 1,
+                        x + 4 + checkmarkStartX + checkmarkEndX,
+                        4 + width - 2 - checkmarkEndX - 1);
+                this.graphics.drawLine(
+                        x + 4 + checkmarkStartX,
+                        4 + width - 2 - 2,
+                        x + 4 + checkmarkStartX + checkmarkEndX,
+                        4 + width - 2 - checkmarkEndX - 2);
             } else {
-                var7 -= 6;
-                this.aGraphics3307.fillRect(var6 + 6, 5, var7 - 2, var7);
-                this.aGraphics3307.fillRect(var6 + 5, 6, var7, var7 - 2);
+                width -= 6;
+                this.graphics.fillRect(x + 6, 5, width - 2, width);
+                this.graphics.fillRect(x + 5, 6, width, width - 2);
             }
         }
 
-        if (var5 != null) {
-            this.aGraphics3307.setFont(var5);
-            this.aGraphics3307.setColor(this.method839(this.aColor3292));
-            this.drawText(this.aGraphics3307, this.aString3300, var6 + var4 + 4, var4 / 2 + var5.getSize() * 3 / 8 + 1);
+        if (sizeAdjustedFont != null) {
+            this.graphics.setFont(sizeAdjustedFont);
+            this.graphics.setColor(this.adjustColorForDisabled(this.foregroundColor));
+            this.drawText(
+                    this.graphics,
+                    this.text,
+                    x + totalHeight + 4,
+                    totalHeight / 2 + sizeAdjustedFont.getSize() * 3 / 8 + 1);
         }
 
-        var1.drawImage(this.anImage3306, 0, 0, this);
+        g.drawImage(this.image, 0, 0, this);
     }
 
-    public void mouseEntered(MouseEvent var1) {}
+    public void mouseEntered(MouseEvent e) {}
 
-    public void mouseExited(MouseEvent var1) {}
+    public void mouseExited(MouseEvent e) {}
 
-    public void mousePressed(MouseEvent var1) {}
+    public void mousePressed(MouseEvent e) {}
 
-    public void mouseClicked(MouseEvent var1) {}
+    public void mouseClicked(MouseEvent e) {}
 
-    public void mouseReleased(MouseEvent var1) {
-        boolean var2 = !this.aBoolean3302;
-        if (this.aColorCheckboxGroup3304 == null || this.aColorCheckboxGroup3304.method1748(var2)) {
-            this.realSetState(var2);
-            this.method838();
+    public void mouseReleased(MouseEvent e) {
+        boolean newState = !this.checked;
+        if (this.checkboxGroup == null || this.checkboxGroup.checkboxClicked(newState)) {
+            this.realSetState(newState);
+            this.notifyListeners();
         }
     }
 
@@ -196,72 +218,71 @@ public class ColorCheckbox extends IPanel implements ItemSelectable, MouseListen
     }
 
     public Object[] getSelectedObjects() {
-        if (!this.aBoolean3302) {
+        if (!this.checked) {
             return null;
         } else {
-            Object[] var1 = new Object[] {this};
-            return var1;
+            return new Object[] {this};
         }
     }
 
-    public void setLabel(String var1) {
-        this.aString3300 = var1;
+    public void setLabel(String label) {
+        this.text = label;
         this.repaint();
     }
 
     public String getLabel() {
-        return this.aString3300;
+        return this.text;
     }
 
-    public void setFont(Font var1) {
-        this.aFont3291 = var1;
+    public void setFont(Font font) {
+        this.font = font;
         this.repaint();
     }
 
-    public void setAlign(int var1) {
-        this.anInt3301 = var1;
+    public void setAlign(int alignment) {
+        this.alignment = alignment;
         this.repaint();
     }
 
-    public void setBackgroundImage(Image var1, int var2, int var3) {
-        this.anImage3297 = var1;
-        this.anInt3298 = var2;
-        this.anInt3299 = var3;
+    public void setBackgroundImage(Image image, int offsetX, int offsetY) {
+        this.backgroundImage = image;
+        this.backgroundImageOffsetX = offsetX;
+        this.backgroundImageOffsetY = offsetY;
         this.repaint();
     }
 
-    public void setForeground(Color var1) {
-        this.aColor3292 = var1;
+    public void setForeground(Color foreground) {
+        this.foregroundColor = foreground;
         this.repaint();
     }
 
-    public void setBoxBackground(Color var1) {
-        this.aColor3293 = var1;
-        this.aColor3295 = this.method835(var1, 32);
-        this.aColor3296 = this.method835(var1, -48);
+    public void setBorderColor(Color color) {
+        this.borderColor = color;
+        this.borderColorLight = this.translateColor(color, 32);
+        this.borderColorDark = this.translateColor(color, -48);
         this.repaint();
     }
 
-    public void setBoxForeground(Color var1) {
-        this.aColor3294 = var1;
+    public void setCheckmarkColor(Color color) {
+        this.checkmarkColor = color;
         this.repaint();
     }
 
-    public void setEnabled(boolean var1) {
-        super.setEnabled(var1);
+    public void setEnabled(boolean enabled) {
+        super.setEnabled(enabled);
         this.repaint();
     }
 
-    public void setState(boolean var1) {
-        if (this.aBoolean3302 != var1) {
-            if (this.aColorCheckboxGroup3304 == null || this.aColorCheckboxGroup3304.method1748(var1)) {
-                this.realSetState(var1);
+    public void setState(boolean state) {
+        if (this.checked != state) {
+            if (this.checkboxGroup == null || this.checkboxGroup.checkboxClicked(state)) {
+                this.realSetState(state);
             }
         }
     }
 
     public boolean getState() {
-        return this.aBoolean3302;
+        return this.checked;
     }
 
     public void click() {
@@ -269,121 +290,128 @@ public class ColorCheckbox extends IPanel implements ItemSelectable, MouseListen
     }
 
     public Dimension getPreferredSize() {
-        int var1 = 3 + this.aFont3291.getSize() + 3;
-        return new Dimension(var1 + 4 + this.getFontMetrics(this.aFont3291).stringWidth(this.aString3300) + 4, var1);
+        int preferredHeight = 3 + this.font.getSize() + 3;
+        return new Dimension(
+                preferredHeight + 4 + this.getFontMetrics(this.font).stringWidth(this.text) + 4, preferredHeight);
     }
 
-    public void setGroup(ColorCheckboxGroup var1) {
-        this.aColorCheckboxGroup3304 = var1;
-        var1.addCheckbox(this);
+    public void setGroup(ColorCheckboxGroup group) {
+        this.checkboxGroup = group;
+        group.addCheckbox(this);
         this.repaint();
     }
 
-    public void setBoxPixelRoundedCorners(boolean var1) {
-        this.aBoolean3303 = var1;
+    public void setBoxPixelRoundedCorners(boolean pixelRoundedCorners) {
+        this.pixelRoundedCorners = pixelRoundedCorners;
         this.repaint();
     }
 
-    public Image createBuffer(int var1, int var2) {
-        return this.createImage(var1, var2);
+    public Image createBuffer(int width, int height) {
+        return this.createImage(width, height);
     }
 
-    public Graphics getGraphics(Image var1) {
-        return var1.getGraphics();
+    public Graphics getGraphics(Image image) {
+        return image.getGraphics();
     }
 
-    public void drawText(Graphics var1, String var2, int var3, int var4) {
-        var1.drawString(var2, var3, var4);
+    public void drawText(Graphics graphics, String text, int x, int y) {
+        graphics.drawString(text, x, y);
     }
 
-    public void realSetState(boolean var1) {
-        this.aBoolean3302 = var1;
+    public void realSetState(boolean checked) {
+        this.checked = checked;
         this.repaint();
     }
 
-    private Color method835(Color var1, int var2) {
+    private Color translateColor(Color color, int offset) {
         return new Color(
-                this.method836(var1.getRed(), var2),
-                this.method836(var1.getGreen(), var2),
-                this.method836(var1.getBlue(), var2));
+                this.translateColor(color.getRed(), offset),
+                this.translateColor(color.getGreen(), offset),
+                this.translateColor(color.getBlue(), offset));
     }
 
-    private int method836(int var1, int var2) {
-        var1 += var2;
-        if (var1 < 0) {
-            var1 = 0;
+    private int translateColor(int base, int offset) {
+        base += offset;
+        if (base < 0) {
+            base = 0;
+        } else if (base > 255) {
+            base = 255;
         }
 
-        if (var1 > 255) {
-            var1 = 255;
-        }
-
-        return var1;
+        return base;
     }
 
-    private Font method837(Font var1, String var2, int var3) {
-        int var4 = this.getFontMetrics(var1).stringWidth(var2);
-        if (var4 <= var3) {
-            return var1;
+    private Font getSizeAdjustedFont(Font font, String text, int width) {
+        int stringWidth = this.getFontMetrics(font).stringWidth(text);
+        if (stringWidth <= width) {
+            return font;
         } else {
-            int var7 = var1.getSize();
+            int fontSize = font.getSize();
 
             do {
-                Font var5 = var1;
-                int var6 = var4;
-                --var7;
-                var1 = new Font(var1.getName(), var1.getStyle(), var7);
-                var4 = this.getFontMetrics(var1).stringWidth(var2);
-                if (var4 >= var6) {
-                    return var5;
+                Font newFont = font;
+                int newWidth = stringWidth;
+                --fontSize;
+                font = new Font(font.getName(), font.getStyle(), fontSize);
+                stringWidth = this.getFontMetrics(font).stringWidth(text);
+                if (stringWidth >= newWidth) {
+                    return newFont;
                 }
-            } while (var4 > var3 && var7 > 9);
+            } while (stringWidth > width && fontSize > 9);
 
-            return var1;
+            return font;
         }
     }
 
-    private void method838() {
+    private void notifyListeners() {
         synchronized (this.listeners) {
             if (this.listeners.size() != 0) {
-                ItemEvent var2 = new ItemEvent(this, 0, this, 701);
+                ItemEvent event = new ItemEvent(this, 0, this, 701);
                 for (ItemListener listener : listeners) {
-                    listener.itemStateChanged(var2);
+                    listener.itemStateChanged(event);
                 }
             }
         }
     }
 
-    private Color method839(Color var1) {
+    private Color adjustColorForDisabled(Color color) {
         if (this.isEnabled()) {
-            return var1;
+            return color;
         } else {
-            Color var2 = this.getBackground();
-            int var3 = (var1.getRed() + var2.getRed() * 2) / 3;
-            int var4 = (var1.getGreen() + var2.getGreen() * 2) / 3;
-            int var5 = (var1.getBlue() + var2.getBlue() * 2) / 3;
-            return new Color(var3, var4, var5);
+            Color background = this.getBackground();
+            int r = (color.getRed() + background.getRed() * 2) / 3;
+            int g = (color.getGreen() + background.getGreen() * 2) / 3;
+            int b = (color.getBlue() + background.getBlue() * 2) / 3;
+            return new Color(r, g, b);
         }
     }
 
-    private void method840(Graphics var1, int var2, int var3, int var4, int var5, Color var6, Color var7, Color var8) {
-        if (this.aBoolean3303) {
-            var1.setColor(var6);
-            var1.fillRect(var2 + 1, var3 + 1, var4 - 2, var5 - 2);
-            var1.setColor(var8);
-            var1.drawLine(var2 + 1, var3, var2 + var4 - 2, var3);
-            var1.drawLine(var2, var3 + 1, var2, var3 + var5 - 2);
-            var1.setColor(var7);
-            var1.drawLine(var2 + 1, var3 + var5 - 1, var2 + var4 - 2, var3 + var5 - 1);
-            var1.drawLine(var2 + var4 - 1, var3 + 1, var2 + var4 - 1, var3 + var5 - 2);
+    private void drawBorders(
+            Graphics graphics,
+            int x,
+            int y,
+            int width,
+            int height,
+            Color borderColor,
+            Color borderColorLight,
+            Color borderColorDark) {
+        if (this.pixelRoundedCorners) {
+            graphics.setColor(borderColor);
+            graphics.fillRect(x + 1, y + 1, width - 2, height - 2);
+            graphics.setColor(borderColorDark);
+            graphics.drawLine(x + 1, y, x + width - 2, y);
+            graphics.drawLine(x, y + 1, x, y + height - 2);
+            graphics.setColor(borderColorLight);
+            graphics.drawLine(x + 1, y + height - 1, x + width - 2, y + height - 1);
+            graphics.drawLine(x + width - 1, y + 1, x + width - 1, y + height - 2);
         } else {
-            var1.setColor(var6);
-            var1.fillRect(var2, var3, var4, var5);
-            var1.setColor(var7);
-            var1.drawRect(var2, var3, var4 - 1, var5 - 1);
-            var1.setColor(var8);
-            var1.drawLine(var2, var3, var2 + var4 - 2, var3);
-            var1.drawLine(var2, var3, var2, var3 + var5 - 1);
+            graphics.setColor(borderColor);
+            graphics.fillRect(x, y, width, height);
+            graphics.setColor(borderColorLight);
+            graphics.drawRect(x, y, width - 1, height - 1);
+            graphics.setColor(borderColorDark);
+            graphics.drawLine(x, y, x + width - 2, y);
+            graphics.drawLine(x, y, x, y + height - 1);
         }
     }
 }
