@@ -59,10 +59,10 @@ class LoadingPanel extends Panel implements Runnable, ActionListener {
 
     public synchronized void update(Graphics graphics) {
         if (!this.destroyed) {
-            AbstractGameFrame applet = this.gameFrame;
-            if (applet != null) {
-                int width = applet.contentWidth;
-                int height = applet.contentHeight;
+            AbstractGameFrame gameFrame = this.gameFrame;
+            if (gameFrame != null) {
+                int width = gameFrame.contentWidth;
+                int height = gameFrame.contentHeight;
                 if (this.panelImage == null) {
                     this.panelImage = this.createImage(width, height);
                     this.panelGraphics = this.panelImage.getGraphics();
