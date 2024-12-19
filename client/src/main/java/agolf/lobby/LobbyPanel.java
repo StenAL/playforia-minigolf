@@ -1,7 +1,7 @@
 package agolf.lobby;
 
-import agolf.GameApplet;
 import agolf.GameContainer;
+import agolf.GolfGameFrame;
 import com.aapeli.colorgui.Choicer;
 import com.aapeli.multiuser.User;
 import java.awt.Graphics;
@@ -43,7 +43,7 @@ public class LobbyPanel extends Panel {
     }
 
     public void update(Graphics graphics) {
-        graphics.setColor(GameApplet.colourGameBackground);
+        graphics.setColor(GolfGameFrame.colourGameBackground);
         graphics.fillRect(0, 0, this.width, this.height);
     }
 
@@ -229,7 +229,7 @@ public class LobbyPanel extends Panel {
             c.addItem(this.gameContainer.textManager.getGame("LobbyReal_TrackTypes" + i));
         }
 
-        boolean b = this.gameContainer.gameApplet.getPlayerAccessLevel() == 2;
+        boolean b = this.gameContainer.golfGameFrame.getPlayerAccessLevel() == 2;
         if (b && !Launcher.isUsingCustomServer()) { // todo <--
             c.addItem(this.gameContainer.textManager.getGame("LobbyReal_TrackTypes7") + " (A)");
             c.addItem("Only best (A)");
@@ -334,6 +334,6 @@ public class LobbyPanel extends Panel {
     }
 
     protected void quitLobby() {
-        this.gameContainer.gameApplet.quit("lobby");
+        this.gameContainer.golfGameFrame.quit("lobby");
     }
 }

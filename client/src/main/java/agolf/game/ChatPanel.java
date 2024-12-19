@@ -1,7 +1,7 @@
 package agolf.game;
 
-import agolf.GameApplet;
 import agolf.GameContainer;
+import agolf.GolfGameFrame;
 import com.aapeli.client.InputTextField;
 import com.aapeli.colorgui.ColorButton;
 import com.aapeli.multiuser.ChatBase;
@@ -50,7 +50,7 @@ class ChatPanel extends Panel implements KeyListener, ActionListener {
     }
 
     public void update(Graphics g) {
-        g.setColor(GameApplet.colourGameBackground);
+        g.setColor(GolfGameFrame.colourGameBackground);
         g.fillRect(0, 0, this.width, this.height);
     }
 
@@ -164,7 +164,7 @@ class ChatPanel extends Panel implements KeyListener, ActionListener {
         this.textFieldMessage.setBounds(0, this.height - 20, this.width - 70, 20);
         this.buttonSay = new ColorButton(this.gameContainer.textManager.getGame("GameChat_Say"));
         this.buttonSay.setBounds(this.width - 69, this.height - 20, 69, 20);
-        this.buttonSay.setBackground(GameApplet.colourButtonBlue);
+        this.buttonSay.setBackground(GolfGameFrame.colourButtonBlue);
         if (this.gameExtra > 0) {
             this.add(this.textAreaChat);
             if (this.gameExtra == 2) {
@@ -181,9 +181,9 @@ class ChatPanel extends Panel implements KeyListener, ActionListener {
     private void method323() {
         if (this.gameExtra == 2) {
             byte var1 = ChatBase.CIDR_NONE;
-            if (!this.gameContainer.gameApplet.isEmailVerified()) {
+            if (!this.gameContainer.golfGameFrame.isEmailVerified()) {
                 var1 = ChatBase.CIDR_UNREG;
-            } else if (this.gameContainer.gameApplet.isGuestChatDisabled()) {
+            } else if (this.gameContainer.golfGameFrame.isGuestChatDisabled()) {
                 var1 = ChatBase.CIDR_UNCONF;
             }
 

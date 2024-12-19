@@ -1,7 +1,7 @@
 package agolf.game;
 
-import agolf.GameApplet;
 import agolf.GameContainer;
+import agolf.GolfGameFrame;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -59,7 +59,7 @@ public class GameBackgroundCanvas extends Canvas {
 
     public void update(Graphics g) {
         if (this.image == null) {
-            g.setColor(GameApplet.colourGameBackground);
+            g.setColor(GolfGameFrame.colourGameBackground);
             g.fillRect(0, 0, 735, 375);
         } else {
             g.drawImage(this.image, 0, 0, this);

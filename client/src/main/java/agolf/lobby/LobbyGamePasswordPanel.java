@@ -1,7 +1,7 @@
 package agolf.lobby;
 
-import agolf.GameApplet;
 import agolf.GameContainer;
+import agolf.GolfGameFrame;
 import com.aapeli.colorgui.ColorButton;
 import java.awt.Graphics;
 import java.awt.Panel;
@@ -81,12 +81,12 @@ class LobbyGamePasswordPanel extends Panel implements KeyListener, ActionListene
         this.add(this.textField);
         this.buttonCancel = new ColorButton(this.gameContainer.textManager.getGame("LobbyRealPassword_Cancel"));
         this.buttonCancel.setBounds(25, 31, 50, 20);
-        this.buttonCancel.setBackground(GameApplet.colourButtonRed);
+        this.buttonCancel.setBackground(GolfGameFrame.colourButtonRed);
         this.buttonCancel.addActionListener(this);
         this.add(this.buttonCancel);
         this.buttonOk = new ColorButton(this.gameContainer.textManager.getGame("LobbyRealPassword_Ok"));
         this.buttonOk.setBounds(125, 31, 50, 20);
-        this.buttonOk.setBackground(GameApplet.colourButtonGreen);
+        this.buttonOk.setBackground(GolfGameFrame.colourButtonGreen);
         this.buttonOk.addActionListener(this);
         this.add(this.buttonOk);
         this.textField.selectAll();

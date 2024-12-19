@@ -1,7 +1,7 @@
 package agolf.game;
 
-import agolf.GameApplet;
 import agolf.GameContainer;
+import agolf.GolfGameFrame;
 import agolf.SynchronizedBool;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -49,7 +49,7 @@ public class GamePanel extends Panel {
     }
 
     public void update(Graphics var1) {
-        var1.setColor(GameApplet.colourGameBackground);
+        var1.setColor(GolfGameFrame.colourGameBackground);
         var1.fillRect(0, 0, this.width, this.height);
     }
 
@@ -239,9 +239,9 @@ public class GamePanel extends Panel {
                             // this.requestFocus();//todo this is annoying as fuck
                         }
 
-                        this.gameContainer.gameApplet.showPlayerList(this.playerInfoPanel.getPlayerNames());
+                        this.gameContainer.golfGameFrame.showPlayerList(this.playerInfoPanel.getPlayerNames());
                     } else {
-                        this.gameContainer.gameApplet.removePlayerListWinnders();
+                        this.gameContainer.golfGameFrame.removePlayerListWinnders();
                     }
                 }
 
@@ -415,7 +415,7 @@ public class GamePanel extends Panel {
                     }
 
                     this.playerInfoPanel.setGameOutcome(gameOutcome);
-                    this.gameContainer.gameApplet.showPlayerListWinners(isWinner);
+                    this.gameContainer.golfGameFrame.showPlayerListWinners(isWinner);
                 } else {
                     this.playerInfoPanel.setGameOutcome(null);
                 }
@@ -426,7 +426,7 @@ public class GamePanel extends Panel {
                     this.gameContainer.lobbyPanel.requestTrackSetList();
                 }
 
-                this.gameContainer.gameApplet.gameFinished(this.playerCount > 1);
+                this.gameContainer.golfGameFrame.gameFinished(this.playerCount > 1);
             }
         }
     }
@@ -508,9 +508,9 @@ public class GamePanel extends Panel {
     protected void leaveGame() {
         this.gameCanvas.restartGame();
         this.playerInfoPanel.stopTimer();
-        this.gameContainer.gameApplet.setGameState(0);
+        this.gameContainer.golfGameFrame.setGameState(0);
         this.gameContainer.connection.writeData("game\tback");
-        this.gameContainer.gameApplet.removePlayerList();
+        this.gameContainer.golfGameFrame.removePlayerList();
     }
 
     protected void rateTrack(int track, int rating) {
@@ -563,7 +563,7 @@ public class GamePanel extends Panel {
     }
 
     private void create(Image image) {
-        if (this.gameContainer.gameApplet.syncIsValidSite.get()) {
+        if (this.gameContainer.golfGameFrame.syncIsValidSite.get()) {
             this.setLayout(null);
             this.playerInfoPanel = new PlayerInfoPanel(this.gameContainer, 735, 60);
             this.playerInfoPanel.setLocation(0, 0);
@@ -578,7 +578,7 @@ public class GamePanel extends Panel {
     }
 
     private void addMultiPlayerPanels(int mode) {
-        if (this.gameContainer.gameApplet.syncIsValidSite.get()) {
+        if (this.gameContainer.golfGameFrame.syncIsValidSite.get()) {
             this.setVisible(false);
             int var2 = mode > 0 ? 265 : 400;
             this.chatPanel = new ChatPanel(this.gameContainer, this.width - 100 - 5 - var2 - 5, 80, mode);
