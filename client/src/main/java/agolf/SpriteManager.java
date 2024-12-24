@@ -31,7 +31,7 @@ public class SpriteManager {
         for (int var1 = 0; var1 < GameBackgroundCanvas.trackAdvertSize; ++var1) {
             try {
                 String var2 = "ad" + var1;
-                Image var3 = this.imageManager.getGameImageIfLoaded(var2);
+                Image var3 = this.imageManager.getGameImage(var2);
                 if (var3 != null) {
                     this.imageManager.unloadGameImage(var2);
                     this.anIntArrayArray968[var1] = this.imageManager.getPixels(
@@ -39,20 +39,17 @@ public class SpriteManager {
                             GameBackgroundCanvas.anIntArray78[var1] * 15,
                             GameBackgroundCanvas.anIntArray79[var1] * 15);
                 }
-            } catch (Exception var4) {
-                this.anIntArrayArray968[var1] = null;
-            } catch (OutOfMemoryError var5) {
+            } catch (Exception | OutOfMemoryError e) {
                 this.anIntArrayArray968[var1] = null;
             }
         }
     }
 
     /**
-     * MOTHER FUCKING IMPORTANT. Converts the tile code into an array of pixels (presumably 15*15 as
-     * a 1-d array)
+     * Converts the tile code into an array of pixels (presumably 15*15 as a 1-d array)
      *
      * @param tileCode The Map Tile code to get pixels of.
-     * @return An linear array of the tiles pixels init br0
+     * @return A linear array of the tiles pixels
      */
     public int[] getPixelsFromTileCode(int tileCode) {
         if (tileCode == 0) {
@@ -107,7 +104,6 @@ public class SpriteManager {
         int sheetHeight = this.imageManager.getHeight(spriteSheet);
 
         int[] var9 = this.imageManager.getPixels(spriteSheet, sheetWidth, sheetHeight);
-        spriteSheet = null;
         Image[] var10 = new Image[spriteCount];
 
         for (int var11 = 0; var11 < spriteCount; ++var11) {

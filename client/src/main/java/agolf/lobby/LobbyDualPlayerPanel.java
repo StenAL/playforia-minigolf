@@ -1,7 +1,7 @@
 package agolf.lobby;
 
-import agolf.GameApplet;
 import agolf.GameContainer;
+import agolf.GolfGameFrame;
 import com.aapeli.client.IPanel;
 import com.aapeli.client.StringDraw;
 import com.aapeli.colorgui.Choicer;
@@ -74,15 +74,15 @@ class LobbyDualPlayerPanel extends IPanel implements ItemListener, ActionListene
             this.graphics = this.image.getGraphics();
         }
 
-        this.graphics.setColor(GameApplet.colourGameBackground);
+        this.graphics.setColor(GolfGameFrame.colourGameBackground);
         this.graphics.fillRect(0, 0, this.width, this.height);
         this.drawBackground(this.graphics);
         Color colourTextOutline = new Color(102, 204, 255);
-        this.graphics.setColor(GameApplet.colourTextBlack);
-        this.graphics.setFont(GameApplet.fontSerif26b);
+        this.graphics.setColor(GolfGameFrame.colourTextBlack);
+        this.graphics.setFont(GolfGameFrame.fontSerif26b);
         StringDraw.drawString(
                 this.graphics, this.gameContainer.textManager.getGame("LobbySelect_DualPlayer"), this.width / 2, 32, 0);
-        this.graphics.setFont(GameApplet.fontSerif20);
+        this.graphics.setFont(GolfGameFrame.fontSerif20);
         StringDraw.drawOutlinedString(
                 this.graphics,
                 colourTextOutline,
@@ -92,7 +92,7 @@ class LobbyDualPlayerPanel extends IPanel implements ItemListener, ActionListene
                 1);
         byte yPos = 73;
         byte yPos2 = 23;
-        this.graphics.setFont(GameApplet.fontDialog12);
+        this.graphics.setFont(GolfGameFrame.fontDialog12);
         StringDraw.drawOutlinedString(
                 this.graphics,
                 colourTextOutline,
@@ -155,7 +155,7 @@ class LobbyDualPlayerPanel extends IPanel implements ItemListener, ActionListene
         synchronized (synchronizedObject) {
             if (this.currentState > 0) {
                 int xPos = this.width * 3 / 4 - 15;
-                this.graphics.setFont(GameApplet.fontDialog14b);
+                this.graphics.setFont(GolfGameFrame.fontDialog14b);
                 if (this.currentState == 1) {
                     StringDraw.drawOutlinedString(
                             this.graphics,
@@ -176,7 +176,7 @@ class LobbyDualPlayerPanel extends IPanel implements ItemListener, ActionListene
                             0);
                 }
 
-                this.graphics.setFont(GameApplet.fontDialog12);
+                this.graphics.setFont(GolfGameFrame.fontDialog12);
                 yPos = 83;
                 yPos2 = 17;
                 StringDraw.drawOutlinedString(
@@ -339,7 +339,7 @@ class LobbyDualPlayerPanel extends IPanel implements ItemListener, ActionListene
     }
 
     public void actionPerformed(ActionEvent evt) {
-        if (this.gameContainer.gameApplet.syncIsValidSite.get()) {
+        if (this.gameContainer.golfGameFrame.syncIsValidSite.get()) {
             Object evtSource = evt.getSource();
             if (evtSource == this.buttonChallenge) {
                 synchronized (synchronizedObject) {
@@ -416,94 +416,100 @@ class LobbyDualPlayerPanel extends IPanel implements ItemListener, ActionListene
     }
 
     protected boolean handlePacket(String[] args) {
-        if (args[1].equals("challenge")) {
-            synchronized (synchronizedObject) {
-                if (this.currentState == 1) {
-                    this.gameContainer.lobbyPanel.writeData("cfail\t" + args[2] + "\tcother");
-                    return true;
+        switch (args[1]) {
+            case "challenge" -> {
+                synchronized (synchronizedObject) {
+                    if (this.currentState == 1) {
+                        this.gameContainer.lobbyPanel.writeData("cfail\t" + args[2] + "\tcother");
+                        return true;
+                    }
+                    if (currentState == 2) {
+                        this.gameContainer.lobbyPanel.writeData("cfail\t" + args[2] + "\tnochall");
+                        return true;
+                    }
+                    if (checkboxNoChallenges.getState() || gameContainer.lobbyPanel.isUserIgnored(args[2])) {
+                        this.gameContainer.lobbyPanel.writeData("cfail\t" + args[2] + "\tcbyother");
+                        return true;
+                    }
+                    this.opponentName = args[2];
+                    this.tracksNum = Integer.parseInt(args[3]);
+                    this.trackType = Integer.parseInt(args[4]);
+                    this.maxStrokes = Integer.parseInt(args[5]);
+                    this.timeLimit = Integer.parseInt(args[6]);
+                    this.waterEvent = Integer.parseInt(args[7]);
+                    this.collision = Integer.parseInt(args[8]);
+                    this.scoring = Integer.parseInt(args[9]);
+                    this.scoringEnd = Integer.parseInt(args[10]);
+                    /*if(isUsingCustomServer) {
+                        this.trackCategory = Integer.parseInt(args[11]);
+                    }*/
+                    this.setState(2);
                 }
-                if (currentState == 2) {
-                    this.gameContainer.lobbyPanel.writeData("cfail\t" + args[2] + "\tnochall");
-                    return true;
-                }
-                if (checkboxNoChallenges.getState() || gameContainer.lobbyPanel.isUserIgnored(args[2])) {
-                    this.gameContainer.lobbyPanel.writeData("cfail\t" + args[2] + "\tcbyother");
-                    return true;
-                }
-                this.opponentName = args[2];
-                this.tracksNum = Integer.parseInt(args[3]);
-                this.trackType = Integer.parseInt(args[4]);
-                this.maxStrokes = Integer.parseInt(args[5]);
-                this.timeLimit = Integer.parseInt(args[6]);
-                this.waterEvent = Integer.parseInt(args[7]);
-                this.collision = Integer.parseInt(args[8]);
-                this.scoring = Integer.parseInt(args[9]);
-                this.scoringEnd = Integer.parseInt(args[10]);
-                /*if(isUsingCustomServer) {
-                    this.trackCategory = Integer.parseInt(args[11]);
-                }*/
-                this.setState(2);
-            }
 
-            if (this.checkboxBeep.getState()) {
-                this.gameContainer.soundManager.playChallenge();
-            }
-
-            return true;
-        } else if (args[1].equals("cancel")) {
-            synchronized (synchronizedObject) {
-                if (this.currentState == 2) {
-                    this.setState(0);
-                    return true;
+                if (this.checkboxBeep.getState()) {
+                    this.gameContainer.soundManager.playChallenge();
                 }
 
                 return true;
             }
-        } else if (args[1].equals("cfail")) {
-            synchronized (synchronizedObject) {
-                if (this.currentState != 1) {
+            case "cancel" -> {
+                synchronized (synchronizedObject) {
+                    if (this.currentState == 2) {
+                        this.setState(0);
+                        return true;
+                    }
+
                     return true;
                 }
-
-                this.setState(0);
             }
+            case "cfail" -> {
+                synchronized (synchronizedObject) {
+                    if (this.currentState != 1) {
+                        return true;
+                    }
 
-            if (args[2].equals("nouser")) {
-                this.extraText = this.gameContainer.textManager.getGame("LobbyReal_NoChallengedUser");
-            }
-
-            if (args[2].equals("nochall")) {
-                this.extraText = this.gameContainer.textManager.getGame("LobbyReal_NoChallenges");
-            }
-
-            if (args[2].equals("cother")) {
-                this.extraText = this.gameContainer.textManager.getGame("LobbyReal_ChallengingOther");
-            }
-
-            if (args[2].equals("cbyother")) {
-                this.extraText = this.gameContainer.textManager.getGame("LobbyReal_ChallengedByOther");
-            }
-
-            if (args[2].equals("refuse")) {
-                this.extraText = this.gameContainer.textManager.getGame("LobbyReal_ChallengeRefused");
-            }
-
-            this.repaint();
-            return true;
-        } else if (args[1].equals("afail")) {
-            synchronized (synchronizedObject) {
-                if (this.currentState != -1) {
-                    return true;
+                    this.setState(0);
                 }
 
-                this.setState(0);
-            }
+                if (args[2].equals("nouser")) {
+                    this.extraText = this.gameContainer.textManager.getGame("LobbyReal_NoChallengedUser");
+                }
 
-            this.extraText = this.gameContainer.textManager.getGame("LobbyReal_ChallengedLeft");
-            this.repaint();
-            return true;
-        } else {
-            return false;
+                if (args[2].equals("nochall")) {
+                    this.extraText = this.gameContainer.textManager.getGame("LobbyReal_NoChallenges");
+                }
+
+                if (args[2].equals("cother")) {
+                    this.extraText = this.gameContainer.textManager.getGame("LobbyReal_ChallengingOther");
+                }
+
+                if (args[2].equals("cbyother")) {
+                    this.extraText = this.gameContainer.textManager.getGame("LobbyReal_ChallengedByOther");
+                }
+
+                if (args[2].equals("refuse")) {
+                    this.extraText = this.gameContainer.textManager.getGame("LobbyReal_ChallengeRefused");
+                }
+
+                this.repaint();
+                return true;
+            }
+            case "afail" -> {
+                synchronized (synchronizedObject) {
+                    if (this.currentState != -1) {
+                        return true;
+                    }
+
+                    this.setState(0);
+                }
+
+                this.extraText = this.gameContainer.textManager.getGame("LobbyReal_ChallengedLeft");
+                this.repaint();
+                return true;
+            }
+            default -> {
+                return false;
+            }
         }
     }
 
@@ -568,21 +574,21 @@ class LobbyDualPlayerPanel extends IPanel implements ItemListener, ActionListene
         this.choicerScoringEnd = this.gameContainer.lobbyPanel.addChoicerScoringEnd(
                 this, this.width / 2 - 170, /*isUsingCustomServer ? 242 :*/ 219, 100, 20);
         this.buttonChallenge = new ColorButton(this.gameContainer.textManager.getGame("LobbyReal_Challenge"));
-        this.buttonChallenge.setBackground(GameApplet.colourButtonGreen);
+        this.buttonChallenge.setBackground(GolfGameFrame.colourButtonGreen);
         this.buttonChallenge.setBounds(
                 this.width / 2 - 170, this.height - 15 - 25 + (/*isUsingCustomServer ? 10 :*/ 0), 100, 25);
         this.buttonChallenge.addActionListener(this);
         this.add(this.buttonChallenge);
         this.buttonCancel = new ColorButton(this.gameContainer.textManager.getGame("LobbyReal_Cancel"));
-        this.buttonCancel.setBackground(GameApplet.colourButtonYellow);
+        this.buttonCancel.setBackground(GolfGameFrame.colourButtonYellow);
         this.buttonCancel.setBounds(this.width * 3 / 4 - 50, this.height - 40 - 25, 100, 25);
         this.buttonCancel.addActionListener(this);
         this.buttonAccept = new ColorButton(this.gameContainer.textManager.getGame("LobbyReal_Accept"));
-        this.buttonAccept.setBackground(GameApplet.colourButtonGreen);
+        this.buttonAccept.setBackground(GolfGameFrame.colourButtonGreen);
         this.buttonAccept.setBounds(this.width * 3 / 4 - 100 - 10, this.height - 40 - 25, 100, 25);
         this.buttonAccept.addActionListener(this);
         this.buttonRefuse = new ColorButton(this.gameContainer.textManager.getGame("LobbyReal_Refuse"));
-        this.buttonRefuse.setBackground(GameApplet.colourButtonRed);
+        this.buttonRefuse.setBackground(GolfGameFrame.colourButtonRed);
         this.buttonRefuse.setBounds(this.width * 3 / 4 + 10, this.height - 40 - 25, 100, 25);
         this.buttonRefuse.addActionListener(this);
         int var1 = this.width * 3 / 4 - this.width / 8 - 10;

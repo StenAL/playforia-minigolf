@@ -1,7 +1,7 @@
 package com.aapeli.connection;
 
-import com.aapeli.applet.AApplet;
 import com.aapeli.client.Parameters;
+import com.aapeli.frame.AbstractGameFrame;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -35,7 +35,7 @@ public final class SocketConnection implements Runnable {
     /* Other Constants */
     public static final int CIPHER_MAGIC_DEFAULT = 4;
 
-    private AApplet gameApplet;
+    private AbstractGameFrame gameFrame;
     private Parameters params;
     private SocketConnectionListener socketConnectionListener;
     private GameCipher gameCipher;
@@ -57,25 +57,20 @@ public final class SocketConnection implements Runnable {
     private Thread thread;
 
     public SocketConnection(
-            AApplet gameApplet, SocketConnectionListener socketConnectionListener, String[] gameCipherCmds) {
-        this(gameApplet, gameApplet.param, socketConnectionListener, gameCipherCmds);
-    }
-
-    public SocketConnection(
-            Parameters params, SocketConnectionListener socketConnectionListener, String[] gameCipherCmds) {
-        this(null, params, socketConnectionListener, gameCipherCmds);
+            AbstractGameFrame gameFrame, SocketConnectionListener socketConnectionListener, String[] gameCipherCmds) {
+        this(gameFrame, gameFrame.param, socketConnectionListener, gameCipherCmds);
     }
 
     private SocketConnection(
-            AApplet gameApplet,
+            AbstractGameFrame gameFrame,
             Parameters params,
             SocketConnectionListener socketConnectionListener,
             String[] gameCipherCmds) {
-        this.gameApplet = gameApplet;
+        this.gameFrame = gameFrame;
         this.params = params;
         this.socketConnectionListener = socketConnectionListener;
-        if (gameApplet != null) {
-            gameApplet.setConnectionReference(this);
+        if (gameFrame != null) {
+            gameFrame.setConnectionReference(this);
         }
 
         int connCipherMagic = CIPHER_MAGIC_DEFAULT;
@@ -180,10 +175,6 @@ public final class SocketConnection implements Runnable {
             this.state = STATE_DISCONNECTED;
             this.thread.interrupt();
         }
-    }
-
-    public String getLocalIP() {
-        return null;
     }
 
     protected void handleCrash() { // TODO
@@ -341,8 +332,7 @@ public final class SocketConnection implements Runnable {
                         this.writeLineC("old " + this.clientId);
                     }
                 } else if (cmd.startsWith("id ")) { // connected
-                    long id = Long.parseLong(cmd.substring(3));
-                    this.clientId = id;
+                    this.clientId = Long.parseLong(cmd.substring(3));
                     this.state = STATE_CONNECTED;
                 } else if (cmd.equals("rcok")) { // reconnect ok
                     this.state = STATE_CONNECTED;
@@ -354,16 +344,16 @@ public final class SocketConnection implements Runnable {
                     this.writeLineC("pong");
                 }
             } else if (cmdtype == 'p') {
-                if (cmd.startsWith("kickban ") && this.gameApplet != null) {
+                if (cmd.startsWith("kickban ") && this.gameFrame != null) {
                     firstSpace = Integer.parseInt(cmd.substring(8));
-                    this.gameApplet.setEndState(
+                    this.gameFrame.setEndState(
                             firstSpace == 1
-                                    ? AApplet.END_ERROR_KICK_NOW
+                                    ? AbstractGameFrame.END_ERROR_KICK_NOW
                                     : (firstSpace == 2
-                                            ? AApplet.END_ERROR_KICKBAN_NOW
+                                            ? AbstractGameFrame.END_ERROR_KICKBAN_NOW
                                             : (firstSpace == 3
-                                                    ? AApplet.END_ERROR_BAN_INIT
-                                                    : AApplet.END_ERROR_TOOMANYIP_INIT)));
+                                                    ? AbstractGameFrame.END_ERROR_BAN_INIT
+                                                    : AbstractGameFrame.END_ERROR_TOOMANYIP_INIT)));
                 }
             } else if (cmdtype == 's') {
                 if (cmd.startsWith("json ")) {

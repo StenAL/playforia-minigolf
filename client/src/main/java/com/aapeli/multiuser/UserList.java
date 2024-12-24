@@ -11,6 +11,7 @@ import com.aapeli.colorgui.ColorTextArea;
 import com.aapeli.tools.Tools;
 import java.awt.CheckboxMenuItem;
 import java.awt.Color;
+import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -25,11 +26,13 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.net.URL;
+import java.net.URI;
 import java.util.ArrayList;
-import java.util.Hashtable;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.StringTokenizer;
+import javax.swing.SwingUtilities;
 import org.moparforia.shared.Locale;
 
 public class UserList extends IPanel implements ComponentListener, ItemListener, ActionListener {
@@ -53,8 +56,8 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
     private ColorList playersList;
     private ColorCheckbox sendPrivatelyCheckbox;
     private ColorCheckbox ignoreUserCheckbox;
-    private ColorButton_Sub1 sortByRankingButton;
-    private ColorButton_Sub1 sortByNicknameButton;
+    private RoundedUpperCornersButton sortByRankingButton;
+    private RoundedUpperCornersButton sortByNicknameButton;
     private Image backgroundImage;
     private Image playersListBackgroundImage;
     private int backgroundImageOffsetX;
@@ -89,7 +92,7 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
     private ColorTextArea chatOutput;
     private ChatBase chat;
     private Languages languages;
-    private Hashtable<Integer, ColorListItemGroup> languageGroups;
+    private Map<Integer, ColorListItemGroup> languageGroups;
 
     public UserList(
             UserListHandler handler,
@@ -98,24 +101,12 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
             boolean showRankingIcons,
             boolean addSendPrivately,
             boolean addIgnoreUser) {
-        this(handler, textManager, imageManager, showRankingIcons, addSendPrivately, addIgnoreUser, 100, 200);
-    }
-
-    public UserList(
-            UserListHandler handler,
-            TextManager textManager,
-            ImageManager imageManager,
-            boolean showRankingIcons,
-            boolean addSendPrivately,
-            boolean addIgnoreUser,
-            int width,
-            int height) {
         this.userListHandler = handler;
         this.textManager = textManager;
         this.imageManager = imageManager;
-        this.width = width;
-        this.height = height;
-        this.setSize(width, height);
+        this.width = 100;
+        this.height = 200;
+        this.setSize(100, 200);
         this.rankingsShown = showRankingIcons;
         this.init(addSendPrivately, addIgnoreUser);
         this.setBackground(backgroundColor);
@@ -133,7 +124,7 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
         this.sheriffMarkEnabled = true;
         this.dimmerNicksEnabled = true;
         this.languages = new Languages(textManager, imageManager);
-        this.languageGroups = new Hashtable<>();
+        this.languageGroups = new HashMap<>();
         this.addComponentListener(this);
     }
 
@@ -308,7 +299,8 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
             } else if (source == this.sheriffCopyChatMenuItem) {
                 CopyChatFrame copyChatFrame = new CopyChatFrame();
                 copyChatFrame.create(
-                        this.imageManager.getApplet(), this.chat != null ? this.chat.chatTextArea : this.chatOutput);
+                        SwingUtilities.getWindowAncestor(this),
+                        this.chat != null ? this.chat.chatTextArea : this.chatOutput);
             } else if (source == this.adminGetUserInfoMenuItem) {
                 this.userListHandler.adminCommand("info", this.selectedUser.getNick());
             } else if (source == this.adminUnmuteUserMenuItem) {
@@ -675,11 +667,11 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
 
     public void usePixelRoundedButtonsAndCheckBoxes() {
         if (this.sortByRankingButton != null) {
-            this.sortByRankingButton.setPixelRoundedUpperCorners();
+            this.sortByRankingButton.setRoundedUpperCorners();
         }
 
         if (this.sortByNicknameButton != null) {
-            this.sortByNicknameButton.setPixelRoundedUpperCorners();
+            this.sortByNicknameButton.setRoundedUpperCorners();
         }
 
         if (this.sendPrivatelyCheckbox != null) {
@@ -778,7 +770,7 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
         }
 
         this.staffActionFrame = new StaffActionFrame(this.textManager, this.userListHandler, actionType, targetNick);
-        this.staffActionFrame.show(this.imageManager.getApplet(), this.adminStatus > 0);
+        this.staffActionFrame.show(SwingUtilities.getWindowAncestor(this), this.adminStatus > 0);
     }
 
     private Color getUserColor(User user) {
@@ -794,13 +786,15 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
     private void init(boolean addSendPrivately, boolean addIgnoreUser) {
         this.setLayout(null);
         if (this.rankingsShown) {
-            this.sortByRankingButton = new ColorButton_Sub1(this.textManager.getShared("UserList_SortByRanking"));
+            this.sortByRankingButton =
+                    new RoundedUpperCornersButton(this.textManager.getShared("UserList_SortByRanking"));
             this.sortByRankingButton.setBounds(0, 0, 17, 11);
             this.sortByRankingButton.setFont(sortingButtonsFont);
             this.sortByRankingButton.setBackground(columnHeaderDefaultColor);
             this.sortByRankingButton.addActionListener(this);
             this.add(this.sortByRankingButton);
-            this.sortByNicknameButton = new ColorButton_Sub1(this.textManager.getShared("UserList_SortByNick"));
+            this.sortByNicknameButton =
+                    new RoundedUpperCornersButton(this.textManager.getShared("UserList_SortByNick"));
             this.sortByNicknameButton.setBounds(17, 0, this.width - 17, 11);
             this.sortByNicknameButton.setFont(sortingButtonsFont);
             this.sortByNicknameButton.setBackground(columnHeaderSortedColor);
@@ -896,12 +890,7 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
             return false;
         } else {
             try {
-                String target = this.textManager.getParameters().getParameter("guestinfotarget");
-                if (target == null) {
-                    target = "_blank";
-                }
-
-                this.imageManager.getApplet().getAppletContext().showDocument(new URL(profilePage), target);
+                Desktop.getDesktop().browse(new URI(profilePage));
             } catch (Exception e) {
             }
 

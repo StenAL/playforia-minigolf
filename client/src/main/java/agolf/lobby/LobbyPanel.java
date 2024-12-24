@@ -1,7 +1,7 @@
 package agolf.lobby;
 
-import agolf.GameApplet;
 import agolf.GameContainer;
+import agolf.GolfGameFrame;
 import com.aapeli.colorgui.Choicer;
 import com.aapeli.multiuser.User;
 import java.awt.Graphics;
@@ -24,7 +24,6 @@ public class LobbyPanel extends Panel {
     private LobbyChatPanel lobbyChatPanelMulti;
     private LobbyControlPanel lobbyControlPanel;
     private LobbyTrackListAdminPanel lobbyTrackListAdminPanel;
-    public static boolean aBoolean465;
 
     public LobbyPanel(GameContainer gameContainer, int width, int height) {
         this.gameContainer = gameContainer;
@@ -44,7 +43,7 @@ public class LobbyPanel extends Panel {
     }
 
     public void update(Graphics graphics) {
-        graphics.setColor(GameApplet.colourGameBackground);
+        graphics.setColor(GolfGameFrame.colourGameBackground);
         graphics.fillRect(0, 0, this.width, this.height);
     }
 
@@ -150,44 +149,29 @@ public class LobbyPanel extends Panel {
     }
 
     public void handlePacket(String[] args) {
-        boolean dummy = false;
         if (this.activeLobby > 0) {
             if (this.activeLobby == 1) {
-                if (this.lobbySinglePlayerPanel.handlePacket(args)) {
-                    dummy = true;
-                }
+                this.lobbySinglePlayerPanel.handlePacket(args);
 
-                if (this.lobbyChatPanelSingle != null && this.lobbyChatPanelSingle.handlePacket(args)) {
-                    dummy = true;
+                if (this.lobbyChatPanelSingle != null) {
+                    this.lobbyChatPanelSingle.handlePacket(args);
                 }
             }
 
             if (this.activeLobby == 2) {
-                if (this.lobbyDualPlayerPanel.handlePacket(args)) {
-                    dummy = true;
-                }
-
-                if (this.lobbyChatPanelDual.handlePacket(args)) {
-                    dummy = true;
-                }
+                this.lobbyDualPlayerPanel.handlePacket(args);
+                this.lobbyChatPanelDual.handlePacket(args);
             }
 
             if (this.activeLobby == 3) {
-                if (this.lobbyMultiPlayerPanel.handlePacket(args)) {
-                    dummy = true;
-                }
-
-                if (this.lobbyChatPanelMulti.handlePacket(args)) {
-                    dummy = true;
-                }
+                this.lobbyMultiPlayerPanel.handlePacket(args);
+                this.lobbyChatPanelMulti.handlePacket(args);
             }
         }
 
-        if (this.activeLobby == -1 && this.lobbyTrackListAdminPanel.handlePacket(args)) {
-            dummy = true;
+        if (this.activeLobby == -1) {
+            this.lobbyTrackListAdminPanel.handlePacket(args);
         }
-
-        if (dummy) {}
     }
 
     public void broadcastMessage(String message) {
@@ -245,7 +229,7 @@ public class LobbyPanel extends Panel {
             c.addItem(this.gameContainer.textManager.getGame("LobbyReal_TrackTypes" + i));
         }
 
-        boolean b = this.gameContainer.gameApplet.getPlayerAccessLevel() == 2;
+        boolean b = this.gameContainer.golfGameFrame.getPlayerAccessLevel() == 2;
         if (b && !Launcher.isUsingCustomServer()) { // todo <--
             c.addItem(this.gameContainer.textManager.getGame("LobbyReal_TrackTypes7") + " (A)");
             c.addItem("Only best (A)");
@@ -350,6 +334,6 @@ public class LobbyPanel extends Panel {
     }
 
     protected void quitLobby() {
-        this.gameContainer.gameApplet.quit("lobby");
+        this.gameContainer.golfGameFrame.quit("lobby");
     }
 }

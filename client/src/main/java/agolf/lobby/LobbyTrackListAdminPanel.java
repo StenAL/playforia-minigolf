@@ -1,7 +1,7 @@
 package agolf.lobby;
 
-import agolf.GameApplet;
 import agolf.GameContainer;
+import agolf.GolfGameFrame;
 import com.aapeli.client.StringDraw;
 import com.aapeli.colorgui.ColorButton;
 import com.aapeli.colorgui.MultiColorList;
@@ -49,10 +49,10 @@ class LobbyTrackListAdminPanel extends Panel implements ActionListener, ItemList
 
     public void update(Graphics var1) {
         if (this.trackList != null) {
-            var1.setColor(GameApplet.colourGameBackground);
+            var1.setColor(GolfGameFrame.colourGameBackground);
             var1.fillRect(0, 0, this.width, this.height);
-            var1.setFont(GameApplet.fontDialog12);
-            var1.setColor(GameApplet.colourTextBlack);
+            var1.setFont(GolfGameFrame.fontDialog12);
+            var1.setColor(GolfGameFrame.colourTextBlack);
             StringDraw.drawString(
                     var1, "Tracks: " + this.trackList.getItemCount(), this.width / 2 - 100 - 10 + 60, 405, 0);
             StringDraw.drawString(
@@ -153,7 +153,7 @@ class LobbyTrackListAdminPanel extends Panel implements ActionListener, ItemList
     private void create(boolean enableSafeMode) {
         this.buttonRefresh = new ColorButton("Refresh list");
         this.buttonRefresh.setBounds(this.width / 2 - 125 - 100 - 40, 355, 120, 25);
-        this.buttonRefresh.setBackground(GameApplet.colourButtonBlue);
+        this.buttonRefresh.setBackground(GolfGameFrame.colourButtonBlue);
         this.buttonRefresh.addActionListener(this);
         this.add(this.buttonRefresh);
         String[] checkboxTitles = new String[] {"Private", "Pending", "Public", "Trackset"};
@@ -164,41 +164,41 @@ class LobbyTrackListAdminPanel extends Panel implements ActionListener, ItemList
         for (int index = 0; index < 4; ++index) {
             this.checkboxTracks[index] = new Checkbox(checkboxTitles[index], checkboxValues[index]);
             this.checkboxTracks[index].setBounds(this.width / 2 - 125 - 100 - 40 + 10, 385 + index * 20, 100, 20);
-            this.checkboxTracks[index].setBackground(GameApplet.colourGameBackground);
-            this.checkboxTracks[index].setForeground(GameApplet.colourTextBlack);
+            this.checkboxTracks[index].setBackground(GolfGameFrame.colourGameBackground);
+            this.checkboxTracks[index].setForeground(GolfGameFrame.colourTextBlack);
             this.add(this.checkboxTracks[index]);
         }
 
         this.buttonUnselect = new ColorButton("Unselect all");
         this.buttonUnselect.setBounds(this.width / 2 - 100 - 10, 355, 120, 25);
-        this.buttonUnselect.setBackground(GameApplet.colourButtonYellow);
+        this.buttonUnselect.setBackground(GolfGameFrame.colourButtonYellow);
         this.buttonUnselect.addActionListener(this);
         this.add(this.buttonUnselect);
         this.buttonPlay = new ColorButton("Play track(s)");
         this.buttonPlay.setBounds(this.width / 2 + 125 - 100 + 20, 355, 120, 25);
-        this.buttonPlay.setBackground(GameApplet.colourButtonGreen);
+        this.buttonPlay.setBackground(GolfGameFrame.colourButtonGreen);
         this.buttonPlay.addActionListener(this);
         this.add(this.buttonPlay);
         this.checkboxRepeat = new Checkbox("Repeat track(s)", true);
         this.checkboxRepeat.setBounds(this.width / 2 + 125 - 100 + 20 + 10, 385, 100, 20);
-        this.checkboxRepeat.setBackground(GameApplet.colourGameBackground);
-        this.checkboxRepeat.setForeground(GameApplet.colourTextBlack);
+        this.checkboxRepeat.setBackground(GolfGameFrame.colourGameBackground);
+        this.checkboxRepeat.setForeground(GolfGameFrame.colourTextBlack);
         this.add(this.checkboxRepeat);
         this.checkboxRandom = new Checkbox("Random order", false);
         this.checkboxRandom.setBounds(this.width / 2 + 125 - 100 + 20 + 10, 405, 100, 20);
-        this.checkboxRandom.setBackground(GameApplet.colourGameBackground);
-        this.checkboxRandom.setForeground(GameApplet.colourTextBlack);
+        this.checkboxRandom.setBackground(GolfGameFrame.colourGameBackground);
+        this.checkboxRandom.setForeground(GolfGameFrame.colourTextBlack);
         this.add(this.checkboxRandom);
         this.checkboxSafeMode = new Checkbox("Safe mode", true);
         if (enableSafeMode) {
             this.checkboxSafeMode.setBounds(this.width / 2 + 125 - 100 + 20 + 10, 425, 100, 20);
-            this.checkboxSafeMode.setBackground(GameApplet.colourGameBackground);
-            this.checkboxSafeMode.setForeground(GameApplet.colourTextBlack);
+            this.checkboxSafeMode.setBackground(GolfGameFrame.colourGameBackground);
+            this.checkboxSafeMode.setForeground(GolfGameFrame.colourTextBlack);
             this.add(this.checkboxSafeMode);
         }
 
         this.buttonQuit = new ColorButton("Quit");
-        this.buttonQuit.setBackground(GameApplet.colourButtonRed);
+        this.buttonQuit.setBackground(GolfGameFrame.colourButtonRed);
         this.buttonQuit.setBounds(this.width - 100, this.height - 20, 100, 20);
         this.buttonQuit.addActionListener(this);
         this.add(this.buttonQuit);
