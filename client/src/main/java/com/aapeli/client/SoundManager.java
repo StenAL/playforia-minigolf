@@ -1,13 +1,14 @@
 package com.aapeli.client;
 
-import java.util.Hashtable;
+import java.util.HashMap;
+import java.util.Map;
 import javax.sound.sampled.Clip;
 
 public final class SoundManager implements Runnable {
     private static final String[] methodLookup = {"stop", "play", "loop"};
     private final boolean debug;
-    private Hashtable<Integer, SoundClip> clientSounds;
-    private Hashtable<String, SoundClip> sharedSounds;
+    private Map<Integer, SoundClip> clientSounds;
+    private Map<String, SoundClip> sharedSounds;
     private boolean clipLoaderThreadRunning;
     public int audioChoicerIndex;
 
@@ -16,7 +17,7 @@ public final class SoundManager implements Runnable {
         this.audioChoicerIndex = 0;
         this.defineClientSounds();
 
-        this.sharedSounds = new Hashtable<>();
+        this.sharedSounds = new HashMap<>();
         this.clipLoaderThreadRunning = false;
         if (shouldLoadClips) {
             this.start();
@@ -148,7 +149,7 @@ public final class SoundManager implements Runnable {
 
     private void defineClientSounds() {
         try {
-            this.clientSounds = new Hashtable<>();
+            this.clientSounds = new HashMap<>();
             this.defineSoundClip(1, "/sound/shared/challenge.au");
             this.defineSoundClip(2, "/sound/shared/gamemove.au");
             this.defineSoundClip(3, "/sound/shared/notify.au");

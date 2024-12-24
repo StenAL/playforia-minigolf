@@ -4,18 +4,19 @@ import java.awt.*;
 import java.awt.image.MemoryImageSource;
 import java.awt.image.PixelGrabber;
 import java.io.IOException;
-import java.util.Hashtable;
+import java.util.HashMap;
+import java.util.Map;
 import javax.imageio.ImageIO;
 
 public final class ImageManager {
     private final boolean isDebug;
-    private Hashtable<String, Image> gameImages;
-    private Hashtable<String, Image> sharedImages;
+    private Map<String, Image> gameImages;
+    private Map<String, Image> sharedImages;
 
     public ImageManager(boolean isDebug) {
         this.isDebug = isDebug;
-        this.gameImages = new Hashtable<>();
-        this.sharedImages = new Hashtable<>();
+        this.gameImages = new HashMap<>();
+        this.sharedImages = new HashMap<>();
     }
 
     public String defineGameImage(String fileName) {
@@ -69,7 +70,7 @@ public final class ImageManager {
     }
 
     public boolean isGameImageDefined(String name) {
-        return this.gameImages.contains(name);
+        return this.gameImages.containsKey(name);
     }
 
     public Image getShared(String name) {

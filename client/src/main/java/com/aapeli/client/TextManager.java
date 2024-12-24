@@ -4,7 +4,8 @@ import com.aapeli.tools.Tools;
 import java.io.InputStream;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Hashtable;
+import java.util.HashMap;
+import java.util.Map;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import org.moparforia.shared.Locale;
@@ -18,8 +19,8 @@ public final class TextManager implements Runnable {
     private Parameters parameters;
     private Thread textLoaderThread;
     private Locale locale;
-    private Hashtable<String, LocalizationNode> gameTable;
-    private Hashtable<String, LocalizationNode> sharedTable;
+    private Map<String, LocalizationNode> gameTable;
+    private Map<String, LocalizationNode> sharedTable;
     private String errorMessage;
     private boolean debug;
 
@@ -38,8 +39,8 @@ public final class TextManager implements Runnable {
 
     private TextManager(boolean debug) {
         this.debug = debug;
-        this.gameTable = new Hashtable<>();
-        this.sharedTable = new Hashtable<>();
+        this.gameTable = new HashMap<>();
+        this.sharedTable = new HashMap<>();
         this.errorMessage = null;
         this.textLoaderThread = null;
     }
@@ -535,14 +536,14 @@ public final class TextManager implements Runnable {
         this.sharedTable = this.readTable(localizationResourcePath + "Shared.xml");
     }
 
-    private Hashtable<String, LocalizationNode> readTable(String resourcePath) {
+    private Map<String, LocalizationNode> readTable(String resourcePath) {
         try {
             InputStream in = this.getClass().getResourceAsStream(resourcePath);
             DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
             Document document = builder.parse(in);
 
             NodeList localizationNodes = document.getElementsByTagName("str");
-            Hashtable<String, LocalizationNode> table = new Hashtable<>();
+            Map<String, LocalizationNode> table = new HashMap<>();
 
             for (int i = 0; i < localizationNodes.getLength(); ++i) {
                 Node node = localizationNodes.item(i);
