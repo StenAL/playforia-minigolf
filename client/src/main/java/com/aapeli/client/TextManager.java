@@ -1,12 +1,17 @@
 package com.aapeli.client;
 
-import com.aapeli.tools.EncodedXmlReader;
 import com.aapeli.tools.Tools;
-import com.aapeli.tools.XmlUnit;
+import java.io.InputStream;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Hashtable;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 import org.moparforia.shared.Locale;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 public final class TextManager implements Runnable {
 
@@ -531,23 +536,31 @@ public final class TextManager implements Runnable {
     }
 
     private Hashtable<String, LocalizationNode> readTable(String resourcePath) {
-        EncodedXmlReader reader = new EncodedXmlReader(resourcePath, true);
-        XmlUnit unit = reader.readXmlUnit();
-        if (unit == null) {
-            System.out.println("Failed to read localization file '" + resourcePath + "'");
-            this.errorMessage = "XML read error";
-            return null;
-        } else {
-            XmlUnit[] children = unit.getChildren("str");
+        try {
+            InputStream in = this.getClass().getResourceAsStream(resourcePath);
+            DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+            Document document = builder.parse(in);
+
+            NodeList localizationNodes = document.getElementsByTagName("str");
             Hashtable<String, LocalizationNode> table = new Hashtable<>();
 
-            for (XmlUnit child : children) {
-                table.put(
-                        child.getAttribute("key").toLowerCase(),
-                        new LocalizationNode(this.locale, child, Tools.getBoolean(child.getAttribute("reverse"))));
+            for (int i = 0; i < localizationNodes.getLength(); ++i) {
+                Node node = localizationNodes.item(i);
+                String key =
+                        node.getAttributes().getNamedItem("key").getNodeValue().toLowerCase();
+                Node reverseNode = node.getAttributes().getNamedItem("reverse");
+                boolean reverse = false;
+                if (reverseNode != null) {
+                    reverse = Tools.getBoolean(reverseNode.getTextContent());
+                }
+                table.put(key, new LocalizationNode(this.locale, (Element) node, reverse));
             }
 
             return table;
+        } catch (Exception e) {
+            System.out.println("Failed to read localization file '" + resourcePath + "'");
+            this.errorMessage = "XML read error";
+            return null;
         }
     }
 }
