@@ -403,27 +403,26 @@ class LobbyMultiPlayerPanel extends Panel implements ItemListener, ActionListene
 
     protected boolean handlePacket(String[] args) {
         if (args[1].equals("gamelist")) {
-            if (args[2].equals("full")) {
-                this.gameListFull(args);
-                this.repaint();
-                return true;
-            }
-
-            if (args[2].equals("add")) {
-                this.gameListAdd(args, 3, this.trackList.getItemCount() == 0 ? Integer.parseInt(args[3]) : -1);
-                this.repaint();
-                return true;
-            }
-
-            if (args[2].equals("change")) {
-                this.gameListChange(args);
-                return true;
-            }
-
-            if (args[2].equals("remove")) {
-                this.gameListRemove(args);
-                this.repaint();
-                return true;
+            switch (args[2]) {
+                case "full" -> {
+                    this.gameListFull(args);
+                    this.repaint();
+                    return true;
+                }
+                case "add" -> {
+                    this.gameListAdd(args, 3, this.trackList.getItemCount() == 0 ? Integer.parseInt(args[3]) : -1);
+                    this.repaint();
+                    return true;
+                }
+                case "change" -> {
+                    this.gameListChange(args);
+                    return true;
+                }
+                case "remove" -> {
+                    this.gameListRemove(args);
+                    this.repaint();
+                    return true;
+                }
             }
         }
 

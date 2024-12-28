@@ -1096,8 +1096,6 @@ public class GameCanvas extends GameBackgroundCanvas
         double[] coords = hs.getHackedCoordintes();
         hackedX = coords[0];
         hackedY = coords[1];
-        hs = null;
-        hack = null;
     }
 
     private void resetPosition(int playerId, boolean gameStart) {
@@ -1548,7 +1546,6 @@ public class GameCanvas extends GameBackgroundCanvas
     }
 
     private void handleTeleport(int teleportId, int playerId, int x, int y) {
-        boolean var5 = true;
         int exitLen = this.teleportExists[teleportId].size();
         int startLen;
         int random;

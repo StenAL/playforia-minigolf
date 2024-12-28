@@ -257,23 +257,13 @@ public class UrlLabel extends IPanel implements MouseListener {
 
             while (true) {
                 char var10004 = var10002[var10003];
-                byte var10005;
-                switch (var1 % 5) {
-                    case 0:
-                        var10005 = 41;
-                        break;
-                    case 1:
-                        var10005 = 61;
-                        break;
-                    case 2:
-                        var10005 = 79;
-                        break;
-                    case 3:
-                        var10005 = 79;
-                        break;
-                    default:
-                        var10005 = 54;
-                }
+                byte var10005 =
+                        switch (var1 % 5) {
+                            case 0 -> 41;
+                            case 1 -> 61;
+                            case 2, 3 -> 79;
+                            default -> 54;
+                        };
 
                 var10002[var10003] = (char) (var10004 ^ var10005);
                 ++var1;

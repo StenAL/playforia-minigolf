@@ -47,8 +47,7 @@ class AdCanvasText {
             Color var9 = hex2Color(var3.nextToken(), true);
             int var10 = Integer.parseInt(var3.nextToken());
             boolean var11 = var3.nextToken().equalsIgnoreCase("bold");
-            AdCanvasText var12 = new AdCanvasText(var4, var5, var6, var7, var8, var9, var10, var11, var2);
-            return var12;
+            return new AdCanvasText(var4, var5, var6, var7, var8, var9, var10, var11, var2);
         } catch (Exception var13) {
             return null;
         }
@@ -80,12 +79,11 @@ class AdCanvasText {
                 hex = hex.substring(2);
             }
 
-            int var2 = Integer.parseInt(hex, 16);
-            if (var2 < 0) {
+            int rgb = Integer.parseInt(hex, 16);
+            if (rgb < 0) {
                 throw new Exception();
             } else {
-                Color var3 = new Color(var2);
-                return var3;
+                return new Color(rgb);
             }
         } catch (Exception var4) {
             if (!noThrow) {

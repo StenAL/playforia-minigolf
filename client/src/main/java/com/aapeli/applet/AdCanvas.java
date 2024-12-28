@@ -59,10 +59,8 @@ class AdCanvas extends Canvas implements MouseListener {
                 }
 
                 var1.drawImage(this.anImage122, 0, 0, null);
-                int var5 = this.texts.size();
 
-                for (int var6 = 0; var6 < var5; ++var6) {
-                    AdCanvasText var4 = this.texts.get(var6);
+                for (AdCanvasText var4 : this.texts) {
                     var4.method1548(var1);
                 }
             } else {
@@ -115,8 +113,7 @@ class AdCanvas extends Canvas implements MouseListener {
                 var10 = Integer.parseInt(var11);
             }
 
-            AdCanvas var12 = new AdCanvas(applet, var3, var4, var8, var9, var10);
-            return var12;
+            return new AdCanvas(applet, var3, var4, var8, var9, var10);
         } catch (Exception var13) {
             return null;
         }

@@ -68,10 +68,6 @@ public class ColorTextArea extends IPanel implements ComponentListener, Adjustme
     private int borderStyle;
     private Object synchronizationObject;
 
-    public ColorTextArea(int width, int height) {
-        this(width, height, null);
-    }
-
     public ColorTextArea(int width, int height, Font font) {
         this.synchronizationObject = new Object();
         this.width = width;

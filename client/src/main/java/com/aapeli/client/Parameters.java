@@ -1,6 +1,5 @@
 package com.aapeli.client;
 
-import com.aapeli.applet.AApplet;
 import com.aapeli.tools.Tools;
 import java.applet.Applet;
 import java.applet.AppletContext;
@@ -15,7 +14,6 @@ public final class Parameters {
     private static final String PLAYFORIA_QUIT_PAGE = "http://www.playforia.com/";
     private static final String QUIT_TARGET = "_top";
     private Applet applet;
-    private AApplet aApplet;
     private String codeBaseHost;
     private String documentBaseHost;
     private String serverIp;
@@ -41,10 +39,6 @@ public final class Parameters {
 
     public Parameters(Applet applet, boolean debug) {
         this.applet = applet;
-        if (applet instanceof AApplet) {
-            this.aApplet = (AApplet) applet;
-        }
-
         this.codeBaseHost = applet.getCodeBase().getHost().toLowerCase();
         this.documentBaseHost = applet.getDocumentBase().getHost().toLowerCase();
         this.anInt1455 = 0;
@@ -277,10 +271,6 @@ public final class Parameters {
 
     public Applet getApplet() {
         return this.applet;
-    }
-
-    public AApplet getAApplet() {
-        return this.aApplet;
     }
 
     public void destroy() {

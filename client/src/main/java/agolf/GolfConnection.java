@@ -150,109 +150,109 @@ public class GolfConnection implements SocketConnectionListener {
 
     private void handlePacket(String cmd) {
         String[] args = Tools.separateString(cmd, "\t");
-        if (args[0].equals("error")) {
-            if (args[1].equals("vernotok")) {
-                this.gameContainer.gameApplet.setEndState(AApplet.END_ERROR_VERSION);
-            } else if (args[1].equals("serverfull")) {
-                this.gameContainer.gameApplet.setEndState(AApplet.END_ERROR_SERVERFULL);
-            }
+        switch (args[0]) {
+            case "error" -> {
+                if (args[1].equals("vernotok")) {
+                    this.gameContainer.gameApplet.setEndState(AApplet.END_ERROR_VERSION);
+                } else if (args[1].equals("serverfull")) {
+                    this.gameContainer.gameApplet.setEndState(AApplet.END_ERROR_SERVERFULL);
+                }
 
-            this.socketConnection.closeConnection();
-        } else if (args[0].equals("versok")) {
-            this.writeData("language\t" + this.gameContainer.params.getLocale());
-            this.writeData("logintype\t"
-                    + (this.gameContainer.synchronizedTrackTestMode.get()
-                            ? "ttm"
-                            : (this.gameContainer.gameApplet.hasSession() ? "reg" : "nr")));
-        } else if (args[0].equals("basicinfo")) {
-            this.gameContainer.gameApplet.setGameSettings(
+                this.socketConnection.closeConnection();
+            }
+            case "versok" -> {
+                this.writeData("language\t" + this.gameContainer.params.getLocale());
+                this.writeData("logintype\t"
+                        + (this.gameContainer.synchronizedTrackTestMode.get()
+                                ? "ttm"
+                                : (this.gameContainer.gameApplet.hasSession() ? "reg" : "nr")));
+            }
+            case "basicinfo" -> this.gameContainer.gameApplet.setGameSettings(
                     args[1].equals("t"), Integer.parseInt(args[2]), args[3].equals("t"), args[4].equals("t"));
-        } else if (args[0].equals("broadcast")) {
-            if (this.gameContainer.lobbyPanel != null) {
-                this.gameContainer.lobbyPanel.broadcastMessage(args[1]);
+            case "broadcast" -> {
+                if (this.gameContainer.lobbyPanel != null) {
+                    this.gameContainer.lobbyPanel.broadcastMessage(args[1]);
+                }
+
+                if (this.gameContainer.gamePanel != null) {
+                    this.gameContainer.gamePanel.broadcastMessage(args[1]);
+                }
             }
+            case "status" -> {
+                switch (args[1]) {
+                    case "login" -> {
+                        if (args.length == 2) {
+                            this.gameContainer.gameApplet.setGameState(1);
+                            return;
+                        }
 
-            if (this.gameContainer.gamePanel != null) {
-                this.gameContainer.gamePanel.broadcastMessage(args[1]);
-            }
+                        byte var3 = 0;
+                        if (args[2].equals("nickinuse")) {
+                            var3 = 4;
+                        }
 
-        } else if (args[0].equals("status")) {
-            if (args[1].equals("login")) {
-                if (args.length == 2) {
-                    this.gameContainer.gameApplet.setGameState(1);
-                    return;
-                }
+                        if (args[2].equals("rlf")) {
+                            var3 = 5;
+                        }
 
-                byte var3 = 0;
-                if (args[2].equals("nickinuse")) {
-                    var3 = 4;
-                }
+                        if (args[2].equals("invalidnick")) {
+                            var3 = 6;
+                        }
 
-                if (args[2].equals("rlf")) {
-                    var3 = 5;
-                }
+                        if (args[2].equals("forbiddennick")) {
+                            var3 = 7;
+                        }
 
-                if (args[2].equals("invalidnick")) {
-                    var3 = 6;
-                }
-
-                if (args[2].equals("forbiddennick")) {
-                    var3 = 7;
-                }
-
-                this.gameContainer.gameApplet.setGameState(1, var3);
-                return;
-            }
-
-            if (args[1].equals("lobbyselect")) {
-                this.gameContainer.gameApplet.setGameState(2, args.length > 2 ? Integer.parseInt(args[2]) : 0);
-                return;
-            }
-
-            if (args[1].equals("lobby")) {
-                if (args.length == 2) {
-                    this.gameContainer.gameApplet.setGameState(3, Integer.MIN_VALUE);
-                    return;
-                }
-
-                if (args[2].equals("tt")) {
-                    this.gameContainer.gameApplet.setGameState(3, -1, args[3].equals("t") ? 1 : 0);
-                    return;
-                }
-
-                if (!args[2].equals("1") && !args[2].equals("1h")) {
-                    if (args[2].equals("2")) {
-                        this.gameContainer.gameApplet.setGameState(3, 2);
+                        this.gameContainer.gameApplet.setGameState(1, var3);
                         return;
                     }
-
-                    if (args.length == 3) {
-                        this.gameContainer.gameApplet.setGameState(3, 3);
+                    case "lobbyselect" -> {
+                        this.gameContainer.gameApplet.setGameState(2, args.length > 2 ? Integer.parseInt(args[2]) : 0);
                         return;
                     }
+                    case "lobby" -> {
+                        if (args.length == 2) {
+                            this.gameContainer.gameApplet.setGameState(3, Integer.MIN_VALUE);
+                            return;
+                        }
 
-                    this.gameContainer.gameApplet.setGameState(3, 3, Integer.parseInt(args[3]));
-                    return;
+                        if (args[2].equals("tt")) {
+                            this.gameContainer.gameApplet.setGameState(3, -1, args[3].equals("t") ? 1 : 0);
+                            return;
+                        }
+
+                        if (!args[2].equals("1") && !args[2].equals("1h")) {
+                            if (args[2].equals("2")) {
+                                this.gameContainer.gameApplet.setGameState(3, 2);
+                                return;
+                            }
+
+                            if (args.length == 3) {
+                                this.gameContainer.gameApplet.setGameState(3, 3);
+                                return;
+                            }
+
+                            this.gameContainer.gameApplet.setGameState(3, 3, Integer.parseInt(args[3]));
+                            return;
+                        }
+
+                        this.gameContainer.gameApplet.setGameState(3, 1, args[2].equals("1") ? 1 : -1);
+                        // enables tracklistadmin this.aGameContainer_2370.gameApplet.setGameState(3, -1,
+                        // 1);
+                        return;
+                    }
+                    case "game" -> {
+                        this.gameContainer.gameApplet.setGameState(4);
+                        return;
+                    }
                 }
-
-                this.gameContainer.gameApplet.setGameState(3, 1, args[2].equals("1") ? 1 : -1);
-                // enables tracklistadmin this.aGameContainer_2370.gameApplet.setGameState(3, -1,
-                // 1);
-                return;
-            }
-
-            if (args[1].equals("game")) {
-                this.gameContainer.gameApplet.setGameState(4);
-                return;
             }
         }
 
-        if (args[0].equals("lobbyselect")) {
-            this.gameContainer.lobbySelectionPanel.handlePacket(args);
-        } else if (args[0].equals("lobby")) {
-            this.gameContainer.lobbyPanel.handlePacket(args);
-        } else if (args[0].equals("game")) {
-            this.gameContainer.gamePanel.handlePacket(args);
+        switch (args[0]) {
+            case "lobbyselect" -> this.gameContainer.lobbySelectionPanel.handlePacket(args);
+            case "lobby" -> this.gameContainer.lobbyPanel.handlePacket(args);
+            case "game" -> this.gameContainer.gamePanel.handlePacket(args);
         }
     }
 }

@@ -166,8 +166,6 @@ public class GameApplet extends AApplet {
                 } else if (!this.gameContainer.synchronizedTrackTestMode.get()) {
                     this.gameContainer.connection.writeData("login");
                     this.activePanel = 0;
-                } else {
-
                 }
             }
 
@@ -301,19 +299,5 @@ public class GameApplet extends AApplet {
 
     private boolean isValidSite() {
         return true;
-    }
-
-    private boolean containsDomain(String host, String domain, String[] tld) {
-        for (String text : tld) {
-            if (host.equals(domain + "." + text)) {
-                return true;
-            }
-
-            if (host.endsWith("." + domain + "." + text)) {
-                return true;
-            }
-        }
-
-        return false;
     }
 }

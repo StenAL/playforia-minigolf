@@ -29,9 +29,7 @@ class TellFriendHandler implements ActionListener {
 
         try {
             this.aMessageDigest1503 = MessageDigest.getInstance("MD5");
-        } catch (Exception var5) {
-            this.anInt1506 = 0;
-        } catch (Error var6) {
+        } catch (Exception | Error e) {
             this.anInt1506 = 0;
         }
 
@@ -124,8 +122,7 @@ class TellFriendHandler implements ActionListener {
             URL var14 = new URL(this.aString1504 + "?" + var10);
             this.aParameters1500.getAppletContext().showDocument(var14, this.aString1505);
             return true;
-        } catch (Exception var12) {
-        } catch (Error var13) {
+        } catch (Exception | Error e) {
         }
 
         return false;

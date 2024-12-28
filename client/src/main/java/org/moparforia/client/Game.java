@@ -29,7 +29,7 @@ public class Game {
         frame.setVisible(true);
     }
 
-    class Stub implements AppletStub {
+    static class Stub implements AppletStub {
         private final Map<String, String> params;
         private String server;
 
