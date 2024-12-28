@@ -70,6 +70,12 @@ public abstract class AApplet extends Applet implements Runnable, ActionListener
     private Graphics appletGraphics;
     private boolean verbose;
 
+    public AApplet(Parameters parameters) {
+        super();
+        this.param = parameters;
+        parameters.setApplet(this);
+    }
+
     public void init() {
         System.out.println("\n" + this.getAppletInfo() + "\n");
         this.appletWidth = 735;
@@ -121,14 +127,9 @@ public abstract class AApplet extends Applet implements Runnable, ActionListener
             this.textManager.destroy();
         }
 
-        if (this.param != null) {
-            this.param.destroy();
-        }
-
         this.soundManager = null;
         this.imageManager = null;
         this.textManager = null;
-        this.param = null;
         if (this.appletGraphics != null) {
             this.appletGraphics.dispose();
             this.appletGraphics = null;
@@ -433,7 +434,6 @@ public abstract class AApplet extends Applet implements Runnable, ActionListener
         this.add(this.loadingPanel);
         this.revalidate();
         this.loadingPanel.start();
-        this.param = new Parameters(this, this.isDebug());
         String initMessage = this.param.getParameter("initmessage");
         this.verbose = Boolean.parseBoolean(this.param.getParameter("verbose"));
         if (initMessage != null && initMessage.indexOf('|') == -1) {

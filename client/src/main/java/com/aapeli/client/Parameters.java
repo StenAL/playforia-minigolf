@@ -6,6 +6,7 @@ import java.awt.Desktop;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Map;
 import org.moparforia.shared.Locale;
 
 public final class Parameters {
@@ -35,12 +36,16 @@ public final class Parameters {
     private String[] aStringArray1456;
     private String aString1457;
     private boolean debug;
+    private Map<String, String> params;
 
-    public Parameters(Applet applet, boolean debug) {
-        this.applet = applet;
+    public Parameters(Map<String, String> params) {
+        this.params = params;
         this.anInt1455 = 0;
-        this.debug = debug;
         this.init();
+    }
+
+    public void setApplet(Applet applet) {
+        this.applet = applet;
     }
 
     public static boolean getBooleanValue(String key) {
@@ -57,13 +62,13 @@ public final class Parameters {
     }
 
     public String getParameter(String key) {
-        String value = this.applet.getParameter(key);
+        String value = this.params.get(key);
         if (value == null) {
-            value = this.applet.getParameter(key.toLowerCase());
+            value = this.params.get(key.toLowerCase());
         }
 
         if (value == null) {
-            value = this.applet.getParameter(key.toUpperCase());
+            value = this.params.get(key.toUpperCase());
         }
 
         if (value == null) {
@@ -317,6 +322,7 @@ public final class Parameters {
         this.urlTargetTellFriend = this.getParameter("tellfriendtarget");
         this.json = this.getParameter("json");
         this.username = this.getParameter("username");
+        this.debug = Tools.getBoolean(this.getParameter("verbose"));
         if (this.json != null) {
             this.json = Tools.replaceFirst(this.json, "'%o'", "%o");
             if (!this.json.toLowerCase().startsWith("javascript:")) {
