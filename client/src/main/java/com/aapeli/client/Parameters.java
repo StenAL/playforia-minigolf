@@ -2,9 +2,10 @@ package com.aapeli.client;
 
 import com.aapeli.tools.Tools;
 import java.applet.Applet;
-import java.applet.AppletContext;
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.awt.Desktop;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import org.moparforia.shared.Locale;
 
 public final class Parameters {
@@ -31,7 +32,7 @@ public final class Parameters {
     private String json;
     private boolean tellFriend;
     private int serverPort;
-    private URL urlCreditPage;
+    private URI uriCreditPage;
     private int anInt1455;
     private String[] aStringArray1456;
     private String aString1457;
@@ -129,17 +130,17 @@ public final class Parameters {
                     return false;
                 }
 
-                this.showUrl(this.toURL(this.urlUserInfoPage + var1), this.urlTargetUserInfo);
+                this.showUri(this.toURI(this.urlUserInfoPage + var1), this.urlTargetUserInfo);
                 return true;
             }
 
             if (var2.startsWith("javascript:")) {
-                URL var3 = this.toURL(Tools.replaceFirst(this.urlUserInfoPage, "%n", var1));
-                if (var3 == null) {
+                URI uri = this.toURI(Tools.replaceFirst(this.urlUserInfoPage, "%n", var1));
+                if (uri == null) {
                     return false;
                 }
 
-                this.showUrl(var3, this.urlTargetUserInfo);
+                this.showUri(uri, this.urlTargetUserInfo);
                 return true;
             }
         } catch (Exception e) {
@@ -234,15 +235,15 @@ public final class Parameters {
     }
 
     public boolean showRegisterPage() {
-        return this.showUrl(this.toURL(this.urlRegisterPage), null);
+        return this.showUri(this.toURI(this.urlRegisterPage), null);
     }
 
     public void showCreditPurchasePage(boolean openInNewTab) {
-        this.showUrl(this.urlCreditPage, openInNewTab ? "_blank" : null);
+        this.showUri(this.uriCreditPage, openInNewTab ? "_blank" : null);
     }
 
     public boolean isCreditPurchasePageAvailable() {
-        return this.urlCreditPage != null;
+        return this.uriCreditPage != null;
     }
 
     public boolean callJavaScriptJSON(String json) {
@@ -256,11 +257,11 @@ public final class Parameters {
             try {
                 json = Tools.replaceAll(json, "'", "\\'");
                 String var2 = Tools.replaceFirst(this.json, "%o", "'" + json + "'");
-                URL var3 = this.toURL(var2);
-                if (var3 == null) {
+                URI uri = this.toURI(var2);
+                if (uri == null) {
                     return false;
                 } else {
-                    this.showUrl(var3, null);
+                    this.showUri(uri, null);
                     return true;
                 }
             } catch (Exception e) {
@@ -286,15 +287,11 @@ public final class Parameters {
         this.urlTellFriendPage = null;
         this.urlTargetTellFriend = null;
         this.json = null;
-        this.urlCreditPage = null;
+        this.uriCreditPage = null;
         this.aStringArray1456 = null;
         this.aString1457 = null;
         this.documentBaseHost = null;
         this.codeBaseHost = null;
-    }
-
-    protected AppletContext getAppletContext() {
-        return this.applet.getAppletContext();
     }
 
     protected boolean getTellFriend() {
@@ -316,7 +313,7 @@ public final class Parameters {
         this.siteName = this.getParamSiteName();
         this.session = this.getParameter("session");
         this.urlRegisterPage = this.getParameter("registerpage");
-        this.urlCreditPage = this.toURL(this.getParameter("creditpage"));
+        this.uriCreditPage = this.toURI(this.getParameter("creditpage"));
         this.urlUserInfoPage = this.getParameter("userinfopage");
         this.urlTargetUserInfo = this.getParameter("userinfotarget");
         this.urlUserListPage = this.getParameter("userlistpage");
@@ -390,10 +387,10 @@ public final class Parameters {
         return PLAYFORIA_SITE_NAME;
     }
 
-    private URL toURL(String s) {
+    private URI toURI(String s) {
         try {
-            return new URL(s);
-        } catch (MalformedURLException e) {
+            return new URI(s);
+        } catch (URISyntaxException e) {
             return null;
         }
     }
@@ -438,19 +435,19 @@ public final class Parameters {
                         }
                     }
 
-                    this.showUrl(this.toURL(var8), this.urlTargetUserList);
+                    this.showUri(this.toURI(var8), this.urlTargetUserList);
                 }
             } else {
                 if (var4.startsWith("javascript:")) {
                     var8 = this.urlUserListPage;
                     var8 = Tools.replaceFirst(var8, "%n", result != null ? result : "");
                     var8 = Tools.replaceFirst(var8, "%s", subgame != null ? subgame : "");
-                    URL var9 = this.toURL(var8);
-                    if (var9 == null) {
+                    URI uri = this.toURI(var8);
+                    if (uri == null) {
                         return;
                     }
 
-                    this.showUrl(var9, this.urlTargetUserList);
+                    this.showUri(uri, this.urlTargetUserList);
                 }
             }
         }
@@ -503,17 +500,15 @@ public final class Parameters {
         }
     }
 
-    private boolean showUrl(URL url, String target) {
-        if (url == null) {
+    private boolean showUri(URI uri, String target) {
+        if (uri == null) {
             return false;
         } else {
-            AppletContext appletContext = this.applet.getAppletContext();
-            if (target != null) {
-                appletContext.showDocument(url, target);
-            } else {
-                appletContext.showDocument(url);
+            try {
+                Desktop.getDesktop().browse(uri);
+            } catch (IOException e) {
+                return false;
             }
-
             return true;
         }
     }

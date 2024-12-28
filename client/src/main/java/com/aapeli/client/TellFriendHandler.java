@@ -2,9 +2,10 @@ package com.aapeli.client;
 
 import com.aapeli.colorgui.ColorButton;
 import java.awt.Color;
+import java.awt.Desktop;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.net.URL;
+import java.net.URI;
 import java.security.MessageDigest;
 
 class TellFriendHandler implements ActionListener {
@@ -119,8 +120,8 @@ class TellFriendHandler implements ActionListener {
             }
 
             var10 = var10 + "hash=" + var9;
-            URL var14 = new URL(this.aString1504 + "?" + var10);
-            this.aParameters1500.getAppletContext().showDocument(var14, this.aString1505);
+            URI uri = new URI(this.aString1504 + "?" + var10);
+            Desktop.getDesktop().browse(uri);
             return true;
         } catch (Exception | Error e) {
         }
