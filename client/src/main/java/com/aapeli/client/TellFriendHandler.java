@@ -135,7 +135,7 @@ class TellFriendHandler implements ActionListener {
 
     private void method1704() {
         this.tellFriendWindow = new TellFriendWindow(this.aTextManager1501, this.anImageManager1502, this);
-        this.tellFriendWindow.method241(this.aParameters1500.getApplet());
+        this.tellFriendWindow.method241(this.aParameters1500.getRootComponent());
         this.anInt1506 = 2;
     }
 

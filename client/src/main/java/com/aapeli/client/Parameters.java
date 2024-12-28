@@ -1,7 +1,7 @@
 package com.aapeli.client;
 
 import com.aapeli.tools.Tools;
-import java.applet.Applet;
+import java.awt.Component;
 import java.awt.Desktop;
 import java.io.IOException;
 import java.net.URI;
@@ -15,7 +15,7 @@ public final class Parameters {
     private static final String PLAYFORIA_SITE_NAME = "playforia";
     private static final String PLAYFORIA_QUIT_PAGE = "http://www.playforia.com/";
     private static final String QUIT_TARGET = "_top";
-    private Applet applet;
+    private Component rootComponent;
     private String serverIp;
     private Locale locale;
     private String siteName;
@@ -44,8 +44,8 @@ public final class Parameters {
         this.init();
     }
 
-    public void setApplet(Applet applet) {
-        this.applet = applet;
+    public void setRootComponent(Component rootComponent) {
+        this.rootComponent = rootComponent;
     }
 
     public static boolean getBooleanValue(String key) {
@@ -271,8 +271,8 @@ public final class Parameters {
         }
     }
 
-    public Applet getApplet() {
-        return this.applet;
+    public Component getRootComponent() {
+        return this.rootComponent;
     }
 
     public void destroy() {
