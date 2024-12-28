@@ -3,9 +3,6 @@ package org.moparforia.client;
 import agolf.GameApplet;
 import com.aapeli.client.Parameters;
 import java.applet.Applet;
-import java.applet.AppletContext;
-import java.applet.AppletStub;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.JFrame;
@@ -20,7 +17,6 @@ public class Game {
         Parameters parameters = getParameters(server, locale, username, port, verbose, norandom);
         Applet game = new GameApplet(parameters);
 
-        game.setStub(new Stub());
         game.setSize(WIDTH, HEIGHT);
         game.init();
         game.start();
@@ -57,31 +53,5 @@ public class Game {
         params.put("norandom", Boolean.toString(norandom));
         params.put("username", username);
         return new Parameters(params);
-    }
-
-    static class Stub implements AppletStub {
-        public Stub() {}
-
-        public boolean isActive() {
-            return true;
-        }
-
-        public URL getDocumentBase() {
-            return null;
-        }
-
-        public URL getCodeBase() {
-            return null;
-        }
-
-        public String getParameter(String name) {
-            return null;
-        }
-
-        public AppletContext getAppletContext() {
-            return null;
-        }
-
-        public void appletResize(int width, int height) {}
     }
 }
