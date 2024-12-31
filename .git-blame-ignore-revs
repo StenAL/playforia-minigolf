@@ -3,3 +3,6 @@
 
 # Reformat the codebase with Spotless
 6e262ce1d8d66ac83af70b557269f1ed584f7438
+
+# Rename package in client from aapeli.applet to aapeli.frame
+3f2ca9710452bdc73cded805b8555634048cc634
