@@ -45,7 +45,7 @@ public class GolfGameFrame extends AbstractGameFrame {
         super(server, port, locale, username, verbose, norandom);
     }
 
-    public void initApplet(Parameters parameters) {
+    public void initGame(Parameters parameters) {
         this.syncIsValidSite = new SynchronizedBool(this.isValidSite());
         this.setBackground(colourGameBackground);
         this.setForeground(colourTextBlack);
@@ -54,7 +54,7 @@ public class GolfGameFrame extends AbstractGameFrame {
     }
 
     @Override
-    public String getAppletInfo() {
+    public String getCopyrightInfo() {
         return "-= AGolf =-\nCopyright (c) 2002-2012 Playforia (www.playforia.info)\nProgramming: Pasi Laaksonen\nGraphics: Janne Matilainen";
     }
 
@@ -103,7 +103,7 @@ public class GolfGameFrame extends AbstractGameFrame {
         }
     }
 
-    public void appletReady() {
+    public void gameReady() {
         this.gameContainer.autoPopup = new AutoPopups(this);
         // this.setGameSettings(false, 0, false, true); // disabled Bad Word Filter!
         this.setGameSettings(false, 0, true, true); // enabled Bad Word Filter!
@@ -112,7 +112,7 @@ public class GolfGameFrame extends AbstractGameFrame {
         this.gameContainer.connection.sendVersion();
     }
 
-    public void destroyApplet() {
+    public void destroyGame() {
         this.gameContainer.destroy();
     }
 

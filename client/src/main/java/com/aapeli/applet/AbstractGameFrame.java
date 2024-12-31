@@ -70,8 +70,8 @@ public abstract class AbstractGameFrame extends JFrame implements Runnable, Acti
     private RetryCanvas retryCanvas;
     private QuickTimer popupTimer;
     private SocketConnection socketConnection;
-    private Image appletImage;
-    private Graphics appletGraphics;
+    private Image image;
+    private Graphics graphics;
     private boolean verbose;
 
     public AbstractGameFrame(
@@ -95,7 +95,7 @@ public abstract class AbstractGameFrame extends JFrame implements Runnable, Acti
     }
 
     public void init() {
-        System.out.println("\n" + this.getAppletInfo() + "\n");
+        System.out.println("\n" + this.getCopyrightInfo() + "\n");
         this.contentWidth = 735;
         this.contentHeight = 525;
         this.backgroundImageKey = null;
@@ -128,7 +128,7 @@ public abstract class AbstractGameFrame extends JFrame implements Runnable, Acti
         this.setEndState(END_QUIT);
 
         try {
-            this.destroyApplet();
+            this.destroyGame();
         } catch (Exception e) {
         }
 
@@ -148,22 +148,21 @@ public abstract class AbstractGameFrame extends JFrame implements Runnable, Acti
         this.soundManager = null;
         this.imageManager = null;
         this.textManager = null;
-        if (this.appletGraphics != null) {
-            this.appletGraphics.dispose();
-            this.appletGraphics = null;
+        this.param = null;
+        if (this.graphics != null) {
+            this.graphics.dispose();
+            this.graphics = null;
         }
 
-        if (this.appletImage != null) {
-            this.appletImage.flush();
-            this.appletImage = null;
+        if (this.image != null) {
+            this.image.flush();
+            this.image = null;
         }
 
         this.backgroundImageKey = null;
     }
 
-    public String getAppletInfo() {
-        return "-= Playforia Applet =-\nCopyright (c) Playforia (www.playforia.info)\nProgramming: Pasi Laaksonen";
-    }
+    public abstract String getCopyrightInfo();
 
     public void paint(Graphics graphics) {
         this.update(graphics);
@@ -171,54 +170,54 @@ public abstract class AbstractGameFrame extends JFrame implements Runnable, Acti
 
     public void update(Graphics graphics) {
         if (!this.destroyed) {
-            if (this.appletImage == null) {
-                this.appletImage = this.createImage(this.contentWidth, this.contentHeight);
-                this.appletGraphics = this.appletImage.getGraphics();
+            if (this.image == null) {
+                this.image = this.createImage(this.contentWidth, this.contentHeight);
+                this.graphics = this.image.getGraphics();
             }
 
             Color backgroundColor = this.getBackground();
-            this.appletGraphics.setColor(backgroundColor);
-            this.appletGraphics.fillRect(0, 0, this.contentWidth, this.contentHeight);
+            this.graphics.setColor(backgroundColor);
+            this.graphics.fillRect(0, 0, this.contentWidth, this.contentHeight);
             if (this.imageManager != null && this.backgroundImageKey != null) {
                 Image image = this.imageManager.getGameImage(this.backgroundImageKey);
                 if (image != null) {
-                    this.appletGraphics.drawImage(image, this.backgroundXOffset, this.backgroundYOffset, this);
+                    this.graphics.drawImage(image, this.backgroundXOffset, this.backgroundYOffset, this);
                 }
             }
 
             if (this.textManager != null) {
-                this.appletGraphics.setColor(this.getForeground());
+                this.graphics.setColor(this.getForeground());
                 Color outlineColor = this.drawTextOutline ? backgroundColor : null;
                 if (this.endState == END_ERROR_CONNECTION) {
                     byte textYOffset = -20;
-                    this.appletGraphics.setFont(fontDialog15);
+                    this.graphics.setFont(fontDialog15);
                     StringDraw.drawOutlinedString(
-                            this.appletGraphics,
+                            this.graphics,
                             outlineColor,
                             this.textManager.getShared("Message_CE_ConnectionError"),
                             40,
                             80 + textYOffset,
                             -1);
-                    this.appletGraphics.setFont(fontDialog12);
+                    this.graphics.setFont(fontDialog12);
                     StringDraw.drawOutlinedString(
-                            this.appletGraphics,
+                            this.graphics,
                             outlineColor,
                             this.textManager.getShared("Message_CE_PossibleReasons"),
                             40,
                             125 + textYOffset,
                             -1);
                     if (!this.ready) {
-                        this.appletGraphics.setFont(fontDialog12);
+                        this.graphics.setFont(fontDialog12);
                         StringDraw.drawOutlinedString(
-                                this.appletGraphics,
+                                this.graphics,
                                 outlineColor,
                                 "- " + this.textManager.getShared("Message_CE0_1_Short"),
                                 40,
                                 160 + textYOffset,
                                 -1);
-                        this.appletGraphics.setFont(fontDialog11);
+                        this.graphics.setFont(fontDialog11);
                         StringDraw.drawOutlinedStringWithMaxWidth(
-                                this.appletGraphics,
+                                this.graphics,
                                 outlineColor,
                                 this.textManager.getShared(
                                         "Message_CE0_1_Long",
@@ -228,34 +227,34 @@ public abstract class AbstractGameFrame extends JFrame implements Runnable, Acti
                                 180 + textYOffset,
                                 -1,
                                 this.contentWidth - 50 - 50);
-                        this.appletGraphics.setFont(fontDialog12);
+                        this.graphics.setFont(fontDialog12);
                         StringDraw.drawOutlinedString(
-                                this.appletGraphics,
+                                this.graphics,
                                 outlineColor,
                                 "- " + this.textManager.getShared("Message_CE0_2_Short"),
                                 40,
                                 245 + textYOffset,
                                 -1);
-                        this.appletGraphics.setFont(fontDialog11);
+                        this.graphics.setFont(fontDialog11);
                         StringDraw.drawOutlinedStringWithMaxWidth(
-                                this.appletGraphics,
+                                this.graphics,
                                 outlineColor,
                                 this.textManager.getShared("Message_CE0_2_Long"),
                                 50,
                                 265 + textYOffset,
                                 -1,
                                 this.contentWidth - 50 - 50);
-                        this.appletGraphics.setFont(fontDialog12);
+                        this.graphics.setFont(fontDialog12);
                         StringDraw.drawOutlinedString(
-                                this.appletGraphics,
+                                this.graphics,
                                 outlineColor,
                                 "- " + this.textManager.getShared("Message_CE0_3_Short"),
                                 40,
                                 305 + textYOffset,
                                 -1);
-                        this.appletGraphics.setFont(fontDialog11);
+                        this.graphics.setFont(fontDialog11);
                         StringDraw.drawOutlinedStringWithMaxWidth(
-                                this.appletGraphics,
+                                this.graphics,
                                 outlineColor,
                                 this.textManager.getShared("Message_CE0_3_Long"),
                                 50,
@@ -263,51 +262,51 @@ public abstract class AbstractGameFrame extends JFrame implements Runnable, Acti
                                 -1,
                                 this.contentWidth - 50 - 50);
                     } else {
-                        this.appletGraphics.setFont(fontDialog12);
+                        this.graphics.setFont(fontDialog12);
                         StringDraw.drawOutlinedString(
-                                this.appletGraphics,
+                                this.graphics,
                                 outlineColor,
                                 "- " + this.textManager.getShared("Message_CE1_1_Short"),
                                 40,
                                 160 + textYOffset,
                                 -1);
-                        this.appletGraphics.setFont(fontDialog11);
+                        this.graphics.setFont(fontDialog11);
                         StringDraw.drawOutlinedStringWithMaxWidth(
-                                this.appletGraphics,
+                                this.graphics,
                                 outlineColor,
                                 this.textManager.getShared("Message_CE1_1_Long"),
                                 50,
                                 180 + textYOffset,
                                 -1,
                                 this.contentWidth - 50 - 50);
-                        this.appletGraphics.setFont(fontDialog12);
+                        this.graphics.setFont(fontDialog12);
                         StringDraw.drawOutlinedString(
-                                this.appletGraphics,
+                                this.graphics,
                                 outlineColor,
                                 "- " + this.textManager.getShared("Message_CE1_2_Short"),
                                 40,
                                 235 + textYOffset,
                                 -1);
-                        this.appletGraphics.setFont(fontDialog11);
+                        this.graphics.setFont(fontDialog11);
                         StringDraw.drawOutlinedStringWithMaxWidth(
-                                this.appletGraphics,
+                                this.graphics,
                                 outlineColor,
                                 this.textManager.getShared("Message_CE1_2_Long"),
                                 50,
                                 255 + textYOffset,
                                 -1,
                                 this.contentWidth - 50 - 50);
-                        this.appletGraphics.setFont(fontDialog12);
+                        this.graphics.setFont(fontDialog12);
                         StringDraw.drawOutlinedString(
-                                this.appletGraphics,
+                                this.graphics,
                                 outlineColor,
                                 "- " + this.textManager.getShared("Message_CE1_3_Short"),
                                 40,
                                 305 + textYOffset,
                                 -1);
-                        this.appletGraphics.setFont(fontDialog11);
+                        this.graphics.setFont(fontDialog11);
                         StringDraw.drawOutlinedStringWithMaxWidth(
-                                this.appletGraphics,
+                                this.graphics,
                                 outlineColor,
                                 this.textManager.getShared("Message_CE1_3_Long"),
                                 50,
@@ -316,26 +315,26 @@ public abstract class AbstractGameFrame extends JFrame implements Runnable, Acti
                                 this.contentWidth - 50 - 50);
                     }
                 } else if (this.endState == END_THROWABLE) {
-                    this.appletGraphics.setFont(fontDialog15);
+                    this.graphics.setFont(fontDialog15);
                     StringDraw.drawOutlinedString(
-                            this.appletGraphics,
+                            this.graphics,
                             outlineColor,
                             this.textManager.getShared("Message_PE_ProgramError"),
                             50,
                             100,
                             -1);
-                    this.appletGraphics.setFont(fontDialog12);
+                    this.graphics.setFont(fontDialog12);
                     StringDraw.drawOutlinedStringWithMaxWidth(
-                            this.appletGraphics,
+                            this.graphics,
                             outlineColor,
                             this.textManager.getShared("Message_PE_GameClosed"),
                             50,
                             150,
                             -1,
                             this.contentWidth - 70 - 50);
-                    this.appletGraphics.setFont(fontDialog12b);
+                    this.graphics.setFont(fontDialog12b);
                     StringDraw.drawOutlinedString(
-                            this.appletGraphics,
+                            this.graphics,
                             outlineColor,
                             this.textManager.getShared("Message_PE_ErrorDesc", this.aThrowable2553.toString()),
                             50,
@@ -378,10 +377,10 @@ public abstract class AbstractGameFrame extends JFrame implements Runnable, Acti
                         endTextHelp = this.textManager.getShared("Message_TooManySameIPHelp");
                     }
 
-                    this.appletGraphics.setFont(fontDialog15);
+                    this.graphics.setFont(fontDialog15);
                     if (this.endTextLocation == TEXT_CENTER) {
                         StringDraw.drawOutlinedString(
-                                this.appletGraphics,
+                                this.graphics,
                                 outlineColor,
                                 endText,
                                 this.contentWidth / 2,
@@ -389,7 +388,7 @@ public abstract class AbstractGameFrame extends JFrame implements Runnable, Acti
                                 0);
                     } else if (this.endTextLocation == TEXT_LOWERLEFT) {
                         StringDraw.drawOutlinedString(
-                                this.appletGraphics,
+                                this.graphics,
                                 outlineColor,
                                 endText,
                                 this.contentWidth / 12,
@@ -397,7 +396,7 @@ public abstract class AbstractGameFrame extends JFrame implements Runnable, Acti
                                 -1);
                     } else if (this.endTextLocation == TEXT_LOWERMIDDLE) {
                         StringDraw.drawOutlinedString(
-                                this.appletGraphics,
+                                this.graphics,
                                 outlineColor,
                                 endText,
                                 this.contentWidth / 2,
@@ -406,10 +405,10 @@ public abstract class AbstractGameFrame extends JFrame implements Runnable, Acti
                     }
 
                     if (endTextHelp != null) {
-                        this.appletGraphics.setFont(fontDialog12);
+                        this.graphics.setFont(fontDialog12);
                         if (this.endTextLocation == TEXT_CENTER) {
                             StringDraw.drawOutlinedStringWithMaxWidth(
-                                    this.appletGraphics,
+                                    this.graphics,
                                     outlineColor,
                                     endTextHelp,
                                     this.contentWidth / 2,
@@ -418,7 +417,7 @@ public abstract class AbstractGameFrame extends JFrame implements Runnable, Acti
                                     (int) ((double) this.contentWidth * 0.8D));
                         } else if (this.endTextLocation == TEXT_LOWERLEFT) {
                             StringDraw.drawOutlinedStringWithMaxWidth(
-                                    this.appletGraphics,
+                                    this.graphics,
                                     outlineColor,
                                     endTextHelp,
                                     this.contentWidth / 12,
@@ -427,7 +426,7 @@ public abstract class AbstractGameFrame extends JFrame implements Runnable, Acti
                                     (int) ((double) this.contentWidth * 0.6D));
                         } else if (this.endTextLocation == TEXT_LOWERMIDDLE) {
                             StringDraw.drawOutlinedStringWithMaxWidth(
-                                    this.appletGraphics,
+                                    this.graphics,
                                     outlineColor,
                                     endTextHelp,
                                     this.contentWidth / 2,
@@ -440,9 +439,9 @@ public abstract class AbstractGameFrame extends JFrame implements Runnable, Acti
             }
         }
 
-        int x = (this.getWidth() - appletImage.getWidth(null)) / 2;
-        int y = (this.getHeight() - appletImage.getHeight(null)) / 2;
-        graphics.drawImage(this.appletImage, x, y, this);
+        int x = (this.getWidth() - image.getWidth(null)) / 2;
+        int y = (this.getHeight() - image.getHeight(null)) / 2;
+        graphics.drawImage(this.image, x, y, this);
     }
 
     public void run() {
@@ -457,7 +456,7 @@ public abstract class AbstractGameFrame extends JFrame implements Runnable, Acti
             this.loadingPanel.setLoadingMessage(initMessage);
         }
 
-        this.initApplet(this.param);
+        this.initGame(this.param);
         this.loadingPanel.setBackground(this.getBackground());
         this.callJavaScriptJSON("{\"loading\":\"started\"}");
         if (this.endState == 0 && !this.destroyed) {
@@ -636,7 +635,7 @@ public abstract class AbstractGameFrame extends JFrame implements Runnable, Acti
                                         this.loadingPanel = null;
                                         if (!this.destroyed) {
                                             if (startupDebug) {
-                                                this.printSUD("Adding applet content...");
+                                                this.printSUD("Adding game content...");
                                             }
 
                                             this.contentPanel = new ContentPanel(this);
@@ -658,7 +657,7 @@ public abstract class AbstractGameFrame extends JFrame implements Runnable, Acti
                                                 this.printSUD("Moving control to game itself");
                                             }
 
-                                            this.appletReady();
+                                            this.gameReady();
                                         }
                                     }
                                 }
@@ -771,7 +770,7 @@ public abstract class AbstractGameFrame extends JFrame implements Runnable, Acti
         System.out.println("SUD(" + System.currentTimeMillis() + "): " + var1);
     }
 
-    public abstract void initApplet(Parameters parameters);
+    public abstract void initGame(Parameters parameters);
 
     public void textsLoadedNotify(TextManager var1) {}
 
@@ -783,9 +782,9 @@ public abstract class AbstractGameFrame extends JFrame implements Runnable, Acti
 
     public abstract void connectToServer();
 
-    public abstract void appletReady();
+    public abstract void gameReady();
 
-    public abstract void destroyApplet();
+    public abstract void destroyGame();
 
     public abstract boolean isDebug();
 
@@ -864,7 +863,7 @@ public abstract class AbstractGameFrame extends JFrame implements Runnable, Acti
     private void sendLoadTimes(
             int readyTime, int finishedTime, int time1, int time2, int time3, int time4, int time5, int time6) {
         if (this.isDebug()) {
-            System.out.println("AApplet.sendLoadTimes(" + readyTime + "," + finishedTime + ")");
+            System.out.println("AbstractGameFrame.sendLoadTimes(" + readyTime + "," + finishedTime + ")");
         }
 
         try {
@@ -895,7 +894,7 @@ public abstract class AbstractGameFrame extends JFrame implements Runnable, Acti
             queryUrl = Tools.replaceFirst(queryUrl, "%6", "" + time6);
             URI uri = new URI(queryUrl);
             if (this.isDebug()) {
-                System.out.println("AApplet.sendLoadTimes(...): Displaying page \"" + uri + "\"");
+                System.out.println("AbstractGameFrame.sendLoadTimes(...): Displaying page \"" + uri + "\"");
             }
 
             Desktop.getDesktop().browse(uri);
