@@ -16,7 +16,7 @@ import java.awt.Image;
 import org.moparforia.client.Launcher;
 import org.moparforia.shared.Locale;
 
-public class GameApplet extends AbstractGameFrame {
+public class GolfGameFrame extends AbstractGameFrame {
 
     public SynchronizedBool syncIsValidSite;
     public static final Color colourGameBackground = new Color(153, 255, 153);
@@ -41,7 +41,7 @@ public class GameApplet extends AbstractGameFrame {
     private Image anImage3774;
     private boolean verbose = false;
 
-    public GameApplet(String server, int port, Locale locale, String username, boolean verbose, boolean norandom) {
+    public GolfGameFrame(String server, int port, Locale locale, String username, boolean verbose, boolean norandom) {
         super(server, port, locale, username, verbose, norandom);
     }
 

@@ -1,6 +1,6 @@
 package org.moparforia.client;
 
-import agolf.GameApplet;
+import agolf.GolfGameFrame;
 import com.aapeli.multiuser.UsernameValidator;
 import java.awt.GridLayout;
 import java.awt.Image;
@@ -163,9 +163,9 @@ public class Launcher implements Callable<Integer> {
         return frame;
     }
 
-    public GameApplet launchGame(
+    public GolfGameFrame launchGame(
             String hostname, int port, Locale locale, String username, boolean verbose, boolean norandom) {
-        return new GameApplet(hostname, port, locale, username, verbose, norandom);
+        return new GolfGameFrame(hostname, port, locale, username, verbose, norandom);
     }
 
     public Image loadIcon() throws IOException {

@@ -1,7 +1,7 @@
 package agolf.lobby;
 
-import agolf.GameApplet;
 import agolf.GameContainer;
+import agolf.GolfGameFrame;
 import com.aapeli.client.IPanel;
 import com.aapeli.client.StringDraw;
 import com.aapeli.colorgui.Choicer;
@@ -74,15 +74,15 @@ class LobbyDualPlayerPanel extends IPanel implements ItemListener, ActionListene
             this.graphics = this.image.getGraphics();
         }
 
-        this.graphics.setColor(GameApplet.colourGameBackground);
+        this.graphics.setColor(GolfGameFrame.colourGameBackground);
         this.graphics.fillRect(0, 0, this.width, this.height);
         this.drawBackground(this.graphics);
         Color colourTextOutline = new Color(102, 204, 255);
-        this.graphics.setColor(GameApplet.colourTextBlack);
-        this.graphics.setFont(GameApplet.fontSerif26b);
+        this.graphics.setColor(GolfGameFrame.colourTextBlack);
+        this.graphics.setFont(GolfGameFrame.fontSerif26b);
         StringDraw.drawString(
                 this.graphics, this.gameContainer.textManager.getGame("LobbySelect_DualPlayer"), this.width / 2, 32, 0);
-        this.graphics.setFont(GameApplet.fontSerif20);
+        this.graphics.setFont(GolfGameFrame.fontSerif20);
         StringDraw.drawOutlinedString(
                 this.graphics,
                 colourTextOutline,
@@ -92,7 +92,7 @@ class LobbyDualPlayerPanel extends IPanel implements ItemListener, ActionListene
                 1);
         byte yPos = 73;
         byte yPos2 = 23;
-        this.graphics.setFont(GameApplet.fontDialog12);
+        this.graphics.setFont(GolfGameFrame.fontDialog12);
         StringDraw.drawOutlinedString(
                 this.graphics,
                 colourTextOutline,
@@ -155,7 +155,7 @@ class LobbyDualPlayerPanel extends IPanel implements ItemListener, ActionListene
         synchronized (synchronizedObject) {
             if (this.currentState > 0) {
                 int xPos = this.width * 3 / 4 - 15;
-                this.graphics.setFont(GameApplet.fontDialog14b);
+                this.graphics.setFont(GolfGameFrame.fontDialog14b);
                 if (this.currentState == 1) {
                     StringDraw.drawOutlinedString(
                             this.graphics,
@@ -176,7 +176,7 @@ class LobbyDualPlayerPanel extends IPanel implements ItemListener, ActionListene
                             0);
                 }
 
-                this.graphics.setFont(GameApplet.fontDialog12);
+                this.graphics.setFont(GolfGameFrame.fontDialog12);
                 yPos = 83;
                 yPos2 = 17;
                 StringDraw.drawOutlinedString(
@@ -339,7 +339,7 @@ class LobbyDualPlayerPanel extends IPanel implements ItemListener, ActionListene
     }
 
     public void actionPerformed(ActionEvent evt) {
-        if (this.gameContainer.gameApplet.syncIsValidSite.get()) {
+        if (this.gameContainer.golfGameFrame.syncIsValidSite.get()) {
             Object evtSource = evt.getSource();
             if (evtSource == this.buttonChallenge) {
                 synchronized (synchronizedObject) {
@@ -574,21 +574,21 @@ class LobbyDualPlayerPanel extends IPanel implements ItemListener, ActionListene
         this.choicerScoringEnd = this.gameContainer.lobbyPanel.addChoicerScoringEnd(
                 this, this.width / 2 - 170, /*isUsingCustomServer ? 242 :*/ 219, 100, 20);
         this.buttonChallenge = new ColorButton(this.gameContainer.textManager.getGame("LobbyReal_Challenge"));
-        this.buttonChallenge.setBackground(GameApplet.colourButtonGreen);
+        this.buttonChallenge.setBackground(GolfGameFrame.colourButtonGreen);
         this.buttonChallenge.setBounds(
                 this.width / 2 - 170, this.height - 15 - 25 + (/*isUsingCustomServer ? 10 :*/ 0), 100, 25);
         this.buttonChallenge.addActionListener(this);
         this.add(this.buttonChallenge);
         this.buttonCancel = new ColorButton(this.gameContainer.textManager.getGame("LobbyReal_Cancel"));
-        this.buttonCancel.setBackground(GameApplet.colourButtonYellow);
+        this.buttonCancel.setBackground(GolfGameFrame.colourButtonYellow);
         this.buttonCancel.setBounds(this.width * 3 / 4 - 50, this.height - 40 - 25, 100, 25);
         this.buttonCancel.addActionListener(this);
         this.buttonAccept = new ColorButton(this.gameContainer.textManager.getGame("LobbyReal_Accept"));
-        this.buttonAccept.setBackground(GameApplet.colourButtonGreen);
+        this.buttonAccept.setBackground(GolfGameFrame.colourButtonGreen);
         this.buttonAccept.setBounds(this.width * 3 / 4 - 100 - 10, this.height - 40 - 25, 100, 25);
         this.buttonAccept.addActionListener(this);
         this.buttonRefuse = new ColorButton(this.gameContainer.textManager.getGame("LobbyReal_Refuse"));
-        this.buttonRefuse.setBackground(GameApplet.colourButtonRed);
+        this.buttonRefuse.setBackground(GolfGameFrame.colourButtonRed);
         this.buttonRefuse.setBounds(this.width * 3 / 4 + 10, this.height - 40 - 25, 100, 25);
         this.buttonRefuse.addActionListener(this);
         int var1 = this.width * 3 / 4 - this.width / 8 - 10;
