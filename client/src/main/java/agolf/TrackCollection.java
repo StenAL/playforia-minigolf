@@ -1,10 +1,11 @@
 package agolf;
 
-import java.util.Hashtable;
+import java.util.HashMap;
+import java.util.Map;
 
 public class TrackCollection {
 
-    private Hashtable<String, String> tracks = new Hashtable<>();
+    private Map<String, String> tracks = new HashMap<>();
 
     public void addTrack(String author, String name, String data) {
         String key = author + "\t" + name;
