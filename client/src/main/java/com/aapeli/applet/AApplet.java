@@ -9,19 +9,19 @@ import com.aapeli.connection.SocketConnection;
 import com.aapeli.tools.QuickTimer;
 import com.aapeli.tools.QuickTimerListener;
 import com.aapeli.tools.Tools;
-import java.applet.Applet;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Desktop;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridBagLayout;
 import java.awt.Image;
+import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URI;
-import java.net.URL;
 
-public abstract class AApplet extends Applet implements Runnable, ActionListener, QuickTimerListener {
+public abstract class AApplet extends Panel implements Runnable, ActionListener, QuickTimerListener {
 
     public static final int TEXT_CENTER = 0;
     public static final int TEXT_LOWERLEFT = 1;
@@ -848,12 +848,12 @@ public abstract class AApplet extends Applet implements Runnable, ActionListener
             queryUrl = Tools.replaceFirst(queryUrl, "%4", "" + time4);
             queryUrl = Tools.replaceFirst(queryUrl, "%5", "" + time5);
             queryUrl = Tools.replaceFirst(queryUrl, "%6", "" + time6);
-            URL url = new URI(queryUrl).toURL();
+            URI uri = new URI(queryUrl);
             if (this.isDebug()) {
-                System.out.println("AApplet.sendLoadTimes(...): Displaying page \"" + url + "\"");
+                System.out.println("AApplet.sendLoadTimes(...): Displaying page \"" + uri + "\"");
             }
 
-            this.getAppletContext().showDocument(url);
+            Desktop.getDesktop().browse(uri);
         } catch (Exception e) {
         }
     }
