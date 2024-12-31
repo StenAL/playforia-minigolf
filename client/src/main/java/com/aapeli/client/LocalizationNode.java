@@ -1,9 +1,10 @@
 package com.aapeli.client;
 
 import com.aapeli.tools.Tools;
-import com.aapeli.tools.XmlUnit;
 import org.moparforia.shared.Language;
 import org.moparforia.shared.Locale;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
 class LocalizationNode {
 
@@ -12,11 +13,24 @@ class LocalizationNode {
     private String plural;
     private String zero;
 
-    protected LocalizationNode(Locale locale, XmlUnit unit, boolean reversed) {
+    protected LocalizationNode(Locale locale, Element element, boolean reversed) {
         this.language = locale.getLanguage();
-        this.singular = unit.getChildValue("singular");
-        this.plural = unit.getChildValue("plural");
-        this.zero = unit.getChildValue("zero");
+
+        Node singular = element.getElementsByTagName("singular").item(0);
+        if (singular != null) {
+            this.singular = singular.getTextContent();
+        }
+
+        Node plural = element.getElementsByTagName("plural").item(0);
+        if (plural != null) {
+            this.plural = plural.getTextContent();
+        }
+
+        Node zero = element.getElementsByTagName("zero").item(0);
+        if (zero != null) {
+            this.zero = zero.getTextContent();
+        }
+
         if (reversed) {
             this.singular = Tools.reverse(this.singular);
             this.plural = Tools.reverse(this.plural);
