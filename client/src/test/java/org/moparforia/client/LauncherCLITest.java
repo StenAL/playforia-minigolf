@@ -92,7 +92,6 @@ class LauncherCLITest {
         assertEquals(0, cmd.execute("-l", "en_US"));
         verify(launcher)
                 .launchGame(
-                        any(),
                         eq(Launcher.DEFAULT_SERVER),
                         eq(Launcher.DEFAULT_PORT),
                         eq(Locale.EN_US),
@@ -103,7 +102,6 @@ class LauncherCLITest {
         assertEquals(0, cmd.execute("--lang=Fi_fI"));
         verify(launcher)
                 .launchGame(
-                        any(),
                         eq(Launcher.DEFAULT_SERVER),
                         eq(Launcher.DEFAULT_PORT),
                         eq(Locale.FI_FI),
@@ -117,7 +115,6 @@ class LauncherCLITest {
         assertEquals(0, cmd.execute("-u", "user"));
         verify(launcher)
                 .launchGame(
-                        any(),
                         eq(Launcher.DEFAULT_SERVER),
                         eq(Launcher.DEFAULT_PORT),
                         any(),
@@ -127,7 +124,6 @@ class LauncherCLITest {
         assertEquals(0, cmd.execute("--username=user2"));
         verify(launcher)
                 .launchGame(
-                        any(),
                         eq(Launcher.DEFAULT_SERVER),
                         eq(Launcher.DEFAULT_PORT),
                         any(),
@@ -145,34 +141,26 @@ class LauncherCLITest {
     @Test
     void testValidPortAndHostname() {
         assertEquals(0, cmd.execute("-p", "1111", "-ip", "128.128.128.128"));
-        verify(launcher).launchGame(any(), eq("128.128.128.128"), eq(1111), any(), any(), anyBoolean(), anyBoolean());
+        verify(launcher).launchGame(eq("128.128.128.128"), eq(1111), any(), any(), anyBoolean(), anyBoolean());
 
         assertEquals(0, cmd.execute("-p=2222", "-ip=127.127.127.127"));
-        verify(launcher).launchGame(any(), eq("127.127.127.127"), eq(2222), any(), any(), anyBoolean(), anyBoolean());
+        verify(launcher).launchGame(eq("127.127.127.127"), eq(2222), any(), any(), anyBoolean(), anyBoolean());
 
         assertEquals(0, cmd.execute("-p=3333", "-ip=126.126.126.126"));
-        verify(launcher).launchGame(any(), eq("126.126.126.126"), eq(3333), any(), any(), anyBoolean(), anyBoolean());
+        verify(launcher).launchGame(eq("126.126.126.126"), eq(3333), any(), any(), anyBoolean(), anyBoolean());
     }
 
     @Test
     void testOnlyPort() {
         assertEquals(0, cmd.execute("-p", "1111"));
-        verify(launcher)
-                .launchGame(any(), eq(Launcher.DEFAULT_SERVER), eq(1111), any(), any(), anyBoolean(), anyBoolean());
+        verify(launcher).launchGame(eq(Launcher.DEFAULT_SERVER), eq(1111), any(), any(), anyBoolean(), anyBoolean());
     }
 
     @Test
     void testOnlyHostname() {
         assertEquals(0, cmd.execute("-ip", "127.127.127.127"));
         verify(launcher)
-                .launchGame(
-                        any(),
-                        eq("127.127.127.127"),
-                        eq(Launcher.DEFAULT_PORT),
-                        any(),
-                        any(),
-                        anyBoolean(),
-                        anyBoolean());
+                .launchGame(eq("127.127.127.127"), eq(Launcher.DEFAULT_PORT), any(), any(), anyBoolean(), anyBoolean());
     }
 
     @Test
@@ -180,7 +168,6 @@ class LauncherCLITest {
         assertEquals(0, cmd.execute());
         verify(launcher)
                 .launchGame(
-                        any(),
                         eq(Launcher.DEFAULT_SERVER),
                         eq(Launcher.DEFAULT_PORT),
                         eq(Locale.EN_US),

@@ -16,16 +16,16 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridBagLayout;
 import java.awt.Image;
-import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import org.moparforia.shared.Locale;
 
-public abstract class AApplet extends Panel implements Runnable, ActionListener, QuickTimerListener {
+public abstract class AApplet extends JFrame implements Runnable, ActionListener, QuickTimerListener {
 
     public static final int TEXT_CENTER = 0;
     public static final int TEXT_LOWERLEFT = 1;
@@ -74,8 +74,7 @@ public abstract class AApplet extends Panel implements Runnable, ActionListener,
     private Graphics appletGraphics;
     private boolean verbose;
 
-    public AApplet(
-            JFrame frame, String server, int port, Locale locale, String username, boolean verbose, boolean norandom) {
+    public AApplet(String server, int port, Locale locale, String username, boolean verbose, boolean norandom) {
         super();
         this.verbose = verbose;
         this.param = this.getParameters(server, locale, username, port, verbose, norandom);
@@ -83,11 +82,15 @@ public abstract class AApplet extends Panel implements Runnable, ActionListener,
         this.setSize(WIDTH, HEIGHT);
         this.init();
         this.start();
-        frame.add(this);
-        frame.setSize(1280, 720);
-        frame.setResizable(true);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setVisible(true);
+        this.setSize(1280, 720);
+        this.setResizable(true);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setVisible(true);
+        this.setTitle("Minigolf");
+        try {
+            this.setIconImage(ImageIO.read(this.getClass().getResource("/icons/playforia.png")));
+        } catch (Exception e) {
+        }
     }
 
     public void init() {
