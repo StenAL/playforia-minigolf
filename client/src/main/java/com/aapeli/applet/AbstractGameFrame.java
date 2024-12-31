@@ -25,7 +25,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import org.moparforia.shared.Locale;
 
-public abstract class AApplet extends JFrame implements Runnable, ActionListener, QuickTimerListener {
+public abstract class AbstractGameFrame extends JFrame implements Runnable, ActionListener, QuickTimerListener {
 
     public static final int TEXT_CENTER = 0;
     public static final int TEXT_LOWERLEFT = 1;
@@ -48,8 +48,8 @@ public abstract class AApplet extends JFrame implements Runnable, ActionListener
     private static final Font fontDialog12b = new Font("Dialog", Font.BOLD, 12);
     private static final Font fontDialog12 = new Font("Dialog", Font.PLAIN, 12);
     private static final Font fontDialog11 = new Font("Dialog", Font.PLAIN, 12);
-    public int appletWidth;
-    public int appletHeight;
+    public int contentWidth;
+    public int contentHeight;
     public Parameters param;
     public TextManager textManager;
     public ImageManager imageManager;
@@ -74,7 +74,8 @@ public abstract class AApplet extends JFrame implements Runnable, ActionListener
     private Graphics appletGraphics;
     private boolean verbose;
 
-    public AApplet(String server, int port, Locale locale, String username, boolean verbose, boolean norandom) {
+    public AbstractGameFrame(
+            String server, int port, Locale locale, String username, boolean verbose, boolean norandom) {
         super();
         this.verbose = verbose;
         this.param = this.getParameters(server, locale, username, port, verbose, norandom);
@@ -95,8 +96,8 @@ public abstract class AApplet extends JFrame implements Runnable, ActionListener
 
     public void init() {
         System.out.println("\n" + this.getAppletInfo() + "\n");
-        this.appletWidth = 735;
-        this.appletHeight = 525;
+        this.contentWidth = 735;
+        this.contentHeight = 525;
         this.backgroundImageKey = null;
         this.backgroundXOffset = 0;
         this.backgroundYOffset = 0;
@@ -171,13 +172,13 @@ public abstract class AApplet extends JFrame implements Runnable, ActionListener
     public void update(Graphics graphics) {
         if (!this.destroyed) {
             if (this.appletImage == null) {
-                this.appletImage = this.createImage(this.appletWidth, this.appletHeight);
+                this.appletImage = this.createImage(this.contentWidth, this.contentHeight);
                 this.appletGraphics = this.appletImage.getGraphics();
             }
 
             Color backgroundColor = this.getBackground();
             this.appletGraphics.setColor(backgroundColor);
-            this.appletGraphics.fillRect(0, 0, this.appletWidth, this.appletHeight);
+            this.appletGraphics.fillRect(0, 0, this.contentWidth, this.contentHeight);
             if (this.imageManager != null && this.backgroundImageKey != null) {
                 Image image = this.imageManager.getGameImage(this.backgroundImageKey);
                 if (image != null) {
@@ -226,7 +227,7 @@ public abstract class AApplet extends JFrame implements Runnable, ActionListener
                                 50,
                                 180 + textYOffset,
                                 -1,
-                                this.appletWidth - 50 - 50);
+                                this.contentWidth - 50 - 50);
                         this.appletGraphics.setFont(fontDialog12);
                         StringDraw.drawOutlinedString(
                                 this.appletGraphics,
@@ -243,7 +244,7 @@ public abstract class AApplet extends JFrame implements Runnable, ActionListener
                                 50,
                                 265 + textYOffset,
                                 -1,
-                                this.appletWidth - 50 - 50);
+                                this.contentWidth - 50 - 50);
                         this.appletGraphics.setFont(fontDialog12);
                         StringDraw.drawOutlinedString(
                                 this.appletGraphics,
@@ -260,7 +261,7 @@ public abstract class AApplet extends JFrame implements Runnable, ActionListener
                                 50,
                                 325 + textYOffset,
                                 -1,
-                                this.appletWidth - 50 - 50);
+                                this.contentWidth - 50 - 50);
                     } else {
                         this.appletGraphics.setFont(fontDialog12);
                         StringDraw.drawOutlinedString(
@@ -278,7 +279,7 @@ public abstract class AApplet extends JFrame implements Runnable, ActionListener
                                 50,
                                 180 + textYOffset,
                                 -1,
-                                this.appletWidth - 50 - 50);
+                                this.contentWidth - 50 - 50);
                         this.appletGraphics.setFont(fontDialog12);
                         StringDraw.drawOutlinedString(
                                 this.appletGraphics,
@@ -295,7 +296,7 @@ public abstract class AApplet extends JFrame implements Runnable, ActionListener
                                 50,
                                 255 + textYOffset,
                                 -1,
-                                this.appletWidth - 50 - 50);
+                                this.contentWidth - 50 - 50);
                         this.appletGraphics.setFont(fontDialog12);
                         StringDraw.drawOutlinedString(
                                 this.appletGraphics,
@@ -312,7 +313,7 @@ public abstract class AApplet extends JFrame implements Runnable, ActionListener
                                 50,
                                 325 + textYOffset,
                                 -1,
-                                this.appletWidth - 50 - 50);
+                                this.contentWidth - 50 - 50);
                     }
                 } else if (this.endState == END_THROWABLE) {
                     this.appletGraphics.setFont(fontDialog15);
@@ -331,7 +332,7 @@ public abstract class AApplet extends JFrame implements Runnable, ActionListener
                             50,
                             150,
                             -1,
-                            this.appletWidth - 70 - 50);
+                            this.contentWidth - 70 - 50);
                     this.appletGraphics.setFont(fontDialog12b);
                     StringDraw.drawOutlinedString(
                             this.appletGraphics,
@@ -383,24 +384,24 @@ public abstract class AApplet extends JFrame implements Runnable, ActionListener
                                 this.appletGraphics,
                                 outlineColor,
                                 endText,
-                                this.appletWidth / 2,
-                                this.appletHeight / 2 - 10,
+                                this.contentWidth / 2,
+                                this.contentHeight / 2 - 10,
                                 0);
                     } else if (this.endTextLocation == TEXT_LOWERLEFT) {
                         StringDraw.drawOutlinedString(
                                 this.appletGraphics,
                                 outlineColor,
                                 endText,
-                                this.appletWidth / 12,
-                                this.appletHeight - 120,
+                                this.contentWidth / 12,
+                                this.contentHeight - 120,
                                 -1);
                     } else if (this.endTextLocation == TEXT_LOWERMIDDLE) {
                         StringDraw.drawOutlinedString(
                                 this.appletGraphics,
                                 outlineColor,
                                 endText,
-                                this.appletWidth / 2,
-                                this.appletHeight - 120,
+                                this.contentWidth / 2,
+                                this.contentHeight - 120,
                                 0);
                     }
 
@@ -411,28 +412,28 @@ public abstract class AApplet extends JFrame implements Runnable, ActionListener
                                     this.appletGraphics,
                                     outlineColor,
                                     endTextHelp,
-                                    this.appletWidth / 2,
-                                    this.appletHeight / 2 + 30,
+                                    this.contentWidth / 2,
+                                    this.contentHeight / 2 + 30,
                                     0,
-                                    (int) ((double) this.appletWidth * 0.8D));
+                                    (int) ((double) this.contentWidth * 0.8D));
                         } else if (this.endTextLocation == TEXT_LOWERLEFT) {
                             StringDraw.drawOutlinedStringWithMaxWidth(
                                     this.appletGraphics,
                                     outlineColor,
                                     endTextHelp,
-                                    this.appletWidth / 12,
-                                    this.appletHeight - 80,
+                                    this.contentWidth / 12,
+                                    this.contentHeight - 80,
                                     -1,
-                                    (int) ((double) this.appletWidth * 0.6D));
+                                    (int) ((double) this.contentWidth * 0.6D));
                         } else if (this.endTextLocation == TEXT_LOWERMIDDLE) {
                             StringDraw.drawOutlinedStringWithMaxWidth(
                                     this.appletGraphics,
                                     outlineColor,
                                     endTextHelp,
-                                    this.appletWidth / 2,
-                                    this.appletHeight - 80,
+                                    this.contentWidth / 2,
+                                    this.contentHeight - 80,
                                     0,
-                                    (int) ((double) this.appletWidth * 0.5D));
+                                    (int) ((double) this.contentWidth * 0.5D));
                         }
                     }
                 }
@@ -719,8 +720,8 @@ public abstract class AApplet extends JFrame implements Runnable, ActionListener
                 this.contentPanel.destroy();
             }
 
-            int x = (this.getWidth() - this.appletWidth) / 2;
-            int y = (this.getHeight() - this.appletHeight) / 2;
+            int x = (this.getWidth() - this.contentWidth) / 2;
+            int y = (this.getHeight() - this.contentHeight) / 2;
             if (state == END_ERROR_CONNECTION) {
                 this.retryCanvas = new RetryCanvas(this.textManager.getShared("Message_CE_RetryButton"), 120, 20, this);
                 this.retryCanvas.setLocation(x + 40, y + 360);

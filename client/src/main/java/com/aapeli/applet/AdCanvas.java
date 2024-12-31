@@ -20,7 +20,7 @@ import java.util.List;
 class AdCanvas extends Canvas implements MouseListener {
 
     private static final String linkTarget = "_blank";
-    private AApplet gameApplet;
+    private AbstractGameFrame gameFrame;
     private LoadingPanel loadingPanel;
     private URL anURL117;
     private List<AdCanvasText> texts;
@@ -33,8 +33,8 @@ class AdCanvas extends Canvas implements MouseListener {
     private boolean aBoolean125;
     private long aLong126;
 
-    private AdCanvas(AApplet var1, URL var2, List<AdCanvasText> var3, URI var4, String var5, int var6) {
-        this.gameApplet = var1;
+    private AdCanvas(AbstractGameFrame var1, URL var2, List<AdCanvasText> var3, URI var4, String var5, int var6) {
+        this.gameFrame = var1;
         this.anURL117 = var2;
         this.texts = var3;
         this.uri = var4;
@@ -92,7 +92,7 @@ class AdCanvas extends Canvas implements MouseListener {
 
     public void mouseClicked(MouseEvent var1) {}
 
-    protected static AdCanvas create(AApplet applet, Parameters parameters) {
+    protected static AdCanvas create(AbstractGameFrame gameFrame, Parameters parameters) {
         try {
             String var2 = parameters.getParameter("ad_image");
             URL var3 = new URL(new URL(parameters.getServerIp()), var2);
@@ -119,14 +119,14 @@ class AdCanvas extends Canvas implements MouseListener {
                 var10 = Integer.parseInt(var11);
             }
 
-            return new AdCanvas(applet, var3, var4, uri, var9, var10);
+            return new AdCanvas(gameFrame, var3, var4, uri, var9, var10);
         } catch (Exception var13) {
             return null;
         }
     }
 
     protected void method212() {
-        this.anImage122 = Toolkit.getDefaultToolkit().createImage(anURL117); // this.gameApplet.getImage(this.anURL117);
+        this.anImage122 = Toolkit.getDefaultToolkit().createImage(anURL117); // this.gameFrame.getImage(this.anURL117);
     }
 
     protected boolean method213() {
@@ -136,7 +136,7 @@ class AdCanvas extends Canvas implements MouseListener {
             this.aBoolean125 = true;
         }
 
-        if (!this.aBoolean125 && !this.gameApplet.prepareImage(this.anImage122, null)) {
+        if (!this.aBoolean125 && !this.gameFrame.prepareImage(this.anImage122, null)) {
             return false;
         } else {
             if (!this.aBoolean125) {
@@ -194,6 +194,6 @@ class AdCanvas extends Canvas implements MouseListener {
         this.uri = null;
         this.aString120 = null;
         this.loadingPanel = null;
-        this.gameApplet = null;
+        this.gameFrame = null;
     }
 }

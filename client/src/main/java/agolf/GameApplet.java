@@ -3,7 +3,7 @@ package agolf;
 import agolf.game.GameBackgroundCanvas;
 import agolf.game.GamePanel;
 import agolf.lobby.LobbyPanel;
-import com.aapeli.applet.AApplet;
+import com.aapeli.applet.AbstractGameFrame;
 import com.aapeli.client.AutoPopups;
 import com.aapeli.client.BadWordFilter;
 import com.aapeli.client.ImageManager;
@@ -16,7 +16,7 @@ import java.awt.Image;
 import org.moparforia.client.Launcher;
 import org.moparforia.shared.Locale;
 
-public class GameApplet extends AApplet {
+public class GameApplet extends AbstractGameFrame {
 
     public SynchronizedBool syncIsValidSite;
     public static final Color colourGameBackground = new Color(153, 255, 153);
@@ -158,7 +158,7 @@ public class GameApplet extends AApplet {
                     String username = param.getUsername();
                     if (username == null) {
                         TrackTestLoginPanel loginPanel =
-                                new TrackTestLoginPanel(this, super.appletWidth, super.appletHeight);
+                                new TrackTestLoginPanel(this, super.contentWidth, super.contentHeight);
                         loginPanel.setLocation(0, 0);
                         this.addToContent(loginPanel);
                     } else {
@@ -176,7 +176,7 @@ public class GameApplet extends AApplet {
             if (activePanel == 2) {
                 if (this.gameContainer.lobbySelectionPanel == null) {
                     this.gameContainer.lobbySelectionPanel =
-                            new LobbySelectPanel(this.gameContainer, super.appletWidth, super.appletHeight);
+                            new LobbySelectPanel(this.gameContainer, super.contentWidth, super.contentHeight);
                     this.gameContainer.lobbySelectionPanel.setLocation(0, 0);
                 }
 
@@ -205,7 +205,7 @@ public class GameApplet extends AApplet {
                 this.gameContainer.gamePanel = null;
                 if (this.gameContainer.lobbyPanel == null) {
                     this.gameContainer.lobbyPanel =
-                            new LobbyPanel(this.gameContainer, super.appletWidth, super.appletHeight);
+                            new LobbyPanel(this.gameContainer, super.contentWidth, super.contentHeight);
                     this.gameContainer.lobbyPanel.setLocation(0, 0);
                 }
 
@@ -222,7 +222,7 @@ public class GameApplet extends AApplet {
 
             if (activePanel == 4) {
                 this.gameContainer.gamePanel =
-                        new GamePanel(this.gameContainer, super.appletWidth, super.appletHeight, this.anImage3774);
+                        new GamePanel(this.gameContainer, super.contentWidth, super.contentHeight, this.anImage3774);
                 this.gameContainer.gamePanel.setLocation(0, 0);
                 this.addToContent(this.gameContainer.gamePanel);
             }

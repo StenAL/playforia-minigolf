@@ -5,11 +5,11 @@ import java.awt.Dimension;
 
 class ContentPanel extends IPanel {
 
-    protected ContentPanel(AApplet applet) {
-        this.setBackground(applet.getBackground());
-        this.setForeground(applet.getForeground());
-        this.setSize(applet.appletWidth, applet.appletHeight);
-        this.setPreferredSize(new Dimension(applet.appletWidth, applet.appletHeight));
+    protected ContentPanel(AbstractGameFrame gameFrame) {
+        this.setBackground(gameFrame.getBackground());
+        this.setForeground(gameFrame.getForeground());
+        this.setSize(gameFrame.contentWidth, gameFrame.contentHeight);
+        this.setPreferredSize(new Dimension(gameFrame.contentWidth, gameFrame.contentHeight));
         this.setLayout(null);
     }
 
