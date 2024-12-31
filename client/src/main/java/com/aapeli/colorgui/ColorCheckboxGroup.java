@@ -13,16 +13,16 @@ public final class ColorCheckboxGroup {
         }
     }
 
-    protected boolean method1748(boolean var1) {
-        if (var1) {
-            this.method1749();
+    protected boolean checkboxClicked(boolean checked) {
+        if (checked) {
+            this.updateCheckboxes();
             return true;
         } else {
             return false;
         }
     }
 
-    private void method1749() {
+    private void updateCheckboxes() {
         for (ColorCheckbox colorCheckbox : checkboxes) {
             colorCheckbox.realSetState(false);
         }

@@ -1,11 +1,12 @@
 package com.aapeli.client;
 
-import com.aapeli.applet.AApplet;
 import com.aapeli.tools.Tools;
-import java.applet.Applet;
-import java.applet.AppletContext;
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.awt.Component;
+import java.awt.Desktop;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.Map;
 import org.moparforia.shared.Locale;
 
 public final class Parameters {
@@ -14,10 +15,7 @@ public final class Parameters {
     private static final String PLAYFORIA_SITE_NAME = "playforia";
     private static final String PLAYFORIA_QUIT_PAGE = "http://www.playforia.com/";
     private static final String QUIT_TARGET = "_top";
-    private Applet applet;
-    private AApplet aApplet;
-    private String codeBaseHost;
-    private String documentBaseHost;
+    private Component rootComponent;
     private String serverIp;
     private Locale locale;
     private String siteName;
@@ -33,23 +31,21 @@ public final class Parameters {
     private String json;
     private boolean tellFriend;
     private int serverPort;
-    private URL urlCreditPage;
+    private URI uriCreditPage;
     private int anInt1455;
     private String[] aStringArray1456;
     private String aString1457;
     private boolean debug;
+    private Map<String, String> params;
 
-    public Parameters(Applet applet, boolean debug) {
-        this.applet = applet;
-        if (applet instanceof AApplet) {
-            this.aApplet = (AApplet) applet;
-        }
-
-        this.codeBaseHost = applet.getCodeBase().getHost().toLowerCase();
-        this.documentBaseHost = applet.getDocumentBase().getHost().toLowerCase();
+    public Parameters(Map<String, String> params) {
+        this.params = params;
         this.anInt1455 = 0;
-        this.debug = debug;
         this.init();
+    }
+
+    public void setRootComponent(Component rootComponent) {
+        this.rootComponent = rootComponent;
     }
 
     public static boolean getBooleanValue(String key) {
@@ -66,13 +62,13 @@ public final class Parameters {
     }
 
     public String getParameter(String key) {
-        String value = this.applet.getParameter(key);
+        String value = this.params.get(key);
         if (value == null) {
-            value = this.applet.getParameter(key.toLowerCase());
+            value = this.params.get(key.toLowerCase());
         }
 
         if (value == null) {
-            value = this.applet.getParameter(key.toUpperCase());
+            value = this.params.get(key.toUpperCase());
         }
 
         if (value == null) {
@@ -135,17 +131,17 @@ public final class Parameters {
                     return false;
                 }
 
-                this.showUrl(this.toURL(this.urlUserInfoPage + var1), this.urlTargetUserInfo);
+                this.showUri(this.toURI(this.urlUserInfoPage + var1), this.urlTargetUserInfo);
                 return true;
             }
 
             if (var2.startsWith("javascript:")) {
-                URL var3 = this.toURL(Tools.replaceFirst(this.urlUserInfoPage, "%n", var1));
-                if (var3 == null) {
+                URI uri = this.toURI(Tools.replaceFirst(this.urlUserInfoPage, "%n", var1));
+                if (uri == null) {
                     return false;
                 }
 
-                this.showUrl(var3, this.urlTargetUserInfo);
+                this.showUri(uri, this.urlTargetUserInfo);
                 return true;
             }
         } catch (Exception e) {
@@ -240,15 +236,15 @@ public final class Parameters {
     }
 
     public boolean showRegisterPage() {
-        return this.showUrl(this.toURL(this.urlRegisterPage), null);
+        return this.showUri(this.toURI(this.urlRegisterPage), null);
     }
 
     public void showCreditPurchasePage(boolean openInNewTab) {
-        this.showUrl(this.urlCreditPage, openInNewTab ? "_blank" : null);
+        this.showUri(this.uriCreditPage, openInNewTab ? "_blank" : null);
     }
 
     public boolean isCreditPurchasePageAvailable() {
-        return this.urlCreditPage != null;
+        return this.uriCreditPage != null;
     }
 
     public boolean callJavaScriptJSON(String json) {
@@ -262,11 +258,11 @@ public final class Parameters {
             try {
                 json = Tools.replaceAll(json, "'", "\\'");
                 String var2 = Tools.replaceFirst(this.json, "%o", "'" + json + "'");
-                URL var3 = this.toURL(var2);
-                if (var3 == null) {
+                URI uri = this.toURI(var2);
+                if (uri == null) {
                     return false;
                 } else {
-                    this.showUrl(var3, null);
+                    this.showUri(uri, null);
                     return true;
                 }
             } catch (Exception e) {
@@ -275,12 +271,8 @@ public final class Parameters {
         }
     }
 
-    public Applet getApplet() {
-        return this.applet;
-    }
-
-    public AApplet getAApplet() {
-        return this.aApplet;
+    public Component getRootComponent() {
+        return this.rootComponent;
     }
 
     public void destroy() {
@@ -296,15 +288,9 @@ public final class Parameters {
         this.urlTellFriendPage = null;
         this.urlTargetTellFriend = null;
         this.json = null;
-        this.urlCreditPage = null;
+        this.uriCreditPage = null;
         this.aStringArray1456 = null;
         this.aString1457 = null;
-        this.documentBaseHost = null;
-        this.codeBaseHost = null;
-    }
-
-    protected AppletContext getAppletContext() {
-        return this.applet.getAppletContext();
     }
 
     protected boolean getTellFriend() {
@@ -326,7 +312,7 @@ public final class Parameters {
         this.siteName = this.getParamSiteName();
         this.session = this.getParameter("session");
         this.urlRegisterPage = this.getParameter("registerpage");
-        this.urlCreditPage = this.toURL(this.getParameter("creditpage"));
+        this.uriCreditPage = this.toURI(this.getParameter("creditpage"));
         this.urlUserInfoPage = this.getParameter("userinfopage");
         this.urlTargetUserInfo = this.getParameter("userinfotarget");
         this.urlUserListPage = this.getParameter("userlistpage");
@@ -336,6 +322,7 @@ public final class Parameters {
         this.urlTargetTellFriend = this.getParameter("tellfriendtarget");
         this.json = this.getParameter("json");
         this.username = this.getParameter("username");
+        this.debug = Tools.getBoolean(this.getParameter("verbose"));
         if (this.json != null) {
             this.json = Tools.replaceFirst(this.json, "'%o'", "%o");
             if (!this.json.toLowerCase().startsWith("javascript:")) {
@@ -350,7 +337,7 @@ public final class Parameters {
             int portIndex = server.lastIndexOf(':');
             return server.substring(0, portIndex);
         } catch (Exception e) {
-            return this.codeBaseHost.length() > 0 ? this.codeBaseHost : LOCALHOST;
+            return LOCALHOST;
         }
     }
 
@@ -382,28 +369,17 @@ public final class Parameters {
     }
 
     private String getParamSiteName() {
-        try {
-            String siteName = this.getParameter("sitename");
-            if (siteName != null) {
-                return siteName;
-            }
-        } catch (Exception e) {
-        }
-
-        if (this.documentBaseHost.contains("aapeli.")) {
-            return "aapeli";
-        } else if (this.documentBaseHost.contains("playforia.")) {
-            return PLAYFORIA_SITE_NAME;
-        } else if (this.documentBaseHost.contains("playray.")) {
-            return "playray";
+        String siteName = this.getParameter("sitename");
+        if (siteName != null) {
+            return siteName;
         }
         return PLAYFORIA_SITE_NAME;
     }
 
-    private URL toURL(String s) {
+    private URI toURI(String s) {
         try {
-            return new URL(s);
-        } catch (MalformedURLException e) {
+            return new URI(s);
+        } catch (URISyntaxException e) {
             return null;
         }
     }
@@ -448,19 +424,19 @@ public final class Parameters {
                         }
                     }
 
-                    this.showUrl(this.toURL(var8), this.urlTargetUserList);
+                    this.showUri(this.toURI(var8), this.urlTargetUserList);
                 }
             } else {
                 if (var4.startsWith("javascript:")) {
                     var8 = this.urlUserListPage;
                     var8 = Tools.replaceFirst(var8, "%n", result != null ? result : "");
                     var8 = Tools.replaceFirst(var8, "%s", subgame != null ? subgame : "");
-                    URL var9 = this.toURL(var8);
-                    if (var9 == null) {
+                    URI uri = this.toURI(var8);
+                    if (uri == null) {
                         return;
                     }
 
-                    this.showUrl(var9, this.urlTargetUserList);
+                    this.showUri(uri, this.urlTargetUserList);
                 }
             }
         }
@@ -513,17 +489,15 @@ public final class Parameters {
         }
     }
 
-    private boolean showUrl(URL url, String target) {
-        if (url == null) {
+    private boolean showUri(URI uri, String target) {
+        if (uri == null) {
             return false;
         } else {
-            AppletContext appletContext = this.applet.getAppletContext();
-            if (target != null) {
-                appletContext.showDocument(url, target);
-            } else {
-                appletContext.showDocument(url);
+            try {
+                Desktop.getDesktop().browse(uri);
+            } catch (IOException e) {
+                return false;
             }
-
             return true;
         }
     }

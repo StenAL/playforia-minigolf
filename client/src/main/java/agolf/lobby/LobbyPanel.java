@@ -24,7 +24,6 @@ public class LobbyPanel extends Panel {
     private LobbyChatPanel lobbyChatPanelMulti;
     private LobbyControlPanel lobbyControlPanel;
     private LobbyTrackListAdminPanel lobbyTrackListAdminPanel;
-    public static boolean aBoolean465;
 
     public LobbyPanel(GameContainer gameContainer, int width, int height) {
         this.gameContainer = gameContainer;
@@ -150,44 +149,29 @@ public class LobbyPanel extends Panel {
     }
 
     public void handlePacket(String[] args) {
-        boolean dummy = false;
         if (this.activeLobby > 0) {
             if (this.activeLobby == 1) {
-                if (this.lobbySinglePlayerPanel.handlePacket(args)) {
-                    dummy = true;
-                }
+                this.lobbySinglePlayerPanel.handlePacket(args);
 
-                if (this.lobbyChatPanelSingle != null && this.lobbyChatPanelSingle.handlePacket(args)) {
-                    dummy = true;
+                if (this.lobbyChatPanelSingle != null) {
+                    this.lobbyChatPanelSingle.handlePacket(args);
                 }
             }
 
             if (this.activeLobby == 2) {
-                if (this.lobbyDualPlayerPanel.handlePacket(args)) {
-                    dummy = true;
-                }
-
-                if (this.lobbyChatPanelDual.handlePacket(args)) {
-                    dummy = true;
-                }
+                this.lobbyDualPlayerPanel.handlePacket(args);
+                this.lobbyChatPanelDual.handlePacket(args);
             }
 
             if (this.activeLobby == 3) {
-                if (this.lobbyMultiPlayerPanel.handlePacket(args)) {
-                    dummy = true;
-                }
-
-                if (this.lobbyChatPanelMulti.handlePacket(args)) {
-                    dummy = true;
-                }
+                this.lobbyMultiPlayerPanel.handlePacket(args);
+                this.lobbyChatPanelMulti.handlePacket(args);
             }
         }
 
-        if (this.activeLobby == -1 && this.lobbyTrackListAdminPanel.handlePacket(args)) {
-            dummy = true;
+        if (this.activeLobby == -1) {
+            this.lobbyTrackListAdminPanel.handlePacket(args);
         }
-
-        if (dummy) {}
     }
 
     public void broadcastMessage(String message) {

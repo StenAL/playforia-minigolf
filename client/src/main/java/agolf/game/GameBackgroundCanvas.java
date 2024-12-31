@@ -34,7 +34,6 @@ public class GameBackgroundCanvas extends Canvas {
     private boolean[] trackSpecialSettings;
     private int[][] anIntArrayArray97;
     private boolean[] aBooleanArray98;
-    public static int anInt99;
 
     protected GameBackgroundCanvas(GameContainer gameContainer, Image backgroundImage) {
         this.gameContainer = gameContainer;
@@ -214,7 +213,7 @@ public class GameBackgroundCanvas extends Canvas {
         return this.aBooleanArray98;
     }
 
-    private boolean parseMapInstruction(String map) throws Exception {
+    private boolean parseMapInstruction(String map) {
         this.trackSettings = defaultTrackSettings;
         this.trackFirstBest = null;
         this.trackLastBest = null;

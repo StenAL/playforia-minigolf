@@ -7,10 +7,8 @@ class HtmlParser {
 
     private String rawText;
     private Graphics graphics;
-    private final HtmlText htmlText;
 
-    protected HtmlParser(HtmlText htmlText, String rawText, Graphics graphics) {
-        this.htmlText = htmlText;
+    protected HtmlParser(String rawText, Graphics graphics) {
         this.rawText = rawText.trim();
         this.graphics = graphics;
     }

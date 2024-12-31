@@ -546,8 +546,7 @@ public final class ColorList extends Panel
         if (nodesCount == 0) {
             return null;
         } else {
-            for (int i = 0; i < nodesCount; ++i) {
-                ColorListNode node = this.nodes.get(i);
+            for (ColorListNode node : this.nodes) {
                 if (node.containsYCoordinate(y)) {
                     return node.getItem();
                 }

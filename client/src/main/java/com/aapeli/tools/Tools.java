@@ -1,8 +1,5 @@
 package com.aapeli.tools;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Graphics;
 import java.util.Calendar;
 import java.util.StringTokenizer;
 
@@ -22,21 +19,6 @@ public class Tools {
                 return false;
             }
         }
-    }
-
-    public static boolean forcedRepaint(Component target) {
-        try {
-            Graphics graphics = target.getGraphics();
-            if (graphics != null) {
-                target.update(graphics);
-                return true;
-            }
-
-            target.repaint();
-        } catch (Exception var2) {
-        }
-
-        return false;
     }
 
     public static String changeToSaveable(String var0) {
@@ -89,49 +71,6 @@ public class Tools {
         return sb.toString();
     }
 
-    public static int getRandomByPossibility(double[] var0) {
-        int var1 = var0.length;
-        double[] var2 = new double[var1];
-
-        for (int var3 = 0; var3 < var1; ++var3) {
-            if (var0[var3] < 0.0D) {
-                throw new IllegalArgumentException("Negative possibility");
-            }
-
-            var2[var3] = var3 == 0 ? var0[0] : var2[var3 - 1] + var0[var3];
-        }
-
-        if (var2[var1 - 1] == 0.0D) {
-            throw new IllegalArgumentException("Total zero possibility");
-        } else {
-            double var6 = Math.random() * var2[var1 - 1];
-
-            for (int var5 = 0; var5 < var1; ++var5) {
-                if (var6 < var2[var5]) {
-                    return var5;
-                }
-            }
-
-            return -1;
-        }
-    }
-
-    public static int[] stringToIntArray(String var0) {
-        try {
-            StringTokenizer var1 = new StringTokenizer(var0, ",");
-            int var2 = var1.countTokens();
-            int[] var3 = new int[var2];
-
-            for (int var4 = 0; var4 < var2; ++var4) {
-                var3[var4] = Integer.parseInt(var1.nextToken());
-            }
-
-            return var3;
-        } catch (Exception var5) {
-            return null;
-        }
-    }
-
     public static String[] separateString(String var0, String var1) {
         StringTokenizer var2 = new StringTokenizer(var0, var1);
         int var3 = var2.countTokens();
@@ -142,12 +81,6 @@ public class Tools {
         }
 
         return var4;
-    }
-
-    public static double getDistance(double var0, double var2, double var4, double var6) {
-        double var8 = var4 - var0;
-        double var10 = var6 - var2;
-        return Math.sqrt(var8 * var8 + var10 * var10);
     }
 
     public static String replaceFirst(String var0, String var1, String var2) {
@@ -182,29 +115,6 @@ public class Tools {
         }
 
         return false;
-    }
-
-    public static Color getColor(String var0, Color var1) {
-        if (var0 == null) {
-            return var1;
-        } else {
-            var0 = var0.trim();
-            if (var0.startsWith("#")) {
-                var0 = var0.substring(1).trim();
-            } else if (var0.startsWith("0x")) {
-                var0 = var0.substring(2).trim();
-            }
-
-            if (var0.length() == 0) {
-                return var1;
-            } else {
-                try {
-                    return new Color(Integer.parseInt(var0, 16));
-                } catch (Exception var3) {
-                    return var1;
-                }
-            }
-        }
     }
 
     public static String reverse(String var0) {
@@ -273,20 +183,6 @@ public class Tools {
 
         sb.append("] ").append(message);
         System.out.println(sb);
-    }
-
-    public static String arrayToString(Object[] var0, char var1) {
-        StringBuffer var2 = new StringBuffer();
-        int var3 = var0.length;
-
-        for (int var4 = 0; var4 < var3; ++var4) {
-            var2.append(var0[var4].toString());
-            if (var4 < var3 - 1) {
-                var2.append(var1);
-            }
-        }
-
-        return var2.toString();
     }
 
     private static void method1875(StringBuffer var0, int var1) {

@@ -384,10 +384,6 @@ public class MultiColorList extends Panel implements AdjustmentListener, MouseLi
         return var2;
     }
 
-    public void addItem(String[] var1) {
-        this.addItem(new MultiColorListItem(var1));
-    }
-
     public synchronized void addItem(MultiColorListItem var1) {
         int var2 = var1.getColumnCount();
         if (this.anInt698 == 0) {
@@ -683,7 +679,7 @@ public class MultiColorList extends Panel implements AdjustmentListener, MouseLi
             var6 += var5[var7];
         }
 
-        double var11 = 1.0D * (double) this.anInt702 / (double) var6;
+        double var11 = (double) this.anInt702 / (double) var6;
         var6 = 0;
         int[] var9 = new int[var3];
 

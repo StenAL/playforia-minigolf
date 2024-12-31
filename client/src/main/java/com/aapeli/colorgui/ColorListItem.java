@@ -41,14 +41,6 @@ public class ColorListItem {
         this(null, 0, false, text, null, false);
     }
 
-    public ColorListItem(int color, boolean bold, String text) {
-        this(null, color, bold, text, null, false);
-    }
-
-    public ColorListItem(int color, boolean bold, String text, Object data, boolean selected) {
-        this(null, colors[color], bold, text, data, selected);
-    }
-
     public ColorListItem(Image icon, int color, boolean bold, String text, Object data, boolean selected) {
         this(icon, colors[color], bold, text, data, selected);
     }

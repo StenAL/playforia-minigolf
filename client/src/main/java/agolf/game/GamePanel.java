@@ -54,375 +54,387 @@ public class GamePanel extends Panel {
     }
 
     public void handlePacket(String[] args) {
-        if (args[1].equals("gameinfo")) {
-            String gameName = args[2];
-            boolean passworded = args[3].equals("t");
-            int permission = Integer.parseInt(args[4]);
-            this.playerCount = Integer.parseInt(args[5]);
-            int trackCount = Integer.parseInt(args[6]);
-            int trackTypes = Integer.parseInt(args[7]);
-            int maxStrokes = Integer.parseInt(args[8]);
-            int strokeTimeout = Integer.parseInt(args[9]);
-            int waterEvent = Integer.parseInt(args[10]);
-            int collision = Integer.parseInt(args[11]);
-            int trackScoring = Integer.parseInt(args[12]);
-            int trackScoringEnd = Integer.parseInt(args[13]);
-            this.isSinglePlayerGame = args[14].equals("t"); // todo unsure
-            // int trackCategory = Launcher.isUsingCustomServer() ? Integer.parseInt(args[15]) : -1;
-            byte mode = 0;
-            if (this.gameContainer.synchronizedTrackTestMode.get()) {
-                mode = 1;
-            }
+        switch (args[1]) {
+            case "gameinfo" -> {
+                String gameName = args[2];
+                boolean passworded = args[3].equals("t");
+                int permission = Integer.parseInt(args[4]);
+                this.playerCount = Integer.parseInt(args[5]);
+                int trackCount = Integer.parseInt(args[6]);
+                int trackTypes = Integer.parseInt(args[7]);
+                int maxStrokes = Integer.parseInt(args[8]);
+                int strokeTimeout = Integer.parseInt(args[9]);
+                int waterEvent = Integer.parseInt(args[10]);
+                int collision = Integer.parseInt(args[11]);
+                int trackScoring = Integer.parseInt(args[12]);
+                int trackScoringEnd = Integer.parseInt(args[13]);
+                this.isSinglePlayerGame = args[14].equals("t"); // todo unsure
 
-            if (this.playerCount > 1) {
-                mode = 2;
-            }
-
-            this.addMultiPlayerPanels(mode);
-            this.playerInfoPanel.init(this.playerCount, trackCount, maxStrokes, strokeTimeout, trackScoring);
-            this.trackInfoPanel.setNumTracks(trackCount);
-            this.gameControlPanel.setPlayerCount(this.playerCount);
-            this.gameCanvas.init(this.playerCount, waterEvent, collision);
-            if (mode == 2) {
-                String settings = "";
-                if (passworded) {
-                    settings = this.gameContainer.textManager.getGame("GameChat_GS_Password") + ", ";
-                } else if (permission > 0) {
-                    settings = this.gameContainer.textManager.getGame(
-                                    "GameChat_GS_" + (permission == 1 ? "Reg" : "Vip") + "Only")
-                            + ", ";
+                // int trackCategory = Launcher.isUsingCustomServer() ? Integer.parseInt(args[15]) : -1;
+                byte mode = 0;
+                if (this.gameContainer.synchronizedTrackTestMode.get()) {
+                    mode = 1;
                 }
 
-                settings = settings + this.gameContainer.textManager.getGame("GameChat_GS_Players", this.playerCount);
-                settings = settings + ", " + this.gameContainer.textManager.getGame("GameChat_GS_Tracks", trackCount);
-                if (trackTypes > 0) {
-                    settings = settings
-                            + " ("
-                            + this.gameContainer.textManager.getIfAvailable(
-                                    "LobbyReal_TrackTypes" + trackTypes,
-                                    this.gameContainer.textManager.getGame("LobbyReal_TrackTypesTest"))
-                            + ")";
+                if (this.playerCount > 1) {
+                    mode = 2;
                 }
 
-                if (maxStrokes != 20) {
-                    if (maxStrokes > 0) {
+                this.addMultiPlayerPanels(mode);
+                this.playerInfoPanel.init(this.playerCount, trackCount, maxStrokes, strokeTimeout, trackScoring);
+                this.trackInfoPanel.setNumTracks(trackCount);
+                this.gameControlPanel.setPlayerCount(this.playerCount);
+                this.gameCanvas.init(this.playerCount, waterEvent, collision);
+                if (mode == 2) {
+                    String settings = "";
+                    if (passworded) {
+                        settings = this.gameContainer.textManager.getGame("GameChat_GS_Password") + ", ";
+                    } else if (permission > 0) {
+                        settings = this.gameContainer.textManager.getGame(
+                                        "GameChat_GS_" + (permission == 1 ? "Reg" : "Vip") + "Only")
+                                + ", ";
+                    }
+
+                    settings =
+                            settings + this.gameContainer.textManager.getGame("GameChat_GS_Players", this.playerCount);
+                    settings =
+                            settings + ", " + this.gameContainer.textManager.getGame("GameChat_GS_Tracks", trackCount);
+                    if (trackTypes > 0) {
+                        settings = settings
+                                + " ("
+                                + this.gameContainer.textManager.getIfAvailable(
+                                        "LobbyReal_TrackTypes" + trackTypes,
+                                        this.gameContainer.textManager.getGame("LobbyReal_TrackTypesTest"))
+                                + ")";
+                    }
+
+                    if (maxStrokes != 20) {
+                        if (maxStrokes > 0) {
+                            settings = settings
+                                    + ", "
+                                    + this.gameContainer.textManager.getGame("GameChat_GS_MaxStrokes", maxStrokes);
+                        } else {
+                            settings = settings
+                                    + ", "
+                                    + this.gameContainer.textManager.getGame(
+                                            "GameChat_GS_MaxStrokesUnlimited", maxStrokes);
+                        }
+                    }
+
+                    if (strokeTimeout > 0) {
                         settings = settings
                                 + ", "
-                                + this.gameContainer.textManager.getGame("GameChat_GS_MaxStrokes", maxStrokes);
+                                + this.gameContainer.textManager.getGame(
+                                        "GameChat_GS_TimeLimit" + (strokeTimeout < 60 ? "Sec" : "Min"),
+                                        strokeTimeout < 60 ? strokeTimeout : strokeTimeout / 60);
+                    }
+
+                    if (waterEvent == 1) {
+                        settings = settings + ", " + this.gameContainer.textManager.getGame("GameChat_GS_WaterShore");
+                    }
+
+                    if (collision == 0) {
+                        settings = settings + ", " + this.gameContainer.textManager.getGame("GameChat_GS_NoCollision");
+                    }
+
+                    if (trackScoring == 1) {
+                        settings = settings + ", " + this.gameContainer.textManager.getGame("GameChat_GS_TrackScoring");
+                    }
+
+                    if (trackScoringEnd > 0) {
+                        settings = settings
+                                + ", "
+                                + this.gameContainer.textManager.getGame(
+                                        "GameChat_GS_TrackScoringEnd" + trackScoringEnd);
+                    }
+
+                    /*if(trackCategory > -1) {
+                        settings = settings + ", " + (trackCategory == 0 ? "official" : (trackCategory == 1 ? "custom" : "unknown")) + " maps";
+                    }*/
+
+                    this.chatPanel.addMessage(this.gameContainer.textManager.getGame("GameChat_GameName", gameName));
+                    this.chatPanel.addMessage(
+                            this.gameContainer.textManager.getGame("GameChat_GameSettings", settings));
+                }
+            }
+            case "scoringmulti" -> {
+                int len = args.length - 2;
+                int[] trackScoresMultipliers = new int[len];
+
+                for (int track = 0; track < len; ++track) {
+                    trackScoresMultipliers[track] = Integer.parseInt(args[2 + track]);
+                }
+
+                this.playerInfoPanel.setTrackScoresMultipliers(trackScoresMultipliers);
+            }
+            case "players" -> {
+                int len = (args.length - 2) / 3;
+                int playerCountIndex = 2;
+
+                for (int trackTypes = 0; trackTypes < len; ++trackTypes) {
+                    int playerCount = Integer.parseInt(args[playerCountIndex]); // todo lol why u inside the loop tho
+                    String clan = args[playerCountIndex + 2].equals("-") ? null : args[playerCountIndex + 2];
+                    this.playerInfoPanel.addPlayer(playerCount, args[playerCountIndex + 1], clan, false);
+                    this.chatPanel.setUserColour(args[playerCountIndex + 1], playerCount);
+                    playerCountIndex += 3;
+                }
+            }
+            case "owninfo" -> {
+                int currentPlayerID = Integer.parseInt(args[2]);
+                String currentPlayerClan = args[4].equals("-") ? null : args[4];
+                this.playerInfoPanel.addPlayer(currentPlayerID, args[3], currentPlayerClan, true);
+                this.chatPanel.setUserColour(args[3], currentPlayerID);
+                this.aLong364 = System.currentTimeMillis();
+            }
+            case "join" -> {
+                int playerId = Integer.parseInt(args[2]);
+                String playerClan = args[4].equals("-") ? null : args[4];
+                this.playerInfoPanel.addPlayer(playerId, args[3], playerClan, false);
+                this.chatPanel.setUserColour(args[3], playerId);
+                if (this.playerCount != 2 || playerId != 1) {
+                    this.chatPanel.addMessage(
+                            playerClan != null
+                                    ? this.gameContainer.textManager.getGame("GameChat_JoinClan", args[3], playerClan)
+                                    : this.gameContainer.textManager.getGame("GameChat_Join", args[3]));
+                }
+            }
+            case "part" -> { // player left game
+                int playerId = Integer.parseInt(args[2]);
+                boolean changed = this.playerInfoPanel.setPlayerPartStatus(playerId, Integer.parseInt(args[3]));
+                if (changed) {
+                    this.gameControlPanel.method329();
+                }
+
+                String playerName = this.playerInfoPanel.playerNames[playerId];
+                this.chatPanel.addMessage(this.gameContainer.textManager.getGame("GameChat_Part", playerName));
+                this.chatPanel.removeUserColour(playerName);
+                this.gameControlPanel.refreshBackButton();
+            }
+            case "say" -> {
+                int playerId = Integer.parseInt(args[2]);
+                this.chatPanel.addSay(this.playerInfoPanel.playerNames[playerId], args[3], false);
+            }
+            case "cr" -> {
+                StringTokenizer tokenizer = new StringTokenizer(args[2], ",");
+                int tracks = tokenizer.countTokens();
+                int[][] comparisonScores = new int[5][tracks];
+
+                for (int comparisonType = 0; comparisonType < 5; ++comparisonType) {
+                    for (int track = 0; track < tracks; ++track) {
+                        comparisonScores[comparisonType][track] = Integer.parseInt(tokenizer.nextToken());
+                    }
+
+                    if (comparisonType < 4) {
+                        tokenizer = new StringTokenizer(args[3 + comparisonType], ",");
+                    }
+                }
+
+                this.playerInfoPanel.initResultsComparison(comparisonScores);
+            }
+            case "start" -> {
+                if (this.playerCount > 1) {
+                    if (this.aBoolean363) {
+                        if (System.currentTimeMillis() > this.aLong364 + 1000L) {
+                            this.gameContainer.soundManager.playNotify();
+                            // this.requestFocus();//todo this is annoying as fuck
+                        }
+
+                        this.gameContainer.gameApplet.showPlayerList(this.playerInfoPanel.getPlayerNames());
                     } else {
-                        settings = settings
-                                + ", "
-                                + this.gameContainer.textManager.getGame("GameChat_GS_MaxStrokesUnlimited", maxStrokes);
+                        this.gameContainer.gameApplet.removePlayerListWinnders();
                     }
                 }
 
-                if (strokeTimeout > 0) {
-                    settings = settings
-                            + ", "
-                            + this.gameContainer.textManager.getGame(
-                                    "GameChat_GS_TimeLimit" + (strokeTimeout < 60 ? "Sec" : "Min"),
-                                    strokeTimeout < 60 ? strokeTimeout : strokeTimeout / 60);
-                }
-
-                if (waterEvent == 1) {
-                    settings = settings + ", " + this.gameContainer.textManager.getGame("GameChat_GS_WaterShore");
-                }
-
-                if (collision == 0) {
-                    settings = settings + ", " + this.gameContainer.textManager.getGame("GameChat_GS_NoCollision");
-                }
-
-                if (trackScoring == 1) {
-                    settings = settings + ", " + this.gameContainer.textManager.getGame("GameChat_GS_TrackScoring");
-                }
-
-                if (trackScoringEnd > 0) {
-                    settings = settings
-                            + ", "
-                            + this.gameContainer.textManager.getGame("GameChat_GS_TrackScoringEnd" + trackScoringEnd);
-                }
-
-                /*if(trackCategory > -1) {
-                    settings = settings + ", " + (trackCategory == 0 ? "official" : (trackCategory == 1 ? "custom" : "unknown")) + " maps";
-                }*/
-
-                this.chatPanel.addMessage(this.gameContainer.textManager.getGame("GameChat_GameName", gameName));
-                this.chatPanel.addMessage(this.gameContainer.textManager.getGame("GameChat_GameSettings", settings));
+                this.aBoolean363 = false;
+                this.gameCanvas.createMap(16777216);
+                this.playerInfoPanel.reset();
+                this.trackInfoPanel.resetCurrentTrack();
+                this.setState(1);
             }
+            case "starttrack" -> {
+                // [1] = "startrack", (optional [2] == track test mode), [2 or 3] == player statuses, [3
+                // or 4] == game id, [4 or 5] == track data
+                /*
+                * game
+                * starttrack
+                * t 1908821
+                * V 1
+                * A Tiikoni
+                * N Three Passages III
+                * T B3A12DBQARG20DBQARG12DE11DBTARBERQBAQQ20DBFRQBRARE11DE12DBAQQG20DFG12DE12DEE20DEE12DE12DEE20DEE12DE7DBQARE3DEE20DEE3DBQARE7DE6DBTARBERQBAQQ3DBGRQBRARE18DBTARBHRQF3DBFRQBRARE6DE7DBAQQG3DBSARG20DBSARG3DFG7DE7DEE6DBQARE14DBQARE6DEE7DE7DEE5DBTARBERQBAQQ14DBFRQBRARE5DEE7DE7DEE6DBAQQG14DFG6DEE7DE7DEE6DEE14DEE6DEE7DE7DEE6DEEDDBQARE10DEE6DEE7DE7DEE6DEEDBTARBERQBAQQ10DBGRQBRARE5DEE7DE7DEE6DEEDDBAQQG10DBSARG6DEE7DE7DEE6DEEDDEE13DBQARE3DEE7DE7DEE6DEEDDEE12DBTARBERQBAQQ3DBGRQBRARE6DE7DEE6DEEDDEEDDCBAE9DBAQQG3DBSARG7DE7DEE6DEEDDEE13DEE12DE7DEEDDCAAEDDEEDDEE13DEE12DE7DEE6DEEDDEE13DEE12DE7DEE6DEEDBTARBHRQF13DBGRQBRARE11DE7DEE6DEEDDBSARG13DBSARG12DE6DBTARBHRQF6DBGRQBRARE30DE7DBSARG6DBSARG31D,Ads:A3703B0101C4019	I 456956,1954871,2,17833	B Jerry,1087842155000	L abscission,1369657760469	R 1047,334,392,574,911,2281,1888,1543,1209,871,6559
 
-        } else if (args[1].equals("scoringmulti")) {
-            int len = args.length - 2;
-            int[] trackScoresMultipliers = new int[len];
 
-            for (int track = 0; track < len; ++track) {
-                trackScoresMultipliers[track] = Integer.parseInt(args[2 + track]);
-            }
 
-            this.playerInfoPanel.setTrackScoresMultipliers(trackScoresMultipliers);
-        } else if (args[1].equals("players")) {
-            int len = (args.length - 2) / 3;
-            int playerCountIndex = 2;
+                V 1
+                A {AUTHOR OF TRACK}
+                N {NAME OF TRACK}
+                T B3A11DBEAQBAQQ11DBAMMDDBGQMBAQQ11DBAMMDDBGQMBAQQ3DEDDBIALBHLEBGFEBJAFE3DBEAQBGAQB3A10DEEDBGQMBGAQB3A10DEEDBGQMBGAQB3ADCAAEEDDBHKLBALABAFABGGFEDDBEAQBGAQI11DEEBGQMBGAQB3A11DEEBGQMBGAQB3A3DEEDDBGJKBAJABAHABHHGEDBEAQBGAQI12DEBGQMBGAQB3A12DEBGQMBGAQB3A4DEEDDBLAJBGIJBHIHBKAHEBEAQBGAQI5DBEAQBGAQE5DEBGAQB3A5DBEAQBGAQE5DEBGAQB3A5DEE6DBEAQBGAQI5DBEAQBGAQH5DBEAQBGAQI5DBEAQBGAQH5DBEAQBGAQI5DBEAQBGAQBJAME4DBEAQBGAQB3A5DBEAQBGAQI5DBEAQBGAQI5DBEAQBGAQI5DBEAQBGAQI5DBEAQBGAQIBAMMBLMAEDDBEAQBGAQI5DBEAQBGAQI5DBEAQBGAQI5DBEAQBGAQI5DBEAQBGAQI5DBEAQBGAQIDEDDBJAMBEAQBGAQI5DBEAQBGAQI5DBEAQBGAQI5DBEAQBGAQI5DBEAQBGAQI5DBEAQBGAQIDDEDDBGQMBGAQI5DBEAQBGAQI5DBEAQBGAQI5DBEAQBGAQI5DBEAQBGAQI5DBEAQBGAQI3DEDBGQMBGAQB3A5DBEAQBGAQI5DBEAQBGAQI5DBEAQBGAQI5DBEAQBGAQI5DBEAQBGAQI4DEBGQMBGAQB3A5DBEAQBGAQI5DBEAQBGAQI5DBEAQBGAQI5DBEAQBGAQI5DBEAQBGAQIDBIALBHLEBGFEBJAFBTMQBTQAB3A5DBTAQBTQAI5DBTAQBTQAI5DBTAQBTQAI5DBTAQBTQAI5DBTAQBTQAIDDBHKLBALABAFABGGFBKAMBHAQBFAQE5DBHAQBFAQE5DBHAQBFAQE5DBHAQBFAQE5DBHAQBFAQE5DBHAQBFAQEDBGJKBAJABAHABHHGB3ADFFE5DFFE5DFFE5DFFE5DFFE5DFFEBLAJBGIJBHIHBKAHEDDFFE5DFFE5DFFE5DFFE5DFFE5D3F3DE3DFFE5DFFE5DFFE5DFFE5DFFE5DFFEDBKMAE4DFFE5DFFE5DFFE5DFFE5DFFE5DFFBIAMBAMME5DFFE5DFFE5DFFE5DFFE5DFFE5DFBHQMEE6DFFE5DFFE5DFFE5DFFE5DFFE5DFFEDBIALBHLEBGFEBJAFEDFFEDCBAEDBEAQBAQQFE5DFE5DBEAQBAQQFE5DFE6DBRQAEDBHKLBALABAFABGGFEDDFFEDDBEAQBEQMBAMMBHMQFE10DBEAQBEQMBAMMBHMQFE11DBEAQBEQMEDBGJKBAJABAHABHHGE3DFFEBEAQBEQMBAMMDDFFE8DBEAQBEQMBAMMDDFFE9DBEAQBEQMBAMMEDBLAJBGIJBHIHBKAHE3DBIAMBHMQBSQABEQMBAMM4DFFE6DBEAQBEQMBAMM4DFFE7DBEAQBEQMBAMMDE8DBKMABAMMDBSMQG6DFBAQQ6DBEQMBAMM6DFBAQQ7DBEQMBAMMDD
+                I {NUMBER OF PLAYERS TO COMLETE?},{NUMBER OF PEOPLE TO ATTEMPT?},{BEST NUMBER OF STROKES},{NUMBER OF PEOPLE THAT GOT BEST STROKE}
+                B {FIRST BEST PAR PLAYER},{UNIX TIMESTAMP OF FIRST BEST PAR}000
+                L {LAST BEST PAR PLAYER},{UNIX TIMESTAMP OF LAST BEST PAR}000
+                R {RATING: 0},{RATING: 1},{RATING: 2},{RATING: 3},{RATING: 4},{RATING: 5},{RATING: 6},{RATING: 7},{RATING: 8},{RATING: 9},{RATING: 10}
+                */
+                this.gameCanvas.restartGame();
+                boolean trackTestMode1 = args[2].equals("ttm1");
+                boolean trackTestMode2 = args[2].equals("ttm2");
+                boolean trackTestMode = trackTestMode1 || trackTestMode2;
+                boolean hasPlayed = false;
+                int startIndex = trackTestMode ? 5 : 4;
+                int argsLen = args.length;
+                String author = null;
+                String name = null;
+                String data = null;
+                String fullInstruction = "";
 
-            for (int trackTypes = 0; trackTypes < len; ++trackTypes) {
-                int playerCount = Integer.parseInt(args[playerCountIndex]); // todo lol why u inside the loop tho
-                String clan = args[playerCountIndex + 2].equals("-") ? null : args[playerCountIndex + 2];
-                this.playerInfoPanel.addPlayer(playerCount, args[playerCountIndex + 1], clan, false);
-                this.chatPanel.setUserColour(args[playerCountIndex + 1], playerCount);
-                playerCountIndex += 3;
-            }
-
-        } else if (args[1].equals("owninfo")) {
-            int currentPlayerID = Integer.parseInt(args[2]);
-            String currentPlayerClan = args[4].equals("-") ? null : args[4];
-            this.playerInfoPanel.addPlayer(currentPlayerID, args[3], currentPlayerClan, true);
-            this.chatPanel.setUserColour(args[3], currentPlayerID);
-            this.aLong364 = System.currentTimeMillis();
-        } else if (args[1].equals("join")) {
-            int playerId = Integer.parseInt(args[2]);
-            String playerClan = args[4].equals("-") ? null : args[4];
-            this.playerInfoPanel.addPlayer(playerId, args[3], playerClan, false);
-            this.chatPanel.setUserColour(args[3], playerId);
-            if (this.playerCount != 2 || playerId != 1) {
-                this.chatPanel.addMessage(
-                        playerClan != null
-                                ? this.gameContainer.textManager.getGame("GameChat_JoinClan", args[3], playerClan)
-                                : this.gameContainer.textManager.getGame("GameChat_Join", args[3]));
-            }
-
-        } else if (args[1].equals("part")) { // player left game
-            int playerId = Integer.parseInt(args[2]);
-            boolean changed = this.playerInfoPanel.setPlayerPartStatus(playerId, Integer.parseInt(args[3]));
-            if (changed) {
-                this.gameControlPanel.method329();
-            }
-
-            String playerName = this.playerInfoPanel.playerNames[playerId];
-            this.chatPanel.addMessage(this.gameContainer.textManager.getGame("GameChat_Part", playerName));
-            this.chatPanel.removeUserColour(playerName);
-            this.gameControlPanel.refreshBackButton();
-        } else if (args[1].equals("say")) {
-            int playerId = Integer.parseInt(args[2]);
-            this.chatPanel.addSay(playerId, this.playerInfoPanel.playerNames[playerId], args[3], false);
-        } else if (args[1].equals("cr")) { // get results to compare track score against
-            StringTokenizer tokenizer = new StringTokenizer(args[2], ",");
-            int tracks = tokenizer.countTokens();
-            int[][] comparisonScores = new int[5][tracks];
-
-            for (int comparisonType = 0; comparisonType < 5; ++comparisonType) {
-                for (int track = 0; track < tracks; ++track) {
-                    comparisonScores[comparisonType][track] = Integer.parseInt(tokenizer.nextToken());
-                }
-
-                if (comparisonType < 4) {
-                    tokenizer = new StringTokenizer(args[3 + comparisonType], ",");
-                }
-            }
-
-            this.playerInfoPanel.initResultsComparison(comparisonScores);
-        } else if (args[1].equals("start")) {
-            if (this.playerCount > 1) {
-                if (this.aBoolean363) {
-                    if (System.currentTimeMillis() > this.aLong364 + 1000L) {
-                        this.gameContainer.soundManager.playNotify();
-                        // this.requestFocus();//todo this is annoying as fuck
+                for (int commandIndex = startIndex; commandIndex < argsLen; ++commandIndex) {
+                    char command = args[commandIndex].charAt(0);
+                    if (command == 'A') {
+                        author = args[commandIndex].substring(2);
                     }
 
-                    this.gameContainer.gameApplet.showPlayerList(this.playerInfoPanel.getPlayerNames());
-                } else {
-                    this.gameContainer.gameApplet.removePlayerListWinnders();
+                    if (command == 'N') {
+                        name = args[commandIndex].substring(2);
+                    }
+
+                    if (command == 'T') {
+                        data = args[commandIndex].substring(2);
+                    }
+
+                    if (command == 'T' && args[commandIndex].charAt(2) == '!') { // a track we already played?
+                        args[commandIndex] = "T " + this.gameContainer.trackCollection.getTrack(author, name);
+                        hasPlayed = true;
+                    }
+
+                    fullInstruction = fullInstruction + args[commandIndex];
+                    if (commandIndex < argsLen - 1) {
+                        fullInstruction = fullInstruction + '\n';
+                    }
+                }
+
+                if (Launcher.debug()) System.out.println("FULL: " + fullInstruction);
+
+                if (!hasPlayed) {
+                    this.gameContainer.trackCollection.addTrack(author, name, data);
+                }
+
+                this.gameCanvas.init(
+                        fullInstruction, args[trackTestMode ? 3 : 2], Integer.parseInt(args[trackTestMode ? 4 : 3]));
+
+                /* trackinformation
+                 [0]=author, [1]=trackname, [2]=firstbest, [3]=lastbest
+
+                 statistics:
+                  var15[0][0]= number completeed
+                  var15[0][1]= total attempts
+                  var15[0][2]= best par (stroke count)
+                  var15[0][3]= number of best par strokes
+                  var15[1][0]= number of ratings: 0
+                  var15[1][1]= number of ratings: 1
+                  var15[1][2]= number of ratings: 2
+                  var15[1][3]= number of ratings: 3
+                */
+                String[] trackInformation = this.gameCanvas.generateTrackInformation();
+                int[][] trackStats = this.gameCanvas.generateTrackStatistics();
+
+                this.trackInfoPanel.parseTrackInfoStats(
+                        trackInformation[0],
+                        trackInformation[1],
+                        trackStats[0],
+                        trackStats[1],
+                        trackInformation[2],
+                        trackInformation[3],
+                        trackTestMode1,
+                        trackTestMode2,
+                        this.gameCanvas.method134());
+
+                int trackScoreMultiplier = this.playerInfoPanel.startNextTrack();
+                if (trackScoreMultiplier > 1) {
+                    this.chatPanel.addMessage(
+                            gameContainer.textManager.getGame("GameChat_ScoreMultiNotify", trackScoreMultiplier));
+                }
+
+                this.gameControlPanel.displaySkipButton(); // checks if you can skip on first shot
+
+                if (this.gameContainer.synchronizedTrackTestMode.get()) {
+                    this.chatPanel.printSpecialSettingstoTextArea(
+                            this.gameCanvas.getTrackComment(),
+                            this.gameCanvas.getTrackSettings(),
+                            this.gameCanvas.method120());
                 }
             }
+            case "startturn" -> {
+                this.isWaitingForTurnStart = false;
+                int playerId = Integer.parseInt(args[2]);
 
-            this.aBoolean363 = false;
-            this.gameCanvas.createMap(16777216);
-            this.playerInfoPanel.reset();
-            this.trackInfoPanel.resetCurrentTrack();
-            this.setState(1);
-        } else if (args[1].equals("starttrack")) {
-            // [1] = "startrack", (optional [2] == track test mode), [2 or 3] == player statuses, [3
-            // or 4] == game id, [4 or 5] == track data
-            /*
-            * game
-            * starttrack
-            * t 1908821
-            * V 1
-            * A Tiikoni
-            * N Three Passages III
-            * T B3A12DBQARG20DBQARG12DE11DBTARBERQBAQQ20DBFRQBRARE11DE12DBAQQG20DFG12DE12DEE20DEE12DE12DEE20DEE12DE7DBQARE3DEE20DEE3DBQARE7DE6DBTARBERQBAQQ3DBGRQBRARE18DBTARBHRQF3DBFRQBRARE6DE7DBAQQG3DBSARG20DBSARG3DFG7DE7DEE6DBQARE14DBQARE6DEE7DE7DEE5DBTARBERQBAQQ14DBFRQBRARE5DEE7DE7DEE6DBAQQG14DFG6DEE7DE7DEE6DEE14DEE6DEE7DE7DEE6DEEDDBQARE10DEE6DEE7DE7DEE6DEEDBTARBERQBAQQ10DBGRQBRARE5DEE7DE7DEE6DEEDDBAQQG10DBSARG6DEE7DE7DEE6DEEDDEE13DBQARE3DEE7DE7DEE6DEEDDEE12DBTARBERQBAQQ3DBGRQBRARE6DE7DEE6DEEDDEEDDCBAE9DBAQQG3DBSARG7DE7DEE6DEEDDEE13DEE12DE7DEEDDCAAEDDEEDDEE13DEE12DE7DEE6DEEDDEE13DEE12DE7DEE6DEEDBTARBHRQF13DBGRQBRARE11DE7DEE6DEEDDBSARG13DBSARG12DE6DBTARBHRQF6DBGRQBRARE30DE7DBSARG6DBSARG31D,Ads:A3703B0101C4019	I 456956,1954871,2,17833	B Jerry,1087842155000	L abscission,1369657760469	R 1047,334,392,574,911,2281,1888,1543,1209,871,6559
+                boolean canPlay = this.playerInfoPanel.startTurn(playerId);
+                // canPlay = true;
+                this.gameCanvas.startTurn(playerId, canPlay, !this.chatPanel.haveFocus());
 
-
-
-            V 1
-            A {AUTHOR OF TRACK}
-            N {NAME OF TRACK}
-            T B3A11DBEAQBAQQ11DBAMMDDBGQMBAQQ11DBAMMDDBGQMBAQQ3DEDDBIALBHLEBGFEBJAFE3DBEAQBGAQB3A10DEEDBGQMBGAQB3A10DEEDBGQMBGAQB3ADCAAEEDDBHKLBALABAFABGGFEDDBEAQBGAQI11DEEBGQMBGAQB3A11DEEBGQMBGAQB3A3DEEDDBGJKBAJABAHABHHGEDBEAQBGAQI12DEBGQMBGAQB3A12DEBGQMBGAQB3A4DEEDDBLAJBGIJBHIHBKAHEBEAQBGAQI5DBEAQBGAQE5DEBGAQB3A5DBEAQBGAQE5DEBGAQB3A5DEE6DBEAQBGAQI5DBEAQBGAQH5DBEAQBGAQI5DBEAQBGAQH5DBEAQBGAQI5DBEAQBGAQBJAME4DBEAQBGAQB3A5DBEAQBGAQI5DBEAQBGAQI5DBEAQBGAQI5DBEAQBGAQI5DBEAQBGAQIBAMMBLMAEDDBEAQBGAQI5DBEAQBGAQI5DBEAQBGAQI5DBEAQBGAQI5DBEAQBGAQI5DBEAQBGAQIDEDDBJAMBEAQBGAQI5DBEAQBGAQI5DBEAQBGAQI5DBEAQBGAQI5DBEAQBGAQI5DBEAQBGAQIDDEDDBGQMBGAQI5DBEAQBGAQI5DBEAQBGAQI5DBEAQBGAQI5DBEAQBGAQI5DBEAQBGAQI3DEDBGQMBGAQB3A5DBEAQBGAQI5DBEAQBGAQI5DBEAQBGAQI5DBEAQBGAQI5DBEAQBGAQI4DEBGQMBGAQB3A5DBEAQBGAQI5DBEAQBGAQI5DBEAQBGAQI5DBEAQBGAQI5DBEAQBGAQIDBIALBHLEBGFEBJAFBTMQBTQAB3A5DBTAQBTQAI5DBTAQBTQAI5DBTAQBTQAI5DBTAQBTQAI5DBTAQBTQAIDDBHKLBALABAFABGGFBKAMBHAQBFAQE5DBHAQBFAQE5DBHAQBFAQE5DBHAQBFAQE5DBHAQBFAQE5DBHAQBFAQEDBGJKBAJABAHABHHGB3ADFFE5DFFE5DFFE5DFFE5DFFE5DFFEBLAJBGIJBHIHBKAHEDDFFE5DFFE5DFFE5DFFE5DFFE5D3F3DE3DFFE5DFFE5DFFE5DFFE5DFFE5DFFEDBKMAE4DFFE5DFFE5DFFE5DFFE5DFFE5DFFBIAMBAMME5DFFE5DFFE5DFFE5DFFE5DFFE5DFBHQMEE6DFFE5DFFE5DFFE5DFFE5DFFE5DFFEDBIALBHLEBGFEBJAFEDFFEDCBAEDBEAQBAQQFE5DFE5DBEAQBAQQFE5DFE6DBRQAEDBHKLBALABAFABGGFEDDFFEDDBEAQBEQMBAMMBHMQFE10DBEAQBEQMBAMMBHMQFE11DBEAQBEQMEDBGJKBAJABAHABHHGE3DFFEBEAQBEQMBAMMDDFFE8DBEAQBEQMBAMMDDFFE9DBEAQBEQMBAMMEDBLAJBGIJBHIHBKAHE3DBIAMBHMQBSQABEQMBAMM4DFFE6DBEAQBEQMBAMM4DFFE7DBEAQBEQMBAMMDE8DBKMABAMMDBSMQG6DFBAQQ6DBEQMBAMM6DFBAQQ7DBEQMBAMMDD
-            I {NUMBER OF PLAYERS TO COMLETE?},{NUMBER OF PEOPLE TO ATTEMPT?},{BEST NUMBER OF STROKES},{NUMBER OF PEOPLE THAT GOT BEST STROKE}
-            B {FIRST BEST PAR PLAYER},{UNIX TIMESTAMP OF FIRST BEST PAR}000
-            L {LAST BEST PAR PLAYER},{UNIX TIMESTAMP OF LAST BEST PAR}000
-            R {RATING: 0},{RATING: 1},{RATING: 2},{RATING: 3},{RATING: 4},{RATING: 5},{RATING: 6},{RATING: 7},{RATING: 8},{RATING: 9},{RATING: 10}
-            */
-            this.gameCanvas.restartGame();
-            boolean trackTestMode1 = args[2].equals("ttm1");
-            boolean trackTestMode2 = args[2].equals("ttm2");
-            boolean trackTestMode = trackTestMode1 || trackTestMode2;
-            boolean hasPlayed = false;
-            int startIndex = trackTestMode ? 5 : 4;
-            int argsLen = args.length;
-            String author = null;
-            String name = null;
-            String data = null;
-            String fullInstruction = "";
-
-            for (int commandIndex = startIndex; commandIndex < argsLen; ++commandIndex) {
-                char command = args[commandIndex].charAt(0);
-                if (command == 'A') {
-                    author = args[commandIndex].substring(2);
-                }
-
-                if (command == 'N') {
-                    name = args[commandIndex].substring(2);
-                }
-
-                if (command == 'T') {
-                    data = args[commandIndex].substring(2);
-                }
-
-                if (command == 'T' && args[commandIndex].charAt(2) == '!') { // a track we already played?
-                    args[commandIndex] = "T " + this.gameContainer.trackCollection.getTrack(author, name);
-                    hasPlayed = true;
-                }
-
-                fullInstruction = fullInstruction + args[commandIndex];
-                if (commandIndex < argsLen - 1) {
-                    fullInstruction = fullInstruction + '\n';
+                if (!this.isSinglePlayerGame) {
+                    int trackCount = this.playerInfoPanel.method377();
+                    if (trackCount >= 10 || trackCount >= this.trackInfoPanel.method385()) {
+                        this.gameControlPanel.showSkipButton();
+                    }
                 }
             }
-
-            if (Launcher.debug()) System.out.println("FULL: " + fullInstruction);
-
-            if (!hasPlayed) {
-                this.gameContainer.trackCollection.addTrack(author, name, data);
+            case "beginstroke" -> {
+                int playerId = Integer.parseInt(args[2]);
+                this.playerInfoPanel.strokeStartedOrEnded(playerId, false);
+                this.gameContainer.soundManager.playGameMove();
+                this.playerInfoPanel.stopTimer();
+                this.gameCanvas.decodeCoords(playerId, false, args[3]);
             }
+            case "changescore" -> {
+                int numScores = args.length - 3;
+                int[] trackScores = new int[numScores];
 
-            this.gameCanvas.init(
-                    fullInstruction, args[trackTestMode ? 3 : 2], Integer.parseInt(args[trackTestMode ? 4 : 3]));
+                for (int trackCount = 0; trackCount < numScores; ++trackCount) {
+                    trackScores[trackCount] = Integer.parseInt(args[3 + trackCount]);
+                }
 
-            /* trackinformation
-             [0]=author, [1]=trackname, [2]=firstbest, [3]=lastbest
-
-             statistics:
-              var15[0][0]= number completeed
-              var15[0][1]= total attempts
-              var15[0][2]= best par (stroke count)
-              var15[0][3]= number of best par strokes
-              var15[1][0]= number of ratings: 0
-              var15[1][1]= number of ratings: 1
-              var15[1][2]= number of ratings: 2
-              var15[1][3]= number of ratings: 3
-            */
-            String[] trackInformation = this.gameCanvas.generateTrackInformation();
-            int[][] trackStats = this.gameCanvas.generateTrackStatistics();
-
-            this.trackInfoPanel.parseTrackInfoStats(
-                    trackInformation[0],
-                    trackInformation[1],
-                    trackStats[0],
-                    trackStats[1],
-                    trackInformation[2],
-                    trackInformation[3],
-                    trackTestMode1,
-                    trackTestMode2,
-                    this.gameCanvas.method134());
-
-            int trackScoreMultiplier = this.playerInfoPanel.startNextTrack();
-            if (trackScoreMultiplier > 1) {
-                this.chatPanel.addMessage(
-                        gameContainer.textManager.getGame("GameChat_ScoreMultiNotify", trackScoreMultiplier));
+                this.playerInfoPanel.setScores(Integer.parseInt(args[2]), trackScores);
             }
-
-            this.gameControlPanel.displaySkipButton(); // checks if you can skip on first shot
-            if (this.gameContainer.synchronizedTrackTestMode.get()) {
-                this.chatPanel.printSpecialSettingstoTextArea(
-                        this.gameCanvas.getTrackComment(),
-                        this.gameCanvas.getTrackSettings(),
-                        this.gameCanvas.method120());
-            }
-
-        } else if (args[1].equals("startturn")) {
-            this.isWaitingForTurnStart = false;
-            int playerId = Integer.parseInt(args[2]);
-
-            boolean canPlay = this.playerInfoPanel.startTurn(playerId);
-            // canPlay = true;
-            this.gameCanvas.startTurn(playerId, canPlay, !this.chatPanel.haveFocus());
-
-            if (!this.isSinglePlayerGame) {
-                int trackCount = this.playerInfoPanel.method377();
-                if (trackCount >= 10 || trackCount >= this.trackInfoPanel.method385()) {
+            case "voteskip" -> this.playerInfoPanel.voteSkip(Integer.parseInt(args[2]));
+            case "resetvoteskip" -> {
+                this.playerInfoPanel.voteSkipReset();
+                if (!this.gameCanvas.getSynchronizedBool(this.playerInfoPanel.playerId)) {
                     this.gameControlPanel.showSkipButton();
                 }
             }
-        } else if (args[1].equals("beginstroke")) {
-            int playerId = Integer.parseInt(args[2]);
-            this.playerInfoPanel.strokeStartedOrEnded(playerId, false);
-            this.gameContainer.soundManager.playGameMove();
-            this.playerInfoPanel.stopTimer();
-            this.gameCanvas.decodeCoords(playerId, false, args[3]);
+            case "rfng" -> this.playerInfoPanel.readyForNewGame(Integer.parseInt(args[2]));
+            case "end" -> {
+                this.gameCanvas.endGame();
+                int len = args.length - 2;
+                if (len > 0) {
+                    int[] gameOutcome = new int[len];
+                    boolean[] isWinner = new boolean[len];
 
-        } else if (args[1].equals("changescore")) {
-            int numScores = args.length - 3;
-            int[] trackScores = new int[numScores];
+                    for (int i = 0; i < len; ++i) {
+                        gameOutcome[i] = Integer.parseInt(args[2 + i]);
+                        isWinner[i] = gameOutcome[i] == 1;
+                    }
 
-            for (int trackCount = 0; trackCount < numScores; ++trackCount) {
-                trackScores[trackCount] = Integer.parseInt(args[3 + trackCount]);
-            }
-
-            this.playerInfoPanel.setScores(Integer.parseInt(args[2]), trackScores);
-        } else if (args[1].equals("voteskip")) {
-            this.playerInfoPanel.voteSkip(Integer.parseInt(args[2]));
-        } else if (args[1].equals("resetvoteskip")) {
-            this.playerInfoPanel.voteSkipReset();
-            if (!this.gameCanvas.getSynchronizedBool(this.playerInfoPanel.playerId)) {
-                this.gameControlPanel.showSkipButton();
-            }
-
-        } else if (args[1].equals("rfng")) {
-            this.playerInfoPanel.readyForNewGame(Integer.parseInt(args[2]));
-        } else if (args[1].equals("end")) {
-            this.gameCanvas.endGame();
-            int len = args.length - 2;
-            if (len > 0) {
-                int[] gameOutcome = new int[len];
-                boolean[] isWinner = new boolean[len];
-
-                for (int i = 0; i < len; ++i) {
-                    gameOutcome[i] = Integer.parseInt(args[2 + i]);
-                    isWinner[i] = gameOutcome[i] == 1;
+                    this.playerInfoPanel.setGameOutcome(gameOutcome);
+                    this.gameContainer.gameApplet.showPlayerListWinners(isWinner);
+                } else {
+                    this.playerInfoPanel.setGameOutcome(null);
                 }
 
-                this.playerInfoPanel.setGameOutcome(gameOutcome);
-                this.gameContainer.gameApplet.showPlayerListWinners(isWinner);
-            } else {
-                this.playerInfoPanel.setGameOutcome(null);
-            }
+                this.setState(2); // game state?
 
-            this.setState(2); // game state?
-            if (this.isSinglePlayerGame) {
-                this.gameContainer.lobbyPanel.requestTrackSetList();
-            }
+                if (this.isSinglePlayerGame) {
+                    this.gameContainer.lobbyPanel.requestTrackSetList();
+                }
 
-            this.gameContainer.gameApplet.gameFinished(this.playerCount > 1);
+                this.gameContainer.gameApplet.gameFinished(this.playerCount > 1);
+            }
         }
     }
 
     protected void sendChatMessage(String message) {
         String var2 = "say\t" + message;
         this.gameContainer.connection.writeData("game\t" + var2);
-        this.chatPanel.addSay(
-                this.playerInfoPanel.playerId,
-                this.playerInfoPanel.playerNames[this.playerInfoPanel.playerId],
-                message,
-                true);
+        this.chatPanel.addSay(this.playerInfoPanel.playerNames[this.playerInfoPanel.playerId], message, true);
     }
 
     protected void setBeginStroke(int playerId, int x, int y, int shootingMode) {

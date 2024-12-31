@@ -8,7 +8,6 @@ public class QuickTimer implements Runnable {
     private int anInt1727;
     private List<QuickTimerListener> listeners;
     private boolean stopped;
-    private static final String aString1730 = "QuickTimer.start() called after QuickTimer.stopAll() was called";
 
     public QuickTimer(int var1) {
         this(var1, null, false);

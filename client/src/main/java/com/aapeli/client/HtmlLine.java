@@ -12,10 +12,8 @@ class HtmlLine {
     private List<HtmlWord> words;
     private int nextWordStart;
     private int height;
-    private final HtmlText aHtmlText1371;
 
-    protected HtmlLine(HtmlText htmlText, Graphics graphics, int var3, boolean var4) {
-        this.aHtmlText1371 = htmlText;
+    protected HtmlLine(Graphics graphics, int var3, boolean var4) {
         this.anInt1366 = var3;
         this.aBoolean1367 = var4;
         this.words = new ArrayList<>();
@@ -41,7 +39,7 @@ class HtmlLine {
 
     protected void addWord(String text, Font font, int length) {
         if (!this.isEmpty() || text.trim().length() != 0) {
-            HtmlWord word = new HtmlWord(this, text, font, this.nextWordStart, length);
+            HtmlWord word = new HtmlWord(text, font, this.nextWordStart, length);
             this.words.add(word);
             this.nextWordStart += length;
             int fontSize = font.getSize();

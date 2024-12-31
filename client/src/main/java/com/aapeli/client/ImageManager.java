@@ -152,8 +152,6 @@ public final class ImageManager {
         return images;
     }
 
-    public void destroy() {}
-
     private String removeExtension(String fileName) {
         return fileName.substring(0, fileName.lastIndexOf('.'));
     }

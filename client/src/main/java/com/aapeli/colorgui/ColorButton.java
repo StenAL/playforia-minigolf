@@ -53,7 +53,6 @@ public class ColorButton extends IPanel implements MouseMotionListener, MouseLis
     private int height;
     private BlinkingButtonThread blinkingThread;
     private boolean blinkState;
-    public static boolean aBoolean3287;
 
     public ColorButton() {
         this(null);
@@ -91,13 +90,11 @@ public class ColorButton extends IPanel implements MouseMotionListener, MouseLis
         if (this.image == null || width != this.width || height != this.height) {
             this.image = this.createBuffer(width, height);
             this.graphics = this.image.getGraphics();
-            this.graphicsCreated(this.graphics);
             this.width = width;
             this.height = height;
         }
 
         this.drawBackground(this.graphics);
-        this.baseBackgroundDrawn(this.graphics);
         boolean highlighted = this.isHighlighted();
         if (this.backgroundImage != null && this.highlightedBackgroundImage != null) {
             Image backgroundImage = highlighted ? this.highlightedBackgroundImage : this.backgroundImage;
@@ -384,7 +381,7 @@ public class ColorButton extends IPanel implements MouseMotionListener, MouseLis
                 return;
             }
 
-            this.blinkingThread = new BlinkingButtonThread(this, this);
+            this.blinkingThread = new BlinkingButtonThread(this);
             Thread thread = new Thread(this.blinkingThread);
             thread.setDaemon(true);
             thread.start();
@@ -403,10 +400,6 @@ public class ColorButton extends IPanel implements MouseMotionListener, MouseLis
     public Image createBuffer(int width, int height) {
         return this.createImage(width, height);
     }
-
-    public void graphicsCreated(Graphics e) {}
-
-    public void baseBackgroundDrawn(Graphics e) {}
 
     public boolean isNormalState() {
         return !this.mousePressed;

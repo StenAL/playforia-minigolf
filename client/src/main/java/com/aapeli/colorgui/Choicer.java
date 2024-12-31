@@ -18,7 +18,7 @@ public class Choicer extends IPanel implements ComponentListener, ItemListener, 
     private ColorSpinner colorSpinner;
     private boolean choiceMode = true;
     private List<ItemListener> listeners;
-    private Object synchronizationObject = new Object();
+    private Object lock = new Object();
 
     public Choicer() {
         this.choice.setBackground(Color.white);
@@ -38,8 +38,7 @@ public class Choicer extends IPanel implements ComponentListener, ItemListener, 
     public void componentMoved(ComponentEvent e) {}
 
     public void componentResized(ComponentEvent e) {
-        Object synchronizationObject = this.synchronizationObject;
-        synchronized (this.synchronizationObject) {
+        synchronized (this.lock) {
             Dimension size = this.getSize();
             if (this.choiceMode) {
                 this.choice.setSize(size);
@@ -61,15 +60,13 @@ public class Choicer extends IPanel implements ComponentListener, ItemListener, 
     }
 
     public Object[] getSelectedObjects() {
-        Object synchronizationObject = this.synchronizationObject;
-        synchronized (this.synchronizationObject) {
+        synchronized (this.lock) {
             return this.choiceMode ? this.choice.getSelectedObjects() : this.colorSpinner.getSelectedObjects();
         }
     }
 
     public void setBackground(Color color) {
-        Object synchronizationObject = this.synchronizationObject;
-        synchronized (this.synchronizationObject) {
+        synchronized (this.lock) {
             super.setBackground(color);
             if (this.choiceMode) {
                 this.choice.setBackground(color);
@@ -80,8 +77,7 @@ public class Choicer extends IPanel implements ComponentListener, ItemListener, 
     }
 
     public void setForeground(Color color) {
-        Object synchronizationObject = this.synchronizationObject;
-        synchronized (this.synchronizationObject) {
+        synchronized (this.lock) {
             super.setForeground(color);
             if (this.choiceMode) {
                 this.choice.setForeground(color);
@@ -92,8 +88,7 @@ public class Choicer extends IPanel implements ComponentListener, ItemListener, 
     }
 
     public void addItem(String text) {
-        Object synchronizationObject = this.synchronizationObject;
-        synchronized (this.synchronizationObject) {
+        synchronized (this.lock) {
             if (this.choiceMode) {
                 this.moveToSpinnerIfNecessary(text);
             }
@@ -107,8 +102,7 @@ public class Choicer extends IPanel implements ComponentListener, ItemListener, 
     }
 
     public void removeItem(int i) {
-        Object synchronizationObject = this.synchronizationObject;
-        synchronized (this.synchronizationObject) {
+        synchronized (this.lock) {
             if (this.choiceMode) {
                 this.choice.remove(i);
             } else {
@@ -118,15 +112,13 @@ public class Choicer extends IPanel implements ComponentListener, ItemListener, 
     }
 
     public int getItemCount() {
-        Object synchronizationObject = this.synchronizationObject;
-        synchronized (this.synchronizationObject) {
+        synchronized (this.lock) {
             return this.choiceMode ? this.choice.getItemCount() : this.colorSpinner.getItemCount();
         }
     }
 
     public int getSelectedIndex() {
-        Object synchronizationObject = this.synchronizationObject;
-        synchronized (this.synchronizationObject) {
+        synchronized (this.lock) {
             return this.choiceMode ? this.choice.getSelectedIndex() : this.colorSpinner.getSelectedIndex();
         }
     }
@@ -136,8 +128,7 @@ public class Choicer extends IPanel implements ComponentListener, ItemListener, 
     }
 
     public void setSelectedIndex(int i) {
-        Object synchronizationObject = this.synchronizationObject;
-        synchronized (this.synchronizationObject) {
+        synchronized (this.lock) {
             if (this.choiceMode) {
                 this.choice.select(i);
             } else {
@@ -159,8 +150,7 @@ public class Choicer extends IPanel implements ComponentListener, ItemListener, 
     }
 
     public void moveToSpinner() {
-        Object synchronizationObject = this.synchronizationObject;
-        synchronized (this.synchronizationObject) {
+        synchronized (this.lock) {
             if (this.choiceMode) {
                 this.colorSpinner = new ColorSpinner();
                 this.colorSpinner.setLocation(0, 0);

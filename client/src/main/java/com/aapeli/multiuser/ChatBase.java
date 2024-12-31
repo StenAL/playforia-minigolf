@@ -539,7 +539,7 @@ public abstract class ChatBase extends IPanel
             return signupMessage;
         } else {
             if (signupMessage == null) {
-                signupMessage = new UrlLabel(parameters.getApplet());
+                signupMessage = new UrlLabel();
                 Point inputFieldLocation = inputTextField.getLocation();
                 Point sayButtonLocation = sayButton.getLocation();
                 Dimension sayButtonSize = sayButton.getSize();
@@ -602,7 +602,6 @@ public abstract class ChatBase extends IPanel
         this.add(sayButton);
         this.sayButton = sayButton;
         this.userList = new UserList(
-                this.parameters.getApplet(),
                 this,
                 this.textManager,
                 this.imageManager,
@@ -611,7 +610,7 @@ public abstract class ChatBase extends IPanel
                 addIgnoreUserCheckbox);
         this.userList.setChatReference(this);
         this.add(this.userList);
-        this.signupMessage = new UrlLabel(this.parameters.getApplet());
+        this.signupMessage = new UrlLabel();
         this.add(this.signupMessage);
         this.paintSignupMessage();
     }

@@ -28,20 +28,8 @@ public class MultiColorListItem {
     private Object data;
     private boolean selected;
 
-    public MultiColorListItem(String[] strings) {
-        this(colours[0], false, strings, null, false);
-    }
-
-    public MultiColorListItem(int colourIndex, boolean bold, String[] strings) {
-        this(colours[colourIndex], bold, strings, null, false);
-    }
-
     public MultiColorListItem(int colourIndex, String[] strings, Object data) {
         this(colours[colourIndex], false, strings, data, false);
-    }
-
-    public MultiColorListItem(int colourIndex, boolean bold, String[] strings, Object data) {
-        this(colours[colourIndex], bold, strings, data, false);
     }
 
     public MultiColorListItem(int colourIndex, boolean bold, String[] strings, Object data, boolean selected) {

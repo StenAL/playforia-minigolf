@@ -86,7 +86,7 @@ class ChatPanel extends Panel implements KeyListener, ActionListener {
         }
     }
 
-    protected void addSay(int unused, String name, String message, boolean isLocalPlayer) { // /me action
+    protected void addSay(String name, String message, boolean isLocalPlayer) { // /me action
         if (this.gameExtra >= 2) {
             if (isLocalPlayer) {
                 this.textAreaChat.addOwnSay(name, message);
