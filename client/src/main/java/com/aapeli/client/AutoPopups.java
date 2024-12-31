@@ -1,7 +1,7 @@
 package com.aapeli.client;
 
-import com.aapeli.applet.AbstractGameFrame;
 import com.aapeli.colorgui.ColorButton;
+import com.aapeli.frame.AbstractGameFrame;
 
 public class AutoPopups {
 

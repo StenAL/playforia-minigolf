@@ -1,7 +1,7 @@
 package com.aapeli.connection;
 
-import com.aapeli.applet.AbstractGameFrame;
 import com.aapeli.client.Parameters;
+import com.aapeli.frame.AbstractGameFrame;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;

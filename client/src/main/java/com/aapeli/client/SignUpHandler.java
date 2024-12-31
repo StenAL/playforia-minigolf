@@ -1,6 +1,6 @@
 package com.aapeli.client;
 
-import com.aapeli.applet.AbstractGameFrame;
+import com.aapeli.frame.AbstractGameFrame;
 
 class SignUpHandler {
 
