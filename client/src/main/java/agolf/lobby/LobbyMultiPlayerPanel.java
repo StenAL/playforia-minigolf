@@ -1,7 +1,7 @@
 package agolf.lobby;
 
-import agolf.GameApplet;
 import agolf.GameContainer;
+import agolf.GolfGameFrame;
 import com.aapeli.client.FilterTextField;
 import com.aapeli.client.InputTextField;
 import com.aapeli.client.StringDraw;
@@ -70,19 +70,19 @@ class LobbyMultiPlayerPanel extends Panel implements ItemListener, ActionListene
             this.graphics = this.image.getGraphics();
         }
 
-        this.graphics.setColor(GameApplet.colourGameBackground);
+        this.graphics.setColor(GolfGameFrame.colourGameBackground);
         this.graphics.fillRect(0, 0, this.width, this.height);
         this.graphics.drawImage(this.gameContainer.imageManager.getGameImage("bg-lobby-multi"), 0, 0, this);
         Color var2 = new Color(76, 229, 255);
-        this.graphics.setColor(GameApplet.colourTextBlack);
-        this.graphics.setFont(GameApplet.fontSerif26b);
+        this.graphics.setColor(GolfGameFrame.colourTextBlack);
+        this.graphics.setFont(GolfGameFrame.fontSerif26b);
         StringDraw.drawString(
                 this.graphics,
                 this.gameContainer.textManager.getGame("LobbySelect_MultiPlayer"),
                 this.width / 2,
                 35,
                 0);
-        this.graphics.setFont(GameApplet.fontSerif20);
+        this.graphics.setFont(GolfGameFrame.fontSerif20);
         StringDraw.drawOutlinedString(
                 this.graphics,
                 var2,
@@ -97,7 +97,7 @@ class LobbyMultiPlayerPanel extends Panel implements ItemListener, ActionListene
                 60,
                 0);
         byte yPos = 86;
-        this.graphics.setFont(GameApplet.fontDialog12);
+        this.graphics.setFont(GolfGameFrame.fontDialog12);
         StringDraw.drawOutlinedString(
                 this.graphics,
                 var2,
@@ -112,7 +112,7 @@ class LobbyMultiPlayerPanel extends Panel implements ItemListener, ActionListene
                 this.width / 2 - 185,
                 yPos + 24,
                 1);
-        if (this.gameContainer.gameApplet.isEmailVerified()) {
+        if (this.gameContainer.golfGameFrame.isEmailVerified()) {
             StringDraw.drawOutlinedString(
                     this.graphics,
                     var2,
@@ -129,7 +129,7 @@ class LobbyMultiPlayerPanel extends Panel implements ItemListener, ActionListene
                 this.width / 2 - 185,
                 yPos + 72,
                 1);
-        if (this.gameContainer.gameApplet.isEmailVerified()) {
+        if (this.gameContainer.golfGameFrame.isEmailVerified()) {
             StringDraw.drawOutlinedString(
                     this.graphics,
                     var2,
@@ -192,7 +192,7 @@ class LobbyMultiPlayerPanel extends Panel implements ItemListener, ActionListene
             int[] gameData = this.getSelectedGameData();
             if (gameData != null) {
                 int yPos2 = 220;
-                this.graphics.setFont(GameApplet.fontDialog11);
+                this.graphics.setFont(GolfGameFrame.fontDialog11);
                 if (gameData[3] != 0) {
                     StringDraw.drawString(
                             this.graphics,
@@ -290,7 +290,7 @@ class LobbyMultiPlayerPanel extends Panel implements ItemListener, ActionListene
         }
 
         if (this.joinError > 0) {
-            this.graphics.setColor(GameApplet.colourTextRed);
+            this.graphics.setColor(GolfGameFrame.colourTextRed);
             StringDraw.drawString(
                     this.graphics,
                     this.gameContainer.textManager.getGame("LobbyReal_JoinError" + this.joinError),
@@ -330,10 +330,10 @@ class LobbyMultiPlayerPanel extends Panel implements ItemListener, ActionListene
     }
 
     public void actionPerformed(ActionEvent evt) {
-        if (this.lobbyGamePasswordPanel == null && this.gameContainer.gameApplet.syncIsValidSite.get()) {
+        if (this.lobbyGamePasswordPanel == null && this.gameContainer.golfGameFrame.syncIsValidSite.get()) {
             Object evtSource = evt.getSource();
             if (evtSource == this.buttonCreate) {
-                this.gameContainer.gameApplet.setGameState(0);
+                this.gameContainer.golfGameFrame.setGameState(0);
                 String gameName = this.textFieldGameName.getText().trim();
                 String gamePassword = this.textFieldGamePassword.getText().trim();
                 if (gameName.length() == 0) {
@@ -396,7 +396,7 @@ class LobbyMultiPlayerPanel extends Panel implements ItemListener, ActionListene
         this.add(this.buttonJoin);
         this.setVisible(true);
         if (password != null) {
-            this.gameContainer.gameApplet.setGameState(0);
+            this.gameContainer.golfGameFrame.setGameState(0);
             this.gameContainer.lobbyPanel.writeData("jmpt\t" + gameId + "\t" + password);
         }
     }
@@ -445,7 +445,7 @@ class LobbyMultiPlayerPanel extends Panel implements ItemListener, ActionListene
         this.textFieldGameName = new FilterTextField(this.gameContainer.textManager, "-", 15);
         this.textFieldGameName.setBounds(this.width / 2 - 170, 121, 150, 20);
         this.textFieldGameName.setBackground(Color.white);
-        if (this.gameContainer.gameApplet.isEmailVerified()) {
+        if (this.gameContainer.golfGameFrame.isEmailVerified()) {
             this.add(this.textFieldGameName);
         }
 
@@ -455,7 +455,7 @@ class LobbyMultiPlayerPanel extends Panel implements ItemListener, ActionListene
         this.add(this.textFieldGamePassword);
         this.choicerPermission = new Choicer();
         this.choicerPermission.addItem(this.gameContainer.textManager.getGame("LobbyReal_OnlyForAll"));
-        if (this.gameContainer.gameApplet.isEmailVerified()) {
+        if (this.gameContainer.golfGameFrame.isEmailVerified()) {
             this.choicerPermission.addItem(this.gameContainer.textManager.getGame("LobbyReal_OnlyForReg"));
             this.choicerPermission.setBounds(this.width / 2 - 170, 165, 150, 20);
             this.add(this.choicerPermission);
@@ -481,7 +481,7 @@ class LobbyMultiPlayerPanel extends Panel implements ItemListener, ActionListene
         this.choicerScoringEnd = this.gameContainer.lobbyPanel.addChoicerScoringEnd(
                 this, this.width / 2 - 170, /*isUsingCustomServer ? 349 :*/ 326, 100, 20);
         this.buttonCreate = new ColorButton(this.gameContainer.textManager.getGame("LobbyReal_CreateGame"));
-        this.buttonCreate.setBackground(GameApplet.colourButtonGreen);
+        this.buttonCreate.setBackground(GolfGameFrame.colourButtonGreen);
         this.buttonCreate.setBounds(
                 this.width / 2 - 170, /*isUsingCustomServer ? 372 :*/ 365, 100, /*isUsingCustomServer ? 20 :*/ 25);
         this.buttonCreate.addActionListener(this);
@@ -502,7 +502,7 @@ class LobbyMultiPlayerPanel extends Panel implements ItemListener, ActionListene
         trackList.setListListener(this);
         this.add(this.trackList);
         this.buttonJoin = new ColorButton(this.gameContainer.textManager.getGame("LobbyReal_JoinGame"));
-        this.buttonJoin.setBackground(GameApplet.colourButtonGreen);
+        this.buttonJoin.setBackground(GolfGameFrame.colourButtonGreen);
         this.buttonJoin.setBounds(this.width * 3 / 4 - 50, 330, 100, 25);
         this.buttonJoin.addActionListener(this);
         this.add(this.buttonJoin);
@@ -651,13 +651,13 @@ class LobbyMultiPlayerPanel extends Panel implements ItemListener, ActionListene
             return;
         }
 
-        if ((gameData[2] == 1 || gameData[2] == 2) && !this.gameContainer.gameApplet.isEmailVerified()) {
+        if ((gameData[2] == 1 || gameData[2] == 2) && !this.gameContainer.golfGameFrame.isEmailVerified()) {
             this.joinError = 4;
             this.repaint();
             return;
         }
 
-        this.gameContainer.gameApplet.setGameState(0);
+        this.gameContainer.golfGameFrame.setGameState(0);
         this.gameContainer.lobbyPanel.writeData("jmpt\t" + gameData[0]);
     }
 }

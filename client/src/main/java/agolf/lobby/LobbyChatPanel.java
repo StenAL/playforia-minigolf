@@ -1,7 +1,7 @@
 package agolf.lobby;
 
-import agolf.GameApplet;
 import agolf.GameContainer;
+import agolf.GolfGameFrame;
 import com.aapeli.multiuser.ChatLobby;
 import com.aapeli.multiuser.Languages;
 import com.aapeli.multiuser.MultiLanguageChatListener;
@@ -26,13 +26,13 @@ class LobbyChatPanel extends ChatLobby implements MultiLanguageChatListener {
         this.setMessageMaximumLength(200);
         this.gameContainer = gameContainer;
         this.lobbyId = lobbyId;
-        this.setBackground(GameApplet.colourGameBackground);
-        this.setForeground(GameApplet.colourTextBlack);
-        int elevation = gameContainer.gameApplet.getPlayerAccessLevel();
+        this.setBackground(GolfGameFrame.colourGameBackground);
+        this.setForeground(GolfGameFrame.colourTextBlack);
+        int elevation = gameContainer.golfGameFrame.getPlayerAccessLevel();
         this.enablePopUp(elevation >= 1, elevation >= 2);
-        if (!gameContainer.gameApplet.isEmailVerified()) {
+        if (!gameContainer.golfGameFrame.isEmailVerified()) {
             this.disableChatInput(1);
-        } else if (gameContainer.gameApplet.isGuestChatDisabled()) {
+        } else if (gameContainer.golfGameFrame.isGuestChatDisabled()) {
             this.disableChatInput(2);
         }
 

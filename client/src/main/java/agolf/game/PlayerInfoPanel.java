@@ -1,7 +1,7 @@
 package agolf.game;
 
-import agolf.GameApplet;
 import agolf.GameContainer;
+import agolf.GolfGameFrame;
 import agolf.SynchronizedInteger;
 import com.aapeli.colorgui.Choicer;
 import java.awt.Color;
@@ -89,7 +89,7 @@ class PlayerInfoPanel extends Panel implements ItemListener, MouseListener {
             this.graphics = this.image.getGraphics();
         }
 
-        this.graphics.setColor(GameApplet.colourGameBackground);
+        this.graphics.setColor(GolfGameFrame.colourGameBackground);
         this.graphics.fillRect(0, 0, this.width, this.height);
         if (this.initialized) {
             // draw score comparison row
@@ -283,7 +283,7 @@ class PlayerInfoPanel extends Panel implements ItemListener, MouseListener {
 
             for (int var4 = 0; var4 < this.playerCount; ++var4) {
                 if (this.playerNames[var4] != null && var2 >= var3 - 12 && var2 < var3 + 3) {
-                    this.gameContainer.gameApplet.showPlayerCard(this.playerNames[var4]);
+                    this.gameContainer.golfGameFrame.showPlayerCard(this.playerNames[var4]);
                 }
 
                 var3 += 15;

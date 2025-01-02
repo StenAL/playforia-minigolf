@@ -1,7 +1,7 @@
 package agolf.lobby;
 
-import agolf.GameApplet;
 import agolf.GameContainer;
+import agolf.GolfGameFrame;
 import com.aapeli.client.StringDraw;
 import com.aapeli.colorgui.Choicer;
 import com.aapeli.colorgui.ColorButton;
@@ -62,13 +62,13 @@ class LobbySinglePlayerPanel extends Panel implements ItemListener, ActionListen
             this.graphics = this.image.getGraphics();
         }
 
-        this.graphics.setColor(GameApplet.colourGameBackground);
+        this.graphics.setColor(GolfGameFrame.colourGameBackground);
         this.graphics.fillRect(0, 0, this.width, this.height);
         this.graphics.drawImage(this.gameContainer.imageManager.getGameImage("bg-lobby-single"), 0, 0, this);
         Color trainingOutlineColour = new Color(14, 219, 14);
         Color championshipOutlineColour = new Color(0, 205, 0);
-        this.graphics.setColor(GameApplet.colourTextBlack);
-        this.graphics.setFont(GameApplet.fontSerif26b);
+        this.graphics.setColor(GolfGameFrame.colourTextBlack);
+        this.graphics.setFont(GolfGameFrame.fontSerif26b);
         StringDraw.drawString(
                 this.graphics,
                 this.gameContainer.textManager.getGame("LobbySelect_SinglePlayer"),
@@ -76,7 +76,7 @@ class LobbySinglePlayerPanel extends Panel implements ItemListener, ActionListen
                 37,
                 0);
         byte yPos = -45;
-        this.graphics.setFont(GameApplet.fontSerif20);
+        this.graphics.setFont(GolfGameFrame.fontSerif20);
         StringDraw.drawOutlinedString(
                 this.graphics,
                 trainingOutlineColour,
@@ -91,7 +91,7 @@ class LobbySinglePlayerPanel extends Panel implements ItemListener, ActionListen
                 this.width * 3 / 4,
                 195 + yPos - 15 - 15,
                 0);
-        this.graphics.setFont(GameApplet.fontDialog12);
+        this.graphics.setFont(GolfGameFrame.fontDialog12);
         yPos = -45;
         /*if(isUsingCustomServer) {
             StringDraw.drawOutlinedString(this.graphics, trainingOutlineColour, "Track category:", this.width / 2 - 190, 235 + yPos, 1);
@@ -118,7 +118,7 @@ class LobbySinglePlayerPanel extends Panel implements ItemListener, ActionListen
                 (/*isUsingCustomServer ? 295 :*/ 265) + yPos,
                 1);
         if (this.choicerWaterEvent.getSelectedIndex() == 1) {
-            this.graphics.setColor(GameApplet.colourTextRed);
+            this.graphics.setColor(GolfGameFrame.colourTextRed);
             StringDraw.drawOutlinedString(
                     this.graphics,
                     trainingOutlineColour,
@@ -126,11 +126,11 @@ class LobbySinglePlayerPanel extends Panel implements ItemListener, ActionListen
                     this.width / 2 - 190 + 20,
                     (/*isUsingCustomServer ? 325 :*/ 295) + yPos,
                     0);
-            this.graphics.setColor(GameApplet.colourTextBlack);
+            this.graphics.setColor(GolfGameFrame.colourTextBlack);
         }
 
         if (this.selectedTrackData != null) {
-            this.graphics.setFont(GameApplet.fontDialog11);
+            this.graphics.setFont(GolfGameFrame.fontDialog11);
             StringTokenizer trackData = new StringTokenizer(this.selectedTrackData, "\t");
             String[] trackInfoTitles = new String[] {
                 "LobbyReal_TS_AllTimeBest", "LobbyReal_TS_MonthBest", "LobbyReal_TS_WeekBest", "LobbyReal_TS_DayBest"
@@ -182,10 +182,10 @@ class LobbySinglePlayerPanel extends Panel implements ItemListener, ActionListen
     }
 
     public void actionPerformed(ActionEvent evt) {
-        if (this.gameContainer.gameApplet.syncIsValidSite.get()) {
+        if (this.gameContainer.golfGameFrame.syncIsValidSite.get()) {
             Object var2 = evt.getSource();
             if (var2 == this.buttonStartTraining) {
-                this.gameContainer.gameApplet.setGameState(0);
+                this.gameContainer.golfGameFrame.setGameState(0);
                 this.gameContainer.lobbyPanel.writeData(
                         "cspt\t"
                                 + (this.choicerTracksNum.getSelectedIndex() + 1)
@@ -282,7 +282,7 @@ class LobbySinglePlayerPanel extends Panel implements ItemListener, ActionListen
                 this, this.width / 2 - 170, /*isUsingCustomServer ? 235 :*/ 205, 150, 20);
         this.choicerWaterEvent.addItemListener(this);
         this.buttonStartTraining = new ColorButton(this.gameContainer.textManager.getGame("LobbyReal_Start"));
-        this.buttonStartTraining.setBackground(GameApplet.colourButtonGreen);
+        this.buttonStartTraining.setBackground(GolfGameFrame.colourButtonGreen);
         this.buttonStartTraining.setBounds(this.width / 2 - 170, /*isUsingCustomServer ? 300 :*/ 270, 100, 25);
         this.buttonStartTraining.addActionListener(this);
         this.add(this.buttonStartTraining);
@@ -301,7 +301,7 @@ class LobbySinglePlayerPanel extends Panel implements ItemListener, ActionListen
         trackSetList.setListListener(this);
         this.add(this.trackSetList);
         this.buttonStartChampionship = new ColorButton(this.gameContainer.textManager.getGame("LobbyReal_Start"));
-        this.buttonStartChampionship.setBackground(GameApplet.colourButtonGreen);
+        this.buttonStartChampionship.setBackground(GolfGameFrame.colourButtonGreen);
         this.buttonStartChampionship.setBounds(this.width - 290 + 75 - 20, 270, 100, 25);
         this.buttonStartChampionship.addActionListener(this);
         this.add(this.buttonStartChampionship);
@@ -321,7 +321,7 @@ class LobbySinglePlayerPanel extends Panel implements ItemListener, ActionListen
     }
 
     private void startChampionship(int index) {
-        this.gameContainer.gameApplet.setGameState(0);
+        this.gameContainer.golfGameFrame.setGameState(0);
         this.gameContainer.lobbyPanel.writeData("cspc\t" + index);
     }
 }

@@ -1,4 +1,4 @@
-package com.aapeli.applet;
+package com.aapeli.frame;
 
 import java.awt.Canvas;
 import java.awt.Color;

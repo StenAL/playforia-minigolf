@@ -18,7 +18,7 @@ import org.moparforia.shared.Locale;
 
 class TrackTestLoginPanel extends Panel implements ActionListener, KeyListener, ItemListener {
 
-    private GameApplet gameApplet;
+    private GolfGameFrame golfGameFrame;
     private int width;
     private int height;
     private Locale locale;
@@ -29,11 +29,11 @@ class TrackTestLoginPanel extends Panel implements ActionListener, KeyListener, 
     private Label labelName;
     private Choicer languageChoicer;
 
-    protected TrackTestLoginPanel(GameApplet gameApplet, int width, int height) {
-        this.gameApplet = gameApplet;
+    protected TrackTestLoginPanel(GolfGameFrame golfGameFrame, int width, int height) {
+        this.golfGameFrame = golfGameFrame;
         this.width = width;
         this.height = height;
-        this.locale = gameApplet.param.getLocale();
+        this.locale = golfGameFrame.param.getLocale();
         this.setSize(width, height);
         this.create();
     }
@@ -48,7 +48,7 @@ class TrackTestLoginPanel extends Panel implements ActionListener, KeyListener, 
     }
 
     public void update(Graphics g) {
-        g.setColor(GameApplet.colourGameBackground);
+        g.setColor(GolfGameFrame.colourGameBackground);
         g.fillRect(0, 0, this.width, this.height);
     }
 
@@ -56,7 +56,7 @@ class TrackTestLoginPanel extends Panel implements ActionListener, KeyListener, 
         String username = this.textFieldName.getText().trim();
         String password = this.textFieldPassword.getText().trim();
         // String password = '';
-        this.gameApplet.trackTestLogin(username, password, locale);
+        this.golfGameFrame.trackTestLogin(username, password, locale);
     }
 
     public void keyPressed(KeyEvent evt) {}

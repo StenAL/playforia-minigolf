@@ -1,7 +1,7 @@
 package agolf.game;
 
-import agolf.GameApplet;
 import agolf.GameContainer;
+import agolf.GolfGameFrame;
 import com.aapeli.client.StringDraw;
 import com.aapeli.colorgui.ColorButton;
 import java.awt.Color;
@@ -92,11 +92,11 @@ class TrackInfoPanel extends Panel implements ActionListener {
             this.graphics = this.image.getGraphics();
         }
 
-        this.graphics.setColor(GameApplet.colourGameBackground);
+        this.graphics.setColor(GolfGameFrame.colourGameBackground);
         this.graphics.fillRect(0, 0, this.width, this.height);
         if (this.numTracks > -1) {
             this.graphics.setFont(fontDialog12);
-            this.graphics.setColor(GameApplet.colourTextDarkGreen);
+            this.graphics.setColor(GolfGameFrame.colourTextDarkGreen);
             int xMod = this.showLongAvgResult ? 20 : 0;
             if (this.currentTrack == -1) {
                 StringDraw.drawString(
@@ -113,7 +113,7 @@ class TrackInfoPanel extends Panel implements ActionListener {
                         this.width / 4 - xMod,
                         15,
                         0);
-                this.graphics.setColor(GameApplet.colourTextBlack);
+                this.graphics.setColor(GolfGameFrame.colourTextBlack);
 
                 Font font;
                 for (font = fontSerif16;
@@ -123,11 +123,11 @@ class TrackInfoPanel extends Panel implements ActionListener {
                 this.graphics.setFont(font);
                 StringDraw.drawString(this.graphics, this.trackName, this.width / 4 - xMod, 35, 0);
                 this.graphics.setFont(fontDialog14);
-                this.graphics.setColor(GameApplet.colourTextDarkGreen);
+                this.graphics.setColor(GolfGameFrame.colourTextDarkGreen);
                 StringDraw.drawString(this.graphics, this.trackAuthor, this.width / 4 - xMod, 55, 0);
                 String keySuffix = this.showLongAvgResult ? "L" : "S";
                 this.graphics.setFont(fontDialog12);
-                this.graphics.setColor(GameApplet.colourTextBlack);
+                this.graphics.setColor(GolfGameFrame.colourTextBlack);
                 if (this.resultAverage > 0.0D) {
                     StringDraw.drawString(
                             this.graphics,
@@ -168,21 +168,21 @@ class TrackInfoPanel extends Panel implements ActionListener {
                                 + this.gameContainer.textManager.getGame("GameTrackInfo_BestResultUnique" + keySuffix);
                     }
 
-                    this.graphics.setColor(GameApplet.colourTextDarkGreen);
+                    this.graphics.setColor(GolfGameFrame.colourTextDarkGreen);
                     int textWidth = StringDraw.drawString(
                             this.graphics,
                             resultText,
                             this.width * 3 / 4 - xMod,
                             this.lastBestPlayerName == null ? 35 : 29,
                             0);
-                    this.graphics.setColor(GameApplet.colourTextBlack);
+                    this.graphics.setColor(GolfGameFrame.colourTextBlack);
                     this.graphics.drawString(
                             resultBestText,
                             this.width * 3 / 4 - xMod - textWidth / 2,
                             this.lastBestPlayerName == null ? 35 : 29);
                     this.graphics.setClip(0, 0, this.width, this.height);
                     this.graphics.setFont(fontDialog11);
-                    this.graphics.setColor(GameApplet.colourTextDarkGreen);
+                    this.graphics.setColor(GolfGameFrame.colourTextDarkGreen);
                     resultBestText = this.firstBestPlayerName != null
                             ? this.gameContainer.textManager.getGame(
                                     "GameTrackInfo_BestResultFirstBy" + keySuffix,
@@ -208,7 +208,7 @@ class TrackInfoPanel extends Panel implements ActionListener {
                                 2);
                     }
 
-                    this.graphics.setColor(GameApplet.colourTextBlack);
+                    this.graphics.setColor(GolfGameFrame.colourTextBlack);
                 }
 
                 if (this.hasNotRatedTrack) {
@@ -365,19 +365,19 @@ class TrackInfoPanel extends Panel implements ActionListener {
 
         this.buttonReject = new ColorButton("Reject");
         this.buttonReject.setBounds(this.width - 10 - 80 - 10 - 80, this.height - 15, 70, 15);
-        this.buttonReject.setBackground(GameApplet.colourButtonRed);
+        this.buttonReject.setBackground(GolfGameFrame.colourButtonRed);
         this.buttonReject.addActionListener(this);
         this.buttonAccept = new ColorButton("Accept");
         this.buttonAccept.setBounds(this.width - 10 - 80 - 10, this.height - 15, 70, 15);
-        this.buttonAccept.setBackground(GameApplet.colourButtonGreen);
+        this.buttonAccept.setBackground(GolfGameFrame.colourButtonGreen);
         this.buttonAccept.addActionListener(this);
         this.buttonBack = new ConfirmButton("Back to private", "Sure?");
         this.buttonBack.setBounds(this.width - 10 - 130, this.height - 15, 95, 15);
-        this.buttonBack.setBackground(GameApplet.colourButtonRed);
+        this.buttonBack.setBackground(GolfGameFrame.colourButtonRed);
         this.buttonBack.setActionListener(this);
         this.buttonR = new ColorButton("R");
         this.buttonR.setBounds(this.width - 10 - 20 - 5, this.height - 15, 25, 15);
-        this.buttonR.setBackground(GameApplet.colourButtonGreen);
+        this.buttonR.setBackground(GolfGameFrame.colourButtonGreen);
         this.buttonR.addActionListener(this);
     }
 

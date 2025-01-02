@@ -1,6 +1,6 @@
 package com.aapeli.client;
 
-import com.aapeli.applet.AApplet;
+import com.aapeli.frame.AbstractGameFrame;
 import java.awt.Component;
 
 class SignUpWindow extends PopupWindow {
@@ -8,7 +8,7 @@ class SignUpWindow extends PopupWindow {
     private SignUpHandler signUpHandler;
     private SignUpPanel signUpPanel;
 
-    protected SignUpWindow(AApplet var1, SignUpHandler var2, int var3, int var4) {
+    protected SignUpWindow(AbstractGameFrame var1, SignUpHandler var2, int var3, int var4) {
         super(var1.textManager);
         this.signUpHandler = var2;
         this.signUpPanel = new SignUpPanel(var1, this, var3, var4);

@@ -1,4 +1,4 @@
-package com.aapeli.applet;
+package com.aapeli.frame;
 
 import com.aapeli.client.Parameters;
 import com.aapeli.client.TextManager;
@@ -17,7 +17,7 @@ class LoadingPanel extends Panel implements Runnable, ActionListener {
 
     private static final Font fontDialog14 = new Font("Dialog", Font.PLAIN, 14);
     private static final Font fontDialog20b = new Font("Dialog", Font.BOLD, 20);
-    private AApplet gameApplet;
+    private AbstractGameFrame gameFrame;
     private Parameters parameters;
     private TextManager textManager;
     private String loadingMessage;
@@ -37,8 +37,8 @@ class LoadingPanel extends Panel implements Runnable, ActionListener {
     private RoundButton paymentOptionsButton;
     private int startGameClicked;
 
-    protected LoadingPanel(AApplet applet) {
-        this.gameApplet = applet;
+    protected LoadingPanel(AbstractGameFrame gameFrame) {
+        this.gameFrame = gameFrame;
         this.loadingMessage = null;
         this.actualProgress = 0.0D;
         this.renderedProgress = 0.0D;
@@ -48,8 +48,8 @@ class LoadingPanel extends Panel implements Runnable, ActionListener {
         this.destroyed = false;
         this.needsRepaint = true;
         this.aBoolean589 = true;
-        this.setSize(applet.appletWidth, applet.appletHeight);
-        this.setPreferredSize(new Dimension(applet.appletWidth, applet.appletHeight));
+        this.setSize(gameFrame.contentWidth, gameFrame.contentHeight);
+        this.setPreferredSize(new Dimension(gameFrame.contentWidth, gameFrame.contentHeight));
         this.startGameClicked = -1;
     }
 
@@ -59,10 +59,10 @@ class LoadingPanel extends Panel implements Runnable, ActionListener {
 
     public synchronized void update(Graphics graphics) {
         if (!this.destroyed) {
-            AApplet applet = this.gameApplet;
-            if (applet != null) {
-                int width = applet.appletWidth;
-                int height = applet.appletHeight;
+            AbstractGameFrame gameFrame = this.gameFrame;
+            if (gameFrame != null) {
+                int width = gameFrame.contentWidth;
+                int height = gameFrame.contentHeight;
                 if (this.panelImage == null) {
                     this.panelImage = this.createImage(width, height);
                     this.panelGraphics = this.panelImage.getGraphics();
@@ -132,7 +132,7 @@ class LoadingPanel extends Panel implements Runnable, ActionListener {
                 done = true;
             }
 
-            if (this.actualProgress >= 1.0D && this.gameApplet.isDebug()) {
+            if (this.actualProgress >= 1.0D && this.gameFrame.isDebug()) {
                 this.renderedProgress = 1.0D;
                 done = true;
             }
@@ -149,7 +149,7 @@ class LoadingPanel extends Panel implements Runnable, ActionListener {
         if (action.getSource() == this.startGameButton) {
             this.startGameClicked = 1;
         } else {
-            this.gameApplet.setEndState(AApplet.END_QUIT_BUYCOINS);
+            this.gameFrame.setEndState(AbstractGameFrame.END_QUIT_BUYCOINS);
             this.parameters.showCreditPurchasePage(false);
         }
     }
@@ -176,8 +176,8 @@ class LoadingPanel extends Panel implements Runnable, ActionListener {
 
     protected void method466(AdCanvas adCanvas, boolean var2) {
         this.setLayout(null);
-        int var3 = this.gameApplet.appletWidth - 5 - 5;
-        int var4 = this.gameApplet.appletHeight - 5 - 5 - 40;
+        int var3 = this.gameFrame.contentWidth - 5 - 5;
+        int var4 = this.gameFrame.contentHeight - 5 - 5 - 40;
         Dimension adCanvasSize = adCanvas.getSize();
         adCanvas.setLocation(5 + var3 / 2 - adCanvasSize.width / 2, 45 + var4 / 2 - adCanvasSize.height / 2);
         this.add(adCanvas);
@@ -213,10 +213,10 @@ class LoadingPanel extends Panel implements Runnable, ActionListener {
                 this.needsRepaint = true;
                 this.repaint();
                 short var1 = 300;
-                int var2 = (this.gameApplet.appletWidth - 25 - 15 - 15 - 25) / 2;
+                int var2 = (this.gameFrame.contentWidth - 25 - 15 - 15 - 25) / 2;
                 int width = Math.min(var1, var2);
                 this.startGameButton = new RoundButton(this.textManager.getShared("Loader_Button_StartGame"));
-                this.startGameButton.setBounds(this.gameApplet.appletWidth / 2 + 15, 10, width, 35);
+                this.startGameButton.setBounds(this.gameFrame.contentWidth / 2 + 15, 10, width, 35);
                 this.startGameButton.setBackground(new Color(96, 224, 96));
                 this.startGameButton.setForeground(Color.black);
                 this.startGameButton.setFont(fontDialog20b);
@@ -225,7 +225,7 @@ class LoadingPanel extends Panel implements Runnable, ActionListener {
                 if (this.parameters.isCreditPurchasePageAvailable()) {
                     this.paymentOptionsButton =
                             new RoundButton(this.textManager.getShared("Loader_Button_MorePaymentOptions"));
-                    this.paymentOptionsButton.setBounds(this.gameApplet.appletWidth / 2 - 15 - width, 10, width, 35);
+                    this.paymentOptionsButton.setBounds(this.gameFrame.contentWidth / 2 - 15 - width, 10, width, 35);
                     this.paymentOptionsButton.setBackground(new Color(96, 96, 255));
                     this.paymentOptionsButton.setForeground(Color.black);
                     this.paymentOptionsButton.setFont(fontDialog20b);
@@ -261,7 +261,7 @@ class LoadingPanel extends Panel implements Runnable, ActionListener {
             this.panelImage = null;
         }
 
-        this.gameApplet = null;
+        this.gameFrame = null;
     }
 
     private void drawGradient(
@@ -370,7 +370,7 @@ class LoadingPanel extends Panel implements Runnable, ActionListener {
     }
 
     private void drawLoadingMessage(Graphics g, Font font, String s) {
-        while (this.getFontMetrics(font).stringWidth(s) > this.gameApplet.appletWidth - 12) {
+        while (this.getFontMetrics(font).stringWidth(s) > this.gameFrame.contentWidth - 12) {
             font = new Font(font.getName(), font.getStyle(), font.getSize() - 1);
         }
 

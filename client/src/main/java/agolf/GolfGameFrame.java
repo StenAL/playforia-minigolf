@@ -3,20 +3,20 @@ package agolf;
 import agolf.game.GameBackgroundCanvas;
 import agolf.game.GamePanel;
 import agolf.lobby.LobbyPanel;
-import com.aapeli.applet.AApplet;
 import com.aapeli.client.AutoPopups;
 import com.aapeli.client.BadWordFilter;
 import com.aapeli.client.ImageManager;
 import com.aapeli.client.Parameters;
 import com.aapeli.client.SoundManager;
 import com.aapeli.client.TextManager;
+import com.aapeli.frame.AbstractGameFrame;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
 import org.moparforia.client.Launcher;
 import org.moparforia.shared.Locale;
 
-public class GameApplet extends AApplet {
+public class GolfGameFrame extends AbstractGameFrame {
 
     public SynchronizedBool syncIsValidSite;
     public static final Color colourGameBackground = new Color(153, 255, 153);
@@ -41,11 +41,11 @@ public class GameApplet extends AApplet {
     private Image anImage3774;
     private boolean verbose = false;
 
-    public GameApplet(Parameters parameters) {
-        super(parameters);
+    public GolfGameFrame(String server, int port, Locale locale, String username, boolean verbose, boolean norandom) {
+        super(server, port, locale, username, verbose, norandom);
     }
 
-    public void initApplet(Parameters parameters) {
+    public void initGame(Parameters parameters) {
         this.syncIsValidSite = new SynchronizedBool(this.isValidSite());
         this.setBackground(colourGameBackground);
         this.setForeground(colourTextBlack);
@@ -54,7 +54,7 @@ public class GameApplet extends AApplet {
     }
 
     @Override
-    public String getAppletInfo() {
+    public String getCopyrightInfo() {
         return "-= AGolf =-\nCopyright (c) 2002-2012 Playforia (www.playforia.info)\nProgramming: Pasi Laaksonen\nGraphics: Janne Matilainen";
     }
 
@@ -103,7 +103,7 @@ public class GameApplet extends AApplet {
         }
     }
 
-    public void appletReady() {
+    public void gameReady() {
         this.gameContainer.autoPopup = new AutoPopups(this);
         // this.setGameSettings(false, 0, false, true); // disabled Bad Word Filter!
         this.setGameSettings(false, 0, true, true); // enabled Bad Word Filter!
@@ -112,7 +112,7 @@ public class GameApplet extends AApplet {
         this.gameContainer.connection.sendVersion();
     }
 
-    public void destroyApplet() {
+    public void destroyGame() {
         this.gameContainer.destroy();
     }
 
@@ -158,7 +158,7 @@ public class GameApplet extends AApplet {
                     String username = param.getUsername();
                     if (username == null) {
                         TrackTestLoginPanel loginPanel =
-                                new TrackTestLoginPanel(this, super.appletWidth, super.appletHeight);
+                                new TrackTestLoginPanel(this, super.contentWidth, super.contentHeight);
                         loginPanel.setLocation(0, 0);
                         this.addToContent(loginPanel);
                     } else {
@@ -176,7 +176,7 @@ public class GameApplet extends AApplet {
             if (activePanel == 2) {
                 if (this.gameContainer.lobbySelectionPanel == null) {
                     this.gameContainer.lobbySelectionPanel =
-                            new LobbySelectPanel(this.gameContainer, super.appletWidth, super.appletHeight);
+                            new LobbySelectPanel(this.gameContainer, super.contentWidth, super.contentHeight);
                     this.gameContainer.lobbySelectionPanel.setLocation(0, 0);
                 }
 
@@ -205,7 +205,7 @@ public class GameApplet extends AApplet {
                 this.gameContainer.gamePanel = null;
                 if (this.gameContainer.lobbyPanel == null) {
                     this.gameContainer.lobbyPanel =
-                            new LobbyPanel(this.gameContainer, super.appletWidth, super.appletHeight);
+                            new LobbyPanel(this.gameContainer, super.contentWidth, super.contentHeight);
                     this.gameContainer.lobbyPanel.setLocation(0, 0);
                 }
 
@@ -222,7 +222,7 @@ public class GameApplet extends AApplet {
 
             if (activePanel == 4) {
                 this.gameContainer.gamePanel =
-                        new GamePanel(this.gameContainer, super.appletWidth, super.appletHeight, this.anImage3774);
+                        new GamePanel(this.gameContainer, super.contentWidth, super.contentHeight, this.anImage3774);
                 this.gameContainer.gamePanel.setLocation(0, 0);
                 this.addToContent(this.gameContainer.gamePanel);
             }
