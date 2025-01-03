@@ -31,7 +31,7 @@
             <dependency>
                 <groupId>io.netty</groupId>
                 <artifactId>netty-all</artifactId>
-                <version>4.1.112.Final</version>
+                <version>4.1.116.Final</version>
                 <scope>compile</scope>
             </dependency>
             <dependency>
@@ -49,31 +49,26 @@
             <dependency>
                 <groupId>org.junit.jupiter</groupId>
                 <artifactId>junit-jupiter-engine</artifactId>
-                <version>5.10.2</version>
+                <version>5.11.4</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>org.mockito</groupId>
                 <artifactId>mockito-core</artifactId>
-                <version>5.12.0</version>
+                <version>5.14.2</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>org.mockito</groupId>
                 <artifactId>mockito-junit-jupiter</artifactId>
-                <version>5.12.0</version>
+                <version>5.14.2</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>com.github.marschall</groupId>
                 <artifactId>memoryfilesystem</artifactId>
-                <version>2.8.0</version>
+                <version>2.8.1</version>
                 <scope>test</scope>
-            </dependency>
-            <dependency>
-                <groupId>de.elnarion.util</groupId>
-                <artifactId>plantuml-generator-util</artifactId>
-                <version>2.4.1</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -85,14 +80,13 @@
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>3.13.0</version>
                     <configuration>
-                        <source>21</source>
-                        <target>21</target>
+                        <release>21</release>
                     </configuration>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-shade-plugin</artifactId>
-                    <version>3.5.3</version>
+                    <version>3.6.0</version>
                     <executions>
                         <execution>
                             <goals>
@@ -125,20 +119,25 @@
                 <plugin>
                     <groupId>com.akathist.maven.plugins.launch4j</groupId>
                     <artifactId>launch4j-maven-plugin</artifactId>
-                    <version>2.5.0</version>
+                    <version>2.5.2</version>
                 </plugin>
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>exec-maven-plugin</artifactId>
-                    <version>3.3.0</version>
+                    <version>3.5.0</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
-                    <version>3.2.5</version>
+                    <version>3.5.2</version>
                     <configuration>
                         <argLine>-XX:+EnableDynamicAgentLoading</argLine>
                     </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>io.github.download-maven-plugin</groupId>
+                    <artifactId>download-maven-plugin</artifactId>
+                    <version>2.0.0</version>
                 </plugin>
                 <plugin>
                     <groupId>com.diffplug.spotless</groupId>

@@ -1,20 +1,26 @@
 package com.aapeli.client;
 
-import com.aapeli.tools.EncodedXmlReader;
 import com.aapeli.tools.Tools;
-import com.aapeli.tools.XmlUnit;
+import java.io.InputStream;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Hashtable;
+import java.util.HashMap;
+import java.util.Map;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 import org.moparforia.shared.Locale;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 public final class TextManager implements Runnable {
 
     private Parameters parameters;
     private Thread textLoaderThread;
     private Locale locale;
-    private Hashtable<String, LocalizationNode> gameTable;
-    private Hashtable<String, LocalizationNode> sharedTable;
+    private Map<String, LocalizationNode> gameTable;
+    private Map<String, LocalizationNode> sharedTable;
     private String errorMessage;
     private boolean debug;
 
@@ -33,8 +39,8 @@ public final class TextManager implements Runnable {
 
     private TextManager(boolean debug) {
         this.debug = debug;
-        this.gameTable = new Hashtable<>();
-        this.sharedTable = new Hashtable<>();
+        this.gameTable = new HashMap<>();
+        this.sharedTable = new HashMap<>();
         this.errorMessage = null;
         this.textLoaderThread = null;
     }
@@ -530,24 +536,32 @@ public final class TextManager implements Runnable {
         this.sharedTable = this.readTable(localizationResourcePath + "Shared.xml");
     }
 
-    private Hashtable<String, LocalizationNode> readTable(String resourcePath) {
-        EncodedXmlReader reader = new EncodedXmlReader(resourcePath, true);
-        XmlUnit unit = reader.readXmlUnit();
-        if (unit == null) {
-            System.out.println("Failed to read localization file '" + resourcePath + "'");
-            this.errorMessage = "XML read error";
-            return null;
-        } else {
-            XmlUnit[] children = unit.getChildren("str");
-            Hashtable<String, LocalizationNode> table = new Hashtable<>();
+    private Map<String, LocalizationNode> readTable(String resourcePath) {
+        try {
+            InputStream in = this.getClass().getResourceAsStream(resourcePath);
+            DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+            Document document = builder.parse(in);
 
-            for (XmlUnit child : children) {
-                table.put(
-                        child.getAttribute("key").toLowerCase(),
-                        new LocalizationNode(this.locale, child, Tools.getBoolean(child.getAttribute("reverse"))));
+            NodeList localizationNodes = document.getElementsByTagName("str");
+            Map<String, LocalizationNode> table = new HashMap<>();
+
+            for (int i = 0; i < localizationNodes.getLength(); ++i) {
+                Node node = localizationNodes.item(i);
+                String key =
+                        node.getAttributes().getNamedItem("key").getNodeValue().toLowerCase();
+                Node reverseNode = node.getAttributes().getNamedItem("reverse");
+                boolean reverse = false;
+                if (reverseNode != null) {
+                    reverse = Tools.getBoolean(reverseNode.getTextContent());
+                }
+                table.put(key, new LocalizationNode(this.locale, (Element) node, reverse));
             }
 
             return table;
+        } catch (Exception e) {
+            System.out.println("Failed to read localization file '" + resourcePath + "'");
+            this.errorMessage = "XML read error";
+            return null;
         }
     }
 }

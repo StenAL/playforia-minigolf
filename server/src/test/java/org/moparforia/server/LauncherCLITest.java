@@ -12,6 +12,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.quality.Strictness;
 import picocli.CommandLine;
 
 /**
@@ -30,7 +31,8 @@ class LauncherCLITest {
     @BeforeEach
     void setUp() {
         // Mock Launcher instance
-        launcher = mock(Launcher.class, withSettings().lenient().withoutAnnotations());
+        launcher = mock(
+                Launcher.class, withSettings().strictness(Strictness.LENIENT).withoutAnnotations());
 
         doReturn(mock(Server.class)).when(launcher).getServer(anyString(), anyInt(), anyBoolean(), any());
         when(launcher.call()).thenCallRealMethod();
