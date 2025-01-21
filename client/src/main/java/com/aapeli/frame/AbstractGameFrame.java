@@ -499,13 +499,12 @@ public abstract class AbstractGameFrame extends JFrame implements Runnable, Acti
             }
 
             this.loadingPanel.setActualProgress(0.5D);
-            this.textManager = new TextManager(this.param, true, this.isDebug());
+            this.textManager = new TextManager(this.param, this.isDebug());
             this.loadingPanel.init(this.param, this.textManager);
             if (startupDebug) {
                 this.printSUD("Loading texts...");
             }
 
-            this.textManager.waitLoadingFinished();
             this.textsLoadedNotify(this.textManager);
             if (!this.destroyed) {
                 if (startupDebug) {

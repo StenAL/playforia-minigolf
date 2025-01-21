@@ -14,43 +14,19 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public final class TextManager implements Runnable {
+public final class TextManager {
 
-    private Thread textLoaderThread;
     private Locale locale;
     private Map<String, LocalizationNode> texts;
     private String errorMessage;
     private boolean debug;
 
-    public TextManager(Parameters parameters, boolean loadTextsInSeparateThread, boolean debug) {
-        this(debug);
-        this.locale = parameters.getLocale();
-
-        if (loadTextsInSeparateThread) {
-            this.textLoaderThread = new Thread(this);
-            this.textLoaderThread.start();
-        } else {
-            this.loadTexts();
-        }
-    }
-
-    private TextManager(boolean debug) {
+    public TextManager(Parameters parameters, boolean debug) {
         this.debug = debug;
         this.texts = new Hashtable<>();
         this.errorMessage = null;
-        this.textLoaderThread = null;
-    }
-
-    public void run() {
-        if (this.debug) {
-            System.out.println("TextManager.run(): Start loading texts");
-        }
-
+        this.locale = parameters.getLocale();
         this.loadTexts();
-        this.textLoaderThread = null;
-        if (this.debug) {
-            System.out.println("TextManager.run(): Finished loading texts");
-        }
     }
 
     public void setLocale(Locale locale) {
@@ -59,7 +35,7 @@ public final class TextManager implements Runnable {
     }
 
     public String getText(String key) {
-        return this.getInternal(key, (String[]) null);
+        return this.getInternal(key, null);
     }
 
     public boolean isAvailable(String key) {
@@ -171,26 +147,14 @@ public final class TextManager implements Runnable {
         return this.getDate(timestamp, 2);
     }
 
-    public boolean isLoadingFinished() {
-        return this.textLoaderThread == null;
-    }
-
-    public void waitLoadingFinished() {
-        while (!this.isLoadingFinished()) {
-            Tools.sleep(50L);
-        }
-    }
-
     public void destroy() {
-        if (this.textLoaderThread == null) {
-            if (this.texts != null) {
-                this.texts.clear();
-                this.texts = null;
-            }
-
-            this.locale = null;
-            this.errorMessage = null;
+        if (this.texts != null) {
+            this.texts.clear();
+            this.texts = null;
         }
+
+        this.locale = null;
+        this.errorMessage = null;
     }
 
     protected Locale getLocale() {
@@ -198,9 +162,7 @@ public final class TextManager implements Runnable {
     }
 
     private String getInternal(String key, String[] arguments) {
-        if (this.textLoaderThread != null) {
-            return "[Loading texts...]";
-        } else if (this.texts == null && this.errorMessage != null) {
+        if (this.texts == null && this.errorMessage != null) {
             return "[" + this.errorMessage + "]";
         } else {
             String localizedString = this.getFromMap(key, 1);
@@ -317,11 +279,7 @@ public final class TextManager implements Runnable {
     }
 
     private void loadTexts() {
-        String localizationResourcePath = "/l10n/" + this.locale + "/";
-        this.texts = this.readTable(localizationResourcePath + "AGolf.xml");
-    }
-
-    private Hashtable<String, LocalizationNode> readTable(String resourcePath) {
+        String resourcePath = "/l10n/" + this.locale + "/AGolf.xml";
         try {
             InputStream in = this.getClass().getResourceAsStream(resourcePath);
             DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
@@ -342,11 +300,10 @@ public final class TextManager implements Runnable {
                 table.put(key, new LocalizationNode(this.locale, (Element) node, reverse));
             }
 
-            return table;
+            this.texts = table;
         } catch (Exception e) {
             System.out.println("Failed to read localization file '" + resourcePath + "'");
             this.errorMessage = "XML read error";
-            return null;
         }
     }
 }
