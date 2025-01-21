@@ -21,20 +21,16 @@ public class RoundedUpperCornersButton extends ColorButton {
         Color[] borderColors = this.getLightAndDarkBorderColors();
         if (!this.roundedUpperCorners) {
             g.setColor(normalState ? borderColors[0] : borderColors[1]);
-            g.setColor(Color.red);
             g.drawLine(0, 0, width - 2, 0);
             g.drawLine(0, 0, 0, height - 1);
             g.setColor(normalState ? borderColors[1] : borderColors[0]);
-            g.setColor(Color.red);
             g.drawLine(width - 1, height - 1, 1, height - 1);
             g.drawLine(width - 1, height - 1, width - 1, 0);
         } else {
             g.setColor(normalState ? borderColors[0] : borderColors[1]);
-            g.setColor(Color.red);
             g.drawLine(1, 0, width - 2, 0);
             g.drawLine(0, 1, 0, height - 1);
             g.setColor(normalState ? borderColors[1] : borderColors[0]);
-            g.setColor(Color.red);
             g.drawLine(width - 1, height - 1, 1, height - 1);
             g.drawLine(width - 1, height - 1, width - 1, 1);
         }
