@@ -6,29 +6,40 @@ import java.util.List;
 import java.util.Stack;
 
 public class XmlUnit {
-
-    private static final String aString1735 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_";
-    private static final String aString1736 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-:";
+    private static final int BEFORE_STARTING_TAG = 0;
+    private static final int IN_STARTING_TAG = 1;
+    private static final int IN_TAG_BODY = 2;
+    private static final int IN_CDATA = 3;
+    private static final int IN_TAG_END = 4;
+    private static final int TERMINATED = 5;
+    private static final int AT_TAG_CLOSE = 6;
+    private static final int ATTRIBUTE_START = 0;
+    private static final int IN_ATTRIBUTE_NAME = 1;
+    private static final int ATTRIBUTE_VALUE_START = 2;
+    private static final int IN_ATTRIBUTE_VALUE = 3;
+    private static final String validTagNameCharacters =
+            "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_";
+    private static final String validAttributeCharacters =
+            "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-:";
     private String name;
     private String value;
     private List<XmlUnit> children;
     private Hashtable<String, String> attributes;
 
-    private XmlUnit(String var1) {
-        this.name = var1;
+    private XmlUnit(String name) {
+        this.name = name;
         this.value = null;
         this.children = new ArrayList<>();
         this.attributes = new Hashtable<>();
     }
 
-    public static XmlUnit parseString(String declarationTag, boolean var2) throws Exception {
-        declarationTag = declarationTag.trim();
-        if (declarationTag.startsWith("<?xml")) {
-            declarationTag =
-                    declarationTag.substring(declarationTag.indexOf('>') + 1).trim();
+    public static XmlUnit parseString(String data, boolean dontTrimData) throws Exception {
+        data = data.trim();
+        if (data.startsWith("<?xml")) {
+            data = data.substring(data.indexOf('>') + 1).trim();
         }
 
-        return method1876(declarationTag, var2);
+        return parse(data, dontTrimData);
     }
 
     public String getName() {
@@ -51,9 +62,9 @@ public class XmlUnit {
         }
     }
 
-    public String getChildValue(String var1) {
-        XmlUnit var2 = this.getChild(var1);
-        return var2 == null ? null : var2.getValue();
+    public String getChildValue(String name) {
+        XmlUnit unit = this.getChild(name);
+        return unit == null ? null : unit.getValue();
     }
 
     public XmlUnit[] getChildren() {
@@ -71,266 +82,263 @@ public class XmlUnit {
 
     public XmlUnit[] getChildren(String name) {
         XmlUnit[] children = this.getChildren();
-        int var4 = 0;
+        int count = 0;
 
         for (XmlUnit xmlUnit : children) {
             if (xmlUnit.getName().equals(name)) {
-                ++var4;
+                ++count;
             }
         }
 
-        XmlUnit[] childrenArray = new XmlUnit[var4];
-        int var6 = 0;
+        XmlUnit[] childrenArray = new XmlUnit[count];
+        int i = 0;
 
         for (XmlUnit child : children) {
             if (child.getName().equals(name)) {
-                childrenArray[var6] = child;
-                ++var6;
+                childrenArray[i] = child;
+                ++i;
             }
         }
 
         return childrenArray;
     }
 
-    public String getAttribute(String var1) {
+    public String getAttribute(String name) {
         synchronized (this.attributes) {
-            return this.attributes.get(var1);
+            return this.attributes.get(name);
         }
     }
 
-    private static XmlUnit method1876(String var0, boolean var1) throws Exception {
-        Stack<XmlUnit> var2 = new Stack<>();
-        StringBuffer tagEnd = null;
-        StringBuffer var4 = null;
-        XmlUnit tagStart = null;
-        byte var7 = 0;
-        int var8 = var0.length();
+    private static XmlUnit parse(String data, boolean dontTrimData) throws Exception {
+        Stack<XmlUnit> stack = new Stack<>();
+        StringBuffer tagName = null;
+        StringBuffer tagContents = null;
+        XmlUnit unit = null;
+        byte state = 0;
+        int length = data.length();
 
-        for (int var12 = 0; var12 < var8; ++var12) {
-            char var9 = var0.charAt(var12);
-            boolean var11 = false;
-            boolean var10 = false;
-            if (var7 == 0) {
-                if (var9 <= ' ') {
-                    var10 = true;
-                } else if (var9 == '<') {
-                    var7 = 1;
-                    tagEnd = new StringBuffer();
-                    var10 = true;
+        for (int i = 0; i < length; ++i) {
+            char c = data.charAt(i);
+            boolean tagWasClosed = false;
+            boolean valid = false;
+            if (state == BEFORE_STARTING_TAG) {
+                if (c <= ' ') {
+                    valid = true;
+                } else if (c == '<') {
+                    state = IN_STARTING_TAG;
+                    tagName = new StringBuffer();
+                    valid = true;
                 }
-            } else if (var7 == 1) {
-                if (aString1735.indexOf(var9) >= 0) {
-                    tagEnd.append(var9);
-                    var10 = true;
-                } else if (var9 == '>' || var9 == '/' || var9 <= ' ') {
-                    if (tagEnd.length() == 0) {
+            } else if (state == IN_STARTING_TAG) {
+                if (validTagNameCharacters.indexOf(c) >= 0) {
+                    tagName.append(c);
+                    valid = true;
+                } else if (c == '>' || c == '/' || c <= ' ') {
+                    if (tagName.length() == 0) {
                         throw new Exception("Empty tag name");
                     }
 
-                    tagStart = new XmlUnit(tagEnd.toString());
-                    if (var9 <= ' ') {
-                        var12 = method1877(tagStart, var0, var12, var8);
-                        var9 = var0.charAt(var12);
+                    unit = new XmlUnit(tagName.toString());
+                    if (c <= ' ') {
+                        i = parseAttribute(unit, data, i, length);
+                        c = data.charAt(i);
                     }
 
-                    if (var9 == '>') {
-                        var7 = 2;
-                        var4 = new StringBuffer();
-                    } else {
-                        var7 = 6;
+                    if (c == '>') {
+                        state = IN_TAG_BODY;
+                        tagContents = new StringBuffer();
+                    } else { // c == "/"
+                        state = AT_TAG_CLOSE;
                     }
 
-                    var10 = true;
+                    valid = true;
                 }
-            } else if (var7 == 2) {
-                if (var9 == '<') {
-                    if (var0.startsWith("<![CDATA[", var12)) {
-                        var7 = 3;
-                        var12 += 8;
+            } else if (state == IN_TAG_BODY) {
+                if (c == '<') {
+                    if (data.startsWith("<![CDATA[", i)) {
+                        state = IN_CDATA;
+                        i += 8;
                     } else {
-                        if (var4.length() > 0 || var1) {
-                            tagStart.appendValue(var4.toString(), var1);
+                        if (tagContents.length() > 0 || dontTrimData) {
+                            unit.appendValue(tagContents.toString(), dontTrimData);
                         }
 
-                        if (var0.startsWith("</", var12)) {
-                            var7 = 4;
-                            ++var12;
-                            tagEnd = new StringBuffer();
+                        if (data.startsWith("</", i)) {
+                            state = IN_TAG_END;
+                            ++i;
+                            tagName = new StringBuffer();
                         } else {
-                            var2.push(tagStart);
-                            var7 = 1;
-                            tagEnd = new StringBuffer();
+                            stack.push(unit);
+                            state = IN_STARTING_TAG;
+                            tagName = new StringBuffer();
                         }
                     }
-                } else if (var9 == '&') {
-                    var12 = method1878(var4, var0, var12);
+                } else if (c == '&') {
+                    i = unescape(tagContents, data, i);
                 } else {
-                    var4.append(var9);
+                    tagContents.append(c);
                 }
 
-                var10 = true;
-            } else if (var7 == 3) {
-                if (var9 == ']') {
-                    if (var0.startsWith("]]>", var12)) {
-                        var7 = 2;
-                        var12 += 2;
+                valid = true;
+            } else if (state == IN_CDATA) {
+                if (c == ']') {
+                    if (data.startsWith("]]>", i)) {
+                        state = IN_TAG_BODY;
+                        i += 2;
                     } else {
-                        var4.append(var9);
+                        tagContents.append(c);
                     }
                 } else {
-                    var4.append(var9);
+                    tagContents.append(c);
                 }
 
-                var10 = true;
-            } else if (var7 == 4) {
-                if (aString1735.indexOf(var9) >= 0) {
-                    tagEnd.append(var9);
-                    var10 = true;
-                } else if (var9 == '>') {
-                    if (tagEnd.length() == 0) {
+                valid = true;
+            } else if (state == IN_TAG_END) {
+                if (validTagNameCharacters.indexOf(c) >= 0) {
+                    tagName.append(c);
+                    valid = true;
+                } else if (c == '>') {
+                    if (tagName.length() == 0) {
                         throw new Exception("Empty end tag name");
                     }
 
-                    if (!tagStart.getName().contentEquals(tagEnd)) {
-                        throw new Exception("End tag name ("
-                                + tagEnd
-                                + ") is different than start tag ("
-                                + tagStart.getName()
-                                + ")");
+                    if (!unit.getName().contentEquals(tagName)) {
+                        throw new Exception(
+                                "End tag name (" + tagName + ") is different than start tag (" + unit.getName() + ")");
                     }
 
-                    var11 = true;
-                    var10 = true;
+                    tagWasClosed = true;
+                    valid = true;
                 }
-            } else if (var7 == 5) {
-                if (var9 <= ' ') {
-                    var10 = true;
+            } else if (state == TERMINATED) {
+                if (c <= ' ') {
+                    valid = true;
                 }
-            } else if (var7 == 6 && var9 == '>') {
-                var11 = true;
-                var10 = true;
+            } else if (state == AT_TAG_CLOSE && c == '>') {
+                tagWasClosed = true;
+                valid = true;
             }
 
-            if (!var10) {
-                throw new Exception("Unexpected character '" + var9 + "'");
+            if (!valid) {
+                throw new Exception("Unexpected character '" + c + "'");
             }
 
-            if (var11) {
-                if (var2.empty()) {
-                    var7 = 5;
+            if (tagWasClosed) {
+                if (stack.empty()) {
+                    state = TERMINATED;
                 } else {
-                    XmlUnit var6 = var2.pop();
-                    var6.addChild(tagStart);
-                    tagStart = var6;
-                    var7 = 2;
-                    var4 = new StringBuffer();
+                    XmlUnit parent = stack.pop();
+                    parent.addChild(unit);
+                    unit = parent;
+                    state = IN_TAG_BODY;
+                    tagContents = new StringBuffer();
                 }
             }
         }
 
-        if (var7 != 5) {
+        if (state != TERMINATED) {
             throw new Exception("Premature end of xml data");
         } else {
-            return tagStart;
+            return unit;
         }
     }
 
-    private static int method1877(XmlUnit var0, String var1, int var2, int var3) throws Exception {
-        StringBuffer var4 = null;
-        StringBuffer var5 = null;
-        byte var6 = 0;
-        char var7 = 0;
+    private static int parseAttribute(XmlUnit unit, String data, int i, int length) throws Exception {
+        StringBuffer name = null;
+        StringBuffer value = null;
+        byte state = 0;
+        char quotationMark = 0;
 
-        char var8;
-        boolean var9;
+        char c;
+        boolean valid;
         do {
-            ++var2;
-            if (var2 == var3) {
+            ++i;
+            if (i == length) {
                 throw new Exception("Premature end of attribute data");
             }
 
-            var8 = var1.charAt(var2);
-            var9 = false;
-            if (var6 == 0) {
-                if (aString1736.indexOf(var8) >= 0) {
-                    var6 = 1;
-                    var4 = new StringBuffer();
-                    var4.append(var8);
-                    var9 = true;
-                } else if (var8 == ' ') {
-                    var9 = true;
-                } else if (var8 == '/' || var8 == '>') {
-                    return var2;
+            c = data.charAt(i);
+            valid = false;
+            if (state == ATTRIBUTE_START) {
+                if (validAttributeCharacters.indexOf(c) >= 0) {
+                    state = IN_ATTRIBUTE_NAME;
+                    name = new StringBuffer();
+                    name.append(c);
+                    valid = true;
+                } else if (c == ' ') {
+                    valid = true;
+                } else if (c == '/' || c == '>') {
+                    return i;
                 }
-            } else if (var6 == 1) {
-                if (aString1736.indexOf(var8) >= 0) {
-                    var4.append(var8);
-                    var9 = true;
+            } else if (state == IN_ATTRIBUTE_NAME) {
+                if (validAttributeCharacters.indexOf(c) >= 0) {
+                    name.append(c);
+                    valid = true;
                 }
 
-                if (var8 == '=') {
-                    var6 = 2;
-                    var9 = true;
+                if (c == '=') {
+                    state = ATTRIBUTE_VALUE_START;
+                    valid = true;
                 }
-            } else if (var6 == 2) {
-                if (var8 == '"' || var8 == '\'') {
-                    var6 = 3;
-                    var7 = var8;
-                    var5 = new StringBuffer();
-                    var9 = true;
+            } else if (state == ATTRIBUTE_VALUE_START) {
+                if (c == '"' || c == '\'') {
+                    state = IN_ATTRIBUTE_VALUE;
+                    quotationMark = c;
+                    value = new StringBuffer();
+                    valid = true;
                 }
-            } else if (var6 == 3) {
-                if (var8 != var7) {
-                    if (var8 == '&') {
-                        var2 = method1878(var5, var1, var2);
+            } else if (state == IN_ATTRIBUTE_VALUE) {
+                if (c != quotationMark) {
+                    if (c == '&') {
+                        i = unescape(value, data, i);
                     } else {
-                        var5.append(var8);
+                        value.append(c);
                     }
                 } else {
-                    var6 = 0;
-                    var0.addAttribute(var4.toString(), var5.toString());
+                    state = ATTRIBUTE_START;
+                    unit.addAttribute(name.toString(), value.toString());
                 }
 
-                var9 = true;
+                valid = true;
             }
-        } while (var9);
+        } while (valid);
 
-        throw new Exception("Unexpected character '" + var8 + "' in attributes");
+        throw new Exception("Unexpected character '" + c + "' in attributes");
     }
 
-    private static int method1878(StringBuffer var0, String var1, int var2) {
-        if (var1.startsWith("&amp;", var2)) {
-            var0.append('&');
-            return var2 + 4;
-        } else if (var1.startsWith("&lt;", var2)) {
-            var0.append('<');
-            return var2 + 3;
-        } else if (var1.startsWith("&gt;", var2)) {
-            var0.append('>');
-            return var2 + 3;
-        } else if (var1.startsWith("&quot;", var2)) {
-            var0.append('\"');
-            return var2 + 5;
-        } else if (var1.startsWith("&apos;", var2)) {
-            var0.append('\'');
-            return var2 + 5;
-        } else if (var1.startsWith("&#", var2)) {
-            int var3;
-            byte var4;
-            if (var1.charAt(var2 + 2) == 'x') {
-                var3 = var2 + 3;
-                var4 = 16;
+    private static int unescape(StringBuffer buffer, String data, int offset) {
+        if (data.startsWith("&amp;", offset)) {
+            buffer.append('&');
+            return offset + 4;
+        } else if (data.startsWith("&lt;", offset)) {
+            buffer.append('<');
+            return offset + 3;
+        } else if (data.startsWith("&gt;", offset)) {
+            buffer.append('>');
+            return offset + 3;
+        } else if (data.startsWith("&quot;", offset)) {
+            buffer.append('\"');
+            return offset + 5;
+        } else if (data.startsWith("&apos;", offset)) {
+            buffer.append('\'');
+            return offset + 5;
+        } else if (data.startsWith("&#", offset)) {
+            int startIndex;
+            byte base;
+            if (data.charAt(offset + 2) == 'x') {
+                startIndex = offset + 3;
+                base = 16;
             } else {
-                var3 = var2 + 2;
-                var4 = 10;
+                startIndex = offset + 2;
+                base = 10;
             }
 
-            int var5 = var1.indexOf(';', var3);
-            var0.append((char) Integer.parseInt(var1.substring(var3, var5), var4));
-            return var5;
+            int endIndex = data.indexOf(';', startIndex);
+            buffer.append((char) Integer.parseInt(data.substring(startIndex, endIndex), base));
+            return endIndex;
         } else {
-            var0.append('&');
-            return var2;
+            buffer.append('&');
+            return offset;
         }
     }
 
@@ -351,9 +359,9 @@ public class XmlUnit {
         return this;
     }
 
-    private XmlUnit addChild(XmlUnit var1) {
+    private XmlUnit addChild(XmlUnit child) {
         synchronized (this.children) {
-            this.children.add(var1);
+            this.children.add(child);
             return this;
         }
     }
@@ -362,9 +370,9 @@ public class XmlUnit {
         if (key.indexOf(' ') >= 0) {
             return this;
         } else {
-            int var3 = value.indexOf('\'');
-            int var4 = value.indexOf('"');
-            if (var3 >= 0 && var4 >= 0) {
+            int containsSingleQuote = value.indexOf('\'');
+            int containsDoubleQuote = value.indexOf('"');
+            if (containsSingleQuote >= 0 && containsDoubleQuote >= 0) {
                 return this;
             } else {
                 synchronized (this.attributes) {
