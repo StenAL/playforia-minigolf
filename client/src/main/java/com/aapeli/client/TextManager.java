@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Hashtable;
+import java.util.Map;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import org.moparforia.shared.Locale;
@@ -18,8 +19,7 @@ public final class TextManager implements Runnable {
     private Parameters parameters;
     private Thread textLoaderThread;
     private Locale locale;
-    private Hashtable<String, LocalizationNode> gameTable;
-    private Hashtable<String, LocalizationNode> sharedTable;
+    private Map<String, LocalizationNode> texts;
     private String errorMessage;
     private boolean debug;
 
@@ -38,8 +38,7 @@ public final class TextManager implements Runnable {
 
     private TextManager(boolean debug) {
         this.debug = debug;
-        this.gameTable = new Hashtable<>();
-        this.sharedTable = new Hashtable<>();
+        this.texts = new Hashtable<>();
         this.errorMessage = null;
         this.textLoaderThread = null;
     }
@@ -297,14 +296,9 @@ public final class TextManager implements Runnable {
 
     public void destroy() {
         if (this.textLoaderThread == null) {
-            if (this.gameTable != null) {
-                this.gameTable.clear();
-                this.gameTable = null;
-            }
-
-            if (this.sharedTable != null) {
-                this.sharedTable.clear();
-                this.sharedTable = null;
+            if (this.texts != null) {
+                this.texts.clear();
+                this.texts = null;
             }
 
             this.parameters = null;
@@ -342,7 +336,7 @@ public final class TextManager implements Runnable {
     private String getText(String key, String[] arguments, int quantity) {
         if (this.textLoaderThread != null) {
             return "[Loading texts...]";
-        } else if (this.gameTable == null && this.errorMessage != null) {
+        } else if (this.texts == null && this.errorMessage != null) {
             return "[" + this.errorMessage + "]";
         } else {
             String result = this.getText(key, quantity);
@@ -377,7 +371,7 @@ public final class TextManager implements Runnable {
     private String getShared(String key, String[] arguments, int quantity) {
         if (this.textLoaderThread != null) {
             return "[Loading texts...]";
-        } else if (this.sharedTable == null && this.errorMessage != null) {
+        } else if (this.texts == null && this.errorMessage != null) {
             return "[" + this.errorMessage + "]";
         } else {
             String localizedString = this.getSharedString(key, quantity);
@@ -515,24 +509,19 @@ public final class TextManager implements Runnable {
 
     protected String getText(String key, int quantity) {
         key = key.toLowerCase();
-        LocalizationNode localizationNode = this.gameTable.get(key);
+        LocalizationNode localizationNode = this.texts.get(key);
         return localizationNode == null ? null : localizationNode.getLocalization(quantity);
     }
 
     protected String getSharedString(String key, int quantity) {
         key = key.toLowerCase();
-        LocalizationNode localizationNode = this.sharedTable.get(key);
+        LocalizationNode localizationNode = this.texts.get(key);
         return localizationNode == null ? null : localizationNode.getLocalization(quantity);
     }
 
     private void loadTexts() {
-        this.loadLocaleFiles();
-    }
-
-    private void loadLocaleFiles() {
         String localizationResourcePath = "/l10n/" + this.locale + "/";
-        this.gameTable = this.readTable(localizationResourcePath + "AGolf.xml");
-        this.sharedTable = this.readTable(localizationResourcePath + "Shared.xml");
+        this.texts = this.readTable(localizationResourcePath + "AGolf.xml");
     }
 
     private Hashtable<String, LocalizationNode> readTable(String resourcePath) {
