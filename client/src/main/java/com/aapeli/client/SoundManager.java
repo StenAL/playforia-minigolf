@@ -1,22 +1,20 @@
 package com.aapeli.client;
 
 import java.util.Hashtable;
+import java.util.Map;
 import javax.sound.sampled.Clip;
 
 public final class SoundManager implements Runnable {
-    private static final String[] methodLookup = {"stop", "play", "loop"};
     private final boolean debug;
-    private Hashtable<Integer, SoundClip> clientSounds;
-    private Hashtable<String, SoundClip> sharedSounds;
+    private Map<Integer, SoundClip> sounds;
     private boolean clipLoaderThreadRunning;
     public int audioChoicerIndex;
 
     public SoundManager(boolean shouldLoadClips, boolean debug) {
         this.debug = debug;
         this.audioChoicerIndex = 0;
-        this.defineClientSounds();
+        this.defineSounds();
 
-        this.sharedSounds = new Hashtable<>();
         this.clipLoaderThreadRunning = false;
         if (shouldLoadClips) {
             this.start();
@@ -29,17 +27,7 @@ public final class SoundManager implements Runnable {
             System.out.println("SoundManager.run(): Thread started");
         }
 
-        for (SoundClip soundClip : this.clientSounds.values()) {
-            try {
-                if (!soundClip.isLoaded()) {
-                    soundClip.load();
-                }
-            } catch (Exception e) {
-                System.out.println("SoundManager.run(): Failed to define clip " + soundClip.getUrl() + ": " + e);
-            }
-        }
-
-        for (SoundClip soundClip : this.sharedSounds.values()) {
+        for (SoundClip soundClip : this.sounds.values()) {
             try {
                 if (!soundClip.isLoaded()) {
                     soundClip.load();
@@ -57,18 +45,6 @@ public final class SoundManager implements Runnable {
 
     public void startLoading() {
         this.start();
-    }
-
-    public void play(String clipName) {
-        this.handleSharedSoundClip(clipName, 1);
-    }
-
-    public void loop(String clipName) {
-        this.handleSharedSoundClip(clipName, 2);
-    }
-
-    public void stop(String clipName) {
-        this.handleSharedSoundClip(clipName, 0);
     }
 
     public void playChallenge() {
@@ -136,19 +112,17 @@ public final class SoundManager implements Runnable {
     }
 
     public void destroy() {
-        this.sharedSounds.clear();
-        this.sharedSounds = null;
-        this.clientSounds.clear();
-        this.clientSounds = null;
+        this.sounds.clear();
+        this.sounds = null;
     }
 
     protected boolean isDebug() {
         return this.debug;
     }
 
-    private void defineClientSounds() {
+    private void defineSounds() {
         try {
-            this.clientSounds = new Hashtable<>();
+            this.sounds = new Hashtable<>();
             this.defineSoundClip(1, "/sound/shared/challenge.au");
             this.defineSoundClip(2, "/sound/shared/gamemove.au");
             this.defineSoundClip(3, "/sound/shared/notify.au");
@@ -163,7 +137,7 @@ public final class SoundManager implements Runnable {
     }
 
     private void defineSoundClip(int id, String resourcePath) {
-        this.clientSounds.put(id, new SoundClip(this.getClass().getResource(resourcePath), this.debug));
+        this.sounds.put(id, new SoundClip(this.getClass().getResource(resourcePath), this.debug));
     }
 
     private synchronized void start() {
@@ -176,50 +150,13 @@ public final class SoundManager implements Runnable {
     }
 
     private void playClip(int id) {
-        SoundClip soundClip = this.clientSounds.get(id);
+        SoundClip soundClip = this.sounds.get(id);
         if (soundClip != null && this.audioChoicerIndex != 1) {
             Clip clip = soundClip.getClip();
             if (clip != null) {
                 clip.setFramePosition(0);
                 clip.start();
             }
-        }
-    }
-
-    private void handleSharedSoundClip(String clipName, int methodIndex) {
-        try {
-            if (this.debug) {
-                System.out.println("SoundManager." + methodLookup[methodIndex] + "(\"" + clipName + "\")");
-            }
-
-            SoundClip soundClip = this.sharedSounds.get(clipName);
-            if (soundClip != null) {
-                Clip clip = soundClip.getClip();
-                if (clip != null) {
-                    if (methodIndex == 0) {
-                        clip.stop();
-                    } else if (methodIndex == 1) {
-                        clip.setFramePosition(0);
-                        clip.start();
-                    } else if (methodIndex == 2) {
-                        clip.loop(Clip.LOOP_CONTINUOUSLY);
-                    }
-                } else if (this.debug) {
-                    System.out.println("SoundManager."
-                            + methodLookup[methodIndex]
-                            + "(\""
-                            + clipName
-                            + "\"): AudioClip not ready!");
-                }
-            } else if (this.debug) {
-                System.out.println(
-                        "SoundManager." + methodLookup[methodIndex] + "(\"" + clipName + "\"): SoundClip not found!");
-                Thread.dumpStack();
-            }
-        } catch (Exception e) {
-            System.out.println("SoundManager: Unexpected exception \"" + e + "\" when playing \"" + clipName + "\"");
-        } catch (Error e) {
-            System.out.println("SoundManager: Unexpected error \"" + e + "\" when playing \"" + clipName + "\"");
         }
     }
 }
