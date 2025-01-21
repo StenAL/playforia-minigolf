@@ -1,1510 +1,1468 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <localization id="AGolf" lang="fi_FI">
 	<str key="GameChat_GS_MaxStrokes">
-	  <singular><![CDATA[max %1 lyöntiä per rata]]></singular>
+	  <![CDATA[max %1 lyöntiä per rata]]>
 	</str>
 	<str key="GameChat_GS_MaxStrokesUnlimited">
-	  <singular><![CDATA[rajoittamattomat lyönnit]]></singular>
+	  <![CDATA[rajoittamattomat lyönnit]]>
 	</str>
 	<str key="GameChat_GS_NoCollision">
-	  <singular><![CDATA[ei krokkausta]]></singular>
+	  <![CDATA[ei krokkausta]]>
 	</str>
 	<str key="GameChat_GS_Password">
-	  <singular><![CDATA[Salasanasuojattu]]></singular>
+	  <![CDATA[Salasanasuojattu]]>
 	</str>
 	<str key="GameChat_GS_Players">
-	  <singular><![CDATA[%1 pelaajaa]]></singular>
+	  <![CDATA[%1 pelaajaa]]>
 	</str>
 	<str key="GameChat_GS_RegOnly">
-	  <singular><![CDATA[Vain rekisteröityneille]]></singular>
+	  <![CDATA[Vain rekisteröityneille]]>
 	</str>
 	<str key="GameChat_GS_TimeLimitMin">
-	  <singular><![CDATA[lyöntiaika %1 min]]></singular>
+	  <![CDATA[lyöntiaika %1 min]]>
 	</str>
 	<str key="GameChat_GS_TimeLimitSec">
-	  <singular><![CDATA[lyöntiaika %1 sek]]></singular>
+	  <![CDATA[lyöntiaika %1 sek]]>
 	</str>
 	<str key="GameChat_GS_TrackScoring">
-	  <singular><![CDATA[ratavoitot]]></singular>
+	  <![CDATA[ratavoitot]]>
 	</str>
 	<str key="GameChat_GS_TrackScoringEnd1">
-	  <singular><![CDATA[pistelasku painottaa vähän loppua]]></singular>
+	  <![CDATA[pistelasku painottaa vähän loppua]]>
 	</str>
 	<str key="GameChat_GS_TrackScoringEnd2">
-	  <singular><![CDATA[pistelasku painottaa paljon loppua]]></singular>
+	  <![CDATA[pistelasku painottaa paljon loppua]]>
 	</str>
 	<str key="GameChat_GS_Tracks">
-	  <singular><![CDATA[%1 rataa]]></singular>
+	  <![CDATA[%1 rataa]]>
 	</str>
 	<str key="GameChat_GS_WaterShore">
-	  <singular><![CDATA[pallo veteen -> pysyy rannalla]]></singular>
+	  <![CDATA[pallo veteen -> pysyy rannalla]]>
 	</str>
 	<str key="GameChat_GameName">
-	  <singular><![CDATA[Peli: %1]]></singular>
+	  <![CDATA[Peli: %1]]>
 	</str>
 	<str key="GameChat_GameSettings">
-	  <singular><![CDATA[Asetukset: %1]]></singular>
+	  <![CDATA[Asetukset: %1]]>
 	</str>
 	<str key="GameChat_Join">
-	  <singular><![CDATA[%1 liittyi peliin]]></singular>
+	  <![CDATA[%1 liittyi peliin]]>
 	</str>
 	<str key="GameChat_JoinClan">
-	  <singular><![CDATA[%1 [klaani: %2] liittyi peliin]]></singular>
+	  <![CDATA[%1 [klaani: %2] liittyi peliin]]>
 	</str>
 	<str key="GameChat_Part">
-	  <singular><![CDATA[%1 lähti pelistä]]></singular>
+	  <![CDATA[%1 lähti pelistä]]>
 	</str>
 	<str key="GameChat_Say">
-	  <singular><![CDATA[Sano]]></singular>
+	  <![CDATA[Sano]]>
 	</str>
 	<str key="GameChat_ScoreMultiNotify">
-	  <singular><![CDATA[* %1x pisteet tästä radasta *]]></singular>
+	  <![CDATA[* %1x pisteet tästä radasta *]]>
 	</str>
 	<str key="GameChat_Text">
-	  <singular><![CDATA[<%1> %2]]></singular>
+	  <![CDATA[<%1> %2]]>
 	</str>
 	<str key="GameChat_TypeHere">
-	  <singular><![CDATA[Kirjoita viestisi tähän]]></singular>
+	  <![CDATA[Kirjoita viestisi tähän]]>
 	</str>
 	<str key="GameControl_Back">
-	  <singular><![CDATA[<- Valikkoon]]></singular>
+	  <![CDATA[<- Valikkoon]]>
 	</str>
 	<str key="GameControl_BackSure">
-	  <singular><![CDATA[Oletko varma?]]></singular>
+	  <![CDATA[Oletko varma?]]>
 	</str>
 	<str key="GameControl_Names0">
-	  <singular><![CDATA[Ei nimiä]]></singular>
+	  <![CDATA[Ei nimiä]]>
 	</str>
 	<str key="GameControl_Names1">
-	  <singular><![CDATA[Nimikirjaimet]]></singular>
+	  <![CDATA[Nimikirjaimet]]>
 	</str>
 	<str key="GameControl_Names2">
-	  <singular><![CDATA[Nimimerkit]]></singular>
+	  <![CDATA[Nimimerkit]]>
 	</str>
 	<str key="GameControl_Names3">
-	  <singular><![CDATA[Nimi + klaani]]></singular>
+	  <![CDATA[Nimi + klaani]]>
 	</str>
 	<str key="GameControl_New">
-	  <singular><![CDATA[Uusi peli]]></singular>
+	  <![CDATA[Uusi peli]]>
 	</str>
 	<str key="GameControl_Skip">
-	  <singular><![CDATA[Radan väliinjättö]]></singular>
+	  <![CDATA[Radan väliinjättö]]>
 	</str>
 	<str key="GamePlayerInfo_AfterLeader">
-	  <singular><![CDATA[(%1)]]></singular>
+	  <![CDATA[(%1)]]>
 	</str>
 	<str key="GamePlayerInfo_CompareResultBestOfAllTime">
-	  <singular><![CDATA[Kaikkien aikojen paras]]></singular>
+	  <![CDATA[Kaikkien aikojen paras]]>
 	</str>
 	<str key="GamePlayerInfo_CompareResultBestOfDay">
-	  <singular><![CDATA[Päivän paras]]></singular>
+	  <![CDATA[Päivän paras]]>
 	</str>
 	<str key="GamePlayerInfo_CompareResultIdeal">
-	  <singular><![CDATA[Rataennätykset]]></singular>
+	  <![CDATA[Rataennätykset]]>
 	</str>
 	<str key="GamePlayerInfo_CompareResultNick">
-	  <singular><![CDATA[(Vertailutulos)]]></singular>
+	  <![CDATA[(Vertailutulos)]]>
 	</str>
 	<str key="GamePlayerInfo_CompareResultNone">
-	  <singular><![CDATA[Ei vertailutulosta]]></singular>
+	  <![CDATA[Ei vertailutulosta]]>
 	</str>
 	<str key="GamePlayerInfo_CompareResultOwn">
-	  <singular><![CDATA['%1':n paras listalla]]></singular>
+	  <![CDATA['%1':n paras listalla]]>
 	</str>
 	<str key="GamePlayerInfo_CompareResultTop100Average">
-	  <singular><![CDATA[Top 100:n keskiarvo]]></singular>
+	  <![CDATA[Top 100:n keskiarvo]]>
 	</str>
 	<str key="GamePlayerInfo_Draw">
-	  <singular><![CDATA[Tasapeli]]></singular>
+	  <![CDATA[Tasapeli]]>
 	</str>
 	<str key="GamePlayerInfo_Leader">
-	  <singular><![CDATA[(J)]]></singular>
+	  <![CDATA[(J)]]>
 	</str>
 	<str key="GamePlayerInfo_OwnTurn">
-	  <singular><![CDATA[Sinun lyöntisi]]></singular>
+	  <![CDATA[Sinun lyöntisi]]>
 	</str>
 	<str key="GamePlayerInfo_PlayerTurn">
-	  <singular><![CDATA[Lyöntivuorossa]]></singular>
+	  <![CDATA[Lyöntivuorossa]]>
 	</str>
 	<str key="GamePlayerInfo_Quit_ConnectionProblem">
-	  <singular><![CDATA[(katkaisi yhteyden)]]></singular>
+	  <![CDATA[(katkaisi yhteyden)]]>
 	</str>
 	<str key="GamePlayerInfo_Quit_Part">
-	  <singular><![CDATA[(Lähti pelistä)]]></singular>
+	  <![CDATA[(Lähti pelistä)]]>
 	</str>
 	<str key="GamePlayerInfo_ReadyForNewGame">
-	  <singular><![CDATA[(Haluaa uuden pelin!)]]></singular>
+	  <![CDATA[(Haluaa uuden pelin!)]]>
 	</str>
 	<str key="GamePlayerInfo_Skipped">
-	  <singular><![CDATA[X]]></singular>
+	  <![CDATA[X]]>
 	</str>
 	<str key="GamePlayerInfo_VoteSkipTrack">
-	  <singular><![CDATA[(Äänestää: radan väliinjättö)]]></singular>
+	  <![CDATA[(Äänestää: radan väliinjättö)]]>
 	</str>
 	<str key="GamePlayerInfo_WaitingPlayer">
-	  <singular><![CDATA[(Odotetaan pelaajaa)]]></singular>
+	  <![CDATA[(Odotetaan pelaajaa)]]>
 	</str>
 	<str key="GamePlayerInfo_Winner">
-	  <singular><![CDATA[Voittaja!]]></singular>
+	  <![CDATA[Voittaja!]]>
 	</str>
 	<str key="GameTrackInfo_AverageResultL">
-	  <singular><![CDATA[Keskiarvo: %1 lyöntiä]]></singular>
+	  <![CDATA[Keskiarvo: %1 lyöntiä]]>
 	</str>
 	<str key="GameTrackInfo_AverageResultS">
-	  <singular><![CDATA[Keskiarvo: %1]]></singular>
+	  <![CDATA[Keskiarvo: %1]]>
 	</str>
 	<str key="GameTrackInfo_BestResultFirstByL">
-	  <singular><![CDATA[(ennätyksen tekijä: %1, %2)]]></singular>
+	  <![CDATA[(ennätyksen tekijä: %1, %2)]]>
 	</str>
 	<str key="GameTrackInfo_BestResultFirstByS">
-	  <singular><![CDATA[(%1, %2)]]></singular>
+	  <![CDATA[(%1, %2)]]>
 	</str>
 	<str key="GameTrackInfo_BestResultFirstByUnknownL">
-	  <singular><![CDATA[(ennätyksen tekijä tuntematon)]]></singular>
+	  <![CDATA[(ennätyksen tekijä tuntematon)]]>
 	</str>
 	<str key="GameTrackInfo_BestResultFirstByUnknownS">
-	  <singular><![CDATA[(tuntematon)]]></singular>
+	  <![CDATA[(tuntematon)]]>
 	</str>
 	<str key="GameTrackInfo_BestResultL">
-	  <singular><![CDATA[Paras: %1 lyöntiä]]></singular>
+	  <![CDATA[Paras: %1 lyöntiä]]>
 	</str>
 	<str key="GameTrackInfo_BestResultLastByL">
-	  <singular><![CDATA[(viimeksi sivunnut: %1, %2)]]></singular>
+	  <![CDATA[(viimeksi sivunnut: %1, %2)]]>
 	</str>
 	<str key="GameTrackInfo_BestResultLastByS">
-	  <singular><![CDATA[(%1, %2)]]></singular>
+	  <![CDATA[(%1, %2)]]>
 	</str>
 	<str key="GameTrackInfo_BestResultPercentL">
-	  <singular><![CDATA[(%1% pelanneista)]]></singular>
+	  <![CDATA[(%1% pelanneista)]]>
 	</str>
 	<str key="GameTrackInfo_BestResultPercentS">
-	  <singular><![CDATA[(%1%)]]></singular>
+	  <![CDATA[(%1%)]]>
 	</str>
 	<str key="GameTrackInfo_BestResultS">
-	  <singular><![CDATA[Paras: %1]]></singular>
+	  <![CDATA[Paras: %1]]>
 	</str>
 	<str key="GameTrackInfo_BestResultToday">
-	  <singular><![CDATA[tänään]]></singular>
+	  <![CDATA[tänään]]>
 	</str>
 	<str key="GameTrackInfo_BestResultUniqueL">
-	  <singular><![CDATA[(uniikki tulos)]]></singular>
+	  <![CDATA[(uniikki tulos)]]>
 	</str>
 	<str key="GameTrackInfo_BestResultUniqueS">
-	  <singular><![CDATA[(uniikki)]]></singular>
+	  <![CDATA[(uniikki)]]>
 	</str>
 	<str key="GameTrackInfo_BestResultYesterday">
-	  <singular><![CDATA[eilen]]></singular>
+	  <![CDATA[eilen]]>
 	</str>
 	<str key="GameTrackInfo_CurrentTrack">
-	  <singular><![CDATA[Rata %1/%2]]></singular>
+	  <![CDATA[Rata %1/%2]]>
 	</str>
 	<str key="GameTrackInfo_GiveRating">
-	  <singular><![CDATA[Anna arvosana radalle:]]></singular>
+	  <![CDATA[Anna arvosana radalle:]]>
 	</str>
 	<str key="GameTrackInfo_NumberOfTracks">
-	  <singular><![CDATA[Ratoja: %1]]></singular>
+	  <![CDATA[Ratoja: %1]]>
 	</str>
 	<str key="GameTrackInfo_Rating">
-	  <singular><![CDATA[Keskiarvosana: %1]]></singular>
+	  <![CDATA[Keskiarvosana: %1]]>
 	</str>
 	<str key="LobbyChat_CantChallengeNone">
-	  <singular><![CDATA[Valitse haastettava pelaaja listasta (vasemmalta) ensin]]></singular>
+	  <![CDATA[Valitse haastettava pelaaja listasta (vasemmalta) ensin]]>
 	</str>
 	<str key="LobbyChat_CantChallengeSelf">
-	  <singular><![CDATA[Et voi haastaa itseäsi, valitse joku toinen pelaaja]]></singular>
+	  <![CDATA[Et voi haastaa itseäsi, valitse joku toinen pelaaja]]>
 	</str>
 	<str key="LobbyChat_InputHelp">
-	  <singular><![CDATA[Kirjoita viestisi tähän ja paina Enter]]></singular>
+	  <![CDATA[Kirjoita viestisi tähän ja paina Enter]]>
 	</str>
 	<str key="LobbyChat_NoGameMessages">
-	  <singular><![CDATA[Ei peli-ilmoituksia]]></singular>
+	  <![CDATA[Ei peli-ilmoituksia]]>
 	</str>
 	<str key="LobbyChat_NoInfoOfUnregistered">
-	  <singular><![CDATA[Pelaajakorttia ei ole saatavilla rekisteröimättömästä pelaajasta %1]]></singular>
+	  <![CDATA[Pelaajakorttia ei ole saatavilla rekisteröimättömästä pelaajasta %1]]>
 	</str>
 	<str key="LobbyChat_NoJoinPartMessages">
-	  <singular><![CDATA[Ei saapumis/poistumis-ilmoituksia]]></singular>
+	  <![CDATA[Ei saapumis/poistumis-ilmoituksia]]>
 	</str>
 	<str key="LobbyChat_QuickHelpDual">
-	  <singular><![CDATA[(Ylläolevista valikoista voit haastaa muita pelaajia peliin tai vastata sinulle tulleisiin haasteisiin)]]></singular>
+	  <![CDATA[(Ylläolevista valikoista voit haastaa muita pelaajia peliin tai vastata sinulle tulleisiin haasteisiin)]]>
 	</str>
 	<str key="LobbyChat_QuickHelpMulti">
-	  <singular><![CDATA[(Ylläolevista valikoista voit aloittaa uuden yksin- tai moninpelin, tai liittyä mukaan jo tehtyyn moninpeliin)]]></singular>
+	  <![CDATA[(Ylläolevista valikoista voit aloittaa uuden yksin- tai moninpelin, tai liittyä mukaan jo tehtyyn moninpeliin)]]>
 	</str>
 	<str key="LobbyChat_QuickHelpSingle">
-	  <singular><![CDATA[(Ylläolevista valikoista voit aloittaa harjoittelupelin tai pelata ratasettejä joista on myös pistelistat)]]></singular>
+	  <![CDATA[(Ylläolevista valikoista voit aloittaa harjoittelupelin tai pelata ratasettejä joista on myös pistelistat)]]>
 	</str>
 	<str key="LobbyChat_SayButton">
-	  <singular><![CDATA[Sano]]></singular>
+	  <![CDATA[Sano]]>
 	</str>
 	<str key="LobbyChat_UserCreatedMp">
-	  <singular><![CDATA[%1 teki uuden moninpelin '%2']]></singular>
+	  <![CDATA[%1 teki uuden moninpelin '%2']]>
 	</str>
 	<str key="LobbyChat_UserJoined">
-	  <singular><![CDATA[%1 saapui aulaan]]></singular>
+	  <![CDATA[%1 saapui aulaan]]>
 	</str>
 	<str key="LobbyChat_UserJoinedMp">
-	  <singular><![CDATA[%1 liittyi moninpeliin '%2']]></singular>
+	  <![CDATA[%1 liittyi moninpeliin '%2']]>
 	</str>
 	<str key="LobbyChat_UserLeft">
-	  <singular><![CDATA[%1 poistui aulasta]]></singular>
+	  <![CDATA[%1 poistui aulasta]]>
 	</str>
 	<str key="LobbyChat_UserLeftConnectionProblem">
-	  <singular><![CDATA[%1 poistui aulasta (katkaisi yhteyden)]]></singular>
+	  <![CDATA[%1 poistui aulasta (katkaisi yhteyden)]]>
 	</str>
 	<str key="LobbyChat_UserReturnedFromGame">
-	  <singular><![CDATA[%1 palasi pelistä]]></singular>
+	  <![CDATA[%1 palasi pelistä]]>
 	</str>
 	<str key="LobbyChat_UserStartedSp">
-	  <singular><![CDATA[%1 aloitti yksinpelin]]></singular>
+	  <![CDATA[%1 aloitti yksinpelin]]>
 	</str>
 	<str key="LobbyChat_UsersInDualPlayerLobby1">
-	  <singular><![CDATA[1 käyttäjä kaksinpeleissä]]></singular>
+	  <![CDATA[1 käyttäjä kaksinpeleissä]]>
 	</str>
 	<str key="LobbyChat_UsersInDualPlayerLobbyX">
-	  <singular><![CDATA[%1 käyttäjää kaksinpeleissä]]></singular>
+	  <![CDATA[%1 käyttäjää kaksinpeleissä]]>
 	</str>
 	<str key="LobbyChat_UsersInMultiPlayerLobby1">
-	  <singular><![CDATA[1 käyttäjä moninpeleissä]]></singular>
+	  <![CDATA[1 käyttäjä moninpeleissä]]>
 	</str>
 	<str key="LobbyChat_UsersInMultiPlayerLobbyX">
-	  <singular><![CDATA[%1 käyttäjää moninpeleissä]]></singular>
+	  <![CDATA[%1 käyttäjää moninpeleissä]]>
 	</str>
 	<str key="LobbyChat_UsersInSinglePlayerLobby1">
-	  <singular><![CDATA[1 käyttäjä yksinpeleissä]]></singular>
+	  <![CDATA[1 käyttäjä yksinpeleissä]]>
 	</str>
 	<str key="LobbyChat_UsersInSinglePlayerLobbyX">
-	  <singular><![CDATA[%1 käyttäjää yksinpeleissä]]></singular>
+	  <![CDATA[%1 käyttäjää yksinpeleissä]]>
 	</str>
 	<str key="LobbyChat_UsersInThisLobby00">
-	  <singular><![CDATA[Ei muita käyttäjiä tässä aulassa]]></singular>
+	  <![CDATA[Ei muita käyttäjiä tässä aulassa]]>
 	</str>
 	<str key="LobbyChat_UsersInThisLobby10">
-	  <singular><![CDATA[1 toinen käyttäjä tässä aulassa]]></singular>
+	  <![CDATA[1 toinen käyttäjä tässä aulassa]]>
 	</str>
 	<str key="LobbyChat_UsersInThisLobby11">
-	  <singular><![CDATA[1 toinen käyttäjä tässä aulassa, tällä hetkellä pelissä]]></singular>
+	  <![CDATA[1 toinen käyttäjä tässä aulassa, tällä hetkellä pelissä]]>
 	</str>
 	<str key="LobbyChat_UsersInThisLobbyX0">
-	  <singular><![CDATA[%1 muuta käyttäjää tässä aulassa]]></singular>
+	  <![CDATA[%1 muuta käyttäjää tässä aulassa]]>
 	</str>
 	<str key="LobbyChat_UsersInThisLobbyX1">
-	  <singular><![CDATA[%1 muuta käyttäjää tässä aulassa, 1 heistä pelissä]]></singular>
+	  <![CDATA[%1 muuta käyttäjää tässä aulassa, 1 heistä pelissä]]>
 	</str>
 	<str key="LobbyChat_UsersInThisLobbyXX">
-	  <singular><![CDATA[%1 muuta käyttäjää tässä aulassa, %2 heistä peleissä]]></singular>
+	  <![CDATA[%1 muuta käyttäjää tässä aulassa, %2 heistä peleissä]]>
 	</str>
 	<str key="LobbyChat_UsersStartedDp">
-	  <singular><![CDATA[%1 ja %2 aloittivat pelin]]></singular>
+	  <![CDATA[%1 ja %2 aloittivat pelin]]>
 	</str>
 	<str key="LobbyChat_UsersStartedGame">
-	  <singular><![CDATA[%1 ja %2 aloittivat pelin]]></singular>
+	  <![CDATA[%1 ja %2 aloittivat pelin]]>
 	</str>
 	<str key="LobbyChat_Welcome">
-	  <singular><![CDATA[T e r v e t u l o a !]]></singular>
+	  <![CDATA[T e r v e t u l o a !]]>
 	</str>
 	<str key="LobbyControl_Dual">
-	  <singular><![CDATA[Kaksinpeli]]></singular>
+	  <![CDATA[Kaksinpeli]]>
 	</str>
 	<str key="LobbyControl_Main">
-	  <singular><![CDATA[<- Pääaula]]></singular>
+	  <![CDATA[<- Pääaula]]>
 	</str>
 	<str key="LobbyControl_Multi">
-	  <singular><![CDATA[Moninpeli]]></singular>
+	  <![CDATA[Moninpeli]]>
 	</str>
 	<str key="LobbyControl_Quit">
-	  <singular><![CDATA[Poistu]]></singular>
+	  <![CDATA[Poistu]]>
 	</str>
 	<str key="LobbyControl_Single">
-	  <singular><![CDATA[Yksinpeli]]></singular>
+	  <![CDATA[Yksinpeli]]>
 	</str>
 	<str key="LobbyRealPassword_Cancel">
-	  <singular><![CDATA[Peruuta]]></singular>
+	  <![CDATA[Peruuta]]>
 	</str>
 	<str key="LobbyRealPassword_EnterPassword">
-	  <singular><![CDATA[Anna pelin salasana]]></singular>
+	  <![CDATA[Anna pelin salasana]]>
 	</str>
 	<str key="LobbyRealPassword_Ok">
-	  <singular><![CDATA[Ok]]></singular>
+	  <![CDATA[Ok]]>
 	</str>
 	<str key="LobbyReal_Accept">
-	  <singular><![CDATA[Hyväksy]]></singular>
+	  <![CDATA[Hyväksy]]>
 	</str>
 	<str key="LobbyReal_BeepOnChallenge">
-	  <singular><![CDATA[Äänimerkki haastettaessa]]></singular>
+	  <![CDATA[Äänimerkki haastettaessa]]>
 	</str>
 	<str key="LobbyReal_Cancel">
-	  <singular><![CDATA[Peru haaste]]></singular>
+	  <![CDATA[Peru haaste]]>
 	</str>
 	<str key="LobbyReal_Challenge">
-	  <singular><![CDATA[Haasta]]></singular>
+	  <![CDATA[Haasta]]>
 	</str>
 	<str key="LobbyReal_ChallengeRefused">
-	  <singular><![CDATA[Haasteesi hylättiin]]></singular>
+	  <![CDATA[Haasteesi hylättiin]]>
 	</str>
 	<str key="LobbyReal_ChallengeTitle">
-	  <singular><![CDATA[Haasta peliin:]]></singular>
+	  <![CDATA[Haasta peliin:]]>
 	</str>
 	<str key="LobbyReal_ChallengedByOther">
-	  <singular><![CDATA[Käyttäjä miettii juuri vastausta toiseen haasteeseen]]></singular>
+	  <![CDATA[Käyttäjä miettii juuri vastausta toiseen haasteeseen]]>
 	</str>
 	<str key="LobbyReal_ChallengedLeft">
-	  <singular><![CDATA[Haastettu käyttäjä poistui]]></singular>
+	  <![CDATA[Haastettu käyttäjä poistui]]>
 	</str>
 	<str key="LobbyReal_ChallengedTitle">
-	  <singular><![CDATA[%1 haastaa sinut peliin:]]></singular>
+	  <![CDATA[%1 haastaa sinut peliin:]]>
 	</str>
 	<str key="LobbyReal_ChallengingOther">
-	  <singular><![CDATA[Käyttäjä on juuri haastanut jonkun toisen]]></singular>
+	  <![CDATA[Käyttäjä on juuri haastanut jonkun toisen]]>
 	</str>
 	<str key="LobbyReal_ChallengingTitle">
-	  <singular><![CDATA[%1 haastettu peliin:]]></singular>
+	  <![CDATA[%1 haastettu peliin:]]>
 	</str>
 	<str key="LobbyReal_ChampionshipTitle">
-	  <singular><![CDATA[Championship:]]></singular>
+	  <![CDATA[Championship:]]>
 	</str>
 	<str key="LobbyReal_Collision">
-	  <singular><![CDATA[Krokkaus:]]></singular>
+	  <![CDATA[Krokkaus:]]>
 	</str>
 	<str key="LobbyReal_Collision1">
-	  <singular><![CDATA[Ei]]></singular>
+	  <![CDATA[Ei]]>
 	</str>
 	<str key="LobbyReal_Collision2">
-	  <singular><![CDATA[Kyllä]]></singular>
+	  <![CDATA[Kyllä]]>
 	</str>
 	<str key="LobbyReal_CreateGame">
-	  <singular><![CDATA[Tee peli]]></singular>
+	  <![CDATA[Tee peli]]>
 	</str>
 	<str key="LobbyReal_CreateTitle">
-	  <singular><![CDATA[Tee uusi peli:]]></singular>
+	  <![CDATA[Tee uusi peli:]]>
 	</str>
 	<str key="LobbyReal_GameName">
-	  <singular><![CDATA[Pelin nimi:]]></singular>
+	  <![CDATA[Pelin nimi:]]>
 	</str>
 	<str key="LobbyReal_GamePassword">
-	  <singular><![CDATA[Pelin salasana:]]></singular>
+	  <![CDATA[Pelin salasana:]]>
 	</str>
 	<str key="LobbyReal_JoinError1">
-	  <singular><![CDATA[Peli ei ole enää voimassa]]></singular>
+	  <![CDATA[Peli ei ole enää voimassa]]>
 	</str>
 	<str key="LobbyReal_JoinError2">
-	  <singular><![CDATA[Peli on jo alkanut]]></singular>
+	  <![CDATA[Peli on jo alkanut]]>
 	</str>
 	<str key="LobbyReal_JoinError3">
-	  <singular><![CDATA[Väärä salasana]]></singular>
+	  <![CDATA[Väärä salasana]]>
 	</str>
 	<str key="LobbyReal_JoinError4">
-	  <singular><![CDATA[Valitsemasi peli on vain rekisteröityneille]]></singular>
+	  <![CDATA[Valitsemasi peli on vain rekisteröityneille]]>
 	</str>
 	<str key="LobbyReal_JoinGame">
-	  <singular><![CDATA[Liity peliin]]></singular>
+	  <![CDATA[Liity peliin]]>
 	</str>
 	<str key="LobbyReal_JoinTitle">
-	  <singular><![CDATA[Liity peliin:]]></singular>
+	  <![CDATA[Liity peliin:]]>
 	</str>
 	<str key="LobbyReal_ListPassword">
-	  <singular><![CDATA[[ss]]]></singular>
+	  <![CDATA[[ss]]]>
 	</str>
 	<str key="LobbyReal_ListPlayers">
-	  <singular><![CDATA[%1/%2]]></singular>
+	  <![CDATA[%1/%2]]>
 	</str>
 	<str key="LobbyReal_ListRegOnly">
-	  <singular><![CDATA[[rek]]]></singular>
+	  <![CDATA[[rek]]]>
 	</str>
 	<str key="LobbyReal_ListTitleGame">
-	  <singular><![CDATA[Peli]]></singular>
+	  <![CDATA[Peli]]>
 	</str>
 	<str key="LobbyReal_ListTitlePlayers">
-	  <singular><![CDATA[Pelaajia]]></singular>
+	  <![CDATA[Pelaajia]]>
 	</str>
 	<str key="LobbyReal_ListTitleTracks">
-	  <singular><![CDATA[Ratoja]]></singular>
+	  <![CDATA[Ratoja]]>
 	</str>
 	<str key="LobbyReal_ListTitleUserLimit">
-	  <singular><![CDATA[[..]]]></singular>
+	  <![CDATA[[..]]]>
 	</str>
 	<str key="LobbyReal_ListTracks">
-	  <singular><![CDATA[%1]]></singular>
+	  <![CDATA[%1]]>
 	</str>
 	<str key="LobbyReal_MaxStrokes">
-	  <singular><![CDATA[Max. lyönnit per rata:]]></singular>
+	  <![CDATA[Max. lyönnit per rata:]]>
 	</str>
 	<str key="LobbyReal_MaxStrokesUnlimited">
-	  <singular><![CDATA[Ei rajoitettu]]></singular>
+	  <![CDATA[Ei rajoitettu]]>
 	</str>
 	<str key="LobbyReal_NoChallengedUser">
-	  <singular><![CDATA[Haastettu poistui juuri]]></singular>
+	  <![CDATA[Haastettu poistui juuri]]>
 	</str>
 	<str key="LobbyReal_NoChallenges">
-	  <singular><![CDATA[Käyttäjä ei ota haasteita vastaan]]></singular>
+	  <![CDATA[Käyttäjä ei ota haasteita vastaan]]>
 	</str>
 	<str key="LobbyReal_NoChallengesToMe">
-	  <singular><![CDATA[Ei haasteita minulle]]></singular>
+	  <![CDATA[Ei haasteita minulle]]>
 	</str>
 	<str key="LobbyReal_OnlyFor">
-	  <singular><![CDATA[Peliin pääsee:]]></singular>
+	  <![CDATA[Peliin pääsee:]]>
 	</str>
 	<str key="LobbyReal_OnlyForAll">
-	  <singular><![CDATA[Kuka tahansa]]></singular>
+	  <![CDATA[Kuka tahansa]]>
 	</str>
 	<str key="LobbyReal_OnlyForReg">
-	  <singular><![CDATA[Vain rekisteröityneet]]></singular>
+	  <![CDATA[Vain rekisteröityneet]]>
 	</str>
 	<str key="LobbyReal_PlayerCount">
-	  <singular><![CDATA[Pelaajien lukumäärä:]]></singular>
+	  <![CDATA[Pelaajien lukumäärä:]]>
 	</str>
 	<str key="LobbyReal_Refuse">
-	  <singular><![CDATA[Hylkää]]></singular>
+	  <![CDATA[Hylkää]]>
 	</str>
 	<str key="LobbyReal_Scoring">
-	  <singular><![CDATA[Pistelasku:]]></singular>
+	  <![CDATA[Pistelasku:]]>
 	</str>
 	<str key="LobbyReal_Scoring1">
-	  <singular><![CDATA[Lyönnit]]></singular>
+	  <![CDATA[Lyönnit]]>
 	</str>
 	<str key="LobbyReal_Scoring2">
-	  <singular><![CDATA[Ratavoitot]]></singular>
+	  <![CDATA[Ratavoitot]]>
 	</str>
 	<str key="LobbyReal_ScoringEnd">
-	  <singular><![CDATA[Painota loppua:]]></singular>
+	  <![CDATA[Painota loppua:]]>
 	</str>
 	<str key="LobbyReal_ScoringEnd0">
-	  <singular><![CDATA[Ei]]></singular>
+	  <![CDATA[Ei]]>
 	</str>
 	<str key="LobbyReal_ScoringEnd1">
-	  <singular><![CDATA[Vähän]]></singular>
+	  <![CDATA[Vähän]]>
 	</str>
 	<str key="LobbyReal_ScoringEnd2">
-	  <singular><![CDATA[Paljon]]></singular>
+	  <![CDATA[Paljon]]>
 	</str>
 	<str key="LobbyReal_Start">
-	  <singular><![CDATA[Aloitus]]></singular>
+	  <![CDATA[Aloitus]]>
 	</str>
 	<str key="LobbyReal_TS_AllTimeBest">
-	  <singular><![CDATA[Kaikkien aikojen paras:]]></singular>
+	  <![CDATA[Kaikkien aikojen paras:]]>
 	</str>
 	<str key="LobbyReal_TS_DayBest">
-	  <singular><![CDATA[Päivän paras:]]></singular>
+	  <![CDATA[Päivän paras:]]>
 	</str>
 	<str key="LobbyReal_TS_Level1">
-	  <singular><![CDATA[Helppo]]></singular>
+	  <![CDATA[Helppo]]>
 	</str>
 	<str key="LobbyReal_TS_Level2">
-	  <singular><![CDATA[Keskivaikea]]></singular>
+	  <![CDATA[Keskivaikea]]>
 	</str>
 	<str key="LobbyReal_TS_Level3">
-	  <singular><![CDATA[Vaikea]]></singular>
+	  <![CDATA[Vaikea]]>
 	</str>
 	<str key="LobbyReal_TS_MonthBest">
-	  <singular><![CDATA[Kuukauden paras:]]></singular>
+	  <![CDATA[Kuukauden paras:]]>
 	</str>
 	<str key="LobbyReal_TS_TitleDifficulty">
-	  <singular><![CDATA[Vaikeusaste]]></singular>
+	  <![CDATA[Vaikeusaste]]>
 	</str>
 	<str key="LobbyReal_TS_TitleName">
-	  <singular><![CDATA[Ratasetti]]></singular>
+	  <![CDATA[Ratasetti]]>
 	</str>
 	<str key="LobbyReal_TS_TitleTracks">
-	  <singular><![CDATA[Ratoja]]></singular>
+	  <![CDATA[Ratoja]]>
 	</str>
 	<str key="LobbyReal_TS_WeekBest">
-	  <singular><![CDATA[Viikon paras:]]></singular>
+	  <![CDATA[Viikon paras:]]>
 	</str>
 	<str key="LobbyReal_TS_alkula">
-	  <singular><![CDATA[Alkula]]></singular>
+	  <![CDATA[Alkula]]>
 	</str>
 	<str key="LobbyReal_TS_hollola">
-	  <singular><![CDATA[Hollola]]></singular>
+	  <![CDATA[Hollola]]>
 	</str>
 	<str key="LobbyReal_TS_karstula">
-	  <singular><![CDATA[Karstula]]></singular>
+	  <![CDATA[Karstula]]>
 	</str>
 	<str key="LobbyReal_TS_koivikko">
-	  <singular><![CDATA[Koivikko]]></singular>
+	  <![CDATA[Koivikko]]>
 	</str>
 	<str key="LobbyReal_TS_kuusikko">
-	  <singular><![CDATA[Kuusikko]]></singular>
+	  <![CDATA[Kuusikko]]>
 	</str>
 	<str key="LobbyReal_TS_raakkyla">
-	  <singular><![CDATA[Rääkkylä]]></singular>
+	  <![CDATA[Rääkkylä]]>
 	</str>
 	<str key="LobbyReal_TS_tammela">
-	  <singular><![CDATA[Tammela]]></singular>
+	  <![CDATA[Tammela]]>
 	</str>
 	<str key="LobbyReal_TimeLimit">
-	  <singular><![CDATA[Lyönnin aikaraja:]]></singular>
+	  <![CDATA[Lyönnin aikaraja:]]>
 	</str>
 	<str key="LobbyReal_TimeLimitMin">
-	  <singular><![CDATA[%1 min]]></singular>
+	  <![CDATA[%1 min]]>
 	</str>
 	<str key="LobbyReal_TimeLimitNo">
-	  <singular><![CDATA[Ei ole]]></singular>
+	  <![CDATA[Ei ole]]>
 	</str>
 	<str key="LobbyReal_TimeLimitSec">
-	  <singular><![CDATA[%1 sek]]></singular>
+	  <![CDATA[%1 sek]]>
 	</str>
 	<str key="LobbyReal_TrackCount">
-	  <singular><![CDATA[Ratojen lukumäärä:]]></singular>
+	  <![CDATA[Ratojen lukumäärä:]]>
 	</str>
 	<str key="LobbyReal_TrackTypes">
-	  <singular><![CDATA[Ratatyypit:]]></singular>
+	  <![CDATA[Ratatyypit:]]>
 	</str>
 	<str key="LobbyReal_TrackTypes0">
-	  <singular><![CDATA[Kaikkia ratoja]]></singular>
+	  <![CDATA[Kaikkia ratoja]]>
 	</str>
 	<str key="LobbyReal_TrackTypes1">
-	  <singular><![CDATA[Vain "perusratoja"]]></singular>
+	  <![CDATA[Vain "perusratoja"]]>
 	</str>
 	<str key="LobbyReal_TrackTypes2">
-	  <singular><![CDATA[Vain perinteisiä]]></singular>
+	  <![CDATA[Vain perinteisiä]]>
 	</str>
 	<str key="LobbyReal_TrackTypes3">
-	  <singular><![CDATA[Vain moderneja]]></singular>
+	  <![CDATA[Vain moderneja]]>
 	</str>
 	<str key="LobbyReal_TrackTypes4">
-	  <singular><![CDATA[Vain hole-in-one:ja]]></singular>
+	  <![CDATA[Vain hole-in-one:ja]]>
 	</str>
 	<str key="LobbyReal_TrackTypes5">
-	  <singular><![CDATA[Vain lyhyitä]]></singular>
+	  <![CDATA[Vain lyhyitä]]>
 	</str>
 	<str key="LobbyReal_TrackTypes6">
-	  <singular><![CDATA[Vain pitkiä]]></singular>
+	  <![CDATA[Vain pitkiä]]>
 	</str>
 	<str key="LobbyReal_TrackTypes7">
-	  <singular><![CDATA[Vain uusimpia]]></singular>
+	  <![CDATA[Vain uusimpia]]>
 	</str>
 	<str key="LobbyReal_TrainingTitle">
-	  <singular><![CDATA[Harjoittelu:]]></singular>
+	  <![CDATA[Harjoittelu:]]>
 	</str>
 	<str key="LobbyReal_WaterEvent">
-	  <singular><![CDATA[Kun pallo menee veteen:]]></singular>
+	  <![CDATA[Kun pallo menee veteen:]]>
 	</str>
 	<str key="LobbyReal_WaterEvent1">
-	  <singular><![CDATA[Takaisin lyöntipaikkaan]]></singular>
+	  <![CDATA[Takaisin lyöntipaikkaan]]>
 	</str>
 	<str key="LobbyReal_WaterEvent2">
-	  <singular><![CDATA[Pallo pysyy rannalla]]></singular>
+	  <![CDATA[Pallo pysyy rannalla]]>
 	</str>
 	<str key="LobbyReal_WaterEventWarning">
-	  <singular><![CDATA[(Huom! Et voi tehdä rataennätyksiä tällä asetuksella!)]]></singular>
+	  <![CDATA[(Huom! Et voi tehdä rataennätyksiä tällä asetuksella!)]]>
 	</str>
 	<str key="LobbySelect_DualPlayer">
-	  <singular><![CDATA[Kaksinpeli]]></singular>
+	  <![CDATA[Kaksinpeli]]>
 	</str>
 	<str key="LobbySelect_Full">
-	  <singular><![CDATA[(Täynnä)]]></singular>
+	  <![CDATA[(Täynnä)]]>
 	</str>
 	<str key="LobbySelect_Gfx">
-	  <singular><![CDATA[Grafiikka:]]></singular>
+	  <![CDATA[Grafiikka:]]>
 	</str>
 	<str key="LobbySelect_Gfx0">
-	  <singular><![CDATA[Karsittu (minimi)]]></singular>
+	  <![CDATA[Karsittu (minimi)]]>
 	</str>
 	<str key="LobbySelect_Gfx1">
-	  <singular><![CDATA[Keskitaso (nopea)]]></singular>
+	  <![CDATA[Keskitaso (nopea)]]>
 	</str>
 	<str key="LobbySelect_Gfx2">
-	  <singular><![CDATA[Täysi (hitaampi)]]></singular>
+	  <![CDATA[Täysi (hitaampi)]]>
 	</str>
 	<str key="LobbySelect_Gfx3">
-	  <singular><![CDATA[Täysi + animaatiot]]></singular>
+	  <![CDATA[Täysi + animaatiot]]>
 	</str>
 	<str key="LobbySelect_MultiPlayer">
-	  <singular><![CDATA[Moninpeli]]></singular>
+	  <![CDATA[Moninpeli]]>
 	</str>
 	<str key="LobbySelect_PlayHidden">
-	  <singular><![CDATA[Pelaa piilossa (ilman aulachattiä)]]></singular>
+	  <![CDATA[Pelaa piilossa (ilman aulachattiä)]]>
 	</str>
 	<str key="LobbySelect_Players0">
-	  <singular><![CDATA[(Ei pelaajia)]]></singular>
+	  <![CDATA[(Ei pelaajia)]]>
 	</str>
 	<str key="LobbySelect_Players1">
-	  <singular><![CDATA[1 pelaaja]]></singular>
+	  <![CDATA[1 pelaaja]]>
 	</str>
 	<str key="LobbySelect_PlayersX">
-	  <singular><![CDATA[%1 pelaajaa]]></singular>
+	  <![CDATA[%1 pelaajaa]]>
 	</str>
 	<str key="LobbySelect_QuickStart">
-	  <singular><![CDATA[pika-aloitus]]></singular>
+	  <![CDATA[pika-aloitus]]>
 	</str>
 	<str key="LobbySelect_Quit">
-	  <singular><![CDATA[Poistu]]></singular>
+	  <![CDATA[Poistu]]>
 	</str>
 	<str key="LobbySelect_SinglePlayer">
-	  <singular><![CDATA[Yksinpeli]]></singular>
+	  <![CDATA[Yksinpeli]]>
 	</str>
 	<str key="BadNicks" reverse="yes">
-		<singular><![CDATA[onap,tsecni,tsesni,ilekkik,reggin,rekeen,skesitten,aspmip,attomih,sakomih,sboob,ipmip,anavok,sakulah,ussut,kknur,mreps,suna,issit,aksret,appmip,yllyp,sirotilk,aktul,tsicar,tsisar,fodep,äkiersrep,ääpisuk,issun,ttenap,ippmip,ileppip,amiik,ynroh,rerhuf,rerheuf,rerhüf,tsissar,liehgeis,lieh geis,padsn,lemmor,izan,aksiar,aksap,otipälly,erohw,reknaw,eztov,tutiv,nutiv,kutiv,iutiv,uttiv,tmmadrev,anigav,ressot,tihs,xes,iskes,yskes,znawhcs,essiehcs,anataas,yssup,nrop,duvuhttip,duvuhssip,ullip,esrep,elekrep,sinep,uklum,ukklum,rotaredom,irottaaredom,obsel,vryk,pryk,illuk,eraguskuk,duvuhkuk,nhosneruh,arouh,omoh,reltih,ttnih,ittevleh,etevleh,kcuf,eztof,attif,neggif,odlid,göb,bojwolb,hctib,dratsab,elohssa,hcolhcsra,ajapa,laana,nimda,1 0 0 3 7 1,100371]]></singular>
+		<![CDATA[onap,tsecni,tsesni,ilekkik,reggin,rekeen,skesitten,aspmip,attomih,sakomih,sboob,ipmip,anavok,sakulah,ussut,kknur,mreps,suna,issit,aksret,appmip,yllyp,sirotilk,aktul,tsicar,tsisar,fodep,äkiersrep,ääpisuk,issun,ttenap,ippmip,ileppip,amiik,ynroh,rerhuf,rerheuf,rerhüf,tsissar,liehgeis,lieh geis,padsn,lemmor,izan,aksiar,aksap,otipälly,erohw,reknaw,eztov,tutiv,nutiv,kutiv,iutiv,uttiv,tmmadrev,anigav,ressot,tihs,xes,iskes,yskes,znawhcs,essiehcs,anataas,yssup,nrop,duvuhttip,duvuhssip,ullip,esrep,elekrep,sinep,uklum,ukklum,rotaredom,irottaaredom,obsel,vryk,pryk,illuk,eraguskuk,duvuhkuk,nhosneruh,arouh,omoh,reltih,ttnih,ittevleh,etevleh,kcuf,eztof,attif,neggif,odlid,göb,bojwolb,hctib,dratsab,elohssa,hcolhcsra,ajapa,laana,nimda,1 0 0 3 7 1,100371]]>
 	</str>
 	<str key="BadWords" reverse="yes">
-		<singular><![CDATA[1-0-0-3-7-1,1 0 0 3 7 1,100371,ilekkik,ussut,issit,appmip,aktul,äkiersrep,ääpisuk,issun,ippmip,ileppip,aksap,tutiv,nutiv,uttiv,anataas,ullip,esrep,elekrep,ukklum,illuk,arouh,ittevleh,nitevleh,äpryk,ukknur,aakknur,irakknur,ittnih,kcuf]]></singular>
+		<![CDATA[1-0-0-3-7-1,1 0 0 3 7 1,100371,ilekkik,ussut,issit,appmip,aktul,äkiersrep,ääpisuk,issun,ippmip,ileppip,aksap,tutiv,nutiv,uttiv,anataas,ullip,esrep,elekrep,ukklum,illuk,arouh,ittevleh,nitevleh,äpryk,ukknur,aakknur,irakknur,ittnih,kcuf]]>
 	</str>
 	<str key="Chat_Game_BanButton">
-		<singular><![CDATA[Bannaa]]></singular>
+		<![CDATA[Bannaa]]>
 	</str>
 	<str key="Chat_Game_CantRemoveNone">
-		<singular><![CDATA[Valitse poistettava katsoja listalta ensin]]></singular>
+		<![CDATA[Valitse poistettava katsoja listalta ensin]]>
 	</str>
 	<str key="Chat_Game_CantRemovePlayer">
-		<singular><![CDATA[Et voi poistaa pelaajaa pelistä, ainoastaan katsojia]]></singular>
+		<![CDATA[Et voi poistaa pelaajaa pelistä, ainoastaan katsojia]]>
 	</str>
 	<str key="Chat_Game_CantRemoveSelf">
-		<singular><![CDATA[Et voi poistaa itseäsi pelistä]]></singular>
+		<![CDATA[Et voi poistaa itseäsi pelistä]]>
 	</str>
 	<str key="Chat_Game_KickButton">
-		<singular><![CDATA[Poista]]></singular>
+		<![CDATA[Poista]]>
 	</str>
 	<str key="Chat_Game_NoSpectatorJoinPartMessages">
-		<singular><![CDATA[Ei liittyi/poistui ilm.]]></singular>
+		<![CDATA[Ei liittyi/poistui ilm.]]>
 	</str>
 	<str key="Chat_Game_PlayerJoined">
-		<singular><![CDATA[%1 liittyi peliin]]></singular>
+		<![CDATA[%1 liittyi peliin]]>
 	</str>
 	<str key="Chat_Game_PlayerJoinedClan">
-		<singular><![CDATA[%1 [klaani: %2] liittyi peliin]]></singular>
+		<![CDATA[%1 [klaani: %2] liittyi peliin]]>
 	</str>
 	<str key="Chat_Game_PlayerLeft">
-		<singular><![CDATA[Pelaaja %1 poistui pelistä]]></singular>
+		<![CDATA[Pelaaja %1 poistui pelistä]]>
 	</str>
 	<str key="Chat_Game_PlayerLeftConnectionProblem">
-		<singular><![CDATA[Pelaaja %1 poistui pelistä (katkaisi yhteyden)]]></singular>
+		<![CDATA[Pelaaja %1 poistui pelistä (katkaisi yhteyden)]]>
 	</str>
 	<str key="Chat_Game_RemoveSpectatorButton">
-		<singular><![CDATA[Poista katsoja]]></singular>
+		<![CDATA[Poista katsoja]]>
 	</str>
 	<str key="Chat_Game_SpectatorJoined">
-		<singular><![CDATA[Katsoja %1 liittyi peliin]]></singular>
+		<![CDATA[Katsoja %1 liittyi peliin]]>
 	</str>
 	<str key="Chat_Game_SpectatorLeft">
-		<singular><![CDATA[Katsoja %1 poistui pelistä]]></singular>
+		<![CDATA[Katsoja %1 poistui pelistä]]>
 	</str>
 	<str key="Chat_Game_SpectatorLeftRemovedByPlayer">
-		<singular><![CDATA[Katsoja %1 poistui pelistä (pelaaja poisti)]]></singular>
+		<![CDATA[Katsoja %1 poistui pelistä (pelaaja poisti)]]>
 	</str>
 	<str key="Chat_InputHelp">
-		<singular><![CDATA[Kirjoita viestisi tähän ja paina Enter]]></singular>
+		<![CDATA[Kirjoita viestisi tähän ja paina Enter]]>
 	</str>
 	<str key="Chat_Lobby_CantChallengeNone">
-		<singular><![CDATA[Valitse haastettava pelaaja listasta (vasemmalta) ensin]]></singular>
+		<![CDATA[Valitse haastettava pelaaja listasta (vasemmalta) ensin]]>
 	</str>
 	<str key="Chat_Lobby_CantChallengeSelf">
-		<singular><![CDATA[Et voi haastaa itseäsi, valitse joku toinen pelaaja]]></singular>
+		<![CDATA[Et voi haastaa itseäsi, valitse joku toinen pelaaja]]>
 	</str>
 	<str key="Chat_Lobby_NoGameMessages">
-		<singular><![CDATA[Ei peli-ilmoituksia]]></singular>
+		<![CDATA[Ei peli-ilmoituksia]]>
 	</str>
 	<str key="Chat_Lobby_NoGuestChatAndRegReminder">
-		<singular><![CDATA[Rekisteröimättömänä käyttäjänä tai vahvistamattomalla tunnuksella et voi keskustella aulatilassa. Jos haluat, voit rekisteröityä <täältä> heti.]]></singular>
+		<![CDATA[Rekisteröimättömänä käyttäjänä tai vahvistamattomalla tunnuksella et voi keskustella aulatilassa. Jos haluat, voit rekisteröityä <täältä> heti.]]>
 	</str>
 	<str key="Chat_Lobby_NoGuestChatAndRegReminder_Shorter">
-		<singular><![CDATA[Rekisteröimättömänä et voi keskustella aulassa. Voit rekisteröityä <täältä>.]]></singular>
+		<![CDATA[Rekisteröimättömänä et voi keskustella aulassa. Voit rekisteröityä <täältä>.]]>
 	</str>
 	<str key="Chat_Lobby_NoJoinPartMessages">
-		<singular><![CDATA[Ei saapumis-/poistumisilmoituksia]]></singular>
+		<![CDATA[Ei saapumis-/poistumisilmoituksia]]>
 	</str>
 	<str key="Chat_Lobby_UserCreatedGame">
-		<singular><![CDATA[%1 teki uuden pelin nimeltään '%2']]></singular>
+		<![CDATA[%1 teki uuden pelin nimeltään '%2']]>
 	</str>
 	<str key="Chat_Lobby_UserJoined">
-		<singular><![CDATA[%1 saapui aulaan]]></singular>
+		<![CDATA[%1 saapui aulaan]]>
 	</str>
 	<str key="Chat_Lobby_UserJoinedGame">
-		<singular><![CDATA[%1 liittyi peliin nimeltään '%2']]></singular>
+		<![CDATA[%1 liittyi peliin nimeltään '%2']]>
 	</str>
 	<str key="Chat_Lobby_UserLeft">
-		<singular><![CDATA[%1 poistui aulasta]]></singular>
+		<![CDATA[%1 poistui aulasta]]>
 	</str>
 	<str key="Chat_Lobby_UserLeftConnectionProblem">
-		<singular><![CDATA[%1 poistui aulasta (katkaisi yhteyden)]]></singular>
+		<![CDATA[%1 poistui aulasta (katkaisi yhteyden)]]>
 	</str>
 	<str key="Chat_Lobby_UserReturnedFromGame">
-		<singular><![CDATA[%1 palasi pelistä]]></singular>
+		<![CDATA[%1 palasi pelistä]]>
 	</str>
 	<str key="Chat_Lobby_UserWathicngGame">
-		<singular><![CDATA[%1 siirtyi katsomaan peliä '%2']]></singular>
+		<![CDATA[%1 siirtyi katsomaan peliä '%2']]>
 	</str>
 	<str key="Chat_Lobby_UsersStartedGame">
-		<singular><![CDATA[%1 ja %2 aloittivat pelin '%3']]></singular>
+		<![CDATA[%1 ja %2 aloittivat pelin '%3']]>
 	</str>
 	<str key="Chat_Lobby_UsersStartedUnnamedGame">
-		<singular><![CDATA[%1 ja %2 aloittivat pelin]]></singular>
+		<![CDATA[%1 ja %2 aloittivat pelin]]>
 	</str>
 	<str key="Chat_Message">
-		<singular><![CDATA[** %1 **]]></singular>
+		<![CDATA[** %1 **]]>
 	</str>
 	<str key="Chat_MessageChallengeFlood">
-		<singular><![CDATA[Et voi haastaa samaa käyttäjää jatkuvasti lyhyen aikavälin sisällä (haasta jokin toinen käyttäjä tai odota hetki ennenkuin haastat tämän käyttäjän uudelleen)]]></singular>
+		<![CDATA[Et voi haastaa samaa käyttäjää jatkuvasti lyhyen aikavälin sisällä (haasta jokin toinen käyttäjä tai odota hetki ennenkuin haastat tämän käyttäjän uudelleen)]]>
 	</str>
 	<str key="Chat_MessageFlood">
-		<singular><![CDATA[Viestiäsi ei vielä lähetetty häiriköinnin (liian paljon tekstiä liian nopeasti) estämiseksi]]></singular>
+		<![CDATA[Viestiäsi ei vielä lähetetty häiriköinnin (liian paljon tekstiä liian nopeasti) estämiseksi]]>
 	</str>
 	<str key="Chat_MessagePrivateMessageUserLeft">
-		<singular><![CDATA[Huomaa että käyttäjä %1 jolle aloitit kirjoittamaan yksityisviestiä ei enää ole mukana keskustelussa]]></singular>
+		<![CDATA[Huomaa että käyttäjä %1 jolle aloitit kirjoittamaan yksityisviestiä ei enää ole mukana keskustelussa]]>
 	</str>
 	<str key="Chat_MuteChatRoomReminder">
-		<singular><![CDATA[Tämä on mykkä huone, keskustelu ei ole mahdollista]]></singular>
+		<![CDATA[Tämä on mykkä huone, keskustelu ei ole mahdollista]]>
 	</str>
 	<str key="Chat_NoGuestChatAndRegNote">
-		<singular><![CDATA[Keskustelu vaatii tunnuksen (<luo tunnus>)]]></singular>
+		<![CDATA[Keskustelu vaatii tunnuksen (<luo tunnus>)]]>
 	</str>
 	<str key="Chat_NoGuestChatAndRegReminder">
-		<singular><![CDATA[Rekisteröitymättömänä voit keskustella vain pelatessasi (<Luo tunnus>)]]></singular>
+		<![CDATA[Rekisteröitymättömänä voit keskustella vain pelatessasi (<Luo tunnus>)]]>
 	</str>
 	<str key="Chat_NoUnconfirmedChatNote">
-		<singular><![CDATA[Keskustelu vaatii tunnuksesi sähköpostin vahvistuksen]]></singular>
+		<![CDATA[Keskustelu vaatii tunnuksesi sähköpostin vahvistuksen]]>
 	</str>
 	<str key="Chat_NoUnconfirmedChatReminder">
-		<singular><![CDATA[Sinun täytyy vahvistaa sähköpostiosoitteesi ennenkuin voit keskustella]]></singular>
+		<![CDATA[Sinun täytyy vahvistaa sähköpostiosoitteesi ennenkuin voit keskustella]]>
 	</str>
 	<str key="Chat_SayButton">
-		<singular><![CDATA[Sano]]></singular>
+		<![CDATA[Sano]]>
 	</str>
 	<str key="Chat_ServerBroadcast">
-		<singular><![CDATA[[ Viesti pelipalvelimelta: %1 ]]]></singular>
+		<![CDATA[[ Viesti pelipalvelimelta: %1 ]]]>
 	</str>
 	<str key="Chat_ServerSay">
-		<singular><![CDATA[<<Server>> %1]]></singular>
+		<![CDATA[<<Server>> %1]]>
 	</str>
 	<str key="Chat_SheriffSay">
-		<singular><![CDATA[<<Sheriffi>> %1]]></singular>
+		<![CDATA[<<Sheriffi>> %1]]>
 	</str>
 	<str key="Chat_Simple_ChatRequiresConfirmation">
-		<singular><![CDATA[Sähköpostisi pitää vahvistaa ennenkuin voit osallistua keskusteluun]]></singular>
+		<![CDATA[Sähköpostisi pitää vahvistaa ennenkuin voit osallistua keskusteluun]]>
 	</str>
 	<str key="Chat_Simple_ChatRequiresRegisteration">
-		<singular><![CDATA[Sinun tarvitsee <luoda tunnus> ennenkuin voit osallistua keskusteluun]]></singular>
+		<![CDATA[Sinun tarvitsee <luoda tunnus> ennenkuin voit osallistua keskusteluun]]>
 	</str>
 	<str key="Chat_Simple_NoJoinPartMessages">
-		<singular><![CDATA[Ei ilmoitusta käyttäjän liittyessä tai poistuessa keskustelusta]]></singular>
+		<![CDATA[Ei ilmoitusta käyttäjän liittyessä tai poistuessa keskustelusta]]>
 	</str>
 	<str key="Chat_Simple_UserJoined">
-		<singular><![CDATA[%1 liittyi keskusteluun]]></singular>
+		<![CDATA[%1 liittyi keskusteluun]]>
 	</str>
 	<str key="Chat_Simple_UserLeft">
-		<singular><![CDATA[%1 poistui keskustelusta]]></singular>
+		<![CDATA[%1 poistui keskustelusta]]>
 	</str>
 	<str key="Chat_UserAction">
-		<singular><![CDATA[%1 %2]]></singular>
+		<![CDATA[%1 %2]]>
 	</str>
 	<str key="Chat_UserSay">
-		<singular><![CDATA[<%1> %2]]></singular>
+		<![CDATA[<%1> %2]]>
 	</str>
 	<str key="Chat_UserSayPrivate">
-		<singular><![CDATA[<%1 -> %2> %3]]></singular>
+		<![CDATA[<%1 -> %2> %3]]>
 	</str>
 	<str key="Chat_Welcome">
-		<singular><![CDATA[T e r v e t u l o a !]]></singular>
+		<![CDATA[T e r v e t u l o a !]]>
 	</str>
 	<str key="ClockAM">
-		<singular><![CDATA[]]></singular>
+		<![CDATA[]]>
 	</str>
 	<str key="ClockFormat">
-		<singular><![CDATA[%1:%2]]></singular>
+		<![CDATA[%1:%2]]>
 	</str>
 	<str key="ClockHours">
-		<singular><![CDATA[24]]></singular>
+		<![CDATA[24]]>
 	</str>
 	<str key="ClockPM">
-		<singular><![CDATA[]]></singular>
+		<![CDATA[]]>
 	</str>
 	<str key="CurseChars">
-		<singular><![CDATA[§#@$&%¤*×?!]]></singular>
+		<![CDATA[§#@$&%¤*×?!]]>
 	</str>
 	<str key="DateFormat">
-		<singular><![CDATA[%1. %2ta %3]]></singular>
+		<![CDATA[%1. %2ta %3]]>
 	</str>
 	<str key="DateMonth1">
-		<singular><![CDATA[tammikuu]]></singular>
+		<![CDATA[tammikuu]]>
 	</str>
 	<str key="DateMonth10">
-		<singular><![CDATA[lokakuu]]></singular>
+		<![CDATA[lokakuu]]>
 	</str>
 	<str key="DateMonth11">
-		<singular><![CDATA[marraskuu]]></singular>
+		<![CDATA[marraskuu]]>
 	</str>
 	<str key="DateMonth12">
-		<singular><![CDATA[joulukuu]]></singular>
+		<![CDATA[joulukuu]]>
 	</str>
 	<str key="DateMonth2">
-		<singular><![CDATA[helmikuu]]></singular>
+		<![CDATA[helmikuu]]>
 	</str>
 	<str key="DateMonth3">
-		<singular><![CDATA[maaliskuu]]></singular>
+		<![CDATA[maaliskuu]]>
 	</str>
 	<str key="DateMonth4">
-		<singular><![CDATA[huhtikuu]]></singular>
+		<![CDATA[huhtikuu]]>
 	</str>
 	<str key="DateMonth5">
-		<singular><![CDATA[toukokuu]]></singular>
+		<![CDATA[toukokuu]]>
 	</str>
 	<str key="DateMonth6">
-		<singular><![CDATA[kesäkuu]]></singular>
+		<![CDATA[kesäkuu]]>
 	</str>
 	<str key="DateMonth7">
-		<singular><![CDATA[heinäkuu]]></singular>
+		<![CDATA[heinäkuu]]>
 	</str>
 	<str key="DateMonth8">
-		<singular><![CDATA[elokuu]]></singular>
+		<![CDATA[elokuu]]>
 	</str>
 	<str key="DateMonth9">
-		<singular><![CDATA[syyskuu]]></singular>
+		<![CDATA[syyskuu]]>
 	</str>
 	<str key="DateToday">
-		<singular><![CDATA[Tänään]]></singular>
+		<![CDATA[Tänään]]>
 	</str>
 	<str key="DateYesterday">
-		<singular><![CDATA[Eilen]]></singular>
-	</str>
-	<str key="FuzzyTime_AboutDaysAgo">
-		<plural><![CDATA[Noin %1 päivää sitten]]></plural>
-		<singular><![CDATA[Noin päivä sitten]]></singular>
-	</str>
-	<str key="FuzzyTime_AboutHoursAgo">
-		<plural><![CDATA[Noin %1 tuntia sitten]]></plural>
-		<singular><![CDATA[Noin tunti sitten]]></singular>
-	</str>
-	<str key="FuzzyTime_AboutMinutesAgo">
-		<plural><![CDATA[Noin %1 minuuttia sitten]]></plural>
-		<singular><![CDATA[Noin minuutti sitten]]></singular>
-	</str>
-	<str key="FuzzyTime_AboutMonthsAgo">
-		<plural><![CDATA[Noin %1 kuukautta sitten]]></plural>
-		<singular><![CDATA[Noin kuukausi sitten]]></singular>
-	</str>
-	<str key="FuzzyTime_AboutWeeksAgo">
-		<plural><![CDATA[Noin %1 viikkoa sitten]]></plural>
-		<singular><![CDATA[Noin viikko sitten]]></singular>
-	</str>
-	<str key="FuzzyTime_AboutYearsAgo">
-		<plural><![CDATA[Noin %1 vuotta sitten]]></plural>
-		<singular><![CDATA[Noin vuosi sitten]]></singular>
-	</str>
-	<str key="FuzzyTime_FewSecondsAgo">
-		<singular><![CDATA[Muutama sekunti sitten]]></singular>
-	</str>
-	<str key="FuzzyTime_ManyYearsAgo">
-		<singular><![CDATA[Monta vuotta sitten]]></singular>
-	</str>
-	<str key="FuzzyTime_MinutesAgo">
-		<plural><![CDATA[%1 minuuttia sitten]]></plural>
-		<singular><![CDATA[Minuutti sitten]]></singular>
-	</str>
-	<str key="FuzzyTime_MoreThanYearsAgo">
-		<plural><![CDATA[Yli %1 vuotta sitten]]></plural>
-		<singular><![CDATA[Yli vuosi sitten]]></singular>
-	</str>
-	<str key="FuzzyTime_SecondsAgo">
-		<plural><![CDATA[%1 sekuntia sitten]]></plural>
-		<singular><![CDATA[Sekunti sitten]]></singular>
+		<![CDATA[Eilen]]>
 	</str>
 	<str key="GameFin_RM_FirstRanking">
-		<singular><![CDATA[Sait juuri ensimmäiset ranking-pisteesi!<br><br>Voit katsella omaa pelihistoriaasi tai tarkkaa ranking-lukemaasi mistä tahansa pelistä valitsemalla päävalikosta<br><b>Oma sivu -> Tilastot</b><br><br>Muiden pelaajien parhaat pisteet eri peleistä löydät päävalikon kautta seuraavasti<br><b>Pelit -> Ranking</b>]]></singular>
+		<![CDATA[Sait juuri ensimmäiset ranking-pisteesi!<br><br>Voit katsella omaa pelihistoriaasi tai tarkkaa ranking-lukemaasi mistä tahansa pelistä valitsemalla päävalikosta<br><b>Oma sivu -> Tilastot</b><br><br>Muiden pelaajien parhaat pisteet eri peleistä löydät päävalikon kautta seuraavasti<br><b>Pelit -> Ranking</b>]]>
 	</str>
 	<str key="GameFin_RS_PersonalRecord">
-		<singular><![CDATA[Teit juuri oman henkilökohtaisen ennätyksesi!<br><br>Oma ennätyksesi näkyy tämän pelin sisällä mutta voit myös katsoa omia tarkempia pelitilastoja valitsemalla päävalikosta<br><b>Oma sivu -> Tilastot</b><br><br>Kaikkien pelaajien yhteiset pistelistat mistä tahansa pelistä löydät valitsemalla päävalikosta<br><b>Pelit -> Ennätykset</b>]]></singular>
+		<![CDATA[Teit juuri oman henkilökohtaisen ennätyksesi!<br><br>Oma ennätyksesi näkyy tämän pelin sisällä mutta voit myös katsoa omia tarkempia pelitilastoja valitsemalla päävalikosta<br><b>Oma sivu -> Tilastot</b><br><br>Kaikkien pelaajien yhteiset pistelistat mistä tahansa pelistä löydät valitsemalla päävalikosta<br><b>Pelit -> Ennätykset</b>]]>
 	</str>
 	<str key="GameFin_R_Congratulations">
-		<singular><![CDATA[Onneksi olkoon!]]></singular>
+		<![CDATA[Onneksi olkoon!]]>
 	</str>
 	<str key="GameFin_R_OK">
-		<singular><![CDATA[OK!]]></singular>
+		<![CDATA[OK!]]>
 	</str>
 	<str key="GameFin_WM_StatsNotSaved">
-		<singular><![CDATA[Koska pelaat ilman Aapeli-tunnusta, henkilökohtaisia pelitilastojasi ei tallenneta.<br><br>Tunnuksen luonnin jälkeen saisit myös oman <b>nimimerkin</b> ja <b>hahmon</b>, omat <b>pelitilastot</b> sekä <b>ranking-ikonin</b> joka kertoo muille kuinka hyvä pelaaja olet.]]></singular>
+		<![CDATA[Koska pelaat ilman Aapeli-tunnusta, henkilökohtaisia pelitilastojasi ei tallenneta.<br><br>Tunnuksen luonnin jälkeen saisit myös oman <b>nimimerkin</b> ja <b>hahmon</b>, omat <b>pelitilastot</b> sekä <b>ranking-ikonin</b> joka kertoo muille kuinka hyvä pelaaja olet.]]>
 	</str>
 	<str key="GameFin_WS_ScoreNotSaved">
-		<singular><![CDATA[Koska pelaat ilman Aapeli-tunnusta, pisteitäsi ei tallenneta.<br><br>Vaikka et olisi kiinnostunut <b>pistelistoista</b>, tunnuksella pelatessasi useimmat Aapelin pelit tallentavat myös <b>henkilökohtaisia</b> tilastoja, omia ennätyksiä sekä pelien asetuksia.]]></singular>
+		<![CDATA[Koska pelaat ilman Aapeli-tunnusta, pisteitäsi ei tallenneta.<br><br>Vaikka et olisi kiinnostunut <b>pistelistoista</b>, tunnuksella pelatessasi useimmat Aapelin pelit tallentavat myös <b>henkilökohtaisia</b> tilastoja, omia ennätyksiä sekä pelien asetuksia.]]>
 	</str>
 	<str key="GameFin_W_Continue">
-		<singular><![CDATA[Jatka ilman tunnusta]]></singular>
+		<![CDATA[Jatka ilman tunnusta]]>
 	</str>
 	<str key="GameFin_W_CreateAccount">
-		<singular><![CDATA[Luo tunnus (ilmaista ja nopeaa)]]></singular>
+		<![CDATA[Luo tunnus (ilmaista ja nopeaa)]]>
 	</str>
 	<str key="GameFin_W_GameOver">
-		<singular><![CDATA[Peli päättyi!]]></singular>
+		<![CDATA[Peli päättyi!]]>
 	</str>
 	<str key="GoodWords" reverse="yes">
-		<singular><![CDATA[aaktulluuk,aaktullo,ukkium,ukkiumaksuun,amiovrepus,aksapir,kutivuk,sutivuk,aktulletivuk,illukreh,nutivhak,nutivrat,nutivos,sutivar,sutivaar,sutivaak,iutivar,iutivaar,iutivaak,nutivar,nutivaar,nutivaak,uttivrat,uttivos,uttivar,uttivaar,uttivaak]]></singular>
+		<![CDATA[aaktulluuk,aaktullo,ukkium,ukkiumaksuun,amiovrepus,aksapir,kutivuk,sutivuk,aktulletivuk,illukreh,nutivhak,nutivrat,nutivos,sutivar,sutivaar,sutivaak,iutivar,iutivaar,iutivaak,nutivar,nutivaar,nutivaak,uttivrat,uttivos,uttivar,uttivaar,uttivaak]]>
 	</str>
 	<str key="Key_Add">
-		<singular><![CDATA[+ (plus)]]></singular>
+		<![CDATA[+ (plus)]]>
 	</str>
 	<str key="Key_Alt">
-		<singular><![CDATA[Alt]]></singular>
+		<![CDATA[Alt]]>
 	</str>
 	<str key="Key_ArrowDown">
-		<singular><![CDATA[Nuoli alas]]></singular>
+		<![CDATA[Nuoli alas]]>
 	</str>
 	<str key="Key_ArrowLeft">
-		<singular><![CDATA[Nuoli vasemmalle]]></singular>
+		<![CDATA[Nuoli vasemmalle]]>
 	</str>
 	<str key="Key_ArrowRight">
-		<singular><![CDATA[Nuoli oikealle]]></singular>
+		<![CDATA[Nuoli oikealle]]>
 	</str>
 	<str key="Key_ArrowUp">
-		<singular><![CDATA[Nuoli ylös]]></singular>
+		<![CDATA[Nuoli ylös]]>
 	</str>
 	<str key="Key_BackSpace">
-		<singular><![CDATA[Askelpalautin]]></singular>
+		<![CDATA[Askelpalautin]]>
 	</str>
 	<str key="Key_Control">
-		<singular><![CDATA[Ctrl]]></singular>
+		<![CDATA[Ctrl]]>
 	</str>
 	<str key="Key_Delete">
-		<singular><![CDATA[Delete]]></singular>
+		<![CDATA[Delete]]>
 	</str>
 	<str key="Key_Divide">
-		<singular><![CDATA[/ (kautta)]]></singular>
+		<![CDATA[/ (kautta)]]>
 	</str>
 	<str key="Key_End">
-		<singular><![CDATA[End]]></singular>
+		<![CDATA[End]]>
 	</str>
 	<str key="Key_Enter">
-		<singular><![CDATA[Enter]]></singular>
+		<![CDATA[Enter]]>
 	</str>
 	<str key="Key_EnterNew">
-		<singular><![CDATA[(Paina näppäintä)]]></singular>
+		<![CDATA[(Paina näppäintä)]]>
 	</str>
 	<str key="Key_Escape">
-		<singular><![CDATA[Esc]]></singular>
+		<![CDATA[Esc]]>
 	</str>
 	<str key="Key_Home">
-		<singular><![CDATA[Home]]></singular>
+		<![CDATA[Home]]>
 	</str>
 	<str key="Key_Insert">
-		<singular><![CDATA[Insert]]></singular>
+		<![CDATA[Insert]]>
 	</str>
 	<str key="Key_Multiply">
-		<singular><![CDATA[* (tähti)]]></singular>
+		<![CDATA[* (tähti)]]>
 	</str>
 	<str key="Key_NotSet">
-		<singular><![CDATA[(Ei asetettu)]]></singular>
+		<![CDATA[(Ei asetettu)]]>
 	</str>
 	<str key="Key_Numpad0">
-		<singular><![CDATA[Numeronäpp. 0]]></singular>
+		<![CDATA[Numeronäpp. 0]]>
 	</str>
 	<str key="Key_Numpad1">
-		<singular><![CDATA[Numeronäpp. 1]]></singular>
+		<![CDATA[Numeronäpp. 1]]>
 	</str>
 	<str key="Key_Numpad2">
-		<singular><![CDATA[Numeronäpp. 2]]></singular>
+		<![CDATA[Numeronäpp. 2]]>
 	</str>
 	<str key="Key_Numpad3">
-		<singular><![CDATA[Numeronäpp. 3]]></singular>
+		<![CDATA[Numeronäpp. 3]]>
 	</str>
 	<str key="Key_Numpad4">
-		<singular><![CDATA[Numeronäpp. 4]]></singular>
+		<![CDATA[Numeronäpp. 4]]>
 	</str>
 	<str key="Key_Numpad5">
-		<singular><![CDATA[Numeronäpp. 5]]></singular>
+		<![CDATA[Numeronäpp. 5]]>
 	</str>
 	<str key="Key_Numpad6">
-		<singular><![CDATA[Numeronäpp. 6]]></singular>
+		<![CDATA[Numeronäpp. 6]]>
 	</str>
 	<str key="Key_Numpad7">
-		<singular><![CDATA[Numeronäpp. 7]]></singular>
+		<![CDATA[Numeronäpp. 7]]>
 	</str>
 	<str key="Key_Numpad8">
-		<singular><![CDATA[Numeronäpp. 8]]></singular>
+		<![CDATA[Numeronäpp. 8]]>
 	</str>
 	<str key="Key_Numpad9">
-		<singular><![CDATA[Numeronäpp. 9]]></singular>
+		<![CDATA[Numeronäpp. 9]]>
 	</str>
 	<str key="Key_PageDown">
-		<singular><![CDATA[Page Down]]></singular>
+		<![CDATA[Page Down]]>
 	</str>
 	<str key="Key_PageUp">
-		<singular><![CDATA[Page Up]]></singular>
+		<![CDATA[Page Up]]>
 	</str>
 	<str key="Key_Pause">
-		<singular><![CDATA[Pause]]></singular>
+		<![CDATA[Pause]]>
 	</str>
 	<str key="Key_PrintScreen">
-		<singular><![CDATA[Print Scrn]]></singular>
+		<![CDATA[Print Scrn]]>
 	</str>
 	<str key="Key_ScrollLock">
-		<singular><![CDATA[Scroll Lock]]></singular>
+		<![CDATA[Scroll Lock]]>
 	</str>
 	<str key="Key_Shift">
-		<singular><![CDATA[Vaihtonäppäin]]></singular>
+		<![CDATA[Vaihtonäppäin]]>
 	</str>
 	<str key="Key_Space">
-		<singular><![CDATA[Välilyönti]]></singular>
+		<![CDATA[Välilyönti]]>
 	</str>
 	<str key="Key_Subtrack">
-		<singular><![CDATA[- (miinus)]]></singular>
+		<![CDATA[- (miinus)]]>
 	</str>
 	<str key="Key_Tab">
-		<singular><![CDATA[Sarkainnäppäin]]></singular>
+		<![CDATA[Sarkainnäppäin]]>
 	</str>
 	<str key="Language_bg">
-		<singular><![CDATA[Bulgaria]]></singular>
+		<![CDATA[Bulgaria]]>
 	</str>
 	<str key="Language_de">
-		<singular><![CDATA[Saksa]]></singular>
+		<![CDATA[Saksa]]>
 	</str>
 	<str key="Language_en">
-		<singular><![CDATA[Englanti]]></singular>
+		<![CDATA[Englanti]]>
 	</str>
 	<str key="Language_es">
-		<singular><![CDATA[Espanja]]></singular>
+		<![CDATA[Espanja]]>
 	</str>
 	<str key="Language_et">
-		<singular><![CDATA[Viro]]></singular>
+		<![CDATA[Viro]]>
 	</str>
 	<str key="Language_fi">
-		<singular><![CDATA[Suomi]]></singular>
+		<![CDATA[Suomi]]>
 	</str>
 	<str key="Language_fr">
-		<singular><![CDATA[Ranska]]></singular>
+		<![CDATA[Ranska]]>
 	</str>
 	<str key="Language_hu">
-		<singular><![CDATA[Unkari]]></singular>
+		<![CDATA[Unkari]]>
 	</str>
 	<str key="Language_it">
-		<singular><![CDATA[Italia]]></singular>
+		<![CDATA[Italia]]>
 	</str>
 	<str key="Language_lt">
-		<singular><![CDATA[Liettua]]></singular>
+		<![CDATA[Liettua]]>
 	</str>
 	<str key="Language_lv">
-		<singular><![CDATA[Latvia]]></singular>
+		<![CDATA[Latvia]]>
 	</str>
 	<str key="Language_nl">
-		<singular><![CDATA[Hollanti]]></singular>
+		<![CDATA[Hollanti]]>
 	</str>
 	<str key="Language_no">
-		<singular><![CDATA[Norja]]></singular>
+		<![CDATA[Norja]]>
 	</str>
 	<str key="Language_null">
-		<singular><![CDATA[Tuntematon]]></singular>
+		<![CDATA[Tuntematon]]>
 	</str>
 	<str key="Language_pl">
-		<singular><![CDATA[Puola]]></singular>
+		<![CDATA[Puola]]>
 	</str>
 	<str key="Language_pt">
-		<singular><![CDATA[Portugali]]></singular>
+		<![CDATA[Portugali]]>
 	</str>
 	<str key="Language_ro">
-		<singular><![CDATA[Romania]]></singular>
+		<![CDATA[Romania]]>
 	</str>
 	<str key="Language_ru">
-		<singular><![CDATA[Venäjä]]></singular>
+		<![CDATA[Venäjä]]>
 	</str>
 	<str key="Language_sv">
-		<singular><![CDATA[Ruotsi]]></singular>
+		<![CDATA[Ruotsi]]>
 	</str>
 	<str key="Language_tr">
-		<singular><![CDATA[turkki]]></singular>
+		<![CDATA[turkki]]>
 	</str>
 	<str key="Limit_NeedConfirmEmailNote">
-		<singular><![CDATA[(edellyttää sähköpostisi vahvistamista)]]></singular>
+		<![CDATA[(edellyttää sähköpostisi vahvistamista)]]>
 	</str>
 	<str key="Limit_OnlyForRegisteredNote">
-		<singular><![CDATA[(vain rekisteröityneille)]]></singular>
+		<![CDATA[(vain rekisteröityneille)]]>
 	</str>
 	<str key="Limit_OnlyWithCreditsNote">
-		<singular><![CDATA[(vain taateleilla)]]></singular>
+		<![CDATA[(vain taateleilla)]]>
 	</str>
 	<str key="Loader_AdClickNote">
-		<singular><![CDATA[(mainoksen klikkaaminen ei keskeytä pelin latautumista)]]></singular>
+		<![CDATA[(mainoksen klikkaaminen ei keskeytä pelin latautumista)]]>
 	</str>
 	<str key="Loader_Button_MorePaymentOptions">
-		<singular><![CDATA[Lisää maksuvaihtoehtoja]]></singular>
+		<![CDATA[Lisää maksuvaihtoehtoja]]>
 	</str>
 	<str key="Loader_Button_StartGame">
-		<singular><![CDATA[Aloita peli]]></singular>
+		<![CDATA[Aloita peli]]>
 	</str>
 	<str key="Loader_LoadingGame">
-		<singular><![CDATA[Ladataan peliä...]]></singular>
+		<![CDATA[Ladataan peliä...]]>
 	</str>
 	<str key="Loader_LoadingGfxSfx">
-		<singular><![CDATA[Ladataan grafiikkaa ja ääniä...]]></singular>
+		<![CDATA[Ladataan grafiikkaa ja ääniä...]]>
 	</str>
 	<str key="Login_EnterNick">
-		<singular><![CDATA[Nimimerkkisi:]]></singular>
+		<![CDATA[Nimimerkkisi:]]>
 	</str>
 	<str key="Login_EnterNick1">
-		<singular><![CDATA[Et ole kirjautunut sisään!]]></singular>
+		<![CDATA[Et ole kirjautunut sisään!]]>
 	</str>
 	<str key="Login_EnterNick2">
-		<singular><![CDATA[Voit edelleen halutessasi mennä suoraan peliin antamalla nimimerkkisi alle]]></singular>
+		<![CDATA[Voit edelleen halutessasi mennä suoraan peliin antamalla nimimerkkisi alle]]>
 	</str>
 	<str key="Login_EnterNick3">
-		<singular><![CDATA[( ~ merkki lisätään nimesi eteen jotta muut tietävät sinun olevan vieraileva käyttäjä )]]></singular>
+		<![CDATA[( ~ merkki lisätään nimesi eteen jotta muut tietävät sinun olevan vieraileva käyttäjä )]]>
 	</str>
 	<str key="Login_ForbiddenNick">
-		<singular><![CDATA[Nimimerkkisi tai jokin sana siinä on kielletty]]></singular>
+		<![CDATA[Nimimerkkisi tai jokin sana siinä on kielletty]]>
 	</str>
 	<str key="Login_InvalidNick">
-		<singular><![CDATA[Virheellinen nimimerkki (käytä vain tavallisia kirjaimia)]]></singular>
+		<![CDATA[Virheellinen nimimerkki (käytä vain tavallisia kirjaimia)]]>
 	</str>
 	<str key="Login_NeedNick">
-		<singular><![CDATA[Sinulla pitää olla jokin nimimerkki]]></singular>
+		<![CDATA[Sinulla pitää olla jokin nimimerkki]]>
 	</str>
 	<str key="Login_NickInUse">
-		<singular><![CDATA[Valitsemasi nimimerkki on jo käytössä]]></singular>
+		<![CDATA[Valitsemasi nimimerkki on jo käytössä]]>
 	</str>
 	<str key="Login_NickTooLong">
-		<singular><![CDATA[Nimimerkkisi on liian pitkä]]></singular>
+		<![CDATA[Nimimerkkisi on liian pitkä]]>
 	</str>
 	<str key="Login_NickTooShort">
-		<singular><![CDATA[Nimimerkkisi on liian lyhyt]]></singular>
+		<![CDATA[Nimimerkkisi on liian lyhyt]]>
 	</str>
 	<str key="Login_Ok">
-		<singular><![CDATA[OK]]></singular>
+		<![CDATA[OK]]>
 	</str>
 	<str key="Login_Quit">
-		<singular><![CDATA[Poistu]]></singular>
+		<![CDATA[Poistu]]>
 	</str>
 	<str key="Login_RegBenefits1">
-		<singular><![CDATA[Rekisteröinti on ilmaista mutta saat esim. seuraavia etuja:]]></singular>
+		<![CDATA[Rekisteröinti on ilmaista mutta saat esim. seuraavia etuja:]]>
 	</str>
 	<str key="Login_RegBenefits2">
-		<singular><![CDATA[- saat oman uniikin nimimerkin ja pelaajakortin]]></singular>
+		<![CDATA[- saat oman uniikin nimimerkin ja pelaajakortin]]>
 	</str>
 	<str key="Login_RegBenefits3">
-		<singular><![CDATA[- pisteesi tallettuvat pistelistoille]]></singular>
+		<![CDATA[- pisteesi tallettuvat pistelistoille]]>
 	</str>
 	<str key="Login_RegBenefits4">
-		<singular><![CDATA[- pelien asetukset tallettuvat]]></singular>
+		<![CDATA[- pelien asetukset tallettuvat]]>
 	</str>
 	<str key="Login_RegBenefits5">
-		<singular><![CDATA[- ja paljon muuta...]]></singular>
+		<![CDATA[- ja paljon muuta...]]>
 	</str>
 	<str key="Login_RegLoginFailed">
-		<singular><![CDATA[Kirjautuminen nimimerkillä epäonnistui]]></singular>
+		<![CDATA[Kirjautuminen nimimerkillä epäonnistui]]>
 	</str>
 	<str key="Login_Wait">
-		<singular><![CDATA[Hetki...]]></singular>
+		<![CDATA[Hetki...]]>
 	</str>
 	<str key="Login_WantRegister1">
-		<singular><![CDATA[Jos haluat rekisteröityä tai kirjautua sisään, voit tehdä sen etusivulla.]]></singular>
+		<![CDATA[Jos haluat rekisteröityä tai kirjautua sisään, voit tehdä sen etusivulla.]]>
 	</str>
 	<str key="Login_WantRegister2">
-		<singular><![CDATA[Paina "Poistu"-painiketta palataksesi etusivulle:]]></singular>
+		<![CDATA[Paina "Poistu"-painiketta palataksesi etusivulle:]]>
 	</str>
 	<str key="Match_CantChallenge">
-		<singular><![CDATA[Et voi haastaa vielä, vastustajasi ei ole paikalla]]></singular>
+		<![CDATA[Et voi haastaa vielä, vastustajasi ei ole paikalla]]>
 	</str>
 	<str key="Match_Challenge">
-		<singular><![CDATA[Haasta vastustajasi]]></singular>
+		<![CDATA[Haasta vastustajasi]]>
 	</str>
 	<str key="Match_CreateOrJoin">
-		<singular><![CDATA[Aloita klaanipeli]]></singular>
+		<![CDATA[Aloita klaanipeli]]>
 	</str>
 	<str key="Match_MatchGameNote">
-		<singular><![CDATA[HUOM! Tämä on klaanipeli joka päätyy klaanin tilastoihin!]]></singular>
+		<![CDATA[HUOM! Tämä on klaanipeli joka päätyy klaanin tilastoihin!]]>
 	</str>
 	<str key="Match_MessageError">
-		<singular><![CDATA[Tapahtui virhe! Peliä ei voi käynnistää klaaniotteluun]]></singular>
+		<![CDATA[Tapahtui virhe! Peliä ei voi käynnistää klaaniotteluun]]>
 	</str>
 	<str key="Match_MessageErrorHelp1">
-		<singular><![CDATA[Pelin asetukset ovat virheelliset tai sisäänkirjautuminen epäonnistui]]></singular>
+		<![CDATA[Pelin asetukset ovat virheelliset tai sisäänkirjautuminen epäonnistui]]>
 	</str>
 	<str key="Match_MessageErrorHelp2">
-		<singular><![CDATA[(Yritä uudestaan tai ota yhteyttä Aapelin ylläpitoon)]]></singular>
+		<![CDATA[(Yritä uudestaan tai ota yhteyttä Aapelin ylläpitoon)]]>
 	</str>
 	<str key="Match_Quit">
-		<singular><![CDATA[Poistu]]></singular>
+		<![CDATA[Poistu]]>
 	</str>
 	<str key="Message_BannedInitially">
-		<singular><![CDATA[Sinut on bannattu tästä pelistä]]></singular>
+		<![CDATA[Sinut on bannattu tästä pelistä]]>
 	</str>
 	<str key="Message_BannedInitiallyHelp">
-		<singular><![CDATA[Yritä myöhemmin uudestaan...]]></singular>
+		<![CDATA[Yritä myöhemmin uudestaan...]]>
 	</str>
 	<str key="Message_BannedNow">
-		<singular><![CDATA[Sinut on poistettu pelistä]]></singular>
+		<![CDATA[Sinut on poistettu pelistä]]>
 	</str>
 	<str key="Message_BannedNowHelp">
-		<singular><![CDATA[Sheriffi on poistanut ja bannannut sinut tästä pelistä]]></singular>
+		<![CDATA[Sheriffi on poistanut ja bannannut sinut tästä pelistä]]>
 	</str>
 	<str key="Message_CE0_1_Long">
-		<singular><![CDATA[Palomuuri estää TCP-yhteydenoton koneelle %1 porttiin %2. Mikäli käytät koulun tai muun vastaavan yhteisön konetta, näillä koneilla saattaa olla jokin yhteinen palomuuri. Tässä tapauksessa ota yhteyttä paikalliseen järjestelmänvalvojaan.]]></singular>
+		<![CDATA[Palomuuri estää TCP-yhteydenoton koneelle %1 porttiin %2. Mikäli käytät koulun tai muun vastaavan yhteisön konetta, näillä koneilla saattaa olla jokin yhteinen palomuuri. Tässä tapauksessa ota yhteyttä paikalliseen järjestelmänvalvojaan.]]>
 	</str>
 	<str key="Message_CE0_1_Short">
-		<singular><![CDATA[Palomuuri estää yhteydenoton]]></singular>
+		<![CDATA[Palomuuri estää yhteydenoton]]>
 	</str>
 	<str key="Message_CE0_2_Long">
-		<singular><![CDATA[Tarkista että nettiyhteytesi toimii muuten, esimerkiksi lataamalla tämä sivu uudelleen.]]></singular>
+		<![CDATA[Tarkista että nettiyhteytesi toimii muuten, esimerkiksi lataamalla tämä sivu uudelleen.]]>
 	</str>
 	<str key="Message_CE0_2_Short">
-		<singular><![CDATA[Internetyhteytesi katkesi juuri]]></singular>
+		<![CDATA[Internetyhteytesi katkesi juuri]]>
 	</str>
 	<str key="Message_CE0_3_Long">
-		<singular><![CDATA[Jos näin on, Aapelin ylläpito saa tästä automaattisen ilmoituksen ja palvelin saatetaan takaisin toimintaan mahdollisimman nopeasti. Yritä uudelleen hetken kuluttua.]]></singular>
+		<![CDATA[Jos näin on, Aapelin ylläpito saa tästä automaattisen ilmoituksen ja palvelin saatetaan takaisin toimintaan mahdollisimman nopeasti. Yritä uudelleen hetken kuluttua.]]>
 	</str>
 	<str key="Message_CE0_3_Short">
-		<singular><![CDATA[Pelipalvelin ei ole käynnissä (erittäin harvinaista)]]></singular>
+		<![CDATA[Pelipalvelin ei ole käynnissä (erittäin harvinaista)]]>
 	</str>
 	<str key="Message_CE1_1_Long">
-		<singular><![CDATA[Useimmat pelit selviävät muutamien sekuntien mittaisista nettikatkoista. Mikäli katkos on pidempi, peli keskeytyy. Yritä ladata tämä sivu uudelleen.]]></singular>
+		<![CDATA[Useimmat pelit selviävät muutamien sekuntien mittaisista nettikatkoista. Mikäli katkos on pidempi, peli keskeytyy. Yritä ladata tämä sivu uudelleen.]]>
 	</str>
 	<str key="Message_CE1_1_Short">
-		<singular><![CDATA[Internetyhteytesi katkesi]]></singular>
+		<![CDATA[Internetyhteytesi katkesi]]>
 	</str>
 	<str key="Message_CE1_2_Long">
-		<singular><![CDATA[Tapahtui virhe jota peli ei pysty käsittelemään. Näistä virheistä ilmoitetaan automaattisesti Aapelin ylläpidolle ja ne pyritään korjaamaan mahdollisimman nopeasti.]]></singular>
+		<![CDATA[Tapahtui virhe jota peli ei pysty käsittelemään. Näistä virheistä ilmoitetaan automaattisesti Aapelin ylläpidolle ja ne pyritään korjaamaan mahdollisimman nopeasti.]]>
 	</str>
 	<str key="Message_CE1_2_Short">
-		<singular><![CDATA[Tapahtui ohjelmavirhe]]></singular>
+		<![CDATA[Tapahtui ohjelmavirhe]]>
 	</str>
 	<str key="Message_CE1_3_Long">
-		<singular><![CDATA[Aapelin ylläpito saa näistä automaattisen ilmoituksen ja palvelin saatetaan takaisin toimintaan mahdollisimman nopeasti. Yritä uudelleen hetken kuluttua.]]></singular>
+		<![CDATA[Aapelin ylläpito saa näistä automaattisen ilmoituksen ja palvelin saatetaan takaisin toimintaan mahdollisimman nopeasti. Yritä uudelleen hetken kuluttua.]]>
 	</str>
 	<str key="Message_CE1_3_Short">
-		<singular><![CDATA[Pelipalvelin pysähtyi virheeseen (erittäin harvinaista)]]></singular>
+		<![CDATA[Pelipalvelin pysähtyi virheeseen (erittäin harvinaista)]]>
 	</str>
 	<str key="Message_CE_ConnectionError">
-		<singular><![CDATA[Ongelma yhteydessä pelipalvelimeen]]></singular>
+		<![CDATA[Ongelma yhteydessä pelipalvelimeen]]>
 	</str>
 	<str key="Message_CE_PossibleReasons">
-		<singular><![CDATA[Mahdollisia syitä tapahtuneeseen:]]></singular>
+		<![CDATA[Mahdollisia syitä tapahtuneeseen:]]>
 	</str>
 	<str key="Message_CE_RetryButton">
-		<singular><![CDATA[Yritä uudelleen nyt]]></singular>
+		<![CDATA[Yritä uudelleen nyt]]>
 	</str>
 	<str key="Message_Connecting">
-		<singular><![CDATA[Otetaan yhteyttä pelipalvelimeen...]]></singular>
+		<![CDATA[Otetaan yhteyttä pelipalvelimeen...]]>
 	</str>
 	<str key="Message_ConnectionError">
-		<singular><![CDATA[Ongelma yhteydessä pelipalvelimeen!]]></singular>
+		<![CDATA[Ongelma yhteydessä pelipalvelimeen!]]>
 	</str>
 	<str key="Message_ConnectionErrorHelp">
-		<singular><![CDATA[Internet-yhteydessäsi on häiriöitä tai palomuurisi estää yhteydenoton pelipalvelimeen.]]></singular>
+		<![CDATA[Internet-yhteydessäsi on häiriöitä tai palomuurisi estää yhteydenoton pelipalvelimeen.]]>
 	</str>
 	<str key="Message_DuplicateNick">
-		<singular><![CDATA[Olet kirjautunut peliin toisesta selaimesta.]]></singular>
+		<![CDATA[Olet kirjautunut peliin toisesta selaimesta.]]>
 	</str>
 	<str key="Message_KickedNow">
-		<singular><![CDATA[Sinut on poistettu tästä pelistä]]></singular>
+		<![CDATA[Sinut on poistettu tästä pelistä]]>
 	</str>
 	<str key="Message_KickedNowHelp">
-		<singular><![CDATA[Sheriffi on poistanut sinut tästä pelistä]]></singular>
+		<![CDATA[Sheriffi on poistanut sinut tästä pelistä]]>
 	</str>
 	<str key="Message_LoginFailedReg">
-		<singular><![CDATA[Kirjautuminen rekisteröityneenä käyttäjänä epäonnistui]]></singular>
+		<![CDATA[Kirjautuminen rekisteröityneenä käyttäjänä epäonnistui]]>
 	</str>
 	<str key="Message_LoginFailedRegHelp">
-		<singular><![CDATA[Palvelin ei pysty kirjaamaan sinua nykyisellä käyttäjätunnuksellasi. Palaa takaisin ja tarkista, että olet edelleen sisäänkirjautunut.]]></singular>
+		<![CDATA[Palvelin ei pysty kirjaamaan sinua nykyisellä käyttäjätunnuksellasi. Palaa takaisin ja tarkista, että olet edelleen sisäänkirjautunut.]]>
 	</str>
 	<str key="Message_PE_ErrorDesc">
-		<singular><![CDATA[Virhe oli: %1]]></singular>
+		<![CDATA[Virhe oli: %1]]>
 	</str>
 	<str key="Message_PE_GameClosed">
-		<singular><![CDATA[Olemme pahoillamme mutta peli jouduttiin sulkemaan odottamattoman virheen vuoksi. Jos peli oli vielä yhteydessä palvelimeen virheen tapahtuessa, Aapelin ylläpito saa tapahtuneesta automaattisen ilmoituksen.]]></singular>
+		<![CDATA[Olemme pahoillamme mutta peli jouduttiin sulkemaan odottamattoman virheen vuoksi. Jos peli oli vielä yhteydessä palvelimeen virheen tapahtuessa, Aapelin ylläpito saa tapahtuneesta automaattisen ilmoituksen.]]>
 	</str>
 	<str key="Message_PE_ProgramError">
-		<singular><![CDATA[Ohjelmavirhe]]></singular>
+		<![CDATA[Ohjelmavirhe]]>
 	</str>
 	<str key="Message_PE_RetryButton">
-		<singular><![CDATA[Käynnistä peli uudelleen]]></singular>
+		<![CDATA[Käynnistä peli uudelleen]]>
 	</str>
 	<str key="Message_QuitGame">
-		<singular><![CDATA[Poistutaan...]]></singular>
+		<![CDATA[Poistutaan...]]>
 	</str>
 	<str key="Message_QuitGame_ToBuyCoins">
-		<singular><![CDATA[Siirrytään sivulle Taatelien osto...]]></singular>
+		<![CDATA[Siirrytään sivulle Taatelien osto...]]>
 	</str>
 	<str key="Message_QuitGame_ToRegister">
-		<singular><![CDATA[Siirrytään sivulle Tunnuksen luonti...]]></singular>
+		<![CDATA[Siirrytään sivulle Tunnuksen luonti...]]>
 	</str>
 	<str key="Message_ServerFullError">
-		<singular><![CDATA[Tämä pelipalvelin on juuri nyt täynnä]]></singular>
+		<![CDATA[Tämä pelipalvelin on juuri nyt täynnä]]>
 	</str>
 	<str key="Message_ServerFullErrorHelp">
-		<singular><![CDATA[Yritä hetken kuluttua uudelleen]]></singular>
+		<![CDATA[Yritä hetken kuluttua uudelleen]]>
 	</str>
 	<str key="Message_ServerShutting">
-		<singular><![CDATA[Pelipalvelin käynnistetään uudelleen päivityksen vuoksi. Tervetuloa takaisin hetken kuluttua!]]></singular>
+		<![CDATA[Pelipalvelin käynnistetään uudelleen päivityksen vuoksi. Tervetuloa takaisin hetken kuluttua!]]>
 	</str>
 	<str key="Message_TooManySameIP">
-		<singular><![CDATA[Liian monta yhteyttä samasta IP osoitteesta]]></singular>
+		<![CDATA[Liian monta yhteyttä samasta IP osoitteesta]]>
 	</str>
 	<str key="Message_TooManySameIPHelp">
-		<singular><![CDATA[(Yritä hetken kuluttua uudelleen)]]></singular>
+		<![CDATA[(Yritä hetken kuluttua uudelleen)]]>
 	</str>
 	<str key="Message_VersionError">
-		<singular><![CDATA[Versiovirhe, tyhjennä selaimesi välimuisti ja käynnistä selain uudelleen]]></singular>
+		<![CDATA[Versiovirhe, tyhjennä selaimesi välimuisti ja käynnistä selain uudelleen]]>
 	</str>
 	<str key="Message_VersionErrorHelp">
-		<singular><![CDATA[(Useissa selaimissa saattaa riittää kun painat näppäimistön Shift- tai Ctrl-näppäimen pohjaan ja klikkaat selaimen yläreunassa olevaa Päivitä-painiketta)]]></singular>
+		<![CDATA[(Useissa selaimissa saattaa riittää kun painat näppäimistön Shift- tai Ctrl-näppäimen pohjaan ja klikkaat selaimen yläreunassa olevaa Päivitä-painiketta)]]>
 	</str>
 	<str key="Message_WaitWhile">
-		<singular><![CDATA[Odota hetki...]]></singular>
+		<![CDATA[Odota hetki...]]>
 	</str>
 	<str key="NeedAccount_CreateButton">
-		<singular><![CDATA[Luo ilmainen tunnus nyt]]></singular>
+		<![CDATA[Luo ilmainen tunnus nyt]]>
 	</str>
 	<str key="NeedAccount_Info1">
-		<singular><![CDATA[Tämä toiminto edellyttää että sinulla on käytössäsi Aapeli-tunnus. Tunnuksen voit luoda vaikka heti, se on todella helppoa, nopeaa ja täysin ilmaista.]]></singular>
+		<![CDATA[Tämä toiminto edellyttää että sinulla on käytössäsi Aapeli-tunnus. Tunnuksen voit luoda vaikka heti, se on todella helppoa, nopeaa ja täysin ilmaista.]]>
 	</str>
 	<str key="NeedAccount_Info2">
-		<singular><![CDATA[Kun tunnus on kerran luotu, se on käytössäsi aina. Samalla tunnuksella saat myös pääsyn lukemattomiin muihinkin Aapelin palveluihin.]]></singular>
+		<![CDATA[Kun tunnus on kerran luotu, se on käytössäsi aina. Samalla tunnuksella saat myös pääsyn lukemattomiin muihinkin Aapelin palveluihin.]]>
 	</str>
 	<str key="NeedAccount_LaterButton">
-		<singular><![CDATA[Myöhemmin]]></singular>
+		<![CDATA[Myöhemmin]]>
 	</str>
 	<str key="NeedAccount_LoginButton">
-		<singular><![CDATA[Kirjaudu sisään nyt]]></singular>
+		<![CDATA[Kirjaudu sisään nyt]]>
 	</str>
 	<str key="NeedAccount_NotLoggedIn">
-		<singular><![CDATA[Jos sinulla on jo tunnus, et vain ole kirjautunut sisään. Voit kirjautua sisään Aapelin etusivulla.]]></singular>
+		<![CDATA[Jos sinulla on jo tunnus, et vain ole kirjautunut sisään. Voit kirjautua sisään Aapelin etusivulla.]]>
 	</str>
 	<str key="NeedAccount_Title">
-		<singular><![CDATA[Tarvitset Aapeli-tunnuksen]]></singular>
+		<![CDATA[Tarvitset Aapeli-tunnuksen]]>
 	</str>
 	<str key="OrderFrame_AfterOrderInstructions">
-		<singular><![CDATA[Tekstiviestin lähetyksen jälkeen odota, älä sulje tätä ikkunaa! Sulje tämä ikkuna ainoastaan jos et halua lähettää tilausta.]]></singular>
+		<![CDATA[Tekstiviestin lähetyksen jälkeen odota, älä sulje tätä ikkunaa! Sulje tämä ikkuna ainoastaan jos et halua lähettää tilausta.]]>
 	</str>
 	<str key="OrderFrame_Bought">
-		<singular><![CDATA[Tilaus hyväksytty]]></singular>
+		<![CDATA[Tilaus hyväksytty]]>
 	</str>
 	<str key="OrderFrame_Error">
-		<singular><![CDATA[Odottamaton virhe]]></singular>
+		<![CDATA[Odottamaton virhe]]>
 	</str>
 	<str key="OrderFrame_Error_Info">
-		<singular><![CDATA[Valitettavasti palvelu on väliaikaisesti saavuttamattomissa. Asia korjataan mahdollisimman nopeasti, yritä myöhemmin uudelleen. Sulje tämä ikkuna palataksesi peliin.]]></singular>
+		<![CDATA[Valitettavasti palvelu on väliaikaisesti saavuttamattomissa. Asia korjataan mahdollisimman nopeasti, yritä myöhemmin uudelleen. Sulje tämä ikkuna palataksesi peliin.]]>
 	</str>
 	<str key="OrderFrame_Instructions">
-		<singular><![CDATA[Lähetä viesti<br><center><big><strong>%1</strong></big><br>numeroon <strong>%2</strong></center><br><br><small>Viestin hinta on %3 ja se toimii seuraavissa liittymissä: %4</small>]]></singular>
+		<![CDATA[Lähetä viesti<br><center><big><strong>%1</strong></big><br>numeroon <strong>%2</strong></center><br><br><small>Viestin hinta on %3 ja se toimii seuraavissa liittymissä: %4</small>]]>
 	</str>
 	<str key="OrderFrame_TimeOut">
-		<singular><![CDATA[Tilausaika päättyi]]></singular>
+		<![CDATA[Tilausaika päättyi]]>
 	</str>
 	<str key="OrderFrame_TimeOutNote">
-		<singular><![CDATA[Tämä tilaus pitää tehdä ajassa %1, muutoin tarjous peruuntuu automaattisesti]]></singular>
+		<![CDATA[Tämä tilaus pitää tehdä ajassa %1, muutoin tarjous peruuntuu automaattisesti]]>
 	</str>
 	<str key="OrderFrame_TimeOut_Info">
-		<singular><![CDATA[Lisäpallojen tilausaika umpeutui. Sulje tämä ikkuna palataksesi peliin.]]></singular>
+		<![CDATA[Lisäpallojen tilausaika umpeutui. Sulje tämä ikkuna palataksesi peliin.]]>
 	</str>
 	<str key="OrderFrame_Title">
-		<singular><![CDATA[Tekstiviestitilaus]]></singular>
+		<![CDATA[Tekstiviestitilaus]]>
 	</str>
 	<str key="OrderFrame_Wait">
-		<singular><![CDATA[Pieni hetki...]]></singular>
+		<![CDATA[Pieni hetki...]]>
 	</str>
 	<str key="PurchaseFrame_ActionOpeningCreditPurchase">
-		<singular><![CDATA[Avataan taatelinostosivua...]]></singular>
+		<![CDATA[Avataan taatelinostosivua...]]>
 	</str>
 	<str key="PurchaseFrame_ActionProductPurchase">
-		<singular><![CDATA[Odota hetki...]]></singular>
+		<![CDATA[Odota hetki...]]>
 	</str>
 	<str key="PurchaseFrame_ActionRefreshingCredits">
-		<singular><![CDATA[Päivitetään taatelitiliä...]]></singular>
+		<![CDATA[Päivitetään taatelitiliä...]]>
 	</str>
 	<str key="PurchaseFrame_ButtonGetCredits">
-		<singular><![CDATA[Hanki taateleita]]></singular>
+		<![CDATA[Hanki taateleita]]>
 	</str>
 	<str key="PurchaseFrame_ButtonRefresh">
-		<singular><![CDATA[Päivitä taatelitili]]></singular>
+		<![CDATA[Päivitä taatelitili]]>
 	</str>
 	<str key="PurchaseFrame_Credits">
-		<singular><![CDATA[Taateleita tilillä:]]></singular>
+		<![CDATA[Taateleita tilillä:]]>
 	</str>
 	<str key="PurchaseFrame_Default_ButtonBack">
-		<singular><![CDATA[Palaa aulaan]]></singular>
+		<![CDATA[Palaa aulaan]]>
 	</str>
 	<str key="PurchaseFrame_Default_ButtonContinue">
-		<singular><![CDATA[Jatka peliin]]></singular>
+		<![CDATA[Jatka peliin]]>
 	</str>
 	<str key="PurchaseFrame_Default_FrameTitle">
-		<singular><![CDATA[Jatka peliin]]></singular>
+		<![CDATA[Jatka peliin]]>
 	</str>
 	<str key="PurchaseFrame_Error_FrameTitle">
-		<singular><![CDATA[Virhe]]></singular>
+		<![CDATA[Virhe]]>
 	</str>
 	<str key="PurchaseFrame_Error_Message">
-		<singular><![CDATA[Tämä tuote ei poikkeuksellisesti ole tällä hetkellä ostettavissa taateleilla. Kokeile myöhemmin uudestaan.]]></singular>
+		<![CDATA[Tämä tuote ei poikkeuksellisesti ole tällä hetkellä ostettavissa taateleilla. Kokeile myöhemmin uudestaan.]]>
 	</str>
 	<str key="PurchaseFrame_NoProductDescription">
-		<singular><![CDATA[(Ei kuvausta tuotteelle '%1')]]></singular>
+		<![CDATA[(Ei kuvausta tuotteelle '%1')]]>
 	</str>
 	<str key="PurchaseFrame_PurchaseFailed">
-		<singular><![CDATA[Ostos epäonnistui tuntemattomasta syystä, sulje tämä ikkuna ja yritä uudelleen.]]></singular>
+		<![CDATA[Ostos epäonnistui tuntemattomasta syystä, sulje tämä ikkuna ja yritä uudelleen.]]>
 	</str>
 	<str key="PurchaseFrame_PurchaseNoBalance">
-		<singular><![CDATA[Ostos epäonnistui, taatelitililläsi ei ole tarpeeksi taateleita.]]></singular>
+		<![CDATA[Ostos epäonnistui, taatelitililläsi ei ole tarpeeksi taateleita.]]>
 	</str>
 	<str key="PurchaseFrame_PurchaseOk">
-		<singular><![CDATA[Ostos suoritettu, voit jatkaa sulkemalla tämän ikkunan.]]></singular>
+		<![CDATA[Ostos suoritettu, voit jatkaa sulkemalla tämän ikkunan.]]>
 	</str>
 	<str key="PurchaseFrame_RefreshAfterGet">
-		<singular><![CDATA[Ostettuasi taateteleita, paina alla olevaa painiketta päivittääksesi taatelitilisi.]]></singular>
+		<![CDATA[Ostettuasi taateteleita, paina alla olevaa painiketta päivittääksesi taatelitilisi.]]>
 	</str>
 	<str key="QuitConfirm_ButtonNo">
-		<singular><![CDATA[Ei]]></singular>
+		<![CDATA[Ei]]>
 	</str>
 	<str key="QuitConfirm_ButtonYes">
-		<singular><![CDATA[Kyllä]]></singular>
+		<![CDATA[Kyllä]]>
 	</str>
 	<str key="QuitConfirm_Text">
-		<singular><![CDATA[Peli on vielä kesken! Oletko varma että haluat poistua kesken pelin?]]></singular>
+		<![CDATA[Peli on vielä kesken! Oletko varma että haluat poistua kesken pelin?]]>
 	</str>
 	<str key="QuitConfirm_Title">
-		<singular><![CDATA[Oletko varma?]]></singular>
+		<![CDATA[Oletko varma?]]>
 	</str>
 	<str key="RegRemind_ClickHere">
-		<singular><![CDATA[Luo ilmainen tunnus <tästä>!]]></singular>
+		<![CDATA[Luo ilmainen tunnus <tästä>!]]>
 	</str>
 	<str key="RegRemind_GameOver">
-		<singular><![CDATA[Peli päättyi. Pisteitäsi ei talletettu, sillä et ole rekisteröitynyt käyttäjä.]]></singular>
+		<![CDATA[Peli päättyi. Pisteitäsi ei talletettu, sillä et ole rekisteröitynyt käyttäjä.]]>
 	</str>
 	<str key="RegRemind_Title">
-		<singular><![CDATA[Muista rekisteröityä]]></singular>
+		<![CDATA[Muista rekisteröityä]]>
 	</str>
 	<str key="SDM_BadMessages">
-		<singular><![CDATA[Lopeta muita pelaajia häiritsevä käyttäytymisesi tai sinut poistetaan koko pelistä!]]></singular>
+		<![CDATA[Lopeta muita pelaajia häiritsevä käyttäytymisesi tai sinut poistetaan koko pelistä!]]>
 	</str>
 	<str key="SDM_BadNickReg">
-		<singular><![CDATA[Nimimerkkisi on Aapeliin sopimaton! Vaihda nimimerkkiäsi luomalla uusi tunnus. Tämän nimimerkin käytön jatkaminen voi johtaa koko tämän tunnuksen sulkemiseen.]]></singular>
+		<![CDATA[Nimimerkkisi on Aapeliin sopimaton! Vaihda nimimerkkiäsi luomalla uusi tunnus. Tämän nimimerkin käytön jatkaminen voi johtaa koko tämän tunnuksen sulkemiseen.]]>
 	</str>
 	<str key="SDM_BadNickWorm">
-		<singular><![CDATA[Nimimerkkisi on Aapeliin sopimaton! Vaihda nimimerkkiäsi poistumalla pelistä ja kirjautumalla uudelleen sisään.]]></singular>
+		<![CDATA[Nimimerkkisi on Aapeliin sopimaton! Vaihda nimimerkkiäsi poistumalla pelistä ja kirjautumalla uudelleen sisään.]]>
 	</str>
 	<str key="SDM_ChatCleared">
-		<singular><![CDATA[Keskusteluikkuna tyhjennettiin sheriffin toimesta koska keskusteluun kirjoitettiin sopimattomia tai yksityisasioita sisältäviä viestejä.]]></singular>
+		<![CDATA[Keskusteluikkuna tyhjennettiin sheriffin toimesta koska keskusteluun kirjoitettiin sopimattomia tai yksityisasioita sisältäviä viestejä.]]>
 	</str>
 	<str key="SDM_SexMessages">
-		<singular><![CDATA[Aapelin pelihuoneet eivät ole seksiseuran hakemiseen tarkoitettuja paikkoja. Lopeta tälläisten viestien kirjoittaminen!]]></singular>
+		<![CDATA[Aapelin pelihuoneet eivät ole seksiseuran hakemiseen tarkoitettuja paikkoja. Lopeta tälläisten viestien kirjoittaminen!]]>
 	</str>
 	<str key="SeparatorDayHour">
-		<singular><![CDATA[vrk_]]></singular>
+		<![CDATA[vrk_]]>
 	</str>
 	<str key="SeparatorDecimal">
-		<singular><![CDATA[,]]></singular>
+		<![CDATA[,]]>
 	</str>
 	<str key="SeparatorHourMinute">
-		<singular><![CDATA[:]]></singular>
+		<![CDATA[:]]>
 	</str>
 	<str key="SeparatorMinuteSecond">
-		<singular><![CDATA[.]]></singular>
+		<![CDATA[.]]>
 	</str>
 	<str key="SeparatorSecondFraction">
-		<singular><![CDATA[,]]></singular>
+		<![CDATA[,]]>
 	</str>
 	<str key="SeparatorThousand">
-		<singular><![CDATA[.]]></singular>
+		<![CDATA[.]]>
 	</str>
 	<str key="ServerSay_SheriffGaveWarning">
-		<singular><![CDATA[Sheriffi antoi varoituksen käyttäjälle %1]]></singular>
+		<![CDATA[Sheriffi antoi varoituksen käyttäjälle %1]]>
 	</str>
 	<str key="ServerSay_SheriffMutedUser">
-		<singular><![CDATA[Sheriffi mykisti käyttäjän %1 %2 minuutiksi]]></singular>
+		<![CDATA[Sheriffi mykisti käyttäjän %1 %2 minuutiksi]]>
 	</str>
 	<str key="ServerSay_SheriffMutedYou">
-		<singular><![CDATA[Sinut on mykistetty sheriffin toimesta %1 minuutin ajaksi]]></singular>
+		<![CDATA[Sinut on mykistetty sheriffin toimesta %1 minuutin ajaksi]]>
 	</str>
 	<str key="ServerSay_SheriffUnMutedUser">
-		<singular><![CDATA[Sheriffi poisti mykistyksen käyttäjältä %1]]></singular>
+		<![CDATA[Sheriffi poisti mykistyksen käyttäjältä %1]]>
 	</str>
 	<str key="ServerSay_SheriffUnMutedYou">
-		<singular><![CDATA[Sinulta on poistettu mykistys sheriffin toimesta]]></singular>
+		<![CDATA[Sinulta on poistettu mykistys sheriffin toimesta]]>
 	</str>
 	<str key="ServerSay_YouAreMuted">
-		<singular><![CDATA[Sinut on tällä hetkellä mykistetty sheriffin toimesta vielä %1 minuutiksi, muut eivät näe viestejäsi]]></singular>
+		<![CDATA[Sinut on tällä hetkellä mykistetty sheriffin toimesta vielä %1 minuutiksi, muut eivät näe viestejäsi]]>
 	</str>
 	<str key="TellFriend_ButtonClose">
 		<singular><![CDATA[Sulje]]></singular>
@@ -1543,24 +1501,24 @@
 		<singular><![CDATA[Kerro kaverille!]]></singular>
 	</str>
 	<str key="Tournament_QuitGameButton">
-		<singular><![CDATA[Poistu pelistä]]></singular>
+		<![CDATA[Poistu pelistä]]>
 	</str>
 	<str key="UserList_Ignore">
-		<singular><![CDATA[Mykistä valittu käyttäjä]]></singular>
+		<![CDATA[Mykistä valittu käyttäjä]]>
 	</str>
 	<str key="UserList_OpenPlayerCard">
-		<singular><![CDATA[Avaa hahmosivu]]></singular>
+		<![CDATA[Avaa hahmosivu]]>
 	</str>
 	<str key="UserList_Privately">
-		<singular><![CDATA[Sano yksityisesti]]></singular>
+		<![CDATA[Sano yksityisesti]]>
 	</str>
 	<str key="UserList_Sheriff">
-		<singular><![CDATA[(sheriffi)]]></singular>
+		<![CDATA[(sheriffi)]]>
 	</str>
 	<str key="UserList_SortByNick">
-		<singular><![CDATA[Nimimerkki]]></singular>
+		<![CDATA[Nimimerkki]]>
 	</str>
 	<str key="UserList_SortByRanking">
-		<singular><![CDATA[R]]></singular>
+		<![CDATA[R]]>
 	</str>
 </localization>

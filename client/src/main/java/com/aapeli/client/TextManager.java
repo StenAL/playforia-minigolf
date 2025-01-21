@@ -2,6 +2,7 @@ package com.aapeli.client;
 
 import com.aapeli.tools.Tools;
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Hashtable;
@@ -10,14 +11,13 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import org.moparforia.shared.Locale;
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 public final class TextManager {
 
     private Locale locale;
-    private Map<String, LocalizationNode> texts;
+    private Map<String, String> texts;
     private String errorMessage;
     private boolean debug;
 
@@ -39,12 +39,11 @@ public final class TextManager {
     }
 
     public boolean isAvailable(String key) {
-        return this.getFromMap(key, 1) != null;
+        return this.texts.containsKey(key.toLowerCase());
     }
 
     public String getIfAvailable(String key, String fallback) {
-        String result = this.getFromMap(key, 1);
-        return result != null ? result : fallback;
+        return this.texts.getOrDefault(key.toLowerCase(), fallback);
     }
 
     public String getText(String key, String... args) {
@@ -52,11 +51,8 @@ public final class TextManager {
     }
 
     public String getText(String key, int... args) {
-        String[] strings = new String[args.length];
-        for (int i = 0; i < args.length; i++) {
-            strings[i] = String.valueOf(args[i]);
-        }
-        return this.getInternal(key, strings);
+        String[] stringArgs = Arrays.stream(args).mapToObj(String::valueOf).toArray(String[]::new);
+        return this.getInternal(key, stringArgs);
     }
 
     public String getNumber(double var1, int var3) {
@@ -165,7 +161,7 @@ public final class TextManager {
         if (this.texts == null && this.errorMessage != null) {
             return "[" + this.errorMessage + "]";
         } else {
-            String localizedString = this.getFromMap(key, 1);
+            String localizedString = this.texts.get(key.toLowerCase());
             if (localizedString == null) {
                 return this.getFallbackString(key, arguments);
             } else {
@@ -272,12 +268,6 @@ public final class TextManager {
         }
     }
 
-    protected String getFromMap(String key, int quantity) {
-        key = key.toLowerCase();
-        LocalizationNode localizationNode = this.texts.get(key);
-        return localizationNode == null ? null : localizationNode.getLocalization(quantity);
-    }
-
     private void loadTexts() {
         String resourcePath = "/l10n/" + this.locale + "/AGolf.xml";
         try {
@@ -286,18 +276,24 @@ public final class TextManager {
             Document document = builder.parse(in);
 
             NodeList localizationNodes = document.getElementsByTagName("str");
-            Hashtable<String, LocalizationNode> table = new Hashtable<>();
+            Map<String, String> table = new Hashtable<>();
 
             for (int i = 0; i < localizationNodes.getLength(); ++i) {
                 Node node = localizationNodes.item(i);
                 String key =
                         node.getAttributes().getNamedItem("key").getNodeValue().toLowerCase();
+                String translation = node.getTextContent();
+
                 Node reverseNode = node.getAttributes().getNamedItem("reverse");
                 boolean reverse = false;
                 if (reverseNode != null) {
                     reverse = Tools.getBoolean(reverseNode.getTextContent());
                 }
-                table.put(key, new LocalizationNode(this.locale, (Element) node, reverse));
+                if (reverse) {
+                    translation = Tools.reverse(translation);
+                }
+
+                table.put(key, translation);
             }
 
             this.texts = table;
