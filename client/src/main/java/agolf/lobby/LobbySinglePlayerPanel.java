@@ -64,7 +64,7 @@ class LobbySinglePlayerPanel extends Panel implements ItemListener, ActionListen
 
         this.graphics.setColor(GolfGameFrame.colourGameBackground);
         this.graphics.fillRect(0, 0, this.width, this.height);
-        this.graphics.drawImage(this.gameContainer.imageManager.getGameImage("bg-lobby-single"), 0, 0, this);
+        this.graphics.drawImage(this.gameContainer.imageManager.getImage("bg-lobby-single"), 0, 0, this);
         Color trainingOutlineColour = new Color(14, 219, 14);
         Color championshipOutlineColour = new Color(0, 205, 0);
         this.graphics.setColor(GolfGameFrame.colourTextBlack);
@@ -295,7 +295,7 @@ class LobbySinglePlayerPanel extends Panel implements ItemListener, ActionListen
         this.trackSetList = new MultiColorList(trackSetListTitles, var2, 1, 250, 130);
         this.trackSetList.setLocation(this.width - 290, 130);
         this.trackSetList.setBackgroundImage(
-                this.gameContainer.imageManager.getGameImage("bg-lobby-single-fade"), this.width - 290, 130);
+                this.gameContainer.imageManager.getImage("bg-lobby-single-fade"), this.width - 290, 130);
         this.trackSetList.setSelectable(1);
         this.trackSetList.addItemListener(this);
         trackSetList.setListListener(this);

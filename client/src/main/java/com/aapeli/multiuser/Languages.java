@@ -101,7 +101,7 @@ public final class Languages {
 
     public Image getFlag(int language) {
         if (this.flagImages == null) {
-            Image languageFlags = this.imageManager.getShared("language-flags.png");
+            Image languageFlags = this.imageManager.getImage("language-flags");
             this.flagImages = this.imageManager.separateImages(languageFlags, languageData.length);
         }
 

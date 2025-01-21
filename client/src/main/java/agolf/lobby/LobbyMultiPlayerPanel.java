@@ -72,7 +72,7 @@ class LobbyMultiPlayerPanel extends Panel implements ItemListener, ActionListene
 
         this.graphics.setColor(GolfGameFrame.colourGameBackground);
         this.graphics.fillRect(0, 0, this.width, this.height);
-        this.graphics.drawImage(this.gameContainer.imageManager.getGameImage("bg-lobby-multi"), 0, 0, this);
+        this.graphics.drawImage(this.gameContainer.imageManager.getImage("bg-lobby-multi"), 0, 0, this);
         Color var2 = new Color(76, 229, 255);
         this.graphics.setColor(GolfGameFrame.colourTextBlack);
         this.graphics.setFont(GolfGameFrame.fontSerif26b);
@@ -496,7 +496,7 @@ class LobbyMultiPlayerPanel extends Panel implements ItemListener, ActionListene
         this.trackList = new MultiColorList(listTitles, var3, 1, this.width / 2 - 40, 125);
         this.trackList.setLocation(this.width / 2 + 20, 75);
         this.trackList.setBackgroundImage(
-                this.gameContainer.imageManager.getGameImage("bg-lobby-multi-fade"), this.width / 2 + 20, 75);
+                this.gameContainer.imageManager.getImage("bg-lobby-multi-fade"), this.width / 2 + 20, 75);
         this.trackList.setSelectable(1);
         this.trackList.addItemListener(this);
         trackList.setListListener(this);

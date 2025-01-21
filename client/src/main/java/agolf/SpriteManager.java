@@ -31,9 +31,9 @@ public class SpriteManager {
         for (int var1 = 0; var1 < GameBackgroundCanvas.trackAdvertSize; ++var1) {
             try {
                 String var2 = "ad" + var1;
-                Image var3 = this.imageManager.getGameImage(var2);
+                Image var3 = this.imageManager.getImage(var2);
                 if (var3 != null) {
-                    this.imageManager.unloadGameImage(var2);
+                    this.imageManager.unloadImage(var2);
                     this.anIntArrayArray968[var1] = this.imageManager.getPixels(
                             var3,
                             GameBackgroundCanvas.anIntArray78[var1] * 15,
@@ -98,8 +98,8 @@ public class SpriteManager {
 
     private Image[] parseSpriteSheet(
             String spriteSheetName, int spriteCount, int spritesPerRow, int spriteWidth, int spriteHeight) {
-        Image spriteSheet = this.imageManager.getGameImage(spriteSheetName);
-        this.imageManager.unloadGameImage(spriteSheetName);
+        Image spriteSheet = this.imageManager.getImage(spriteSheetName);
+        this.imageManager.unloadImage(spriteSheetName);
         int sheetWidth = this.imageManager.getWidth(spriteSheet);
         int sheetHeight = this.imageManager.getHeight(spriteSheet);
 

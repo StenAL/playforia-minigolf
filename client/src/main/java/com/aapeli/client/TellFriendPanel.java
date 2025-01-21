@@ -73,7 +73,7 @@ class TellFriendPanel extends Panel implements ActionListener, FocusListener {
         }
 
         boolean var2 = false;
-        Image var3 = this.anImageManager629.getShared("tf-background.gif");
+        Image var3 = this.anImageManager629.getImage("tf-background");
         if (var3 != null) {
             this.aGraphics642.drawImage(var3, 0, 0, this);
         } else {
@@ -97,7 +97,7 @@ class TellFriendPanel extends Panel implements ActionListener, FocusListener {
             this.aGraphics642.setFont(aFont626);
             StringDraw.drawStringWithMaxWidth(
                     this.aGraphics642, this.aTextManager628.getShared("TellFriend_EmailSent"), 290, 122, 0, 340);
-            var3 = this.anImageManager629.getShared("tf-char-sent.gif");
+            var3 = this.anImageManager629.getImage("tf-char-sent");
             if (var3 != null) {
                 this.aGraphics642.drawImage(var3, 40, 60, this);
             } else {
@@ -107,7 +107,7 @@ class TellFriendPanel extends Panel implements ActionListener, FocusListener {
             this.aGraphics642.setFont(aFont627);
             StringDraw.drawStringWithMaxWidth(
                     this.aGraphics642, this.aTextManager628.getShared("TellFriend_EmailNotSent"), 310, 92, 0, 340);
-            var3 = this.anImageManager629.getShared("tf-char-error.gif");
+            var3 = this.anImageManager629.getImage("tf-char-error");
             if (var3 != null) {
                 this.aGraphics642.drawImage(var3, 50, 120, this);
             } else {
@@ -117,8 +117,8 @@ class TellFriendPanel extends Panel implements ActionListener, FocusListener {
 
         var1.drawImage(this.anImage641, 0, 0, this);
         if (!this.aBoolean640) {
-            Image var4 = this.anImageManager629.getShared("tf-btn-send.gif");
-            Image var5 = this.anImageManager629.getShared("tf-btn-close.gif");
+            Image var4 = this.anImageManager629.getImage("tf-btn-send");
+            Image var5 = this.anImageManager629.getImage("tf-btn-close");
             if (var4 != null && var5 != null) {
                 this.aColorButton636.setIconImage(var4, 21, 19);
                 this.aColorButton637.setIconImage(var5, 21, 19);

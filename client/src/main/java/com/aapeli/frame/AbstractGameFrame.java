@@ -179,7 +179,7 @@ public abstract class AbstractGameFrame extends JFrame implements Runnable, Acti
             this.graphics.setColor(backgroundColor);
             this.graphics.fillRect(0, 0, this.contentWidth, this.contentHeight);
             if (this.imageManager != null && this.backgroundImageKey != null) {
-                Image image = this.imageManager.getGameImage(this.backgroundImageKey);
+                Image image = this.imageManager.getImage(this.backgroundImageKey);
                 if (image != null) {
                     this.graphics.drawImage(image, this.backgroundXOffset, this.backgroundYOffset, this);
                 }

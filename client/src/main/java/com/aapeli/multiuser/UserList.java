@@ -111,7 +111,7 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
         this.setBackground(backgroundColor);
         this.setForeground(foregroundColor);
         if (showRankingIcons) {
-            Image rankingIcons = imageManager.getShared("ranking-icons.gif");
+            Image rankingIcons = imageManager.getImage("ranking-icons");
             this.rankingIcons = imageManager.separateImages(rankingIcons, 14);
         }
 
