@@ -109,6 +109,6 @@ public final class Languages {
     }
 
     public String getName(int var1) {
-        return this.textManager.getShared("Language_" + languageData[var1][0]);
+        return this.textManager.getText("Language_" + languageData[var1][0]);
     }
 }

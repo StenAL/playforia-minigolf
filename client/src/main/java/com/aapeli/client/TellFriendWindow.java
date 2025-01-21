@@ -14,7 +14,7 @@ class TellFriendWindow extends PopupWindow {
     }
 
     protected void method241(Component var1) {
-        this.method238(var1, super.aTextManager187.getShared("TellFriend_Title"), this.tellFriendPanel);
+        this.method238(var1, super.aTextManager187.getText("TellFriend_Title"), this.tellFriendPanel);
     }
 
     protected void close() {

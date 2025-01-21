@@ -17,7 +17,7 @@ class SignUpWindow extends PopupWindow {
     protected void method239(Component var1) {
         String var2 = this.signUpPanel.method820();
         if (super.aTextManager187.isAvailable("Localized_GameClientName")) {
-            var2 = var2 + " - " + super.aTextManager187.getGame("Localized_GameClientName");
+            var2 = var2 + " - " + super.aTextManager187.getText("Localized_GameClientName");
         }
 
         this.method238(var1, var2, this.signUpPanel);

@@ -97,7 +97,7 @@ public class ChatLobby extends ChatBase {
         if (!this.noJoinAndPartMessagesCheckbox.getState()) {
             this.addMessage(
                     user,
-                    super.textManager.getShared(
+                    super.textManager.getText(
                             "Chat_Lobby_User" + (returnedFromGame ? "ReturnedFromGame" : "Joined"), user.getNick()));
         }
 
@@ -113,29 +113,28 @@ public class ChatLobby extends ChatBase {
         if (user != null && !this.noJoinAndPartMessagesCheckbox.getState()) {
             this.addMessage(
                     user,
-                    super.textManager.getShared(
-                            "Chat_Lobby_UserLeft" + (disconnected ? "ConnectionProblem" : ""), nick));
+                    super.textManager.getText("Chat_Lobby_UserLeft" + (disconnected ? "ConnectionProblem" : ""), nick));
         }
     }
 
     public void userLeftCreatedGame(String nick, String lobbyName) {
         User user = super.userList.removeAndReturnUser(nick);
         if (user != null && !this.noGameMessagesChatbox.getState()) {
-            this.addMessage(user, super.textManager.getShared("Chat_Lobby_UserCreatedGame", nick, lobbyName));
+            this.addMessage(user, super.textManager.getText("Chat_Lobby_UserCreatedGame", nick, lobbyName));
         }
     }
 
     public void userLeftJoinedGame(String nick, String lobbyName) {
         User user = super.userList.removeAndReturnUser(nick);
         if (user != null && !this.noGameMessagesChatbox.getState()) {
-            this.addMessage(user, super.textManager.getShared("Chat_Lobby_UserJoinedGame", nick, lobbyName));
+            this.addMessage(user, super.textManager.getText("Chat_Lobby_UserJoinedGame", nick, lobbyName));
         }
     }
 
     public void userLeftWatchingGame(String nick, String lobbyName) {
         User user = super.userList.removeAndReturnUser(nick);
         if (user != null && !this.noGameMessagesChatbox.getState()) {
-            this.addMessage(user, super.textManager.getShared("Chat_Lobby_UserWathicngGame", nick, lobbyName));
+            this.addMessage(user, super.textManager.getText("Chat_Lobby_UserWathicngGame", nick, lobbyName));
         }
     }
 
@@ -145,9 +144,9 @@ public class ChatLobby extends ChatBase {
         if (user1 != null && user2 != null && !this.noGameMessagesChatbox.getState()) {
             String text;
             if (lobbyName != null) {
-                text = super.textManager.getShared("Chat_Lobby_UsersStartedGame", nick1, nick2, lobbyName);
+                text = super.textManager.getText("Chat_Lobby_UsersStartedGame", nick1, nick2, lobbyName);
             } else {
-                text = super.textManager.getShared("Chat_Lobby_UsersStartedUnnamedGame", nick1, nick2);
+                text = super.textManager.getText("Chat_Lobby_UsersStartedUnnamedGame", nick1, nick2);
             }
 
             this.addMessage(user1, user2, text);
@@ -161,13 +160,13 @@ public class ChatLobby extends ChatBase {
     public User getSelectedUserForChallenge() {
         User selectedUser = super.userList.getSelectedUser();
         if (selectedUser == null) {
-            super.chatTextArea.addMessage(super.textManager.getShared("Chat_Lobby_CantChallengeNone"));
+            super.chatTextArea.addMessage(super.textManager.getText("Chat_Lobby_CantChallengeNone"));
         } else {
             if (!selectedUser.isLocal()) {
                 return selectedUser;
             }
 
-            super.chatTextArea.addMessage(super.textManager.getShared("Chat_Lobby_CantChallengeSelf"));
+            super.chatTextArea.addMessage(super.textManager.getText("Chat_Lobby_CantChallengeSelf"));
         }
 
         return null;
@@ -279,9 +278,9 @@ public class ChatLobby extends ChatBase {
 
     private void createSettingsCheckBoxes() {
         this.noJoinAndPartMessagesCheckbox =
-                new ColorCheckbox(super.textManager.getShared("Chat_Lobby_NoJoinPartMessages"));
+                new ColorCheckbox(super.textManager.getText("Chat_Lobby_NoJoinPartMessages"));
         this.add(this.noJoinAndPartMessagesCheckbox);
-        this.noGameMessagesChatbox = new ColorCheckbox(super.textManager.getShared("Chat_Lobby_NoGameMessages"));
+        this.noGameMessagesChatbox = new ColorCheckbox(super.textManager.getText("Chat_Lobby_NoGameMessages"));
         this.add(this.noGameMessagesChatbox);
     }
 }

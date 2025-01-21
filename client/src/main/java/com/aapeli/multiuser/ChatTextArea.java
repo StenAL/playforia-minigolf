@@ -51,11 +51,11 @@ public class ChatTextArea extends ColorTextArea {
     }
 
     public void addSheriffSay(String text) {
-        this.addImportantLine(ColorListItem.COLOR_CYAN, this.textManager.getShared("Chat_SheriffSay", text));
+        this.addImportantLine(ColorListItem.COLOR_CYAN, this.textManager.getText("Chat_SheriffSay", text));
     }
 
     public void addServerSay(String text) {
-        this.addText(ColorListItem.COLOR_CYAN, this.textManager.getShared("Chat_ServerSay", text));
+        this.addText(ColorListItem.COLOR_CYAN, this.textManager.getText("Chat_ServerSay", text));
     }
 
     public void addLocalizedServerSay(String text) {
@@ -63,7 +63,7 @@ public class ChatTextArea extends ColorTextArea {
     }
 
     public void addBroadcastMessage(String text) {
-        this.addImportantLine(ColorListItem.COLOR_CYAN, this.textManager.getShared("Chat_ServerBroadcast", text));
+        this.addImportantLine(ColorListItem.COLOR_CYAN, this.textManager.getText("Chat_ServerBroadcast", text));
     }
 
     public void addWelcomeMessage(String text) {
@@ -89,11 +89,11 @@ public class ChatTextArea extends ColorTextArea {
     }
 
     public void addFloodMessage() {
-        this.addMessage(7, this.textManager.getShared("Chat_MessageFlood"));
+        this.addMessage(7, this.textManager.getText("Chat_MessageFlood"));
     }
 
     public void addPrivateMessageUserLeftMessage(String user) {
-        this.addMessage(6, this.textManager.getShared("Chat_MessagePrivateMessageUserLeft", user));
+        this.addMessage(6, this.textManager.getText("Chat_MessagePrivateMessageUserLeft", user));
     }
 
     public void setUserColor(String user, int color) {
@@ -113,7 +113,7 @@ public class ChatTextArea extends ColorTextArea {
     }
 
     private void addMessage(int color, String text) {
-        this.addText(this.normalizeColor(color), this.textManager.getShared("Chat_Message", text));
+        this.addText(this.normalizeColor(color), this.textManager.getText("Chat_Message", text));
     }
 
     private void addUserMessage(int fallbackColor, String user, String message, boolean isLocalMessage) {
@@ -121,12 +121,12 @@ public class ChatTextArea extends ColorTextArea {
         if (message.length() > 4 && message.toLowerCase().startsWith("/me ")) {
             this.addText(
                     this.getUserColor(user, fallbackColor),
-                    this.textManager.getShared("Chat_UserAction", user, message.substring(4)),
+                    this.textManager.getText("Chat_UserAction", user, message.substring(4)),
                     isLocalMessage);
         } else {
             this.addText(
                     this.getUserColor(user, fallbackColor),
-                    this.textManager.getShared("Chat_UserSay", user, message),
+                    this.textManager.getText("Chat_UserSay", user, message),
                     isLocalMessage);
         }
     }
@@ -135,7 +135,7 @@ public class ChatTextArea extends ColorTextArea {
         message = this.normalizeMessage(message, isOwnMessage);
         this.addText(
                 this.getUserColor(from, fallbackColor),
-                this.textManager.getShared("Chat_UserSayPrivate", from, to, message),
+                this.textManager.getText("Chat_UserSayPrivate", from, to, message),
                 isOwnMessage);
     }
 

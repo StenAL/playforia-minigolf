@@ -160,9 +160,9 @@ class ChatPanel extends Panel implements KeyListener, ActionListener {
                 new Font("Dialog", Font.PLAIN, 11));
         this.textAreaChat.setLocation(0, 0);
         this.textFieldMessage =
-                new InputTextField(this.gameContainer.textManager.getGame("GameChat_TypeHere"), 200, true);
+                new InputTextField(this.gameContainer.textManager.getText("GameChat_TypeHere"), 200, true);
         this.textFieldMessage.setBounds(0, this.height - 20, this.width - 70, 20);
-        this.buttonSay = new ColorButton(this.gameContainer.textManager.getGame("GameChat_Say"));
+        this.buttonSay = new ColorButton(this.gameContainer.textManager.getText("GameChat_Say"));
         this.buttonSay.setBounds(this.width - 69, this.height - 20, 69, 20);
         this.buttonSay.setBackground(GolfGameFrame.colourButtonBlue);
         if (this.gameExtra > 0) {

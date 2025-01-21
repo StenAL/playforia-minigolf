@@ -78,7 +78,7 @@ class LobbyMultiPlayerPanel extends Panel implements ItemListener, ActionListene
         this.graphics.setFont(GolfGameFrame.fontSerif26b);
         StringDraw.drawString(
                 this.graphics,
-                this.gameContainer.textManager.getGame("LobbySelect_MultiPlayer"),
+                this.gameContainer.textManager.getText("LobbySelect_MultiPlayer"),
                 this.width / 2,
                 35,
                 0);
@@ -86,13 +86,13 @@ class LobbyMultiPlayerPanel extends Panel implements ItemListener, ActionListene
         StringDraw.drawOutlinedString(
                 this.graphics,
                 var2,
-                this.gameContainer.textManager.getGame("LobbyReal_CreateTitle"),
+                this.gameContainer.textManager.getText("LobbyReal_CreateTitle"),
                 this.width / 2 - 165,
                 50,
                 1);
         StringDraw.drawString(
                 this.graphics,
-                this.gameContainer.textManager.getGame("LobbyReal_JoinTitle"),
+                this.gameContainer.textManager.getText("LobbyReal_JoinTitle"),
                 this.width * 3 / 4,
                 60,
                 0);
@@ -101,14 +101,14 @@ class LobbyMultiPlayerPanel extends Panel implements ItemListener, ActionListene
         StringDraw.drawOutlinedString(
                 this.graphics,
                 var2,
-                this.gameContainer.textManager.getGame("LobbyReal_PlayerCount"),
+                this.gameContainer.textManager.getText("LobbyReal_PlayerCount"),
                 this.width / 2 - 185,
                 yPos,
                 1);
         StringDraw.drawOutlinedString(
                 this.graphics,
                 var2,
-                this.gameContainer.textManager.getGame("LobbyReal_TrackCount"),
+                this.gameContainer.textManager.getText("LobbyReal_TrackCount"),
                 this.width / 2 - 185,
                 yPos + 24,
                 1);
@@ -116,7 +116,7 @@ class LobbyMultiPlayerPanel extends Panel implements ItemListener, ActionListene
             StringDraw.drawOutlinedString(
                     this.graphics,
                     var2,
-                    this.gameContainer.textManager.getGame("LobbyReal_GameName"),
+                    this.gameContainer.textManager.getText("LobbyReal_GameName"),
                     this.width / 2 - 185,
                     yPos + 50,
                     1);
@@ -125,7 +125,7 @@ class LobbyMultiPlayerPanel extends Panel implements ItemListener, ActionListene
         StringDraw.drawOutlinedString(
                 this.graphics,
                 var2,
-                this.gameContainer.textManager.getGame("LobbyReal_GamePassword"),
+                this.gameContainer.textManager.getText("LobbyReal_GamePassword"),
                 this.width / 2 - 185,
                 yPos + 72,
                 1);
@@ -133,7 +133,7 @@ class LobbyMultiPlayerPanel extends Panel implements ItemListener, ActionListene
             StringDraw.drawOutlinedString(
                     this.graphics,
                     var2,
-                    this.gameContainer.textManager.getGame("LobbyReal_OnlyFor"),
+                    this.gameContainer.textManager.getText("LobbyReal_OnlyFor"),
                     this.width / 2 - 185,
                     yPos + 94,
                     1);
@@ -142,49 +142,49 @@ class LobbyMultiPlayerPanel extends Panel implements ItemListener, ActionListene
         StringDraw.drawOutlinedString(
                 this.graphics,
                 var2,
-                this.gameContainer.textManager.getGame("LobbyReal_TrackTypes"),
+                this.gameContainer.textManager.getText("LobbyReal_TrackTypes"),
                 this.width / 2 - 185,
                 yPos + 117,
                 1);
         StringDraw.drawOutlinedString(
                 this.graphics,
                 var2,
-                this.gameContainer.textManager.getGame("LobbyReal_MaxStrokes"),
+                this.gameContainer.textManager.getText("LobbyReal_MaxStrokes"),
                 this.width / 2 - 185,
                 yPos + 140,
                 1);
         StringDraw.drawOutlinedString(
                 this.graphics,
                 var2,
-                this.gameContainer.textManager.getGame("LobbyReal_TimeLimit"),
+                this.gameContainer.textManager.getText("LobbyReal_TimeLimit"),
                 this.width / 2 - 185,
                 yPos + 163,
                 1);
         StringDraw.drawOutlinedString(
                 this.graphics,
                 var2,
-                this.gameContainer.textManager.getGame("LobbyReal_WaterEvent"),
+                this.gameContainer.textManager.getText("LobbyReal_WaterEvent"),
                 this.width / 2 - 185,
                 yPos + 186,
                 1);
         StringDraw.drawOutlinedString(
                 this.graphics,
                 var2,
-                this.gameContainer.textManager.getGame("LobbyReal_Collision"),
+                this.gameContainer.textManager.getText("LobbyReal_Collision"),
                 this.width / 2 - 185,
                 yPos + 209,
                 1);
         StringDraw.drawOutlinedString(
                 this.graphics,
                 var2,
-                this.gameContainer.textManager.getGame("LobbyReal_Scoring"),
+                this.gameContainer.textManager.getText("LobbyReal_Scoring"),
                 this.width / 2 - 185,
                 yPos + 232,
                 1);
         StringDraw.drawOutlinedString(
                 this.graphics,
                 var2,
-                this.gameContainer.textManager.getGame("LobbyReal_ScoringEnd"),
+                this.gameContainer.textManager.getText("LobbyReal_ScoringEnd"),
                 this.width / 2 - 185,
                 yPos + 255,
                 1);
@@ -196,14 +196,14 @@ class LobbyMultiPlayerPanel extends Panel implements ItemListener, ActionListene
                 if (gameData[3] != 0) {
                     StringDraw.drawString(
                             this.graphics,
-                            this.gameContainer.textManager.getGame("LobbyReal_TrackTypes"),
+                            this.gameContainer.textManager.getText("LobbyReal_TrackTypes"),
                             this.width - 170,
                             yPos2,
                             1);
                     this.graphics.drawString(
                             this.gameContainer.textManager.getIfAvailable(
                                     "LobbyReal_TrackTypes" + gameData[3],
-                                    this.gameContainer.textManager.getGame("LobbyReal_TrackTypesTest")),
+                                    this.gameContainer.textManager.getText("LobbyReal_TrackTypesTest")),
                             this.width - 165,
                             yPos2);
                     yPos2 += 15;
@@ -212,13 +212,13 @@ class LobbyMultiPlayerPanel extends Panel implements ItemListener, ActionListene
                 if (gameData[4] != 20) {
                     StringDraw.drawString(
                             this.graphics,
-                            this.gameContainer.textManager.getGame("LobbyReal_MaxStrokes"),
+                            this.gameContainer.textManager.getText("LobbyReal_MaxStrokes"),
                             this.width - 170,
                             yPos2,
                             1);
                     this.graphics.drawString(
                             gameData[4] == 0
-                                    ? this.gameContainer.textManager.getGame("LobbyReal_MaxStrokesUnlimited")
+                                    ? this.gameContainer.textManager.getText("LobbyReal_MaxStrokesUnlimited")
                                     : String.valueOf(gameData[4]),
                             this.width - 165,
                             yPos2);
@@ -228,7 +228,7 @@ class LobbyMultiPlayerPanel extends Panel implements ItemListener, ActionListene
                 if (gameData[5] > 0) {
                     StringDraw.drawString(
                             this.graphics,
-                            this.gameContainer.textManager.getGame("LobbyReal_TimeLimit"),
+                            this.gameContainer.textManager.getText("LobbyReal_TimeLimit"),
                             this.width - 170,
                             yPos2,
                             1);
@@ -240,48 +240,48 @@ class LobbyMultiPlayerPanel extends Panel implements ItemListener, ActionListene
                 if (gameData[6] == 1) {
                     StringDraw.drawString(
                             this.graphics,
-                            this.gameContainer.textManager.getGame("LobbyReal_WaterEvent"),
+                            this.gameContainer.textManager.getText("LobbyReal_WaterEvent"),
                             this.width - 170,
                             yPos2,
                             1);
                     this.graphics.drawString(
-                            this.gameContainer.textManager.getGame("LobbyReal_WaterEvent2"), this.width - 165, yPos2);
+                            this.gameContainer.textManager.getText("LobbyReal_WaterEvent2"), this.width - 165, yPos2);
                     yPos2 += 15;
                 }
 
                 if (gameData[7] == 0) {
                     StringDraw.drawString(
                             this.graphics,
-                            this.gameContainer.textManager.getGame("LobbyReal_Collision"),
+                            this.gameContainer.textManager.getText("LobbyReal_Collision"),
                             this.width - 170,
                             yPos2,
                             1);
                     this.graphics.drawString(
-                            this.gameContainer.textManager.getGame("LobbyReal_Collision1"), this.width - 165, yPos2);
+                            this.gameContainer.textManager.getText("LobbyReal_Collision1"), this.width - 165, yPos2);
                     yPos2 += 15;
                 }
 
                 if (gameData[8] == 1) {
                     StringDraw.drawString(
                             this.graphics,
-                            this.gameContainer.textManager.getGame("LobbyReal_Scoring"),
+                            this.gameContainer.textManager.getText("LobbyReal_Scoring"),
                             this.width - 170,
                             yPos2,
                             1);
                     this.graphics.drawString(
-                            this.gameContainer.textManager.getGame("LobbyReal_Scoring2"), this.width - 165, yPos2);
+                            this.gameContainer.textManager.getText("LobbyReal_Scoring2"), this.width - 165, yPos2);
                     yPos2 += 15;
                 }
 
                 if (gameData[9] > 0) {
                     StringDraw.drawString(
                             this.graphics,
-                            this.gameContainer.textManager.getGame("LobbyReal_ScoringEnd"),
+                            this.gameContainer.textManager.getText("LobbyReal_ScoringEnd"),
                             this.width - 170,
                             yPos2,
                             1);
                     this.graphics.drawString(
-                            this.gameContainer.textManager.getGame("LobbyReal_ScoringEnd" + gameData[9]),
+                            this.gameContainer.textManager.getText("LobbyReal_ScoringEnd" + gameData[9]),
                             this.width - 165,
                             yPos2);
                     yPos2 += 15;
@@ -293,7 +293,7 @@ class LobbyMultiPlayerPanel extends Panel implements ItemListener, ActionListene
             this.graphics.setColor(GolfGameFrame.colourTextRed);
             StringDraw.drawString(
                     this.graphics,
-                    this.gameContainer.textManager.getGame("LobbyReal_JoinError" + this.joinError),
+                    this.gameContainer.textManager.getText("LobbyReal_JoinError" + this.joinError),
                     this.width * 3 / 4,
                     this.height - 15,
                     0);
@@ -454,9 +454,9 @@ class LobbyMultiPlayerPanel extends Panel implements ItemListener, ActionListene
         this.textFieldGamePassword.setBackground(Color.white);
         this.add(this.textFieldGamePassword);
         this.choicerPermission = new Choicer();
-        this.choicerPermission.addItem(this.gameContainer.textManager.getGame("LobbyReal_OnlyForAll"));
+        this.choicerPermission.addItem(this.gameContainer.textManager.getText("LobbyReal_OnlyForAll"));
         if (this.gameContainer.golfGameFrame.isEmailVerified()) {
-            this.choicerPermission.addItem(this.gameContainer.textManager.getGame("LobbyReal_OnlyForReg"));
+            this.choicerPermission.addItem(this.gameContainer.textManager.getText("LobbyReal_OnlyForReg"));
             this.choicerPermission.setBounds(this.width / 2 - 170, 165, 150, 20);
             this.add(this.choicerPermission);
         }
@@ -480,17 +480,17 @@ class LobbyMultiPlayerPanel extends Panel implements ItemListener, ActionListene
                 this, this.width / 2 - 170, /*isUsingCustomServer ? 326 :*/ 303, 150, 20);
         this.choicerScoringEnd = this.gameContainer.lobbyPanel.addChoicerScoringEnd(
                 this, this.width / 2 - 170, /*isUsingCustomServer ? 349 :*/ 326, 100, 20);
-        this.buttonCreate = new ColorButton(this.gameContainer.textManager.getGame("LobbyReal_CreateGame"));
+        this.buttonCreate = new ColorButton(this.gameContainer.textManager.getText("LobbyReal_CreateGame"));
         this.buttonCreate.setBackground(GolfGameFrame.colourButtonGreen);
         this.buttonCreate.setBounds(
                 this.width / 2 - 170, /*isUsingCustomServer ? 372 :*/ 365, 100, /*isUsingCustomServer ? 20 :*/ 25);
         this.buttonCreate.addActionListener(this);
         this.add(this.buttonCreate);
         String[] listTitles = new String[] {
-            this.gameContainer.textManager.getGame("LobbyReal_ListTitleUserLimit"),
-            this.gameContainer.textManager.getGame("LobbyReal_ListTitleGame"),
-            this.gameContainer.textManager.getGame("LobbyReal_ListTitlePlayers"),
-            this.gameContainer.textManager.getGame("LobbyReal_ListTitleTracks")
+            this.gameContainer.textManager.getText("LobbyReal_ListTitleUserLimit"),
+            this.gameContainer.textManager.getText("LobbyReal_ListTitleGame"),
+            this.gameContainer.textManager.getText("LobbyReal_ListTitlePlayers"),
+            this.gameContainer.textManager.getText("LobbyReal_ListTitleTracks")
         };
         int[] var3 = new int[] {0, 0, 2, 3};
         this.trackList = new MultiColorList(listTitles, var3, 1, this.width / 2 - 40, 125);
@@ -501,7 +501,7 @@ class LobbyMultiPlayerPanel extends Panel implements ItemListener, ActionListene
         this.trackList.addItemListener(this);
         trackList.setListListener(this);
         this.add(this.trackList);
-        this.buttonJoin = new ColorButton(this.gameContainer.textManager.getGame("LobbyReal_JoinGame"));
+        this.buttonJoin = new ColorButton(this.gameContainer.textManager.getText("LobbyReal_JoinGame"));
         this.buttonJoin.setBackground(GolfGameFrame.colourButtonGreen);
         this.buttonJoin.setBounds(this.width * 3 / 4 - 50, 330, 100, 25);
         this.buttonJoin.addActionListener(this);
@@ -555,20 +555,20 @@ class LobbyMultiPlayerPanel extends Panel implements ItemListener, ActionListene
         boolean bold = false;
         String[] cols = new String[4];
         if (passworded) {
-            cols[0] = this.gameContainer.textManager.getGame("LobbyReal_ListPassword");
+            cols[0] = this.gameContainer.textManager.getText("LobbyReal_ListPassword");
             colourIndex = MultiColorListItem.COLOR_RED;
         } else if (permission == 2) {
-            cols[0] = this.gameContainer.textManager.getGame("LobbyReal_ListVipOnly");
+            cols[0] = this.gameContainer.textManager.getText("LobbyReal_ListVipOnly");
             colourIndex = MultiColorListItem.COLOR_GREEN;
             bold = true;
         } else if (permission == 1) {
-            cols[0] = this.gameContainer.textManager.getGame("LobbyReal_ListRegOnly");
+            cols[0] = this.gameContainer.textManager.getText("LobbyReal_ListRegOnly");
             bold = true;
         }
 
         cols[1] = name;
-        cols[2] = this.gameContainer.textManager.getGame("LobbyReal_ListPlayers", numPlayers, maxPlayers);
-        cols[3] = this.gameContainer.textManager.getGame("LobbyReal_ListTracks", numTracks);
+        cols[2] = this.gameContainer.textManager.getText("LobbyReal_ListPlayers", numPlayers, maxPlayers);
+        cols[3] = this.gameContainer.textManager.getText("LobbyReal_ListTracks", numTracks);
         int[] trackInfo;
         /*if(isUsingCustomServer) {
             trackInfo = new int[]{id, passworded ? 1 : 0, permission, trackTypes, maxStrokes, timeLimit, waterEvent, collision, scoring, scoringEnd, trackCategory};

@@ -99,7 +99,7 @@ class PlayerInfoPanel extends Panel implements ItemListener, MouseListener {
                 this.graphics.setFont(fontDialog12);
                 this.graphics.setColor(aColor372);
                 this.graphics.drawString(
-                        this.gameContainer.textManager.getGame("GamePlayerInfo_CompareResultNick"), 20, 20);
+                        this.gameContainer.textManager.getText("GamePlayerInfo_CompareResultNick"), 20, 20);
                 int totalComparisonStrokes = 0;
 
                 for (int comparedTrackIndex = 0;
@@ -165,7 +165,7 @@ class PlayerInfoPanel extends Panel implements ItemListener, MouseListener {
                         this.graphics.drawString(
                                 strokes >= 0
                                         ? String.valueOf(strokes)
-                                        : this.gameContainer.textManager.getGame("GamePlayerInfo_Skipped"),
+                                        : this.gameContainer.textManager.getText("GamePlayerInfo_Skipped"),
                                 130 + track * 20,
                                 yOffset);
                         this.graphics.setColor(color);
@@ -191,10 +191,10 @@ class PlayerInfoPanel extends Panel implements ItemListener, MouseListener {
                 if (scoreDifferences != null && this.playerLeaveReasons[player] == 0) {
                     if (scoreDifferences[player] == 0) {
                         if (this.gameOutcome == null) {
-                            scoreDifference = this.gameContainer.textManager.getGame("GamePlayerInfo_Leader");
+                            scoreDifference = this.gameContainer.textManager.getText("GamePlayerInfo_Leader");
                         }
                     } else {
-                        scoreDifference = this.gameContainer.textManager.getGame(
+                        scoreDifference = this.gameContainer.textManager.getText(
                                 "GamePlayerInfo_AfterLeader",
                                 (scoreDifferences[player] > 0 ? "+" : "") + scoreDifferences[player]);
                     }
@@ -233,7 +233,7 @@ class PlayerInfoPanel extends Panel implements ItemListener, MouseListener {
 
                 if (statusMessage != null) {
                     this.graphics.drawString(
-                            this.gameContainer.textManager.getGame(statusMessage) + timeRemaining,
+                            this.gameContainer.textManager.getText(statusMessage) + timeRemaining,
                             130 + this.trackCount * 20 + 15 + 40 + 40,
                             yOffset);
                 }
@@ -257,7 +257,7 @@ class PlayerInfoPanel extends Panel implements ItemListener, MouseListener {
 
                 if (extraMessage != null) {
                     this.graphics.drawString(
-                            this.gameContainer.textManager.getGame(extraMessage),
+                            this.gameContainer.textManager.getText(extraMessage),
                             130 + this.trackCount * 20 + 15 + 40 + 40 + 100,
                             yOffset);
                 }
@@ -523,16 +523,16 @@ class PlayerInfoPanel extends Panel implements ItemListener, MouseListener {
     protected void initResultsComparison(int[][] results) {
         this.resultsToCompareScoreAgainst = results;
         this.compareResultsChoicer = new Choicer();
-        this.compareResultsChoicer.addItem(this.gameContainer.textManager.getGame("GamePlayerInfo_CompareResultNone"));
+        this.compareResultsChoicer.addItem(this.gameContainer.textManager.getText("GamePlayerInfo_CompareResultNone"));
         this.compareResultsChoicer.addItem(
-                this.gameContainer.textManager.getGame("GamePlayerInfo_CompareResultOwn", this.playerNames[0]));
+                this.gameContainer.textManager.getText("GamePlayerInfo_CompareResultOwn", this.playerNames[0]));
         this.compareResultsChoicer.addItem(
-                this.gameContainer.textManager.getGame("GamePlayerInfo_CompareResultTop100Average"));
+                this.gameContainer.textManager.getText("GamePlayerInfo_CompareResultTop100Average"));
         this.compareResultsChoicer.addItem(
-                this.gameContainer.textManager.getGame("GamePlayerInfo_CompareResultBestOfDay"));
+                this.gameContainer.textManager.getText("GamePlayerInfo_CompareResultBestOfDay"));
         this.compareResultsChoicer.addItem(
-                this.gameContainer.textManager.getGame("GamePlayerInfo_CompareResultBestOfAllTime"));
-        this.compareResultsChoicer.addItem(this.gameContainer.textManager.getGame("GamePlayerInfo_CompareResultIdeal"));
+                this.gameContainer.textManager.getText("GamePlayerInfo_CompareResultBestOfAllTime"));
+        this.compareResultsChoicer.addItem(this.gameContainer.textManager.getText("GamePlayerInfo_CompareResultIdeal"));
         this.compareResultsChoicer.select(scoreComparisonMode);
         this.compareResultsChoicer.setBounds(555, 5, 170, 20);
         this.compareResultsChoicer.addItemListener(this);

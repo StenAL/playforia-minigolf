@@ -86,17 +86,17 @@ class TellFriendPanel extends Panel implements ActionListener, FocusListener {
         if (this.anInt638 == 0) {
             this.aGraphics642.setFont(aFont623);
             StringDraw.drawStringWithMaxWidth(
-                    this.aGraphics642, this.aTextManager628.getShared("TellFriend_Info"), 10, 25, -1, 480);
+                    this.aGraphics642, this.aTextManager628.getText("TellFriend_Info"), 10, 25, -1, 480);
             this.aGraphics642.setFont(aFont624);
             StringDraw.drawStringWithMaxWidth(
-                    this.aGraphics642, this.aTextManager628.getShared("TellFriend_EmailTitle"), 10, 90, -1, 480);
+                    this.aGraphics642, this.aTextManager628.getText("TellFriend_EmailTitle"), 10, 90, -1, 480);
             this.aGraphics642.setFont(aFont625);
             StringDraw.drawStringWithMaxWidth(
-                    this.aGraphics642, this.aTextManager628.getShared("TellFriend_MessageTitle"), 200, 90, -1, 480);
+                    this.aGraphics642, this.aTextManager628.getText("TellFriend_MessageTitle"), 200, 90, -1, 480);
         } else if (this.anInt638 == 1) {
             this.aGraphics642.setFont(aFont626);
             StringDraw.drawStringWithMaxWidth(
-                    this.aGraphics642, this.aTextManager628.getShared("TellFriend_EmailSent"), 290, 122, 0, 340);
+                    this.aGraphics642, this.aTextManager628.getText("TellFriend_EmailSent"), 290, 122, 0, 340);
             var3 = this.anImageManager629.getImage("tf-char-sent");
             if (var3 != null) {
                 this.aGraphics642.drawImage(var3, 40, 60, this);
@@ -106,7 +106,7 @@ class TellFriendPanel extends Panel implements ActionListener, FocusListener {
         } else {
             this.aGraphics642.setFont(aFont627);
             StringDraw.drawStringWithMaxWidth(
-                    this.aGraphics642, this.aTextManager628.getShared("TellFriend_EmailNotSent"), 310, 92, 0, 340);
+                    this.aGraphics642, this.aTextManager628.getText("TellFriend_EmailNotSent"), 310, 92, 0, 340);
             var3 = this.anImageManager629.getImage("tf-char-error");
             if (var3 != null) {
                 this.aGraphics642.drawImage(var3, 50, 120, this);
@@ -248,14 +248,14 @@ class TellFriendPanel extends Panel implements ActionListener, FocusListener {
         this.aColorButtonArray633 = new ColorButton[4];
 
         for (var1 = 0; var1 < 4; ++var1) {
-            this.aColorButtonArray633[var1] = new ColorButton(this.aTextManager628.getShared("TellFriend_EmailRemove"));
+            this.aColorButtonArray633[var1] = new ColorButton(this.aTextManager628.getText("TellFriend_EmailRemove"));
             this.aColorButtonArray633[var1].setBackground(new Color(255, 64, 64));
             this.aColorButtonArray633[var1].setForeground(new Color(255, 224, 224));
             this.aColorButtonArray633[var1].setSize(17, 17);
             this.aColorButtonArray633[var1].addActionListener(this);
         }
 
-        this.aColorButton634 = new ColorButton(this.aTextManager628.getShared("TellFriend_EmailAdd"));
+        this.aColorButton634 = new ColorButton(this.aTextManager628.getText("TellFriend_EmailAdd"));
         this.aColorButton634.setSize(110, 20);
         this.aColorButton634.setBackground(aColor619);
         this.aColorButton634.addActionListener(this);
@@ -265,12 +265,12 @@ class TellFriendPanel extends Panel implements ActionListener, FocusListener {
         this.aTextArea635.setBackground(Color.white);
         this.aTextArea635.setForeground(Color.black);
         this.add(this.aTextArea635);
-        this.aColorButton636 = new ColorButton(this.aTextManager628.getShared("TellFriend_ButtonSend"));
+        this.aColorButton636 = new ColorButton(this.aTextManager628.getText("TellFriend_ButtonSend"));
         this.aColorButton636.setBounds(300, 230, 100, 25);
         this.aColorButton636.setBackground(aColor620);
         this.aColorButton636.addActionListener(this);
         this.add(this.aColorButton636);
-        this.aColorButton637 = new ColorButton(this.aTextManager628.getShared("TellFriend_ButtonClose"));
+        this.aColorButton637 = new ColorButton(this.aTextManager628.getText("TellFriend_ButtonClose"));
         this.aColorButton637.setBounds(410, 230, 80, 25);
         this.aColorButton637.setBackground(aColor621);
         this.aColorButton637.addActionListener(this);
@@ -320,7 +320,7 @@ class TellFriendPanel extends Panel implements ActionListener, FocusListener {
     }
 
     private InputTextField method483() {
-        InputTextField var1 = new InputTextField(this.aTextManager628.getShared("TellFriend_EmailHelp"), 60);
+        InputTextField var1 = new InputTextField(this.aTextManager628.getText("TellFriend_EmailHelp"), 60);
         var1.setSize(150, 25);
         var1.addFocusListener(this);
         var1.addActionListener(this);

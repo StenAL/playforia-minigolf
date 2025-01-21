@@ -194,7 +194,7 @@ public abstract class AbstractGameFrame extends JFrame implements Runnable, Acti
                     StringDraw.drawOutlinedString(
                             this.graphics,
                             outlineColor,
-                            this.textManager.getShared("Message_CE_ConnectionError"),
+                            this.textManager.getText("Message_CE_ConnectionError"),
                             40,
                             80 + textYOffset,
                             -1);
@@ -202,7 +202,7 @@ public abstract class AbstractGameFrame extends JFrame implements Runnable, Acti
                     StringDraw.drawOutlinedString(
                             this.graphics,
                             outlineColor,
-                            this.textManager.getShared("Message_CE_PossibleReasons"),
+                            this.textManager.getText("Message_CE_PossibleReasons"),
                             40,
                             125 + textYOffset,
                             -1);
@@ -211,7 +211,7 @@ public abstract class AbstractGameFrame extends JFrame implements Runnable, Acti
                         StringDraw.drawOutlinedString(
                                 this.graphics,
                                 outlineColor,
-                                "- " + this.textManager.getShared("Message_CE0_1_Short"),
+                                "- " + this.textManager.getText("Message_CE0_1_Short"),
                                 40,
                                 160 + textYOffset,
                                 -1);
@@ -219,7 +219,7 @@ public abstract class AbstractGameFrame extends JFrame implements Runnable, Acti
                         StringDraw.drawOutlinedStringWithMaxWidth(
                                 this.graphics,
                                 outlineColor,
-                                this.textManager.getShared(
+                                this.textManager.getText(
                                         "Message_CE0_1_Long",
                                         this.param.getServerIp(),
                                         "" + this.param.getServerPort()),
@@ -231,7 +231,7 @@ public abstract class AbstractGameFrame extends JFrame implements Runnable, Acti
                         StringDraw.drawOutlinedString(
                                 this.graphics,
                                 outlineColor,
-                                "- " + this.textManager.getShared("Message_CE0_2_Short"),
+                                "- " + this.textManager.getText("Message_CE0_2_Short"),
                                 40,
                                 245 + textYOffset,
                                 -1);
@@ -239,7 +239,7 @@ public abstract class AbstractGameFrame extends JFrame implements Runnable, Acti
                         StringDraw.drawOutlinedStringWithMaxWidth(
                                 this.graphics,
                                 outlineColor,
-                                this.textManager.getShared("Message_CE0_2_Long"),
+                                this.textManager.getText("Message_CE0_2_Long"),
                                 50,
                                 265 + textYOffset,
                                 -1,
@@ -248,7 +248,7 @@ public abstract class AbstractGameFrame extends JFrame implements Runnable, Acti
                         StringDraw.drawOutlinedString(
                                 this.graphics,
                                 outlineColor,
-                                "- " + this.textManager.getShared("Message_CE0_3_Short"),
+                                "- " + this.textManager.getText("Message_CE0_3_Short"),
                                 40,
                                 305 + textYOffset,
                                 -1);
@@ -256,7 +256,7 @@ public abstract class AbstractGameFrame extends JFrame implements Runnable, Acti
                         StringDraw.drawOutlinedStringWithMaxWidth(
                                 this.graphics,
                                 outlineColor,
-                                this.textManager.getShared("Message_CE0_3_Long"),
+                                this.textManager.getText("Message_CE0_3_Long"),
                                 50,
                                 325 + textYOffset,
                                 -1,
@@ -266,7 +266,7 @@ public abstract class AbstractGameFrame extends JFrame implements Runnable, Acti
                         StringDraw.drawOutlinedString(
                                 this.graphics,
                                 outlineColor,
-                                "- " + this.textManager.getShared("Message_CE1_1_Short"),
+                                "- " + this.textManager.getText("Message_CE1_1_Short"),
                                 40,
                                 160 + textYOffset,
                                 -1);
@@ -274,7 +274,7 @@ public abstract class AbstractGameFrame extends JFrame implements Runnable, Acti
                         StringDraw.drawOutlinedStringWithMaxWidth(
                                 this.graphics,
                                 outlineColor,
-                                this.textManager.getShared("Message_CE1_1_Long"),
+                                this.textManager.getText("Message_CE1_1_Long"),
                                 50,
                                 180 + textYOffset,
                                 -1,
@@ -283,7 +283,7 @@ public abstract class AbstractGameFrame extends JFrame implements Runnable, Acti
                         StringDraw.drawOutlinedString(
                                 this.graphics,
                                 outlineColor,
-                                "- " + this.textManager.getShared("Message_CE1_2_Short"),
+                                "- " + this.textManager.getText("Message_CE1_2_Short"),
                                 40,
                                 235 + textYOffset,
                                 -1);
@@ -291,7 +291,7 @@ public abstract class AbstractGameFrame extends JFrame implements Runnable, Acti
                         StringDraw.drawOutlinedStringWithMaxWidth(
                                 this.graphics,
                                 outlineColor,
-                                this.textManager.getShared("Message_CE1_2_Long"),
+                                this.textManager.getText("Message_CE1_2_Long"),
                                 50,
                                 255 + textYOffset,
                                 -1,
@@ -300,7 +300,7 @@ public abstract class AbstractGameFrame extends JFrame implements Runnable, Acti
                         StringDraw.drawOutlinedString(
                                 this.graphics,
                                 outlineColor,
-                                "- " + this.textManager.getShared("Message_CE1_3_Short"),
+                                "- " + this.textManager.getText("Message_CE1_3_Short"),
                                 40,
                                 305 + textYOffset,
                                 -1);
@@ -308,7 +308,7 @@ public abstract class AbstractGameFrame extends JFrame implements Runnable, Acti
                         StringDraw.drawOutlinedStringWithMaxWidth(
                                 this.graphics,
                                 outlineColor,
-                                this.textManager.getShared("Message_CE1_3_Long"),
+                                this.textManager.getText("Message_CE1_3_Long"),
                                 50,
                                 325 + textYOffset,
                                 -1,
@@ -319,7 +319,7 @@ public abstract class AbstractGameFrame extends JFrame implements Runnable, Acti
                     StringDraw.drawOutlinedString(
                             this.graphics,
                             outlineColor,
-                            this.textManager.getShared("Message_PE_ProgramError"),
+                            this.textManager.getText("Message_PE_ProgramError"),
                             50,
                             100,
                             -1);
@@ -327,7 +327,7 @@ public abstract class AbstractGameFrame extends JFrame implements Runnable, Acti
                     StringDraw.drawOutlinedStringWithMaxWidth(
                             this.graphics,
                             outlineColor,
-                            this.textManager.getShared("Message_PE_GameClosed"),
+                            this.textManager.getText("Message_PE_GameClosed"),
                             50,
                             150,
                             -1,
@@ -336,45 +336,45 @@ public abstract class AbstractGameFrame extends JFrame implements Runnable, Acti
                     StringDraw.drawOutlinedString(
                             this.graphics,
                             outlineColor,
-                            this.textManager.getShared("Message_PE_ErrorDesc", this.aThrowable2553.toString()),
+                            this.textManager.getText("Message_PE_ErrorDesc", this.aThrowable2553.toString()),
                             50,
                             235,
                             -1);
                 } else {
-                    String endText = this.textManager.getShared("Message_WaitWhile");
+                    String endText = this.textManager.getText("Message_WaitWhile");
                     String endTextHelp = null;
                     if (this.endState == END_ERROR_MATCH) {
-                        endText = this.textManager.getShared("Match_MessageError");
-                        endTextHelp = this.textManager.getShared("Match_MessageErrorHelp");
+                        endText = this.textManager.getText("Match_MessageError");
+                        endTextHelp = this.textManager.getText("Match_MessageErrorHelp");
                     } else if (this.endState == END_ERROR_VERSION) {
-                        endText = this.textManager.getShared("Message_VersionError");
-                        endTextHelp = this.textManager.getShared("Message_VersionErrorHelp");
+                        endText = this.textManager.getText("Message_VersionError");
+                        endTextHelp = this.textManager.getText("Message_VersionErrorHelp");
                     } else if (this.endState == END_ERROR_SERVERFULL) {
-                        endText = this.textManager.getShared("Message_ServerFullError");
-                        endTextHelp = this.textManager.getShared("Message_ServerFullErrorHelp");
+                        endText = this.textManager.getText("Message_ServerFullError");
+                        endTextHelp = this.textManager.getText("Message_ServerFullErrorHelp");
                     } else if (this.endState == END_QUIT) {
-                        endText = this.textManager.getShared("Message_QuitGame");
+                        endText = this.textManager.getText("Message_QuitGame");
                     } else if (this.endState == END_QUIT_REGISTER) {
-                        endText = this.textManager.getShared("Message_QuitGame_ToRegister");
+                        endText = this.textManager.getText("Message_QuitGame_ToRegister");
                     } else if (this.endState == END_QUIT_BUYCOINS) {
-                        endText = this.textManager.getShared("Message_QuitGame_ToBuyCoins");
+                        endText = this.textManager.getText("Message_QuitGame_ToBuyCoins");
                     } else if (this.endState == END_OTHER) {
                         endText = this.endTextCustom;
                     } else if (this.endState == END_ERROR_KICK_NOW) {
-                        endText = this.textManager.getShared("Message_KickedNow");
-                        endTextHelp = this.textManager.getShared("Message_KickedNowHelp");
+                        endText = this.textManager.getText("Message_KickedNow");
+                        endTextHelp = this.textManager.getText("Message_KickedNowHelp");
                     } else if (this.endState == END_ERROR_KICKBAN_NOW) {
-                        endText = this.textManager.getShared("Message_BannedNow");
-                        endTextHelp = this.textManager.getShared("Message_BannedNowHelp");
+                        endText = this.textManager.getText("Message_BannedNow");
+                        endTextHelp = this.textManager.getText("Message_BannedNowHelp");
                     } else if (this.endState == END_ERROR_BAN_INIT) {
-                        endText = this.textManager.getShared("Message_BannedInitially");
-                        endTextHelp = this.textManager.getShared("Message_BannedInitiallyHelp");
+                        endText = this.textManager.getText("Message_BannedInitially");
+                        endTextHelp = this.textManager.getText("Message_BannedInitiallyHelp");
                     } else if (this.endState == END_ERROR_REGLOGIN_FAILED) {
-                        endText = this.textManager.getShared("Message_LoginFailedReg");
-                        endTextHelp = this.textManager.getShared("Message_LoginFailedRegHelp");
+                        endText = this.textManager.getText("Message_LoginFailedReg");
+                        endTextHelp = this.textManager.getText("Message_LoginFailedRegHelp");
                     } else if (this.endState == END_ERROR_TOOMANYIP_INIT) {
-                        endText = this.textManager.getShared("Message_TooManySameIP");
-                        endTextHelp = this.textManager.getShared("Message_TooManySameIPHelp");
+                        endText = this.textManager.getText("Message_TooManySameIP");
+                        endTextHelp = this.textManager.getText("Message_TooManySameIPHelp");
                     }
 
                     this.graphics.setFont(fontDialog15);
@@ -514,7 +514,7 @@ public abstract class AbstractGameFrame extends JFrame implements Runnable, Acti
 
                 String adInfo = null;
                 if (adCanvas != null && adCanvas.method216()) {
-                    adInfo = " " + this.textManager.getShared("Loader_AdClickNote");
+                    adInfo = " " + this.textManager.getText("Loader_AdClickNote");
                 }
 
                 int time3 = (int) (System.currentTimeMillis() - startTime);
@@ -528,7 +528,7 @@ public abstract class AbstractGameFrame extends JFrame implements Runnable, Acti
                 }
 
                 this.loadingPanel.setLoadingMessage(
-                        this.textManager.getShared("Loader_LoadingGfxSfx") + (adInfo != null ? adInfo : ""));
+                        this.textManager.getText("Loader_LoadingGfxSfx") + (adInfo != null ? adInfo : ""));
                 this.soundManager = new SoundManager(true, this.isDebug());
 
                 this.loadingPanel.addProgress(0.15D);
@@ -589,7 +589,7 @@ public abstract class AbstractGameFrame extends JFrame implements Runnable, Acti
                                     this.printSUD("Connecting to server...");
                                 }
 
-                                this.loadingPanel.setLoadingMessage(this.textManager.getShared("Message_Connecting")
+                                this.loadingPanel.setLoadingMessage(this.textManager.getText("Message_Connecting")
                                         + (adInfo != null ? adInfo : ""));
                                 this.loadingPanel.setActualProgress(1.0D);
                                 this.connectToServer();
@@ -722,11 +722,11 @@ public abstract class AbstractGameFrame extends JFrame implements Runnable, Acti
             int x = (this.getWidth() - this.contentWidth) / 2;
             int y = (this.getHeight() - this.contentHeight) / 2;
             if (state == END_ERROR_CONNECTION) {
-                this.retryCanvas = new RetryCanvas(this.textManager.getShared("Message_CE_RetryButton"), 120, 20, this);
+                this.retryCanvas = new RetryCanvas(this.textManager.getText("Message_CE_RetryButton"), 120, 20, this);
                 this.retryCanvas.setLocation(x + 40, y + 360);
                 this.add(this.retryCanvas);
             } else if (state == END_THROWABLE) {
-                this.retryCanvas = new RetryCanvas(this.textManager.getShared("Message_PE_RetryButton"), 120, 20, this);
+                this.retryCanvas = new RetryCanvas(this.textManager.getText("Message_PE_RetryButton"), 120, 20, this);
                 this.retryCanvas.setLocation(x + 50, y + 360);
                 this.add(this.retryCanvas);
             }

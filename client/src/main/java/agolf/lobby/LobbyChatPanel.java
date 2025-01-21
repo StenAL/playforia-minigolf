@@ -108,27 +108,27 @@ class LobbyChatPanel extends ChatLobby implements MultiLanguageChatListener {
 
                 String message = null;
                 if (lobbyUsers == 0 && ingameUsers == 0) {
-                    message = this.gameContainer.textManager.getGame("LobbyChat_UsersInThisLobby00");
+                    message = this.gameContainer.textManager.getText("LobbyChat_UsersInThisLobby00");
                 }
 
                 if (lobbyUsers == 1 && ingameUsers == 0) {
-                    message = this.gameContainer.textManager.getGame("LobbyChat_UsersInThisLobby10");
+                    message = this.gameContainer.textManager.getText("LobbyChat_UsersInThisLobby10");
                 }
 
                 if (lobbyUsers == 1 && ingameUsers == 1) {
-                    message = this.gameContainer.textManager.getGame("LobbyChat_UsersInThisLobby11");
+                    message = this.gameContainer.textManager.getText("LobbyChat_UsersInThisLobby11");
                 }
 
                 if (lobbyUsers >= 2 && ingameUsers == 0) {
-                    message = this.gameContainer.textManager.getGame("LobbyChat_UsersInThisLobbyX0", lobbyUsers);
+                    message = this.gameContainer.textManager.getText("LobbyChat_UsersInThisLobbyX0", lobbyUsers);
                 }
 
                 if (lobbyUsers >= 2 && ingameUsers == 1) {
-                    message = this.gameContainer.textManager.getGame("LobbyChat_UsersInThisLobbyX1", lobbyUsers);
+                    message = this.gameContainer.textManager.getText("LobbyChat_UsersInThisLobbyX1", lobbyUsers);
                 }
 
                 if (lobbyUsers >= 2 && ingameUsers >= 2) {
-                    message = this.gameContainer.textManager.getGame(
+                    message = this.gameContainer.textManager.getText(
                             "LobbyChat_UsersInThisLobbyXX", lobbyUsers, ingameUsers);
                 }
 
@@ -137,12 +137,12 @@ class LobbyChatPanel extends ChatLobby implements MultiLanguageChatListener {
                 if (this.lobbyId == 1 && (dualLobbyUsers >= 1 || multiLobbyUsers >= 1)) {
                     message = "(";
                     if (dualLobbyUsers == 1) {
-                        message = message + this.gameContainer.textManager.getGame("LobbyChat_UsersInDualPlayerLobby1");
+                        message = message + this.gameContainer.textManager.getText("LobbyChat_UsersInDualPlayerLobby1");
                     }
 
                     if (dualLobbyUsers >= 2) {
                         message = message
-                                + this.gameContainer.textManager.getGame(
+                                + this.gameContainer.textManager.getText(
                                         "LobbyChat_UsersInDualPlayerLobbyX", dualLobbyUsers);
                     }
 
@@ -152,12 +152,12 @@ class LobbyChatPanel extends ChatLobby implements MultiLanguageChatListener {
 
                     if (multiLobbyUsers == 1) {
                         message =
-                                message + this.gameContainer.textManager.getGame("LobbyChat_UsersInMultiPlayerLobby1");
+                                message + this.gameContainer.textManager.getText("LobbyChat_UsersInMultiPlayerLobby1");
                     }
 
                     if (multiLobbyUsers >= 2) {
                         message = message
-                                + this.gameContainer.textManager.getGame(
+                                + this.gameContainer.textManager.getText(
                                         "LobbyChat_UsersInMultiPlayerLobbyX", multiLobbyUsers);
                     }
 
@@ -168,12 +168,12 @@ class LobbyChatPanel extends ChatLobby implements MultiLanguageChatListener {
                     message = "(";
                     if (singleLobbyUsers == 1) {
                         message =
-                                message + this.gameContainer.textManager.getGame("LobbyChat_UsersInSinglePlayerLobby1");
+                                message + this.gameContainer.textManager.getText("LobbyChat_UsersInSinglePlayerLobby1");
                     }
 
                     if (singleLobbyUsers >= 2) {
                         message = message
-                                + this.gameContainer.textManager.getGame(
+                                + this.gameContainer.textManager.getText(
                                         "LobbyChat_UsersInSinglePlayerLobbyX", singleLobbyUsers);
                     }
 
@@ -183,12 +183,12 @@ class LobbyChatPanel extends ChatLobby implements MultiLanguageChatListener {
 
                     if (multiLobbyUsers == 1) {
                         message =
-                                message + this.gameContainer.textManager.getGame("LobbyChat_UsersInMultiPlayerLobby1");
+                                message + this.gameContainer.textManager.getText("LobbyChat_UsersInMultiPlayerLobby1");
                     }
 
                     if (multiLobbyUsers >= 2) {
                         message = message
-                                + this.gameContainer.textManager.getGame(
+                                + this.gameContainer.textManager.getText(
                                         "LobbyChat_UsersInMultiPlayerLobbyX", multiLobbyUsers);
                     }
 
@@ -199,12 +199,12 @@ class LobbyChatPanel extends ChatLobby implements MultiLanguageChatListener {
                     message = "(";
                     if (singleLobbyUsers == 1) {
                         message =
-                                message + this.gameContainer.textManager.getGame("LobbyChat_UsersInSinglePlayerLobby1");
+                                message + this.gameContainer.textManager.getText("LobbyChat_UsersInSinglePlayerLobby1");
                     }
 
                     if (singleLobbyUsers >= 2) {
                         message = message
-                                + this.gameContainer.textManager.getGame(
+                                + this.gameContainer.textManager.getText(
                                         "LobbyChat_UsersInSinglePlayerLobbyX", singleLobbyUsers);
                     }
 
@@ -213,12 +213,12 @@ class LobbyChatPanel extends ChatLobby implements MultiLanguageChatListener {
                     }
 
                     if (dualLobbyUsers == 1) {
-                        message = message + this.gameContainer.textManager.getGame("LobbyChat_UsersInDualPlayerLobby1");
+                        message = message + this.gameContainer.textManager.getText("LobbyChat_UsersInDualPlayerLobby1");
                     }
 
                     if (dualLobbyUsers >= 2) {
                         message = message
-                                + this.gameContainer.textManager.getGame(
+                                + this.gameContainer.textManager.getText(
                                         "LobbyChat_UsersInDualPlayerLobbyX", dualLobbyUsers);
                     }
 
@@ -248,7 +248,7 @@ class LobbyChatPanel extends ChatLobby implements MultiLanguageChatListener {
             case "join", "joinfromgame" -> {
                 String userData = this.userJoin(args[2]);
                 if (!this.isNoJoinPartMessages()) {
-                    super.chatTextArea.addJoinMessage(this.gameContainer.textManager.getGame(
+                    super.chatTextArea.addJoinMessage(this.gameContainer.textManager.getText(
                             "LobbyChat_User" + (args[1].equals("join") ? "Joined" : "ReturnedFromGame"), userData));
                 }
 
@@ -260,7 +260,7 @@ class LobbyChatPanel extends ChatLobby implements MultiLanguageChatListener {
                 if (reason == 1 && this.lobbyId == 1) {
                     if (!this.isNoGameMessages()) {
                         super.chatTextArea.addMessage(
-                                this.gameContainer.textManager.getGame("LobbyChat_UserStartedSp", args[2]));
+                                this.gameContainer.textManager.getText("LobbyChat_UserStartedSp", args[2]));
                     }
 
                     return true;
@@ -269,9 +269,9 @@ class LobbyChatPanel extends ChatLobby implements MultiLanguageChatListener {
                         String[] reasons = new String[] {null, null, "CreatedMp", "JoinedMp"};
                         String var5;
                         if (args.length == 4) {
-                            var5 = this.gameContainer.textManager.getGame("LobbyChat_User" + reasons[reason], args[2]);
+                            var5 = this.gameContainer.textManager.getText("LobbyChat_User" + reasons[reason], args[2]);
                         } else {
-                            var5 = this.gameContainer.textManager.getGame(
+                            var5 = this.gameContainer.textManager.getText(
                                     "LobbyChat_User" + reasons[reason], args[2], args[4]);
                         }
 
@@ -281,7 +281,7 @@ class LobbyChatPanel extends ChatLobby implements MultiLanguageChatListener {
                     return true;
                 } else if (reason >= 4) {
                     if (!this.isNoJoinPartMessages()) {
-                        super.chatTextArea.addPartMessage(this.gameContainer.textManager.getGame(
+                        super.chatTextArea.addPartMessage(this.gameContainer.textManager.getText(
                                 "LobbyChat_UserLeft" + (reason == 5 ? "ConnectionProblem" : ""), args[2]));
                     }
 
@@ -293,7 +293,7 @@ class LobbyChatPanel extends ChatLobby implements MultiLanguageChatListener {
             case "gsn" -> {
                 if (!this.isNoGameMessages()) {
                     super.chatTextArea.addMessage(
-                            this.gameContainer.textManager.getGame("LobbyChat_UsersStartedDp", args[2], args[3]));
+                            this.gameContainer.textManager.getText("LobbyChat_UsersStartedDp", args[2], args[3]));
                 }
 
                 return true;
