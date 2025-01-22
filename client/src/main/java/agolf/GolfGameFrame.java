@@ -68,25 +68,25 @@ public class GolfGameFrame extends AbstractGameFrame {
 
     public void defineImages(ImageManager imageManager) {
         this.gameContainer.imageManager = imageManager;
-        imageManager.defineGameImage("bg-lobbyselect.gif");
-        imageManager.defineGameImage("bg-lobby-single.gif");
-        imageManager.defineGameImage("bg-lobby-single-fade.jpg");
-        imageManager.defineGameImage("bg-lobby-dual.gif");
-        imageManager.defineGameImage("bg-lobby-multi.gif");
-        imageManager.defineGameImage("bg-lobby-multi-fade.jpg");
-        imageManager.defineGameImage("bg-lobby-password.gif");
-        imageManager.defineGameImage("shapes.gif");
-        imageManager.defineGameImage("elements.gif");
-        imageManager.defineGameImage("special.gif");
-        imageManager.defineGameImage("balls.gif");
-        imageManager.defineSharedImage("ranking-icons.gif");
-        imageManager.defineSharedImage("language-flags.png");
-        imageManager.defineSharedImage("credit-background.jpg");
-        imageManager.defineSharedImage("tf-background.gif");
+        imageManager.defineImage("bg-lobbyselect.gif");
+        imageManager.defineImage("bg-lobby-single.gif");
+        imageManager.defineImage("bg-lobby-single-fade.jpg");
+        imageManager.defineImage("bg-lobby-dual.gif");
+        imageManager.defineImage("bg-lobby-multi.gif");
+        imageManager.defineImage("bg-lobby-multi-fade.jpg");
+        imageManager.defineImage("bg-lobby-password.gif");
+        imageManager.defineImage("shapes.gif");
+        imageManager.defineImage("elements.gif");
+        imageManager.defineImage("special.gif");
+        imageManager.defineImage("balls.gif");
+        imageManager.defineImage("ranking-icons.gif");
+        imageManager.defineImage("language-flags.png");
+        imageManager.defineImage("credit-background.jpg");
+        imageManager.defineImage("tf-background.gif");
 
         for (int i = 0; i < GameBackgroundCanvas.trackAdvertSize; ++i) {
             if (this.gameContainer.adverts[i] != null) {
-                imageManager.defineGameImage("ad" + i, this.gameContainer.adverts[i]);
+                imageManager.defineImage("ad" + i, this.gameContainer.adverts[i]);
             }
         }
     }

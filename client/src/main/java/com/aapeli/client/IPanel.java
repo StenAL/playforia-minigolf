@@ -39,19 +39,19 @@ public abstract class IPanel extends Panel {
     }
 
     public void setBackground(ImageManager imageManager, String imageKey, int xOffset, int yOffset) {
-        Image image = imageManager.getGameImage(imageKey);
+        Image image = imageManager.getImage(imageKey);
         if (image != null) {
             this.setBackground(image, xOffset, yOffset);
         } else {
             synchronized (this.lock) {
-                this.setBackground(imageManager.getShared(imageKey), xOffset, yOffset);
+                this.setBackground(imageManager.getImage(imageKey), xOffset, yOffset);
             }
         }
     }
 
     public void setSharedBackground(ImageManager imageManager, String imageKey, int xOffset, int yOffset) {
         synchronized (this.lock) {
-            this.setBackground(imageManager.getShared(imageKey), xOffset, yOffset);
+            this.setBackground(imageManager.getImage(imageKey), xOffset, yOffset);
         }
     }
 

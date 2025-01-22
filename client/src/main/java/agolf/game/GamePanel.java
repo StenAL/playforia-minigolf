@@ -88,23 +88,23 @@ public class GamePanel extends Panel {
                 if (mode == 2) {
                     String settings = "";
                     if (passworded) {
-                        settings = this.gameContainer.textManager.getGame("GameChat_GS_Password") + ", ";
+                        settings = this.gameContainer.textManager.getText("GameChat_GS_Password") + ", ";
                     } else if (permission > 0) {
-                        settings = this.gameContainer.textManager.getGame(
+                        settings = this.gameContainer.textManager.getText(
                                         "GameChat_GS_" + (permission == 1 ? "Reg" : "Vip") + "Only")
                                 + ", ";
                     }
 
                     settings =
-                            settings + this.gameContainer.textManager.getGame("GameChat_GS_Players", this.playerCount);
+                            settings + this.gameContainer.textManager.getText("GameChat_GS_Players", this.playerCount);
                     settings =
-                            settings + ", " + this.gameContainer.textManager.getGame("GameChat_GS_Tracks", trackCount);
+                            settings + ", " + this.gameContainer.textManager.getText("GameChat_GS_Tracks", trackCount);
                     if (trackTypes > 0) {
                         settings = settings
                                 + " ("
                                 + this.gameContainer.textManager.getIfAvailable(
                                         "LobbyReal_TrackTypes" + trackTypes,
-                                        this.gameContainer.textManager.getGame("LobbyReal_TrackTypesTest"))
+                                        this.gameContainer.textManager.getText("LobbyReal_TrackTypesTest"))
                                 + ")";
                     }
 
@@ -112,11 +112,11 @@ public class GamePanel extends Panel {
                         if (maxStrokes > 0) {
                             settings = settings
                                     + ", "
-                                    + this.gameContainer.textManager.getGame("GameChat_GS_MaxStrokes", maxStrokes);
+                                    + this.gameContainer.textManager.getText("GameChat_GS_MaxStrokes", maxStrokes);
                         } else {
                             settings = settings
                                     + ", "
-                                    + this.gameContainer.textManager.getGame(
+                                    + this.gameContainer.textManager.getText(
                                             "GameChat_GS_MaxStrokesUnlimited", maxStrokes);
                         }
                     }
@@ -124,27 +124,27 @@ public class GamePanel extends Panel {
                     if (strokeTimeout > 0) {
                         settings = settings
                                 + ", "
-                                + this.gameContainer.textManager.getGame(
+                                + this.gameContainer.textManager.getText(
                                         "GameChat_GS_TimeLimit" + (strokeTimeout < 60 ? "Sec" : "Min"),
                                         strokeTimeout < 60 ? strokeTimeout : strokeTimeout / 60);
                     }
 
                     if (waterEvent == 1) {
-                        settings = settings + ", " + this.gameContainer.textManager.getGame("GameChat_GS_WaterShore");
+                        settings = settings + ", " + this.gameContainer.textManager.getText("GameChat_GS_WaterShore");
                     }
 
                     if (collision == 0) {
-                        settings = settings + ", " + this.gameContainer.textManager.getGame("GameChat_GS_NoCollision");
+                        settings = settings + ", " + this.gameContainer.textManager.getText("GameChat_GS_NoCollision");
                     }
 
                     if (trackScoring == 1) {
-                        settings = settings + ", " + this.gameContainer.textManager.getGame("GameChat_GS_TrackScoring");
+                        settings = settings + ", " + this.gameContainer.textManager.getText("GameChat_GS_TrackScoring");
                     }
 
                     if (trackScoringEnd > 0) {
                         settings = settings
                                 + ", "
-                                + this.gameContainer.textManager.getGame(
+                                + this.gameContainer.textManager.getText(
                                         "GameChat_GS_TrackScoringEnd" + trackScoringEnd);
                     }
 
@@ -152,9 +152,9 @@ public class GamePanel extends Panel {
                         settings = settings + ", " + (trackCategory == 0 ? "official" : (trackCategory == 1 ? "custom" : "unknown")) + " maps";
                     }*/
 
-                    this.chatPanel.addMessage(this.gameContainer.textManager.getGame("GameChat_GameName", gameName));
+                    this.chatPanel.addMessage(this.gameContainer.textManager.getText("GameChat_GameName", gameName));
                     this.chatPanel.addMessage(
-                            this.gameContainer.textManager.getGame("GameChat_GameSettings", settings));
+                            this.gameContainer.textManager.getText("GameChat_GameSettings", settings));
                 }
             }
             case "scoringmulti" -> {
@@ -194,8 +194,8 @@ public class GamePanel extends Panel {
                 if (this.playerCount != 2 || playerId != 1) {
                     this.chatPanel.addMessage(
                             playerClan != null
-                                    ? this.gameContainer.textManager.getGame("GameChat_JoinClan", args[3], playerClan)
-                                    : this.gameContainer.textManager.getGame("GameChat_Join", args[3]));
+                                    ? this.gameContainer.textManager.getText("GameChat_JoinClan", args[3], playerClan)
+                                    : this.gameContainer.textManager.getText("GameChat_Join", args[3]));
                 }
             }
             case "part" -> { // player left game
@@ -206,7 +206,7 @@ public class GamePanel extends Panel {
                 }
 
                 String playerName = this.playerInfoPanel.playerNames[playerId];
-                this.chatPanel.addMessage(this.gameContainer.textManager.getGame("GameChat_Part", playerName));
+                this.chatPanel.addMessage(this.gameContainer.textManager.getText("GameChat_Part", playerName));
                 this.chatPanel.removeUserColour(playerName);
                 this.gameControlPanel.refreshBackButton();
             }
@@ -350,7 +350,7 @@ public class GamePanel extends Panel {
                 int trackScoreMultiplier = this.playerInfoPanel.startNextTrack();
                 if (trackScoreMultiplier > 1) {
                     this.chatPanel.addMessage(
-                            gameContainer.textManager.getGame("GameChat_ScoreMultiNotify", trackScoreMultiplier));
+                            gameContainer.textManager.getText("GameChat_ScoreMultiNotify", trackScoreMultiplier));
                 }
 
                 this.gameControlPanel.displaySkipButton(); // checks if you can skip on first shot

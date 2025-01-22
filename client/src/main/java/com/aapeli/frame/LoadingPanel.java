@@ -215,7 +215,7 @@ class LoadingPanel extends Panel implements Runnable, ActionListener {
                 short var1 = 300;
                 int var2 = (this.gameFrame.contentWidth - 25 - 15 - 15 - 25) / 2;
                 int width = Math.min(var1, var2);
-                this.startGameButton = new RoundButton(this.textManager.getShared("Loader_Button_StartGame"));
+                this.startGameButton = new RoundButton(this.textManager.getText("Loader_Button_StartGame"));
                 this.startGameButton.setBounds(this.gameFrame.contentWidth / 2 + 15, 10, width, 35);
                 this.startGameButton.setBackground(new Color(96, 224, 96));
                 this.startGameButton.setForeground(Color.black);
@@ -224,7 +224,7 @@ class LoadingPanel extends Panel implements Runnable, ActionListener {
                 this.add(this.startGameButton);
                 if (this.parameters.isCreditPurchasePageAvailable()) {
                     this.paymentOptionsButton =
-                            new RoundButton(this.textManager.getShared("Loader_Button_MorePaymentOptions"));
+                            new RoundButton(this.textManager.getText("Loader_Button_MorePaymentOptions"));
                     this.paymentOptionsButton.setBounds(this.gameFrame.contentWidth / 2 - 15 - width, 10, width, 35);
                     this.paymentOptionsButton.setBackground(new Color(96, 96, 255));
                     this.paymentOptionsButton.setForeground(Color.black);

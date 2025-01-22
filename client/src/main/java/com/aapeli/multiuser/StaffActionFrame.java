@@ -249,7 +249,7 @@ class StaffActionFrame extends Frame implements WindowListener, ItemListener, Ke
             this.textFieldMessage = new InputTextField(isAdmin ? (this.actionType == 5 ? 1000 : 1500) : 500);
             this.textFieldMessage.setBounds(this.insets.left + 10 + 80 + 5, this.insets.top + 10 + 25 + 20, 315, 25);
             if (this.actionType == 4) {
-                this.textFieldMessage.setText(this.textManager.getShared("SDM_ChatCleared"));
+                this.textFieldMessage.setText(this.textManager.getText("SDM_ChatCleared"));
             }
 
             this.add(this.textFieldMessage);
@@ -327,11 +327,11 @@ class StaffActionFrame extends Frame implements WindowListener, ItemListener, Ke
                 isRegistered = true;
             }
 
-            return this.textManager.getShared("SDM_BadNick" + (isRegistered ? "Reg" : "Worm"));
+            return this.textManager.getText("SDM_BadNick" + (isRegistered ? "Reg" : "Worm"));
         } else {
             return messageIndex == 2
-                    ? this.textManager.getShared("SDM_SexMessages")
-                    : (messageIndex == 3 ? this.textManager.getShared("SDM_BadMessages") : null);
+                    ? this.textManager.getText("SDM_SexMessages")
+                    : (messageIndex == 3 ? this.textManager.getText("SDM_BadMessages") : null);
         }
     }
 

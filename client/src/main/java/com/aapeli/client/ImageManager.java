@@ -5,31 +5,30 @@ import java.awt.image.MemoryImageSource;
 import java.awt.image.PixelGrabber;
 import java.io.IOException;
 import java.util.Hashtable;
+import java.util.Map;
 import javax.imageio.ImageIO;
 
 public final class ImageManager {
     private final boolean isDebug;
-    private Hashtable<String, Image> gameImages;
-    private Hashtable<String, Image> sharedImages;
+    private Map<String, Image> images;
 
     public ImageManager(boolean isDebug) {
         this.isDebug = isDebug;
-        this.gameImages = new Hashtable<>();
-        this.sharedImages = new Hashtable<>();
+        this.images = new Hashtable<>();
     }
 
-    public String defineGameImage(String fileName) {
-        return this.defineGameImage(this.removeExtension(fileName), fileName);
+    public String defineImage(String fileName) {
+        return this.defineImage(this.removeExtension(fileName), fileName);
     }
 
-    public String defineGameImage(String name, String imageFileName) {
+    public String defineImage(String name, String imageFileName) {
         if (this.isDebug) {
             System.out.println("ImageManager.defineGameImage(\"" + name + "\",\"" + imageFileName + "\")");
         }
 
         try {
             Image image = ImageIO.read(this.getClass().getResource("/picture/agolf/" + imageFileName));
-            this.gameImages.put(name, image);
+            this.images.put(name, image);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -37,44 +36,20 @@ public final class ImageManager {
         return name;
     }
 
-    public String defineSharedImage(String fileName) {
-        return defineSharedImage(removeExtension(fileName), fileName);
-    }
-
-    public String defineSharedImage(String name, String imageFileName) {
-        if (this.isDebug) {
-            System.out.println("ImageManager.defineSharedImage(\"" + name + "\",\"" + imageFileName + "\")");
-        }
-
-        try {
-            Image image = ImageIO.read(this.getClass().getResource("/picture/shared/" + imageFileName));
-            this.sharedImages.put(name, image);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        return name;
-    }
-
-    public void unloadGameImage(String name) {
-        this.gameImages.remove(name);
+    public void unloadImage(String name) {
+        this.images.remove(name);
     }
 
     public double getImageLoadProgress() {
         return 1.0D;
     }
 
-    public Image getGameImage(String name) {
-        return this.gameImages.get(name);
+    public Image getImage(String name) {
+        return this.images.get(name);
     }
 
-    public boolean isGameImageDefined(String name) {
-        return this.gameImages.contains(name);
-    }
-
-    public Image getShared(String name) {
-        String extensionlessName = this.removeExtension(name);
-        return this.sharedImages.get(extensionlessName);
+    public boolean isImageDefined(String name) {
+        return this.images.containsKey(name);
     }
 
     public int getWidth(Image image) {

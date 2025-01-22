@@ -42,7 +42,7 @@ class LobbyGamePasswordPanel extends Panel implements KeyListener, ActionListene
     }
 
     public synchronized void update(Graphics g) {
-        g.drawImage(this.gameContainer.imageManager.getGameImage("bg-lobby-password"), 0, 0, this);
+        g.drawImage(this.gameContainer.imageManager.getImage("bg-lobby-password"), 0, 0, this);
     }
 
     public void keyPressed(KeyEvent evt) {
@@ -75,16 +75,16 @@ class LobbyGamePasswordPanel extends Panel implements KeyListener, ActionListene
     }
 
     private void create() {
-        this.textField = new TextField(this.gameContainer.textManager.getGame("LobbyRealPassword_EnterPassword"));
+        this.textField = new TextField(this.gameContainer.textManager.getText("LobbyRealPassword_EnterPassword"));
         this.textField.setBounds(25, 9, 150, 20);
         this.textField.addKeyListener(this);
         this.add(this.textField);
-        this.buttonCancel = new ColorButton(this.gameContainer.textManager.getGame("LobbyRealPassword_Cancel"));
+        this.buttonCancel = new ColorButton(this.gameContainer.textManager.getText("LobbyRealPassword_Cancel"));
         this.buttonCancel.setBounds(25, 31, 50, 20);
         this.buttonCancel.setBackground(GolfGameFrame.colourButtonRed);
         this.buttonCancel.addActionListener(this);
         this.add(this.buttonCancel);
-        this.buttonOk = new ColorButton(this.gameContainer.textManager.getGame("LobbyRealPassword_Ok"));
+        this.buttonOk = new ColorButton(this.gameContainer.textManager.getText("LobbyRealPassword_Ok"));
         this.buttonOk.setBounds(125, 31, 50, 20);
         this.buttonOk.setBackground(GolfGameFrame.colourButtonGreen);
         this.buttonOk.addActionListener(this);

@@ -57,7 +57,7 @@ class TellFriendHandler implements ActionListener {
         if (this.anInt1506 == 0) {
             return null;
         } else {
-            ColorButton var1 = new ColorButton(this.aTextManager1501.getShared("TellFriend_ExtButton"));
+            ColorButton var1 = new ColorButton(this.aTextManager1501.getText("TellFriend_ExtButton"));
             var1.setBackground(aColor1499);
             var1.setForeground(Color.black);
             var1.setSize(90, 20);

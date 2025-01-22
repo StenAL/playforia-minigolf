@@ -55,7 +55,7 @@ class SignUpPanel extends IPanel implements ActionListener {
                 }
             }
 
-            text = this.gameFrame.textManager.getShared("GameFin_" + text);
+            text = this.gameFrame.textManager.getText("GameFin_" + text);
             this.aHtmlText3214 = new HtmlText(g, 410, text);
         }
 
@@ -73,25 +73,25 @@ class SignUpPanel extends IPanel implements ActionListener {
 
     protected String method820() {
         return this.anInt3212 == 0
-                ? this.gameFrame.textManager.getShared("GameFin_W_GameOver")
-                : (this.anInt3212 == 1 ? this.gameFrame.textManager.getShared("GameFin_R_Congratulations") : "-");
+                ? this.gameFrame.textManager.getText("GameFin_W_GameOver")
+                : (this.anInt3212 == 1 ? this.gameFrame.textManager.getText("GameFin_R_Congratulations") : "-");
     }
 
     private void method821() {
         this.setLayout(null);
         if (this.anInt3212 == 0) {
-            this.aRoundButton3215 = new RoundButton(this.gameFrame.textManager.getShared("GameFin_W_CreateAccount"));
+            this.aRoundButton3215 = new RoundButton(this.gameFrame.textManager.getText("GameFin_W_CreateAccount"));
             this.aRoundButton3215.setBounds(210, 225, 220, 30);
             this.aRoundButton3215.setBackground(aColor3207);
             this.aRoundButton3215.addActionListener(this);
             this.add(this.aRoundButton3215);
-            this.aRoundButton3216 = new RoundButton(this.gameFrame.textManager.getShared("GameFin_W_Continue"));
+            this.aRoundButton3216 = new RoundButton(this.gameFrame.textManager.getText("GameFin_W_Continue"));
             this.aRoundButton3216.setBounds(20, 228, 160, 27);
             this.aRoundButton3216.setBackground(aColor3208);
             this.aRoundButton3216.addActionListener(this);
             this.add(this.aRoundButton3216);
         } else if (this.anInt3212 == 1) {
-            this.aRoundButton3217 = new RoundButton(this.gameFrame.textManager.getShared("GameFin_R_OK"));
+            this.aRoundButton3217 = new RoundButton(this.gameFrame.textManager.getText("GameFin_R_OK"));
             this.aRoundButton3217.setBounds(330, 228, 100, 27);
             this.aRoundButton3217.setBackground(aColor3207);
             this.aRoundButton3217.addActionListener(this);

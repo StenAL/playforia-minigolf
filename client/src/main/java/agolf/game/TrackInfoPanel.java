@@ -101,14 +101,14 @@ class TrackInfoPanel extends Panel implements ActionListener {
             if (this.currentTrack == -1) {
                 StringDraw.drawString(
                         this.graphics,
-                        this.gameContainer.textManager.getGame("GameTrackInfo_NumberOfTracks", this.numTracks),
+                        this.gameContainer.textManager.getText("GameTrackInfo_NumberOfTracks", this.numTracks),
                         this.width / 4 - xMod,
                         15,
                         0);
             } else {
                 StringDraw.drawString(
                         this.graphics,
-                        this.gameContainer.textManager.getGame(
+                        this.gameContainer.textManager.getText(
                                 "GameTrackInfo_CurrentTrack", this.currentTrack + 1, this.numTracks),
                         this.width / 4 - xMod,
                         15,
@@ -131,7 +131,7 @@ class TrackInfoPanel extends Panel implements ActionListener {
                 if (this.resultAverage > 0.0D) {
                     StringDraw.drawString(
                             this.graphics,
-                            this.gameContainer.textManager.getGame(
+                            this.gameContainer.textManager.getText(
                                     "GameTrackInfo_AverageResult" + keySuffix,
                                     this.gameContainer.textManager.getNumber(this.resultAverage, 1)),
                             this.width * 3 / 4 - xMod,
@@ -141,7 +141,7 @@ class TrackInfoPanel extends Panel implements ActionListener {
 
                 String resultBestText;
                 if (this.resultBestNumStrokes > 0) {
-                    resultBestText = this.gameContainer.textManager.getGame(
+                    resultBestText = this.gameContainer.textManager.getText(
                             "GameTrackInfo_BestResult" + keySuffix, this.resultBestNumStrokes);
                     String resultText = resultBestText + " ";
                     if (this.resultBestPercent > 0.0D) {
@@ -159,13 +159,13 @@ class TrackInfoPanel extends Panel implements ActionListener {
                         }
 
                         resultText = resultText
-                                + this.gameContainer.textManager.getGame(
+                                + this.gameContainer.textManager.getText(
                                         "GameTrackInfo_BestResultPercent" + keySuffix,
                                         this.gameContainer.textManager.getNumber(
                                                 this.resultBestPercent, roundingPrecision));
                     } else {
                         resultText = resultText
-                                + this.gameContainer.textManager.getGame("GameTrackInfo_BestResultUnique" + keySuffix);
+                                + this.gameContainer.textManager.getText("GameTrackInfo_BestResultUnique" + keySuffix);
                     }
 
                     this.graphics.setColor(GolfGameFrame.colourTextDarkGreen);
@@ -184,11 +184,11 @@ class TrackInfoPanel extends Panel implements ActionListener {
                     this.graphics.setFont(fontDialog11);
                     this.graphics.setColor(GolfGameFrame.colourTextDarkGreen);
                     resultBestText = this.firstBestPlayerName != null
-                            ? this.gameContainer.textManager.getGame(
+                            ? this.gameContainer.textManager.getText(
                                     "GameTrackInfo_BestResultFirstBy" + keySuffix,
                                     this.firstBestPlayerName,
                                     this.firstBestPlayerDate)
-                            : this.gameContainer.textManager.getGame(
+                            : this.gameContainer.textManager.getText(
                                     "GameTrackInfo_BestResultFirstByUnknown" + keySuffix);
                     StringDraw.drawString(
                             this.graphics,
@@ -199,7 +199,7 @@ class TrackInfoPanel extends Panel implements ActionListener {
                     if (this.lastBestPlayerName != null) {
                         StringDraw.drawString(
                                 this.graphics,
-                                this.gameContainer.textManager.getGame(
+                                this.gameContainer.textManager.getText(
                                         "GameTrackInfo_BestResultLastBy" + keySuffix,
                                         this.lastBestPlayerName,
                                         this.lastBestPlayerDate),
@@ -213,14 +213,14 @@ class TrackInfoPanel extends Panel implements ActionListener {
 
                 if (this.hasNotRatedTrack) {
                     this.graphics.drawString(
-                            this.gameContainer.textManager.getGame("GameTrackInfo_GiveRating"), 10, this.height - 4);
+                            this.gameContainer.textManager.getText("GameTrackInfo_GiveRating"), 10, this.height - 4);
                 }
 
                 if (!this.hasNotRatedTrack && !this.trackPending && this.trackAverageRating >= 0.0D) {
                     this.graphics.setFont(fontDialog12);
                     StringDraw.drawString(
                             this.graphics,
-                            this.gameContainer.textManager.getGame(
+                            this.gameContainer.textManager.getText(
                                     "GameTrackInfo_Rating",
                                     this.gameContainer.textManager.getNumber(this.trackAverageRating, 1)),
                             this.width / 4 - xMod,

@@ -111,7 +111,7 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
         this.setBackground(backgroundColor);
         this.setForeground(foregroundColor);
         if (showRankingIcons) {
-            Image rankingIcons = imageManager.getShared("ranking-icons.gif");
+            Image rankingIcons = imageManager.getImage("ranking-icons");
             this.rankingIcons = imageManager.separateImages(rankingIcons, 14);
         }
 
@@ -496,7 +496,7 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
 
         String displayedNick = user.getNick();
         if (user.isSheriff() && this.sheriffMarkEnabled) {
-            displayedNick = displayedNick + " " + this.textManager.getShared("UserList_Sheriff");
+            displayedNick = displayedNick + " " + this.textManager.getText("UserList_Sheriff");
         }
 
         ColorListItem colorListItem = new ColorListItem(
@@ -694,7 +694,7 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
 
         this.rightClickMenu = new PopupMenu();
         this.openProfileMenuItem =
-                this.createButtonMenuItem(this.rightClickMenu, this.textManager.getShared("UserList_OpenPlayerCard"));
+                this.createButtonMenuItem(this.rightClickMenu, this.textManager.getText("UserList_OpenPlayerCard"));
         this.openProfileMenuItem.setEnabled(user.isRegistered() || user.getProfilePage() != null);
         if (this.sendPrivatelyCheckbox != null || this.ignoreUserCheckbox != null) {
             this.rightClickMenu.addSeparator();
@@ -786,14 +786,13 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
         this.setLayout(null);
         if (this.rankingsShown) {
             this.sortByRankingButton =
-                    new RoundedUpperCornersButton(this.textManager.getShared("UserList_SortByRanking"));
+                    new RoundedUpperCornersButton(this.textManager.getText("UserList_SortByRanking"));
             this.sortByRankingButton.setBounds(0, 0, 17, 11);
             this.sortByRankingButton.setFont(sortingButtonsFont);
             this.sortByRankingButton.setBackground(columnHeaderDefaultColor);
             this.sortByRankingButton.addActionListener(this);
             this.add(this.sortByRankingButton);
-            this.sortByNicknameButton =
-                    new RoundedUpperCornersButton(this.textManager.getShared("UserList_SortByNick"));
+            this.sortByNicknameButton = new RoundedUpperCornersButton(this.textManager.getText("UserList_SortByNick"));
             this.sortByNicknameButton.setBounds(17, 0, this.width - 17, 11);
             this.sortByNicknameButton.setFont(sortingButtonsFont);
             this.sortByNicknameButton.setBackground(columnHeaderSortedColor);
@@ -819,14 +818,14 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
         this.add(this.playersList);
         this.setSorting(UserList.SORT_NICKNAME_ABC);
         if (addSendPrivately) {
-            this.sendPrivatelyCheckbox = new ColorCheckbox(this.textManager.getShared("UserList_Privately"));
+            this.sendPrivatelyCheckbox = new ColorCheckbox(this.textManager.getText("UserList_Privately"));
             this.sendPrivatelyCheckbox.setBounds(0, this.height - 18 - (addIgnoreUser ? 18 : 0), this.width, 18);
             this.sendPrivatelyCheckbox.addItemListener(this);
             this.add(this.sendPrivatelyCheckbox);
         }
 
         if (addIgnoreUser) {
-            this.ignoreUserCheckbox = new ColorCheckbox(this.textManager.getShared("UserList_Ignore"));
+            this.ignoreUserCheckbox = new ColorCheckbox(this.textManager.getText("UserList_Ignore"));
             this.ignoreUserCheckbox.setBounds(0, this.height - 18, this.width, 18);
             this.ignoreUserCheckbox.addItemListener(this);
             this.add(this.ignoreUserCheckbox);

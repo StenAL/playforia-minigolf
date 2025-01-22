@@ -203,8 +203,8 @@ public abstract class ChatBase extends IPanel
                 inputTextField,
                 sayButton,
                 signupMessage,
-                textManager.getShared("Chat_NoGuestChatAndRegNote"),
-                textManager.getShared("Chat_NoUnconfirmedChatNote"),
+                textManager.getText("Chat_NoGuestChatAndRegNote"),
+                textManager.getText("Chat_NoUnconfirmedChatNote"),
                 parameters);
     }
 
@@ -344,18 +344,18 @@ public abstract class ChatBase extends IPanel
             String localizationKey;
             if (i == -1) {
                 localizationKey = message.substring(5);
-                localizedMessage = this.textManager.getShared(localizationKey);
+                localizedMessage = this.textManager.getText(localizationKey);
             } else {
                 localizationKey = message.substring(5, i);
                 int j = message.indexOf(';', i + 1);
                 if (j == -1) {
                     localizationArgument1 = message.substring(i + 1);
-                    localizedMessage = this.textManager.getShared(localizationKey, localizationArgument1);
+                    localizedMessage = this.textManager.getText(localizationKey, localizationArgument1);
                 } else {
                     localizationArgument1 = message.substring(i + 1, j);
                     String localizationArgument2 = message.substring(j + 1);
                     localizedMessage =
-                            this.textManager.getShared(localizationKey, localizationArgument1, localizationArgument2);
+                            this.textManager.getText(localizationKey, localizationArgument1, localizationArgument2);
                 }
             }
 
@@ -484,11 +484,11 @@ public abstract class ChatBase extends IPanel
     }
 
     public String getRegistrationNeededText() {
-        return this.textManager.getShared("Chat_NoGuestChatAndRegNote");
+        return this.textManager.getText("Chat_NoGuestChatAndRegNote");
     }
 
     public String getConfirmationNeededText() {
-        return this.textManager.getShared("Chat_NoUnconfirmedChatNote");
+        return this.textManager.getText("Chat_NoUnconfirmedChatNote");
     }
 
     public void setChatTextArea(ChatTextArea chatTextArea) {
@@ -583,12 +583,12 @@ public abstract class ChatBase extends IPanel
                 100,
                 useSmallFont ? ChatTextArea.SMALL_FONT : ChatTextArea.DEFAULT_FONT);
         if (shouldDisplayChatInputHelp && !shouldNotWriteWelcomeMessage) {
-            this.chatTextArea.addWelcomeMessage(this.textManager.getShared("Chat_Welcome"));
+            this.chatTextArea.addWelcomeMessage(this.textManager.getText("Chat_Welcome"));
         }
 
         this.add(this.chatTextArea);
         if (shouldDisplayChatInputHelp) {
-            this.inputTextField = new InputTextField(this.textManager.getShared("Chat_InputHelp"), 200, true);
+            this.inputTextField = new InputTextField(this.textManager.getText("Chat_InputHelp"), 200, true);
             shouldDisplayChatInputHelp = false;
         } else {
             this.inputTextField = new InputTextField(200, true);
@@ -596,7 +596,7 @@ public abstract class ChatBase extends IPanel
 
         this.inputTextField.addInputTextFieldListener(this);
         this.add(this.inputTextField);
-        ColorButton sayButton = new ColorButton(this.textManager.getShared("Chat_SayButton"));
+        ColorButton sayButton = new ColorButton(this.textManager.getText("Chat_SayButton"));
         sayButton.setBackground(sayButtonColor);
         sayButton.addActionListener(this);
         this.add(sayButton);

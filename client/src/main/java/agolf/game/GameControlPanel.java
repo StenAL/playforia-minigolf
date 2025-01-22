@@ -104,14 +104,14 @@ class GameControlPanel extends Panel implements ActionListener, ItemListener {
         this.removeAll();
         this.skipButtonVisible = false;
         if (state == 2) {
-            this.buttonNewGame = new ColorButton(this.gameContainer.textManager.getGame("GameControl_New"));
+            this.buttonNewGame = new ColorButton(this.gameContainer.textManager.getText("GameControl_New"));
             this.buttonNewGame.setBounds(0, this.anInt343 - 55, this.anInt342, 25);
             this.buttonNewGame.setBackground(GolfGameFrame.colourButtonGreen);
             this.buttonNewGame.setForeground(GolfGameFrame.colourTextBlack);
             this.buttonNewGame.addActionListener(this);
             this.add(this.buttonNewGame);
         } else {
-            this.buttonSkip = new ColorButton(this.gameContainer.textManager.getGame("GameControl_Skip"));
+            this.buttonSkip = new ColorButton(this.gameContainer.textManager.getText("GameControl_Skip"));
             this.buttonSkip.setBounds(0, this.anInt343 - 55, this.anInt342, 25);
             this.buttonSkip.setBackground(GolfGameFrame.colourButtonBlue);
             this.buttonSkip.setForeground(GolfGameFrame.colourTextBlack);
@@ -129,7 +129,7 @@ class GameControlPanel extends Panel implements ActionListener, ItemListener {
 
                 for (int option = 0; option < 4; ++option) {
                     this.playerNamesDisplayModeChoicer.addItem(
-                            this.gameContainer.textManager.getGame("GameControl_Names" + option));
+                            this.gameContainer.textManager.getText("GameControl_Names" + option));
                 }
 
                 this.playerNamesDisplayModeChoicer.select(this.playerCount <= 2 ? 0 : 3);
@@ -139,7 +139,7 @@ class GameControlPanel extends Panel implements ActionListener, ItemListener {
             }
         }
 
-        this.buttonBack = new ColorButton(this.gameContainer.textManager.getGame("GameControl_Back"));
+        this.buttonBack = new ColorButton(this.gameContainer.textManager.getText("GameControl_Back"));
         this.buttonBack.setBounds(0, this.anInt343 - 25, this.anInt342, 25);
         this.buttonBack.setBackground(GolfGameFrame.colourButtonYellow);
         this.buttonBack.setForeground(GolfGameFrame.colourTextBlack);

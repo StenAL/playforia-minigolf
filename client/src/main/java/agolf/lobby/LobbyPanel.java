@@ -226,12 +226,12 @@ public class LobbyPanel extends Panel {
         Choicer c = new Choicer();
 
         for (int i = 0; i < 7; ++i) {
-            c.addItem(this.gameContainer.textManager.getGame("LobbyReal_TrackTypes" + i));
+            c.addItem(this.gameContainer.textManager.getText("LobbyReal_TrackTypes" + i));
         }
 
         boolean b = this.gameContainer.golfGameFrame.getPlayerAccessLevel() == 2;
         if (b && !Launcher.isUsingCustomServer()) { // todo <--
-            c.addItem(this.gameContainer.textManager.getGame("LobbyReal_TrackTypes7") + " (A)");
+            c.addItem(this.gameContainer.textManager.getText("LobbyReal_TrackTypes7") + " (A)");
             c.addItem("Only best (A)");
             c.addItem("Only pend (A)");
         }
@@ -274,8 +274,8 @@ public class LobbyPanel extends Panel {
 
     protected Choicer addChoicerWaterEvent(Panel container, int x, int y, int width, int height) {
         Choicer c = new Choicer();
-        c.addItem(this.gameContainer.textManager.getGame("LobbyReal_WaterEvent1"));
-        c.addItem(this.gameContainer.textManager.getGame("LobbyReal_WaterEvent2"));
+        c.addItem(this.gameContainer.textManager.getText("LobbyReal_WaterEvent1"));
+        c.addItem(this.gameContainer.textManager.getText("LobbyReal_WaterEvent2"));
         c.select(0);
         c.setBounds(x, y, width, height);
         container.add(c);
@@ -284,8 +284,8 @@ public class LobbyPanel extends Panel {
 
     protected Choicer addChoicerCollision(Panel container, int x, int y, int width, int height) {
         Choicer c = new Choicer();
-        c.addItem(this.gameContainer.textManager.getGame("LobbyReal_Collision1"));
-        c.addItem(this.gameContainer.textManager.getGame("LobbyReal_Collision2"));
+        c.addItem(this.gameContainer.textManager.getText("LobbyReal_Collision1"));
+        c.addItem(this.gameContainer.textManager.getText("LobbyReal_Collision2"));
         c.select(1);
         c.setBounds(x, y, width, height);
         container.add(c);
@@ -294,8 +294,8 @@ public class LobbyPanel extends Panel {
 
     protected Choicer addChoicerScoring(Panel container, int x, int y, int width, int height) {
         Choicer c = new Choicer();
-        c.addItem(this.gameContainer.textManager.getGame("LobbyReal_Scoring1"));
-        c.addItem(this.gameContainer.textManager.getGame("LobbyReal_Scoring2"));
+        c.addItem(this.gameContainer.textManager.getText("LobbyReal_Scoring1"));
+        c.addItem(this.gameContainer.textManager.getText("LobbyReal_Scoring2"));
         c.select(0);
         c.setBounds(x, y, width, height);
         container.add(c);
@@ -304,9 +304,9 @@ public class LobbyPanel extends Panel {
 
     protected Choicer addChoicerScoringEnd(Panel container, int x, int y, int width, int height) {
         Choicer c = new Choicer();
-        c.addItem(this.gameContainer.textManager.getGame("LobbyReal_ScoringEnd0"));
-        c.addItem(this.gameContainer.textManager.getGame("LobbyReal_ScoringEnd1"));
-        c.addItem(this.gameContainer.textManager.getGame("LobbyReal_ScoringEnd2"));
+        c.addItem(this.gameContainer.textManager.getText("LobbyReal_ScoringEnd0"));
+        c.addItem(this.gameContainer.textManager.getText("LobbyReal_ScoringEnd1"));
+        c.addItem(this.gameContainer.textManager.getText("LobbyReal_ScoringEnd2"));
         c.select(0);
         c.setBounds(x, y, width, height);
         container.add(c);
@@ -325,7 +325,7 @@ public class LobbyPanel extends Panel {
 
     protected String getTime(int var1) {
         return var1 == 0
-                ? this.gameContainer.textManager.getGame("LobbyReal_TimeLimitNo")
+                ? this.gameContainer.textManager.getText("LobbyReal_TimeLimitNo")
                 : this.gameContainer.textManager.getTime(var1);
     }
 
