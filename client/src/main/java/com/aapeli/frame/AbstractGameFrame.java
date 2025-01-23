@@ -6,8 +6,6 @@ import com.aapeli.client.SoundManager;
 import com.aapeli.client.StringDraw;
 import com.aapeli.client.TextManager;
 import com.aapeli.connection.SocketConnection;
-import com.aapeli.tools.QuickTimer;
-import com.aapeli.tools.QuickTimerListener;
 import com.aapeli.tools.Tools;
 import java.awt.Color;
 import java.awt.Component;
@@ -25,7 +23,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import org.moparforia.shared.Locale;
 
-public abstract class AbstractGameFrame extends JFrame implements Runnable, ActionListener, QuickTimerListener {
+public abstract class AbstractGameFrame extends JFrame implements Runnable, ActionListener {
 
     public static final int TEXT_CENTER = 0;
     public static final int TEXT_LOWERLEFT = 1;
@@ -68,7 +66,6 @@ public abstract class AbstractGameFrame extends JFrame implements Runnable, Acti
     private boolean destroyed;
     private boolean ready;
     private RetryCanvas retryCanvas;
-    private QuickTimer popupTimer;
     private SocketConnection socketConnection;
     private Image image;
     private Graphics graphics;
@@ -119,8 +116,6 @@ public abstract class AbstractGameFrame extends JFrame implements Runnable, Acti
             t.start();
         }
     }
-
-    public void stop() {}
 
     public void destroy() {
         this.destroyed = true;
@@ -662,10 +657,6 @@ public abstract class AbstractGameFrame extends JFrame implements Runnable, Acti
         }
     }
 
-    public void qtFinished() {
-        this.allowExternalPopups();
-    }
-
     public void setBackground(String imageKey) {
         this.setBackground(imageKey, 0, 0);
     }
@@ -767,19 +758,6 @@ public abstract class AbstractGameFrame extends JFrame implements Runnable, Acti
     public abstract void destroyGame();
 
     public abstract boolean isDebug();
-
-    public void blockExternalPopups() {
-        this.resetPopupTimer();
-    }
-
-    public void blockExternalPopups(int var1) {
-        this.blockExternalPopups();
-        this.popupTimer = new QuickTimer(var1, this);
-    }
-
-    public void allowExternalPopups() {
-        this.resetPopupTimer();
-    }
 
     public void setConnectionReference(SocketConnection var1) {
         this.socketConnection = var1;
@@ -885,13 +863,5 @@ public abstract class AbstractGameFrame extends JFrame implements Runnable, Acti
         }
 
         return "";
-    }
-
-    private void resetPopupTimer() {
-        QuickTimer var1 = this.popupTimer;
-        this.popupTimer = null;
-        if (var1 != null) {
-            var1.stopAll();
-        }
     }
 }

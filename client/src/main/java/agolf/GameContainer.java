@@ -3,7 +3,6 @@ package agolf;
 import agolf.game.GameBackgroundCanvas;
 import agolf.game.GamePanel;
 import agolf.lobby.LobbyPanel;
-import com.aapeli.client.AutoPopups;
 import com.aapeli.client.BadWordFilter;
 import com.aapeli.client.ImageManager;
 import com.aapeli.client.Parameters;
@@ -20,7 +19,6 @@ public class GameContainer { // some kind of a container for everything
     public ImageManager imageManager;
     public SpriteManager spriteManager;
     public BadWordFilter badWordFilter;
-    public AutoPopups autoPopup;
     public TrackCollection trackCollection;
     public GolfConnection connection;
     public LobbySelectPanel lobbySelectionPanel;
@@ -42,10 +40,6 @@ public class GameContainer { // some kind of a container for everything
     }
 
     protected void destroy() {
-        if (this.autoPopup != null) {
-            this.autoPopup.close();
-        }
-
         if (this.connection != null) {
             this.connection.disconnect();
         }

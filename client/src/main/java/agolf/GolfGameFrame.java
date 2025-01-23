@@ -3,7 +3,6 @@ package agolf;
 import agolf.game.GameBackgroundCanvas;
 import agolf.game.GamePanel;
 import agolf.lobby.LobbyPanel;
-import com.aapeli.client.AutoPopups;
 import com.aapeli.client.BadWordFilter;
 import com.aapeli.client.ImageManager;
 import com.aapeli.client.Parameters;
@@ -104,7 +103,6 @@ public class GolfGameFrame extends AbstractGameFrame {
     }
 
     public void gameReady() {
-        this.gameContainer.autoPopup = new AutoPopups(this);
         // this.setGameSettings(false, 0, false, true); // disabled Bad Word Filter!
         this.setGameSettings(false, 0, true, true); // enabled Bad Word Filter!
         this.gameContainer.trackCollection = new TrackCollection();
@@ -289,10 +287,6 @@ public class GolfGameFrame extends AbstractGameFrame {
 
     public void removePlayerList() {
         super.param.removePlayerList();
-    }
-
-    public void gameFinished(boolean var1) {
-        this.gameContainer.autoPopup.gameFinished(var1);
     }
 
     public void quit(String from) {
