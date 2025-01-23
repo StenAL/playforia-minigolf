@@ -221,10 +221,6 @@ public final class Parameters {
         this.showUri(this.uriCreditPage, openInNewTab ? "_blank" : null);
     }
 
-    public boolean isCreditPurchasePageAvailable() {
-        return this.uriCreditPage != null;
-    }
-
     public void destroy() {
         this.serverIp = null;
         this.locale = null;

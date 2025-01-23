@@ -3,7 +3,6 @@ package com.aapeli.frame;
 import com.aapeli.client.Parameters;
 import com.aapeli.client.TextManager;
 import com.aapeli.colorgui.RoundButton;
-import com.aapeli.tools.Tools;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -31,7 +30,6 @@ class LoadingPanel extends Panel implements Runnable, ActionListener {
     private boolean destroyed;
     private Image panelImage;
     private Graphics panelGraphics;
-    private AdCanvas adCanvas;
     private boolean aBoolean595;
     private RoundButton startGameButton;
     private RoundButton paymentOptionsButton;
@@ -82,10 +80,6 @@ class LoadingPanel extends Panel implements Runnable, ActionListener {
                     if (this.loadingMessage != null && this.startGameClicked == -1) {
                         this.panelGraphics.setColor(this.getForeground());
                         this.drawLoadingMessage(this.panelGraphics, fontDialog14, this.loadingMessage);
-                    }
-
-                    if (this.adCanvas != null) {
-                        this.adCanvas.repaint();
                     }
                 }
 
@@ -174,18 +168,6 @@ class LoadingPanel extends Panel implements Runnable, ActionListener {
         this.actualProgress += progress;
     }
 
-    protected void method466(AdCanvas adCanvas, boolean var2) {
-        this.setLayout(null);
-        int var3 = this.gameFrame.contentWidth - 5 - 5;
-        int var4 = this.gameFrame.contentHeight - 5 - 5 - 40;
-        Dimension adCanvasSize = adCanvas.getSize();
-        adCanvas.setLocation(5 + var3 / 2 - adCanvasSize.width / 2, 45 + var4 / 2 - adCanvasSize.height / 2);
-        this.add(adCanvas);
-        adCanvas.method214(this);
-        this.adCanvas = adCanvas;
-        this.aBoolean595 = var2;
-    }
-
     protected void setActualProgress(double actualProgress) {
         this.actualProgress = actualProgress;
     }
@@ -206,50 +188,8 @@ class LoadingPanel extends Panel implements Runnable, ActionListener {
         return this.loaded;
     }
 
-    protected void displayButtons() {
-        if (this.adCanvas != null) {
-            if (this.aBoolean595) {
-                this.startGameClicked = 0;
-                this.needsRepaint = true;
-                this.repaint();
-                short var1 = 300;
-                int var2 = (this.gameFrame.contentWidth - 25 - 15 - 15 - 25) / 2;
-                int width = Math.min(var1, var2);
-                this.startGameButton = new RoundButton(this.textManager.getText("Loader_Button_StartGame"));
-                this.startGameButton.setBounds(this.gameFrame.contentWidth / 2 + 15, 10, width, 35);
-                this.startGameButton.setBackground(new Color(96, 224, 96));
-                this.startGameButton.setForeground(Color.black);
-                this.startGameButton.setFont(fontDialog20b);
-                this.startGameButton.addActionListener(this);
-                this.add(this.startGameButton);
-                if (this.parameters.isCreditPurchasePageAvailable()) {
-                    this.paymentOptionsButton =
-                            new RoundButton(this.textManager.getText("Loader_Button_MorePaymentOptions"));
-                    this.paymentOptionsButton.setBounds(this.gameFrame.contentWidth / 2 - 15 - width, 10, width, 35);
-                    this.paymentOptionsButton.setBackground(new Color(96, 96, 255));
-                    this.paymentOptionsButton.setForeground(Color.black);
-                    this.paymentOptionsButton.setFont(fontDialog20b);
-                    this.paymentOptionsButton.addActionListener(this);
-                    this.add(this.paymentOptionsButton);
-                }
-
-                do {
-                    Tools.sleep(25L);
-                } while (this.startGameClicked == 0 && !this.destroyed);
-
-                this.remove(this.startGameButton);
-            }
-        }
-    }
-
     protected synchronized void destroy() {
         this.destroyed = true;
-        if (this.adCanvas != null) {
-            this.remove(this.adCanvas);
-            this.adCanvas.method217();
-            this.adCanvas = null;
-        }
-
         this.loadingMessage = null;
         if (this.panelGraphics != null) {
             this.panelGraphics.dispose();
@@ -379,17 +319,6 @@ class LoadingPanel extends Panel implements Runnable, ActionListener {
     }
 
     private double getNextProgressIncrementToRender() {
-        if (this.adCanvas == null) {
-            return this.aDouble586;
-        } else {
-            int var1 = this.adCanvas.method215();
-            if (var1 <= 0) {
-                return this.aDouble586;
-            } else {
-                double remainingProgress = 1.0D - this.renderedProgress;
-                double var4 = remainingProgress * (double) this.updateInterval / (double) var1;
-                return Math.min(var4, this.aDouble586);
-            }
-        }
+        return this.aDouble586;
     }
 }

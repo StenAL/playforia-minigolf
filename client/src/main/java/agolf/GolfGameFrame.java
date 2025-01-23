@@ -1,6 +1,5 @@
 package agolf;
 
-import agolf.game.GameBackgroundCanvas;
 import agolf.game.GamePanel;
 import agolf.lobby.LobbyPanel;
 import com.aapeli.client.BadWordFilter;
@@ -82,12 +81,6 @@ public class GolfGameFrame extends AbstractGameFrame {
         imageManager.defineImage("language-flags.png");
         imageManager.defineImage("credit-background.jpg");
         imageManager.defineImage("tf-background.gif");
-
-        for (int i = 0; i < GameBackgroundCanvas.trackAdvertSize; ++i) {
-            if (this.gameContainer.adverts[i] != null) {
-                imageManager.defineImage("ad" + i, this.gameContainer.adverts[i]);
-            }
-        }
     }
 
     public void createImages() {

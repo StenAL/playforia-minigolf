@@ -1065,9 +1065,6 @@
 	<str key="Limit_OnlyWithCreditsNote">
 		<![CDATA[(only with coins)]]>
 	</str>
-	<str key="Loader_AdClickNote">
-		<![CDATA[(clicking ad won't interrupt game loading)]]>
-	</str>
 	<str key="Loader_Button_MorePaymentOptions">
 		<![CDATA[More Payment Options]]>
 	</str>

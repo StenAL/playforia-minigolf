@@ -460,31 +460,6 @@ public abstract class AbstractGameFrame extends JFrame implements Runnable, Acti
                 this.printSUD("StartUp Debug enabled!");
             }
 
-            AdCanvas adCanvas = AdCanvas.create(this, this.param);
-            if (adCanvas != null) {
-                if (startupDebug) {
-                    this.printSUD("Loading ad-image...");
-                }
-
-                this.loadingPanel.setActualProgress(0.25D);
-                adCanvas.method212();
-
-                while (!adCanvas.method213()) {
-                    Tools.sleep(50L);
-                    if (this.destroyed) {
-                        adCanvas.method217();
-                        return;
-                    }
-                }
-
-                this.loadingPanel.method466(adCanvas, Tools.getBoolean(this.param.getParameter("ad_clicktocontinue")));
-                if (startupDebug) {
-                    this.printSUD("...done");
-                }
-            } else if (startupDebug) {
-                this.printSUD("No ad-image");
-            }
-
             int time2 = (int) (System.currentTimeMillis() - startTime);
             if (startupDebug) {
                 this.printSUD("Creating text manager");
@@ -502,11 +477,6 @@ public abstract class AbstractGameFrame extends JFrame implements Runnable, Acti
                 this.printSUD("...done");
             }
 
-            String adInfo = null;
-            if (adCanvas != null && adCanvas.method216()) {
-                adInfo = " " + this.textManager.getText("Loader_AdClickNote");
-            }
-
             int time3 = (int) (System.currentTimeMillis() - startTime);
             if (System.currentTimeMillis() < startTime + 3000L) {
                 this.loadingPanel.method468(2.0D);
@@ -516,8 +486,7 @@ public abstract class AbstractGameFrame extends JFrame implements Runnable, Acti
                 this.printSUD("Creating sound manager");
             }
 
-            this.loadingPanel.setLoadingMessage(
-                    this.textManager.getText("Loader_LoadingGfxSfx") + (adInfo != null ? adInfo : ""));
+            this.loadingPanel.setLoadingMessage(this.textManager.getText("Loader_LoadingGfxSfx"));
             this.soundManager = new SoundManager(true, this.isDebug());
 
             this.loadingPanel.addProgress(0.15D);
@@ -574,8 +543,7 @@ public abstract class AbstractGameFrame extends JFrame implements Runnable, Acti
                 this.printSUD("Connecting to server...");
             }
 
-            this.loadingPanel.setLoadingMessage(
-                    this.textManager.getText("Message_Connecting") + (adInfo != null ? adInfo : ""));
+            this.loadingPanel.setLoadingMessage(this.textManager.getText("Message_Connecting"));
             this.loadingPanel.setActualProgress(1.0D);
             this.connectToServer();
             if (startupDebug) {
@@ -609,7 +577,6 @@ public abstract class AbstractGameFrame extends JFrame implements Runnable, Acti
 
                 this.sendLoadTimes(readyTime, finishedTime, time1, time2, time3, time4, time5, time6);
                 this.writeMetadataLog1("clientconnect", "loadtime:i:" + readyTime + "^loadertime:i:" + finishedTime);
-                this.loadingPanel.displayButtons();
                 if (this.endState == 0 && !this.destroyed) {
                     this.remove(this.loadingPanel);
                     this.loadingPanel.destroy();
