@@ -457,7 +457,6 @@ public abstract class AbstractGameFrame extends JFrame implements Runnable, Acti
 
         this.initGame(this.param);
         this.loadingPanel.setBackground(this.getBackground());
-        this.callJavaScriptJSON("{\"loading\":\"started\"}");
         if (this.endState == 0 && !this.destroyed) {
             int time1 = (int) (System.currentTimeMillis() - startTime);
             boolean startupDebug = false;
@@ -505,163 +504,148 @@ public abstract class AbstractGameFrame extends JFrame implements Runnable, Acti
             }
 
             this.textsLoadedNotify(this.textManager);
-            if (!this.destroyed) {
+            if (startupDebug) {
+                this.printSUD("...done");
+            }
+
+            String adInfo = null;
+            if (adCanvas != null && adCanvas.method216()) {
+                adInfo = " " + this.textManager.getText("Loader_AdClickNote");
+            }
+
+            int time3 = (int) (System.currentTimeMillis() - startTime);
+            if (System.currentTimeMillis() < startTime + 3000L) {
+                this.loadingPanel.method468(2.0D);
+            }
+
+            this.callJavaScriptJSON("{\"loading\":\"inprogress\"}");
+            if (startupDebug) {
+                this.printSUD("Creating sound manager");
+            }
+
+            this.loadingPanel.setLoadingMessage(
+                    this.textManager.getText("Loader_LoadingGfxSfx") + (adInfo != null ? adInfo : ""));
+            this.soundManager = new SoundManager(true, this.isDebug());
+
+            this.loadingPanel.addProgress(0.15D);
+            if (startupDebug) {
+                this.printSUD("Defining sounds...");
+            }
+
+            this.defineSounds(this.soundManager);
+            int time4 = (int) (System.currentTimeMillis() - startTime);
+            if (startupDebug) {
+                this.printSUD("...done");
+            }
+
+            if (startupDebug) {
+                this.printSUD("Creating image manager");
+            }
+
+            this.imageManager = new ImageManager(this.isDebug());
+
+            this.loadingPanel.addProgress(0.05D);
+            this.defineImages(this.imageManager);
+            if (startupDebug) {
+                this.printSUD("Loading images...");
+            }
+
+            this.loadingPanel.setActualProgress(0.7D + this.imageManager.getImageLoadProgress() * 0.15D);
+
+            int time5 = (int) (System.currentTimeMillis() - startTime);
+            if (startupDebug) {
+                this.printSUD("...done");
+            }
+
+            if (startupDebug) {
+                this.printSUD("Creating images...");
+            }
+
+            this.loadingPanel.addProgress(0.05D);
+            this.createImages();
+            if (startupDebug) {
+                this.printSUD("...done");
+            }
+
+            if (startupDebug) {
+                this.printSUD("Defining secondary images");
+            }
+
+            this.soundManager.startLoading();
+            if (System.currentTimeMillis() < startTime + 7000L) {
+                this.loadingPanel.method468(2.0D);
+            }
+
+            int time6 = (int) (System.currentTimeMillis() - startTime);
+            if (startupDebug) {
+                this.printSUD("Connecting to server...");
+            }
+
+            this.loadingPanel.setLoadingMessage(
+                    this.textManager.getText("Message_Connecting") + (adInfo != null ? adInfo : ""));
+            this.loadingPanel.setActualProgress(1.0D);
+            this.connectToServer();
+            if (startupDebug) {
+                this.printSUD("...done");
+            }
+
+            if (this.endState == 0) {
+                int readyTime = (int) (System.currentTimeMillis() - startTime);
+                this.ready = true;
+                if (startupDebug) {
+                    this.printSUD("Waiting loader screen to finish...");
+                }
+
+                this.callJavaScriptJSON("{\"loading\":\"finished\"}");
+                this.loadingPanel.method468(5.0D);
+                this.loadingPanel.method470();
+
+                LoadingPanel loadingPanel;
+                do {
+                    loadingPanel = this.loadingPanel;
+                    if (this.destroyed || loadingPanel == null) {
+                        return;
+                    }
+
+                    Tools.sleep(50L);
+                } while (!loadingPanel.isLoaded());
+
+                int finishedTime = (int) (System.currentTimeMillis() - startTime);
                 if (startupDebug) {
                     this.printSUD("...done");
                 }
 
-                String adInfo = null;
-                if (adCanvas != null && adCanvas.method216()) {
-                    adInfo = " " + this.textManager.getText("Loader_AdClickNote");
-                }
+                this.sendLoadTimes(readyTime, finishedTime, time1, time2, time3, time4, time5, time6);
+                this.writeMetadataLog1("clientconnect", "loadtime:i:" + readyTime + "^loadertime:i:" + finishedTime);
+                this.loadingPanel.displayButtons();
+                if (this.endState == 0 && !this.destroyed) {
+                    this.remove(this.loadingPanel);
+                    this.loadingPanel.destroy();
+                    this.loadingPanel = null;
+                    if (startupDebug) {
+                        this.printSUD("Adding game content...");
+                    }
 
-                int time3 = (int) (System.currentTimeMillis() - startTime);
-                if (System.currentTimeMillis() < startTime + 3000L) {
-                    this.loadingPanel.method468(2.0D);
-                }
+                    this.contentPanel = new ContentPanel(this);
+                    if (this.backgroundImageKey != null) {
+                        this.contentPanel.setBackground(
+                                this.imageManager,
+                                this.backgroundImageKey,
+                                this.backgroundXOffset,
+                                this.backgroundYOffset);
+                    }
 
-                this.callJavaScriptJSON("{\"loading\":\"inprogress\"}");
-                if (startupDebug) {
-                    this.printSUD("Creating sound manager");
-                }
-
-                this.loadingPanel.setLoadingMessage(
-                        this.textManager.getText("Loader_LoadingGfxSfx") + (adInfo != null ? adInfo : ""));
-                this.soundManager = new SoundManager(true, this.isDebug());
-
-                this.loadingPanel.addProgress(0.15D);
-                if (startupDebug) {
-                    this.printSUD("Defining sounds...");
-                }
-
-                this.defineSounds(this.soundManager);
-                if (!this.destroyed) {
-                    int time4 = (int) (System.currentTimeMillis() - startTime);
+                    this.contentPanel.setVisible(false);
+                    this.add(this.contentPanel);
                     if (startupDebug) {
                         this.printSUD("...done");
                     }
 
                     if (startupDebug) {
-                        this.printSUD("Creating image manager");
+                        this.printSUD("Moving control to game itself");
                     }
 
-                    this.imageManager = new ImageManager(this.isDebug());
-
-                    this.loadingPanel.addProgress(0.05D);
-                    this.defineImages(this.imageManager);
-                    if (!this.destroyed) {
-                        if (startupDebug) {
-                            this.printSUD("Loading images...");
-                        }
-
-                        this.loadingPanel.setActualProgress(0.7D + this.imageManager.getImageLoadProgress() * 0.15D);
-
-                        int time5 = (int) (System.currentTimeMillis() - startTime);
-                        if (startupDebug) {
-                            this.printSUD("...done");
-                        }
-
-                        if (startupDebug) {
-                            this.printSUD("Creating images...");
-                        }
-
-                        this.loadingPanel.addProgress(0.05D);
-                        this.createImages();
-                        if (startupDebug) {
-                            this.printSUD("...done");
-                        }
-
-                        if (startupDebug) {
-                            this.printSUD("Defining secondary images");
-                        }
-
-                        if (!this.destroyed) {
-                            this.soundManager.startLoading();
-                            if (System.currentTimeMillis() < startTime + 7000L) {
-                                this.loadingPanel.method468(2.0D);
-                            }
-
-                            if (!this.destroyed) {
-                                int time6 = (int) (System.currentTimeMillis() - startTime);
-                                if (startupDebug) {
-                                    this.printSUD("Connecting to server...");
-                                }
-
-                                this.loadingPanel.setLoadingMessage(this.textManager.getText("Message_Connecting")
-                                        + (adInfo != null ? adInfo : ""));
-                                this.loadingPanel.setActualProgress(1.0D);
-                                this.connectToServer();
-                                if (startupDebug) {
-                                    this.printSUD("...done");
-                                }
-
-                                if (this.endState == 0) {
-                                    int readyTime = (int) (System.currentTimeMillis() - startTime);
-                                    this.ready = true;
-                                    if (startupDebug) {
-                                        this.printSUD("Waiting loader screen to finish...");
-                                    }
-
-                                    this.callJavaScriptJSON("{\"loading\":\"finished\"}");
-                                    this.loadingPanel.method468(5.0D);
-                                    this.loadingPanel.method470();
-
-                                    LoadingPanel loadingPanel;
-                                    do {
-                                        loadingPanel = this.loadingPanel;
-                                        if (this.destroyed || loadingPanel == null) {
-                                            return;
-                                        }
-
-                                        Tools.sleep(50L);
-                                    } while (!loadingPanel.isLoaded());
-
-                                    int finishedTime = (int) (System.currentTimeMillis() - startTime);
-                                    if (startupDebug) {
-                                        this.printSUD("...done");
-                                    }
-
-                                    this.sendLoadTimes(
-                                            readyTime, finishedTime, time1, time2, time3, time4, time5, time6);
-                                    this.writeMetadataLog1(
-                                            "clientconnect",
-                                            "loadtime:i:" + readyTime + "^loadertime:i:" + finishedTime);
-                                    this.loadingPanel.displayButtons();
-                                    if (this.endState == 0 && !this.destroyed) {
-                                        this.remove(this.loadingPanel);
-                                        this.loadingPanel.destroy();
-                                        this.loadingPanel = null;
-                                        if (!this.destroyed) {
-                                            if (startupDebug) {
-                                                this.printSUD("Adding game content...");
-                                            }
-
-                                            this.contentPanel = new ContentPanel(this);
-                                            if (this.backgroundImageKey != null) {
-                                                this.contentPanel.setBackground(
-                                                        this.imageManager,
-                                                        this.backgroundImageKey,
-                                                        this.backgroundXOffset,
-                                                        this.backgroundYOffset);
-                                            }
-
-                                            this.contentPanel.setVisible(false);
-                                            this.add(this.contentPanel);
-                                            if (startupDebug) {
-                                                this.printSUD("...done");
-                                            }
-
-                                            if (startupDebug) {
-                                                this.printSUD("Moving control to game itself");
-                                            }
-
-                                            this.gameReady();
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
+                    this.gameReady();
                 }
             }
         }
