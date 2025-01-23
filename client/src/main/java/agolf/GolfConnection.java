@@ -3,7 +3,6 @@ package agolf;
 import com.aapeli.connection.SocketConnection;
 import com.aapeli.connection.SocketConnectionListener;
 import com.aapeli.frame.AbstractGameFrame;
-import com.aapeli.tools.Tools;
 
 public class GolfConnection implements SocketConnectionListener {
 
@@ -79,7 +78,7 @@ public class GolfConnection implements SocketConnectionListener {
     }
 
     private void handlePacket(String cmd) {
-        String[] args = Tools.separateString(cmd, "\t");
+        String[] args = cmd.split("\t");
         switch (args[0]) {
             case "error" -> {
                 if (args[1].equals("vernotok")) {

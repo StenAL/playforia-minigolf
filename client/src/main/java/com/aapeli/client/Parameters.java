@@ -117,7 +117,7 @@ public final class Parameters {
             }
 
             if (var2.startsWith("javascript:")) {
-                URI uri = this.toURI(Tools.replaceFirst(this.urlUserInfoPage, "%n", var1));
+                URI uri = this.toURI(this.urlUserInfoPage.replaceFirst("%n", var1));
                 if (uri == null) {
                     return false;
                 }
@@ -333,8 +333,8 @@ public final class Parameters {
             } else {
                 if (var4.startsWith("javascript:")) {
                     var8 = this.urlUserListPage;
-                    var8 = Tools.replaceFirst(var8, "%n", result != null ? result : "");
-                    var8 = Tools.replaceFirst(var8, "%s", subgame != null ? subgame : "");
+                    var8 = var8.replaceFirst("%n", result != null ? result : "");
+                    var8 = var8.replaceFirst("%s", subgame != null ? subgame : "");
                     URI uri = this.toURI(var8);
                     if (uri == null) {
                         return;

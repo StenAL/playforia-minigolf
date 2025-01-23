@@ -168,7 +168,7 @@ public final class TextManager {
                 if (arguments != null) {
                     int argumentsCount = arguments.length;
                     for (int i = 0; i < argumentsCount; ++i) {
-                        localizedString = Tools.replaceFirst(localizedString, "%" + (i + 1), arguments[i]);
+                        localizedString = localizedString.replaceFirst("%" + (i + 1), arguments[i]);
                     }
                 }
 
@@ -238,9 +238,9 @@ public final class TextManager {
             return year + "-" + (month < 10 ? "0" : "") + month + "-" + (day < 10 ? "0" : "") + day;
         } else {
             String result = this.getText("DateFormat");
-            result = Tools.replaceFirst(result, "%1", "" + day);
-            result = Tools.replaceFirst(result, "%2", this.getText("DateMonth" + month));
-            result = Tools.replaceFirst(result, "%3", "" + year);
+            result = result.replaceFirst("%1", "" + day);
+            result = result.replaceFirst("%2", this.getText("DateMonth" + month));
+            result = result.replaceFirst("%3", "" + year);
             if (mode == 1) {
                 return result;
             } else {
@@ -290,7 +290,7 @@ public final class TextManager {
                     reverse = Tools.getBoolean(reverseNode.getTextContent());
                 }
                 if (reverse) {
-                    translation = Tools.reverse(translation);
+                    translation = new StringBuffer(translation).reverse().toString();
                 }
 
                 table.put(key, translation);
