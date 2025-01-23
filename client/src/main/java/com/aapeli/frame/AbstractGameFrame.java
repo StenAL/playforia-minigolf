@@ -76,7 +76,6 @@ public abstract class AbstractGameFrame extends JFrame implements Runnable, Acti
         super();
         this.verbose = verbose;
         this.param = this.getParameters(server, locale, username, port, verbose, norandom);
-        this.param.setRootComponent(this);
         this.setSize(WIDTH, HEIGHT);
         this.init();
         this.start();
@@ -790,7 +789,6 @@ public abstract class AbstractGameFrame extends JFrame implements Runnable, Acti
                 "javascript:Playray.Notify.delegate({ jvm: { version: '%v', vendor: '%w', t1: '%r', t2: '%f' } })");
         params.put("server", server + ":" + port);
         params.put("locale", locale.toString());
-        params.put("sitename", "playray");
         params.put("registerpage", "http://www.playforia.com/account/create/");
         params.put("creditpage", "http://www.playforia.com/shop/buy/");
         params.put("userinfopage", "http://www.playforia.com/community/user/");

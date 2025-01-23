@@ -1464,42 +1464,6 @@
 	<str key="ServerSay_YouAreMuted">
 		<![CDATA[Du är för närvarande tystad av sheriff i 1% minuter, andra kan inte se dina chattinlägg.]]>
 	</str>
-	<str key="TellFriend_ButtonClose">
-		<singular><![CDATA[Stäng]]></singular>
-	</str>
-	<str key="TellFriend_ButtonSend">
-		<singular><![CDATA[Skicka]]></singular>
-	</str>
-	<str key="TellFriend_EmailAdd">
-		<singular><![CDATA[Fler e-postadresser...]]></singular>
-	</str>
-	<str key="TellFriend_EmailHelp">
-		<singular><![CDATA[(kamratens e-postadress)]]></singular>
-	</str>
-	<str key="TellFriend_EmailNotSent">
-		<singular><![CDATA[Ett fel uppstod då e-brevet skickades. Vi beklagar detta och kommer inte att störa dig mer angående detta ärende.]]></singular>
-	</str>
-	<str key="TellFriend_EmailRemove">
-		<singular><![CDATA[X]]></singular>
-	</str>
-	<str key="TellFriend_EmailSent">
-		<singular><![CDATA[E-brev skickat, tack!]]></singular>
-	</str>
-	<str key="TellFriend_EmailTitle">
-		<singular><![CDATA[E-postadresser:]]></singular>
-	</str>
-	<str key="TellFriend_ExtButton">
-		<singular><![CDATA[Tipsa en kompis]]></singular>
-	</str>
-	<str key="TellFriend_Info">
-		<singular><![CDATA[Tipsa dina kamrater om detta spel, det tar endast några sekunder. Skriv in dina kamraters e-postadresser nedan och klicka på "Skicka". (Vi sparar inte adresserna som du skriver in här och vi använder inte dem på nytt, e-brevet skickas endast en gång.)]]></singular>
-	</str>
-	<str key="TellFriend_MessageTitle">
-		<singular><![CDATA[Bifogat meddelande (frivilligt):]]></singular>
-	</str>
-	<str key="TellFriend_Title">
-		<singular><![CDATA[Tipsa en kompis !]]></singular>
-	</str>
 	<str key="Tournament_QuitGameButton">
 		<![CDATA[Avsluta spel]]>
 	</str>

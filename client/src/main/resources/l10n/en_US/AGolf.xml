@@ -1465,42 +1465,6 @@ Close this window only if you do not wish to send a text message (SMS).]]>
 	<str key="ServerSay_YouAreMuted">
 		<![CDATA[You are currently muted by sheriff for %1 minutes, other people won't see your chat messages.]]>
 	</str>
-	<str key="TellFriend_ButtonClose">
-		<singular><![CDATA[Close]]></singular>
-	</str>
-	<str key="TellFriend_ButtonSend">
-		<singular><![CDATA[Send]]></singular>
-	</str>
-	<str key="TellFriend_EmailAdd">
-		<singular><![CDATA[More emails...]]></singular>
-	</str>
-	<str key="TellFriend_EmailHelp">
-		<singular><![CDATA[(friend's email address)]]></singular>
-	</str>
-	<str key="TellFriend_EmailNotSent">
-		<singular><![CDATA[An error occured during mailing. We apologize for this and won't disturb you any more.]]></singular>
-	</str>
-	<str key="TellFriend_EmailRemove">
-		<singular><![CDATA[X]]></singular>
-	</str>
-	<str key="TellFriend_EmailSent">
-		<singular><![CDATA[Email sent, thank you!]]></singular>
-	</str>
-	<str key="TellFriend_EmailTitle">
-		<singular><![CDATA[E-mail addresses:]]></singular>
-	</str>
-	<str key="TellFriend_ExtButton">
-		<singular><![CDATA[Tell a friend]]></singular>
-	</str>
-	<str key="TellFriend_Info">
-		<singular><![CDATA[Tell your friends about this cool game, it takes just a few seconds. Type your friends email addresses below and click "Send". (We do not collect e-mail addresses you enter, the mail will only be sent once. We don't like spam either.)]]></singular>
-	</str>
-	<str key="TellFriend_MessageTitle">
-		<singular><![CDATA[Message to be attached (optional):]]></singular>
-	</str>
-	<str key="TellFriend_Title">
-		<singular><![CDATA[Tell a friend!]]></singular>
-	</str>
 	<str key="Tournament_QuitGameButton">
 		<![CDATA[Quit game]]>
 	</str>

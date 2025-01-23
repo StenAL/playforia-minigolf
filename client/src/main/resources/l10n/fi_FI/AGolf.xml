@@ -1464,42 +1464,6 @@
 	<str key="ServerSay_YouAreMuted">
 		<![CDATA[Sinut on tällä hetkellä mykistetty sheriffin toimesta vielä %1 minuutiksi, muut eivät näe viestejäsi]]>
 	</str>
-	<str key="TellFriend_ButtonClose">
-		<singular><![CDATA[Sulje]]></singular>
-	</str>
-	<str key="TellFriend_ButtonSend">
-		<singular><![CDATA[Lähetä]]></singular>
-	</str>
-	<str key="TellFriend_EmailAdd">
-		<singular><![CDATA[Lisää osoitteita...]]></singular>
-	</str>
-	<str key="TellFriend_EmailHelp">
-		<singular><![CDATA[(kaverin sähköposti)]]></singular>
-	</str>
-	<str key="TellFriend_EmailNotSent">
-		<singular><![CDATA[Postia lähetettäessä tapahtui virhe. Pahoittelemme tapahtunutta emmekä häiritse sinua aiheella enempää.]]></singular>
-	</str>
-	<str key="TellFriend_EmailRemove">
-		<singular><![CDATA[X]]></singular>
-	</str>
-	<str key="TellFriend_EmailSent">
-		<singular><![CDATA[Sähköposti lähetetty, kiitos!]]></singular>
-	</str>
-	<str key="TellFriend_EmailTitle">
-		<singular><![CDATA[Sähköpostiosoitteet:]]></singular>
-	</str>
-	<str key="TellFriend_ExtButton">
-		<singular><![CDATA[Kerro kaverille]]></singular>
-	</str>
-	<str key="TellFriend_Info">
-		<singular><![CDATA[Kerro kavereille tästä pelistä, aikaa menee vain hetki. Kirjoita kaveriesi sähköpostiosoitteet alle ja klikkaa "Lähetä"-painiketta. (Emme talleta tai uudelleenkäytä antamiasi sähköpostiosoitteita, postia lähetetään vain kerran.)]]></singular>
-	</str>
-	<str key="TellFriend_MessageTitle">
-		<singular><![CDATA[Mukaan liitettävä viesti (vapaaehtoinen):]]></singular>
-	</str>
-	<str key="TellFriend_Title">
-		<singular><![CDATA[Kerro kaverille!]]></singular>
-	</str>
 	<str key="Tournament_QuitGameButton">
 		<![CDATA[Poistu pelistä]]>
 	</str>
