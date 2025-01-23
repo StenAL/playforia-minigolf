@@ -355,11 +355,6 @@ public final class SocketConnection implements Runnable {
                                                     ? AbstractGameFrame.END_ERROR_BAN_INIT
                                                     : AbstractGameFrame.END_ERROR_TOOMANYIP_INIT)));
                 }
-            } else if (cmdtype == 's') {
-                if (cmd.startsWith("json ")) {
-                    String json = cmd.substring(5);
-                    this.params.callJavaScriptJSON(json);
-                }
             } else if (cmdtype == 'd') {
                 firstSpace = cmd.indexOf(' ');
                 long numServerSentPaketz = Long.parseLong(cmd.substring(0, firstSpace));

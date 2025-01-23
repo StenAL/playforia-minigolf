@@ -28,7 +28,6 @@ public final class Parameters {
     private String urlTargetUserList;
     private String urlTellFriendPage;
     private String urlTargetTellFriend;
-    private String json;
     private boolean tellFriend;
     private int serverPort;
     private URI uriCreditPage;
@@ -247,30 +246,6 @@ public final class Parameters {
         return this.uriCreditPage != null;
     }
 
-    public boolean callJavaScriptJSON(String json) {
-        if (this.debug) {
-            System.out.println("Parameters.callJavaScriptJSON(\"" + json + "\")");
-        }
-
-        if (this.json == null) {
-            return false;
-        } else {
-            try {
-                json = Tools.replaceAll(json, "'", "\\'");
-                String var2 = Tools.replaceFirst(this.json, "%o", "'" + json + "'");
-                URI uri = this.toURI(var2);
-                if (uri == null) {
-                    return false;
-                } else {
-                    this.showUri(uri, null);
-                    return true;
-                }
-            } catch (Exception e) {
-                return false;
-            }
-        }
-    }
-
     public Component getRootComponent() {
         return this.rootComponent;
     }
@@ -287,7 +262,6 @@ public final class Parameters {
         this.urlTargetUserList = null;
         this.urlTellFriendPage = null;
         this.urlTargetTellFriend = null;
-        this.json = null;
         this.uriCreditPage = null;
         this.aStringArray1456 = null;
         this.aString1457 = null;
@@ -320,15 +294,8 @@ public final class Parameters {
         this.tellFriend = Tools.getBoolean(this.getParameter("tellfriend"));
         this.urlTellFriendPage = this.getParameter("tellfriendpage");
         this.urlTargetTellFriend = this.getParameter("tellfriendtarget");
-        this.json = this.getParameter("json");
         this.username = this.getParameter("username");
         this.debug = Tools.getBoolean(this.getParameter("verbose"));
-        if (this.json != null) {
-            this.json = Tools.replaceFirst(this.json, "'%o'", "%o");
-            if (!this.json.toLowerCase().startsWith("javascript:")) {
-                this.json = "javascript:" + this.json;
-            }
-        }
     }
 
     private String getParamServer() {

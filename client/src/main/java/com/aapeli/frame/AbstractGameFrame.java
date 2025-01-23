@@ -518,7 +518,6 @@ public abstract class AbstractGameFrame extends JFrame implements Runnable, Acti
                 this.loadingPanel.method468(2.0D);
             }
 
-            this.callJavaScriptJSON("{\"loading\":\"inprogress\"}");
             if (startupDebug) {
                 this.printSUD("Creating sound manager");
             }
@@ -596,7 +595,6 @@ public abstract class AbstractGameFrame extends JFrame implements Runnable, Acti
                     this.printSUD("Waiting loader screen to finish...");
                 }
 
-                this.callJavaScriptJSON("{\"loading\":\"finished\"}");
                 this.loadingPanel.method468(5.0D);
                 this.loadingPanel.method470();
 
@@ -770,13 +768,8 @@ public abstract class AbstractGameFrame extends JFrame implements Runnable, Acti
 
     public abstract boolean isDebug();
 
-    public boolean callJavaScriptJSON(String json) {
-        return this.param.callJavaScriptJSON(json);
-    }
-
     public void blockExternalPopups() {
         this.resetPopupTimer();
-        this.callJavaScriptJSON("{\"block\":\"true\"}");
     }
 
     public void blockExternalPopups(int var1) {
@@ -786,7 +779,6 @@ public abstract class AbstractGameFrame extends JFrame implements Runnable, Acti
 
     public void allowExternalPopups() {
         this.resetPopupTimer();
-        this.callJavaScriptJSON("{\"block\":\"false\"}");
     }
 
     public void setConnectionReference(SocketConnection var1) {
@@ -826,7 +818,6 @@ public abstract class AbstractGameFrame extends JFrame implements Runnable, Acti
         params.put("userinfopage", "http://www.playforia.com/community/user/");
         params.put("userinfotarget", "_blank");
         params.put("userlistpage", "javascript:Playray.GameFaceGallery('%n','#99FF99','agolf','%s')");
-        params.put("json", "Playray.Notify.delegate(%o)");
         params.put("verbose", Boolean.toString(verbose));
         params.put("norandom", Boolean.toString(norandom));
         params.put("username", username);
