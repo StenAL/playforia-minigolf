@@ -9,14 +9,12 @@ import com.aapeli.connection.SocketConnection;
 import com.aapeli.tools.Tools;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Desktop;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 import javax.imageio.ImageIO;
@@ -449,7 +447,6 @@ public abstract class AbstractGameFrame extends JFrame implements Runnable, Acti
         this.initGame(this.param);
         this.loadingPanel.setBackground(this.getBackground());
         if (this.endState == 0 && !this.destroyed) {
-            int time1 = (int) (System.currentTimeMillis() - startTime);
             boolean startupDebug = false;
             String startupDebugParameter = this.param.getParameter("startupdebug");
             if (startupDebugParameter != null && Tools.getBoolean(startupDebugParameter)) {
@@ -457,7 +454,6 @@ public abstract class AbstractGameFrame extends JFrame implements Runnable, Acti
                 this.printSUD("StartUp Debug enabled!");
             }
 
-            int time2 = (int) (System.currentTimeMillis() - startTime);
             if (startupDebug) {
                 this.printSUD("Creating text manager");
             }
@@ -473,7 +469,6 @@ public abstract class AbstractGameFrame extends JFrame implements Runnable, Acti
                 this.printSUD("...done");
             }
 
-            int time3 = (int) (System.currentTimeMillis() - startTime);
             if (System.currentTimeMillis() < startTime + 3000L) {
                 this.loadingPanel.method468(2.0D);
             }
@@ -491,7 +486,6 @@ public abstract class AbstractGameFrame extends JFrame implements Runnable, Acti
             }
 
             this.defineSounds(this.soundManager);
-            int time4 = (int) (System.currentTimeMillis() - startTime);
             if (startupDebug) {
                 this.printSUD("...done");
             }
@@ -510,7 +504,6 @@ public abstract class AbstractGameFrame extends JFrame implements Runnable, Acti
 
             this.loadingPanel.setActualProgress(0.7D + this.imageManager.getImageLoadProgress() * 0.15D);
 
-            int time5 = (int) (System.currentTimeMillis() - startTime);
             if (startupDebug) {
                 this.printSUD("...done");
             }
@@ -534,7 +527,6 @@ public abstract class AbstractGameFrame extends JFrame implements Runnable, Acti
                 this.loadingPanel.method468(2.0D);
             }
 
-            int time6 = (int) (System.currentTimeMillis() - startTime);
             if (startupDebug) {
                 this.printSUD("Connecting to server...");
             }
@@ -571,7 +563,9 @@ public abstract class AbstractGameFrame extends JFrame implements Runnable, Acti
                     this.printSUD("...done");
                 }
 
-                this.sendLoadTimes(readyTime, finishedTime, time1, time2, time3, time4, time5, time6);
+                if (this.isDebug()) {
+                    System.out.println("AbstractGameFrame.sendLoadTimes(" + readyTime + "," + finishedTime + ")");
+                }
                 this.writeMetadataLog1("clientconnect", "loadtime:i:" + readyTime + "^loadertime:i:" + finishedTime);
                 if (this.endState == 0 && !this.destroyed) {
                     this.remove(this.loadingPanel);
@@ -747,9 +741,6 @@ public abstract class AbstractGameFrame extends JFrame implements Runnable, Acti
         }
         params = new HashMap<>();
         params.put("initmessage", "Loading game...");
-        params.put(
-                "ld_page",
-                "javascript:Playray.Notify.delegate({ jvm: { version: '%v', vendor: '%w', t1: '%r', t2: '%f' } })");
         params.put("server", server + ":" + port);
         params.put("locale", locale.toString());
         params.put("registerpage", "http://www.playforia.com/account/create/");
@@ -769,59 +760,5 @@ public abstract class AbstractGameFrame extends JFrame implements Runnable, Acti
             var1.destroy();
             this.loadingPanel = null;
         }
-    }
-
-    private void sendLoadTimes(
-            int readyTime, int finishedTime, int time1, int time2, int time3, int time4, int time5, int time6) {
-        if (this.isDebug()) {
-            System.out.println("AbstractGameFrame.sendLoadTimes(" + readyTime + "," + finishedTime + ")");
-        }
-
-        try {
-            String loadTimesPage = this.param.getParameter("ld_page");
-            if (loadTimesPage == null) {
-                return;
-            }
-
-            if (!loadTimesPage.toLowerCase().startsWith("javascript:")) {
-                return;
-            }
-
-            String javaVersion = this.getSystemProperty("java.version");
-            String javaVendor = this.getSystemProperty("java.vendor");
-            if (javaVendor.length() > 128) {
-                javaVendor = javaVendor.substring(0, 128);
-            }
-
-            String queryUrl = Tools.replaceFirst(loadTimesPage, "%v", javaVersion);
-            queryUrl = Tools.replaceFirst(queryUrl, "%w", javaVendor);
-            queryUrl = Tools.replaceFirst(queryUrl, "%r", "" + readyTime);
-            queryUrl = Tools.replaceFirst(queryUrl, "%f", "" + finishedTime);
-            queryUrl = Tools.replaceFirst(queryUrl, "%1", "" + time1);
-            queryUrl = Tools.replaceFirst(queryUrl, "%2", "" + time2);
-            queryUrl = Tools.replaceFirst(queryUrl, "%3", "" + time3);
-            queryUrl = Tools.replaceFirst(queryUrl, "%4", "" + time4);
-            queryUrl = Tools.replaceFirst(queryUrl, "%5", "" + time5);
-            queryUrl = Tools.replaceFirst(queryUrl, "%6", "" + time6);
-            URI uri = new URI(queryUrl);
-            if (this.isDebug()) {
-                System.out.println("AbstractGameFrame.sendLoadTimes(...): Displaying page \"" + uri + "\"");
-            }
-
-            Desktop.getDesktop().browse(uri);
-        } catch (Exception e) {
-        }
-    }
-
-    private String getSystemProperty(String key) {
-        try {
-            String result = System.getProperty(key);
-            if (result != null) {
-                return result;
-            }
-        } catch (Exception | Error e) {
-        }
-
-        return "";
     }
 }
