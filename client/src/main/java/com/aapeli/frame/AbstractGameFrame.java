@@ -148,7 +148,6 @@ public abstract class AbstractGameFrame extends JFrame implements Runnable, Acti
         this.soundManager = null;
         this.imageManager = null;
         this.textManager = null;
-        this.param = null;
         if (this.graphics != null) {
             this.graphics.dispose();
             this.graphics = null;
