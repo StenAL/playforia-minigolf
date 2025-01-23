@@ -1,24 +1,16 @@
 package com.aapeli.frame;
 
-import com.aapeli.client.Parameters;
-import com.aapeli.client.TextManager;
-import com.aapeli.colorgui.RoundButton;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Panel;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-class LoadingPanel extends Panel implements Runnable, ActionListener {
+class LoadingPanel extends Panel implements Runnable {
 
     private static final Font fontDialog14 = new Font("Dialog", Font.PLAIN, 14);
-    private static final Font fontDialog20b = new Font("Dialog", Font.BOLD, 20);
     private AbstractGameFrame gameFrame;
-    private Parameters parameters;
-    private TextManager textManager;
     private String loadingMessage;
     private double actualProgress;
     private double renderedProgress;
@@ -30,9 +22,6 @@ class LoadingPanel extends Panel implements Runnable, ActionListener {
     private boolean destroyed;
     private Image panelImage;
     private Graphics panelGraphics;
-    private boolean aBoolean595;
-    private RoundButton startGameButton;
-    private RoundButton paymentOptionsButton;
     private int startGameClicked;
 
     protected LoadingPanel(AbstractGameFrame gameFrame) {
@@ -137,20 +126,6 @@ class LoadingPanel extends Panel implements Runnable, ActionListener {
         } while (this.renderedProgress < 1.0D);
 
         this.loaded = true;
-    }
-
-    public void actionPerformed(ActionEvent action) {
-        if (action.getSource() == this.startGameButton) {
-            this.startGameClicked = 1;
-        } else {
-            this.gameFrame.setEndState(AbstractGameFrame.END_QUIT_BUYCOINS);
-            this.parameters.showCreditPurchasePage(false);
-        }
-    }
-
-    protected void init(Parameters parameters, TextManager textManager) {
-        this.parameters = parameters;
-        this.textManager = textManager;
     }
 
     protected void start() {

@@ -1260,9 +1260,6 @@
 	<str key="Message_QuitGame">
 		<![CDATA[Leaving...]]>
 	</str>
-	<str key="Message_QuitGame_ToBuyCoins">
-		<![CDATA[Moving to coin purchasing page...]]>
-	</str>
 	<str key="Message_QuitGame_ToRegister">
 		<![CDATA[Moving to registration page...]]>
 	</str>
@@ -1310,85 +1307,6 @@
 	</str>
 	<str key="NeedAccount_Title">
 		<![CDATA[A Playforia account is required]]>
-	</str>
-	<str key="OrderFrame_AfterOrderInstructions">
-		<![CDATA[After sending a text message (SMS), wait and do not close this window.
-Close this window only if you do not wish to send a text message (SMS).]]>
-	</str>
-	<str key="OrderFrame_Bought">
-		<![CDATA[Purchase accepted.]]>
-	</str>
-	<str key="OrderFrame_Error">
-		<![CDATA[An error occured.]]>
-	</str>
-	<str key="OrderFrame_Error_Info">
-		<![CDATA[This service is temporarily unavailable. The problem will be fixed as soon as possible, please try again later. Close this window to continue.]]>
-	</str>
-	<str key="OrderFrame_Instructions">
-		<![CDATA[Text<br><center><big><strong>%1</strong></big><br>to number <strong>%2</strong></center><br><br><small>The message fee is %3 and the service works with the following operators: %4</small>]]>
-	</str>
-	<str key="OrderFrame_TimeOut">
-		<![CDATA[Offer timed out]]>
-	</str>
-	<str key="OrderFrame_TimeOutNote">
-		<![CDATA[This order must be made in %1, after this time the offer is automatically cancelled.]]>
-	</str>
-	<str key="OrderFrame_TimeOut_Info">
-		<![CDATA[This purchase can't proceed any longer. Close this window to continue.]]>
-	</str>
-	<str key="OrderFrame_Title">
-		<![CDATA[Order by text (SMS)]]>
-	</str>
-	<str key="OrderFrame_Wait">
-		<![CDATA[Wait a moment please...]]>
-	</str>
-	<str key="PurchaseFrame_ActionOpeningCreditPurchase">
-		<![CDATA[Opening coin purchase in new window...]]>
-	</str>
-	<str key="PurchaseFrame_ActionProductPurchase">
-		<![CDATA[Please wait while processing purchase...]]>
-	</str>
-	<str key="PurchaseFrame_ActionRefreshingCredits">
-		<![CDATA[Refreshing balance...]]>
-	</str>
-	<str key="PurchaseFrame_ButtonGetCredits">
-		<![CDATA[Get coins]]>
-	</str>
-	<str key="PurchaseFrame_ButtonRefresh">
-		<![CDATA[Refresh]]>
-	</str>
-	<str key="PurchaseFrame_Credits">
-		<![CDATA[Coins:]]>
-	</str>
-	<str key="PurchaseFrame_Default_ButtonBack">
-		<![CDATA[Back to lobby]]>
-	</str>
-	<str key="PurchaseFrame_Default_ButtonContinue">
-		<![CDATA[Continue to game]]>
-	</str>
-	<str key="PurchaseFrame_Default_FrameTitle">
-		<![CDATA[Continue to game]]>
-	</str>
-	<str key="PurchaseFrame_Error_FrameTitle">
-		<![CDATA[Error]]>
-	</str>
-	<str key="PurchaseFrame_Error_Message">
-		<![CDATA[For some reason, this product is not currently available with coins. Please try again later.]]>
-	</str>
-	<str key="PurchaseFrame_NoProductDescription">
-		<![CDATA[(No description available for '%1')]]>
-	</str>
-	<str key="PurchaseFrame_PurchaseFailed">
-		<![CDATA[Purchase failed, close this window and try again]]>
-	</str>
-	<str key="PurchaseFrame_PurchaseNoBalance">
-		<![CDATA[Purchase failed because you seem to not have enough coins]]>
-	</str>
-	<str key="PurchaseFrame_PurchaseOk">
-		<![CDATA[Purchase completed, you can continue now by closing this window.]]>
-	</str>
-	<str key="PurchaseFrame_RefreshAfterGet">
-		<![CDATA[After you have purchased coins, click following button to update your balance.]]>
 	</str>
 	<str key="QuitConfirm_ButtonNo">
 		<![CDATA[No]]>

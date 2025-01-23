@@ -21,7 +21,6 @@ public final class Parameters {
     private String urlUserListPage;
     private String urlTargetUserList;
     private int serverPort;
-    private URI uriCreditPage;
     private int anInt1455;
     private String[] aStringArray1456;
     private String aString1457;
@@ -217,10 +216,6 @@ public final class Parameters {
         }
     }
 
-    public void showCreditPurchasePage(boolean openInNewTab) {
-        this.showUri(this.uriCreditPage, openInNewTab ? "_blank" : null);
-    }
-
     public void destroy() {
         this.serverIp = null;
         this.locale = null;
@@ -230,7 +225,6 @@ public final class Parameters {
         this.urlTargetUserInfo = null;
         this.urlUserListPage = null;
         this.urlTargetUserList = null;
-        this.uriCreditPage = null;
         this.aStringArray1456 = null;
         this.aString1457 = null;
     }
@@ -241,7 +235,6 @@ public final class Parameters {
         this.locale = this.getParamLocale();
         this.session = this.getParameter("session");
         this.urlRegisterPage = this.getParameter("registerpage");
-        this.uriCreditPage = this.toURI(this.getParameter("creditpage"));
         this.urlUserInfoPage = this.getParameter("userinfopage");
         this.urlTargetUserInfo = this.getParameter("userinfotarget");
         this.urlUserListPage = this.getParameter("userlistpage");

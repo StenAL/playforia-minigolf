@@ -1260,9 +1260,6 @@
 	<str key="Message_QuitGame">
 		<![CDATA[Lämnar spelet...]]>
 	</str>
-	<str key="Message_QuitGame_ToBuyCoins">
-		<![CDATA[Går till myntförsäljningssidan...]]>
-	</str>
 	<str key="Message_QuitGame_ToRegister">
 		<![CDATA[Förflyttas till sidan för nytt konto...]]>
 	</str>
@@ -1310,84 +1307,6 @@
 	</str>
 	<str key="NeedAccount_Title">
 		<![CDATA[Det krävs ett Playraykonto]]>
-	</str>
-	<str key="OrderFrame_AfterOrderInstructions">
-		<![CDATA[Efter att ha skickat ett sms, vänta, stäng inte fönstret. Stäng detta fönster endast om du inte vill skicka sms.]]>
-	</str>
-	<str key="OrderFrame_Bought">
-		<![CDATA[Köp godkänt]]>
-	</str>
-	<str key="OrderFrame_Error">
-		<![CDATA[Fel uppstod]]>
-	</str>
-	<str key="OrderFrame_Error_Info">
-		<![CDATA[Tjänsten är otillgänglig för tillfället. Vi arbetar på att lösa problemet så fort som möjligt, försök igen senare. Stäng detta fönster för att fortsätta.]]>
-	</str>
-	<str key="OrderFrame_Instructions">
-		<![CDATA[Skicka meddelandet <br><center><big><strong>%1</strong></big><br> till numret <strong>%2</strong></center><br><br><small>Meddelandet kostar %1 och meddelandet fungerar med följande operatörer: %1</small>]]>
-	</str>
-	<str key="OrderFrame_TimeOut">
-		<![CDATA[Erbjudande tidavbröts]]>
-	</str>
-	<str key="OrderFrame_TimeOutNote">
-		<![CDATA[Denna beställning måste göras inom %1, efter detta avbryts erbjudandet automatiskt.]]>
-	</str>
-	<str key="OrderFrame_TimeOut_Info">
-		<![CDATA[Detta köp kan inte utföras längre. Stäng detta fönster för att forsätta.]]>
-	</str>
-	<str key="OrderFrame_Title">
-		<![CDATA[Gör en SMS-beställning]]>
-	</str>
-	<str key="OrderFrame_Wait">
-		<![CDATA[Vänta en stund...]]>
-	</str>
-	<str key="PurchaseFrame_ActionOpeningCreditPurchase">
-		<![CDATA[Öppnar Myntsidan...]]>
-	</str>
-	<str key="PurchaseFrame_ActionProductPurchase">
-		<![CDATA[Vänta...]]>
-	</str>
-	<str key="PurchaseFrame_ActionRefreshingCredits">
-		<![CDATA[Förfriskar Myntkontot...]]>
-	</str>
-	<str key="PurchaseFrame_ButtonGetCredits">
-		<![CDATA[Skaffa Mynt]]>
-	</str>
-	<str key="PurchaseFrame_ButtonRefresh">
-		<![CDATA[Förfriska Myntkontot]]>
-	</str>
-	<str key="PurchaseFrame_Credits">
-		<![CDATA[Mynt kvar:]]>
-	</str>
-	<str key="PurchaseFrame_Default_ButtonBack">
-		<![CDATA[Återvänd till lobbyn]]>
-	</str>
-	<str key="PurchaseFrame_Default_ButtonContinue">
-		<![CDATA[Fortsätt till spelet]]>
-	</str>
-	<str key="PurchaseFrame_Default_FrameTitle">
-		<![CDATA[Fortsätt till spelet]]>
-	</str>
-	<str key="PurchaseFrame_Error_FrameTitle">
-		<![CDATA[Error]]>
-	</str>
-	<str key="PurchaseFrame_Error_Message">
-		<![CDATA[For some reason, this product is not currently available with credits. Please try again later.]]>
-	</str>
-	<str key="PurchaseFrame_NoProductDescription">
-		<![CDATA[(Ingen beskrivning tillgänglig för '%1')]]>
-	</str>
-	<str key="PurchaseFrame_PurchaseFailed">
-		<![CDATA[Behandlingen misslyckades, stäng denna ruta och försök pånytt.]]>
-	</str>
-	<str key="PurchaseFrame_PurchaseNoBalance">
-		<![CDATA[Behandlingen misslyckades, det finns inte tillräckligt med Mynt på ditt konto.]]>
-	</str>
-	<str key="PurchaseFrame_PurchaseOk">
-		<![CDATA[Behandlingen färdig, du kan fortsätta med att stänga denna ruta.]]>
-	</str>
-	<str key="PurchaseFrame_RefreshAfterGet">
-		<![CDATA[Klicka på knappen nedanom för att förfriska Myntkontot efter att du köpt Mynten.]]>
 	</str>
 	<str key="QuitConfirm_ButtonNo">
 		<![CDATA[Nej]]>

@@ -35,7 +35,6 @@ public abstract class AbstractGameFrame extends JFrame implements Runnable, Acti
     public static final int END_QUIT = 5;
     public static final int END_OTHER = 6;
     public static final int END_QUIT_REGISTER = 7;
-    public static final int END_QUIT_BUYCOINS = 8;
     public static final int END_ERROR_KICK_NOW = 9;
     public static final int END_ERROR_KICKBAN_NOW = 10;
     public static final int END_ERROR_BAN_INIT = 11;
@@ -349,8 +348,6 @@ public abstract class AbstractGameFrame extends JFrame implements Runnable, Acti
                         endText = this.textManager.getText("Message_QuitGame");
                     } else if (this.endState == END_QUIT_REGISTER) {
                         endText = this.textManager.getText("Message_QuitGame_ToRegister");
-                    } else if (this.endState == END_QUIT_BUYCOINS) {
-                        endText = this.textManager.getText("Message_QuitGame_ToBuyCoins");
                     } else if (this.endState == END_OTHER) {
                         endText = this.endTextCustom;
                     } else if (this.endState == END_ERROR_KICK_NOW) {
@@ -467,7 +464,6 @@ public abstract class AbstractGameFrame extends JFrame implements Runnable, Acti
 
             this.loadingPanel.setActualProgress(0.5D);
             this.textManager = new TextManager(this.param, this.isDebug());
-            this.loadingPanel.init(this.param, this.textManager);
             if (startupDebug) {
                 this.printSUD("Loading texts...");
             }
@@ -757,7 +753,6 @@ public abstract class AbstractGameFrame extends JFrame implements Runnable, Acti
         params.put("server", server + ":" + port);
         params.put("locale", locale.toString());
         params.put("registerpage", "http://www.playforia.com/account/create/");
-        params.put("creditpage", "http://www.playforia.com/shop/buy/");
         params.put("userinfopage", "http://www.playforia.com/community/user/");
         params.put("userinfotarget", "_blank");
         params.put("userlistpage", "javascript:Playray.GameFaceGallery('%n','#99FF99','agolf','%s')");
