@@ -69,7 +69,7 @@ public class Launcher implements Callable<Integer> {
     }
 
     public static boolean isUsingCustomServer() {
-        return true; // instance.serverBox.isSelected();
+        return true;
     }
 
     public static void main(String... args) {

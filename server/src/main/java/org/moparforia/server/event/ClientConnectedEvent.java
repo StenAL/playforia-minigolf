@@ -1,7 +1,6 @@
 package org.moparforia.server.event;
 
 import io.netty.channel.Channel;
-import java.util.Random;
 import org.moparforia.server.Server;
 
 public class ClientConnectedEvent extends Event {
@@ -16,6 +15,6 @@ public class ClientConnectedEvent extends Event {
     public void process(Server server) {
         System.out.println("Client connected: " + channel);
         server.addChannel(channel);
-        channel.writeAndFlush("h 1\nc io " + new Random().nextInt(1000000000) + "\nc crt 250\nc ctr\n");
+        channel.writeAndFlush("h 1\nc crt 250\nc ctr\n");
     }
 }

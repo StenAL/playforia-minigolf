@@ -7,76 +7,6 @@ import com.aapeli.tools.Tools;
 
 public class GolfConnection implements SocketConnectionListener {
 
-    private static final String[] cipherCmds = new String[] {
-        "status\t",
-        "basicinfo\t",
-        "numberofusers\t",
-        "users\t",
-        "ownjoin\t",
-        "joinfromgame\t",
-        "say\t",
-        "logintype\t",
-        "login",
-        "lobbyselect\t",
-        "select\t",
-        "back",
-        "challenge\t",
-        "cancel\t",
-        "accept\t",
-        "cfail\t",
-        "nouser",
-        "nochall",
-        "cother",
-        "cbyother",
-        "refuse",
-        "afail",
-        "gsn\t",
-        "lobby\tnc\t",
-        "lobby\t",
-        "lobby",
-        "tracksetlist\t",
-        "tracksetlist",
-        "gamelist\t",
-        "full\t",
-        "add\t",
-        "change\t",
-        "remove\t",
-        "gameinfo\t",
-        "players",
-        "owninfo\t",
-        "game\tstarttrack\t",
-        "game\tstartturn\t",
-        "game\tstart",
-        "game\tbeginstroke\t",
-        "game\tendstroke\t",
-        "game\tresetvoteskip",
-        "game\t",
-        "game",
-        "quit",
-        "join\t",
-        "part\t",
-        "cspt\t",
-        "qmpt",
-        "cspc\t",
-        "jmpt\t",
-        "tracklist\t",
-        "Tiikoni",
-        "Leonardo",
-        "Ennaji",
-        "Hoeg",
-        "Darwin",
-        "Dante",
-        "ConTrick",
-        "Dewlor",
-        "Scope",
-        "SuperGenuis",
-        "Zwan",
-        "\tT !\t",
-        "\tcr\t",
-        "rnop",
-        "nop\t",
-        "error"
-    };
     private GameContainer gameContainer;
     private SocketConnection socketConnection;
     private String lastPacketSent;
@@ -128,7 +58,7 @@ public class GolfConnection implements SocketConnectionListener {
     public void notifyConnectionUp() {}
 
     protected boolean openSocketConnection() {
-        this.socketConnection = new SocketConnection(this.gameContainer.golfGameFrame, this, cipherCmds);
+        this.socketConnection = new SocketConnection(this.gameContainer.golfGameFrame, this);
         return this.socketConnection.openConnection();
     }
 
