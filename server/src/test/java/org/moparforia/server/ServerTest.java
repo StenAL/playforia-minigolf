@@ -37,11 +37,9 @@ public class ServerTest {
 
         // init
         String h = reader.readLine();
-        String cIo = reader.readLine();
         String cCrt = reader.readLine();
         String cCtr = reader.readLine();
         assertEquals("h 1", h);
-        assertTrue(cIo.matches("c io \\d+"));
         assertEquals("c crt 250", cCrt);
         assertEquals("c ctr", cCtr);
 

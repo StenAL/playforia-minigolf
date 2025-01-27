@@ -425,8 +425,6 @@ public class GamePanel extends Panel {
                 if (this.isSinglePlayerGame) {
                     this.gameContainer.lobbyPanel.requestTrackSetList();
                 }
-
-                this.gameContainer.golfGameFrame.gameFinished(this.playerCount > 1);
             }
         }
     }

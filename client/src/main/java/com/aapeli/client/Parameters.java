@@ -1,7 +1,6 @@
 package com.aapeli.client;
 
 import com.aapeli.tools.Tools;
-import java.awt.Component;
 import java.awt.Desktop;
 import java.io.IOException;
 import java.net.URI;
@@ -12,13 +11,8 @@ import org.moparforia.shared.Locale;
 public final class Parameters {
 
     private static final String LOCALHOST = "127.0.0.1";
-    private static final String PLAYFORIA_SITE_NAME = "playforia";
-    private static final String PLAYFORIA_QUIT_PAGE = "http://www.playforia.com/";
-    private static final String QUIT_TARGET = "_top";
-    private Component rootComponent;
     private String serverIp;
     private Locale locale;
-    private String siteName;
     private String username;
     private String session;
     private String urlRegisterPage;
@@ -26,12 +20,7 @@ public final class Parameters {
     private String urlTargetUserInfo;
     private String urlUserListPage;
     private String urlTargetUserList;
-    private String urlTellFriendPage;
-    private String urlTargetTellFriend;
-    private String json;
-    private boolean tellFriend;
     private int serverPort;
-    private URI uriCreditPage;
     private int anInt1455;
     private String[] aStringArray1456;
     private String aString1457;
@@ -42,10 +31,6 @@ public final class Parameters {
         this.params = params;
         this.anInt1455 = 0;
         this.init();
-    }
-
-    public void setRootComponent(Component rootComponent) {
-        this.rootComponent = rootComponent;
     }
 
     public static boolean getBooleanValue(String key) {
@@ -95,10 +80,6 @@ public final class Parameters {
         return this.locale;
     }
 
-    public String getSiteName() {
-        return this.siteName;
-    }
-
     public String getSession() {
         return this.session;
     }
@@ -136,7 +117,7 @@ public final class Parameters {
             }
 
             if (var2.startsWith("javascript:")) {
-                URI uri = this.toURI(Tools.replaceFirst(this.urlUserInfoPage, "%n", var1));
+                URI uri = this.toURI(this.urlUserInfoPage.replaceFirst("%n", var1));
                 if (uri == null) {
                     return false;
                 }
@@ -235,100 +216,31 @@ public final class Parameters {
         }
     }
 
-    public boolean showRegisterPage() {
-        return this.showUri(this.toURI(this.urlRegisterPage), null);
-    }
-
-    public void showCreditPurchasePage(boolean openInNewTab) {
-        this.showUri(this.uriCreditPage, openInNewTab ? "_blank" : null);
-    }
-
-    public boolean isCreditPurchasePageAvailable() {
-        return this.uriCreditPage != null;
-    }
-
-    public boolean callJavaScriptJSON(String json) {
-        if (this.debug) {
-            System.out.println("Parameters.callJavaScriptJSON(\"" + json + "\")");
-        }
-
-        if (this.json == null) {
-            return false;
-        } else {
-            try {
-                json = Tools.replaceAll(json, "'", "\\'");
-                String var2 = Tools.replaceFirst(this.json, "%o", "'" + json + "'");
-                URI uri = this.toURI(var2);
-                if (uri == null) {
-                    return false;
-                } else {
-                    this.showUri(uri, null);
-                    return true;
-                }
-            } catch (Exception e) {
-                return false;
-            }
-        }
-    }
-
-    public Component getRootComponent() {
-        return this.rootComponent;
-    }
-
     public void destroy() {
         this.serverIp = null;
         this.locale = null;
-        this.siteName = null;
         this.session = null;
         this.urlRegisterPage = null;
         this.urlUserInfoPage = null;
         this.urlTargetUserInfo = null;
         this.urlUserListPage = null;
         this.urlTargetUserList = null;
-        this.urlTellFriendPage = null;
-        this.urlTargetTellFriend = null;
-        this.json = null;
-        this.uriCreditPage = null;
         this.aStringArray1456 = null;
         this.aString1457 = null;
-    }
-
-    protected boolean getTellFriend() {
-        return this.tellFriend;
-    }
-
-    protected String getTellFriendPage() {
-        return this.urlTellFriendPage;
-    }
-
-    protected String getTellFriendTarget() {
-        return this.urlTargetTellFriend;
     }
 
     private void init() {
         this.serverIp = this.getParamServer();
         this.serverPort = this.getParamPort();
         this.locale = this.getParamLocale();
-        this.siteName = this.getParamSiteName();
         this.session = this.getParameter("session");
         this.urlRegisterPage = this.getParameter("registerpage");
-        this.uriCreditPage = this.toURI(this.getParameter("creditpage"));
         this.urlUserInfoPage = this.getParameter("userinfopage");
         this.urlTargetUserInfo = this.getParameter("userinfotarget");
         this.urlUserListPage = this.getParameter("userlistpage");
         this.urlTargetUserList = this.getParameter("userlisttarget");
-        this.tellFriend = Tools.getBoolean(this.getParameter("tellfriend"));
-        this.urlTellFriendPage = this.getParameter("tellfriendpage");
-        this.urlTargetTellFriend = this.getParameter("tellfriendtarget");
-        this.json = this.getParameter("json");
         this.username = this.getParameter("username");
         this.debug = Tools.getBoolean(this.getParameter("verbose"));
-        if (this.json != null) {
-            this.json = Tools.replaceFirst(this.json, "'%o'", "%o");
-            if (!this.json.toLowerCase().startsWith("javascript:")) {
-                this.json = "javascript:" + this.json;
-            }
-        }
     }
 
     private String getParamServer() {
@@ -366,14 +278,6 @@ public final class Parameters {
         }
 
         return null;
-    }
-
-    private String getParamSiteName() {
-        String siteName = this.getParameter("sitename");
-        if (siteName != null) {
-            return siteName;
-        }
-        return PLAYFORIA_SITE_NAME;
     }
 
     private URI toURI(String s) {
@@ -429,8 +333,8 @@ public final class Parameters {
             } else {
                 if (var4.startsWith("javascript:")) {
                     var8 = this.urlUserListPage;
-                    var8 = Tools.replaceFirst(var8, "%n", result != null ? result : "");
-                    var8 = Tools.replaceFirst(var8, "%s", subgame != null ? subgame : "");
+                    var8 = var8.replaceFirst("%n", result != null ? result : "");
+                    var8 = var8.replaceFirst("%s", subgame != null ? subgame : "");
                     URI uri = this.toURI(var8);
                     if (uri == null) {
                         return;

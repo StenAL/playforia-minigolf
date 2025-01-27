@@ -1065,9 +1065,6 @@
 	<str key="Limit_OnlyWithCreditsNote">
 		<![CDATA[(endast mynt)]]>
 	</str>
-	<str key="Loader_AdClickNote">
-		<![CDATA[(att klicka på reklamen avbryter inte laddningen av spelet)]]>
-	</str>
 	<str key="Loader_Button_MorePaymentOptions">
 		<![CDATA[Fler betalningsalternativ]]>
 	</str>
@@ -1263,9 +1260,6 @@
 	<str key="Message_QuitGame">
 		<![CDATA[Lämnar spelet...]]>
 	</str>
-	<str key="Message_QuitGame_ToBuyCoins">
-		<![CDATA[Går till myntförsäljningssidan...]]>
-	</str>
 	<str key="Message_QuitGame_ToRegister">
 		<![CDATA[Förflyttas till sidan för nytt konto...]]>
 	</str>
@@ -1313,84 +1307,6 @@
 	</str>
 	<str key="NeedAccount_Title">
 		<![CDATA[Det krävs ett Playraykonto]]>
-	</str>
-	<str key="OrderFrame_AfterOrderInstructions">
-		<![CDATA[Efter att ha skickat ett sms, vänta, stäng inte fönstret. Stäng detta fönster endast om du inte vill skicka sms.]]>
-	</str>
-	<str key="OrderFrame_Bought">
-		<![CDATA[Köp godkänt]]>
-	</str>
-	<str key="OrderFrame_Error">
-		<![CDATA[Fel uppstod]]>
-	</str>
-	<str key="OrderFrame_Error_Info">
-		<![CDATA[Tjänsten är otillgänglig för tillfället. Vi arbetar på att lösa problemet så fort som möjligt, försök igen senare. Stäng detta fönster för att fortsätta.]]>
-	</str>
-	<str key="OrderFrame_Instructions">
-		<![CDATA[Skicka meddelandet <br><center><big><strong>%1</strong></big><br> till numret <strong>%2</strong></center><br><br><small>Meddelandet kostar %1 och meddelandet fungerar med följande operatörer: %1</small>]]>
-	</str>
-	<str key="OrderFrame_TimeOut">
-		<![CDATA[Erbjudande tidavbröts]]>
-	</str>
-	<str key="OrderFrame_TimeOutNote">
-		<![CDATA[Denna beställning måste göras inom %1, efter detta avbryts erbjudandet automatiskt.]]>
-	</str>
-	<str key="OrderFrame_TimeOut_Info">
-		<![CDATA[Detta köp kan inte utföras längre. Stäng detta fönster för att forsätta.]]>
-	</str>
-	<str key="OrderFrame_Title">
-		<![CDATA[Gör en SMS-beställning]]>
-	</str>
-	<str key="OrderFrame_Wait">
-		<![CDATA[Vänta en stund...]]>
-	</str>
-	<str key="PurchaseFrame_ActionOpeningCreditPurchase">
-		<![CDATA[Öppnar Myntsidan...]]>
-	</str>
-	<str key="PurchaseFrame_ActionProductPurchase">
-		<![CDATA[Vänta...]]>
-	</str>
-	<str key="PurchaseFrame_ActionRefreshingCredits">
-		<![CDATA[Förfriskar Myntkontot...]]>
-	</str>
-	<str key="PurchaseFrame_ButtonGetCredits">
-		<![CDATA[Skaffa Mynt]]>
-	</str>
-	<str key="PurchaseFrame_ButtonRefresh">
-		<![CDATA[Förfriska Myntkontot]]>
-	</str>
-	<str key="PurchaseFrame_Credits">
-		<![CDATA[Mynt kvar:]]>
-	</str>
-	<str key="PurchaseFrame_Default_ButtonBack">
-		<![CDATA[Återvänd till lobbyn]]>
-	</str>
-	<str key="PurchaseFrame_Default_ButtonContinue">
-		<![CDATA[Fortsätt till spelet]]>
-	</str>
-	<str key="PurchaseFrame_Default_FrameTitle">
-		<![CDATA[Fortsätt till spelet]]>
-	</str>
-	<str key="PurchaseFrame_Error_FrameTitle">
-		<![CDATA[Error]]>
-	</str>
-	<str key="PurchaseFrame_Error_Message">
-		<![CDATA[For some reason, this product is not currently available with credits. Please try again later.]]>
-	</str>
-	<str key="PurchaseFrame_NoProductDescription">
-		<![CDATA[(Ingen beskrivning tillgänglig för '%1')]]>
-	</str>
-	<str key="PurchaseFrame_PurchaseFailed">
-		<![CDATA[Behandlingen misslyckades, stäng denna ruta och försök pånytt.]]>
-	</str>
-	<str key="PurchaseFrame_PurchaseNoBalance">
-		<![CDATA[Behandlingen misslyckades, det finns inte tillräckligt med Mynt på ditt konto.]]>
-	</str>
-	<str key="PurchaseFrame_PurchaseOk">
-		<![CDATA[Behandlingen färdig, du kan fortsätta med att stänga denna ruta.]]>
-	</str>
-	<str key="PurchaseFrame_RefreshAfterGet">
-		<![CDATA[Klicka på knappen nedanom för att förfriska Myntkontot efter att du köpt Mynten.]]>
 	</str>
 	<str key="QuitConfirm_ButtonNo">
 		<![CDATA[Nej]]>
@@ -1463,42 +1379,6 @@
 	</str>
 	<str key="ServerSay_YouAreMuted">
 		<![CDATA[Du är för närvarande tystad av sheriff i 1% minuter, andra kan inte se dina chattinlägg.]]>
-	</str>
-	<str key="TellFriend_ButtonClose">
-		<singular><![CDATA[Stäng]]></singular>
-	</str>
-	<str key="TellFriend_ButtonSend">
-		<singular><![CDATA[Skicka]]></singular>
-	</str>
-	<str key="TellFriend_EmailAdd">
-		<singular><![CDATA[Fler e-postadresser...]]></singular>
-	</str>
-	<str key="TellFriend_EmailHelp">
-		<singular><![CDATA[(kamratens e-postadress)]]></singular>
-	</str>
-	<str key="TellFriend_EmailNotSent">
-		<singular><![CDATA[Ett fel uppstod då e-brevet skickades. Vi beklagar detta och kommer inte att störa dig mer angående detta ärende.]]></singular>
-	</str>
-	<str key="TellFriend_EmailRemove">
-		<singular><![CDATA[X]]></singular>
-	</str>
-	<str key="TellFriend_EmailSent">
-		<singular><![CDATA[E-brev skickat, tack!]]></singular>
-	</str>
-	<str key="TellFriend_EmailTitle">
-		<singular><![CDATA[E-postadresser:]]></singular>
-	</str>
-	<str key="TellFriend_ExtButton">
-		<singular><![CDATA[Tipsa en kompis]]></singular>
-	</str>
-	<str key="TellFriend_Info">
-		<singular><![CDATA[Tipsa dina kamrater om detta spel, det tar endast några sekunder. Skriv in dina kamraters e-postadresser nedan och klicka på "Skicka". (Vi sparar inte adresserna som du skriver in här och vi använder inte dem på nytt, e-brevet skickas endast en gång.)]]></singular>
-	</str>
-	<str key="TellFriend_MessageTitle">
-		<singular><![CDATA[Bifogat meddelande (frivilligt):]]></singular>
-	</str>
-	<str key="TellFriend_Title">
-		<singular><![CDATA[Tipsa en kompis !]]></singular>
 	</str>
 	<str key="Tournament_QuitGameButton">
 		<![CDATA[Avsluta spel]]>

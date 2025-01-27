@@ -1065,9 +1065,6 @@
 	<str key="Limit_OnlyWithCreditsNote">
 		<![CDATA[(vain taateleilla)]]>
 	</str>
-	<str key="Loader_AdClickNote">
-		<![CDATA[(mainoksen klikkaaminen ei keskeytä pelin latautumista)]]>
-	</str>
 	<str key="Loader_Button_MorePaymentOptions">
 		<![CDATA[Lisää maksuvaihtoehtoja]]>
 	</str>
@@ -1263,9 +1260,6 @@
 	<str key="Message_QuitGame">
 		<![CDATA[Poistutaan...]]>
 	</str>
-	<str key="Message_QuitGame_ToBuyCoins">
-		<![CDATA[Siirrytään sivulle Taatelien osto...]]>
-	</str>
 	<str key="Message_QuitGame_ToRegister">
 		<![CDATA[Siirrytään sivulle Tunnuksen luonti...]]>
 	</str>
@@ -1313,84 +1307,6 @@
 	</str>
 	<str key="NeedAccount_Title">
 		<![CDATA[Tarvitset Aapeli-tunnuksen]]>
-	</str>
-	<str key="OrderFrame_AfterOrderInstructions">
-		<![CDATA[Tekstiviestin lähetyksen jälkeen odota, älä sulje tätä ikkunaa! Sulje tämä ikkuna ainoastaan jos et halua lähettää tilausta.]]>
-	</str>
-	<str key="OrderFrame_Bought">
-		<![CDATA[Tilaus hyväksytty]]>
-	</str>
-	<str key="OrderFrame_Error">
-		<![CDATA[Odottamaton virhe]]>
-	</str>
-	<str key="OrderFrame_Error_Info">
-		<![CDATA[Valitettavasti palvelu on väliaikaisesti saavuttamattomissa. Asia korjataan mahdollisimman nopeasti, yritä myöhemmin uudelleen. Sulje tämä ikkuna palataksesi peliin.]]>
-	</str>
-	<str key="OrderFrame_Instructions">
-		<![CDATA[Lähetä viesti<br><center><big><strong>%1</strong></big><br>numeroon <strong>%2</strong></center><br><br><small>Viestin hinta on %3 ja se toimii seuraavissa liittymissä: %4</small>]]>
-	</str>
-	<str key="OrderFrame_TimeOut">
-		<![CDATA[Tilausaika päättyi]]>
-	</str>
-	<str key="OrderFrame_TimeOutNote">
-		<![CDATA[Tämä tilaus pitää tehdä ajassa %1, muutoin tarjous peruuntuu automaattisesti]]>
-	</str>
-	<str key="OrderFrame_TimeOut_Info">
-		<![CDATA[Lisäpallojen tilausaika umpeutui. Sulje tämä ikkuna palataksesi peliin.]]>
-	</str>
-	<str key="OrderFrame_Title">
-		<![CDATA[Tekstiviestitilaus]]>
-	</str>
-	<str key="OrderFrame_Wait">
-		<![CDATA[Pieni hetki...]]>
-	</str>
-	<str key="PurchaseFrame_ActionOpeningCreditPurchase">
-		<![CDATA[Avataan taatelinostosivua...]]>
-	</str>
-	<str key="PurchaseFrame_ActionProductPurchase">
-		<![CDATA[Odota hetki...]]>
-	</str>
-	<str key="PurchaseFrame_ActionRefreshingCredits">
-		<![CDATA[Päivitetään taatelitiliä...]]>
-	</str>
-	<str key="PurchaseFrame_ButtonGetCredits">
-		<![CDATA[Hanki taateleita]]>
-	</str>
-	<str key="PurchaseFrame_ButtonRefresh">
-		<![CDATA[Päivitä taatelitili]]>
-	</str>
-	<str key="PurchaseFrame_Credits">
-		<![CDATA[Taateleita tilillä:]]>
-	</str>
-	<str key="PurchaseFrame_Default_ButtonBack">
-		<![CDATA[Palaa aulaan]]>
-	</str>
-	<str key="PurchaseFrame_Default_ButtonContinue">
-		<![CDATA[Jatka peliin]]>
-	</str>
-	<str key="PurchaseFrame_Default_FrameTitle">
-		<![CDATA[Jatka peliin]]>
-	</str>
-	<str key="PurchaseFrame_Error_FrameTitle">
-		<![CDATA[Virhe]]>
-	</str>
-	<str key="PurchaseFrame_Error_Message">
-		<![CDATA[Tämä tuote ei poikkeuksellisesti ole tällä hetkellä ostettavissa taateleilla. Kokeile myöhemmin uudestaan.]]>
-	</str>
-	<str key="PurchaseFrame_NoProductDescription">
-		<![CDATA[(Ei kuvausta tuotteelle '%1')]]>
-	</str>
-	<str key="PurchaseFrame_PurchaseFailed">
-		<![CDATA[Ostos epäonnistui tuntemattomasta syystä, sulje tämä ikkuna ja yritä uudelleen.]]>
-	</str>
-	<str key="PurchaseFrame_PurchaseNoBalance">
-		<![CDATA[Ostos epäonnistui, taatelitililläsi ei ole tarpeeksi taateleita.]]>
-	</str>
-	<str key="PurchaseFrame_PurchaseOk">
-		<![CDATA[Ostos suoritettu, voit jatkaa sulkemalla tämän ikkunan.]]>
-	</str>
-	<str key="PurchaseFrame_RefreshAfterGet">
-		<![CDATA[Ostettuasi taateteleita, paina alla olevaa painiketta päivittääksesi taatelitilisi.]]>
 	</str>
 	<str key="QuitConfirm_ButtonNo">
 		<![CDATA[Ei]]>
@@ -1463,42 +1379,6 @@
 	</str>
 	<str key="ServerSay_YouAreMuted">
 		<![CDATA[Sinut on tällä hetkellä mykistetty sheriffin toimesta vielä %1 minuutiksi, muut eivät näe viestejäsi]]>
-	</str>
-	<str key="TellFriend_ButtonClose">
-		<singular><![CDATA[Sulje]]></singular>
-	</str>
-	<str key="TellFriend_ButtonSend">
-		<singular><![CDATA[Lähetä]]></singular>
-	</str>
-	<str key="TellFriend_EmailAdd">
-		<singular><![CDATA[Lisää osoitteita...]]></singular>
-	</str>
-	<str key="TellFriend_EmailHelp">
-		<singular><![CDATA[(kaverin sähköposti)]]></singular>
-	</str>
-	<str key="TellFriend_EmailNotSent">
-		<singular><![CDATA[Postia lähetettäessä tapahtui virhe. Pahoittelemme tapahtunutta emmekä häiritse sinua aiheella enempää.]]></singular>
-	</str>
-	<str key="TellFriend_EmailRemove">
-		<singular><![CDATA[X]]></singular>
-	</str>
-	<str key="TellFriend_EmailSent">
-		<singular><![CDATA[Sähköposti lähetetty, kiitos!]]></singular>
-	</str>
-	<str key="TellFriend_EmailTitle">
-		<singular><![CDATA[Sähköpostiosoitteet:]]></singular>
-	</str>
-	<str key="TellFriend_ExtButton">
-		<singular><![CDATA[Kerro kaverille]]></singular>
-	</str>
-	<str key="TellFriend_Info">
-		<singular><![CDATA[Kerro kavereille tästä pelistä, aikaa menee vain hetki. Kirjoita kaveriesi sähköpostiosoitteet alle ja klikkaa "Lähetä"-painiketta. (Emme talleta tai uudelleenkäytä antamiasi sähköpostiosoitteita, postia lähetetään vain kerran.)]]></singular>
-	</str>
-	<str key="TellFriend_MessageTitle">
-		<singular><![CDATA[Mukaan liitettävä viesti (vapaaehtoinen):]]></singular>
-	</str>
-	<str key="TellFriend_Title">
-		<singular><![CDATA[Kerro kaverille!]]></singular>
 	</str>
 	<str key="Tournament_QuitGameButton">
 		<![CDATA[Poistu pelistä]]>

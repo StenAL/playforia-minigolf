@@ -6,26 +6,22 @@ import com.aapeli.client.SoundManager;
 import com.aapeli.client.StringDraw;
 import com.aapeli.client.TextManager;
 import com.aapeli.connection.SocketConnection;
-import com.aapeli.tools.QuickTimer;
-import com.aapeli.tools.QuickTimerListener;
 import com.aapeli.tools.Tools;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Desktop;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import org.moparforia.shared.Locale;
 
-public abstract class AbstractGameFrame extends JFrame implements Runnable, ActionListener, QuickTimerListener {
+public abstract class AbstractGameFrame extends JFrame implements Runnable, ActionListener {
 
     public static final int TEXT_CENTER = 0;
     public static final int TEXT_LOWERLEFT = 1;
@@ -37,7 +33,6 @@ public abstract class AbstractGameFrame extends JFrame implements Runnable, Acti
     public static final int END_QUIT = 5;
     public static final int END_OTHER = 6;
     public static final int END_QUIT_REGISTER = 7;
-    public static final int END_QUIT_BUYCOINS = 8;
     public static final int END_ERROR_KICK_NOW = 9;
     public static final int END_ERROR_KICKBAN_NOW = 10;
     public static final int END_ERROR_BAN_INIT = 11;
@@ -68,7 +63,6 @@ public abstract class AbstractGameFrame extends JFrame implements Runnable, Acti
     private boolean destroyed;
     private boolean ready;
     private RetryCanvas retryCanvas;
-    private QuickTimer popupTimer;
     private SocketConnection socketConnection;
     private Image image;
     private Graphics graphics;
@@ -79,7 +73,6 @@ public abstract class AbstractGameFrame extends JFrame implements Runnable, Acti
         super();
         this.verbose = verbose;
         this.param = this.getParameters(server, locale, username, port, verbose, norandom);
-        this.param.setRootComponent(this);
         this.setSize(WIDTH, HEIGHT);
         this.init();
         this.start();
@@ -120,8 +113,6 @@ public abstract class AbstractGameFrame extends JFrame implements Runnable, Acti
         }
     }
 
-    public void stop() {}
-
     public void destroy() {
         this.destroyed = true;
         this.removeLoadingPanel();
@@ -148,7 +139,6 @@ public abstract class AbstractGameFrame extends JFrame implements Runnable, Acti
         this.soundManager = null;
         this.imageManager = null;
         this.textManager = null;
-        this.param = null;
         if (this.graphics != null) {
             this.graphics.dispose();
             this.graphics = null;
@@ -356,8 +346,6 @@ public abstract class AbstractGameFrame extends JFrame implements Runnable, Acti
                         endText = this.textManager.getText("Message_QuitGame");
                     } else if (this.endState == END_QUIT_REGISTER) {
                         endText = this.textManager.getText("Message_QuitGame_ToRegister");
-                    } else if (this.endState == END_QUIT_BUYCOINS) {
-                        endText = this.textManager.getText("Message_QuitGame_ToBuyCoins");
                     } else if (this.endState == END_OTHER) {
                         endText = this.endTextCustom;
                     } else if (this.endState == END_ERROR_KICK_NOW) {
@@ -458,9 +446,7 @@ public abstract class AbstractGameFrame extends JFrame implements Runnable, Acti
 
         this.initGame(this.param);
         this.loadingPanel.setBackground(this.getBackground());
-        this.callJavaScriptJSON("{\"loading\":\"started\"}");
         if (this.endState == 0 && !this.destroyed) {
-            int time1 = (int) (System.currentTimeMillis() - startTime);
             boolean startupDebug = false;
             String startupDebugParameter = this.param.getParameter("startupdebug");
             if (startupDebugParameter != null && Tools.getBoolean(startupDebugParameter)) {
@@ -468,201 +454,147 @@ public abstract class AbstractGameFrame extends JFrame implements Runnable, Acti
                 this.printSUD("StartUp Debug enabled!");
             }
 
-            AdCanvas adCanvas = AdCanvas.create(this, this.param);
-            if (adCanvas != null) {
-                if (startupDebug) {
-                    this.printSUD("Loading ad-image...");
-                }
-
-                this.loadingPanel.setActualProgress(0.25D);
-                adCanvas.method212();
-
-                while (!adCanvas.method213()) {
-                    Tools.sleep(50L);
-                    if (this.destroyed) {
-                        adCanvas.method217();
-                        return;
-                    }
-                }
-
-                this.loadingPanel.method466(adCanvas, Tools.getBoolean(this.param.getParameter("ad_clicktocontinue")));
-                if (startupDebug) {
-                    this.printSUD("...done");
-                }
-            } else if (startupDebug) {
-                this.printSUD("No ad-image");
-            }
-
-            int time2 = (int) (System.currentTimeMillis() - startTime);
             if (startupDebug) {
                 this.printSUD("Creating text manager");
             }
 
             this.loadingPanel.setActualProgress(0.5D);
             this.textManager = new TextManager(this.param, this.isDebug());
-            this.loadingPanel.init(this.param, this.textManager);
             if (startupDebug) {
                 this.printSUD("Loading texts...");
             }
 
             this.textsLoadedNotify(this.textManager);
-            if (!this.destroyed) {
+            if (startupDebug) {
+                this.printSUD("...done");
+            }
+
+            if (System.currentTimeMillis() < startTime + 3000L) {
+                this.loadingPanel.method468(2.0D);
+            }
+
+            if (startupDebug) {
+                this.printSUD("Creating sound manager");
+            }
+
+            this.loadingPanel.setLoadingMessage(this.textManager.getText("Loader_LoadingGfxSfx"));
+            this.soundManager = new SoundManager(true, this.isDebug());
+
+            this.loadingPanel.addProgress(0.15D);
+            if (startupDebug) {
+                this.printSUD("Defining sounds...");
+            }
+
+            this.defineSounds(this.soundManager);
+            if (startupDebug) {
+                this.printSUD("...done");
+            }
+
+            if (startupDebug) {
+                this.printSUD("Creating image manager");
+            }
+
+            this.imageManager = new ImageManager(this.isDebug());
+
+            this.loadingPanel.addProgress(0.05D);
+            this.defineImages(this.imageManager);
+            if (startupDebug) {
+                this.printSUD("Loading images...");
+            }
+
+            this.loadingPanel.setActualProgress(0.7D + this.imageManager.getImageLoadProgress() * 0.15D);
+
+            if (startupDebug) {
+                this.printSUD("...done");
+            }
+
+            if (startupDebug) {
+                this.printSUD("Creating images...");
+            }
+
+            this.loadingPanel.addProgress(0.05D);
+            this.createImages();
+            if (startupDebug) {
+                this.printSUD("...done");
+            }
+
+            if (startupDebug) {
+                this.printSUD("Defining secondary images");
+            }
+
+            this.soundManager.startLoading();
+            if (System.currentTimeMillis() < startTime + 7000L) {
+                this.loadingPanel.method468(2.0D);
+            }
+
+            if (startupDebug) {
+                this.printSUD("Connecting to server...");
+            }
+
+            this.loadingPanel.setLoadingMessage(this.textManager.getText("Message_Connecting"));
+            this.loadingPanel.setActualProgress(1.0D);
+            this.connectToServer();
+            if (startupDebug) {
+                this.printSUD("...done");
+            }
+
+            if (this.endState == 0) {
+                int readyTime = (int) (System.currentTimeMillis() - startTime);
+                this.ready = true;
+                if (startupDebug) {
+                    this.printSUD("Waiting loader screen to finish...");
+                }
+
+                this.loadingPanel.method468(5.0D);
+                this.loadingPanel.method470();
+
+                LoadingPanel loadingPanel;
+                do {
+                    loadingPanel = this.loadingPanel;
+                    if (this.destroyed || loadingPanel == null) {
+                        return;
+                    }
+
+                    Tools.sleep(50L);
+                } while (!loadingPanel.isLoaded());
+
+                int finishedTime = (int) (System.currentTimeMillis() - startTime);
                 if (startupDebug) {
                     this.printSUD("...done");
                 }
 
-                String adInfo = null;
-                if (adCanvas != null && adCanvas.method216()) {
-                    adInfo = " " + this.textManager.getText("Loader_AdClickNote");
+                if (this.isDebug()) {
+                    System.out.println("AbstractGameFrame.sendLoadTimes(" + readyTime + "," + finishedTime + ")");
                 }
+                this.writeMetadataLog1("clientconnect", "loadtime:i:" + readyTime + "^loadertime:i:" + finishedTime);
+                if (this.endState == 0 && !this.destroyed) {
+                    this.remove(this.loadingPanel);
+                    this.loadingPanel.destroy();
+                    this.loadingPanel = null;
+                    if (startupDebug) {
+                        this.printSUD("Adding game content...");
+                    }
 
-                int time3 = (int) (System.currentTimeMillis() - startTime);
-                if (System.currentTimeMillis() < startTime + 3000L) {
-                    this.loadingPanel.method468(2.0D);
-                }
+                    this.contentPanel = new ContentPanel(this);
+                    if (this.backgroundImageKey != null) {
+                        this.contentPanel.setBackground(
+                                this.imageManager,
+                                this.backgroundImageKey,
+                                this.backgroundXOffset,
+                                this.backgroundYOffset);
+                    }
 
-                this.callJavaScriptJSON("{\"loading\":\"inprogress\"}");
-                if (startupDebug) {
-                    this.printSUD("Creating sound manager");
-                }
-
-                this.loadingPanel.setLoadingMessage(
-                        this.textManager.getText("Loader_LoadingGfxSfx") + (adInfo != null ? adInfo : ""));
-                this.soundManager = new SoundManager(true, this.isDebug());
-
-                this.loadingPanel.addProgress(0.15D);
-                if (startupDebug) {
-                    this.printSUD("Defining sounds...");
-                }
-
-                this.defineSounds(this.soundManager);
-                if (!this.destroyed) {
-                    int time4 = (int) (System.currentTimeMillis() - startTime);
+                    this.contentPanel.setVisible(false);
+                    this.add(this.contentPanel);
                     if (startupDebug) {
                         this.printSUD("...done");
                     }
 
                     if (startupDebug) {
-                        this.printSUD("Creating image manager");
+                        this.printSUD("Moving control to game itself");
                     }
 
-                    this.imageManager = new ImageManager(this.isDebug());
-
-                    this.loadingPanel.addProgress(0.05D);
-                    this.defineImages(this.imageManager);
-                    if (!this.destroyed) {
-                        if (startupDebug) {
-                            this.printSUD("Loading images...");
-                        }
-
-                        this.loadingPanel.setActualProgress(0.7D + this.imageManager.getImageLoadProgress() * 0.15D);
-
-                        int time5 = (int) (System.currentTimeMillis() - startTime);
-                        if (startupDebug) {
-                            this.printSUD("...done");
-                        }
-
-                        if (startupDebug) {
-                            this.printSUD("Creating images...");
-                        }
-
-                        this.loadingPanel.addProgress(0.05D);
-                        this.createImages();
-                        if (startupDebug) {
-                            this.printSUD("...done");
-                        }
-
-                        if (startupDebug) {
-                            this.printSUD("Defining secondary images");
-                        }
-
-                        if (!this.destroyed) {
-                            this.soundManager.startLoading();
-                            if (System.currentTimeMillis() < startTime + 7000L) {
-                                this.loadingPanel.method468(2.0D);
-                            }
-
-                            if (!this.destroyed) {
-                                int time6 = (int) (System.currentTimeMillis() - startTime);
-                                if (startupDebug) {
-                                    this.printSUD("Connecting to server...");
-                                }
-
-                                this.loadingPanel.setLoadingMessage(this.textManager.getText("Message_Connecting")
-                                        + (adInfo != null ? adInfo : ""));
-                                this.loadingPanel.setActualProgress(1.0D);
-                                this.connectToServer();
-                                if (startupDebug) {
-                                    this.printSUD("...done");
-                                }
-
-                                if (this.endState == 0) {
-                                    int readyTime = (int) (System.currentTimeMillis() - startTime);
-                                    this.ready = true;
-                                    if (startupDebug) {
-                                        this.printSUD("Waiting loader screen to finish...");
-                                    }
-
-                                    this.callJavaScriptJSON("{\"loading\":\"finished\"}");
-                                    this.loadingPanel.method468(5.0D);
-                                    this.loadingPanel.method470();
-
-                                    LoadingPanel loadingPanel;
-                                    do {
-                                        loadingPanel = this.loadingPanel;
-                                        if (this.destroyed || loadingPanel == null) {
-                                            return;
-                                        }
-
-                                        Tools.sleep(50L);
-                                    } while (!loadingPanel.isLoaded());
-
-                                    int finishedTime = (int) (System.currentTimeMillis() - startTime);
-                                    if (startupDebug) {
-                                        this.printSUD("...done");
-                                    }
-
-                                    this.sendLoadTimes(
-                                            readyTime, finishedTime, time1, time2, time3, time4, time5, time6);
-                                    this.writeMetadataLog1(
-                                            "clientconnect",
-                                            "loadtime:i:" + readyTime + "^loadertime:i:" + finishedTime);
-                                    this.loadingPanel.displayButtons();
-                                    if (this.endState == 0 && !this.destroyed) {
-                                        this.remove(this.loadingPanel);
-                                        this.loadingPanel.destroy();
-                                        this.loadingPanel = null;
-                                        if (!this.destroyed) {
-                                            if (startupDebug) {
-                                                this.printSUD("Adding game content...");
-                                            }
-
-                                            this.contentPanel = new ContentPanel(this);
-                                            if (this.backgroundImageKey != null) {
-                                                this.contentPanel.setBackground(
-                                                        this.imageManager,
-                                                        this.backgroundImageKey,
-                                                        this.backgroundXOffset,
-                                                        this.backgroundYOffset);
-                                            }
-
-                                            this.contentPanel.setVisible(false);
-                                            this.add(this.contentPanel);
-                                            if (startupDebug) {
-                                                this.printSUD("...done");
-                                            }
-
-                                            if (startupDebug) {
-                                                this.printSUD("Moving control to game itself");
-                                            }
-
-                                            this.gameReady();
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
+                    this.gameReady();
                 }
             }
         }
@@ -679,10 +611,6 @@ public abstract class AbstractGameFrame extends JFrame implements Runnable, Acti
                 e.printStackTrace();
             }
         }
-    }
-
-    public void qtFinished() {
-        this.allowExternalPopups();
     }
 
     public void setBackground(String imageKey) {
@@ -787,25 +715,6 @@ public abstract class AbstractGameFrame extends JFrame implements Runnable, Acti
 
     public abstract boolean isDebug();
 
-    public boolean callJavaScriptJSON(String json) {
-        return this.param.callJavaScriptJSON(json);
-    }
-
-    public void blockExternalPopups() {
-        this.resetPopupTimer();
-        this.callJavaScriptJSON("{\"block\":\"true\"}");
-    }
-
-    public void blockExternalPopups(int var1) {
-        this.blockExternalPopups();
-        this.popupTimer = new QuickTimer(var1, this);
-    }
-
-    public void allowExternalPopups() {
-        this.resetPopupTimer();
-        this.callJavaScriptJSON("{\"block\":\"false\"}");
-    }
-
     public void setConnectionReference(SocketConnection var1) {
         this.socketConnection = var1;
     }
@@ -832,18 +741,12 @@ public abstract class AbstractGameFrame extends JFrame implements Runnable, Acti
         }
         params = new HashMap<>();
         params.put("initmessage", "Loading game...");
-        params.put(
-                "ld_page",
-                "javascript:Playray.Notify.delegate({ jvm: { version: '%v', vendor: '%w', t1: '%r', t2: '%f' } })");
         params.put("server", server + ":" + port);
         params.put("locale", locale.toString());
-        params.put("sitename", "playray");
         params.put("registerpage", "http://www.playforia.com/account/create/");
-        params.put("creditpage", "http://www.playforia.com/shop/buy/");
         params.put("userinfopage", "http://www.playforia.com/community/user/");
         params.put("userinfotarget", "_blank");
         params.put("userlistpage", "javascript:Playray.GameFaceGallery('%n','#99FF99','agolf','%s')");
-        params.put("json", "Playray.Notify.delegate(%o)");
         params.put("verbose", Boolean.toString(verbose));
         params.put("norandom", Boolean.toString(norandom));
         params.put("username", username);
@@ -856,68 +759,6 @@ public abstract class AbstractGameFrame extends JFrame implements Runnable, Acti
             this.remove(var1);
             var1.destroy();
             this.loadingPanel = null;
-        }
-    }
-
-    private void sendLoadTimes(
-            int readyTime, int finishedTime, int time1, int time2, int time3, int time4, int time5, int time6) {
-        if (this.isDebug()) {
-            System.out.println("AbstractGameFrame.sendLoadTimes(" + readyTime + "," + finishedTime + ")");
-        }
-
-        try {
-            String loadTimesPage = this.param.getParameter("ld_page");
-            if (loadTimesPage == null) {
-                return;
-            }
-
-            if (!loadTimesPage.toLowerCase().startsWith("javascript:")) {
-                return;
-            }
-
-            String javaVersion = this.getSystemProperty("java.version");
-            String javaVendor = this.getSystemProperty("java.vendor");
-            if (javaVendor.length() > 128) {
-                javaVendor = javaVendor.substring(0, 128);
-            }
-
-            String queryUrl = Tools.replaceFirst(loadTimesPage, "%v", javaVersion);
-            queryUrl = Tools.replaceFirst(queryUrl, "%w", javaVendor);
-            queryUrl = Tools.replaceFirst(queryUrl, "%r", "" + readyTime);
-            queryUrl = Tools.replaceFirst(queryUrl, "%f", "" + finishedTime);
-            queryUrl = Tools.replaceFirst(queryUrl, "%1", "" + time1);
-            queryUrl = Tools.replaceFirst(queryUrl, "%2", "" + time2);
-            queryUrl = Tools.replaceFirst(queryUrl, "%3", "" + time3);
-            queryUrl = Tools.replaceFirst(queryUrl, "%4", "" + time4);
-            queryUrl = Tools.replaceFirst(queryUrl, "%5", "" + time5);
-            queryUrl = Tools.replaceFirst(queryUrl, "%6", "" + time6);
-            URI uri = new URI(queryUrl);
-            if (this.isDebug()) {
-                System.out.println("AbstractGameFrame.sendLoadTimes(...): Displaying page \"" + uri + "\"");
-            }
-
-            Desktop.getDesktop().browse(uri);
-        } catch (Exception e) {
-        }
-    }
-
-    private String getSystemProperty(String key) {
-        try {
-            String result = System.getProperty(key);
-            if (result != null) {
-                return result;
-            }
-        } catch (Exception | Error e) {
-        }
-
-        return "";
-    }
-
-    private void resetPopupTimer() {
-        QuickTimer var1 = this.popupTimer;
-        this.popupTimer = null;
-        if (var1 != null) {
-            var1.stopAll();
         }
     }
 }

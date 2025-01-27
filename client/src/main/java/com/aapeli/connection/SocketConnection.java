@@ -32,13 +32,9 @@ public final class SocketConnection implements Runnable {
     public static final int STATE_DOWN = 3;
     public static final int STATE_DISCONNECTED = 4;
 
-    /* Other Constants */
-    public static final int CIPHER_MAGIC_DEFAULT = 4;
-
     private AbstractGameFrame gameFrame;
     private Parameters params;
     private SocketConnectionListener socketConnectionListener;
-    private GameCipher gameCipher;
     private int state;
     private int disconnectReason;
     private boolean closed;
@@ -53,32 +49,13 @@ public final class SocketConnection implements Runnable {
     private List<String> metadataLogs;
     private long numReceivedGamePackets;
     private long connActivityTime;
-    private ConnCipher connCipher;
     private Thread thread;
 
-    public SocketConnection(
-            AbstractGameFrame gameFrame, SocketConnectionListener socketConnectionListener, String[] gameCipherCmds) {
-        this(gameFrame, gameFrame.param, socketConnectionListener, gameCipherCmds);
-    }
-
-    private SocketConnection(
-            AbstractGameFrame gameFrame,
-            Parameters params,
-            SocketConnectionListener socketConnectionListener,
-            String[] gameCipherCmds) {
+    public SocketConnection(AbstractGameFrame gameFrame, SocketConnectionListener socketConnectionListener) {
         this.gameFrame = gameFrame;
-        this.params = params;
+        this.params = gameFrame.param;
         this.socketConnectionListener = socketConnectionListener;
-        if (gameFrame != null) {
-            gameFrame.setConnectionReference(this);
-        }
-
-        int connCipherMagic = CIPHER_MAGIC_DEFAULT;
-        if (Launcher.isUsingCustomServer()) gameCipherCmds = null;
-        if (gameCipherCmds != null) {
-            this.gameCipher = new GameCipher(gameCipherCmds);
-            connCipherMagic = this.gameCipher.getConnCipherMagic();
-        }
+        gameFrame.setConnectionReference(this);
 
         this.clientId = -1L;
         this.retryTimeoutS = 25;
@@ -88,7 +65,6 @@ public final class SocketConnection implements Runnable {
         this.state = STATE_OPENING;
         this.disconnectReason = DISCONNECT_REASON_UNDEFINED;
         this.closed = this.failed = false;
-        this.connCipher = new ConnCipher(connCipherMagic);
     }
 
     public void run() {
@@ -148,10 +124,6 @@ public final class SocketConnection implements Runnable {
             throw new IllegalStateException("Connection not yet open");
         } else if (this.state != STATE_DISCONNECTED) {
             if (Launcher.debug()) System.out.println("CLIENT> WRITE \"d " + gameQueue.sendSeqNum + " " + data + "\"");
-            if (this.gameCipher != null) {
-                data = this.gameCipher.encrypt(data);
-            }
-
             this.gameQueue.add(data);
         }
     }
@@ -297,7 +269,6 @@ public final class SocketConnection implements Runnable {
     private boolean writeLine(String line) {
         try {
             if (!line.startsWith("d ") && Launcher.debug()) System.out.println("CLIENT> WRITE \"" + line + "\"");
-            if (!Launcher.isUsingCustomServer()) line = this.connCipher.encrypt(line);
             this.sockOut.write(line);
             this.sockOut.newLine();
             this.sockOut.flush();
@@ -321,9 +292,7 @@ public final class SocketConnection implements Runnable {
                     this.disconnectReason = DISCONNECT_REASON_VERSION;
                 }
             } else if (cmdtype == 'c') { // connection related
-                if (cmd.startsWith("io ")) {
-                    this.connCipher.initialise(Integer.parseInt(cmd.substring(3)));
-                } else if (cmd.startsWith("crt ")) {
+                if (cmd.startsWith("crt ")) {
                     this.retryTimeoutS = Integer.parseInt(cmd.substring(4));
                 } else if (cmd.equals("ctr")) {
                     if (this.clientId == -1L) {
@@ -355,11 +324,6 @@ public final class SocketConnection implements Runnable {
                                                     ? AbstractGameFrame.END_ERROR_BAN_INIT
                                                     : AbstractGameFrame.END_ERROR_TOOMANYIP_INIT)));
                 }
-            } else if (cmdtype == 's') {
-                if (cmd.startsWith("json ")) {
-                    String json = cmd.substring(5);
-                    this.params.callJavaScriptJSON(json);
-                }
             } else if (cmdtype == 'd') {
                 firstSpace = cmd.indexOf(' ');
                 long numServerSentPaketz = Long.parseLong(cmd.substring(0, firstSpace));
@@ -369,10 +333,6 @@ public final class SocketConnection implements Runnable {
                         this.disconnectReason = DISCONNECT_REASON_RETRYFAIL;
                     } else {
                         cmd = cmd.substring(firstSpace + 1);
-                        if (this.gameCipher != null) {
-                            cmd = this.gameCipher.decrypt(cmd);
-                        }
-
                         if (Launcher.debug())
                             System.out.println("CLIENT> READ \"d " + numServerSentPaketz + " " + cmd + "\"");
                         this.gamePacketQueue.addGamePacket(cmd);
@@ -387,7 +347,6 @@ public final class SocketConnection implements Runnable {
         try {
             String line = this.sockIn.readLine();
             if (line != null) {
-                if (!Launcher.isUsingCustomServer()) line = this.connCipher.decrypt(line);
                 if (!line.startsWith("d ") && Launcher.debug()) System.out.println("CLIENT> READ \"" + line + "\"");
                 return line;
             }
@@ -421,7 +380,6 @@ public final class SocketConnection implements Runnable {
             }
 
             if (this.connect()) {
-                this.connCipher.reset();
                 this.gameQueue.clear();
                 this.state = STATE_OPEN;
                 return;
