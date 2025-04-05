@@ -4,7 +4,7 @@ import java.awt.*;
 import java.awt.image.MemoryImageSource;
 import java.awt.image.PixelGrabber;
 import java.io.IOException;
-import java.util.Hashtable;
+import java.util.HashMap;
 import java.util.Map;
 import javax.imageio.ImageIO;
 
@@ -14,7 +14,7 @@ public final class ImageManager {
 
     public ImageManager(boolean isDebug) {
         this.isDebug = isDebug;
-        this.images = new Hashtable<>();
+        this.images = new HashMap<>();
     }
 
     public String defineImage(String fileName) {

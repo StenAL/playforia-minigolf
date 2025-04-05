@@ -28,8 +28,9 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.net.URI;
 import java.util.ArrayList;
-import java.util.Hashtable;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.StringTokenizer;
 import javax.swing.SwingUtilities;
 import org.moparforia.shared.Language;
@@ -91,7 +92,7 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
     private TextArea chatOutput;
     private ChatBase chat;
     private Languages languages;
-    private Hashtable<Language, GroupListGroup> languageGroups;
+    private Map<Language, GroupListGroup> languageGroups;
 
     public UserList(
             UserListHandler handler,
@@ -123,7 +124,7 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
         this.sheriffMarkEnabled = true;
         this.dimmerNicksEnabled = true;
         this.languages = new Languages(imageManager);
-        this.languageGroups = new Hashtable<>();
+        this.languageGroups = new HashMap<>();
         this.addComponentListener(this);
     }
 

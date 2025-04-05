@@ -1,6 +1,6 @@
 package com.aapeli.client;
 
-import java.util.Hashtable;
+import java.util.HashMap;
 import java.util.Map;
 import javax.sound.sampled.Clip;
 
@@ -122,7 +122,7 @@ public final class SoundManager implements Runnable {
 
     private void defineSounds() {
         try {
-            this.sounds = new Hashtable<>();
+            this.sounds = new HashMap<>();
             this.defineSoundClip(1, "/sound/shared/challenge.au");
             this.defineSoundClip(2, "/sound/shared/gamemove.au");
             this.defineSoundClip(3, "/sound/shared/notify.au");
