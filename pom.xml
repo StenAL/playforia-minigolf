@@ -24,14 +24,17 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.mainClass>test.mainClass</project.mainClass>
         <picocli.version>4.7.6</picocli.version>
+        <netty.version>4.2.0.Final</netty.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
             <dependency>
                 <groupId>io.netty</groupId>
-                <artifactId>netty-all</artifactId>
-                <version>4.2.0.Final</version>
+                <artifactId>netty-bom</artifactId>
+                <version>${netty.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
             </dependency>
             <dependency>
                 <groupId>org.moparforia</groupId>
