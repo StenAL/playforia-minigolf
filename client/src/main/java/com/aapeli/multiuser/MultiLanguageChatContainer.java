@@ -8,6 +8,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+import org.moparforia.shared.Language;
 
 public final class MultiLanguageChatContainer extends IPanel implements ComponentListener, TabBarListener {
 
@@ -16,14 +17,14 @@ public final class MultiLanguageChatContainer extends IPanel implements Componen
     private int width;
     private int height;
     private ChatTextArea chatTextArea;
-    private int language;
+    private Language language;
     private TabBar tabBar;
     private Object lock;
 
-    protected MultiLanguageChatContainer(ChatBase chatBase, ChatTextArea chatTextArea, int language) {
+    protected MultiLanguageChatContainer(ChatBase chatBase, ChatTextArea chatTextArea, Language language) {
         this.chatBase = chatBase;
         this.lock = new Object();
-        this.languages = new Languages(chatBase.textManager, chatBase.imageManager);
+        this.languages = new Languages(chatBase.imageManager);
         Dimension size = chatTextArea.getSize();
         this.width = size.width;
         this.height = size.height;
@@ -61,27 +62,27 @@ public final class MultiLanguageChatContainer extends IPanel implements Componen
         this.chatBase.setChatTextArea(chatArea);
     }
 
-    protected int getLanguage() {
+    protected Language getLanguage() {
         synchronized (this.lock) {
             if (this.tabBar == null) {
                 return this.language;
             } else {
                 TabBarItem tabBarItem = this.tabBar.getTabBarItemByIndex(this.tabBar.getSelectedTabIndex());
-                return tabBarItem.getTabId();
+                return Language.fromId(tabBarItem.getTabId());
             }
         }
     }
 
-    protected void createLanguageChatArea(int language) {
+    protected void createLanguageChatArea(Language language) {
         this.getOrCreateChatTextArea(language);
     }
 
-    protected void addMessage(int language, String user, String message) {
+    protected void addMessage(Language language, String user, String message) {
         ChatTextArea chatTextArea = this.getOrCreateChatTextArea(language);
         chatTextArea.addSay(user, message);
     }
 
-    protected void addMessage(int language, String text) {
+    protected void addMessage(Language language, String text) {
         ChatTextArea chatTextArea = this.getOrCreateChatTextArea(language);
         chatTextArea.addMessage(text);
     }
@@ -126,7 +127,7 @@ public final class MultiLanguageChatContainer extends IPanel implements Componen
         }
     }
 
-    private ChatTextArea getOrCreateChatTextArea(int language) {
+    private ChatTextArea getOrCreateChatTextArea(Language language) {
         synchronized (this.lock) {
             if (this.tabBar == null) {
                 if (language == this.language) {
@@ -146,7 +147,7 @@ public final class MultiLanguageChatContainer extends IPanel implements Componen
                 this.chatTextArea = null;
             }
 
-            TabBarItem tabBarItem = this.tabBar.getTabBarItemById(language);
+            TabBarItem tabBarItem = this.tabBar.getTabBarItemById(language.getId());
             if (tabBarItem != null) {
                 return (ChatTextArea) tabBarItem.getComponent();
             } else {
@@ -165,11 +166,14 @@ public final class MultiLanguageChatContainer extends IPanel implements Componen
         }
     }
 
-    private void addTabBarLanguageItem(int languageId, ChatTextArea chatTextArea) {
+    private void addTabBarLanguageItem(Language language, ChatTextArea chatTextArea) {
         chatTextArea.setBorderStyle(0);
         TabBarItem item = new TabBarItem(
-                this.tabBar, this.languages.getFlag(languageId), this.languages.getName(languageId), chatTextArea);
-        item.setTabId(languageId);
+                this.tabBar,
+                this.languages.getFlag(language),
+                chatTextArea.getTextManager().getText("Language_" + language),
+                chatTextArea);
+        item.setTabId(language.getId());
         item.setComponentAutoSize(true);
         this.tabBar.addTab(item);
     }

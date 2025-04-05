@@ -5,6 +5,7 @@ import agolf.GolfGameFrame;
 import com.aapeli.multiuser.ChatLobby;
 import com.aapeli.multiuser.MultiLanguageChatListener;
 import com.aapeli.multiuser.User;
+import org.moparforia.shared.Language;
 
 class LobbyChatPanel extends ChatLobby implements MultiLanguageChatListener {
 
@@ -35,14 +36,14 @@ class LobbyChatPanel extends ChatLobby implements MultiLanguageChatListener {
             this.disableChatInput(2);
         }
 
-        this.addChatWithLanguage(gameContainer.params.getLanguage().getId());
+        this.addChatWithLanguage(gameContainer.params.getLanguage());
         this.addChatListener(this);
     }
 
     public void localUserSay(String var1) {}
 
-    public void localUserSay(int var1, String var2) {
-        this.gameContainer.lobbyPanel.writeData("say\t" + var1 + "\t" + var2);
+    public void localUserSay(Language language, String var2) {
+        this.gameContainer.lobbyPanel.writeData("say\t" + language + "\t" + var2);
     }
 
     public void localUserSayPrivately(String var1, String var2) {
@@ -298,7 +299,7 @@ class LobbyChatPanel extends ChatLobby implements MultiLanguageChatListener {
                 return true;
             }
             case "say" -> {
-                this.userSay(Integer.parseInt(args[2]), args[3], args[4]);
+                this.userSay(Language.fromString(args[2]), args[3], args[4]);
                 return true;
             }
             case "sayp" -> {

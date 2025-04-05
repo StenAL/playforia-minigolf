@@ -1,6 +1,8 @@
 package com.aapeli.multiuser;
 
+import org.moparforia.shared.Language;
+
 public interface MultiLanguageChatListener extends ChatListener {
 
-    void localUserSay(int language, String message);
+    void localUserSay(Language language, String message);
 }

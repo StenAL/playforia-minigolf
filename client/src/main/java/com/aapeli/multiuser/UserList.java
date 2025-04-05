@@ -91,7 +91,7 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
     private ColorTextArea chatOutput;
     private ChatBase chat;
     private Languages languages;
-    private Hashtable<Integer, ColorListItemGroup> languageGroups;
+    private Hashtable<Language, ColorListItemGroup> languageGroups;
 
     public UserList(
             UserListHandler handler,
@@ -122,7 +122,7 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
         this.ignoredUsers = new ArrayList<>();
         this.sheriffMarkEnabled = true;
         this.dimmerNicksEnabled = true;
-        this.languages = new Languages(textManager, imageManager);
+        this.languages = new Languages(imageManager);
         this.languageGroups = new Hashtable<>();
         this.addComponentListener(this);
     }
@@ -459,11 +459,11 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
             User user = new User(username, userIsLocal, isRegistered, isVip, isSheriff, rating);
             user.setIsNotAcceptingChallenges(isNotAcceptingChallenges);
 
-            int language;
+            Language language;
             if (!languageString.equals("-")) {
-                language = Language.fromString(languageString).getId();
+                language = Language.fromString(languageString);
             } else {
-                language = Language.UNKNOWN.getId();
+                language = Language.UNKNOWN;
             }
             user.setLanguage(language);
             user.setLanguageFlag(this.languages.getFlag(language));
@@ -506,15 +506,15 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
             colorListItem.setSortOverride(true);
         }
 
-        int language = user.getLanguage();
+        Language language = user.getLanguage();
         ColorListItemGroup group = this.languageGroups.get(language);
         if (group == null) {
-            int sortValue = language;
-            if (language == Language.UNKNOWN.getId()) {
-                sortValue = language + 50;
+            int sortValue = language.getId();
+            if (language == Language.UNKNOWN) {
+                sortValue = sortValue + 50;
             }
 
-            String languageName = this.languages.getName(language);
+            String languageName = this.textManager.getText("Language_" + language);
             group = new ColorListItemGroup(languageName, this.languages.getFlag(language), sortValue);
             this.languageGroups.put(language, group);
         }
