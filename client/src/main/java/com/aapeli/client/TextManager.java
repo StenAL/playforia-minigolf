@@ -9,14 +9,14 @@ import java.util.Hashtable;
 import java.util.Map;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import org.moparforia.shared.Locale;
+import org.moparforia.shared.Language;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 public final class TextManager {
 
-    private Locale locale;
+    private Language language;
     private Map<String, String> texts;
     private String errorMessage;
     private boolean debug;
@@ -25,12 +25,12 @@ public final class TextManager {
         this.debug = debug;
         this.texts = new Hashtable<>();
         this.errorMessage = null;
-        this.locale = parameters.getLocale();
+        this.language = parameters.getLanguage();
         this.loadTexts();
     }
 
-    public void setLocale(Locale locale) {
-        this.locale = locale;
+    public void setLanguage(Language language) {
+        this.language = language;
         this.loadTexts();
     }
 
@@ -149,12 +149,12 @@ public final class TextManager {
             this.texts = null;
         }
 
-        this.locale = null;
+        this.language = null;
         this.errorMessage = null;
     }
 
-    protected Locale getLocale() {
-        return this.locale;
+    protected Language getLanguage() {
+        return this.language;
     }
 
     private String getInternal(String key, String[] arguments) {
@@ -269,7 +269,7 @@ public final class TextManager {
     }
 
     private void loadTexts() {
-        String resourcePath = "/l10n/" + this.locale + "/AGolf.xml";
+        String resourcePath = "/l10n/" + this.language + "/AGolf.xml";
         try {
             InputStream in = this.getClass().getResourceAsStream(resourcePath);
             DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();

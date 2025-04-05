@@ -14,14 +14,14 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import org.moparforia.shared.Locale;
+import org.moparforia.shared.Language;
 
 class TrackTestLoginPanel extends Panel implements ActionListener, KeyListener, ItemListener {
 
     private GolfGameFrame golfGameFrame;
     private int width;
     private int height;
-    private Locale locale;
+    private Language language;
     private TextField textFieldName;
     private TextField textFieldPassword;
     private Button buttonOk;
@@ -33,7 +33,7 @@ class TrackTestLoginPanel extends Panel implements ActionListener, KeyListener, 
         this.golfGameFrame = golfGameFrame;
         this.width = width;
         this.height = height;
-        this.locale = golfGameFrame.param.getLocale();
+        this.language = golfGameFrame.param.getLanguage();
         this.setSize(width, height);
         this.create();
     }
@@ -56,7 +56,7 @@ class TrackTestLoginPanel extends Panel implements ActionListener, KeyListener, 
         String username = this.textFieldName.getText().trim();
         String password = this.textFieldPassword.getText().trim();
         // String password = '';
-        this.golfGameFrame.trackTestLogin(username, password, locale);
+        this.golfGameFrame.trackTestLogin(username, password, language);
     }
 
     public void keyPressed(KeyEvent evt) {}
@@ -86,10 +86,11 @@ class TrackTestLoginPanel extends Panel implements ActionListener, KeyListener, 
         this.languageChoicer.setForeground(Color.black);
         this.languageChoicer.addItemListener(this);
         int selectedLanguageIndex =
-                switch (locale) {
-                    case EN_US -> 0;
-                    case FI_FI -> 1;
-                    case SV_SE -> 2;
+                switch (language) {
+                    case Language.ENGLISH -> 0;
+                    case Language.FINNISH -> 1;
+                    case Language.SWEDISH -> 2;
+                    default -> 0;
                 };
         this.languageChoicer.setSelectedIndex(selectedLanguageIndex);
         this.add(this.languageChoicer);
@@ -131,13 +132,13 @@ class TrackTestLoginPanel extends Panel implements ActionListener, KeyListener, 
         if (e.getSource() == this.languageChoicer) {
             switch (this.languageChoicer.getSelectedIndex()) {
                 case 0:
-                    this.locale = Locale.EN_US;
+                    this.language = Language.ENGLISH;
                     break;
                 case 1:
-                    this.locale = Locale.FI_FI;
+                    this.language = Language.FINNISH;
                     break;
                 case 2:
-                    this.locale = Locale.SV_SE;
+                    this.language = Language.SWEDISH;
                     break;
             }
         }

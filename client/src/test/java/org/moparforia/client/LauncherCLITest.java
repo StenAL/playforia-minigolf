@@ -24,7 +24,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.quality.Strictness;
-import org.moparforia.shared.Locale;
+import org.moparforia.shared.Language;
 import picocli.CommandLine;
 
 /**
@@ -83,28 +83,28 @@ class LauncherCLITest {
 
     @Test
     void testInvalidLang() {
-        assertNotEquals(0, cmd.execute("-l", "cs_CZ"));
-        assertNotEquals(0, cmd.execute("-l", "en"));
+        assertNotEquals(0, cmd.execute("-l", "cs"));
+        assertNotEquals(0, cmd.execute("-l", "en_US"));
     }
 
     @Test
     void testValidLang() {
-        assertEquals(0, cmd.execute("-l", "en_US"));
+        assertEquals(0, cmd.execute("-l", "en"));
         verify(launcher)
                 .launchGame(
                         eq(Launcher.DEFAULT_SERVER),
                         eq(Launcher.DEFAULT_PORT),
-                        eq(Locale.EN_US),
+                        eq(Language.ENGLISH),
                         any(),
                         anyBoolean(),
                         anyBoolean());
 
-        assertEquals(0, cmd.execute("--lang=Fi_fI"));
+        assertEquals(0, cmd.execute("--lang=Fi"));
         verify(launcher)
                 .launchGame(
                         eq(Launcher.DEFAULT_SERVER),
                         eq(Launcher.DEFAULT_PORT),
-                        eq(Locale.FI_FI),
+                        eq(Language.FINNISH),
                         any(),
                         anyBoolean(),
                         anyBoolean());
@@ -170,7 +170,7 @@ class LauncherCLITest {
                 .launchGame(
                         eq(Launcher.DEFAULT_SERVER),
                         eq(Launcher.DEFAULT_PORT),
-                        eq(Locale.EN_US),
+                        eq(Language.ENGLISH),
                         eq(null),
                         eq(false),
                         eq(false));

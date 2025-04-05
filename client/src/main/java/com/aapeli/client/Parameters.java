@@ -6,13 +6,13 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Map;
-import org.moparforia.shared.Locale;
+import org.moparforia.shared.Language;
 
 public final class Parameters {
 
     private static final String LOCALHOST = "127.0.0.1";
     private String serverIp;
-    private Locale locale;
+    private Language language;
     private String username;
     private String session;
     private String urlRegisterPage;
@@ -76,8 +76,8 @@ public final class Parameters {
         return this.username;
     }
 
-    public Locale getLocale() {
-        return this.locale;
+    public Language getLanguage() {
+        return this.language;
     }
 
     public String getSession() {
@@ -218,7 +218,7 @@ public final class Parameters {
 
     public void destroy() {
         this.serverIp = null;
-        this.locale = null;
+        this.language = null;
         this.session = null;
         this.urlRegisterPage = null;
         this.urlUserInfoPage = null;
@@ -232,7 +232,7 @@ public final class Parameters {
     private void init() {
         this.serverIp = this.getParamServer();
         this.serverPort = this.getParamPort();
-        this.locale = this.getParamLocale();
+        this.language = this.getParamLanguage();
         this.session = this.getParameter("session");
         this.urlRegisterPage = this.getParameter("registerpage");
         this.urlUserInfoPage = this.getParameter("userinfopage");
@@ -267,11 +267,11 @@ public final class Parameters {
         }
     }
 
-    private Locale getParamLocale() {
+    private Language getParamLanguage() {
         try {
-            String locale = this.getParameter("locale");
-            if (locale != null) {
-                return Locale.fromString(locale);
+            String language = this.getParameter("language");
+            if (language != null) {
+                return Language.fromString(language);
             }
 
         } catch (Exception e) {

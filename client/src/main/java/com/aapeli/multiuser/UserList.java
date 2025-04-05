@@ -32,7 +32,7 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.StringTokenizer;
 import javax.swing.SwingUtilities;
-import org.moparforia.shared.Locale;
+import org.moparforia.shared.Language;
 
 public class UserList extends IPanel implements ComponentListener, ItemListener, ActionListener {
 
@@ -442,14 +442,14 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
         if (!isUserDataType3(userData)) {
             return this.addUser2(userData, userIsLocal, color);
         } else {
-            // 3:im the man111^r^111^fi_FI^-^-
+            // 3:im the man111^r^111^fi^-^-
             int colonIndex = userData.indexOf(':');
             userData = userData.substring(colonIndex + 1); // looks like the number is skipped
             StringTokenizer tokenizer = new StringTokenizer(userData, "^");
             String username = Tools.changeFromSaveable(tokenizer.nextToken());
             String elevation = tokenizer.nextToken();
             int rating = Integer.parseInt(tokenizer.nextToken());
-            String locale = tokenizer.nextToken();
+            String languageString = tokenizer.nextToken();
             String profilePage = Tools.changeFromSaveable(tokenizer.nextToken());
             String avatarUrl = Tools.changeFromSaveable(tokenizer.nextToken());
             boolean isRegistered = elevation.indexOf('r') >= 0;
@@ -460,8 +460,8 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
             user.setIsNotAcceptingChallenges(isNotAcceptingChallenges);
 
             int language;
-            if (!locale.equals("-")) {
-                language = Languages.getLanguageId(Locale.fromString(locale));
+            if (!languageString.equals("-")) {
+                language = Languages.getLanguageId(Language.fromString(languageString));
             } else {
                 language = Languages.LANGUAGE_UNKNOWN;
             }

@@ -12,7 +12,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
 import org.moparforia.client.Launcher;
-import org.moparforia.shared.Locale;
+import org.moparforia.shared.Language;
 
 public class GolfGameFrame extends AbstractGameFrame {
 
@@ -39,8 +39,9 @@ public class GolfGameFrame extends AbstractGameFrame {
     private Image anImage3774;
     private boolean verbose = false;
 
-    public GolfGameFrame(String server, int port, Locale locale, String username, boolean verbose, boolean norandom) {
-        super(server, port, locale, username, verbose, norandom);
+    public GolfGameFrame(
+            String server, int port, Language language, String username, boolean verbose, boolean norandom) {
+        super(server, port, language, username, verbose, norandom);
     }
 
     public void initGame(Parameters parameters) {
@@ -240,9 +241,9 @@ public class GolfGameFrame extends AbstractGameFrame {
         this.gameContainer.connection.writeData("ttlogin\t" + username + "\t" + password);
     }
 
-    protected void trackTestLogin(String username, String password, Locale locale) {
-        this.textManager.setLocale(locale);
-        this.gameContainer.connection.writeData("language\t" + locale);
+    protected void trackTestLogin(String username, String password, Language language) {
+        this.textManager.setLanguage(language);
+        this.gameContainer.connection.writeData("language\t" + language);
         this.trackTestLogin(username, password);
     }
 

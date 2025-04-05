@@ -16,7 +16,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
-import org.moparforia.shared.Locale;
+import org.moparforia.shared.Language;
 import org.moparforia.shared.ManifestVersionProvider;
 import picocli.CommandLine;
 
@@ -46,8 +46,8 @@ public class Launcher implements Callable<Integer> {
     @CommandLine.Option(
             names = {"--lang", "-l"},
             description = "Sets language of the game, available values:\n ${COMPLETION-CANDIDATES}",
-            defaultValue = "en_us")
-    private Locale locale;
+            defaultValue = "en")
+    private Language language;
 
     @CommandLine.Option(
             names = {"--username", "-u"},
@@ -151,7 +151,7 @@ public class Launcher implements Callable<Integer> {
             }
         }
 
-        launchGame(hostname, port, locale, username, verbose, norandom);
+        launchGame(hostname, port, language, username, verbose, norandom);
         return null;
     }
 
@@ -164,8 +164,8 @@ public class Launcher implements Callable<Integer> {
     }
 
     public GolfGameFrame launchGame(
-            String hostname, int port, Locale locale, String username, boolean verbose, boolean norandom) {
-        return new GolfGameFrame(hostname, port, locale, username, verbose, norandom);
+            String hostname, int port, Language language, String username, boolean verbose, boolean norandom) {
+        return new GolfGameFrame(hostname, port, language, username, verbose, norandom);
     }
 
     public Image loadIcon() throws IOException {

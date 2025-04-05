@@ -2,7 +2,7 @@ package org.moparforia.server.game;
 
 import io.netty.channel.Channel;
 import io.netty.util.AttributeKey;
-import org.moparforia.shared.Locale;
+import org.moparforia.shared.Language;
 import org.moparforia.shared.Tools;
 
 public class Player {
@@ -16,7 +16,7 @@ public class Player {
     private final int id;
 
     private String nick;
-    private Locale locale;
+    private Language language;
     private String profileUrl;
     private String avatarUrl;
     private String clan;
@@ -43,7 +43,7 @@ public class Player {
 
     public void resetVals() {
         this.nick = "-";
-        this.locale = null;
+        this.language = null;
         this.profileUrl = "-";
         this.avatarUrl = "-";
         this.clan = "-";
@@ -84,12 +84,12 @@ public class Player {
         return nick;
     }
 
-    public Locale getLocale() {
-        return locale;
+    public Language getLanguage() {
+        return language;
     }
 
-    public void setLocale(Locale locale) {
-        this.locale = locale;
+    public void setLanguage(Language language) {
+        this.language = language;
     }
 
     public String getProfileUrl() {
@@ -211,7 +211,7 @@ public class Player {
     public boolean equals(Object o) {
         if (o == null || !(o instanceof Player)) return false;
         Player p = (Player) o;
-        return nick.equals(p.nick) && ranking == p.ranking && locale == p.locale;
+        return nick.equals(p.nick) && ranking == p.ranking && language == p.language;
     }
 
     public String toString() {
@@ -221,7 +221,7 @@ public class Player {
                 "3:" + (nick != null ? nick : ""),
                 tmp.equals("") ? "w" : tmp,
                 ranking,
-                locale != null ? locale : "-",
+                language != null ? language : "-",
                 profileUrl != null ? profileUrl : "",
                 avatarUrl != null ? avatarUrl : "");
     }
