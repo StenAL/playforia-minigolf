@@ -194,16 +194,6 @@ public class ChatLobby extends ChatBase {
         return this.noGameMessagesChatbox.getState();
     }
 
-    public synchronized boolean useRoundButtons() {
-        if (!super.useRoundButtons()) {
-            return false;
-        } else {
-            this.noJoinAndPartMessagesCheckbox.setBoxPixelRoundedCorners(true);
-            this.noGameMessagesChatbox.setBoxPixelRoundedCorners(true);
-            return true;
-        }
-    }
-
     public void resizeLayout() {
         int userListWidth = super.width / 5;
         if (userListWidth < 100) {

@@ -9,7 +9,6 @@ import com.aapeli.client.Parameters;
 import com.aapeli.client.TextManager;
 import com.aapeli.client.UrlLabel;
 import com.aapeli.colorgui.ColorButton;
-import com.aapeli.colorgui.RoundButton;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
@@ -416,20 +415,6 @@ public abstract class ChatBase extends IPanel
         return this.userList;
     }
 
-    public boolean useRoundButtons() {
-        synchronized (this.lock) {
-            if (this.sayButton instanceof RoundButton) {
-                return false;
-            } else {
-                RoundButton roundButton = this.copyColorButtonToRoundButton(this.sayButton);
-                roundButton.setVisible(this.sayButton.isVisible());
-                this.sayButton = roundButton;
-                this.userList.usePixelRoundedButtonsAndCheckBoxes();
-                return true;
-            }
-        }
-    }
-
     public void addChatWithLanguage(Language language) {
         synchronized (this.lock) {
             if (this.multiLanguageChatContainer == null) {
@@ -470,18 +455,6 @@ public abstract class ChatBase extends IPanel
 
             return user;
         }
-    }
-
-    public RoundButton copyColorButtonToRoundButton(Component var1) {
-        ColorButton var2 = (ColorButton) var1;
-        var2.removeActionListener(this);
-        this.remove(var2);
-        RoundButton var3 = new RoundButton(var2.getLabel());
-        var3.setBounds(var2.getBounds());
-        var3.setBackground(var2.getBackground());
-        var3.addActionListener(this);
-        this.add(var3);
-        return var3;
     }
 
     public String getRegistrationNeededText() {

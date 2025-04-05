@@ -664,24 +664,6 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
         this.chat = chat;
     }
 
-    public void usePixelRoundedButtonsAndCheckBoxes() {
-        if (this.sortByRankingButton != null) {
-            this.sortByRankingButton.setRoundedUpperCorners();
-        }
-
-        if (this.sortByNicknameButton != null) {
-            this.sortByNicknameButton.setRoundedUpperCorners();
-        }
-
-        if (this.sendPrivatelyCheckbox != null) {
-            this.sendPrivatelyCheckbox.setBoxPixelRoundedCorners(true);
-        }
-
-        if (this.ignoreUserCheckbox != null) {
-            this.ignoreUserCheckbox.setBoxPixelRoundedCorners(true);
-        }
-    }
-
     private static boolean isUserDataType3(String userData) {
         return userData.startsWith("3:");
     }
