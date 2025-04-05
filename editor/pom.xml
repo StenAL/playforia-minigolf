@@ -39,26 +39,6 @@
                 </configuration>
             </plugin>
             <plugin>
-                <groupId>de.elnarion.maven</groupId>
-                <artifactId>plantuml-generator-maven-plugin</artifactId>
-                <version>1.1.2</version>
-                <executions>
-                    <execution>
-                        <id>generate-simple-diagram</id>
-                        <goals>
-                            <goal>generate</goal>
-                        </goals>
-                        <phase>generate-test-sources</phase>
-                        <configuration>
-                            <outputFilename>${project.parent.groupId}.${project.artifactId}.pu</outputFilename>
-                            <scanPackages>
-                                <scanPackage>${project.parent.groupId}.${project.artifactId}</scanPackage>
-                            </scanPackages>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
                 <groupId>com.diffplug.spotless</groupId>
                 <artifactId>spotless-maven-plugin</artifactId>
             </plugin>
