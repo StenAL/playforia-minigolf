@@ -379,7 +379,10 @@ public class Button extends IPanel implements MouseMotionListener, MouseListener
         synchronized (this.listeners) {
             if (this.listeners.size() != 0) {
                 ActionEvent event = new ActionEvent(this, 1001, this.label);
-                for (ActionListener listener : listeners) {
+                // Listeners may call removeActionListener (e.g. the "To menu" button in games) which modifies
+                // this.listeners and causes this method to throw an error. Make a copy of listeners to avoid that.
+                List<ActionListener> listenersCopy = List.copyOf(this.listeners);
+                for (ActionListener listener : listenersCopy) {
                     listener.actionPerformed(event);
                 }
             }
