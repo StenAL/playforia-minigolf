@@ -69,10 +69,6 @@ public final class ColorList extends Panel
         this(width, height, FontConstants.font, 0, 0);
     }
 
-    public ColorList(int width, int height, Font font) {
-        this(width, height, font, 0, 0);
-    }
-
     public ColorList(int width, int height, int iconWidth, int rowHeight) {
         this(width, height, FontConstants.font, iconWidth, rowHeight);
     }
@@ -413,10 +409,6 @@ public final class ColorList extends Panel
         }
 
         return selectedCount;
-    }
-
-    public void addItem(String text) {
-        this.addItem(new ColorListItem(text));
     }
 
     public synchronized void addItem(ColorListItem item) {
