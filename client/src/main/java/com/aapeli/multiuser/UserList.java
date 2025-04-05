@@ -461,9 +461,9 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
 
             int language;
             if (!languageString.equals("-")) {
-                language = Languages.getLanguageId(Language.fromString(languageString));
+                language = Language.fromString(languageString).getId();
             } else {
-                language = Languages.LANGUAGE_UNKNOWN;
+                language = Language.UNKNOWN.getId();
             }
             user.setLanguage(language);
             user.setLanguageFlag(this.languages.getFlag(language));
@@ -510,7 +510,7 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
         ColorListItemGroup group = this.languageGroups.get(language);
         if (group == null) {
             int sortValue = language;
-            if (language == Languages.LANGUAGE_UNKNOWN) {
+            if (language == Language.UNKNOWN.getId()) {
                 sortValue = language + 50;
             }
 

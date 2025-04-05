@@ -3,7 +3,6 @@ package agolf.lobby;
 import agolf.GameContainer;
 import agolf.GolfGameFrame;
 import com.aapeli.multiuser.ChatLobby;
-import com.aapeli.multiuser.Languages;
 import com.aapeli.multiuser.MultiLanguageChatListener;
 import com.aapeli.multiuser.User;
 
@@ -36,7 +35,7 @@ class LobbyChatPanel extends ChatLobby implements MultiLanguageChatListener {
             this.disableChatInput(2);
         }
 
-        this.addChatWithLanguage(Languages.getLanguageId(gameContainer.params.getLanguage()));
+        this.addChatWithLanguage(gameContainer.params.getLanguage().getId());
         this.addChatListener(this);
     }
 
