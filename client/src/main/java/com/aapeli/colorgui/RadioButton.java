@@ -6,136 +6,129 @@ import java.awt.event.MouseEvent;
 
 public class RadioButton extends ColorButton {
 
-    private RadioButtonGroup aRadioButtonGroup4722;
-    private boolean aBoolean4723;
-    private boolean aBoolean4724;
-    private boolean aBoolean4725;
+    private RadioButtonGroup group;
+    private boolean selected;
+    private boolean selectedTextIsBold;
+    private boolean altStyle;
 
-    public RadioButton(RadioButtonGroup var1) {
-        this(null, var1);
-    }
-
-    public RadioButton(String var1) {
-        this(var1, null);
-    }
-
-    public RadioButton(String var1, RadioButtonGroup var2) {
-        super(var1);
-        this.aRadioButtonGroup4722 = var2;
-        if (var2 != null) {
-            var2.method1756(this);
+    public RadioButton(String label, RadioButtonGroup group) {
+        super(label);
+        this.group = group;
+        if (group != null) {
+            group.addButton(this);
         }
 
-        this.aBoolean4723 = this.aBoolean4724 = false;
-        this.aBoolean4725 = false;
+        this.selected = false;
+        this.selectedTextIsBold = false;
+        this.altStyle = false;
     }
 
-    public RadioButton(String var1, RadioButtonGroup var2, boolean var3) {
-        super(var1);
-        this.aRadioButtonGroup4722 = var2;
-        var2.method1756(this);
-        this.aBoolean4723 = var3;
-        this.aBoolean4724 = false;
+    public RadioButton(String label, RadioButtonGroup group, boolean selected) {
+        super(label);
+        this.group = group;
+        group.addButton(this);
+        this.selected = selected;
+        this.selectedTextIsBold = false;
         this.setBackgroundGradient(false);
-        this.setBorder(2);
-        this.aBoolean4725 = true;
+        this.setBorder(BORDER_THICK);
+        this.altStyle = true;
     }
 
-    public void mousePressed(MouseEvent var1) {
-        if (this.setState(!this.aBoolean4723)) {
+    public void mousePressed(MouseEvent e) {
+        if (this.setState(!this.selected)) {
             this.processActionEvent();
         }
     }
 
-    public void mouseReleased(MouseEvent var1) {}
+    public void mouseReleased(MouseEvent e) {}
 
-    public boolean setState(boolean var1) {
-        if (this.aBoolean4723 == var1) {
+    public boolean setState(boolean state) {
+        if (this.selected == state) {
             return true;
-        } else if (this.aRadioButtonGroup4722 != null && !this.aRadioButtonGroup4722.method1758(var1)) {
+        } else if (this.group != null && !this.group.trySetState(state)) {
             return false;
         } else {
-            this.realSetState(var1);
+            this.realSetState(state);
             return true;
         }
     }
 
     public boolean getState() {
-        return this.aBoolean4723;
+        return this.selected;
     }
 
     public void click() {
         this.mousePressed(null);
     }
 
-    public void boldSelected(boolean var1) {
-        this.aBoolean4724 = var1;
+    public void boldSelected(boolean selectedTextIsBold) {
+        this.selectedTextIsBold = selectedTextIsBold;
     }
 
     public boolean isNormalState() {
-        return !this.aBoolean4723;
+        return !this.selected;
     }
 
     public boolean isHighlighted() {
-        return this.aBoolean4723 ? true : super.isHighlighted();
+        return this.selected ? true : super.isHighlighted();
     }
 
     public boolean isBolded() {
-        return this.aBoolean4723 && this.aBoolean4724 || this.aBoolean4725;
+        return this.selected && this.selectedTextIsBold || this.altStyle;
     }
 
-    public void clearBackground(Graphics var1, int var2, int var3) {
-        if (!this.aBoolean4725) {
-            super.clearBackground(var1, var2, var3);
+    public void clearBackground(Graphics g, int width, int height) {
+        if (!this.altStyle) {
+            super.clearBackground(g, width, height);
         } else {
-            int var4 = this.getBorder();
-            var4 = var4 == 0 ? 0 : (var4 == 1 ? 1 : 2);
-            var1.fillRect(var4, var4, var2 - var4 - var4, var3 - var4);
+            int border = this.getBorder();
+            border = border == BORDER_NONE ? BORDER_NONE : (border == BORDER_NORMAL ? BORDER_NORMAL : BORDER_THICK);
+            g.fillRect(border, border, width - border - border, height - border);
         }
     }
 
-    public void drawBorder(Graphics var1, int var2, int var3) {
-        if (!this.aBoolean4725) {
-            super.drawBorder(var1, var2, var3);
+    public void drawBorder(Graphics g, int width, int height) {
+        if (!this.altStyle) {
+            super.drawBorder(g, width, height);
         } else {
-            int var4 = this.getBorder();
-            if (var4 != 0) {
-                boolean var5 = var4 == 2;
-                if (!this.aBoolean4723) {
-                    if (var5) {
-                        var1.drawRect(0, 2, var2 - 1, var3 - 3);
-                        var1.drawRect(1, 1, var2 - 3, var3 - 3);
+            int border = this.getBorder();
+            if (border != BORDER_NONE) {
+                boolean thickBorder = border == BORDER_THICK;
+                if (!this.selected) {
+                    if (thickBorder) {
+                        g.drawRect(0, 2, width - 1, height - 3);
+                        g.drawRect(1, 1, width - 3, height - 3);
                     } else {
-                        var1.drawLine(1, 1, var2 - 2, 1);
-                        var1.drawLine(0, 2, 0, var3 - 1);
-                        var1.drawLine(var2 - 1, 2, var2 - 1, var3 - 1);
-                        var1.drawLine(0, var3 - 1, var2 - 1, var3 - 1);
+                        g.drawLine(1, 1, width - 2, 1);
+                        g.drawLine(0, 2, 0, height - 1);
+                        g.drawLine(width - 1, 2, width - 1, height - 1);
+                        g.drawLine(0, height - 1, width - 1, height - 1);
                     }
-                } else if (var5) {
-                    var1.drawLine(1, 0, var2 - 2, 0);
-                    var1.drawLine(0, 1, var2 - 1, 1);
-                    var1.drawLine(0, 1, 0, var3 - 1);
-                    var1.drawLine(1, 0, 1, var3 - 1);
-                    var1.drawLine(var2 - 1, 1, var2 - 1, var3 - 1);
-                    var1.drawLine(var2 - 2, 0, var2 - 2, var3 - 1);
+                } else if (thickBorder) {
+                    g.drawLine(1, 0, width - 2, 0);
+                    g.drawLine(0, 1, width - 1, 1);
+                    g.drawLine(0, 1, 0, height - 1);
+                    g.drawLine(1, 0, 1, height - 1);
+                    g.drawLine(width - 1, 1, width - 1, height - 1);
+                    g.drawLine(width - 2, 0, width - 2, height - 1);
                 } else {
-                    var1.drawLine(1, 0, var2 - 2, 0);
-                    var1.drawLine(0, 1, 0, var3 - 1);
-                    var1.drawLine(var2 - 1, 1, var2 - 1, var3 - 1);
+                    g.drawLine(1, 0, width - 2, 0);
+                    g.drawLine(0, 1, 0, height - 1);
+                    g.drawLine(width - 1, 1, width - 1, height - 1);
                 }
             }
         }
     }
 
-    public int drawIcon(Graphics var1, Image var2, int var3) {
-        int var4 = Math.max(var3, 5);
+    public int drawIcon(Graphics g, Image icon, int y) {
+        int x = Math.max(y, 5);
 
-        var1.drawImage(var2, var4, var3, this);
-        return var4;
+        g.drawImage(icon, x, y, this);
+        return x;
     }
 
-    public void realSetState(boolean var1) {
-        this.aBoolean4723 = var1;
+    public void realSetState(boolean selected) {
+        this.selected = selected;
         this.repaint();
     }
 }
