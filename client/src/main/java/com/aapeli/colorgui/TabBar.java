@@ -178,12 +178,6 @@ public class TabBar extends IPanel implements ComponentListener, ActionListener 
         }
     }
 
-    public void addTab(String text, Component component) {
-        synchronized (this.lock) {
-            this.addTab(new TabBarItem(this, text, component));
-        }
-    }
-
     public void addTab(TabBarItem item) {
         synchronized (this.lock) {
             this.items.add(item);

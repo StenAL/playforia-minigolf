@@ -82,9 +82,8 @@
             </plugin>
 
             <plugin>
-                <groupId>com.googlecode.maven-download-plugin</groupId>
+                <groupId>io.github.download-maven-plugin</groupId>
                 <artifactId>download-maven-plugin</artifactId>
-                <version>1.9.0</version>
                 <executions>
                     <execution>
                         <id>download-osx-jre</id>
@@ -165,28 +164,6 @@
                                 <internalName>${project.name}</internalName>
                                 <originalFilename>${project.artifactId}-${project.version}.exe</originalFilename>
                             </versionInfo>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>de.elnarion.maven</groupId>
-                <artifactId>plantuml-generator-maven-plugin</artifactId>
-                <version>2.4.1</version>
-                <executions>
-                    <execution>
-                        <id>generate-simple-diagram</id>
-                        <goals>
-                            <goal>generate</goal>
-                        </goals>
-                        <phase>generate-test-sources</phase>
-                        <configuration>
-                            <outputFilename>${project.parent.groupId}.${project.artifactId}.pu</outputFilename>
-                            <scanPackages>
-                                <scanPackage>${project.parent.groupId}.${project.artifactId}</scanPackage>
-                                <scanPackage>agolf</scanPackage>
-                                <!--<scanPackage>com.aapeli</scanPackage>-->
-                            </scanPackages>
                         </configuration>
                     </execution>
                 </executions>

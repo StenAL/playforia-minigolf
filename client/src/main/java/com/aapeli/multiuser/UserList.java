@@ -32,7 +32,7 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.StringTokenizer;
 import javax.swing.SwingUtilities;
-import org.moparforia.shared.Locale;
+import org.moparforia.shared.Language;
 
 public class UserList extends IPanel implements ComponentListener, ItemListener, ActionListener {
 
@@ -91,7 +91,7 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
     private ColorTextArea chatOutput;
     private ChatBase chat;
     private Languages languages;
-    private Hashtable<Integer, ColorListItemGroup> languageGroups;
+    private Hashtable<Language, ColorListItemGroup> languageGroups;
 
     public UserList(
             UserListHandler handler,
@@ -122,7 +122,7 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
         this.ignoredUsers = new ArrayList<>();
         this.sheriffMarkEnabled = true;
         this.dimmerNicksEnabled = true;
-        this.languages = new Languages(textManager, imageManager);
+        this.languages = new Languages(imageManager);
         this.languageGroups = new Hashtable<>();
         this.addComponentListener(this);
     }
@@ -442,14 +442,14 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
         if (!isUserDataType3(userData)) {
             return this.addUser2(userData, userIsLocal, color);
         } else {
-            // 3:im the man111^r^111^fi_FI^-^-
+            // 3:im the man111^r^111^fi^-^-
             int colonIndex = userData.indexOf(':');
             userData = userData.substring(colonIndex + 1); // looks like the number is skipped
             StringTokenizer tokenizer = new StringTokenizer(userData, "^");
             String username = Tools.changeFromSaveable(tokenizer.nextToken());
             String elevation = tokenizer.nextToken();
             int rating = Integer.parseInt(tokenizer.nextToken());
-            String locale = tokenizer.nextToken();
+            String languageString = tokenizer.nextToken();
             String profilePage = Tools.changeFromSaveable(tokenizer.nextToken());
             String avatarUrl = Tools.changeFromSaveable(tokenizer.nextToken());
             boolean isRegistered = elevation.indexOf('r') >= 0;
@@ -459,11 +459,11 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
             User user = new User(username, userIsLocal, isRegistered, isVip, isSheriff, rating);
             user.setIsNotAcceptingChallenges(isNotAcceptingChallenges);
 
-            int language;
-            if (!locale.equals("-")) {
-                language = Languages.getLanguageId(Locale.fromString(locale));
+            Language language;
+            if (!languageString.equals("-")) {
+                language = Language.fromString(languageString);
             } else {
-                language = Languages.LANGUAGE_UNKNOWN;
+                language = Language.UNKNOWN;
             }
             user.setLanguage(language);
             user.setLanguageFlag(this.languages.getFlag(language));
@@ -506,15 +506,15 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
             colorListItem.setSortOverride(true);
         }
 
-        int language = user.getLanguage();
+        Language language = user.getLanguage();
         ColorListItemGroup group = this.languageGroups.get(language);
         if (group == null) {
-            int sortValue = language;
-            if (language == Languages.LANGUAGE_UNKNOWN) {
-                sortValue = language + 50;
+            int sortValue = language.getId();
+            if (language == Language.UNKNOWN) {
+                sortValue = sortValue + 50;
             }
 
-            String languageName = this.languages.getName(language);
+            String languageName = this.textManager.getText("Language_" + language);
             group = new ColorListItemGroup(languageName, this.languages.getFlag(language), sortValue);
             this.languageGroups.put(language, group);
         }
@@ -662,24 +662,6 @@ public class UserList extends IPanel implements ComponentListener, ItemListener,
 
     public void setChatReference(ChatBase chat) {
         this.chat = chat;
-    }
-
-    public void usePixelRoundedButtonsAndCheckBoxes() {
-        if (this.sortByRankingButton != null) {
-            this.sortByRankingButton.setRoundedUpperCorners();
-        }
-
-        if (this.sortByNicknameButton != null) {
-            this.sortByNicknameButton.setRoundedUpperCorners();
-        }
-
-        if (this.sendPrivatelyCheckbox != null) {
-            this.sendPrivatelyCheckbox.setBoxPixelRoundedCorners(true);
-        }
-
-        if (this.ignoreUserCheckbox != null) {
-            this.ignoreUserCheckbox.setBoxPixelRoundedCorners(true);
-        }
     }
 
     private static boolean isUserDataType3(String userData) {

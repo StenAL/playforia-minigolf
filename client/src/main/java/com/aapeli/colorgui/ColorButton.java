@@ -51,12 +51,6 @@ public class ColorButton extends IPanel implements MouseMotionListener, MouseLis
     private Graphics graphics;
     private int width;
     private int height;
-    private BlinkingButtonThread blinkingThread;
-    private boolean blinkState;
-
-    public ColorButton() {
-        this(null);
-    }
 
     public ColorButton(String label) {
         this.setBackground(DEFAULT_BACKGROUND_COLOR);
@@ -70,8 +64,6 @@ public class ColorButton extends IPanel implements MouseMotionListener, MouseLis
         this.mousePressed = false;
         this.borderStyle = BORDER_NORMAL;
         this.listeners = new ArrayList<>();
-        this.blinkingThread = null;
-        this.blinkState = false;
         this.addMouseMotionListener(this);
         this.addMouseListener(this);
     }
@@ -375,28 +367,6 @@ public class ColorButton extends IPanel implements MouseMotionListener, MouseLis
         }
     }
 
-    public void setBlinking(boolean blinking) {
-        if (blinking) {
-            if (this.blinkingThread != null) {
-                return;
-            }
-
-            this.blinkingThread = new BlinkingButtonThread(this);
-            Thread thread = new Thread(this.blinkingThread);
-            thread.setDaemon(true);
-            thread.start();
-        } else {
-            if (this.blinkingThread == null) {
-                return;
-            }
-
-            this.blinkingThread.disable();
-            this.blinkingThread = null;
-            this.blinkState = false;
-            this.repaint();
-        }
-    }
-
     public Image createBuffer(int width, int height) {
         return this.createImage(width, height);
     }
@@ -417,12 +387,7 @@ public class ColorButton extends IPanel implements MouseMotionListener, MouseLis
     }
 
     public boolean isHighlighted() {
-        boolean highlighted = this.mouseHoveredOver;
-        if (this.blinkingThread != null && this.blinkState) {
-            highlighted = !highlighted;
-        }
-
-        return highlighted;
+        return this.mouseHoveredOver;
     }
 
     public boolean isBolded() {
@@ -567,10 +532,5 @@ public class ColorButton extends IPanel implements MouseMotionListener, MouseLis
 
             return font;
         }
-    }
-
-    public void setBlinkState(boolean state) {
-        this.blinkState = state;
-        this.repaint();
     }
 }

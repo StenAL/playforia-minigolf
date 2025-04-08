@@ -10,10 +10,6 @@ public final class TabBarItem {
     private int id;
     private boolean componentAutoSize;
 
-    public TabBarItem(TabBar tabBar, String text, Component component) {
-        this(tabBar, null, text, component);
-    }
-
     public TabBarItem(TabBar tabBar, Image icon, String text, Component component) {
         this.button = tabBar.registerItem(icon, text);
         this.component = component;

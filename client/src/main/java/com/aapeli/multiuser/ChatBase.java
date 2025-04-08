@@ -9,7 +9,6 @@ import com.aapeli.client.Parameters;
 import com.aapeli.client.TextManager;
 import com.aapeli.client.UrlLabel;
 import com.aapeli.colorgui.ColorButton;
-import com.aapeli.colorgui.RoundButton;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
@@ -23,6 +22,7 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.util.ArrayList;
 import java.util.List;
+import org.moparforia.shared.Language;
 
 public abstract class ChatBase extends IPanel
         implements ComponentListener, UserListHandler, ActionListener, InputTextFieldListener {
@@ -314,7 +314,7 @@ public abstract class ChatBase extends IPanel
         }
     }
 
-    public void userSay(int language, String user, String message) {
+    public void userSay(Language language, String user, String message) {
         if (!this.isUserIgnored(user)) {
             this.multiLanguageChatContainer.addMessage(language, user, message);
         }
@@ -415,26 +415,12 @@ public abstract class ChatBase extends IPanel
         return this.userList;
     }
 
-    public boolean useRoundButtons() {
-        synchronized (this.lock) {
-            if (this.sayButton instanceof RoundButton) {
-                return false;
-            } else {
-                RoundButton roundButton = this.copyColorButtonToRoundButton(this.sayButton);
-                roundButton.setVisible(this.sayButton.isVisible());
-                this.sayButton = roundButton;
-                this.userList.usePixelRoundedButtonsAndCheckBoxes();
-                return true;
-            }
-        }
-    }
-
-    public void addChatWithLanguage(int languageId) {
+    public void addChatWithLanguage(Language language) {
         synchronized (this.lock) {
             if (this.multiLanguageChatContainer == null) {
                 Point location = this.chatTextArea.getLocation();
                 this.remove(this.chatTextArea);
-                this.multiLanguageChatContainer = new MultiLanguageChatContainer(this, this.chatTextArea, languageId);
+                this.multiLanguageChatContainer = new MultiLanguageChatContainer(this, this.chatTextArea, language);
                 this.multiLanguageChatContainer.setLocation(location.x, location.y);
                 this.add(this.multiLanguageChatContainer);
             }
@@ -471,18 +457,6 @@ public abstract class ChatBase extends IPanel
         }
     }
 
-    public RoundButton copyColorButtonToRoundButton(Component var1) {
-        ColorButton var2 = (ColorButton) var1;
-        var2.removeActionListener(this);
-        this.remove(var2);
-        RoundButton var3 = new RoundButton(var2.getLabel());
-        var3.setBounds(var2.getBounds());
-        var3.setBackground(var2.getBackground());
-        var3.addActionListener(this);
-        this.add(var3);
-        return var3;
-    }
-
     public String getRegistrationNeededText() {
         return this.textManager.getText("Chat_NoGuestChatAndRegNote");
     }
@@ -510,8 +484,8 @@ public abstract class ChatBase extends IPanel
             if (this.multiLanguageChatContainer == null) {
                 this.chatTextArea.addMessage(text);
             } else {
-                int language1 = user1.getLanguage();
-                int language2 = user2.getLanguage();
+                Language language1 = user1.getLanguage();
+                Language language2 = user2.getLanguage();
                 this.multiLanguageChatContainer.addMessage(language1, text);
                 if (language2 != language1) {
                     this.multiLanguageChatContainer.addMessage(language2, text);
@@ -648,7 +622,7 @@ public abstract class ChatBase extends IPanel
                                         listener.localUserSay(message);
                                     }
                                 } else {
-                                    int language = this.multiLanguageChatContainer.getLanguage();
+                                    Language language = this.multiLanguageChatContainer.getLanguage();
 
                                     for (ChatListener chatListener : listeners) {
                                         ((MultiLanguageChatListener) chatListener).localUserSay(language, message);

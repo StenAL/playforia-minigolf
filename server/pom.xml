@@ -19,8 +19,11 @@
     <dependencies>
         <dependency>
             <groupId>io.netty</groupId>
-            <artifactId>netty-all</artifactId>
-            <scope>compile</scope>
+            <artifactId>netty-transport</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-handler</artifactId>
         </dependency>
         <dependency>
             <groupId>org.moparforia</groupId>
@@ -77,26 +80,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>de.elnarion.maven</groupId>
-                <artifactId>plantuml-generator-maven-plugin</artifactId>
-                <version>2.4.1</version>
-                <executions>
-                    <execution>
-                        <id>generate-simple-diagram</id>
-                        <goals>
-                            <goal>generate</goal>
-                        </goals>
-                        <phase>generate-test-sources</phase>
-                        <configuration>
-                            <outputFilename>${project.parent.groupId}.${project.artifactId}.pu</outputFilename>
-                            <scanPackages>
-                                <scanPackage>${project.parent.groupId}.${project.artifactId}</scanPackage>
-                            </scanPackages>
-                        </configuration>
-                    </execution>
-                </executions>
             </plugin>
             <plugin>
                 <groupId>com.diffplug.spotless</groupId>

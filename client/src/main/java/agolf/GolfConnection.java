@@ -90,7 +90,7 @@ public class GolfConnection implements SocketConnectionListener {
                 this.socketConnection.closeConnection();
             }
             case "versok" -> {
-                this.writeData("language\t" + this.gameContainer.params.getLocale());
+                this.writeData("language\t" + this.gameContainer.params.getLanguage());
                 this.writeData("logintype\t"
                         + (this.gameContainer.synchronizedTrackTestMode.get()
                                 ? "ttm"

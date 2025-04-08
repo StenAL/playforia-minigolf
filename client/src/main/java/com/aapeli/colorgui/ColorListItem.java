@@ -37,14 +37,6 @@ public class ColorListItem {
     private ColorListItemGroup group;
     private ColorList colorList;
 
-    public ColorListItem(String text) {
-        this(null, 0, false, text, null, false);
-    }
-
-    public ColorListItem(Image icon, int color, boolean bold, String text, Object data, boolean selected) {
-        this(icon, colors[color], bold, text, data, selected);
-    }
-
     public ColorListItem(Image icon, Color color, boolean bold, String text, Object data, boolean selected) {
         this.icon = icon;
         this.color = color;

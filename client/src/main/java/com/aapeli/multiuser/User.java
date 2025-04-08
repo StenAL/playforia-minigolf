@@ -4,6 +4,7 @@ import com.aapeli.client.ImageManager;
 import com.aapeli.colorgui.ColorList;
 import com.aapeli.colorgui.ColorListItem;
 import java.awt.Image;
+import org.moparforia.shared.Language;
 
 public final class User {
 
@@ -14,7 +15,7 @@ public final class User {
     private boolean isSheriff;
     private int rating;
     private int overrideColour;
-    private int language;
+    private Language language;
     private Image languageFlag;
     private boolean isGettingPrivateMessages;
     private boolean isIgnore;
@@ -43,7 +44,7 @@ public final class User {
         this.isIgnore = false;
         this.isNotAcceptingChallenges = false;
         this.overrideColour = -1;
-        this.language = 0;
+        this.language = Language.UNKNOWN;
     }
 
     public String getNick() {
@@ -107,7 +108,7 @@ public final class User {
         return this.colorListItem.getIconAfterText();
     }
 
-    public int getLanguage() {
+    public Language getLanguage() {
         return this.language;
     }
 
@@ -119,7 +120,7 @@ public final class User {
         this.isNotAcceptingChallenges = isNotAcceptingChallenges;
     }
 
-    protected void setLanguage(int language) {
+    protected void setLanguage(Language language) {
         this.language = language;
     }
 

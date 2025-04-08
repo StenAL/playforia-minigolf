@@ -33,7 +33,6 @@ public class ColorCheckbox extends IPanel implements ItemSelectable, MouseListen
     private String text;
     private int alignment;
     private boolean checked;
-    private boolean pixelRoundedCorners;
     private ColorCheckboxGroup checkboxGroup;
     private List<ItemListener> listeners;
     private Image image;
@@ -50,7 +49,6 @@ public class ColorCheckbox extends IPanel implements ItemSelectable, MouseListen
         this.checked = checked;
         this.listeners = new ArrayList<>();
         this.alignment = -1;
-        this.pixelRoundedCorners = false;
         this.setFont(FontConstants.font);
         this.setForeground(FontConstants.black);
         this.setBorderColor(DEFAULT_BORDER_COLOR);
@@ -301,11 +299,6 @@ public class ColorCheckbox extends IPanel implements ItemSelectable, MouseListen
         this.repaint();
     }
 
-    public void setBoxPixelRoundedCorners(boolean pixelRoundedCorners) {
-        this.pixelRoundedCorners = pixelRoundedCorners;
-        this.repaint();
-    }
-
     public Image createBuffer(int width, int height) {
         return this.createImage(width, height);
     }
@@ -395,23 +388,12 @@ public class ColorCheckbox extends IPanel implements ItemSelectable, MouseListen
             Color borderColor,
             Color borderColorLight,
             Color borderColorDark) {
-        if (this.pixelRoundedCorners) {
-            graphics.setColor(borderColor);
-            graphics.fillRect(x + 1, y + 1, width - 2, height - 2);
-            graphics.setColor(borderColorDark);
-            graphics.drawLine(x + 1, y, x + width - 2, y);
-            graphics.drawLine(x, y + 1, x, y + height - 2);
-            graphics.setColor(borderColorLight);
-            graphics.drawLine(x + 1, y + height - 1, x + width - 2, y + height - 1);
-            graphics.drawLine(x + width - 1, y + 1, x + width - 1, y + height - 2);
-        } else {
-            graphics.setColor(borderColor);
-            graphics.fillRect(x, y, width, height);
-            graphics.setColor(borderColorLight);
-            graphics.drawRect(x, y, width - 1, height - 1);
-            graphics.setColor(borderColorDark);
-            graphics.drawLine(x, y, x + width - 2, y);
-            graphics.drawLine(x, y, x, y + height - 1);
-        }
+        graphics.setColor(borderColor);
+        graphics.fillRect(x, y, width, height);
+        graphics.setColor(borderColorLight);
+        graphics.drawRect(x, y, width - 1, height - 1);
+        graphics.setColor(borderColorDark);
+        graphics.drawLine(x, y, x + width - 2, y);
+        graphics.drawLine(x, y, x, y + height - 1);
     }
 }

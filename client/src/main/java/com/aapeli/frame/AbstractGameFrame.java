@@ -19,7 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
-import org.moparforia.shared.Locale;
+import org.moparforia.shared.Language;
 
 public abstract class AbstractGameFrame extends JFrame implements Runnable, ActionListener {
 
@@ -69,10 +69,10 @@ public abstract class AbstractGameFrame extends JFrame implements Runnable, Acti
     private boolean verbose;
 
     public AbstractGameFrame(
-            String server, int port, Locale locale, String username, boolean verbose, boolean norandom) {
+            String server, int port, Language language, String username, boolean verbose, boolean norandom) {
         super();
         this.verbose = verbose;
-        this.param = this.getParameters(server, locale, username, port, verbose, norandom);
+        this.param = this.getParameters(server, language, username, port, verbose, norandom);
         this.setSize(WIDTH, HEIGHT);
         this.init();
         this.start();
@@ -732,17 +732,16 @@ public abstract class AbstractGameFrame extends JFrame implements Runnable, Acti
     }
 
     private Parameters getParameters(
-            String server, Locale locale, String username, int port, boolean verbose, boolean norandom) {
+            String server, Language language, String username, int port, boolean verbose, boolean norandom) {
         Map<String, String> params = new HashMap<>();
         if (server.indexOf(':') == -1) { // is ipv4
             params.put("server", server);
         } else { // is ipv6
             params.put("server", "[" + server + "]");
         }
-        params = new HashMap<>();
         params.put("initmessage", "Loading game...");
         params.put("server", server + ":" + port);
-        params.put("locale", locale.toString());
+        params.put("language", language.toString());
         params.put("registerpage", "http://www.playforia.com/account/create/");
         params.put("userinfopage", "http://www.playforia.com/community/user/");
         params.put("userinfotarget", "_blank");
