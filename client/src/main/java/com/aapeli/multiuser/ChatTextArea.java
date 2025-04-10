@@ -5,7 +5,8 @@ import com.aapeli.client.TextManager;
 import com.aapeli.colorgui.GroupListItem;
 import com.aapeli.colorgui.TextArea;
 import java.awt.Font;
-import java.util.Hashtable;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ChatTextArea extends TextArea {
 
@@ -13,13 +14,13 @@ public class ChatTextArea extends TextArea {
     public static final Font SMALL_FONT = new Font("Dialog", Font.PLAIN, 11);
     private TextManager textManager;
     private BadWordFilter badWordFilter;
-    private Hashtable<String, Integer> userColors;
+    private Map<String, Integer> userColors;
 
     public ChatTextArea(TextManager textManager, BadWordFilter badWordFilter, int width, int height, Font font) {
         super(width, height, font != null ? font : DEFAULT_FONT);
         this.textManager = textManager;
         this.badWordFilter = badWordFilter;
-        this.userColors = new Hashtable<>();
+        this.userColors = new HashMap<>();
     }
 
     public void addOwnSay(String user, String message) {

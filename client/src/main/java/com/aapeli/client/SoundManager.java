@@ -2,7 +2,7 @@ package com.aapeli.client;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Hashtable;
+import java.util.HashMap;
 import java.util.Map;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -97,7 +97,7 @@ public final class SoundManager {
 
     private void defineSounds() {
         try {
-            this.sounds = new Hashtable<>();
+            this.sounds = new HashMap<>();
             this.defineSoundClip(1, "/sound/shared/challenge.au");
             this.defineSoundClip(2, "/sound/shared/gamemove.au");
             this.defineSoundClip(3, "/sound/shared/notify.au");
