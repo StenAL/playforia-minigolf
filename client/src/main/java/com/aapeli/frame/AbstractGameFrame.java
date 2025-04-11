@@ -63,7 +63,6 @@ public abstract class AbstractGameFrame extends JFrame implements Runnable, Acti
     private boolean destroyed;
     private boolean ready;
     private RetryCanvas retryCanvas;
-    private SocketConnection socketConnection;
     private Image image;
     private Graphics graphics;
     private boolean verbose;
@@ -565,7 +564,6 @@ public abstract class AbstractGameFrame extends JFrame implements Runnable, Acti
                 if (this.isDebug()) {
                     System.out.println("AbstractGameFrame.sendLoadTimes(" + readyTime + "," + finishedTime + ")");
                 }
-                this.writeMetadataLog1("clientconnect", "loadtime:i:" + readyTime + "^loadertime:i:" + finishedTime);
                 if (this.endState == 0 && !this.destroyed) {
                     this.remove(this.loadingPanel);
                     this.loadingPanel.destroy();
@@ -713,22 +711,6 @@ public abstract class AbstractGameFrame extends JFrame implements Runnable, Acti
     public abstract void destroyGame();
 
     public abstract boolean isDebug();
-
-    public void setConnectionReference(SocketConnection var1) {
-        this.socketConnection = var1;
-    }
-
-    public void writeMetadataLog0(String dataType, String data) {
-        if (this.socketConnection != null) {
-            this.socketConnection.writeMetadataLog(0, dataType, data);
-        }
-    }
-
-    public void writeMetadataLog1(String dataType, String data) {
-        if (this.socketConnection != null) {
-            this.socketConnection.writeMetadataLog(1, dataType, data);
-        }
-    }
 
     private Parameters getParameters(
             String server, Language language, String username, int port, boolean verbose, boolean norandom) {
