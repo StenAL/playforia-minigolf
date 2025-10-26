@@ -96,8 +96,9 @@ public class GolfConnection implements SocketConnectionListener {
                                 ? "ttm"
                                 : (this.gameContainer.golfGameFrame.hasSession() ? "reg" : "nr")));
             }
-            case "basicinfo" -> this.gameContainer.golfGameFrame.setGameSettings(
-                    args[1].equals("t"), Integer.parseInt(args[2]), args[3].equals("t"), args[4].equals("t"));
+            case "basicinfo" ->
+                this.gameContainer.golfGameFrame.setGameSettings(
+                        args[1].equals("t"), Integer.parseInt(args[2]), args[3].equals("t"), args[4].equals("t"));
             case "broadcast" -> {
                 if (this.gameContainer.lobbyPanel != null) {
                     this.gameContainer.lobbyPanel.broadcastMessage(args[1]);
