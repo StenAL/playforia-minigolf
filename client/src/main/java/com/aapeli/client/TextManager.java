@@ -5,7 +5,7 @@ import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Hashtable;
+import java.util.HashMap;
 import java.util.Map;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -23,7 +23,7 @@ public final class TextManager {
 
     public TextManager(Parameters parameters, boolean debug) {
         this.debug = debug;
-        this.texts = new Hashtable<>();
+        this.texts = new HashMap<>();
         this.errorMessage = null;
         this.language = parameters.getLanguage();
         this.loadTexts();
@@ -276,7 +276,7 @@ public final class TextManager {
             Document document = builder.parse(in);
 
             NodeList localizationNodes = document.getElementsByTagName("str");
-            Map<String, String> table = new Hashtable<>();
+            Map<String, String> table = new HashMap<>();
 
             for (int i = 0; i < localizationNodes.getLength(); ++i) {
                 Node node = localizationNodes.item(i);

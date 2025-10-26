@@ -24,7 +24,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.mainClass>test.mainClass</project.mainClass>
         <picocli.version>4.7.6</picocli.version>
-        <netty.version>4.2.0.Final</netty.version>
+        <mockito.version>5.20.0</mockito.version>
+        <netty.version>4.2.7.Final</netty.version>
     </properties>
 
     <dependencyManagement>
@@ -57,13 +58,13 @@
             <dependency>
                 <groupId>org.mockito</groupId>
                 <artifactId>mockito-core</artifactId>
-                <version>5.17.0</version>
+                <version>${mockito.version}</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>org.mockito</groupId>
                 <artifactId>mockito-junit-jupiter</artifactId>
-                <version>5.17.0</version>
+                <version>${mockito.version}</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
@@ -82,7 +83,7 @@
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>3.14.0</version>
                     <configuration>
-                        <release>21</release>
+                        <release>25</release>
                     </configuration>
                 </plugin>
                 <plugin>
@@ -114,9 +115,9 @@
                     </executions>
                 </plugin>
                 <plugin>
-                    <groupId>sh.tak.appbundler</groupId>
-                    <artifactId>appbundle-maven-plugin</artifactId>
-                    <version>1.2.0</version>
+                    <groupId>io.github.fvarrui</groupId>
+                    <artifactId>javapackager</artifactId>
+                    <version>1.7.6</version>
                 </plugin>
                 <plugin>
                     <groupId>com.akathist.maven.plugins.launch4j</groupId>
@@ -144,7 +145,7 @@
                 <plugin>
                     <groupId>com.diffplug.spotless</groupId>
                     <artifactId>spotless-maven-plugin</artifactId>
-                    <version>2.44.2</version>
+                    <version>3.0.0</version>
                     <configuration>
                         <java>
                             <palantirJavaFormat/>

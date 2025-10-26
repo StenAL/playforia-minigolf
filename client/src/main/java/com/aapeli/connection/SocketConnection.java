@@ -11,8 +11,8 @@ import java.io.InterruptedIOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.ArrayDeque;
+import java.util.Queue;
 import org.moparforia.client.Launcher;
 
 public final class SocketConnection implements Runnable {
@@ -39,14 +39,14 @@ public final class SocketConnection implements Runnable {
     private int disconnectReason;
     private boolean closed;
     private boolean failed;
+    private long sendSeqNum;
     private Socket socket;
     private BufferedReader sockIn;
     private BufferedWriter sockOut;
     private long clientId;
     private int retryTimeoutS;
-    private GameQueue gameQueue;
+    private Queue<String> outQueue;
     private GamePacketQueue gamePacketQueue;
-    private List<String> metadataLogs;
     private long numReceivedGamePackets;
     private long connActivityTime;
     private Thread thread;
@@ -55,12 +55,10 @@ public final class SocketConnection implements Runnable {
         this.gameFrame = gameFrame;
         this.params = gameFrame.param;
         this.socketConnectionListener = socketConnectionListener;
-        gameFrame.setConnectionReference(this);
 
         this.clientId = -1L;
         this.retryTimeoutS = 25;
-        this.gameQueue = new GameQueue();
-        this.metadataLogs = new ArrayList<>();
+        this.outQueue = new ArrayDeque<>();
         this.numReceivedGamePackets = -1L;
         this.state = STATE_OPENING;
         this.disconnectReason = DISCONNECT_REASON_UNDEFINED;
@@ -81,7 +79,7 @@ public final class SocketConnection implements Runnable {
                 }
 
                 if (this.closed) {
-                    if (this.processGameQueue()) {
+                    if (this.flushOutgoingQueue()) {
                         this.writeLineC("end");
                     }
 
@@ -119,23 +117,14 @@ public final class SocketConnection implements Runnable {
         }
     }
 
-    public void writeData(String data) {
+    public synchronized void writeData(String data) {
         if (this.state == STATE_OPENING) {
             throw new IllegalStateException("Connection not yet open");
         } else if (this.state != STATE_DISCONNECTED) {
-            if (Launcher.debug()) System.out.println("CLIENT> WRITE \"d " + gameQueue.sendSeqNum + " " + data + "\"");
-            this.gameQueue.add(data);
-        }
-    }
-
-    public void writeMetadataLog(int i, String dataType, String data) {
-        String log = "tlog\t" + i + "\t" + dataType;
-        if (data != null) {
-            log = log + "\t" + data;
-        }
-
-        synchronized (this.metadataLogs) {
-            this.metadataLogs.add(log);
+            if (Launcher.debug()) System.out.println("CLIENT> WRITE \"d " + this.sendSeqNum + " " + data + "\"");
+            data = this.sendSeqNum + " " + data;
+            this.sendSeqNum++;
+            this.outQueue.add(data);
         }
     }
 
@@ -193,15 +182,8 @@ public final class SocketConnection implements Runnable {
     }
 
     private void handleGameQueue() {
-        this.processGameQueueDisconnect();
-        if (this.state == STATE_CONNECTED) {
-            this.processMetadataLogs();
-        }
-    }
-
-    private void processGameQueueDisconnect() {
         do {
-            String data = this.gameQueue.pop();
+            String data = this.outQueue.poll();
             if (data == null) {
                 return;
             }
@@ -212,29 +194,10 @@ public final class SocketConnection implements Runnable {
         } while (this.state == STATE_CONNECTED);
     }
 
-    private void processMetadataLogs() {
-        synchronized (this.metadataLogs) {
-            while (true) {
-                if (this.state == STATE_CONNECTED && !this.metadataLogs.isEmpty()) {
-                    String str = this.metadataLogs.getFirst();
-                    this.metadataLogs.removeFirst();
-                    if (this.writeLineS(str)) {
-                        continue;
-                    }
-
-                    this.disconnect();
-                    return;
-                }
-
-                return;
-            }
-        }
-    }
-
-    private boolean processGameQueue() {
+    private boolean flushOutgoingQueue() {
         String data;
         do {
-            data = this.gameQueue.pop();
+            data = this.outQueue.poll();
             if (data == null) {
                 return true;
             }
@@ -380,7 +343,7 @@ public final class SocketConnection implements Runnable {
             }
 
             if (this.connect()) {
-                this.gameQueue.clear();
+                this.outQueue.clear();
                 this.state = STATE_OPEN;
                 return;
             }

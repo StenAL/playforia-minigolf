@@ -63,7 +63,6 @@ public abstract class AbstractGameFrame extends JFrame implements Runnable, Acti
     private boolean destroyed;
     private boolean ready;
     private RetryCanvas retryCanvas;
-    private SocketConnection socketConnection;
     private Image image;
     private Graphics graphics;
     private boolean verbose;
@@ -478,7 +477,7 @@ public abstract class AbstractGameFrame extends JFrame implements Runnable, Acti
             }
 
             this.loadingPanel.setLoadingMessage(this.textManager.getText("Loader_LoadingGfxSfx"));
-            this.soundManager = new SoundManager(true, this.isDebug());
+            this.soundManager = new SoundManager(this.isDebug());
 
             this.loadingPanel.addProgress(0.15D);
             if (startupDebug) {
@@ -522,7 +521,6 @@ public abstract class AbstractGameFrame extends JFrame implements Runnable, Acti
                 this.printSUD("Defining secondary images");
             }
 
-            this.soundManager.startLoading();
             if (System.currentTimeMillis() < startTime + 7000L) {
                 this.loadingPanel.method468(2.0D);
             }
@@ -566,7 +564,6 @@ public abstract class AbstractGameFrame extends JFrame implements Runnable, Acti
                 if (this.isDebug()) {
                     System.out.println("AbstractGameFrame.sendLoadTimes(" + readyTime + "," + finishedTime + ")");
                 }
-                this.writeMetadataLog1("clientconnect", "loadtime:i:" + readyTime + "^loadertime:i:" + finishedTime);
                 if (this.endState == 0 && !this.destroyed) {
                     this.remove(this.loadingPanel);
                     this.loadingPanel.destroy();
@@ -714,22 +711,6 @@ public abstract class AbstractGameFrame extends JFrame implements Runnable, Acti
     public abstract void destroyGame();
 
     public abstract boolean isDebug();
-
-    public void setConnectionReference(SocketConnection var1) {
-        this.socketConnection = var1;
-    }
-
-    public void writeMetadataLog0(String dataType, String data) {
-        if (this.socketConnection != null) {
-            this.socketConnection.writeMetadataLog(0, dataType, data);
-        }
-    }
-
-    public void writeMetadataLog1(String dataType, String data) {
-        if (this.socketConnection != null) {
-            this.socketConnection.writeMetadataLog(1, dataType, data);
-        }
-    }
 
     private Parameters getParameters(
             String server, Language language, String username, int port, boolean verbose, boolean norandom) {
